@@ -37,10 +37,11 @@
 		<script src="<?php echo base_url()?>assets/https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
 		<script src="<?php echo base_url()?>assets/https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
 	<![endif]-->
+    
 	
 </head>
 
-<body class="home bg-color-header">
+<body class="<?php echo (base_url()=='')?'home':''?> bg-color-header">
 
 	<div id="introLoader" class="introLoading"></div>
 
@@ -93,10 +94,16 @@
 
 					<div class="nav-mini-wrapper " >
 						<ul class="nav-mini  ">
-							<li class=" "> <a href="../profile.html"> <img src="<?php echo base_url()?>assets/images/ws.jpg" alt="images" class="" style="border-radius: 50%;" width="30"/> </a>
+							<li class=" "> <a href="<?php echo base_url()?>my-dashboard"> <img src="<?php echo base_url()?>assets/images/ws.jpg" alt="images" class="" style="border-radius: 50%;" width="30"/> </a>
 							</li>
-							<li><a data-toggle="modal" href="#registerModal"><i class="icon-user-follow" data-toggle="tooltip" data-placement="bottom" title="sign up"></i></a></li>
-							<li><a data-toggle="modal" href="#loginModal"><i class="icon-login" data-toggle="tooltip" data-placement="bottom" title="login"></i> </a></li>
+							
+                            <?php if($this->session->userdata('user_id') && $this->session->userdata('user_id')>0){?>							
+                            <li><a href="<?php echo base_url()?>logout"><i class="icon-login" data-toggle="tooltip" data-placement="bottom" title="Logout"></i> </a></li>
+                            <?php }else{?>
+                            <li><a data-toggle="modal" href="#registerModal"><i class="icon-user-follow" data-toggle="tooltip" data-placement="bottom" title="sign up"></i></a></li>
+                            <li><a data-toggle="modal" href="#loginModal"><i class="icon-login" data-toggle="tooltip" data-placement="bottom" title="Login"></i> </a></li>                           
+                            
+                            <?php }?>
 						</ul>
 					</div>
 				
