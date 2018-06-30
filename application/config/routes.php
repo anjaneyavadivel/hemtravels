@@ -52,3 +52,14 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 $route['default_controller'] = 'welcome';
 $route['404_override'] = '';
 $route['translate_uri_dashes'] = FALSE;
+
+
+
+$route['my-dashboard'] = 'Loginview/index';
+$route['my-profile'] = 'Loginview/profile';
+$route['account-details'] = 'Loginview/account_details';
+$route['change-password'] = 'Loginview/change_password';
+$route['my-tour'] = 'Loginview/my_tour';
+$route['book-history'] = 'Loginview/book_history';
+$route['my-wish-list'] = 'Loginview/my_wish_list';
+
