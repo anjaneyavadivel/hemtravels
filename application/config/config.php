@@ -23,7 +23,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 | a PHP script and you can easily do that on your own.
 |
 */
-$config['base_url'] = 'http://localhost/hemtravels/';
+$protocol = isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] != 'off' ? 'http://' : 'http://';
+  $config['base_url']	= $protocol.$_SERVER['HTTP_HOST'].'/hemtravels/';
+
+//$config['base_url'] = 'http://localhost/hemtravels/';
 
 /*
 |--------------------------------------------------------------------------

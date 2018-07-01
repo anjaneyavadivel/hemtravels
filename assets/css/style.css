@@ -42,6 +42,7 @@
  .stars_rate{border-radius: 5px;
     font-size: 13px;
     padding: 2px 3px 0 3px;}
+    .add_fav{position: relative;left: 7%;}
 .navbar-default {
     background: #1C1C1F;
 }
@@ -2115,7 +2116,9 @@ transition: all 0.5s;
 .trip-guide-item.no-person .trip-guide-content {
     margin-bottom: 70px;
 }
-
+.filter-full-secondary .row{margin: 0;}
+.fav_list{vertical-align: middle;color: #FE8800;}
+.fav_list.active{vertical-align: middle;color: #FE8800;font-weight: 900;}
 .trip-guide-item.no-person .trip-guide-bottom {
     padding-top: 5px;
 }
@@ -2312,6 +2315,7 @@ transition: all 0.5s;
     color: #111;
 }
 .b_left {border-left:1px solid #E7E7E7;}
+#sidebar-sticky{z-index: 1000 !important;}
 @media only screen and (max-width: 1199px) {
     .trip-guide-sm-item .image-bg {
         width: 80px;
@@ -3983,8 +3987,15 @@ ul.book-sum-list li span {
         right: 0
     }
 }
-
+.filter_res .collapse{display: block;}
+.filter_res .filter_mbl{display: none;}
+@media only screen and (max-width: 998px) {
+    .filter_res .filter_mbl{display: block;}
+    .filter_res .collapse{display: none;}
+    }
 @media only screen and (max-width: 767px) {
+    .filter_mbl{display: block;}
+    .collapse{display: none;}
     .payment-header .trip-list-item {
         padding-left: 0;
     }

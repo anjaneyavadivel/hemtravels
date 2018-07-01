@@ -1,14 +1,15 @@
 <?php 
-$dashboard = $profile=$bank_details=$change_password=$my_tour=$book_history=$my_wishlist='';
+$mn_dashboard = $mn_profile=$mn_bank_details=$mn_change_password=$mn_mypost=$mn_history=$mn_mywishlist=$mn_mytransaction='';
 $url=$this->uri->segment(1);
 switch ($url) {
-    case 'my-dashboard':$dashboard ='active';break;
-    case 'my-profile':$profile ='active';break;
-	case 'account-details':$bank_details ='active';break;
-	case 'change-password':$change_password ='active';break;
-	case 'my-tour':$my_tour ='active';break;
-	case 'book-history':$book_history ='active';break;
-	case 'my-wish-list':$my_wishlist ='active'; break;
+    case 'my-dashboard':$mn_dashboard ='active';break;
+    case 'my-profile':$mn_profile ='active';break;
+	case 'account-details':$mn_bank_details ='active';break;
+	case 'change-password':$mn_change_password ='active';break;
+	case 'my-post':$mn_mypost ='active';break;
+	case 'book-history':$mn_history ='active';break;
+	case 'my-wish-list':$mn_mywishlist ='active'; break;
+	case 'my-transaction':$mn_mytransaction ='active'; break;
 }
 ?>
 <div class="main-wrapper scrollspy-container">
@@ -55,6 +56,7 @@ switch ($url) {
 													</div>
 													<ul class="user-meta">
 														<li><i class="fa fa-map-marker"></i> 264, Carson Street Lexington, KY 40539 <!-- <span class="mh-5 text-muted">|</span> --></li>
+														 <li><i class="fa fa-envelope"></i> xxxx@xyz.com</li>
 														 <li><i class="fa fa-phone"></i> +4 8547 985</li>
 														<!-- <li>
 															<div class="user-social inline-block">
@@ -104,14 +106,15 @@ switch ($url) {
 							
 									<ul class="common-menu-list">
 										
-										<li class="<?php echo $dashboard?>"><a href="my-dashboard">Dashboard</a></li>
-										<li class="<?php echo $profile?>"><a href="my-profile">Edit profile</a></li>
-										<li class="<?php echo $bank_details?>"><a href="account-details">Bank Account</a></li>
-										<li class="<?php echo $change_password?>"><a href="change-password">Change password</a></li>
-										<li class="<?php echo $my_tour?>"><a href="my-tour">My tour</a></li>
-										<li class="<?php echo $book_history?>"><a href="book-history">Booking History</a></li>
-										<li class="<?php echo $my_wishlist?>"><a href="my-wish-list">My wihslist</a></li>
-										<li ><a href="<?php echo base_url()?>logout">Logout</a></li>
+										<li class="<?php echo $mn_dashboard?>"><a href="my-dashboard">Dashboard</a></li>
+										<li class="<?php echo $mn_profile?>"><a href="my-profile">Edit profile</a></li>
+										<li class="<?php echo $mn_history?>"><a href="booking-history">Booking History</a></li>
+										<li class="<?php echo $mn_mywishlist?>"><a href="my-wishlist">My wihslist</a></li>
+										<li class="<?php echo $mn_change_password?>"><a href="change-password">Change password</a></li>
+										<li class="<?php echo $mn_profile?>"><a href="<?php echo base_url()?>logout">Logout</a></li>
+										<li class="<?php echo $mn_mypost?>"><a href="my-post">My post</a></li>
+										<li class="<?php echo $mn_mytransaction?>"><a href="my-transaction">My Transaction</a></li>
+										<li class="<?php echo $mn_bank_details?>"><a href="account-details">Bank Account</a></li>
 									</ul>
 									
 								</div>
