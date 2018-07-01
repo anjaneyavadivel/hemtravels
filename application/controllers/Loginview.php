@@ -27,15 +27,15 @@ class Loginview extends CI_Controller {
 			return false;
 		}
 	}
-	public function index()
-	{
-		$this->login_verfy();
-		$this->load->view('user/dashboard');
-	}
 	public function profile()
 	{
 		$this->login_verfy();
 		$this->load->view('user/profile');
+	}
+	public function update_profile()
+	{
+		$this->login_verfy();
+		$this->load->view('user/update_profile');
 	}
 	public function change_password()
 	{
@@ -47,12 +47,12 @@ class Loginview extends CI_Controller {
 		$this->login_verfy();
 		$this->load->view('user/account_details');
 	}
-	public function my_tour()
+	public function my_post()
 	{
 		$this->login_verfy();
-		$this->load->view('user/my_tour');
+		$this->load->view('user/my_post');
 	}
-	public function book_history()
+	public function booking_history()
 	{
 		$this->login_verfy();
 		$this->load->view('user/book_history');

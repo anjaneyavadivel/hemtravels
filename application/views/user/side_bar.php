@@ -1,8 +1,8 @@
 <?php 
-$mn_dashboard = $mn_profile=$mn_bank_details=$mn_change_password=$mn_mypost=$mn_history=$mn_mywishlist=$mn_mytransaction='';
+$mn_updateprofile = $mn_profile=$mn_bank_details=$mn_change_password=$mn_mypost=$mn_history=$mn_mywishlist=$mn_mytransaction='';
 $url=$this->uri->segment(1);
 switch ($url) {
-    case 'my-dashboard':$mn_dashboard ='active';break;
+    case 'update-profile':$mn_updateprofile ='active';break;
     case 'my-profile':$mn_profile ='active';break;
 	case 'account-details':$mn_bank_details ='active';break;
 	case 'change-password':$mn_change_password ='active';break;
@@ -27,7 +27,7 @@ switch ($url) {
 			
 			<!-- end Breadcrumb -->
 
-			<div class="user-profile-wrapper pb-50">
+			<div class="user-profile-wrapper">
 
 				<div class="user-header">
 					
@@ -106,12 +106,12 @@ switch ($url) {
 							
 									<ul class="common-menu-list">
 										
-										<li class="<?php echo $mn_dashboard?>"><a href="my-dashboard">Dashboard</a></li>
-										<li class="<?php echo $mn_profile?>"><a href="my-profile">Edit profile</a></li>
+										<li class="<?php echo $mn_profile?>"><a href="my-profile">Dashboard</a></li>
+										<li class="<?php echo $mn_updateprofile?>"><a href="update-profile">Edit profile</a></li>
 										<li class="<?php echo $mn_history?>"><a href="booking-history">Booking History</a></li>
 										<li class="<?php echo $mn_mywishlist?>"><a href="my-wishlist">My wihslist</a></li>
 										<li class="<?php echo $mn_change_password?>"><a href="change-password">Change password</a></li>
-										<li class="<?php echo $mn_profile?>"><a href="<?php echo base_url()?>logout">Logout</a></li>
+										<li class=""><a href="<?php echo base_url()?>logout">Logout</a></li>
 										<li class="<?php echo $mn_mypost?>"><a href="my-post">My post</a></li>
 										<li class="<?php echo $mn_mytransaction?>"><a href="my-transaction">My Transaction</a></li>
 										<li class="<?php echo $mn_bank_details?>"><a href="account-details">Bank Account</a></li>

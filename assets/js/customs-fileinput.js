@@ -23,7 +23,7 @@ jQuery(function($) {
 		allowedFileTypes: ['image' ],
 		allowedFileExtensions: ['jpg', 'gif', 'png', 'tiff'],
 			initialPreview: [
-				'<img src="images/man/01.jpg" class="file-preview-image" alt="The Moon" title="The Moon">',
+				'<img src="assets/images/man/01.jpg" class="file-preview-image" alt="The Moon" title="The Moon">',
 		],
 		overwriteInitial: true,
 	});

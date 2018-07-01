@@ -56,11 +56,11 @@ $route['translate_uri_dashes'] = FALSE;
 $route['logout'] = 'Loginview/logout';
 
 
-$route['my-dashboard'] = 'Loginview/index';
+$route['update-profile'] = 'Loginview/update_profile';
 $route['my-profile'] = 'Loginview/profile';
 $route['account-details'] = 'Loginview/account_details';
 $route['change-password'] = 'Loginview/change_password';
-$route['my-tour'] = 'Loginview/my_tour';
-$route['book-history'] = 'Loginview/book_history';
-$route['my-wish-list'] = 'Loginview/my_wish_list';
+$route['my-post'] = 'Loginview/my_post';
+$route['booking-history'] = 'Loginview/booking_history';
+$route['my-wishlist'] = 'Loginview/my_wish_list';
 

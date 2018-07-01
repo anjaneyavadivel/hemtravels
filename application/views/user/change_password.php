@@ -1,6 +1,6 @@
 <?php $this->load->view('includes/header')?>
 <?php $this->load->view('user/side_bar')?>
-<div class="col-xs-12 col-sm-8 col-md-9 mt-20">
+<div class="col-xs-12 col-sm-8 col-md-9">
 						
 							<div class="dashboard-wrapper">
 							

@@ -1,3 +1,4 @@
+<?=$url=$this->uri->segment(1);?>
 <div class="footer-wrapper scrollspy-footer">
 		
 			<footer class="main-footer">
@@ -340,24 +341,24 @@
 <script type="text/javascript" src="<?php echo base_url()?>assets/js/jquery.min.js"></script>
 <script type="text/javascript" src="<?php echo base_url()?>assets/js/core-plugins.js"></script>
 <script type="text/javascript" src="<?php echo base_url()?>assets/js/customs.js"></script>
-<?php if(base_url()==''){?>
+<?php if($url==''){?>
 <!-- Only in Home Page -->
 <script type="text/javascript" src="<?php echo base_url()?>assets/js/jquery.flexdatalist.js"></script>
 <?php }?>
-<?php if(base_url()=='home-dashboard' || base_url()=='my-profile'){?>
+<?php if($url=='home-dashboard' || $url=='update-profile'){?>
 <!-- Detail Page JS -->
-<script type="text/javascript" src="js/jquery.stickit.js"></script>
-<script type="text/javascript" src="js/bootstrap-tokenfield.js"></script>
-<script type="text/javascript" src="js/typeahead.bundle.min.js"></script>
-<script type="text/javascript" src="js/jquery.sumogallery.js"></script>
-<script type="text/javascript" src="js/images-grid.js"></script>
-<script type="text/javascript" src="js/jquery.bootstrap-touchspin.js"></script>
-<script type="text/javascript" src="js/customs-detail.js"></script>
-	<?php if(base_url()=='my-profile'){?>
+<script type="text/javascript" src="<?php echo base_url()?>assets/js/jquery.stickit.js"></script>
+<script type="text/javascript" src="<?php echo base_url()?>assets/js/bootstrap-tokenfield.js"></script>
+<script type="text/javascript" src="<?php echo base_url()?>assets/js/typeahead.bundle.min.js"></script>
+<script type="text/javascript" src="<?php echo base_url()?>assets/js/jquery.sumogallery.js"></script>
+<script type="text/javascript" src="<?php echo base_url()?>assets/js/images-grid.js"></script>
+<script type="text/javascript" src="<?php echo base_url()?>assets/js/jquery.bootstrap-touchspin.js"></script>
+<script type="text/javascript" src="<?php echo base_url()?>assets/js/customs-detail.js"></script>
+	<?php if($url=='update-profile'){?>
     <!-- Dashboard Edit Profile Page JS -->
-    <script type="text/javascript" src="js/fileinput.min.js"></script>
-    <script type="text/javascript" src="js/customs-fileinput.js"></script>
-    <script type="text/javascript" src="js/bootstrap3-wysihtml5.min.js"></script>
+    <script type="text/javascript" src="<?php echo base_url()?>assets/js/fileinput.min.js"></script>
+    <script type="text/javascript" src="<?php echo base_url()?>assets/js/customs-fileinput.js"></script>
+    <script type="text/javascript" src="<?php echo base_url()?>assets/js/bootstrap3-wysihtml5.min.js"></script>
 	<?php }?>
 <?php }?>
 

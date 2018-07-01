@@ -1,6 +1,6 @@
 <?php $this->load->view('includes/header')?>
 <?php $this->load->view('user/side_bar')?>
-<div class="col-xs-12 col-sm-8 col-md-9 mt-20">
+<div class="col-xs-12 col-sm-8 col-md-9">
 						
 							<div class="dashboard-wrapper">
 							
@@ -59,10 +59,10 @@
 								<li>
 									<div class="row">
 										<div class="col-xs-12 col-sm-12 col-md-6">
-											<h5>Acc.No</h5>
+											<h5>Account Number</h5>
 										</div>
 										<div class="col-xs-12 col-sm-12 col-md-6 mt-sm">
-											<span class="pl-sm">20.0.2018</span>
+											<span class="pl-sm">xxxxxxxx999</span>
 										</div>
 									</div>
 								</li>
@@ -70,10 +70,10 @@
 								<li>
 									<div class="row">
 										<div class="col-xs-12 col-sm-12 col-md-6">
-											<h5>IFSC</h5>
+											<h5>IFSC Code</h5>
 										</div>
 										<div class="col-xs-12 col-sm-12 col-md-6 mt-sm">
-											<span class="pl-sm">myemail@gmail.com</span>
+											<span class="pl-sm">ISB0000XXX</span>
 										</div>
 									</div>
 								</li>
@@ -84,7 +84,7 @@
 											<h5>Branch</h5>
 										</div>
 										<div class="col-xs-12 col-sm-12 col-md-6 mt-sm">
-											<span class="pl-sm">254</span>
+											<span class="pl-sm">xxxxxx</span>
 										</div>
 									</div>
 								</li>
@@ -92,7 +92,7 @@
 								<li>
 									<div class="row">
 										<div class="col-xs-12 col-sm-12 col-md-6">
-											<h5>City/town</h5>
+											<h5>Address</h5>
 										</div>
 										<div class="col-xs-12 col-sm-12 col-md-6 mt-sm">
 											<span class="pl-sm">Somewhere </span>
@@ -100,16 +100,7 @@
 									</div>
 								</li>
 								
-								<li>
-									<div class="row">
-										<div class="col-xs-12 col-sm-12 col-md-6">
-											<h5>Province/State</h5>
-										</div>
-										<div class="col-xs-12 col-sm-12 col-md-6 mt-sm">
-											<span class="pl-sm">Paris</span>
-										</div>
-									</div>
-								</li>
+								
 							</ul>
 
 											</div>
@@ -117,30 +108,98 @@
 
 									</div>
 									<!-- end of panel -->
-
-									<div class="panel">
+                                                                        <div class="panel">
 										<div class="panel-heading">
 											<div class="panel-title">
-												<a data-toggle="collapse" data-parent="#" href="#bootstarp-toggle-two-2" class="clearfix">
+												<a data-toggle="collapse" data-parent="#" href="#bootstarp-toggle-one-3">
 													<div class="itinerary-day">
-														
 														<span class="number">02</span>
 													</div>
 													<div class="itinerary-header">
-													<h4>State Bank </h4>
-														
+														<h4>ICIC Bank </h4>
+													
 													</div>
 												</a>
 											</div>
 										</div>
-										<div id="bootstarp-toggle-two-2" class="panel-collapse collapse">
+										<div id="bootstarp-toggle-one-3" class="panel-collapse collapse">
 											<div class="panel-body">
-												<p class="font-lg">Necessary ye contented newspaper zealously breakfast he prevailed. Melancholy middletons yet understood decisively boy law she. Answer him easily are its barton little. Oh no though mother be things simple itself. Dashwood horrible he strictly on as. Home fine in so am good body this hope.</p>
-												<p class="font-lg">Kindness to he horrible reserved ye. Effect twenty indeed beyond for not had county. The use him without greatly can private. Increasing it unpleasant no of contrasted no continuing. Nothing colonel my no removed in weather. It dissimilar in up devonshire inhabiting.</p>
-												<p class="font-md">Tickets and transportations are provided.</p>
-											</div>
+											<ul class="featured-list-with-h"  style="list-style: none;">
+							
+								<li>
+									<div class="row">
+										<div class="col-xs-12 col-sm-12 col-md-6">
+											<h5>Bank Name</h5>
+										</div>
+										<div class="col-xs-12 col-sm-12 col-md-6 mt-sm">
+											<span class="pl-sm">xxx</span>
 										</div>
 									</div>
+								</li>
+								
+								<li>
+									<div class="row">
+										<div class="col-xs-12 col-sm-12 col-md-6">
+											<h5>Account Holder Name</h5>
+										</div>
+										<div class="col-xs-12 col-sm-12 col-md-6 mt-sm">
+											<span class="pl-sm">xxx</span>
+										</div>
+									</div>
+								</li>
+								
+								<li>
+									<div class="row">
+										<div class="col-xs-12 col-sm-12 col-md-6">
+											<h5>Account Number</h5>
+										</div>
+										<div class="col-xs-12 col-sm-12 col-md-6 mt-sm">
+											<span class="pl-sm">xxxxxxxx999</span>
+										</div>
+									</div>
+								</li>
+								
+								<li>
+									<div class="row">
+										<div class="col-xs-12 col-sm-12 col-md-6">
+											<h5>IFSC Code</h5>
+										</div>
+										<div class="col-xs-12 col-sm-12 col-md-6 mt-sm">
+											<span class="pl-sm">ISB0000XXX</span>
+										</div>
+									</div>
+								</li>
+								
+								<li>
+									<div class="row">
+										<div class="col-xs-12 col-sm-12 col-md-6">
+											<h5>Branch</h5>
+										</div>
+										<div class="col-xs-12 col-sm-12 col-md-6 mt-sm">
+											<span class="pl-sm">xxxxxx</span>
+										</div>
+									</div>
+								</li>
+								
+								<li>
+									<div class="row">
+										<div class="col-xs-12 col-sm-12 col-md-6">
+											<h5>Address</h5>
+										</div>
+										<div class="col-xs-12 col-sm-12 col-md-6 mt-sm">
+											<span class="pl-sm">Somewhere </span>
+										</div>
+									</div>
+								</li>
+								
+								
+							</ul>
+
+											</div>
+										</div>
+
+									</div>
+									
 									<!-- end of panel -->
 
 									
@@ -188,7 +247,81 @@
 								</div> -->
 									
 							</div>
+<div id="bank_acc" class="modal fade login-box-wrapper" tabindex="-1" data-width="550" data-backdrop="static" data-keyboard="false" data-replace="true">
 
+	<div class="modal-header">
+		<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+		<h4 class="modal-title text-center">Add Account</h4>
+	</div>
+	
+	<div class="modal-body">
+		<div class="row gap-20">
+		
+
+			
+			<div class="col-sm-12 col-md-12">
+	
+				<div class="form-group"> 
+					<label>Bank Name</label>
+					<input class="form-control" placeholder="Enter the Bank Name" type="text"> 
+				</div>
+			
+			</div>
+			<div class="col-sm-12 col-md-12">
+	
+				<div class="form-group"> 
+					<label>Account Holder Name</label>
+					<input class="form-control" placeholder="Enter the Account Holder Name" type="text"> 
+				</div>
+			
+			</div>
+			
+			<div class="col-sm-12 col-md-12">
+			
+				<div class="form-group"> 
+					<label>Account Number</label>
+                                        <input class="form-control" placeholder="Enter the Account Number" type="password"> 
+				</div>
+			
+			</div>
+			
+			<div class="col-sm-12 col-md-12">
+			
+				<div class="form-group"> 
+					<label>Confirm Account Number</label>
+					<input class="form-control" placeholder="Enter the Account Number" type="text"> 
+				</div>
+			
+			</div>
+			<div class="form-group col-sm-12 col-md-12">
+                                <label>IFSC Code</label>
+					<input class="form-control" placeholder="Enter the IFSC Code" type="text"> 
+                        </div>
+			<div class="form-group col-sm-12 col-md-12">
+                                <label>Branch Name</label>
+					<input class="form-control" placeholder="Enter the Branch Name" type="text"> 
+                        </div>
+			<div class="form-group col-sm-12 col-md-12">
+                                <label>Address</label>
+					<input class="form-control" placeholder="Enter the Address" type="text"> 
+                        </div>
+			<div class="form-group col-sm-12 col-md-12">
+                                <label>Is Primary Account</label>
+                                <div class="checkbox-block">
+                                        <input id="filter_checkbox-2" name="filter_checkbox" type="checkbox" class="checkbox">
+                                        <label class="" for="filter_checkbox-2">Yes, This is our primary account</label>
+                                </div>
+                        </div>
+			
+		</div>
+	</div>
+	
+	<div class="modal-footer text-center">
+		<button type="button" class="btn btn-primary">Add</button>
+		<button type="button" data-dismiss="modal" class="btn btn-primary btn-border">Close</button>
+	</div>
+	
+</div>
 					</div>
 
 				</div>

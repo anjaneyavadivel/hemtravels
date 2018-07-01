@@ -65,30 +65,32 @@
 					</div>
 					
 					<div id="navbar" class="navbar-nav-wrapper">
-					
-						<ul class="nav navbar-nav" id="responsive-menu">
+                                            <ul class="nav navbar-nav" id="responsive-menu">
 						
 							<li >
-								<a href="../index.html">Home</a>
+								<a href="<?php echo base_url()?>">Home</a>
 								
 							</li>
 						
 						
-									<li><a href="../about-us.html">About Us</a></li>
-									<li><a href="../contact-us.html">Contact Us</a></li>
+									<li><a href="<?php echo base_url()?>about-us">About Us</a></li>
+									<li><a href="<?php echo base_url()?>contact-us">Contact Us</a></li>
+									<li><a href="<?php echo base_url()?>faq">FAQ</a></li>
 									<li>
-										<a href="../faq.html">FAQ</a>
+										<a href="javascript:void(0);">Admin</a>
 										<ul>
-									<li><a href="../master.html">Master</a></li>
-								</ul>
+									<li><a href="<?php echo base_url()?>master">Category Master</a></li>
+                                                                        <li><a href="<?php echo base_url()?>master">Tag Master</a></li>
+                                                                        <li><a href="<?php echo base_url()?>master">Trip Inclusions</a></li>
+                                                                        <li><a href="<?php echo base_url()?>master">State Master</a></li>
+                                                                        <li><a href="<?php echo base_url()?>master">City Master</a></li>
+                                                                        <li><a href="<?php echo base_url()?>master">Location Master</a></li>
+                                                                        </ul>
 									
 									</li>
 									
 									
 								</ul>
-							</li>
-							
-						</ul>
 				
 					</div><!--/.nav-collapse -->
 

@@ -1,187 +1,164 @@
 <?php $this->load->view('includes/header')?>
 <?php $this->load->view('user/side_bar')?>
-<div class="col-xs-12 col-sm-8 col-md-9 mt-20">
+<div class="col-xs-12 col-sm-8 col-md-9">
 						
 							<div class="dashboard-wrapper">
+							<h4 class="section-title">Profile:</h4>
 							
-								<h4 class="section-title">Edit profile</h4>
-								<p class="mmt-15 mb-20">Interested astonished he at cultivated or me. Nor brought one invited she produce her.</p>
-								
-								<form class="post-form-wrapper">
-									
-									<div class="row gap-20">
-
-										<div class="col-sm-6 col-md-4">
-												
-											<div class="form-group bootstrap-fileinput-style-01">
-												<label>Photo</label>
-												<input type="file" name="form-register-photo" id="form-register-photo">
-												<span class="font12 font-italic">** photo must not bigger than 250kb</span>
-											</div>
-
+							<p class="lead">Goodness doubtful material has denoting suitable she two. Dear mean she way and poor bred they come. He otherwise me incommode explained so in remaining. Polite barton in it warmly do county length. Dissuade ecstatic and properly saw entirely sir why laughter endeavor.</p>
+							
+							<div class="bt mt-30 mb-30"></div>
+							
+							<ul class="featured-list-with-h">
+							
+								<li>
+									<div class="row">
+										<div class="col-xs-12 col-sm-12 col-md-6">
+											<h5>First Name</h5>
 										</div>
-										
-										<div class="clear"></div>
-										
-										<div class="col-sm-6 col-md-4">
-												
-											<div class="form-group">
-												<label>First Name</label>
-												<input type="text" class="form-control" value="Christine">
-											</div>
-											
+										<div class="col-xs-12 col-sm-12 col-md-6 mt-sm">
+											<span class="pl-sm">xxx</span>
 										</div>
-										
-										<div class="col-sm-6 col-md-4">
-										
-											<div class="form-group">
-												<label>Last Name</label>
-												<input type="text" class="form-control" value="Gateau">
-											</div>
-											
-										</div>
-										
-										<div class="clear"></div>
-										
-										<div class="col-sm-6 col-md-4">
-										
-											<div class="form-group">
-												<label>Born</label>
-												<div class="row gap-5">
-													<div class="col-xs-3 col-sm-3">
-														<select class="selectpicker form-control" data-live-search="false">
-															<option value="0">day</option>
-															<option value="1">01</option>
-															<option value="2" selected>02</option>
-															<option value="3">03</option>
-														</select>
-													</div>
-													<div class="col-xs-5 col-sm-5">
-														<select class="selectpicker form-control" data-live-search="false">
-															<option value="0">month</option>
-															<option value="1">Jan</option>
-															<option value="2" selected>Feb</option>
-															<option value="3">Mar</option>
-														</select>
-													</div>
-													<div class="col-xs-4 col-sm-4">
-														<select class="selectpicker form-control" data-live-search="false">
-															<option value="0">year</option>
-															<option value="1">1985</option>
-															<option value="2" selected>1986</option>
-															<option value="3">1987</option>
-														</select>
-													</div>
-												</div>
-											</div>
-											
-										</div>
-										
-										<div class="col-sm-6 col-md-4">
-										
-											<div class="form-group">
-												<label>Email</label>
-												<input type="email" class="form-control" value="myemail@gmail.com">
-											</div>
-											
-										</div>
-										
-										<div class="clear"></div>
-										
-										<div class="col-sm-6 col-md-4">
-										
-											<div class="form-group">
-												<label>Address</label>
-												<input type="text" class="form-control" value="254">
-											</div>
-											
-										</div>
-										
-										<div class="col-sm-6 col-md-4">
-										
-											<div class="form-group">
-												<label>City/town</label>
-												<select class="selectpicker show-tick form-control" data-live-search="false">
-													<option value="0">Select</option>
-													<option value="1">Thailand</option>
-													<option value="2" selected>France</option>
-													<option value="3">China</option>
-													<option value="4">Malaysia </option>
-													<option value="5">Italy</option>
-												</select>
-											</div>
-											
-										</div>
-										
-										<div class="clear"></div>
-										
-										<div class="col-sm-6 col-md-4">
-										
-											<div class="form-group">
-												<label>Province/State</label>
-												<input type="text" class="form-control" value="Paris">
-											</div>
-											
-										</div>
-										
-										<div class="col-sm-6 col-md-4">
-										
-											<div class="form-group">
-												<label>Street</label>
-												<input type="text" class="form-control" value="Somewhere ">
-											</div>
-											
-										</div>
-
-										<div class="clear"></div>
-										
-										<div class="col-sm-6 col-md-4">
-										
-											<div class="form-group">
-												<label>Zip Code</label>
-												<input type="text" class="form-control" value="35214">
-											</div>
-											
-										</div>
-										
-										<div class="col-sm-6 col-md-4">
-										
-											<div class="form-group">
-												<label>Country</label>
-												<select class="selectpicker show-tick form-control" data-live-search="false">
-													<option value="0">Select</option>
-													<option value="1">Thailand</option>
-													<option value="2" selected>France</option>
-													<option value="3">China</option>
-													<option value="4">Malaysia </option>
-													<option value="5">Italy</option>
-												</select>
-											</div>
-											
-										</div>
-
-										<div class="clear"></div>
-										
-										
-										<div class="clear mb-10"></div>
-
-										<div class="col-sm-12">
-											<a href="#" class="btn btn-primary">Save</a>
-											<a href="#" class="btn btn-primary btn-border">Cancel</a>
-										</div>
-
 									</div>
-									
-								</form>
+								</li>
 								
-							</div>
-							
-						</div>
+								<li>
+									<div class="row">
+										<div class="col-xs-12 col-sm-12 col-md-6">
+											<h5>Last Name</h5>
+										</div>
+										<div class="col-xs-12 col-sm-12 col-md-6 mt-sm">
+											<span class="pl-sm">xxx</span>
+										</div>
+									</div>
+								</li>
+								
+								<li>
+									<div class="row">
+										<div class="col-xs-12 col-sm-12 col-md-6">
+											<h5>Born</h5>
+										</div>
+										<div class="col-xs-12 col-sm-12 col-md-6 mt-sm">
+											<span class="pl-sm">20.0.2018</span>
+										</div>
+									</div>
+								</li>
+								
+								<li>
+									<div class="row">
+										<div class="col-xs-12 col-sm-12 col-md-6">
+											<h5>Email</h5>
+										</div>
+										<div class="col-xs-12 col-sm-12 col-md-6 mt-sm">
+											<span class="pl-sm">myemail@gmail.com</span>
+										</div>
+									</div>
+								</li>
+								
+								<li>
+									<div class="row">
+										<div class="col-xs-12 col-sm-12 col-md-6">
+											<h5>Address</h5>
+										</div>
+										<div class="col-xs-12 col-sm-12 col-md-6 mt-sm">
+											<span class="pl-sm">254</span>
+										</div>
+									</div>
+								</li>
+								
+								<li>
+									<div class="row">
+										<div class="col-xs-12 col-sm-12 col-md-6">
+											<h5>City/town</h5>
+										</div>
+										<div class="col-xs-12 col-sm-12 col-md-6 mt-sm">
+											<span class="pl-sm">Somewhere </span>
+										</div>
+									</div>
+								</li>
+								
+								<li>
+									<div class="row">
+										<div class="col-xs-12 col-sm-12 col-md-6">
+											<h5>Province/State</h5>
+										</div>
+										<div class="col-xs-12 col-sm-12 col-md-6 mt-sm">
+											<span class="pl-sm">Paris</span>
+										</div>
+									</div>
+								</li>
+								
+								<li>
+									<div class="row">
+										<div class="col-xs-12 col-sm-12 col-md-6">
+											<h5>Street</h5>
+										</div>
+										<div class="col-xs-12 col-sm-12 col-md-6 mt-sm">
+											<span class="pl-sm">Somewhere </span>
+										</div>
+									</div>
+								</li>
 
+								<li>
+									<div class="row">
+										<div class="col-xs-12 col-sm-12 col-md-6">
+											<h5>Zip Code</h5>
+										</div>
+										<div class="col-xs-12 col-sm-12 col-md-6 mt-sm">
+											<span class="pl-sm">Zip Code </span>
+										</div>
+									</div>
+								</li>
+
+								<li>
+									<div class="row">
+										<div class="col-xs-12 col-sm-12 col-md-6">
+											<h5>Country</h5>
+										</div>
+										<div class="col-xs-12 col-sm-12 col-md-6 mt-sm">
+											<span class="pl-sm">Somewhere </span>
+										</div>
+									</div>
+								</li>
+								
+							</ul>
+							
+							<div class="mb-30"></div>
+							
+							<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. 
+							Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure 
+							dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non 
+							proident, sunt in culpa qui officia deserunt mollit anim.</p>
+							
+							<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. 
+							Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure 
+							dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non 
+							proident, sunt in culpa qui officia deserunt mollit anim.</p>
+							
+							<h4>Inhabiting discretion the her dispatched</h4>
+							
+							<ul class="list-bullet-circle">
+								<li>Examine she brother prudent add day ham.</li>
+								<li>Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim.</li>
+								<li>Certain it waiting no entered is. Passed her indeed uneasy shy polite appear denied</li>
+								<li>Satisfaction guarantee</li>
+							</ul>
+
+							
+
+						</div>
+						
+						
+						
 					</div>
 
 				</div>
 			
 			</div>
 
+		</div>
+		
+		<!-- end Main W
+		
+	
 	<?php $this->load->view('includes/footer')?>
