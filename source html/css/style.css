@@ -506,7 +506,7 @@ ul.nav-mini li i {
 .navbar-sticky {
     background-color: rgba(0, 0, 0, 0.8);
     padding: 10px 0;
-    z-index: 999999;
+    z-index: 1030;
 }
 
 .navbar-sticky.navbar-default {
@@ -2203,7 +2203,7 @@ transition: all 0.5s;
  /*   margin-left: 175px;*/
     margin-bottom: 20px;
 }
-.price_off{     background-color: #f3ca64;
+.price_off2{     background-color: #f3ca64;
     border-radius: 50%;
     width: 38px;
     height: 38px;
@@ -2214,6 +2214,20 @@ transition: all 0.5s;
     position: absolute;
     font-size: 12px;
     padding: 7px;
+    z-index: 9;
+    text-align: center;
+    line-height: 12px;}
+    .price_off2{background-color: #f3ca64;
+    border-radius: 50%;
+    width: 48px;
+    height: 48px;
+    color: #fff;
+    display: inline-block;
+    font-weight: bold;
+    position: absolute;
+    font-size: 12px;
+    padding: 10px;
+    z-index: 9;
     text-align: center;
     line-height: 12px;}
 .trip-guide-sm-item .trip-by {
@@ -2223,7 +2237,12 @@ transition: all 0.5s;
     margin: 5px 0;
     letter-spacing: 1px;
 }
-
+.mhn-item{padding: 10px;}
+.mhn-slide .owl-stage-outer{z-index:1}
+.mhn-slide .owl-nav .disabled{display:none}
+.mhn-slide .owl-prev,.mhn-slide .owl-next{top:50%;z-index:2;margin-top:-20px;position:absolute;}
+.mhn-slide .owl-prev{left:-20px}
+.mhn-slide .owl-next{right:-20px}
 .trip-guide-sm-item .price {
     line-height: 1.1;
 }
@@ -2357,6 +2376,7 @@ transition: all 0.5s;
     }
     .price_off{left: 37%;}
        .b_left {border-left: none;}
+       .listview .price_off{left: 5%;}
 }
 
 @media (max-width: 479px) {
