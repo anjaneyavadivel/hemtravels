@@ -38,6 +38,37 @@
 /**
  * Header
  */
+
+ 	.progressline {
+     border-bottom: 2px solid #ee7d43;
+    position: absolute;
+    top: 4px;
+    width: -webkit-fill-available;
+    text-align: center;
+    overflow: hidden;
+    left: 51%;
+    margin: 13px;
+}
+.active_book {
+        background-color:#ee7d43 !important;
+    
+    border-radius: 50%;
+    height: 35px;
+    color: #fff!important;
+    text-align: center;
+    padding-top: 8px;
+    width: 35px;
+}
+.inactive_book {
+        background-color: #fff;
+    border: 1px solid #ccc;
+    border-radius: 50%;
+    height: 35px;
+    color: #a7a7a7;
+    text-align: center;
+    padding-top: 8px;
+    width: 35px;
+}
  .c_mt{margin-top: 26px;}
  .stars_rate{border-radius: 5px;
     font-size: 13px;
@@ -1024,8 +1055,11 @@ ul.bottom-footer-menu.for-social li:after {
 
 @media only screen and (max-width: 767px) {
     .modal.login-box-wrapper {
-        width: auto;
-        margin-left: auto!
+            width: auto !important;
+    margin-left: auto !important;
+    left: 0;
+    right: 0;
+
     }
     .login-box-link-action {
         text-align: left;
@@ -1035,6 +1069,18 @@ ul.bottom-footer-menu.for-social li:after {
         margin-top: 45px
     }
 }
+
+
+@media (max-width: 979px){
+	.modal.fade.in, .modal.container.fade.in, .modal.modal-overflow.fade.in {
+    top: 1%;
+    bottom: auto;
+     margin-left: auto !important;
+    left: 0;
+    right: 0;
+}
+}
+
 
 @media (max-width: 479px) {}
 
@@ -2242,15 +2288,28 @@ transition: all 0.5s;
 .text-grey{color: #707070 !important; }
 
 .dropdown-menu>li>a:focus, .dropdown-menu>li>a:hover {
-    color: #ee7d43 !important;
-    text-decoration: none;
-    background-color:  #ffffff;
-    font-weight: 700;  ;
+    padding-left: 25px;
+    padding-right: 15px;
 }
 .dropdown-menu>li>a{
-    color: #000 !important;font-weight: 700;  padding: 5px
+       border-bottom: 1px solid #E6E6E6;
+    display: block;
+    padding: 14px 5px 14px 20px;
+    font-size: 14px;
+    -webkit-transition: all 0.2s ease-in-out 0s;
+    -moz-transition: all 0.2s ease-in-out 0s;
+    -ms-transition: all 0.2s ease-in-out 0s;
+    -o-transition: all 0.2s ease-in-out 0s;
+    transition: all 0.2s ease-in-out 0s;
+    color: #636363 !important;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    line-height: 1.25;
    
 }
+.dropdown-menu>li{float: none !important;margin-left: 0!important }
+.wallet{float: right !important;}
+.popular_trip{margin: 0!important;}
 .mhn-item{padding: 10px;}
 .mhn-slide .owl-stage-outer{z-index:1}
 .mhn-slide .owl-nav .disabled{display:none}
