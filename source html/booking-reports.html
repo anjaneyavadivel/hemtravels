@@ -95,12 +95,12 @@
                                         <li><a href="cancellation-list.html">Cancellation List</a></li>
                                         <li><a href="booking-list.html">Booking List</a></li>
                                         <li><a href="coupon-code-master.html">Coupon Code Master</a></li>
-                                        <li><a href="category-master.html">Category Master</a></li>
-                                        <li><a href="tag-master.html">Tag Master</a></li>
-                                        <li><a href="trip-inclusions-master.html">Trip Inclusions Master</a></li>
-                                        <li><a href="state-master.html">State Master</a></li>
-                                        <li><a href="city-master.html">City Master</a></li>
-                                        <li><a href="location-master.html">Location Master</a></li>
+                                        <li><a href="master.html">Category Master</a></li>
+                                        <li><a href="master.html">Tag Master</a></li>
+                                        <li><a href="master.html">Trip Inclusions Master</a></li>
+                                        <li><a href="master.html">State Master</a></li>
+                                        <li><a href="master.html">City Master</a></li>
+                                        <li><a href="master.html">Location Master</a></li>
                                         <li><a href="booking-reports.html">Reports - Booking</a></li>
                                         <li><a href="Trip-reports.html">Reports - Trip</a></li>
                                         <li><a href="payment-from-B2C-reports.html">Reports - Payment from B2C</a></li>
@@ -136,17 +136,19 @@
                         </div><!--/.nav-collapse -->
 
                         <div class="nav-mini-wrapper " >
-                            <ul class="nav-mini  ">
-                                <li class="dropdown "> <a href="profile.html" dropdown-toggle" data-toggle="dropdown"> <img src="images/ws.jpg" alt="images" class="drp_dwn" style="border-radius: 50%;" width="30"/> </a>  <ul class="dropdown-menu">
-                                        <li><a href="#" class="text-dark">Edit Profile</a></li>
-                                        <li><a href="#" class="text-dark">Wallet <span class="text-right pl-40 text-primary">0rs</span></a></li>
-                                        <li><a href="#" class="text-dark">Logout</a></li>
-                                    </ul>
-                                </li>
-                                <li><a data-toggle="modal" href="#registerModal"><i class="icon-user-follow" data-toggle="tooltip" data-placement="bottom" title="sign up"></i></a></li>
-                                <li><a data-toggle="modal" href="#loginModal"><i class="icon-login" data-toggle="tooltip" data-placement="bottom" title="login"></i> </a></li>
-                            </ul>
-                        </div>
+                        <ul class="nav-mini  ">
+                            <li class="dropdown "> <a href="profile.html" dropdown-toggle" data-toggle="dropdown"> <img src="images/ws.jpg" alt="images" class="drp_dwn" style="border-radius: 50%;" width="30"/> </a>  <ul class="dropdown-menu">
+    <li><a href="dashboard.html" class="text-dark">Profile</a></li>
+    <li><a href="my-transaction.html" class="text-dark">Wallet <span class="text-primary wallet">Rs:200</span></a></li>
+    <li><a href="profile.html" class="text-dark">Update Profile</a></li>
+    <li><a href="change-pass.html" class="text-dark">Change Password</a></li>
+    <li><a href="#" class="text-dark">Logout</a></li>
+  </ul>
+                            </li>
+                            <li><a data-toggle="modal" href="#registerModal"><i class="icon-user-follow" data-toggle="tooltip" data-placement="bottom" title="sign up"></i></a></li>
+                            <li><a data-toggle="modal" href="#loginModal"><i class="icon-login" data-toggle="tooltip" data-placement="bottom" title="login"></i> </a></li>
+                        </ul>
+                    </div>
 
                     </div>
 
@@ -169,275 +171,147 @@
                     <div class="container">
                         <ol class="breadcrumb">
                             <li><a href="#">Home</a></li>
-                            <li class="active">Payment</li>
+                            <li><a href="#">Master</a></li>
+                            <li  class="active"><a href="#">Category Master</a></li>
                         </ol>
                     </div>
                 </div>
 
                 <!-- end Breadcrumb -->
+                <div class=" container pb-50">
+                    <div class="col-xs-0 col-sm-3">
+                        <!--                         left side-->
+                    </div>
+                    <div class="col-xs-12 col-sm-12 pt-20 pb-5 clearfix">
+                        <!--                         left side - center-->
+                        <div class="col-xs-12 col-sm-12 pt-10 pb-5 clearfix">
+                            
+                            <div class="col-xs-12 col-sm-4 col-lg-4">
+                                                <div class="row gap-10" id="rangeDatePicker">
 
-                <div class="user-profile-wrapper">
-
-                    <div class="payment-header">
-
-                        <div class="container">
-
-                            <div class="content">
-
-                                <div class="trip-list-item no-border">
-                                    <div class="image-absolute">
-                                        <div class="image image-object-fit image-object-fit-cover">
-                                            <img src="images/trip/01.jpg" alt="image" >
-                                        </div>
-                                    </div>
-                                    <div class="content">
-
-                                        <div class="GridLex-gap-20 mb-5">
-
-                                            <div class="GridLex-grid-noGutter-equalHeight GridLex-grid-middle">
-
-                                                <div class="GridLex-col-6_sm-12_xs-12_xss-12">
-
-                                                    <div class="GridLex-inner">
-                                                        <h6>Hong Kong Best Highlight Explore</h6>
-                                                        <span class="font-italic font14">5 days 4 nights</span>
-                                                    </div>
-
-                                                </div>
-
-                                                <div class="GridLex-col-3_sm-6_xs-7_xss-12">
-                                                    <div class="GridLex-inner line-1 font14 text-center text-left-sm text-muted spacing-1">
-                                                        <div class="rating-item rating-item-lg  mt-10-xs">
-                                                            <input type="hidden" class="rating" data-filled="fa fa-star rating-rated" data-empty="fa fa-star-o" data-fractions="2" data-readonly value="4.5"/>
-                                                            <div class="rating-text">Based on <a href="#">32 reviews</a></div>
+                                                    <div class="col-xss-12 col-xs-6 col-sm-6">
+                                                        <div class="form-group">
+                                                            <label>From</label>
+                                                            <input type="text" id="rangeDatePickerTo" class="form-control" placeholder="yyyy/mm/dd" />
                                                         </div>
                                                     </div>
-                                                </div>
 
-                                                <div class="GridLex-col-3_sm-6_xs-5_xss-12">
-                                                    <div class="GridLex-inner text-right text-left-xss">
-                                                        <a href="#" class="btn btn-primary btn-sm btn-block mt-15-xs"><i class="ion-arrow-left-c"></i> Back to detail</a>
+                                                    <div class="col-xss-12 col-xs-6 col-sm-6">
+                                                        <div class="form-group">
+                                                            <label>To</label>
+                                                            <input type="text" id="rangeDatePickerFrom" class="form-control" placeholder="yyyy/mm/dd" />
+                                                        </div>
                                                     </div>
-                                                </div>
 
+                                                </div>
                                             </div>
-
-                                        </div>
-
-                                    </div>
-                                </div>
-
-
+                                            <div class="col-xs-12 col-sm-4 col-lg-4">
+                                                <div class="form-group">
+                                                    <label>Title</label>
+                                                    <div class="row">
+                                                        <div class="col-xs-12 col-sm-8 col-md-8">
+                                                            <input type="text" class="form-control" placeholder="Search">
+                                                        </div>
+                                                        <div class="col-xs-12 col-sm-4 col-md-4">
+                                                            <a href="#" class="btn btn-primary btn-block"><i class="fa fa-search"></i> Search</a>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                            <div class="col-xs-2 col-sm-1 col-lg-1 text-right">
+                                <a class="btn btn-info c_mt" >Export PDF</a>
                             </div>
+                            <table class="table ">
+                                <thead>
+                                    <tr>
+                                        <th>Date</th>
+                                        <th>Booked By</th>
+                                        <th>Booking Date</th>
+                                        <th>Trip Title</th>
+                                        <th>No of  Travellers</th>
+                                        <th>Total Amount</th>
+                                        <th>Status</th>
+                                        <th>Action</th>
 
-                        </div>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>10 Feb 2018</td>
+                                        <td>Ram</td>
+                                        <td>21 Feb 2018 to 24 Feb 2018</td>
+                                        <td><a href="list.html">Attraction Visit</a></td>
+                                        <td>2</td>
+                                        <td>600</td>
+                                        <td><h4 class="text-info"  data-toggle="tooltip" data-placement="top" data-original-title="New order">New</h4></td>
+                                        <td><a href="payment-done.html" target="_new" class="btn btn-border btn-sm btn-primary">View</a>
+<!--                                            <a href="#" class="btn btn-border btn-sm btn-primary">Edit</a>-->
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>10 Feb 2018</td>
+                                        <td>Ram</td>
+                                        <td>21 Feb 2018 to 24 Feb 2018</td>
+                                        <td><a href="list.html">Attraction Visit</a></td>
+                                        <td>2</td>
+                                        <td>600</td>
+                                        <td><h4 class="text-primary"  data-toggle="tooltip" data-placement="top" data-original-title="Order pending to complete">Pending</h4></td>
+                                        <td><a href="payment-done.html" target="_new" class="btn btn-border btn-sm btn-primary">View</a>
+<!--                                            <a href="#" class="btn btn-border btn-sm btn-primary">Edit</a>-->
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>10 Feb 2018</td>
+                                        <td>Ram</td>
+                                        <td>21 Feb 2018 to 24 Feb 2018</td>
+                                        <td><a href="list.html">Attraction Visit</a></td>
+                                        <td>2</td>
+                                        <td>600</td>
+                                        <td><h4 class=""  data-toggle="tooltip" data-placement="top" data-original-title="Order completed">Completed</h4></td>
+                                        <td><a href="payment-done.html" target="_new" class="btn btn-border btn-sm btn-primary">View</a>
+<!--                                            <a href="#" class="btn btn-border btn-sm btn-primary">Edit</a>-->
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <div class="pager-wrappper text-right clearfix bt mt-0  col-sm-12">
 
-                    </div>
+                                <div class="pager-innner">
 
-                </div>
-                <div class=" col-sm-12 pt-30 pb-30 text-center">
-                                <div class="col-xs-4 col-sm-4 col-lg-4 p-0 ">
-                                	<i class="fa fa-check active_book" aria-hidden="true"></i> 
-                                    <span class="progressline"> </span>
-                                </div>
-                                <div class="col-xs-4 col-sm-4 col-lg-4 p-0">
-                                	<i class="fa fa-check inactive_book " aria-hidden="true"></i> 
-                                    <span class="progressline"> </span>
-                                </div>
-                                <div class="col-xs-4 col-sm-4 col-lg-4 p-0">
-                                	<i class="fa fa-check inactive_book " aria-hidden="true"></i> 
-                                  
-                                </div>
-                                
-                            </div>
+                                    <!-- <div class="clearfix">
+                                            Showing reslut 1 to 15 from 248 
+                                    </div> -->
 
-                <div class="pt-30 pb-50">
-
-                    <div class="container">
-
-                        <div class="row">
-
-                            <div  class="col-xs-12 col-sm-12 col-md-4 sticky-mt-70 sticky-mb-0">
-						
-							<aside class="sidebar-wrapper with-box-shadow">
-							
-								<div class="sidebar-booking-box">
-							
-									
-										<div class="sidebar-booking-header bg-primary pt-20  clearfix">
-
-                                            <h3 class="text-white text-uppercase spacing-3 mb-0 line-1">Goa</h3>
-
-                                        </div>
-									
-									<div class="sidebar-booking-inner">
-										
-										<div class="row gap-10" id="rangeDatePicker">
-									
-											<div class="col-xss-12 col-xs-6 col-sm-6">
-												<div class="form-group">
-													<label>From</label>
-													<input type="text" id="rangeDatePickerTo" class="form-control" placeholder="yyyy/mm/dd" />
-												</div>
-											</div>
-											
-											<div class="col-xss-12 col-xs-6 col-sm-6">
-												<div class="form-group">
-													<label>To</label>
-													<input type="text" id="rangeDatePickerFrom" class="form-control" placeholder="yyyy/mm/dd" />
-												</div>
-											</div>
-											
-										</div>
-										
-										<div class="row gap-20">
-											
-											<div class="col-xss-12 col-xs-12 col-sm-12">
-												<div class="form-group">
-													<label>No. of Adult</label>
-													<div class="form-group form-spin-group">
-														<input type="text" class="form-control form-spin" value="1" /> 
-													</div>
-												</div>
-											</div>
-
-											<div class="col-xss-12 col-xs-12 col-sm-12">
-												<div class="form-group">
-													<label>No. of Children</label>
-													<div class="form-group form-spin-group">
-														<input type="text" class="form-control form-spin" value="1" /> 
-													</div>
-												</div>
-											</div>
-
-											<div class="col-sm-12 col-md-12">
-										
-											<div class="form-group">
-												<label>Location</label>
-												<select class="selectpicker show-tick form-control" data-live-search="false">
-													<option value="0">Select</option>
-													<option value="1">Thailand</option>
-													<option value="2" selected>France</option>
-													<option value="3">China</option>
-													<option value="4">Malaysia </option>
-													<option value="5">Italy</option>
-												</select>
-											</div>
-											
-										</div>
-
-											<div class="col-xss-12 col-xs-12 col-sm-12">
-												<div class="mt-5" style="text-align: center;">
-													<a href="book_ticket.html" class="btn btn-primary  ">Change</a>
-												</div>
-											</div>
-										
-										</div>
-										
-										<div class=" text-center">
-											<p class="font-md text-muted font500 spacing-2">You won't yet be charged</p>
-										</div>
-									
-									</div>
-									
-								</div>
-							
-								
-							</aside>
-						
-						</div>
-
-                            <div class="col-xs-12 col-sm-6 col-md-8  sticky-mt-30 mt-50-sm">
-
-                                <aside class="sidebar-wrapper with-box-shadow">
-
-                                    <div class="sidebar-booking-box">
-
-                                        <div class="sidebar-booking-header pt-20 pb-15 clearfix">
-
-                                            <h3 class="text-white text-uppercase spacing-3 mb-0 line-1">Trip Summary</h3>
-
-                                        </div>
-
-                                        <div class="sidebar-booking-inner">
-
-                                            <ul class="price-summary-list">
-
+                                    <div class="clearfix">
+                                        <nav>
+                                            <ul class="pagination">
                                                 <li>
-                                                    <h6>Meeting point</h6>
-                                                    <p class="text-muted">Bangkok in't airport</p>
+                                                    <a href="#" aria-label="Previous">
+                                                        <span aria-hidden="true">&laquo;</span>
+                                                    </a>
                                                 </li>
-
+                                                <li class="active"><a href="#">1</a></li>
+                                                <li><a href="#">2</a></li>
+                                                <li><a href="#">3</a></li>
+                                                <li><span>...</span></li>
+                                                <li><a href="#">12</a></li>
+                                                <li><a href="#">13</a></li>
                                                 <li>
-                                                    <h6>Meeting time</h6>
-                                                    <p class="text-muted">09:00 am</p>
+                                                    <a href="#" aria-label="Next">
+                                                        <span aria-hidden="true">&raquo;</span>
+                                                    </a>
                                                 </li>
-
-                                                <li>
-                                                    <h6>Travellers</h6>
-                                                    <p class="text-muted">2 adults</p>
-                                                </li>
-
-                                                <li class="divider"></li>
-
-                                                <li>
-                                                    <h6 class="heading mt-20 mb-5 text-primary uppercase">Price per person</h6>
-                                                    <div class="row gap-10 mt-10">
-                                                        <div class="col-xs-7 col-sm-7">
-                                                            Brochure Price
-                                                        </div>
-                                                        <div class="col-xs-5 col-sm-5 text-right">
-                                                            $650
-                                                        </div>
-                                                    </div>
-                                                    <div class="row gap-10 mt-10">
-                                                        <div class="col-xs-7 col-sm-7">
-                                                            Tax &amp; fee
-                                                        </div>
-                                                        <div class="col-xs-5 col-sm-5 text-right">
-                                                            $0
-                                                        </div>
-                                                    </div>
-                                                </li>
-
-                                                <li class="divider"></li>
-
-                                                <li>
-                                                    <div class="row gap-10 mt-10">
-                                                        <div class="col-xs-7 col-sm-7">
-                                                            <span class="font600">Total </span>
-                                                        </div>
-                                                        <div class="col-xs-5 col-sm-5 text-right">
-                                                            $6500 x2
-                                                            <span class="font600 font26 block text-primary mt-5">$1,300</span>
-                                                        </div>
-                                                    </div>
-                                                </li>
-
-                                                <li class="divider"></li>
-                                                <li>
-                                                    <small><b>Extra Savings:</b> Earn Cash Back upto Rs500 on this booking</small>
-                                                </li>
-                                                <li style="text-align: center;">
-                                                    <a class="btn btn-primary  mt-5"  href="payment.html">Proceed</a>
-                                                </li>
-
                                             </ul>
-
-                                        </div>
-
+                                        </nav>
                                     </div>
 
-                                </aside>
+                                </div>
 
                             </div>
-
                         </div>
 
                     </div>
-
                 </div>
-
             </div>
 
             <!-- end Main Wrapper -->
@@ -528,7 +402,7 @@
 
                             <div class="col-xs-12 col-sm-6 col-md-4">
 
-                                <p class="copy-right">&#169; 2017 Togoby - tour hosting</p>
+                                <p class="copy-right">&#169; 2018 B2C - tour hosting</p>
 
                             </div>
 
@@ -652,6 +526,42 @@
         <!-- end Sign-in Modal -->
 
         <!-- start Register Modal -->
+
+         <div id="add" class="modal fade login-box-wrapper modal-overflow" tabindex="-1" data-backdrop="static" data-keyboard="false" data-replace="true">
+    
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title text-center">Add Category</h4>
+            </div>
+
+            <div class="modal-body">
+
+                <div class="row gap-20">
+
+                    <div class="col-sm-12 col-md-12">
+
+                        <div class="form-group"> 
+                            <label>Category Name</label>
+                            <input class="form-control" placeholder="" type="text"> 
+                        </div>
+
+                    </div>
+
+
+                </div>
+
+            </div>
+
+            <div class="modal-footer text-center">
+                <button type="button" class="btn btn-primary">Add</button>
+                <button type="button" data-dismiss="modal" class="btn btn-primary btn-border">Close</button>
+            </div>
+
+        </div>
+
+
+
+
         <div id="registerModal" class="modal fade login-box-wrapper" tabindex="-1" data-backdrop="static" data-keyboard="false" data-replace="true">
 
             <div class="modal-header">
@@ -783,61 +693,7 @@
             </div>
 
         </div>
-
         <!-- end Forget Password Modal -->
-
-
-        <div id="change_trip" class="modal fade login-box-wrapper" tabindex="-1" data-backdrop="static" data-keyboard="false" data-replace="true">
-
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                <h4 class="modal-title text-center">Change</h4>
-            </div>
-
-            <div class="modal-body">
-
-
-                <div class="row gap-10" id="rangeDatePicker">
-
-                    <div class="col-xss-12 col-xs-6 col-sm-6">
-                        <div class="form-group">
-                            <label>From</label>
-                            <input type="text" id="rangeDatePickerTo" class="form-control" placeholder="yyyy/mm/dd" />
-                        </div>
-                    </div>
-
-                    <div class="col-xss-12 col-xs-6 col-sm-6">
-                        <div class="form-group">
-                            <label>To</label>
-                            <input type="text" id="rangeDatePickerFrom" class="form-control" placeholder="yyyy/mm/dd" />
-                        </div>
-                    </div>
-
-                </div>
-
-                <div class="row gap-20">
-
-                    <div class="col-xss-12 col-xs-12 col-sm-12">
-                        <div class="form-group">
-                            <label>No. of traveller</label>
-                            <div class="form-group form-spin-group">
-                                <input type="text" class="form-control form-spin" value="1" /> 
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="col-xss-12 col-xs-12 col-sm-12">
-                        <div class="mt-5">
-                            <a href="book_ticket.html" class="btn btn-primary btn-block">Change</a>
-                        </div>
-                    </div>
-
-                </div>
-            </div>
-
-
-
-        </div>
 
         <!-- Core JS -->
         <script type="text/javascript" src="js/jquery.min.js"></script>
@@ -852,16 +708,9 @@
         <script type="text/javascript" src="js/images-grid.js"></script>
         <script type="text/javascript" src="js/jquery.bootstrap-touchspin.js"></script>
         <script type="text/javascript" src="js/customs-detail.js"></script>
-<script type="text/javascript" src="js/moment.min.js"></script>
-<script type="text/javascript" src="js/jquery.daterangepicker.js"></script>
-<script type="text/javascript" src="js/customs-datepicker.js"></script>
-
-
-
-
 
     </body>
 
 
-    <!-- Mirrored from crenoveative.com/envato/togoby/offered-payment.html by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 23 Jun 2018 08:53:25 GMT -->
+    <!-- Mirrored from crenoveative.com/envato/togoby/guide-detail.html by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 23 Jun 2018 08:54:20 GMT -->
 </html>
