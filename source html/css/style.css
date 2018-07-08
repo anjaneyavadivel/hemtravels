@@ -37,7 +37,9 @@
 
 /**
  * Header
- */
+ */.tab-inner p {
+    margin: 0;
+}}
 
  	.progressline {
      border-bottom: 2px solid #ee7d43;
