@@ -56,7 +56,7 @@
                 <!-- start Navbar (Header) -->
                 <nav class="navbar navbar-default navbar-fixed-top navbar-sticky-function navbar-arrow">
 
-                   <div class="container">
+                    <div class="container">
 					
 					<div class="logo-wrapper">
 						<div class="logo">
@@ -215,8 +215,7 @@
                                                     <label>Status</label>
                                                     <select class="selectpicker show-tick form-control" title="Select placeholder">
                                                         <option value="">All</option>
-                                                        <option value="0">New</option>
-                                                        <option value="1">Pending</option>
+                                                        <option value="0">Live</option>
                                                         <option value="1">Completed</option>
                                                     </select>
                                                 </div>
@@ -235,17 +234,18 @@
                                                 </div>
                                             </div>
                             <div class="col-xs-2 col-sm-1 col-lg-1 text-right">
-                                <a class="btn btn-info c_mt" >Export PDF</a>
+                                <a class="btn btn-info c_mt" data-toggle="modal" href="#add">Add</a>
                             </div>
                             <table class="table ">
                                 <thead>
                                     <tr>
-                                        <th>Date</th>
-                                        <th>Booked By</th>
-                                        <th>Booking Date</th>
+                                        <th>Coupon Code</th>
                                         <th>Trip Title</th>
-                                        <th>No of  Travellers</th>
-                                        <th>Total Amount</th>
+                                        <th>Valid From</th>
+                                        <th>Valid To</th>
+                                        <th>Name</th>
+                                        <th>Type</th>
+                                        <th>Amount</th>
                                         <th>Status</th>
                                         <th>Action</th>
 
@@ -253,39 +253,45 @@
                                 </thead>
                                 <tbody>
                                     <tr>
-                                        <td>10 Feb 2018</td>
-                                        <td>Ram</td>
-                                        <td>21 Feb 2018 to 24 Feb 2018</td>
+                                        <td>B2Bdic200</td>
                                         <td><a href="list.html">Attraction Visit</a></td>
-                                        <td>2</td>
-                                        <td>600</td>
-                                        <td><h4 class="text-info"  data-toggle="tooltip" data-placement="top" data-original-title="New order">New</h4></td>
-                                        <td><a href="payment-done.html" target="_new" class="btn btn-border btn-sm btn-primary">View</a>
-<!--                                            <a href="#" class="btn btn-border btn-sm btn-primary">Edit</a>-->
+                                        <td>10 Feb 2018</td>
+                                        <td>12 Feb 2018</td>
+                                        <td>B2B discount 200</td>
+                                        <td>Vendor</td>
+                                        <td>200</td>
+                                        <td><h4 class=""  data-toggle="tooltip" data-placement="top" data-original-title="Coupon Code offer closed">Completed</h4></td>
+                                         <td><a href="payment-done.html" target="_new" class="btn btn-border btn-sm btn-primary">View</a>
+                                            <a href="#" class="btn btn-border btn-sm btn-primary">Edit</a>
+                                            <a href="#" class="btn btn-border btn-sm btn-primary">Delete</a>
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td>10 Feb 2018</td>
-                                        <td>Ram</td>
-                                        <td>21 Feb 2018 to 24 Feb 2018</td>
+                                        <td>B2Cdic200</td>
                                         <td><a href="list.html">Attraction Visit</a></td>
-                                        <td>2</td>
-                                        <td>600</td>
-                                        <td><h4 class="text-primary"  data-toggle="tooltip" data-placement="top" data-original-title="Order pending to complete">Pending</h4></td>
+                                        <td>01 July 2018</td>
+                                        <td>15 Aug 2018</td>
+                                        <td>B2C discount 100</td>
+                                        <td>Customer</td>
+                                        <td>100</td>
+                                        <td><h4 class="text-primary"  data-toggle="tooltip" data-placement="top" data-original-title="Coupon Code offer Live">Live</h4></td>
                                         <td><a href="payment-done.html" target="_new" class="btn btn-border btn-sm btn-primary">View</a>
-<!--                                            <a href="#" class="btn btn-border btn-sm btn-primary">Edit</a>-->
+                                            <a href="#" class="btn btn-border btn-sm btn-primary">Edit</a>
+                                            <a href="#" class="btn btn-border btn-sm btn-primary">Delete</a>
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td>10 Feb 2018</td>
-                                        <td>Ram</td>
-                                        <td>21 Feb 2018 to 24 Feb 2018</td>
+                                        <td>B2Bdic12per</td>
                                         <td><a href="list.html">Attraction Visit</a></td>
-                                        <td>2</td>
-                                        <td>600</td>
-                                        <td><h4 class=""  data-toggle="tooltip" data-placement="top" data-original-title="Order completed">Completed</h4></td>
-                                        <td><a href="payment-done.html" target="_new" class="btn btn-border btn-sm btn-primary">View</a>
-<!--                                            <a href="#" class="btn btn-border btn-sm btn-primary">Edit</a>-->
+                                        <td>10 Feb 2018</td>
+                                        <td>12 Feb 2018</td>
+                                        <td>B2B discount 12%</td>
+                                        <td>Vendor</td>
+                                        <td>12%</td>
+                                        <td><h4 class=""  data-toggle="tooltip" data-placement="top" data-original-title="Coupon Code offer closed">Completed</h4></td>
+                                         <td><a href="payment-done.html" target="_new" class="btn btn-border btn-sm btn-primary">View</a>
+                                            <a href="#" class="btn btn-border btn-sm btn-primary">Edit</a>
+                                            <a href="#" class="btn btn-border btn-sm btn-primary">Delete</a>
                                         </td>
                                     </tr>
                                 </tbody>
@@ -578,7 +584,7 @@
     
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                <h4 class="modal-title text-center">Add Category</h4>
+                <h4 class="modal-title text-center">Add Coupon</h4>
             </div>
 
             <div class="modal-body">
@@ -588,8 +594,79 @@
                     <div class="col-sm-12 col-md-12">
 
                         <div class="form-group"> 
-                            <label>Category Name</label>
+                            <label>Coupon Code</label>
                             <input class="form-control" placeholder="" type="text"> 
+                        </div>
+
+                    </div>
+                    <div class="col-sm-12 col-md-12">
+
+                        <div class="form-group"> 
+                            <label>Coupon Name</label>
+                            <input class="form-control" placeholder="" type="text"> 
+                        </div>
+
+                    </div>
+                    <div class="col-sm-12 col-md-12">
+
+                        <div class="form-group"> 
+                            <label>Coupon Type</label>
+                            <select class="selectpicker show-tick form-control" title="Select placeholder">
+                                <option value="">All</option>
+                                <option value="0">Vendor</option>
+                                <option value="1">Customer</option>
+                            </select>
+                        </div>
+
+                    </div>
+                    <div class="col-sm-12 col-md-12">
+
+                        <div class="form-group"> 
+                            <label>Trip Name</label>
+                            <select class="selectpicker show-tick form-control" title="Select placeholder">
+                                <option value="">All</option>
+                                <option value="0">Attraction Visit</option>
+                                <option value="1">Sightseeing</option>
+                            </select>
+                        </div>
+
+                    </div>
+                    <div class="col-sm-12 col-md-12">
+
+                        <div class="form-group"> 
+                            <label>Offer Type</label>
+                            <select class="selectpicker show-tick form-control" title="Select placeholder">
+                                <option value="">All</option>
+                                <option value="0">Fixed</option>
+                                <option value="1">Percentage</option>
+                            </select>
+                        </div>
+
+                    </div>
+                    <div class="col-sm-12 col-md-12">
+
+                        <div class="form-group"> 
+                            <label>Amount / Percentage</label>
+                            <input class="form-control" placeholder="Enter the Fixed Amount / Percentage" type="text"> 
+                        </div>
+
+                    </div>
+                    <div class="col-sm-12 col-md-12">
+
+                        <div class="form-group"> 
+                            <div class="col-xss-12 col-xs-6 col-sm-6">
+                                <div class="form-group">
+                                    <label>From</label>
+                                    <input type="text" id="rangeDatePickerTo" class="form-control" placeholder="yyyy/mm/dd" />
+                                </div>
+                            </div>
+
+                            <div class="col-xss-12 col-xs-6 col-sm-6">
+                                <div class="form-group">
+                                    <label>To</label>
+                                    <input type="text" id="rangeDatePickerFrom" class="form-control" placeholder="yyyy/mm/dd" />
+                                </div>
+                            </div> 
                         </div>
 
                     </div>
