@@ -59,16 +59,16 @@
                 <nav class="navbar navbar-default navbar-fixed-top navbar-sticky-function navbar-arrow">
 
                     <div class="container">
-
-                        <div class="logo-wrapper">
-                            <div class="logo">
-                                <a href="index.html"><img src="images/logo-white.png" alt="Logo" /></a>
-                            </div>
-                        </div>
-
-                        <div id="navbar" class="navbar-nav-wrapper">
-
-                            <ul class="nav navbar-nav" id="responsive-menu">
+					
+					<div class="logo-wrapper">
+						<div class="logo">
+							<a href="index.html"><img src="images/logo-white.png" alt="Logo" /></a>
+						</div>
+					</div>
+					
+					<div id="navbar" class="navbar-nav-wrapper">
+					
+						<ul class="nav navbar-nav" id="responsive-menu">
 
                                 <li >
                                     <a href="index.html">Home</a>
@@ -79,19 +79,25 @@
                                 <li><a href="about-us.html">About Us</a></li>
                                 <li><a href="contact-us.html">Contact Us</a></li>
                                 <li><a href="faq.html">FAQ</a></li>
-                                <li><a href="PNR-status-check.html">PNR Status Check</a></li>
+                                <li><a href="PNR-status-check.html">PNR Status</a></li>
+<!--                                <li><a href="PNR-status-check.html">PNR Status Check</a></li>-->
                                 <li>
-                                    <a href="">B2C</a>
+                                    <a href="#">B2C</a>
                                     <ul>
+                                        <li><a href="index.html">B2C home page</a></li>
                                         <li><a href="list.html">List of Trips</a></li>
                                         <li><a href="view.html">View Trips</a></li>
-                                        <li><a href="payment.html">Book Trip</a></li>
+                                        <li><a href="book_ticket.html">Book - summary</a></li>
+                                        <li><a href="payment.html">Book - get user info</a></li>
+                                        <li><a href="payment-final.html">Book - Payment</a></li>
                                         <li><a href="payment-done.html">Payment Done</a></li>
+                                        <li><a href="booking-history.html">Booking History</a></li>
+                                        <li><a href="my-wishlist.html">My-Wishlist</a></li>
                                     </ul>
 
                                 </li>
                                 <li>
-                                    <a href="">Admin</a>
+                                    <a href="#">Admin</a>
                                     <ul>
                                         <li><a href="payment-to-vendor.html">Payment to the Vendor</a></li>
                                         <li><a href="cancellation-list.html">Cancellation List</a></li>
@@ -112,12 +118,11 @@
 
                                 </li>
                                 <li>
-                                    <a href="">B2B</a>
+                                    <a href="#">B2B</a>
                                     <ul>
-                                        <li><a href="list.html">List of Trips</a></li>
-                                        <li><a href="view.html">View Trips</a></li>
-                                        <li><a href="payment.html">Office Bookings</a></li>
-                                        <li><a href="payment-done.html">Payment Done</a></li>
+                                        <li><a href="B2B-index.html">B2B home page</a></li>
+                                        <li><a href="B2B-list.html">List of Trips - Office Bookings</a></li>
+                                        <li><a href="view.html">View Trips - Office Bookings</a></li>
                                         <li><a href="create_trip.html">Make New Trip</a></li>
                                         <li><a href="create_vendors_trip.html">Make Trip from Other Vendors</a></li>
                                         <li><a href="cancellation-list.html">Cancellation List</a></li>
@@ -134,12 +139,12 @@
                                 </li>
 
                             </ul>
+				
+					</div><!--/.nav-collapse -->
 
-                        </div><!--/.nav-collapse -->
-
-                        <div class="nav-mini-wrapper " >
+                    <div class="nav-mini-wrapper " >
                         <ul class="nav-mini  ">
-                            <li class="dropdown "> <a href="profile.html" dropdown-toggle" data-toggle="dropdown"> <img src="images/ws.jpg" alt="images" class="drp_dwn" style="border-radius: 50%;" width="30"/> </a>  <ul class="dropdown-menu">
+                            <li class="dropdown "> <a href="profile.html" data-toggle="dropdown"> <img src="images/ws.jpg" alt="images" class="drp_dwn" style="border-radius: 50%;" width="30"/> </a>  <ul class="dropdown-menu">
     <li><a href="dashboard.html" class="text-dark">Profile</a></li>
     <li><a href="my-transaction.html" class="text-dark">Wallet <span class="text-primary wallet">Rs:200</span></a></li>
     <li><a href="profile.html" class="text-dark">Update Profile</a></li>
@@ -151,8 +156,8 @@
                             <li><a data-toggle="modal" href="#loginModal"><i class="icon-login" data-toggle="tooltip" data-placement="bottom" title="login"></i> </a></li>
                         </ul>
                     </div>
-
-                    </div>
+                
+                </div>
 
                     <div id="slicknav-mobile"></div>
 

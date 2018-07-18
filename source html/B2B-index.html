@@ -57,16 +57,16 @@
                 <nav class="navbar navbar-default navbar-fixed-top navbar-sticky-function navbar-arrow">
 
                     <div class="container">
-
-                        <div class="logo-wrapper">
-                            <div class="logo">
-                                <a href="index.html"><img src="images/logo-white.png" alt="Logo" /></a>
-                            </div>
-                        </div>
-
-                        <div id="navbar" class="navbar-nav-wrapper">
-
-                            <ul class="nav navbar-nav" id="responsive-menu">
+					
+					<div class="logo-wrapper">
+						<div class="logo">
+							<a href="index.html"><img src="images/logo-white.png" alt="Logo" /></a>
+						</div>
+					</div>
+					
+					<div id="navbar" class="navbar-nav-wrapper">
+					
+						<ul class="nav navbar-nav" id="responsive-menu">
 
                                 <li >
                                     <a href="index.html">Home</a>
@@ -78,15 +78,19 @@
                                 <li><a href="contact-us.html">Contact Us</a></li>
                                 <li><a href="faq.html">FAQ</a></li>
                                 <li><a href="PNR-status-check.html">PNR Status</a></li>
-                                <!--                                <li><a href="PNR-status-check.html">PNR Status Check</a></li>-->
+<!--                                <li><a href="PNR-status-check.html">PNR Status Check</a></li>-->
                                 <li>
                                     <a href="#">B2C</a>
                                     <ul>
                                         <li><a href="index.html">B2C home page</a></li>
                                         <li><a href="list.html">List of Trips</a></li>
                                         <li><a href="view.html">View Trips</a></li>
-                                        <li><a href="payment.html">Book Trip</a></li>
+                                        <li><a href="book_ticket.html">Book - summary</a></li>
+                                        <li><a href="payment.html">Book - get user info</a></li>
+                                        <li><a href="payment-final.html">Book - Payment</a></li>
                                         <li><a href="payment-done.html">Payment Done</a></li>
+                                        <li><a href="booking-history.html">Booking History</a></li>
+                                        <li><a href="my-wishlist.html">My-Wishlist</a></li>
                                     </ul>
 
                                 </li>
@@ -115,10 +119,8 @@
                                     <a href="#">B2B</a>
                                     <ul>
                                         <li><a href="B2B-index.html">B2B home page</a></li>
-                                        <li><a href="list.html">List of Trips</a></li>
-                                        <li><a href="view.html">View Trips</a></li>
-                                        <li><a href="payment.html">Office Bookings</a></li>
-                                        <li><a href="payment-done.html">Payment Done</a></li>
+                                        <li><a href="B2B-list.html">List of Trips - Office Bookings</a></li>
+                                        <li><a href="view.html">View Trips - Office Bookings</a></li>
                                         <li><a href="create_trip.html">Make New Trip</a></li>
                                         <li><a href="create_vendors_trip.html">Make Trip from Other Vendors</a></li>
                                         <li><a href="cancellation-list.html">Cancellation List</a></li>
@@ -135,25 +137,25 @@
                                 </li>
 
                             </ul>
+				
+					</div><!--/.nav-collapse -->
 
-                        </div><!--/.nav-collapse -->
-
-                        <div class="nav-mini-wrapper " >
-                            <ul class="nav-mini  ">
-                                <li class="dropdown "> <a href="profile.html" data-toggle="dropdown"> <img src="images/ws.jpg" alt="images" class="drp_dwn" style="border-radius: 50%;" width="30"/> </a>  <ul class="dropdown-menu">
-                                        <li><a href="dashboard.html" class="text-dark">Profile</a></li>
-                                        <li><a href="my-transaction.html" class="text-dark">Wallet <span class="text-primary wallet">Rs:200</span></a></li>
-                                        <li><a href="profile.html" class="text-dark">Update Profile</a></li>
-                                        <li><a href="change-pass.html" class="text-dark">Change Password</a></li>
-                                        <li><a href="#" class="text-dark">Logout</a></li>
-                                    </ul>
-                                </li>
-                                <li><a data-toggle="modal" href="#registerModal"><i class="icon-user-follow" data-toggle="tooltip" data-placement="bottom" title="sign up"></i></a></li>
-                                <li><a data-toggle="modal" href="#loginModal"><i class="icon-login" data-toggle="tooltip" data-placement="bottom" title="login"></i> </a></li>
-                            </ul>
-                        </div>
-
+                    <div class="nav-mini-wrapper " >
+                        <ul class="nav-mini  ">
+                            <li class="dropdown "> <a href="profile.html" data-toggle="dropdown"> <img src="images/ws.jpg" alt="images" class="drp_dwn" style="border-radius: 50%;" width="30"/> </a>  <ul class="dropdown-menu">
+    <li><a href="dashboard.html" class="text-dark">Profile</a></li>
+    <li><a href="my-transaction.html" class="text-dark">Wallet <span class="text-primary wallet">Rs:200</span></a></li>
+    <li><a href="profile.html" class="text-dark">Update Profile</a></li>
+    <li><a href="change-pass.html" class="text-dark">Change Password</a></li>
+    <li><a href="#" class="text-dark">Logout</a></li>
+  </ul>
+                            </li>
+                            <li><a data-toggle="modal" href="#registerModal"><i class="icon-user-follow" data-toggle="tooltip" data-placement="bottom" title="sign up"></i></a></li>
+                            <li><a data-toggle="modal" href="#loginModal"><i class="icon-login" data-toggle="tooltip" data-placement="bottom" title="login"></i> </a></li>
+                        </ul>
                     </div>
+                
+                </div>
 
                     <div id="slicknav-mobile"></div>
 
@@ -267,13 +269,69 @@
                           <div class="tab-style-01-wrapper">
 
                             <ul class="tab-nav">
-                                <li class="active"><a href="#tshare" data-toggle="tab" aria-expanded="true">VENDOR SHARED TRIP</a></li>
+                               <li class="active"><a href="#mytriptab" data-toggle="tab" aria-expanded="true">MY TRIP</a></li>
+                                <li class=""><a href="#tshare" data-toggle="tab" aria-expanded="true">VENDOR SHARED TRIP</a></li>
                          
                             </ul>
                             <div class="tab-content">
 
-                                <div class="tab-pane fade active in" id="tshare">
+                                <div class="tab-pane fade active in" id="mytriptab">
+<span class="text-right col-xs-12">
+                                                <a href="my-trips.html">View All<i class="ion-android-arrow-forward"></i></a></span>
+                                    <div class="tab-inner">
+                                        <table class="table ">
+                                <thead>
+                                    <tr>
+                                        <th>Post Date</th>
+                                        <th>Trip Tittle</th>
+                                        <th>Trip Amount</th>
+                                        <th>Total Booking</th>
+                                        <th>Status</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>10/Feb/2018</td>
+                                        <td> <a href="view.html">Cycling</a></td>
+                                        <td>499</td>
+                                        <td>160</td>
+                                        <td><h4 class="text-info">Active</h4></td>
+                                        <td>
+                                            <a href="view.html" class="btn btn-sm btn-primary btn-border "><i class="ion-eye"></i> View</a>
+                                            <a class="btn btn-primary btn-sm btn-border" data-toggle="modal" href="#share"   data-toggle="tooltip" data-placement="top" data-original-title="Share Trip to other vendor"><i class="ion-android-share"></i> Share</a>
+                                      </td>
+                                    </tr>
+                                    <tr>
+                                        <td>10/Feb/2018</td>
+                                        <td> <a href="view.html">Cycling</a></td>
+                                        <td>499</td>
+                                        <td>160</td>
+                                        <td><h4 class="text-danger">Deactive</h4></td>
+                                        <td>
+                                                     <a href="view.html" class="btn btn-sm btn-primary btn-border "><i class="ion-eye"></i> View</a>
+                                   
+                                      </td>
+                                    </tr>
+                                    <tr>
+                                        <td>10/Feb/2018</td>
+                                        <td> <a href="view.html">Cycling</a></td>
+                                        <td>499</td>
+                                        <td>160</td>
+                                        <td><h4 class="text-info">Active</h4></td>
+                                        <td>
+                                             <a href="view.html" class="btn btn-sm btn-primary btn-border "><i class="ion-eye"></i> View</a>
+                                            <a class="btn btn-primary btn-sm btn-border" data-toggle="modal" href="#share"   data-toggle="tooltip" data-placement="top" data-original-title="Share Trip to other vendor"><i class="ion-android-share"></i> Share</a>
+                                     </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                                    </div>
 
+                                </div>
+<div class="tab-pane fade in" id="tshare">
+<span class="text-right col-xs-12">
+                                                <a href="shared_trips.html">View All<i class="ion-android-arrow-forward"></i></a></span>
                                     <div class="tab-inner">
                                         <table class="table ">
                                 <thead>
@@ -282,8 +340,8 @@
                                         <th>Shared By</th>
                                         <th>Email of Vendor</th>
                                         <th>Trip Tittle</th>
-                                        <th>Amount</th>
                                         <th>Shared Status</th>
+                                        <th>Status</th>
                                         <th>Actions</th>
                                     </tr>
                                 </thead>
@@ -293,34 +351,34 @@
                                         <td>Sam</td>
                                         <td>sam@gmail.com</td>
                                         <td class="text-primary">Cycling</td>
-                                        <td>499</td>
                                         <td><h4 class="text-info">Active</h4></td>
-                                        <td><a href="#" class="btn btn-primary btn-border btn-block">View</a></a></td>
+                                        <td><h4 class="text-info">New</h4></td>
+                                        <td><a href="view.html" class="btn btn-sm btn-primary btn-border">View</a>
+                                        <a href="create_vendors_trip.html" class="btn btn-sm btn-primary btn-border">Make Trip</a></td>
                                     </tr>
                                     <tr>
                                         <td>10/Feb/2018</td>
                                         <td>Sam</td>
                                         <td>sam@gmail.com</td>
                                         <td class="text-primary">Cycling</td>
-                                        <td>499</td>
                                         <td><h4 class="text-danger">Deactive</h4></td>
-                                        <td><a class="btn btn-primary btn-border" data-toggle="modal" href="#share"><i class="ion-android-share"></i> Share</a></a></td>
+                                        <td><h4 class="text-info">New</h4></td>
+                                        <td><a href="view.html" class="btn btn-sm btn-primary btn-border">View</a></td>
                                     </tr>
                                     <tr>
                                         <td>10/Feb/2018</td>
                                         <td>Sam</td>
                                         <td>sam@gmail.com</td>
                                         <td class="text-primary">Cycling</td>
-                                        <td>499</td>
                                         <td><h4 class="text-info">Active</h4></td>
-                                        <td><a href="#" class="btn btn-primary btn-border btn-block">View</a></a></td>
+                                        <td><h4 class="text-color-02">Maked Trip</h4></td>
+                                        <td><a href="view.html" class="btn btn-sm btn-primary btn-border">View</a></td>
                                     </tr>
                                 </tbody>
                             </table>
                                     </div>
 
                                 </div>
-
 
                             </div>
 
@@ -334,7 +392,7 @@
 
                             <ul class="tab-nav">
                                 <li class="active"><a href="#tab-style-01-01" data-toggle="tab" aria-expanded="true">New Booking</a></li>
-                                <li class=""><a href="#tab-style-01-02" data-toggle="tab" aria-expanded="false">Total Booking</a></li>
+                                <li class=""><a href="#tab-style-01-02" data-toggle="tab" aria-expanded="false">All Booking</a></li>
                             </ul>
                             <div class="tab-content">
 
@@ -342,41 +400,26 @@
 
                                     <div class="tab-inner">
                                     	<span class="text-right col-xs-12">
-                                                <a href="#">View All<i class="ion-android-arrow-forward"></i></a></span>
+                                                <a href="booking-reports.html">View All<i class="ion-android-arrow-forward"></i></a></span>
                                         <div class="user-long-sm-item clearfix mb-20">
                                             <div class="tab-inner">
-                                                <h3 class="mb-10">Ange Ermolova</h3>
-                                                <p><b>Booked On :</b> 06 Jun 2018 </p>
+                                                <h3 class="mb-10">Ashok JK</h3>
+                                                <p><b>Booked On :</b> 06 Jun 2018  <b>No of Travellor: </b>2 </p>
                                               	<p><b>Trip Tittle :</b> Goa beach</p>
-                                              	<p><b>No of Travellor On: </b>06 Jun 2018 </p>
                                                 <span class="labeling">More Details: </span>
-                                                <a href="#">view <i class="ion-android-arrow-forward"></i></a>
+                                                <a href="payment-done.html">view <i class="ion-android-arrow-forward"></i></a>
 
                                             </div>
 
 
                                         </div>
-                                         <div class="user-long-sm-item clearfix mb-20">
+                                        <div class="user-long-sm-item clearfix mb-20">
                                             <div class="tab-inner">
-                                                <h3 class="mb-10">Ange Ermolova</h3>
-                                                <p><b>Booked On :</b> 06 Jun 2018 </p>
+                                                <h3 class="mb-10">Ashok JK</h3>
+                                                <p><b>Booked On :</b> 06 Jun 2018  <b>No of Travellor: </b>2 </p>
                                               	<p><b>Trip Tittle :</b> Goa beach</p>
-                                              	<p><b>No of Travellor On: </b>06 Jun 2018 </p>
                                                 <span class="labeling">More Details: </span>
-                                                <a href="#">view <i class="ion-android-arrow-forward"></i></a>
-
-                                            </div>
-
-
-                                        </div>
-                                         <div class="user-long-sm-item clearfix mb-20">
-                                            <div class="tab-inner">
-                                                <h3 class="mb-10">Ange Ermolova</h3>
-                                                <p><b>Booked On :</b> 06 Jun 2018 </p>
-                                              	<p><b>Trip Tittle :</b> Goa beach</p>
-                                              	<p><b>No of Travellor On: </b>06 Jun 2018 </p>
-                                                <span class="labeling">More Details: </span>
-                                                <a href="#">view <i class="ion-android-arrow-forward"></i></a>
+                                                <a href="payment-done.html">view <i class="ion-android-arrow-forward"></i></a>
 
                                             </div>
 
@@ -391,41 +434,26 @@
                                     
                                     <div class="tab-inner">
                                     	<span class="text-right col-xs-12">
-                                                <a href="#">View All<i class="ion-android-arrow-forward"></i></a></span>
+                                                <a href="booking-reports.html">View All<i class="ion-android-arrow-forward"></i></a></span>
                                         <div class="user-long-sm-item clearfix mb-20">
                                             <div class="tab-inner">
-                                                <h3 class="mb-10">Ange Ermolova</h3>
-                                                <p><b>Booked On :</b> 06 Jun 2018 </p>
+                                                <h3 class="mb-10">Ashok JK</h3>
+                                                <p><b>Booked On :</b> 06 Jun 2018  <b>No of Travellor: </b>2 </p>
                                               	<p><b>Trip Tittle :</b> Goa beach</p>
-                                              	<p><b>No of Travellor On: </b>06 Jun 2018 </p>
                                                 <span class="labeling">More Details: </span>
-                                                <a href="#">view <i class="ion-android-arrow-forward"></i></a>
+                                                <a href="payment-done.html">view <i class="ion-android-arrow-forward"></i></a>
 
                                             </div>
 
 
                                         </div>
-                                         <div class="user-long-sm-item clearfix mb-20">
+                                        <div class="user-long-sm-item clearfix mb-20">
                                             <div class="tab-inner">
-                                                <h3 class="mb-10">Ange Ermolova</h3>
-                                                <p><b>Booked On :</b> 06 Jun 2018 </p>
+                                                <h3 class="mb-10">Ashok JK</h3>
+                                                <p><b>Booked On :</b> 06 Jun 2018  <b>No of Travellor: </b>2 </p>
                                               	<p><b>Trip Tittle :</b> Goa beach</p>
-                                              	<p><b>No of Travellor On: </b>06 Jun 2018 </p>
                                                 <span class="labeling">More Details: </span>
-                                                <a href="#">view <i class="ion-android-arrow-forward"></i></a>
-
-                                            </div>
-
-
-                                        </div>
-                                         <div class="user-long-sm-item clearfix mb-20">
-                                            <div class="tab-inner">
-                                                <h3 class="mb-10">Ange Ermolova</h3>
-                                                <p><b>Booked On :</b> 06 Jun 2018 </p>
-                                              	<p><b>Trip Tittle :</b> Goa beach</p>
-                                              	<p><b>No of Travellor On: </b>06 Jun 2018 </p>
-                                                <span class="labeling">More Details: </span>
-                                                <a href="#">view <i class="ion-android-arrow-forward"></i></a>
+                                                <a href="payment-done.html">view <i class="ion-android-arrow-forward"></i></a>
 
                                             </div>
 
@@ -959,12 +987,19 @@
                     <div class="col-sm-12 col-md-12">
 
                         <div class="form-group"> 
-                            <label>Text</label>
-                            <input class="form-control" placeholder="Min 4 and Max 10 characters" type="text"> 
+                            <label>Name</label>
+                            <input class="form-control" placeholder="" type="text"> 
                         </div>
 
                     </div>
+                     <div class="col-sm-12 col-md-12">
 
+                        <div class="form-group"> 
+                            <label>Email</label>
+                            <input class="form-control" placeholder="" type="email"> 
+                        </div>
+
+                    </div>
 
 
 
@@ -973,7 +1008,7 @@
             </div>
 
             <div class="modal-footer text-center">
-                <button type="button" class="btn btn-primary">Add</button>
+                <button type="button" class="btn btn-primary" >Share Trip</button>
                 <button type="button" data-dismiss="modal" class="btn btn-primary btn-border">Close</button>
             </div>
 
