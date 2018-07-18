@@ -99,7 +99,7 @@
                                         <li><a href="Trip-reports.html">Trip Wise</a></li>
                                         <li><a href="payment-from-B2C-reports.html">Payment from B2C</a></li>
                                         <li><a href="payment-from-B2B-reports.html">Payment from B2B</a></li>
-                                        <li><a href="payment-from-B2B-reports.html">Payment to B2B</a></li>
+                                        <li><a href="payment-to-B2B-reports.html">Payment to B2B</a></li>
                                         <li><a href="cancellation-reports.html">Cancellation Reports</a></li>
                                         <li><a href="my-transaction-reports.html">My Transaction</a></li>
                                     </ul>
@@ -250,8 +250,9 @@
                                                 </div>
                                             </div>
                             <div class="col-xs-2 col-sm-1 col-lg-1 text-right">
-                                <a class="btn btn-info c_mt" >Export PDF</a>
+                                <a class="btn btn-info c_mt" >Export XL</a>
                             </div><div class="col-xs-12 col-sm-12 col-lg-12 text-right">
+                                        UnClear Amount(INR): <span class="text-info">300.00 </span>
                                         Your Balance(INR): <span class="text-primary">1260.50 </span>
                                         <a class="btn btn-sm btn-info" data-toggle="modal" href="#add">Withdraw</a>
                                         <a class="btn btn-sm btn-primary" data-toggle="modal" href="#">Add Money</a>
@@ -264,6 +265,7 @@
                                                         <th>Withdrawals (INR)</th>
                                                         <th>Deposits (INR)</th>
                                                         <th>Balance(INR)</th>
+                                                        <th>Status</th>
 
                                                     </tr>
                                                 </thead>
@@ -274,6 +276,7 @@
                                                         <td class="text-right">300.00</td>
                                                         <td class="text-right"></td>
                                                         <td class="text-right"><h4 class="text-info">400.00</h4></td>
+                                         <td><h4 class="text-primary"  data-toggle="tooltip" data-placement="top" data-original-title="InProgress to Payment">InProgress</h4></td>
                                                     </tr>
                                                     <tr>
                                                         <td>09 Feb 2018, 04:20pm</td>
@@ -281,13 +284,15 @@
                                                         <td class="text-right">300.00</td>
                                                         <td class="text-right"></td>
                                                         <td class="text-right"><h4 class="text-info">700.00</h4></td>
-                                                    </tr>
+                                                    <td><h4 class="text-darker"  data-toggle="tooltip" data-placement="top" data-original-title="executed to Payment">Executed</h4></td>
+                                         </tr>
                                                     <tr>
                                                         <td>02 Feb 2018, 10:20am</td>
                                                         <td>Deposits</td>
                                                         <td class="text-right"></td>
                                                         <td class="text-right">1000.00</td>
                                                         <td class="text-right"><h4 class="text-info">1000.00</h4></td>
+                                                    <td><h4 class="text-darker"  data-toggle="tooltip" data-placement="top" data-original-title="executed to Payment">Executed</h4></td>
                                                     </tr>
                                                 </tbody>
                                             </table>
@@ -576,36 +581,93 @@
         <!-- start Register Modal -->
 
          <div id="add" class="modal fade login-box-wrapper modal-overflow" tabindex="-1" data-backdrop="static" data-keyboard="false" data-replace="true">
-    
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                <h4 class="modal-title text-center">Add Category</h4>
-            </div>
 
-            <div class="modal-body">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                        <h4 class="modal-title text-center">Payment Withdraw Enquiry</h4>
+                    </div>
 
-                <div class="row gap-20">
+                    <div class="modal-body">
 
-                    <div class="col-sm-12 col-md-12">
+                        <div class="row gap-20">
+                            <p class="mmt-15 mb-20">Payment Withdraw Enquiry will deposits to your account within 7 days.</p>
 
-                        <div class="form-group"> 
-                            <label>Category Name</label>
-                            <input class="form-control" placeholder="" type="text"> 
+                            <div class="col-sm-12 col-md-12">
+
+                                <div class="form-group"> 
+                                    <label>Account to</label>
+                                    <select class="selectpicker show-tick form-control" title="Select placeholder">
+                                        <option value="0">New Account</option>
+                                        <option value="1">Existing Account</option>
+                                    </select>
+                                </div>
+
+                            </div>
+                            <div class="col-sm-12 col-md-12">
+	
+				<div class="form-group"> 
+					<label>Bank Name</label>
+					<input class="form-control" placeholder="Enter the Bank Name" type="text"> 
+				</div>
+			
+			</div>
+			<div class="col-sm-12 col-md-12">
+	
+				<div class="form-group"> 
+					<label>Account Holder Name</label>
+					<input class="form-control" placeholder="Enter the Account Holder Name" type="text"> 
+				</div>
+			
+			</div>
+			
+			<div class="col-sm-12 col-md-12">
+			
+				<div class="form-group"> 
+					<label>Account Number</label>
+                                        <input class="form-control" placeholder="Enter the Account Number" type="password"> 
+				</div>
+			
+			</div>
+			
+			<div class="col-sm-12 col-md-12">
+			
+				<div class="form-group"> 
+					<label>Confirm Account Number</label>
+					<input class="form-control" placeholder="Enter the Account Number" type="text"> 
+				</div>
+			
+			</div>
+			<div class="form-group col-sm-12 col-md-12">
+                                <label>IFSC Code</label>
+					<input class="form-control" placeholder="Enter the IFSC Code" type="text"> 
+                        </div>
+			<div class="form-group col-sm-12 col-md-12">
+                                <label>Branch Name</label>
+					<input class="form-control" placeholder="Enter the Branch Name" type="text"> 
+                        </div>
+			<div class="form-group col-sm-12 col-md-12">
+                                <label>Address</label>
+					<input class="form-control" placeholder="Enter the Address" type="text"> 
+                        </div>
+			<div class="form-group col-sm-12 col-md-12">
+                                <label>Is Primary Account</label>
+                                <div class="checkbox-block">
+                                        <input id="filter_checkbox-2" name="filter_checkbox" type="checkbox" class="checkbox">
+                                        <label class="" for="filter_checkbox-2">Yes, This is our primary account</label>
+                                </div>
+                        </div>
+
+
                         </div>
 
                     </div>
 
+                    <div class="modal-footer text-center">
+                        <button type="button" class="btn btn-primary">Withdraw Enquiry</button>
+                        <button type="button" data-dismiss="modal" class="btn btn-primary btn-border">Close</button>
+                    </div>
 
                 </div>
-
-            </div>
-
-            <div class="modal-footer text-center">
-                <button type="button" class="btn btn-primary">Add</button>
-                <button type="button" data-dismiss="modal" class="btn btn-primary btn-border">Close</button>
-            </div>
-
-        </div>
 
 
 
