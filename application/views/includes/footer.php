@@ -210,7 +210,7 @@
 		<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
 		<h4 class="modal-title text-center">Create your account for free</h4>
 	</div>
-	
+	<?php echo form_open_multipart(base_url() . 'login/singup', array('class' => 'form-horizontal margin-top-30', 'id' => 'sign_up')); ?>
 	<div class="modal-body">
 	
 		<div class="row gap-20">
@@ -241,7 +241,7 @@
 	
 				<div class="form-group"> 
 					<label>Email Address</label>
-					<input class="form-control" placeholder="Enter your email address" type="text"> 
+					<input class="form-control" placeholder="Enter your email address"  type="email" id="new_email" name="new_email"> 
 				</div>
 			
 			</div>
@@ -250,7 +250,7 @@
 			
 				<div class="form-group"> 
 					<label>Password</label>
-					<input class="form-control" placeholder="Min 8 and Max 20 characters" type="text"> 
+					<input class="form-control" placeholder="Min 6 and Max 20 characters" type="password" id="new_pasword" name="new_pasword"> 
 				</div>
 			
 			</div>
@@ -259,7 +259,7 @@
 			
 				<div class="form-group"> 
 					<label>Password Confirmation</label>
-					<input class="form-control" placeholder="Re-type password again" type="text"> 
+					<input class="form-control" placeholder="Re-type password again" type="password" id="cnew_pasword" name="cnew_pasword"> 
 				</div>
 			
 			</div>
@@ -282,10 +282,10 @@
 	</div>
 	
 	<div class="modal-footer text-center">
-		<button type="button" class="btn btn-primary">Register</button>
+    	 <input type="submit" value="Register" class=""btn btn-primary" name="signup" />
 		<button type="button" data-dismiss="modal" class="btn btn-primary btn-border">Close</button>
 	</div>
-	
+	<?php echo form_close()?>
 </div>
 <!-- end Register Modal -->
 
