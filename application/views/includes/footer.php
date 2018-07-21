@@ -3,7 +3,7 @@
 		
 			<footer class="main-footer">
 			
-				<div class="container">
+				<div class="container base_url" id="<?=base_url()?>">
 				
 					<div class="row">
 					
@@ -340,6 +340,8 @@
 <!-- Core JS -->
 <script type="text/javascript" src="<?php echo base_url()?>assets/js/jquery.min.js"></script>
 <script type="text/javascript" src="<?php echo base_url()?>assets/js/core-plugins.js"></script>
+<script src="<?php echo base_url()?>assets/js/jquery.cookie.min.js"></script>
+<script type="text/javascript" src="<?php echo base_url()?>assets/js/jquery.validate.min.js"></script>
 <script type="text/javascript" src="<?php echo base_url()?>assets/js/customs.js"></script>
 <?php if($url==''){?>
 <!-- Only in Home Page -->

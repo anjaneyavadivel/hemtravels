@@ -107,8 +107,8 @@ class Login extends CI_Controller {
 		}
 		if($this->input->post('login'))
 		{
-			$this->form_validation->set_rules('email', 'Email address', 'trim|required');
-			$this->form_validation->set_rules('password', 'Password', 'trim|required|min_length[6]');
+			$this->form_validation->set_rules('um_email', 'Email address', 'trim|required');
+			$this->form_validation->set_rules('um_password', 'Password', 'trim|required|min_length[6]');
 			if ($this->form_validation->run($this) == FALSE) {
 				$this->session->set_userdata('err', validation_errors());
 				if($this->session->userdata('last_url')){
@@ -348,7 +348,7 @@ class Login extends CI_Controller {
 	}
 	function new_email_vaildation()
 	{
-		$check	=	$this->usermodel->select('user_master',array('email'=>$_POST['new_email']));
+		$check	=	$this->user_model->select('user_master',array('email'=>$_POST['new_email']));
 		if($check->num_rows()>0)
 		{
 			echo "false";
@@ -360,7 +360,7 @@ class Login extends CI_Controller {
 	}
 	function old_email_vaildation()
 	{
-		$check	=	$this->usermodel->select('user_master',array('email'=>$_POST['um_email']));
+		$check	=	$this->user_model->select('user_master',array('email'=>$_POST['um_email']));
 		if($check->num_rows()==0)
 		{
 			echo "false";
@@ -372,7 +372,7 @@ class Login extends CI_Controller {
 	}
 	function for_email_vaildation()
 	{
-		$check	=	$this->usermodel->select('user_master',array('email'=>$_POST['forget_email']));
+		$check	=	$this->user_model->select('user_master',array('email'=>$_POST['forget_email']));
 		if($check->num_rows()==0)
 		{
 			echo "false";

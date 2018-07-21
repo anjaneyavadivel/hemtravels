@@ -1,4 +1,5 @@
-
+var base_url	=	$('.base_url').attr('ID');
+//alert(base_url);
 jQuery(function($) {
 
 	"use strict";
@@ -224,6 +225,54 @@ jQuery(function($) {
 			$(this).prev().toggle();
 			return false;
 		});
+	$('#login').validate({
+        rules: {
+			um_email:{
+				  required: true,
+				  remote:{
+					 type:"post",
+					 data: {
+						'csrf_test_name': $.cookie('csrf_cookie_name'),
+						},
+					 url:base_url+"login/old_email_vaildation",
+					 
+				 },
+			},
+			um_password: {
+					required: true,
+					minlength: 5
+				},
+        },
+		messages:{
+			um_email:{
+				required:"This field is required",
+				remote:"Your email does not exist kindly register",
+			},
+			um_password: {
+					required: "Please provide a password",
+					minlength: "Your password must be at least 5 characters long",
+				},
+		},
+         highlight: function(element) {
+        var id_attr = "#" + $( element ).attr("id") + "_icon";
+        $(element).closest('.form-group').removeClass('has-success').addClass('has-error');
+        $(id_attr).removeClass('fa-check').addClass('fa-times');         
+    },
+    unhighlight: function(element) {
+        var id_attr = "#" + $( element ).attr("id") + "_icon";
+        $(element).closest('.form-group').removeClass('has-error').addClass('has-success');
+        $(id_attr).removeClass('fa-times').addClass('fa-check');         
+    },
+    errorElement: 'span',
+        errorClass: 'small help-block',
+        errorPlacement: function(error, element) {
+            if(element.length) {
+                error.insertAfter(element);
+            } else {
+            error.insertAfter(element);
+            }
+        } 
+ });
 
 	
 });
