@@ -95,11 +95,11 @@
 					</div><!--/.nav-collapse -->
 
 					<div class="nav-mini-wrapper " >
-						<ul class="nav-mini  ">
-							<li class=" "> <a href="<?php echo base_url()?>my-dashboard"> <img src="<?php echo base_url()?>assets/images/ws.jpg" alt="images" class="" style="border-radius: 50%;" width="30"/> </a>
-							</li>
+						<ul class="nav-mini  ">						
 							
-                            <?php if($this->session->userdata('user_id') && $this->session->userdata('user_id')>0){?>							
+                            <?php if($this->session->userdata('user_id') && $this->session->userdata('user_id')>0){?>
+                            <li class=" "> <a href="<?php echo base_url()?>my-dashboard"> <img src="<?php echo base_url()?>assets/images/ws.jpg" alt="images" class="" style="border-radius: 50%;" width="30"/> </a>
+							</li>							
                             <li><a href="<?php echo base_url()?>logout"><i class="icon-login" data-toggle="tooltip" data-placement="bottom" title="Logout"></i> </a></li>
                             <?php }else{?>
                             <li><a data-toggle="modal" href="#registerModal"><i class="icon-user-follow" data-toggle="tooltip" data-placement="bottom" title="sign up"></i></a></li>
@@ -117,6 +117,7 @@
 			<!-- end Navbar (Header) -->
 
 		</header>
+        <?php $this->load->view('msg')?>
 		
 		<!-- end Header -->
 

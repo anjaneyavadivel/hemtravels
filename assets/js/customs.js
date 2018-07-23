@@ -1,4 +1,5 @@
-
+var base_url	=	$('.base_url').attr('ID');
+//alert(base_url);
 jQuery(function($) {
 
 	"use strict";
@@ -224,6 +225,110 @@ jQuery(function($) {
 			$(this).prev().toggle();
 			return false;
 		});
+	$('#login').validate({
+        rules: {
+			um_email:{
+				  required: true,
+				  remote:{
+					 type:"post",
+					 data: {
+						'csrf_test_name': $.cookie('csrf_cookie_name'),
+						},
+					 url:base_url+"login/old_email_vaildation",
+					 
+				 },
+			},
+			um_password: {
+					required: true,
+					minlength: 5
+				},
+        },
+		messages:{
+			um_email:{
+				required:"This field is required",
+				remote:"Your email does not exist kindly register",
+			},
+			um_password: {
+					required: "Please provide a password",
+					minlength: "Your password must be at least 5 characters long",
+				},
+		},
+         highlight: function(element) {
+        var id_attr = "#" + $( element ).attr("id") + "_icon";
+        $(element).closest('.form-group').removeClass('has-success').addClass('has-error');
+        $(id_attr).removeClass('fa-check').addClass('fa-times');         
+    },
+    unhighlight: function(element) {
+        var id_attr = "#" + $( element ).attr("id") + "_icon";
+        $(element).closest('.form-group').removeClass('has-error').addClass('has-success');
+        $(id_attr).removeClass('fa-times').addClass('fa-check');         
+    },
+    errorElement: 'span',
+        errorClass: 'small help-block',
+        errorPlacement: function(error, element) {
+            if(element.length) {
+                error.insertAfter(element);
+            } else {
+            error.insertAfter(element);
+            }
+        } 
+ });
+ 
+  $('#sign_up').validate({
+	 
+        rules: {
+			new_email:{
+				 
+				  required: true,
+				  remote:{
+					 type:"post",
+					 url:base_url+"login/new_email_vaildation",
+				 },
+				  
+			},
+			new_pasword: {
+					required: true,
+					minlength: 6
+				},
+				cnew_pasword: {
+					required: true,
+					minlength: 6,
+					equalTo: "#new_pasword"
+				},
+			
+			
+        },
+		messages:{
+			new_email:{
+				required:"This field is required",
+				remote:"Your email already exist kindly Login",
+			},
+			cnew_pasword: {
+					required: "Please provide a password",
+					minlength: "Your password must be at least 5 characters long",
+					equalTo: "Please enter the same password"
+				},
+		},
+         highlight: function(element) {
+        var id_attr = "#" + $( element ).attr("id") + "_icon";
+        $(element).closest('.form-group').removeClass('has-success').addClass('has-error');
+        $(id_attr).removeClass('fa-check').addClass('fa-times');         
+    },
+    unhighlight: function(element) {
+        var id_attr = "#" + $( element ).attr("id") + "_icon";
+        $(element).closest('.form-group').removeClass('has-error').addClass('has-success');
+        $(id_attr).removeClass('fa-times').addClass('fa-check');         
+    },
+    errorElement: 'span',
+        errorClass: 'small help-block',
+        errorPlacement: function(error, element) {
+            if(element.length) {
+                error.insertAfter(element);
+            } else {
+            error.insertAfter(element);
+            }
+        } 
+ });
 
 	
 });

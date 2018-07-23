@@ -3,7 +3,7 @@
 		
 			<footer class="main-footer">
 			
-				<div class="container">
+				<div class="container base_url" id="<?=base_url()?>">
 				
 					<div class="row">
 					
@@ -138,7 +138,7 @@
 		<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
 		<h4 class="modal-title text-center">Sign-in into your account</h4>
 	</div>
-	
+	<?php echo form_open_multipart(base_url() . 'login/login_check', array('class' => 'form-horizontal margin-top-30', 'id' => 'login')); ?>
 	<div class="modal-body">
 		<div class="row gap-20">
 		
@@ -158,8 +158,8 @@
 			<div class="col-sm-12 col-md-12">
 	
 				<div class="form-group"> 
-					<label>Username</label>
-					<input class="form-control" placeholder="Min 4 and Max 10 characters" type="text"> 
+					<label>Email Address</label>
+					<input class="form-control" placeholder="Enter your Email Address" type="email" id="um_email" name="um_email" maxlength="50"> 
 				</div>
 			
 			</div>
@@ -168,7 +168,7 @@
 			
 				<div class="form-group"> 
 					<label>Password</label>
-					<input class="form-control" placeholder="Min 4 and Max 10 characters" type="text"> 
+					<input class="form-control" placeholder="Min 4 and Max 10 characters" type="password" id="um_password" name="um_password" > 
 				</div>
 			
 			</div>
@@ -195,11 +195,11 @@
 		</div>
 	</div>
 	
-	<div class="modal-footer text-center">
-		<button type="button" class="btn btn-primary">Log-in</button>
+	<div class="modal-footer text-center">		
+        <input type="submit" value="Log-in" class=""btn btn-primary" name="login" />
 		<button type="button" data-dismiss="modal" class="btn btn-primary btn-border">Close</button>
 	</div>
-	
+	 <?php echo form_close()?>
 </div>
 <!-- end Sign-in Modal -->
 
@@ -210,7 +210,7 @@
 		<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
 		<h4 class="modal-title text-center">Create your account for free</h4>
 	</div>
-	
+	<?php echo form_open_multipart(base_url() . 'login/singup', array('class' => 'form-horizontal margin-top-30', 'id' => 'sign_up')); ?>
 	<div class="modal-body">
 	
 		<div class="row gap-20">
@@ -241,7 +241,7 @@
 	
 				<div class="form-group"> 
 					<label>Email Address</label>
-					<input class="form-control" placeholder="Enter your email address" type="text"> 
+					<input class="form-control" placeholder="Enter your email address"  type="email" id="new_email" name="new_email"> 
 				</div>
 			
 			</div>
@@ -250,7 +250,7 @@
 			
 				<div class="form-group"> 
 					<label>Password</label>
-					<input class="form-control" placeholder="Min 8 and Max 20 characters" type="text"> 
+					<input class="form-control" placeholder="Min 6 and Max 20 characters" type="password" id="new_pasword" name="new_pasword"> 
 				</div>
 			
 			</div>
@@ -259,7 +259,7 @@
 			
 				<div class="form-group"> 
 					<label>Password Confirmation</label>
-					<input class="form-control" placeholder="Re-type password again" type="text"> 
+					<input class="form-control" placeholder="Re-type password again" type="password" id="cnew_pasword" name="cnew_pasword"> 
 				</div>
 			
 			</div>
@@ -282,10 +282,10 @@
 	</div>
 	
 	<div class="modal-footer text-center">
-		<button type="button" class="btn btn-primary">Register</button>
+    	 <input type="submit" value="Register" class=""btn btn-primary" name="signup" />
 		<button type="button" data-dismiss="modal" class="btn btn-primary btn-border">Close</button>
 	</div>
-	
+	<?php echo form_close()?>
 </div>
 <!-- end Register Modal -->
 
@@ -340,6 +340,8 @@
 <!-- Core JS -->
 <script type="text/javascript" src="<?php echo base_url()?>assets/js/jquery.min.js"></script>
 <script type="text/javascript" src="<?php echo base_url()?>assets/js/core-plugins.js"></script>
+<script src="<?php echo base_url()?>assets/js/jquery.cookie.min.js"></script>
+<script type="text/javascript" src="<?php echo base_url()?>assets/js/jquery.validate.min.js"></script>
 <script type="text/javascript" src="<?php echo base_url()?>assets/js/customs.js"></script>
 <?php if($url==''){?>
 <!-- Only in Home Page -->

@@ -31,11 +31,11 @@ class Login extends CI_Controller {
 					$activation_code			=	md5(md5($user_ids.date('ymdhis')));
 						$data['activation_code']	=	$activation_code;
 						$data['new_email']			=	$this->input->post('new_email');
-						$upt		=	$this->usermodel->update('user_master',array('forgotten_password_code'=>$activation_code),array('id'=>$user_ids));
+						$upt		=	$this->user_model->update('user_master',array('forgotten_password_code'=>$activation_code),array('id'=>$user_ids));
 						if($upt)
 						{
 							$messages	=	$this->load->view('mail/forgot',$data,true);
-							$query1		=	$this->usermodel->email_sent_user($this->input->post('forget_email'),"Forget Password from Travels",$messages);
+							$query1		=	$this->user_model->email_sent_user($this->input->post('forget_email'),"Forget Password from Travels",$messages);
 							if($query1)
 							{
 								if($this->session->userdata('last_url'))
@@ -107,12 +107,23 @@ class Login extends CI_Controller {
 		}
 		if($this->input->post('login'))
 		{
+			$this->form_validation->set_rules('um_email', 'Email address', 'trim|required');
+			$this->form_validation->set_rules('um_password', 'Password', 'trim|required|min_length[6]');
+			if ($this->form_validation->run($this) == FALSE) {
+				$this->session->set_userdata('err', validation_errors());
+				if($this->session->userdata('last_url')){
+					redirect($this->session->userdata('last_url'));
+				}
+				else{
+					redirect();
+				}
+			}
 			$this->session->unset_userdata('signup_socail');
 			$codition		=	array();
 			$codition['email']		=	$this->input->post('um_email');
 			$codition['password']	=	md5(md5($this->input->post('um_password')));
-			$codition['status']		=	1;
-			$check						=	$this->usermodel->select('user_master',$codition);
+			$codition['isactive']	=	1;
+			$check						=	$this->user_model->select('user_master',$codition);
 			if($check->num_rows()>0)
 			{
 				$ch		=	$check->row();
@@ -337,7 +348,7 @@ class Login extends CI_Controller {
 	}
 	function new_email_vaildation()
 	{
-		$check	=	$this->usermodel->select('user_master',array('email'=>$_POST['new_email']));
+		$check	=	$this->user_model->select('user_master',array('email'=>$_POST['new_email']));
 		if($check->num_rows()>0)
 		{
 			echo "false";
@@ -349,7 +360,7 @@ class Login extends CI_Controller {
 	}
 	function old_email_vaildation()
 	{
-		$check	=	$this->usermodel->select('user_master',array('email'=>$_POST['um_email']));
+		$check	=	$this->user_model->select('user_master',array('email'=>$_POST['um_email']));
 		if($check->num_rows()==0)
 		{
 			echo "false";
@@ -361,7 +372,7 @@ class Login extends CI_Controller {
 	}
 	function for_email_vaildation()
 	{
-		$check	=	$this->usermodel->select('user_master',array('email'=>$_POST['forget_email']));
+		$check	=	$this->user_model->select('user_master',array('email'=>$_POST['forget_email']));
 		if($check->num_rows()==0)
 		{
 			echo "false";
