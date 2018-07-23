@@ -37,45 +37,12 @@
 
 /**
  * Header
- */.tab-inner p {
-    margin: 0;
-}}
-
- 	.progressline {
-     border-bottom: 2px solid #ee7d43;
-    position: absolute;
-    top: 4px;
-    width: -webkit-fill-available;
-    text-align: center;
-    overflow: hidden;
-    left: 51%;
-    margin: 13px;
-}
-.active_book {
-        background-color:#ee7d43 !important;
-    
-    border-radius: 50%;
-    height: 35px;
-    color: #fff!important;
-    text-align: center;
-    padding-top: 8px;
-    width: 35px;
-}
-.inactive_book {
-        background-color: #fff;
-    border: 1px solid #ccc;
-    border-radius: 50%;
-    height: 35px;
-    color: #a7a7a7;
-    text-align: center;
-    padding-top: 8px;
-    width: 35px;
-}
+ */
  .c_mt{margin-top: 26px;}
  .stars_rate{border-radius: 5px;
     font-size: 13px;
     padding: 2px 3px 0 3px;}
-    .add_fav{position: relative;left: 13%;}
+    .add_fav{position: relative;left: 7%;}
 .navbar-default {
     background: #1C1C1F;
 }
@@ -467,10 +434,8 @@ ul.nav-mini li a {
     -ms-transition: all 0.3s ease-in-out 0s;
     -o-transition: all 0.3s ease-in-out 0s;
     transition: all 0.3s ease-in-out 0s;
+    text-transform: lowercase;
     letter-spacing: 1px;
-}
-.drp_dwn :hover .dropdown-menu {
-    display: block;
 }
 
 ul.nav-mini li i {
@@ -541,7 +506,7 @@ ul.nav-mini li i {
 .navbar-sticky {
     background-color: rgba(0, 0, 0, 0.8);
     padding: 10px 0;
-    z-index: 1030;
+    z-index: 999999;
 }
 
 .navbar-sticky.navbar-default {
@@ -969,7 +934,7 @@ ul.bottom-footer-menu.for-social li:after {
 .login-box-wrapper .modal-title {
     line-height: 1;
     margin: 0;
-
+    text-transform: lowercase;
     font-weight: 700
 }
 
@@ -1057,11 +1022,8 @@ ul.bottom-footer-menu.for-social li:after {
 
 @media only screen and (max-width: 767px) {
     .modal.login-box-wrapper {
-            width: auto !important;
-    margin-left: auto !important;
-    left: 0;
-    right: 0;
-
+        width: auto;
+        margin-left: auto!
     }
     .login-box-link-action {
         text-align: left;
@@ -1071,18 +1033,6 @@ ul.bottom-footer-menu.for-social li:after {
         margin-top: 45px
     }
 }
-
-
-@media (max-width: 979px){
-	.modal.fade.in, .modal.container.fade.in, .modal.modal-overflow.fade.in {
-    top: 1%;
-    bottom: auto;
-     margin-left: auto !important;
-    left: 0;
-    right: 0;
-}
-}
-
 
 @media (max-width: 479px) {}
 
@@ -2264,20 +2214,6 @@ transition: all 0.5s;
     position: absolute;
     font-size: 12px;
     padding: 7px;
-    z-index: 9;
-    text-align: center;
-    line-height: 12px;}
-    .price_off2{background-color: #f3ca64;
-    border-radius: 50%;
-    width: 48px;
-    height: 48px;
-    color: #fff;
-    display: inline-block;
-    font-weight: bold;
-    position: absolute;
-    font-size: 12px;
-    padding: 10px;
-    z-index: 9;
     text-align: center;
     line-height: 12px;}
 .trip-guide-sm-item .trip-by {
@@ -2287,37 +2223,7 @@ transition: all 0.5s;
     margin: 5px 0;
     letter-spacing: 1px;
 }
-.text-grey{color: #707070 !important; }
 
-.dropdown-menu>li>a:focus, .dropdown-menu>li>a:hover {
-    padding-left: 25px;
-    padding-right: 15px;
-}
-.dropdown-menu>li>a{
-       border-bottom: 1px solid #E6E6E6;
-    display: block;
-    padding: 14px 5px 14px 20px;
-    font-size: 14px;
-    -webkit-transition: all 0.2s ease-in-out 0s;
-    -moz-transition: all 0.2s ease-in-out 0s;
-    -ms-transition: all 0.2s ease-in-out 0s;
-    -o-transition: all 0.2s ease-in-out 0s;
-    transition: all 0.2s ease-in-out 0s;
-    color: #636363 !important;
-    font-weight: 600;
-    letter-spacing: 0.5px;
-    line-height: 1.25;
-   
-}
-.dropdown-menu>li{float: none !important;margin-left: 0!important }
-.wallet{float: right !important;}
-.popular_trip{margin: 0!important;}
-.mhn-item{padding: 10px;}
-.mhn-slide .owl-stage-outer{z-index:1}
-.mhn-slide .owl-nav .disabled{display:none}
-.mhn-slide .owl-prev,.mhn-slide .owl-next{top:50%;z-index:2;margin-top:-20px;position:absolute;}
-.mhn-slide .owl-prev{left:-20px}
-.mhn-slide .owl-next{right:-20px}
 .trip-guide-sm-item .price {
     line-height: 1.1;
 }
@@ -2451,7 +2357,6 @@ transition: all 0.5s;
     }
     .price_off{left: 37%;}
        .b_left {border-left: none;}
-       .listview .price_off{left: 5%;}
 }
 
 @media (max-width: 479px) {
