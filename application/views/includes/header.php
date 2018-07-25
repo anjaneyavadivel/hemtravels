@@ -1,8 +1,5 @@
 <!doctype html>
 <html lang="en">
-
-
-<!-- Mirrored from crenoveative.com/envato/togoby/index-02.html by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 23 Jun 2018 08:51:08 GMT -->
 <head>
 
 	<meta charset="utf-8">

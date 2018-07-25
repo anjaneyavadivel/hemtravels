@@ -1,4 +1,4 @@
-<?=$url=$this->uri->segment(1);?>
+<?php $url=$this->uri->segment(1);?>
 <div class="footer-wrapper scrollspy-footer">
 		
 			<footer class="main-footer">
@@ -362,6 +362,12 @@
     <script type="text/javascript" src="<?php echo base_url()?>assets/js/customs-fileinput.js"></script>
     <script type="text/javascript" src="<?php echo base_url()?>assets/js/bootstrap3-wysihtml5.min.js"></script>
 	<?php }?>
+<?php }?>
+<?php if($url=='contact-us'){?>
+    <script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=false"></script>
+    <script type="text/javascript" src="<?php echo base_url()?>assets/js/infobox.js"></script>
+    <script type="text/javascript" src="<?php echo base_url()?>assets/js/validator.min.js"></script>
+    <script type="text/javascript" src="<?php echo base_url()?>assets/js/customs-contact.js"></script>
 <?php }?>
 
 </body>
