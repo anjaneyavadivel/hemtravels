@@ -70,3 +70,5 @@ $route['about-us'] = 'welcome/about_us';
 $route['contact-us'] = 'welcome/contact_us';
 $route['faq'] = 'welcome/faq';
 
+//Master to admin
+$route['category-master'] = 'master/category_list';
