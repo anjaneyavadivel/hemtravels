@@ -6,7 +6,7 @@ class Welcome extends CI_Controller {
 	public function index()
 	{
             if($this->session->userdata('user_type')=='SA'){
-		$this->load->view('welcome_b2c');
+		$this->load->view('welcome_b2a');
             }else if($this->session->userdata('user_type')=='VA'){
 		$this->load->view('welcome_b2b');
             }else{
