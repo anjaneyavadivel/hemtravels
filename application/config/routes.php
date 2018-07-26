@@ -72,3 +72,7 @@ $route['faq'] = 'welcome/faq';
 
 //Master to admin
 $route['category-master'] = 'master/category_list';
+
+
+//Trip
+$route['make-new-trip'] = 'trips/make_new_trip';

@@ -8,12 +8,12 @@ class Master extends CI_Controller {
 	{
 		$this->load->view('master/category/category-list');
 	}
-        public function contact_us()
+        public function category_add()
 	{
-		$this->load->view('contact_us');
+		
 	}
-        public function faq()
+        public function category_update()
 	{
-		$this->load->view('faq');
+		
 	}
 }
