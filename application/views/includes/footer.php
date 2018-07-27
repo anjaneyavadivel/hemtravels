@@ -382,6 +382,15 @@
     <script type="text/javascript" src="<?php echo base_url()?>assets/js/jquery.ui.timepicker.js"></script>
     <script type="text/javascript" src="<?php echo base_url()?>assets/js/customs-create.js"></script>
 <?php }?>
+<?php if($url=='category-master'){?>
+    <script type="text/javascript" src="<?php echo base_url()?>assets/js/validator.min.js"></script>
+    <script type="text/javascript" src="<?php echo base_url()?>assets/js/master/master-category.js"></script>
+<script>
+	jQuery(document).ready(function() {  
+		FormValidation.init();
+	 });
+</script>
+<?php }?>
 </body>
 
 

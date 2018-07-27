@@ -72,6 +72,9 @@ $route['faq'] = 'welcome/faq';
 
 //Master to admin
 $route['category-master'] = 'master/category_list';
+$route['category-master/add'] = 'master/category_add';
+$route['category-master/edit/(:num)'] = 'master/category_edit/$1';
+$route['category-master/delete/(:num)'] = 'master/category_delete/$1';
 
 
 //Trip
