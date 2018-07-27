@@ -7,7 +7,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
         <!-- Title Of Site -->
-        <title>B2C - Tour </title>
+        <title>B2C - Book Your Trips </title>
 
         <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 

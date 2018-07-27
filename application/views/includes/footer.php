@@ -370,16 +370,19 @@
     <script type="text/javascript" src="<?php echo base_url()?>assets/js/customs-contact.js"></script>
 <?php }?>
 <?php if($url=='make-new-trip'){?>
-<script type="text/javascript" src="<?php echo base_url()?>assets/js/bootstrap-tokenfield.js"></script>
-<script type="text/javascript" src="<?php echo base_url()?>assets/js/typeahead.bundle.min.js"></script>
-<script type="text/javascript" src="<?php echo base_url()?>assets/js/bootstrap3-wysihtml5.min.js"></script>
-<script type="text/javascript" src="<?php echo base_url()?>assets/js/jquery.bootstrap-touchspin.js"></script>
-<script type="text/javascript" src="<?php echo base_url()?>assets/js/customs-dashboard-guide-info.js"></script>
-<script type="text/javascript" src="<?php echo base_url()?>assets/js/fileinput.min.js"></script>
-<script type="text/javascript" src="<?php echo base_url()?>assets/js/customs-fileinput.js"></script>
+    <script type="text/javascript" src="<?php echo base_url()?>assets/js/bootstrap-tokenfield.js"></script>
+    <script type="text/javascript" src="<?php echo base_url()?>assets/js/typeahead.bundle.min.js"></script>
+    <script type="text/javascript" src="<?php echo base_url()?>assets/js/bootstrap3-wysihtml5.min.js"></script>
+    <script type="text/javascript" src="<?php echo base_url()?>assets/js/jquery.bootstrap-touchspin.js"></script>
+    <script type="text/javascript" src="<?php echo base_url()?>assets/js/customs-dashboard-guide-info.js"></script>
+    <script type="text/javascript" src="<?php echo base_url()?>assets/js/fileinput.min.js"></script>
+    <script type="text/javascript" src="<?php echo base_url()?>assets/js/customs-fileinput.js"></script>
+    <script type="text/javascript" src="<?php echo base_url()?>assets/js/dropzone.min.js"></script>
+    <script type="text/javascript" src="<?php echo base_url()?>assets/js/jquery-ui.min.js"></script>
+    <script type="text/javascript" src="<?php echo base_url()?>assets/js/jquery.ui.timepicker.js"></script>
+    <script type="text/javascript" src="<?php echo base_url()?>assets/js/customs-create.js"></script>
 <?php }?>
 </body>
 
 
-<!-- Mirrored from crenoveative.com/envato/togoby/index-02.html by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 23 Jun 2018 08:51:09 GMT -->
 </html>

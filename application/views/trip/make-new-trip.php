@@ -232,6 +232,30 @@
 
                                             <h4 class="section-title">Pick Up Location</h4>
                                             <div class="row gap-20">
+                                                <div class="col-xs-12 col-sm-6">
+
+                                                    <div class="form-group">
+                                                        <label>State</label>
+                                                        <select class="selectpicker show-tick form-control" title="Select placeholder">
+                                                            <option value="">Select a state</option>
+                                                            <option value="1">option1</option>
+                                                            <option value="2" selected="">option2</option>
+                                                        </select>
+                                                    </div>
+
+                                                </div>
+                                                <div class="col-xs-12 col-sm-6">
+
+                                                    <div class="form-group">
+                                                        <label>City</label>
+                                                        <select class="selectpicker show-tick form-control" title="Select placeholder">
+                                                            <option value="">Select a city</option>
+                                                            <option value="1">option1</option>
+                                                            <option value="2" selected="">option2</option>
+                                                        </select>
+                                                    </div>
+
+                                                </div>
                                                 <div class="col-xs-12 col-sm-5">
 
                                                     <div class="form-group">
@@ -460,12 +484,7 @@
 												
                                                         <div class="form-group bootstrap-fileinput-style-01">
                                                                 <label>Other inclusions</label>
-                                                                <textarea class="bootstrap3-wysihtml5 form-control" placeholder="* Quick training session<br>
-                                                                          * Boat ride of 1 hour to reach Grande Island<br>
-                                                                          * Scuba diving of 20-25 minute a dive for each participant<br>
-                                                                          * Equipment charges<br>
-                                                                          * Photography and videography<br>
-                                                                          * Safety Kit" style="height: 150px;"></textarea>
+                                                                <textarea class="bootstrap3-wysihtml5 form-control" placeholder="Other inclusions point out once by one..." style="height: 150px;"></textarea>
                                                         </div>
 
                                                 </div>
@@ -474,64 +493,15 @@
 
                                             <h4 class="section-title">What's excluded?</h4>
 
-                                            <div class="row gap-15 mt-25">
+                                            <div class="row gap-20">
+                                            <div class="col-xs-12 col-sm-12 col-md-12">
+												
+                                                        <div class="form-group bootstrap-fileinput-style-01">
+<!--                                                                <label>Other inclusions</label>-->
+                                                                <textarea class="bootstrap3-wysihtml5 form-control" placeholder="Excluded point out once by one..." style="height: 150px;"></textarea>
+                                                        </div>
 
-                                                <div class="col-xs-12 col-xs-6 col-md-4">
-                                                    <div class="form-group">
-                                                        <input type="text" class="form-control">
-                                                    </div>
                                                 </div>
-
-                                                <div class="col-xs-12 col-xs-6 col-md-4">
-                                                    <div class="form-group">
-                                                        <input type="text" class="form-control">
-                                                    </div>
-                                                </div>
-
-                                                <div class="col-xs-12 col-xs-6 col-md-4">
-                                                    <div class="form-group">
-                                                        <input type="text" class="form-control">
-                                                    </div>
-                                                </div>
-
-                                                <div class="col-xs-12 col-xs-6 col-md-4">
-                                                    <div class="form-group">
-                                                        <input type="text" class="form-control">
-                                                    </div>
-                                                </div>
-
-                                                <div class="col-xs-12 col-xs-6 col-md-4">
-                                                    <div class="form-group">
-                                                        <input type="text" class="form-control">
-                                                    </div>
-                                                </div>
-
-                                                <div class="col-xs-12 col-xs-6 col-md-4">
-                                                    <div class="form-group">
-                                                        <input type="text" class="form-control">
-                                                    </div>
-                                                </div>
-
-                                                <div class="col-xs-12 col-xs-6 col-md-4">
-                                                    <div class="form-group">
-                                                        <input type="text" class="form-control">
-                                                    </div>
-                                                </div>
-
-                                                <div class="col-xs-12 col-xs-6 col-md-4">
-                                                    <div class="form-group">
-                                                        <input type="text" class="form-control">
-                                                    </div>
-                                                </div>
-
-                                                <div class="col-xs-12 col-xs-6 col-md-4">
-                                                    <div class="add-more-form">
-                                                        <span>Add/remove form</span> 
-                                                        <a href="#"><i class="ion-android-add-circle"></i></a> 
-                                                        <a href="#"><i class="ion-android-remove-circle"></i></a>
-                                                    </div>
-                                                </div>
-
                                             </div>
 
                                             <div class="mb-30"></div>
@@ -908,7 +878,7 @@
                                             </div>
                                         </div>
 
-                                        <div class="mb-50">
+                                        <div class="mb-50 ">
 
                                             <div class="checkbox-block font-icon-checkbox">
                                                 <input id="term_accept-1" name="term_accept" type="checkbox" class="checkbox" />
