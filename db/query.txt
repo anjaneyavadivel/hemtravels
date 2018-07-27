@@ -1,2 +1,4 @@
 2-7-2018
 ALTER TABLE `user_master` CHANGE `fb_id` `social_network` TEXT CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL, CHANGE `google_id` `auth_id` TEXT CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL;
+
+

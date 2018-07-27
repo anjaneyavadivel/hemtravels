@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Jul 26, 2018 at 10:23 AM
+-- Generation Time: Jul 27, 2018 at 02:22 PM
 -- Server version: 5.6.26
 -- PHP Version: 5.6.12
 
@@ -102,7 +102,7 @@ CREATE TABLE IF NOT EXISTS `coupon_code_master` (
   `coupon_code` varchar(100) NOT NULL,
   `coupon_name` varchar(150) NOT NULL,
   `offer_type` int(1) NOT NULL COMMENT '1 - Fixed / 2 -Percentage',
-  `percentage_amount` int(11) NOT NULL,
+  `percentage_amount` float(8,2) NOT NULL,
   `validity_from` date NOT NULL,
   `validity_to` date NOT NULL,
   `comment` varchar(200) NOT NULL,
@@ -125,7 +125,7 @@ CREATE TABLE IF NOT EXISTS `coupon_code_master_history` (
   `coupon_code` varchar(100) NOT NULL,
   `coupon_name` varchar(150) NOT NULL,
   `offer_type` int(1) NOT NULL COMMENT '1 - Fixed / 2 -Percentage',
-  `percentage_amount` int(11) NOT NULL,
+  `percentage_amount` float(8,2) NOT NULL,
   `validity_from` date NOT NULL,
   `validity_to` date NOT NULL,
   `comment` varchar(200) NOT NULL,
@@ -168,11 +168,11 @@ CREATE TABLE IF NOT EXISTS `my_transaction` (
   `date_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `transaction_short_details` varchar(200) NOT NULL,
   `transaction_details` tinytext NOT NULL,
-  `withdrawals` float NOT NULL,
-  `deposits` float NOT NULL,
-  `balance` int(11) NOT NULL,
+  `withdrawals` float(8,2) NOT NULL,
+  `deposits` float(8,2) NOT NULL,
+  `balance` float(8,2) NOT NULL,
   `b2b_pay_account_info` int(11) NOT NULL DEFAULT '0',
-  `withdrawal_request_amt` float NOT NULL,
+  `withdrawal_request_amt` float(8,2) NOT NULL,
   `withdrawal_paid_on` datetime NOT NULL,
   `status` int(1) NOT NULL COMMENT '0 - new, 1 - InProgress, 2 -  Executed'
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
@@ -274,22 +274,21 @@ CREATE TABLE IF NOT EXISTS `trip_book_pay` (
   `user_id` int(11) NOT NULL,
   `pnr_no` varchar(150) NOT NULL,
   `number_of_persons` int(11) NOT NULL DEFAULT '0',
-  `price_to_adult` float NOT NULL,
-  `price_to_child` float NOT NULL,
-  `price_to_infan` float NOT NULL,
+  `price_to_adult` float(8,2) NOT NULL,
+  `price_to_child` float(8,2) NOT NULL,
+  `price_to_infan` float(8,2) NOT NULL,
   `no_of_adult` int(5) NOT NULL DEFAULT '0',
   `no_of_child` int(5) NOT NULL DEFAULT '0',
   `no_of_infan` int(5) NOT NULL DEFAULT '0',
-  `total_adult_price` float NOT NULL,
-  `total_child_price` float NOT NULL,
-  `total_infan_price` float NOT NULL,
-  `total_trip_price` float NOT NULL,
+  `total_adult_price` float(8,2) NOT NULL,
+  `total_child_price` float(8,2) NOT NULL,
+  `total_infan_price` float(8,2) NOT NULL,
+  `total_trip_price` float(8,2) NOT NULL,
   `coupon_history_id` int(11) NOT NULL DEFAULT '0',
-  `admin_coupon_history_id` int(11) NOT NULL DEFAULT '0',
-  `discount_price` float NOT NULL,
-  `admin_discount_price` float NOT NULL,
-  `total_discount_price` float NOT NULL,
-  `net_price` float NOT NULL,
+  `discount_price` float(8,2) NOT NULL,
+  `gst_percentage` float(8,2) NOT NULL,
+  `gst_amt` float(8,2) NOT NULL,
+  `net_price` float(8,2) NOT NULL,
   `date_of_trip` date NOT NULL,
   `time_of_trip` time NOT NULL,
   `pick_up_location_id` int(11) NOT NULL,
@@ -315,22 +314,26 @@ CREATE TABLE IF NOT EXISTS `trip_book_pay_details` (
   `user_id` int(11) NOT NULL,
   `pnr_no` varchar(150) NOT NULL,
   `number_of_persons` int(11) NOT NULL DEFAULT '0',
-  `price_to_adult` float NOT NULL,
-  `price_to_child` float NOT NULL,
-  `price_to_infan` float NOT NULL,
+  `price_to_adult` float(8,2) NOT NULL,
+  `price_to_child` float(8,2) NOT NULL,
+  `price_to_infan` float(8,2) NOT NULL,
   `no_of_adult` int(5) NOT NULL DEFAULT '0',
   `no_of_child` int(5) NOT NULL DEFAULT '0',
   `no_of_infan` int(5) NOT NULL DEFAULT '0',
-  `total_adult_price` float NOT NULL,
-  `total_child_price` float NOT NULL,
-  `total_infan_price` float NOT NULL,
-  `total_trip_price` float NOT NULL,
+  `total_adult_price` float(8,2) NOT NULL,
+  `total_child_price` float(8,2) NOT NULL,
+  `total_infan_price` float(8,2) NOT NULL,
+  `total_trip_price` float(8,2) NOT NULL,
   `coupon_history_id` int(11) NOT NULL DEFAULT '0',
-  `admin_coupon_history_id` int(11) NOT NULL DEFAULT '0',
-  `discount_price` float NOT NULL,
-  `admin_discount_price` float NOT NULL,
-  `total_discount_price` float NOT NULL,
-  `net_price` float NOT NULL,
+  `discount_price` float(8,2) NOT NULL,
+  `net_price` float(8,2) NOT NULL,
+  `vendor_amt` float(8,2) NOT NULL,
+  `your_amt` float(8,2) NOT NULL,
+  `net_transaction_amount` float(8,2) NOT NULL,
+  `servicecharge_amt` float(8,2) NOT NULL,
+  `gst_percentage` float(8,2) NOT NULL,
+  `gst_amt` float(8,2) NOT NULL,
+  `your_final_amt` float(8,2) NOT NULL,
   `date_of_trip` date NOT NULL,
   `time_of_trip` time NOT NULL,
   `pick_up_location_id` int(11) NOT NULL,
@@ -518,6 +521,7 @@ CREATE TABLE IF NOT EXISTS `trip_shared` (
   `trip_id` int(11) NOT NULL,
   `shared_user_id` int(11) NOT NULL,
   `user_id` int(11) NOT NULL,
+  `to_user_mail` varchar(150) NOT NULL,
   `coupon_history_id` int(11) NOT NULL DEFAULT '0',
   `status` int(1) NOT NULL COMMENT '1 - Pendding, 2- approved, 3 - cancelled',
   `isactive` int(1) NOT NULL DEFAULT '1'
@@ -599,8 +603,10 @@ CREATE TABLE IF NOT EXISTS `user_master` (
   `activation_code_time` datetime DEFAULT NULL,
   `about_me` text,
   `profile_pic` text,
-  `fb_id` text,
-  `google_id` text,
+  `balance_amt` float(8,2) NOT NULL,
+  `unclear_amt` float(8,2) NOT NULL,
+  `social_network` text,
+  `auth_id` text,
   `login_via` tinyint(1) DEFAULT '1' COMMENT '1->login,2->fb,3->google',
   `created_on` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `last_visit` datetime DEFAULT NULL,
@@ -611,10 +617,10 @@ CREATE TABLE IF NOT EXISTS `user_master` (
 -- Dumping data for table `user_master`
 --
 
-INSERT INTO `user_master` (`id`, `user_type`, `email`, `password`, `user_fullname`, `dob`, `gender`, `phone`, `alt_phone`, `emergency_contact_person`, `emergency_contact_no`, `activation_code`, `activation_code_time`, `about_me`, `profile_pic`, `fb_id`, `google_id`, `login_via`, `created_on`, `last_visit`, `isactive`) VALUES
-(1, 'CU', 'customer@gmail.com', '14e1b600b1fd579f47433b88e8d85291', 'Customer', '2018-06-22 00:00:00', '1', '9688079118', NULL, NULL, NULL, NULL, NULL, NULL, NULL, '', '', 1, '2018-06-30 18:50:09', NULL, 1),
-(2, 'SA', 'admin@gmail.com', '14e1b600b1fd579f47433b88e8d85291', 'Admin', '2018-06-22 00:00:00', '1', '9688079118', NULL, NULL, NULL, NULL, NULL, NULL, NULL, '', '', 1, '2018-06-30 18:50:09', NULL, 1),
-(3, 'VA', 'vendor@gmail.com', '14e1b600b1fd579f47433b88e8d85291', 'Vendor', '2018-06-22 00:00:00', '1', '9688079118', NULL, NULL, NULL, NULL, NULL, NULL, NULL, '', '', 1, '2018-06-30 18:50:09', NULL, 1);
+INSERT INTO `user_master` (`id`, `user_type`, `email`, `password`, `user_fullname`, `dob`, `gender`, `phone`, `alt_phone`, `emergency_contact_person`, `emergency_contact_no`, `activation_code`, `activation_code_time`, `about_me`, `profile_pic`, `balance_amt`, `unclear_amt`, `social_network`, `auth_id`, `login_via`, `created_on`, `last_visit`, `isactive`) VALUES
+(1, 'CU', 'customer@gmail.com', '14e1b600b1fd579f47433b88e8d85291', 'Customer', '2018-06-22 00:00:00', '1', '9688079118', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0.00, 0.00, '', '', 1, '2018-06-30 18:50:09', NULL, 1),
+(2, 'SA', 'admin@gmail.com', '14e1b600b1fd579f47433b88e8d85291', 'Admin', '2018-06-22 00:00:00', '1', '9688079118', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0.00, 0.00, '', '', 1, '2018-06-30 18:50:09', NULL, 1),
+(3, 'VA', 'vendor@gmail.com', '14e1b600b1fd579f47433b88e8d85291', 'Vendor', '2018-06-22 00:00:00', '1', '9688079118', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0.00, 0.00, '', '', 1, '2018-06-30 18:50:09', NULL, 1);
 
 -- --------------------------------------------------------
 
