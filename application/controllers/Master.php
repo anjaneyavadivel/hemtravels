@@ -9,14 +9,40 @@ class Master extends CI_Controller {
         $this->load->model('Master_model');
     }
 
-    public function category_list() {
+    public function category_list($category_search = '') {
         if ($this->session->userdata('user_id') == '') {
             redirect('login');
         }
-        $data['categorylist'] = $this->Master_model->category_list();
+        $categorysearch = trim($this->input->post('category_search'));
+        if ($categorysearch != '') {
+            $category_search = $categorysearch;
+        }
+        $this->load->library('pagination');
+        $config = array();
+        $config["base_url"] = base_url() . "category-master/" . $category_search; //?search=".$category_search
+        $config["total_rows"] = $this->Master_model->category_count($category_search);
+        $config["per_page"] = 20;
+        //$config["uri_segment"] = 2;
+
+        $config['enable_query_strings'] = TRUE;
+        $config['page_query_string'] = TRUE;
+        $config['use_page_numbers'] = TRUE;
+        $config['query_string_segment'] = 'page';
+        $config['cur_tag_open'] = '&nbsp;<a class="active">';
+        $config['cur_tag_close'] = '</a>';
+
+        $config['next_link'] = '&NestedGreaterGreater;';
+        $config['prev_link'] = '&NestedLessLess;';
+        $this->pagination->initialize($config);
+        $page = ($this->input->get('page')) ? ( ( $this->input->get('page') - 1 ) * $config["per_page"] ) : 0;
+        //$page = ($this->uri->segment(2)) ? $this->uri->segment(2) : 0;
+        $data["categorylist"] = $this->Master_model->category_list($config["per_page"], $page, $category_search);
+        $str_links = $this->pagination->create_links();
+        $data["links"] = explode('&nbsp;', $str_links);
+        $data["category_search"] = $category_search;
         $this->load->view('master/category/category-list', $data);
     }
-    
+
     public function loadmodal($view) {
         if ($view != "") {
             $data = array();
@@ -30,6 +56,7 @@ class Master extends CI_Controller {
             echo "Error";
         }
     }
+
     public function category_add() {
         if ($this->session->userdata('user_id') == '') {
             redirect('login');

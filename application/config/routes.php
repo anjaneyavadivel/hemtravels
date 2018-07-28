@@ -70,6 +70,7 @@ $route['contact-us'] = 'welcome/contact_us';
 $route['faq'] = 'welcome/faq';
 
 //Master to admin
+$route['category-master/(:any)'] = 'master/category_list/$1';
 $route['category-master'] = 'master/category_list';
 $route['category-master/add'] = 'master/category_add';
 $route['category-master/loadmodal/(:any)'] = 'master/loadmodal/$1';

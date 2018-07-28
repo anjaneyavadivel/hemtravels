@@ -30,12 +30,15 @@
                                 <div class="form-group">
                                     <label>Search</label>
                                     <div class="row gap-0">
+                                        <?php echo form_open_multipart(base_url() . 'category-master', array('class' => 'form-horizontal margin-top-30', 'id' => 'search-category-form')); ?>
+
                                         <div class="col-xs-9 col-sm-10 col-md-10">
-                                            <input type="text" class="form-control" placeholder="Enter category name">
+                                            <input type="text" name="category_search" class="form-control" placeholder="Enter category name" value="<?=$category_search?>">
                                         </div>
                                         <div class="col-xs-3 col-sm-2 col-md-2">
-                                            <a href="#" class="btn btn-primary btn-block"><i class="fa fa-search"></i></a>
+                                            <button type="submit" class="btn btn-primary btn-block"><i class="fa fa-search"></i></button>
                                         </div>
+                                        <?php echo form_close(); ?>
                                     </div>
                                 </div>
                             </div>
@@ -97,8 +100,12 @@
 
                                     <div class="clearfix">
                                         <nav>
+                                           
                                             <ul class="pagination">
-                                                <li>
+                                                <?php foreach ($links as $link) {
+                                                    echo "<li>". $link."</li>";
+                                                    } ?>
+<!--                                                <li>
                                                     <a href="#" aria-label="Previous">
                                                         <span aria-hidden="true">&laquo;</span>
                                                     </a>
@@ -113,7 +120,7 @@
                                                     <a href="#" aria-label="Next">
                                                         <span aria-hidden="true">&raquo;</span>
                                                     </a>
-                                                </li>
+                                                </li>-->
                                             </ul>
                                         </nav>
                                     </div>
