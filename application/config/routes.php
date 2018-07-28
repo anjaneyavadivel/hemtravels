@@ -64,7 +64,6 @@ $route['my-post'] = 'Loginview/my_post';
 $route['booking-history'] = 'Loginview/booking_history';
 $route['my-wishlist'] = 'Loginview/my_wish_list';
 
-
 //common to All
 $route['about-us'] = 'welcome/about_us';
 $route['contact-us'] = 'welcome/contact_us';
