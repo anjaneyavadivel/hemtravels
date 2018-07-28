@@ -1,4 +1,5 @@
 <?php $url=$this->uri->segment(1);?>
+<div id="common-ajax-modal"  class="modal fade in login-box-wrapper modal-overflow" tabindex="-1" data-backdrop="static" data-keyboard="false" data-replace="true"></div>
 <div class="footer-wrapper scrollspy-footer">
 		
 			<footer class="main-footer">
@@ -385,6 +386,9 @@
 <?php }?>
 <?php if($url=='category-master'){?>
     <script type="text/javascript" src="<?php echo base_url()?>assets-customs/js/master-category-validation.js"></script>
+    <script type="text/javascript" src="<?php echo base_url()?>assets-customs/js/master-category.js"></script>
+    
+    <script>//$(document).ready(function(){MasterValidation.init();});</script>
 <?php }?>
 </body>
 

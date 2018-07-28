@@ -73,11 +73,14 @@ $route['faq'] = 'welcome/faq';
 //Master to admin
 $route['category-master'] = 'master/category_list';
 $route['category-master/add'] = 'master/category_add';
-$route['category-master/edit/(:num)'] = 'master/category_edit/$1';
+$route['category-master/loadmodal/(:any)'] = 'master/loadmodal/$1';
+$route['category-master/edit'] = 'master/category_edit';
+$route['category-master/save-edit'] = 'master/category_save_edit';
 $route['category-master/delete/(:num)'] = 'master/category_delete/$1';
 
 
 //Trip
 $route['make-new-trip/(:num)'] = 'trips/make_new_trip/$1';
 $route['make-new-trip'] = 'trips/make_new_trip';
+$route['edit-trip'] = 'trips/edit_trip';
 $route['getalltags'] = 'trips/getalltags';

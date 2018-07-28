@@ -14,16 +14,16 @@ class Master_model extends CI_Model
         $this->db->insert('trip_category', $data);
         return $this->db->insert_id();
     }
-	function category_detail($id)
+	function category_detail($data)
 	{
-		$this->db->select()->from('trip_category')->where(array('id'=>$id));		
+		$this->db->select()->from('trip_category')->where($data);		
 		$query=$this->db->get();
 		return $query->first_row('array');
 	}
 	
-	function category_update($data,$id)
+	function category_update($data,$where)
 	{
-		$this->db->where('id',$id);
+		$this->db->where($where);
 		$this->db->update('trip_category',$data);
 		return $this->db->affected_rows();
 	}

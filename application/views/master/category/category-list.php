@@ -40,7 +40,7 @@
                                 </div>
                             </div>
                             <div class="col-xs-2 col-sm-1 col-lg-1 text-right">
-                                <a class="btn btn-info c_mt"  data-toggle="modal" href="#add-category">Add</a>
+                                <a class="btn btn-info c_mt btn-add-category">Add</a>
                             </div>
                             <table class="table ">
                                 <thead>
@@ -73,7 +73,7 @@
                                         <td><?=$name;?></td>
                                         <td><h4 class="<?=$btn_type[$val];?>"><?=$status_active[$val];?></h4></td>
                                        <?php if($isactive!='0'){?> 
-									   <td><a  data-toggle="modal" href="#edit-category" class="<?=$btn_type[$val];?>" ><i class="fa fa-pencil" data-toggle="tooltip" data-placement="top" title="Click here to edit"></i></a>
+                                        <td><a class="<?=$btn_type[$val];?> btn-edit-category" data-val="<?=$id?>" ><i class="fa fa-pencil" data-toggle="tooltip" data-placement="top" title="Click here to edit"></i></a>
                                             <a href="<?=base_url();?>category-master/delete/<?=$id?>"><i class="fa fa-trash" data-toggle="tooltip" data-placement="top" title="Click here to delete"></i> </a></td><?php }?>
 										<?php if($isactive!='1'){?><td><a href="#" class="<?=$btn_type[$val];?>"><i class="fa fa-check" data-toggle="tooltip" data-placement="top" title="Click here to active"></i></a><?php }?>
 
@@ -128,66 +128,8 @@
             </div>
 
         <!-- end Main Wrapper -->
-        <div id="add-category" class="modal fade login-box-wrapper modal-overflow" tabindex="-1" data-backdrop="static" data-keyboard="false" data-replace="true">
-    
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                <h4 class="modal-title text-center">Add Category</h4>
-            </div>
 
-            <div class="modal-body">
-            <?php echo form_open_multipart(base_url().'category-master/add',array('class' => 'form-horizontal margin-top-30','id'=>'add-category-form'));?>
-
-                <div class="row gap-20">
-
-                    <div class="col-sm-12 col-md-12">
-                        <div class="form-group form-group-lg">
-                            <label>Category Name:</label>
-                            <input name="category_name" type="text" class="form-control" placeholder="Enter the category name..."/>
-                        </div>
-
-                    </div>
-
-                </div>
-
-            </div>
-            <div class="modal-footer text-center">
-                <span class="message33"></span>
-                <button type="submit" class="submit_btn btn btn-primary">Add</button>
-                <button type="button" data-dismiss="modal" class="btn btn-primary btn-border">Close</button>
-            </div>
-            <?php echo form_close(); ?>
-        </div>
-        <div id="edit-category" class="modal fade login-box-wrapper modal-overflow" tabindex="-1" data-backdrop="static" data-keyboard="false" data-replace="true">
-    
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                <h4 class="modal-title text-center">Add Category</h4>
-            </div>
-
-            <div class="modal-body">
-            <?php echo form_open_multipart(base_url().'category-master/add',array('class' => 'form-horizontal margin-top-30','id'=>'add-category-form'));?>
-
-                <div class="row gap-20">
-
-                    <div class="col-sm-12 col-md-12">
-                        <div class="form-group form-group-lg">
-                            <label>Category Name:</label>
-                            <input name="category_name" type="text" class="form-control" placeholder="Enter the category name..."/>
-                        </div>
-
-                    </div>
-
-                </div>
-
-            </div>
-            <div class="modal-footer text-center">
-                <span class="message33"></span>
-                <button type="submit" class="submit_btn btn btn-primary">Add</button>
-                <button type="button" data-dismiss="modal" class="btn btn-primary btn-border">Close</button>
-            </div>
-            <?php echo form_close(); ?>
-        </div>
+        
 		<!-- start Footer Wrapper -->
 		
 		<?php $this->load->view('includes/footer')?>
