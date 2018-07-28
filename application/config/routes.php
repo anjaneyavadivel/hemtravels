@@ -64,7 +64,6 @@ $route['my-post'] = 'Loginview/my_post';
 $route['booking-history'] = 'Loginview/booking_history';
 $route['my-wishlist'] = 'Loginview/my_wish_list';
 
-
 //common to All
 $route['about-us'] = 'welcome/about_us';
 $route['contact-us'] = 'welcome/contact_us';
@@ -77,6 +76,27 @@ $route['category-master/loadmodal/(:any)'] = 'master/loadmodal/$1';
 $route['category-master/edit'] = 'master/category_edit';
 $route['category-master/save-edit'] = 'master/category_save_edit';
 $route['category-master/delete/(:num)'] = 'master/category_delete/$1';
+
+//Master to admin
+$route['tag-master'] = 'tag/tag_list';
+$route['tag-master/delete/(:num)'] = 'tag/tag_delete/$1';
+$route['tag-master/active/(:num)'] = 'tag/tag_active/$1';
+
+//Master to admin
+$route['trip-inclusions-master'] = 'Tripinclusions/trip_list';
+$route['trip-inclusions-master/delete/(:num)'] = 'Tripinclusions/trip_delete/$1';
+$route['trip-inclusions-master/active/(:num)'] = 'Tripinclusions/trip_active/$1';
+
+//Master to admin
+$route['state-master'] = 'state/state_list';
+$route['state-master/delete/(:num)'] = 'state/state_delete/$1';
+$route['state-master/active/(:num)'] = 'state/state_active/$1';
+
+//Master to admin
+$route['city-master'] = 'city/city_list';
+$route['city-master/delete/(:num)'] = 'city/city_delete/$1';
+$route['city-master/active/(:num)'] = 'city/city_active/$1';
+
 
 
 //Trip
