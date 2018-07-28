@@ -386,6 +386,9 @@
 <?php if($url=='category-master'){?>
     <script type="text/javascript" src="<?php echo base_url()?>assets-customs/js/master-category-validation.js"></script>
 <?php }?>
+<?php if($url=='tag-master'){?>
+    <script type="text/javascript" src="<?php echo base_url()?>assets-customs/js/master-tag-validation.js"></script>
+<?php }?>
 </body>
 
 
