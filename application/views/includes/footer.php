@@ -366,7 +366,7 @@
 <?php if($url=='contact-us'){?>
     <script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=false"></script>
     <script type="text/javascript" src="<?php echo base_url()?>assets/js/infobox.js"></script>
-    <script type="text/javascript" src="<?php echo base_url()?>assets/js/validator.min.js"></script>
+<!--    <script type="text/javascript" src="<?php echo base_url()?>assets/js/validator.min.js"></script>-->
     <script type="text/javascript" src="<?php echo base_url()?>assets/js/customs-contact.js"></script>
 <?php }?>
 <?php if($url=='make-new-trip'){?>
@@ -384,13 +384,7 @@
 <script type="text/javascript" src="<?php echo base_url()?>assets-customs/js/make-trip-validation.js"></script>
 <?php }?>
 <?php if($url=='category-master'){?>
-    <script type="text/javascript" src="<?php echo base_url()?>assets/js/validator.min.js"></script>
-    <script type="text/javascript" src="<?php echo base_url()?>assets/js/master/master-category.js"></script>
-<script>
-	jQuery(document).ready(function() {  
-		FormValidation.init();
-	 });
-</script>
+    <script type="text/javascript" src="<?php echo base_url()?>assets-customs/js/master-category-validation.js"></script>
 <?php }?>
 </body>
 

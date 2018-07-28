@@ -8,7 +8,7 @@ class Trips extends CI_Controller {
     }
 
     public function make_new_trip($isshared = 0) {
-         if ($this->session->userdata('user_id') != '') {redirect('login');}
+         if ($this->session->userdata('user_id') == '') {redirect('login');}
          
         $whereData = array('isactive' => 1);
         $tags_list= selectTable('trip_tags', $whereData);
@@ -21,7 +21,7 @@ class Trips extends CI_Controller {
     }
 
      public function getalltags() {
-        if ($this->session->userdata('user_id') != '') {return FALSE;}
+        if ($this->session->userdata('user_id') == '') {return FALSE;}
          
         $whereData = array('isactive' => 1);
         $tags_list= selectTable('trip_tags', $whereData);

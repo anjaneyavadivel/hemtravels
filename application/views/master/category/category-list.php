@@ -8,7 +8,7 @@
                 <div class="breadcrumb-wrapper">
                     <div class="container">
                         <ol class="breadcrumb">
-                            <li><a href="#">Home</a></li>
+                            <li><a href="<?php echo base_url()?>">Home</a></li>
                             <li><a href="#">Master</a></li>
                             <li  class="active"><a href="#">Category Master</a></li>
                         </ol>
@@ -136,14 +136,14 @@
             </div>
 
             <div class="modal-body">
-            <?php echo form_open_multipart(base_url().'category-master/add',array('id'=>'add-category'));?>
+            <?php echo form_open_multipart(base_url().'category-master/add',array('class' => 'form-horizontal margin-top-30','id'=>'add-category-form'));?>
 
                 <div class="row gap-20">
 
                     <div class="col-sm-12 col-md-12">
-                        <div class="form-group"> 
-                            <label>Category Name</label>
-                            <input class="form-control" name="name" placeholder="" type="text"> 
+                        <div class="form-group form-group-lg">
+                            <label>Category Name:</label>
+                            <input name="category_name" type="text" class="form-control" placeholder="Enter the category name..."/>
                         </div>
 
                     </div>
@@ -151,9 +151,8 @@
                 </div>
 
             </div>
-
             <div class="modal-footer text-center">
-                <button type="submit" class="submit_btn btn-primary">Add</button>
+                <button type="submit" class="submit_btn btn btn-primary">Add</button>
                 <button type="button" data-dismiss="modal" class="btn btn-primary btn-border">Close</button>
             </div>
             <?php echo form_close(); ?>
