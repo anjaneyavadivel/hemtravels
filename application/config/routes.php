@@ -75,4 +75,6 @@ $route['category-master'] = 'master/category_list';
 
 
 //Trip
+$route['make-new-trip/(:num)'] = 'trips/make_new_trip/$1';
 $route['make-new-trip'] = 'trips/make_new_trip';
+$route['getalltags'] = 'trips/getalltags';

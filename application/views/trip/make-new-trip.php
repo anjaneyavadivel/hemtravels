@@ -26,7 +26,7 @@
                         <div class="breadcrumb-wrapper">
 
                             <ol class="breadcrumb">
-                                <li><a href="#">Home</a></li>
+                                <li><a href="<?php echo base_url() ?>">Home</a></li>
                                 <li class="active"><span>Make New Trip</span></li>
                             </ol>
 
@@ -49,7 +49,8 @@
                                 <div class="col-xs-12 col-sm-10 col-sm-offset-1 col-md-8 col-md-offset-2">
 
                                     <div class="form">
-
+                                  <?php echo form_open_multipart(base_url() . 'make-new-trip', array('class' => 'form-horizontal margin-top-30', 'id' => 'make_new_trip_form')); ?>
+	      
                                         <div class="create-tour-inner">
 
 <!--                                            <div class="promo-box-02 mb-40">
@@ -73,9 +74,9 @@
 
                                                     <div class="form-group">
                                                         <label>Trip Type:</label>
-                                                        <select class="selectpicker show-tick form-control" title="Select placeholder">
-                                                            <option value="0">Make New Trip / Own Trip</option>
-                                                            <option value="1">Make New Trip from Vendor / Shared Trips</option>
+                                                        <select name="is_shared" class="selectpicker show-tick form-control" title="Select placeholder">
+                                                            <option value="0" <?php if($isshared==0){echo 'selected';}?> >Make New Trip / Own Trip</option>
+                                                            <option value="1" <?php if($isshared>0){echo 'selected';}?>>Make New Trip from Vendor / Shared Trips</option>
                                                         </select>
                                                     </div>
 
@@ -84,7 +85,7 @@
 
                                                     <div class="form-group">
                                                         <label>Catagory:</label>
-                                                        <select class="selectpicker show-tick form-control" title="Select placeholder">
+                                                        <select name="" class="selectpicker show-tick form-control" title="Select placeholder">
                                                             <option value="0">Attraction Visit</option>
                                                             <option value="1">Boating</option>
                                                             <option value="1">Cycling</option>
@@ -97,55 +98,73 @@
 
                                                     <div class="form-group form-group-lg">
                                                         <label>Trip Name:</label>
-                                                        <input type="text" class="form-control"/>
+                                                        <input name="trip_name" type="text" class="form-control" placeholder="Enter the trip name..."/>
                                                     </div>
 
                                                 </div>
-
+                                                
                                                 <div class="col-xs-12 col-sm-4 col-md-4">
+                                                    <div class="row gap-20">
                                                     <label>Price to Adult:</label>
                                                     <div class="input-group mb-15">
-                                                        <input class="form-control" type="text">
+                                                        <input name="price_to_adult" class="form-control" type="text" placeholder="1200">
                                                         <span class="input-group-addon">Rs / person</span>
+                                                    </div>
                                                     </div>
                                                 </div>
 
                                                 <div class="col-xs-12 col-sm-4 col-md-4">
+                                                    <div class="row gap-20">
                                                     <label>Price to Child:</label>
                                                     <div class="input-group mb-15">
-                                                        <input class="form-control" type="text" value="0">
+                                                        <input name="price_to_child" class="form-control" type="text" placeholder="800">
                                                         <span class="input-group-addon">Rs / person</span>
+                                                    </div>
                                                     </div>
                                                 </div>
 
                                                 <div class="col-xs-12 col-sm-4 col-md-4">
+                                                    <div class="row gap-20">
                                                     <label>Price to Infan:</label>
                                                     <div class="input-group mb-15">
-                                                        <input class="form-control" type="text" value="0">
+                                                        <input name="price_to_infan" class="form-control" type="text" placeholder="0">
                                                         <span class="input-group-addon">Rs / person</span>
+                                                    </div>
                                                     </div>
                                                 </div>
                                                 <div class="col-xs-12 col-sm-4 col-md-4">
                                                     <div class="form-group">
                                                         <label>Trip Duration:</label>
-                                                        <select class="selectpicker show-tick form-control" title="Select placeholder">
+                                                        <select name="trip_duration" id="trip_duration" class="selectpicker show-tick form-control" title="Select a trip duration type">
+                                                            <option value="">Select a trip duration type...</option>
                                                             <option value="1">Hours / minutes</option>
-                                                            <option value="2" selected="">Day / hours</option>
+                                                            <option value="2">Day / hours</option>
                                                         </select>
                                                     </div>
                                                 </div>
-                                                <div class="col-xs-12 col-sm-8 col-md-8">
+                                                <div class="col-xs-12 col-sm-8 col-md-8 hide" id="how_many_daysdiv">
                                                     <div class="row gap-20">
                                                         <div class="col-xsw-12 col-xs-6 col-sm-6 col-md-6">
                                                             <div class="form-group form-spin-group">
                                                                 <label>How many days?</label>
-                                                                <input type="text" class="form-control form-spin" value="1" /> 
+                                                                <input name="how_many_days" type="text" class="form-control form-spin" value="2" /> 
                                                             </div>
                                                         </div>
                                                         <div class="col-xsw-12 col-xs-6 col-sm-6 col-md-6">
                                                             <div class="form-group form-spin-group">
                                                                 <label>How many nights?</label>
-                                                                <input type="text" class="form-control form-spin" value="1" /> 
+                                                                <input name="how_many_nights" type="text" class="form-control form-spin" value="1" /> 
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+                                                <div class="col-xs-12 col-sm-8 col-md-8 hide" id="how_many_hoursdiv">
+                                                    <div class="row gap-20">
+                                                        <div class="col-xsw-12 col-xs-6 col-sm-6 col-md-6">
+                                                            <div class="form-group form-spin-group">
+                                                                <label>How many hours?(1 Hour)</label>
+                                                                <input name="how_many_hours" type="text" class="form-control form-spin" value="1" /> 
                                                             </div>
                                                         </div>
                                                     </div>
@@ -156,7 +175,7 @@
 
                                                     <div class="form-group">
                                                         <label>Brief Description:</label>
-                                                        <textarea class="form-control" rows="5"></textarea>
+                                                        <textarea name="brief_description" class="form-control" rows="5"></textarea>
                                                     </div>
 
                                                 </div>
@@ -164,7 +183,7 @@
 
                                                     <div class="form-group">
                                                         <label>Tags:</label>
-                                                        <input type="text" class="form-control" id="autocompleteTagging2" value="Lifestyle, Shopping, Backpack" placeholder="" />
+                                                        <input name="tags" type="text" class="form-control" id="autocompleteTagging2" value="" placeholder="" />
                                                     </div>
 
                                                 </div>
@@ -182,23 +201,23 @@
 
                                                     <div class="form-group">
                                                         <label>Trip size:</label>
-                                                        <input type="text" class="form-control form-spin" value="10" /> 
+                                                        <input name="no_of_traveller" type="text" class="form-control form-spin" placeholder="20" /> 
                                                     </div>
 
                                                 </div>
                                                 <div class="col-xs-12 col-sm-4 col-md-4">
 
                                                     <div class="form-group">
-                                                        <label>Minimum travellers:</label>
-                                                        <input type="text" class="form-control form-spin" value="1" /> 
+                                                        <label>Book minimum travellers:</label>
+                                                        <input name="no_of_min_booktraveller" type="text" class="form-control form-spin" placeholder="1" value="1" /> 
                                                     </div>
 
                                                 </div>
                                                 <div class="col-xs-12 col-sm-4 col-md-4">
 
                                                     <div class="form-group">
-                                                        <label>Maximum travellers:</label>
-                                                        <input type="text" class="form-control form-spin" value="0" /> 
+                                                        <label>Book maximum travellers:</label>
+                                                        <input name="no_of_max_booktraveller" type="text" class="form-control form-spin" placeholder="0" value="5" /> 
                                                     </div>
 
                                                 </div>
@@ -208,9 +227,10 @@
 
                                                     <div class="form-group">
                                                         <label>Booking cut of time type:</label>
-                                                        <select class="selectpicker show-tick form-control" title="Select placeholder">
+                                                        <select name="booking_cut_of_time_type" class="selectpicker show-tick form-control" title="Select a booking cut of time type">
+                                                            <option value="">Select a booking cut of time type...</option>
                                                             <option value="1">Days</option>
-                                                            <option value="2" selected="">Hours</option>
+                                                            <option value="2">Hours</option>
                                                         </select>
                                                     </div>
 
@@ -218,8 +238,8 @@
                                                 <div class="col-xs-12 col-sm-4 col-md-4">
 
                                                     <div class="form-group">
-                                                        <label>Booking cut of time:</label>
-                                                        <input type="text" class="form-control form-spin" value="0" /> 
+                                                        <label>Booking cut of time/day:</label>
+                                                        <input name="booking_cut_of_time" type="text" class="form-control form-spin" value="1" /> 
                                                     </div>
 
                                                 </div>
@@ -236,10 +256,11 @@
 
                                                     <div class="form-group">
                                                         <label>State</label>
-                                                        <select class="selectpicker show-tick form-control" title="Select placeholder">
+                                                        <select name="state_id" class="selectpicker show-tick form-control" title="Select placeholder">
                                                             <option value="">Select a state</option>
-                                                            <option value="1">option1</option>
-                                                            <option value="2" selected="">option2</option>
+                                                            <?php if(isset($state_list) && $state_list->num_rows()>0) {foreach($state_list->result() as $st) {?>
+                                                            <option value="<?=  ucfirst($st->id)?>"><?=ucfirst($st->name)?></option>
+                                                            <?php }} ?>
                                                         </select>
                                                     </div>
 
@@ -248,7 +269,7 @@
 
                                                     <div class="form-group">
                                                         <label>City</label>
-                                                        <select class="selectpicker show-tick form-control" title="Select placeholder">
+                                                        <select name="city_id" class="selectpicker show-tick form-control" title="Select placeholder">
                                                             <option value="">Select a city</option>
                                                             <option value="1">option1</option>
                                                             <option value="2" selected="">option2</option>
@@ -260,7 +281,7 @@
 
                                                     <div class="form-group">
                                                         <label>Meeting point</label>
-                                                        <input type="text" class="form-control" />
+                                                        <input name="meeting_point" type="text" class="form-control" />
                                                     </div>
 
                                                 </div>
@@ -269,7 +290,7 @@
 
                                                     <div class="form-group">
                                                         <label>Meeting time</label>
-                                                        <input type="text" class="oh-timepicker form-control" />
+                                                        <input name="meeting_time" type="text" class="oh-timepicker form-control" />
                                                     </div>
 
                                                 </div>
@@ -886,12 +907,12 @@
                                             </div>
 
                                             <div class="mb-25"></div>
-
-                                            <a href="offered-create-done.html" class="btn btn-primary btn-wide">Submit</a>
+                                            <input type="submit" class="btn btn-primary btn-wide" value="Submit">
+<!--                                            <a href="offered-create-done.html" class="btn btn-primary btn-wide">Submit</a>-->
                                             <a href="#" class="btn btn-primary btn-wide btn-border">Save as draft</a>
 
                                         </div>
-
+<?php echo form_close()?>
                                     </div>
 
                                 </div>
@@ -906,7 +927,23 @@
 
             </div>
 		<!-- start Footer Wrapper -->
-		
+		 <script>
+                    var group_tags = '<?=json_encode($tags);?>';</script>
 		<?php $this->load->view('includes/footer')?>
-		
+                <script>
+                    //var group_tags = '<?=json_encode($tags);?>';alert(JSON.parse(group_tags));
+                    // Autocomplete Tagging 
+//	var engine = new Bloodhound({
+//		local: [{value: 'Romantic'}, {value: 'Adventure'}, {value: 'Lifestyle'} , {value: 'Shopping'}, {value: 'Backpack'}, {value: 'One day trip'}, {value: 'City tour'}, {value: 'Cruise'}, {value: 'Business'}],
+//		datumTokenizer: function(d) {
+//			return Bloodhound.tokenizers.whitespace(d.value);
+//		},
+//		queryTokenizer: Bloodhound.tokenizers.whitespace
+//	});
+//	engine.initialize();
+//	$('#autocompleteTagging2').tokenfield({
+//		typeahead: [null, { source: engine.ttAdapter() }],
+//		//limit: '5',
+//	});
+            </script>
 	

@@ -342,7 +342,7 @@
 <script type="text/javascript" src="<?php echo base_url()?>assets/js/core-plugins.js"></script>
 <script src="<?php echo base_url()?>assets/js/jquery.cookie.min.js"></script>
 <script type="text/javascript" src="<?php echo base_url()?>assets/js/jquery.validate.min.js"></script>
-<script type="text/javascript" src="<?php echo base_url()?>assets/js/customs.js"></script>
+<script type="text/javascript" src="<?php echo base_url()?>assets-customs/js/customs.js"></script>
 <?php if($url==''){?>
 <!-- Only in Home Page -->
 <script type="text/javascript" src="<?php echo base_url()?>assets/js/jquery.flexdatalist.js"></script>
@@ -380,7 +380,8 @@
     <script type="text/javascript" src="<?php echo base_url()?>assets/js/dropzone.min.js"></script>
     <script type="text/javascript" src="<?php echo base_url()?>assets/js/jquery-ui.min.js"></script>
     <script type="text/javascript" src="<?php echo base_url()?>assets/js/jquery.ui.timepicker.js"></script>
-    <script type="text/javascript" src="<?php echo base_url()?>assets/js/customs-create.js"></script>
+    <script type="text/javascript" src="<?php echo base_url()?>assets-customs/js/make-trip.js"></script>
+<script type="text/javascript" src="<?php echo base_url()?>assets-customs/js/make-trip-validation.js"></script>
 <?php }?>
 </body>
 
