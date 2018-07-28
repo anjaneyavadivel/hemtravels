@@ -9,7 +9,8 @@ jQuery(function ($) {
      * make_new_trip_form
      */
 
-    $('#add-category-form').validate({
+     var form2 =$('#add-category-form');
+     form2.validate({
         rules: {
             category_name: {
                 required: true,
@@ -37,10 +38,31 @@ jQuery(function ($) {
             submitHandler: function (form) 
             {
                     if($(form).valid()) 
-                    form.submit(); 
+                    {
+                        var values = form2.serializeArray();
+                          values.push({name: "csrf_test_name", value: $.cookie('csrf_cookie_name')});
+                          var url = base_url+'category-master/add';
+                          $.ajax({
+                              url: url,
+                              type: 'post',
+                              data: values,
+                              success: function (res) {
+                                  if(res!=''){
+                                      $('.message33').html(res);
+                                  }else{
+                                      window.location.replace(base_url+"category-master");
+                                  }
+
+                              }
+                          });
+                      }
                     return false;
             }
     });
+    
+    
+    
+    
 
    
 

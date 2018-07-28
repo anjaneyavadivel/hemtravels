@@ -22,15 +22,24 @@ class Master extends CI_Controller {
                     $this->form_validation->set_rules('category_name', 'Category Name', 'trim|required');
                      if ($this->form_validation->run($this) != FALSE) {
 			$id=trim($this->input->post('id'));
-			$name=trim($this->input->post('category_name'));
+			$name=ucwords(trim($this->input->post('category_name')));
+                        $whereData = array('isactive' => 1,'name' => $name);
+                        $trip_category_list= selectTable('trip_category', $whereData);
+                        if($trip_category_list->num_rows()>0){
+                          echo 'Sorry! All ready exist this name.';
+                          return FALSE;
+                        } 
 			$data = array(
 			'id' => $id,
 			'name' => $name,
 			'isactive'=>1);
-			$this->Master_model->category_insert($data);
-			redirect('category-master');
+			$category_id = $this->Master_model->category_insert($data);
+			if($category_id){
+                          return TRUE;
+                        } 
                      }
 		}
+                echo 'Sorry! All ready exist this name.';
                 return FALSE;
 	}
         
