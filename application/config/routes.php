@@ -76,6 +76,27 @@ $route['category-master/add'] = 'master/category_add';
 $route['category-master/edit/(:num)'] = 'master/category_edit/$1';
 $route['category-master/delete/(:num)'] = 'master/category_delete/$1';
 
+//Master to admin
+$route['tag-master'] = 'tag/tag_list';
+$route['tag-master/delete/(:num)'] = 'tag/tag_delete/$1';
+$route['tag-master/active/(:num)'] = 'tag/tag_active/$1';
+
+//Master to admin
+$route['trip-inclusions-master'] = 'Tripinclusions/trip_list';
+$route['trip-inclusions-master/delete/(:num)'] = 'Tripinclusions/trip_delete/$1';
+$route['trip-inclusions-master/active/(:num)'] = 'Tripinclusions/trip_active/$1';
+
+//Master to admin
+$route['state-master'] = 'state/state_list';
+$route['state-master/delete/(:num)'] = 'state/state_delete/$1';
+$route['state-master/active/(:num)'] = 'state/state_active/$1';
+
+//Master to admin
+$route['city-master'] = 'city/city_list';
+$route['city-master/delete/(:num)'] = 'city/city_delete/$1';
+$route['city-master/active/(:num)'] = 'city/city_active/$1';
+
+
 
 //Trip
 $route['make-new-trip/(:num)'] = 'trips/make_new_trip/$1';
