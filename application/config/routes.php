@@ -80,6 +80,7 @@ $route['category-master/delete/(:num)'] = 'master/category_delete/$1';
 
 //Master to admin
 $route['tag-master'] = 'tag/tag_list';
+$route['tag-master/add'] = 'tag/tag_add';
 $route['tag-master/delete/(:num)'] = 'tag/tag_delete/$1';
 $route['tag-master/active/(:num)'] = 'tag/tag_active/$1';
 
