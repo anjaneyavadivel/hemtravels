@@ -390,6 +390,9 @@
     
     <script>//$(document).ready(function(){MasterValidation.init();});</script>
 <?php }?>
+<?php if($url=='tag-master'){?>
+    <script type="text/javascript" src="<?php echo base_url()?>assets-customs/js/master-tag-validation.js"></script>
+<?php }?>
 </body>
 
 
