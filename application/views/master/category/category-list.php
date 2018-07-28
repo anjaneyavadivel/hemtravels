@@ -53,45 +53,38 @@
                                     </tr>
                                 </thead>
                                 <tbody>
+								<?php 
+								if(isset($categorylist) && count($categorylist)>0)
+								{
+									$i=1;
+									foreach($categorylist as $row)
+									{
+										$id=$row['id'];	
+										$name=$row['name'];
+										$isactive=$row['isactive'];
+										$status_active = array('deactive','active');
+										$int=explode(",",$isactive); 
+										$btn_type=array('text-danger','text-info');	
+										foreach($int as $val)
+										{
+										?>
                                     <tr>
-                                        <td>1</td>
-                                        <td>Attraction Visit</td>
-                                        <td><h4 class="text-info">Active</h4></td>
-                                        <td><a href="#" ><i class="fa fa-pencil" data-toggle="tooltip" data-placement="top" title="Click here to edit"></i></a>
-                                            <a href="#"><i class="fa fa-trash" data-toggle="tooltip" data-placement="top" title="Click here to delete"></i> </a></td>
+                                        <td><?=$id;?></td>
+                                        <td><?=$name;?></td>
+                                        <td><h4 class="<?=$btn_type[$val];?>"><?=$status_active[$val];?></h4></td>
+                                       <?php if($isactive!='0'){?> 
+									   <td><a  data-toggle="modal" href="#edit-category" class="<?=$btn_type[$val];?>" ><i class="fa fa-pencil" data-toggle="tooltip" data-placement="top" title="Click here to edit"></i></a>
+                                            <a href="<?=base_url();?>category-master/delete/<?=$id?>"><i class="fa fa-trash" data-toggle="tooltip" data-placement="top" title="Click here to delete"></i> </a></td><?php }?>
+										<?php if($isactive!='1'){?><td><a href="#" class="<?=$btn_type[$val];?>"><i class="fa fa-check" data-toggle="tooltip" data-placement="top" title="Click here to active"></i></a><?php }?>
+
                                     </tr>
-                                    <tr>
-                                        <td>1</td>
-                                        <td>Boating</td>
-                                        <td><h4 class="text-info">Active</h4></td>
-                                        <td><a href="#" ><i class="fa fa-pencil" data-toggle="tooltip" data-placement="top" title="Click here to edit"></i></a>
-                                            <a href="#"><i class="fa fa-trash" data-toggle="tooltip" data-placement="top" title="Click here to delete"></i> </a></td>
-                                   </tr>
-                                    <tr>
-                                        <td>1</td>
-                                        <td>Cycling</td>
-                                        <td><h4 class="text-info">Active</h4></td>
-                                           <td><a href="#" ><i class="fa fa-pencil" data-toggle="tooltip" data-placement="top" title="Click here to edit"></i></a>
-                                            <a href="#"><i class="fa fa-trash" data-toggle="tooltip" data-placement="top" title="Click here to delete"></i> </a></td>
-                                </tr>
-                                    <tr>
-                                        <td>1</td>
-                                        <td>Cycling</td>
-                                        <td><h4 class="text-danger">Deactive</h4></td>
-                                        <td><a href="#" class="text-primary"><i class="fa fa-check" data-toggle="tooltip" data-placement="top" title="Click here to active"></i></a>
-                                    </tr>
-                                    <tr>
-                                        <td>1</td>
-                                        <td>Cycling</td>
-                                        <td><h4 class="text-danger">Deactive</h4></td>
-                                            <td><a href="#" class="text-primary"><i class="fa fa-check" data-toggle="tooltip" data-placement="top" title="Click here to active"></i></a>
-                                </tr>
-                                    <tr>
-                                        <td>1</td>
-                                        <td>Dooley</td>
-                                        <td><h4 class="text-danger">Deactive</h4></td>
-                                              <td><a href="#" class="text-primary"><i class="fa fa-check" data-toggle="tooltip" data-placement="top" title="Click here to active"></i></a>
-                               </tr>
+										<?php 				
+									} 
+									}
+								}		
+								?> 	
+                                    
+                                    
                                 </tbody>
                             </table>
                             <div class="pager-wrappper text-right clearfix bt mt-0  col-sm-12">
@@ -143,28 +136,27 @@
             </div>
 
             <div class="modal-body">
+            <?php echo form_open_multipart(base_url().'category-master/add',array('id'=>'add-category'));?>
 
                 <div class="row gap-20">
 
                     <div class="col-sm-12 col-md-12">
-
                         <div class="form-group"> 
                             <label>Category Name</label>
-                            <input class="form-control" placeholder="" type="text"> 
+                            <input class="form-control" name="name" placeholder="" type="text"> 
                         </div>
 
                     </div>
-
 
                 </div>
 
             </div>
 
             <div class="modal-footer text-center">
-                <button type="button" class="btn btn-primary">Add</button>
+                <button type="submit" class="submit_btn btn-primary">Add</button>
                 <button type="button" data-dismiss="modal" class="btn btn-primary btn-border">Close</button>
             </div>
-
+            <?php echo form_close(); ?>
         </div>
 		<!-- start Footer Wrapper -->
 		

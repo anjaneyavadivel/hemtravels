@@ -383,6 +383,15 @@
     <script type="text/javascript" src="<?php echo base_url()?>assets-customs/js/make-trip.js"></script>
 <script type="text/javascript" src="<?php echo base_url()?>assets-customs/js/make-trip-validation.js"></script>
 <?php }?>
+<?php if($url=='category-master'){?>
+    <script type="text/javascript" src="<?php echo base_url()?>assets/js/validator.min.js"></script>
+    <script type="text/javascript" src="<?php echo base_url()?>assets/js/master/master-category.js"></script>
+<script>
+	jQuery(document).ready(function() {  
+		FormValidation.init();
+	 });
+</script>
+<?php }?>
 </body>
 
 
