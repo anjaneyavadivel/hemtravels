@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Jul 27, 2018 at 02:22 PM
+-- Generation Time: Jul 28, 2018 at 02:40 PM
 -- Server version: 5.6.26
 -- PHP Version: 5.6.12
 
@@ -87,7 +87,14 @@ CREATE TABLE IF NOT EXISTS `country_master` (
   `id` int(11) NOT NULL,
   `name` varchar(150) NOT NULL,
   `isactive` int(1) NOT NULL DEFAULT '1' COMMENT '0 - Deactive, 1 - Active'
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `country_master`
+--
+
+INSERT INTO `country_master` (`id`, `name`, `isactive`) VALUES
+(1, 'India', 1);
 
 -- --------------------------------------------------------
 
@@ -216,7 +223,8 @@ CREATE TABLE IF NOT EXISTS `pick_up_location` (
 CREATE TABLE IF NOT EXISTS `pick_up_location_map` (
   `id` int(11) NOT NULL,
   `trip_id` int(11) NOT NULL,
-  `location_id` int(11) NOT NULL,
+  `city_id` int(11) NOT NULL,
+  `location` varchar(20) NOT NULL,
   `landmark` varchar(200) NOT NULL,
   `time` varchar(150) NOT NULL,
   `isactive` int(1) NOT NULL DEFAULT '1'
@@ -237,7 +245,15 @@ CREATE TABLE IF NOT EXISTS `state_master` (
   `updated_on` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
   `updated_by` int(11) NOT NULL,
   `isactive` int(1) NOT NULL DEFAULT '1' COMMENT '0 - Deactive, 1 - Active'
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `state_master`
+--
+
+INSERT INTO `state_master` (`id`, `country_id`, `name`, `created_on`, `created_by`, `updated_on`, `updated_by`, `isactive`) VALUES
+(1, 1, 'Tamil Nadu', '2018-07-28 14:59:21', 0, '0000-00-00 00:00:00', 0, 1),
+(2, 1, 'kerala', '2018-07-28 14:59:21', 0, '0000-00-00 00:00:00', 0, 1);
 
 -- --------------------------------------------------------
 
@@ -358,7 +374,17 @@ CREATE TABLE IF NOT EXISTS `trip_category` (
   `updated_on` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
   `updated_by` int(11) NOT NULL,
   `isactive` int(11) NOT NULL COMMENT '0 - Deactive, 1 - Active'
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `trip_category`
+--
+
+INSERT INTO `trip_category` (`id`, `name`, `created_on`, `created_by`, `updated_on`, `updated_by`, `isactive`) VALUES
+(1, 'Attraction Visit', '2018-07-28 17:18:01', 0, '0000-00-00 00:00:00', 0, 1),
+(3, '', '2018-07-28 17:32:37', 0, '0000-00-00 00:00:00', 0, 0),
+(4, '', '2018-07-28 17:34:00', 0, '0000-00-00 00:00:00', 0, 1),
+(5, '', '2018-07-28 17:34:25', 0, '0000-00-00 00:00:00', 0, 1);
 
 -- --------------------------------------------------------
 
@@ -541,7 +567,30 @@ CREATE TABLE IF NOT EXISTS `trip_tags` (
   `updated_on` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
   `updated_by` int(11) NOT NULL,
   `isactive` int(1) NOT NULL DEFAULT '1' COMMENT '0 - Deactive, 1 - Active'
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `trip_tags`
+--
+
+INSERT INTO `trip_tags` (`id`, `name`, `created_on`, `created_by`, `updated_on`, `updated_by`, `isactive`) VALUES
+(1, 'Sightseeing', '2018-07-28 12:44:30', 0, '0000-00-00 00:00:00', 0, 1),
+(2, 'Adventure', '2018-07-28 12:44:30', 0, '0000-00-00 00:00:00', 0, 1),
+(3, 'Day Outs', '2018-07-28 12:47:13', 0, '0000-00-00 00:00:00', 0, 1),
+(4, 'Cruises & Sailing', '2018-07-28 12:47:13', 0, '0000-00-00 00:00:00', 0, 1),
+(5, 'Nature and Wildlife', '2018-07-28 12:47:13', 0, '0000-00-00 00:00:00', 0, 1),
+(6, 'Arts & Culture', '2018-07-28 12:47:13', 0, '0000-00-00 00:00:00', 0, 1),
+(7, 'Couples & Romance', '2018-07-28 12:47:13', 0, '0000-00-00 00:00:00', 0, 1),
+(8, 'Water Sports', '2018-07-28 12:47:13', 0, '0000-00-00 00:00:00', 0, 1),
+(9, 'Food & Drinks', '2018-07-28 12:47:13', 0, '0000-00-00 00:00:00', 0, 1),
+(10, 'Walking & Biking', '2018-07-28 12:47:13', 0, '0000-00-00 00:00:00', 0, 1),
+(11, 'Workshops & Classes', '2018-07-28 12:47:13', 0, '0000-00-00 00:00:00', 0, 1),
+(12, 'Theme Parks', '2018-07-28 12:47:13', 0, '0000-00-00 00:00:00', 0, 1),
+(13, 'Luxury & Exclusive', '2018-07-28 12:47:13', 0, '0000-00-00 00:00:00', 0, 1),
+(14, 'Shopping', '2018-07-28 12:47:13', 0, '0000-00-00 00:00:00', 0, 1),
+(15, 'Transfers', '2018-07-28 12:47:13', 0, '0000-00-00 00:00:00', 0, 1),
+(16, 'Events', '2018-07-28 12:47:13', 0, '0000-00-00 00:00:00', 0, 1),
+(17, 'Places To Stay In', '2018-07-28 12:47:13', 0, '0000-00-00 00:00:00', 0, 1);
 
 -- --------------------------------------------------------
 
@@ -834,7 +883,7 @@ ALTER TABLE `contact_us`
 -- AUTO_INCREMENT for table `country_master`
 --
 ALTER TABLE `country_master`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=2;
 --
 -- AUTO_INCREMENT for table `coupon_code_master`
 --
@@ -874,7 +923,7 @@ ALTER TABLE `pick_up_location_map`
 -- AUTO_INCREMENT for table `state_master`
 --
 ALTER TABLE `state_master`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=3;
 --
 -- AUTO_INCREMENT for table `trip_avilable`
 --
@@ -894,7 +943,7 @@ ALTER TABLE `trip_book_pay_details`
 -- AUTO_INCREMENT for table `trip_category`
 --
 ALTER TABLE `trip_category`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=6;
 --
 -- AUTO_INCREMENT for table `trip_comment`
 --
@@ -934,7 +983,7 @@ ALTER TABLE `trip_shared`
 -- AUTO_INCREMENT for table `trip_tags`
 --
 ALTER TABLE `trip_tags`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=18;
 --
 -- AUTO_INCREMENT for table `trip_tag_map`
 --
