@@ -197,7 +197,7 @@
 	</div>
 	
 	<div class="modal-footer text-center">		
-        <input type="submit" value="Log-in" class=""btn btn-primary" name="login" />
+        <input type="submit" value="Log-in" class="btn btn-primary" name="login" />
 		<button type="button" data-dismiss="modal" class="btn btn-primary btn-border">Close</button>
 	</div>
 	 <?php echo form_close()?>

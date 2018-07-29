@@ -1,11 +1,11 @@
 <?php $this->load->view('includes/header')?>
-<?php $this->load->view('user/side_bar')?>
+<?php $this->load->view('user/side_bar');$v=$view->row();?>
 <div class="col-xs-12 col-sm-8 col-md-9">
 						
 							<div class="dashboard-wrapper">
 							<h4 class="section-title">Profile:</h4>
 							
-							<p class="lead">Goodness doubtful material has denoting suitable she two. Dear mean she way and poor bred they come. He otherwise me incommode explained so in remaining. Polite barton in it warmly do county length. Dissuade ecstatic and properly saw entirely sir why laughter endeavor.</p>
+							<p class="lead"><?php echo $v->about_me?></p>
 							
 							<div class="bt mt-30 mb-30"></div>
 							
@@ -17,21 +17,12 @@
 											<h5>First Name</h5>
 										</div>
 										<div class="col-xs-12 col-sm-12 col-md-6 mt-sm">
-											<span class="pl-sm">xxx</span>
+											<span class="pl-sm"><?php echo $v->user_fullname?></span>
 										</div>
 									</div>
 								</li>
 								
-								<li>
-									<div class="row">
-										<div class="col-xs-12 col-sm-12 col-md-6">
-											<h5>Last Name</h5>
-										</div>
-										<div class="col-xs-12 col-sm-12 col-md-6 mt-sm">
-											<span class="pl-sm">xxx</span>
-										</div>
-									</div>
-								</li>
+								
 								
 								<li>
 									<div class="row">
@@ -39,7 +30,7 @@
 											<h5>Born</h5>
 										</div>
 										<div class="col-xs-12 col-sm-12 col-md-6 mt-sm">
-											<span class="pl-sm">20.0.2018</span>
+											<span class="pl-sm"><?php echo date('d-m-Y',strtotime($v->dob))?></span>
 										</div>
 									</div>
 								</li>
@@ -50,18 +41,18 @@
 											<h5>Email</h5>
 										</div>
 										<div class="col-xs-12 col-sm-12 col-md-6 mt-sm">
-											<span class="pl-sm">myemail@gmail.com</span>
+											<span class="pl-sm"><?php echo $v->email?></span>
 										</div>
 									</div>
 								</li>
 								
-								<li>
+								<!--<li>
 									<div class="row">
 										<div class="col-xs-12 col-sm-12 col-md-6">
 											<h5>Address</h5>
 										</div>
 										<div class="col-xs-12 col-sm-12 col-md-6 mt-sm">
-											<span class="pl-sm">254</span>
+											<span class="pl-sm"><?php echo $v->user_fullname?></span>
 										</div>
 									</div>
 								</li>
@@ -72,7 +63,7 @@
 											<h5>City/town</h5>
 										</div>
 										<div class="col-xs-12 col-sm-12 col-md-6 mt-sm">
-											<span class="pl-sm">Somewhere </span>
+											<span class="pl-sm"><?php echo $v->user_fullname?> </span>
 										</div>
 									</div>
 								</li>
@@ -83,7 +74,7 @@
 											<h5>Province/State</h5>
 										</div>
 										<div class="col-xs-12 col-sm-12 col-md-6 mt-sm">
-											<span class="pl-sm">Paris</span>
+											<span class="pl-sm"><?php echo $v->user_fullname?></span>
 										</div>
 									</div>
 								</li>
@@ -94,7 +85,7 @@
 											<h5>Street</h5>
 										</div>
 										<div class="col-xs-12 col-sm-12 col-md-6 mt-sm">
-											<span class="pl-sm">Somewhere </span>
+											<span class="pl-sm"><?php echo $v->user_fullname?> </span>
 										</div>
 									</div>
 								</li>
@@ -105,7 +96,7 @@
 											<h5>Zip Code</h5>
 										</div>
 										<div class="col-xs-12 col-sm-12 col-md-6 mt-sm">
-											<span class="pl-sm">Zip Code </span>
+											<span class="pl-sm"><?php echo $v->user_fullname?> </span>
 										</div>
 									</div>
 								</li>
@@ -116,14 +107,14 @@
 											<h5>Country</h5>
 										</div>
 										<div class="col-xs-12 col-sm-12 col-md-6 mt-sm">
-											<span class="pl-sm">Somewhere </span>
+											<span class="pl-sm"><?php echo $v->user_fullname?> </span>
 										</div>
 									</div>
-								</li>
+								</li>-->
 								
 							</ul>
 							
-							<div class="mb-30"></div>
+							<!--<div class="mb-30"></div>
 							
 							<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. 
 							Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure 
@@ -143,7 +134,7 @@
 								<li>Certain it waiting no entered is. Passed her indeed uneasy shy polite appear denied</li>
 								<li>Satisfaction guarantee</li>
 							</ul>
-
+-->
 							
 
 						</div>

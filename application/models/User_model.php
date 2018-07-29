@@ -34,6 +34,23 @@ class User_model extends CI_Model
 		$query = $this->db->get();
 		return $query;
 	}
+	/*Update*/	
+	function update($table,$data,$cond)
+	{
+		if($this->db->update($table,$data,$cond))
+		return true;
+		else
+		return false;
+	}
+	
+	/*Delete*/	
+	function delete($table,$cond)
+	{
+		if($this->db->delete($table,$cond))
+		return true;
+		else
+		return false;
+	}
 	
 	
 }

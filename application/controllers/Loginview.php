@@ -6,7 +6,6 @@ class Loginview extends CI_Controller {
 	function __construct() {
 
 		parent::__construct();
-		$this->session->set_userdata('user_id',1);		
 	}
 	function login_verfy($id=0)
 	{
@@ -30,7 +29,12 @@ class Loginview extends CI_Controller {
 	public function profile()
 	{
 		$this->login_verfy();
-		$this->load->view('user/profile');
+		$user_id = $this->session->userdata('user_id');
+		$data['view'] = $this->user_model->select('user_master',array('id'=>$user_id));
+		if($data['view']->num_rows()==0)
+			redirect('login/logout');
+		$this->login_verfy();
+		$this->load->view('user/profile',$data);
 	}
 	public function update_profile()
 	{
@@ -39,6 +43,32 @@ class Loginview extends CI_Controller {
 	}
 	public function change_password()
 	{
+		$this->login_verfy();
+		$user_id = $this->session->userdata('user_id');
+		if($this->input->post('save')){
+			if($this->input->post('password2') == $this->input->post('password1') && $this->input->post('password2')!='')
+			{
+				$password = $this->input->post('password1');
+				$check =  $this->user_model->select('user_master',array('id'=>$user_id,'password'=>md5(md5($password))));
+				if($check->num_rows()>0){
+					$this->session->set_userdata('err', 'Already same password used, Choose different one.!');
+					redirect('change-password');     
+				}
+				else{
+					$query =  $this->user_model->update('user_master',array('password'=>md5(md5($password))),array('id'=>$user_id));
+					if ($query) {
+						$this->session->set_userdata('suc', 'Succesfully updated yoyr password..!');                    
+					} else {
+						$this->session->set_userdata('err', 'Please try again..!');                   
+					}
+					redirect('change-password');
+				}				
+			}
+			else{
+				$this->session->set_userdata('err', 'Invalid Password..!');
+                                redirect('change-password');
+			}
+		}
 		$this->login_verfy();
 		$this->load->view('user/change_password');
 	}
