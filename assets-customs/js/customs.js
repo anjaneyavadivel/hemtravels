@@ -282,6 +282,9 @@ jQuery(function($) {
 				  required: true,
 				  remote:{
 					 type:"post",
+					  data: {
+						'csrf_test_name': $.cookie('csrf_cookie_name'),
+						},
 					 url:base_url+"login/new_email_vaildation",
 				 },
 				  

@@ -6,6 +6,11 @@ class User_model extends CI_Model
 		$this->db->insert('user_master',$data);
 		return $this->db->insert_id();
 	}
+	function insert($table,$data)
+	{
+		$this->db->insert($table,$data);
+		return $this->db->insert_id();
+	}
 	
 	function get_user_detail($user_id)
 	{
