@@ -192,7 +192,6 @@
             </div>
             <?php echo form_close(); ?>
         </div>
-		
 		<!-- start Footer Wrapper -->
 		
 		<?php $this->load->view('includes/footer')?>
