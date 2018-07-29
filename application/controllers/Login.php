@@ -97,11 +97,20 @@ class Login extends CI_Controller {
             $codition['isactive'] = 1;
             $check = $this->user_model->select('user_master', $codition);
             if ($check->num_rows() > 0) {
-                $ch = $check->row();     
+                $ch = $check->row();  
+				$image=$ch->profile_pic;
+				if (trim($image) != "" && file_exists("./uploads/$image")) 
+				{
+					$image_url	=	base_url()."uploads/$image";
+				}
+				else
+				{
+					$image_url	=	base_url()."assets/images/man/01.jpg";
+				}   
                 $this->session->set_userdata('user_id', $ch->id);
                 $this->session->set_userdata('user_email', $ch->email);
                 $this->session->set_userdata('name', $ch->user_fullname);
-                $this->session->set_userdata('user_img', $ch->profile_pic);
+                $this->session->set_userdata('user_img', $image_url);
                 $this->session->set_userdata('user_type', $ch->user_type);
                 if ($this->session->userdata('name') == '') {
                     $this->session->set_userdata('suc', 'Login Successfully...!');
@@ -232,10 +241,19 @@ class Login extends CI_Controller {
                 $values = array('um_updated_on' => date('Y-m-d h:i:s'),
                     'um_updated_by' => $ch->id,
                 );
+				$image=$ch->profile_pic;
+				if (trim($image) != "" && file_exists("./uploads/$image")) 
+				{
+					$image_url	=	base_url()."uploads/$image";
+				}
+				else
+				{
+					$image_url	=	base_url()."assets/images/man/01.jpg";
+				}
                 $this->session->set_userdata('user_id', $ch->id);
                 $this->session->set_userdata('user_email', $ch->email);
                 $this->session->set_userdata('name', $ch->fullname);
-                $this->session->set_userdata('user_img', $ch->profile_pic);
+                $this->session->set_userdata('user_img', $image_url);
                 $this->session->set_userdata('user_type', $ch->type);
 
                 if ($this->session->userdata('last_url')) {

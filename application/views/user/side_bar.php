@@ -40,7 +40,7 @@ switch ($url) {
 								<div class="inner-top">
 								
 									<div class="image">
-										<img src="<?php echo base_url()?>assets/images/man/01.jpg" alt="image" />
+										<img src="<?php if($this->session->userdata('user_img')) echo $this->session->userdata('user_img')?>" alt="image" />
 									</div>
 									
 									<div class="GridLex-gap-20">
@@ -51,7 +51,7 @@ switch ($url) {
 											
 												<div class="GridLex-inner">
 													<div class="heading clearfix">
-														<h3>Robert Kalvin</h3>
+														<h3><?php if($this->session->userdata('name')) echo $this->session->userdata('name')?></h3>
 														
 													</div>
 													<ul class="user-meta">
