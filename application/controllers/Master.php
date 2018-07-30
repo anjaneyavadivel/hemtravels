@@ -59,7 +59,7 @@ class Master extends CI_Controller {
 
     public function category_add() {
         if ($this->session->userdata('user_id') == '') {
-            redirect('login');
+            return FALSE;
         }
         if ($_POST) {
             $this->form_validation->set_rules('category_name', 'Category Name', 'trim|required');
@@ -102,7 +102,7 @@ class Master extends CI_Controller {
 
     public function category_save_edit() {
         if ($this->session->userdata('user_id') == '') {
-            redirect('login');
+            return FALSE;
         }
         if ($_POST) {
             $id = trim($this->input->post('category_id'));
