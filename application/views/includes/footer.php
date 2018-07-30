@@ -197,7 +197,7 @@
 	</div>
 	
 	<div class="modal-footer text-center">		
-        <input type="submit" value="Log-in" class=""btn btn-primary" name="login" />
+        <input type="submit" value="Log-in" class="btn btn-primary" name="login" />
 		<button type="button" data-dismiss="modal" class="btn btn-primary btn-border">Close</button>
 	</div>
 	 <?php echo form_close()?>
@@ -211,7 +211,7 @@
 		<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
 		<h4 class="modal-title text-center">Create your account for free</h4>
 	</div>
-	<?php echo form_open_multipart(base_url() . 'login/singup', array('class' => 'form-horizontal margin-top-30', 'id' => 'sign_up')); ?>
+	<?php echo form_open_multipart(base_url() . 'login/login_sign_up', array('class' => 'form-horizontal margin-top-30', 'id' => 'sign_up')); ?>
 	<div class="modal-body">
 	
 		<div class="row gap-20">
@@ -227,15 +227,6 @@
 				<div class="login-modal-or">
 					<div><span>or</span></div>
 				</div>
-			</div>
-			
-			<div class="col-sm-12 col-md-12">
-	
-				<div class="form-group"> 
-					<label>Username</label>
-					<input class="form-control" placeholder="Min 4 and Max 10 characters" type="text"> 
-				</div>
-			
 			</div>
 			
 			<div class="col-sm-12 col-md-12">

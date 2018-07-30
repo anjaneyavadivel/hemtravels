@@ -6,6 +6,11 @@ class User_model extends CI_Model
 		$this->db->insert('user_master',$data);
 		return $this->db->insert_id();
 	}
+	function insert($table,$data)
+	{
+		$this->db->insert($table,$data);
+		return $this->db->insert_id();
+	}
 	
 	function get_user_detail($user_id)
 	{
@@ -28,6 +33,23 @@ class User_model extends CI_Model
 		$this->db->where($cond);
 		$query = $this->db->get();
 		return $query;
+	}
+	/*Update*/	
+	function update($table,$data,$cond)
+	{
+		if($this->db->update($table,$data,$cond))
+		return true;
+		else
+		return false;
+	}
+	
+	/*Delete*/	
+	function delete($table,$cond)
+	{
+		if($this->db->delete($table,$cond))
+		return true;
+		else
+		return false;
 	}
 	
 	
