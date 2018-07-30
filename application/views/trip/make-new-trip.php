@@ -826,16 +826,16 @@
                                                     </div>
 
                                                 </div>
-                                                <div class="row gap-10" id="rangeDatePicker">
+                                                <div class="row" id="rangeDatePicker">
 									
-                                                                <div class="col-xss-12 col-xs-3 col-sm-3">
+                                                                <div class="col-xss-12 col-xs-3 col-sm-3  ml-20">
                                                                         <div class="form-group">
                                                                                 <label>From</label>
                                                                                 <input type="text" id="rangeDatePickerTo" class="form-control" placeholder="yyyy/mm/dd" />
                                                                         </div>
                                                                 </div>
 
-                                                                <div class="col-xss-12 col-xs-3 col-sm-3">
+                                                                <div class="col-xss-12 col-xs-3 col-sm-3  ml-20">
                                                                         <div class="form-group">
                                                                                 <label>To</label>
                                                                                 <input type="text" id="rangeDatePickerFrom" class="form-control" placeholder="yyyy/mm/dd" />
