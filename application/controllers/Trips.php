@@ -3,9 +3,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Trips extends CI_Controller {
 
-    public function trip_list() {
-        
-    }
+   
 
     public function make_new_trip($isshared = 0) {
          if ($this->session->userdata('user_id') == '') {redirect('login');}
@@ -29,4 +27,25 @@ class Trips extends CI_Controller {
         echo json_encode($tags);
     }
 
+    
+    
+    
+    
+    
+    
+    public function trip_list() {
+         if ($this->session->userdata('user_id') == '') {redirect('login');}
+        
+        $this->load->view('trip/trip-list');
+    }
+    public function trip_calendar_view() {
+         if ($this->session->userdata('user_id') == '') {redirect('login');}
+        
+        $this->load->view('trip/trip-calendar-view');
+    }
+    public function trip_view() {
+         if ($this->session->userdata('user_id') == '') {redirect('login');}
+        
+        $this->load->view('trip/trip-view');
+    }
 }

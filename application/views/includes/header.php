@@ -28,7 +28,12 @@
 
         <!-- Add your style -->
         <link href="<?php echo base_url() ?>assets/css/your-style.css" rel="stylesheet">
-
+        
+       <?php $url=$this->uri->segment(1);?> 
+        <?php if($url=='trip-calendar-view'){?>
+		<link rel="stylesheet" href="<?php echo base_url() ?>assets/css/magnific-popup.css">
+		<link rel="stylesheet" href="<?php echo base_url() ?>assets/css/timetable.css">
+        <?php }?>
         <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
         <!--[if lt IE 9]>
                 <script src="<?php echo base_url() ?>assets/https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>

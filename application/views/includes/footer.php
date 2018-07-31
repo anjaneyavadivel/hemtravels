@@ -274,7 +274,7 @@
 	</div>
 	
 	<div class="modal-footer text-center">
-    	 <input type="submit" value="Register" class=""btn btn-primary" name="signup" />
+    	 <input type="submit" value="Register" class="btn btn-primary" name="signup" />
 		<button type="button" data-dismiss="modal" class="btn btn-primary btn-border">Close</button>
 	</div>
 	<?php echo form_close()?>
@@ -330,7 +330,7 @@
 <!-- end Forget Password Modal -->
  
 <!-- Core JS -->
-<script type="text/javascript" src="<?php echo base_url()?>assets/js/jquery.min.js"></script>
+        <script type="text/javascript" src="<?php echo base_url()?>assets/js/jquery.min.js"></script>
 <script type="text/javascript" src="<?php echo base_url()?>assets/js/core-plugins.js"></script>
 <script src="<?php echo base_url()?>assets/js/jquery.cookie.min.js"></script>
 <script type="text/javascript" src="<?php echo base_url()?>assets/js/jquery.validate.min.js"></script>
@@ -383,6 +383,41 @@
 <?php }?>
 <?php if($url=='tag-master'){?>
     <script type="text/javascript" src="<?php echo base_url()?>assets-customs/js/master-tag-validation.js"></script>
+<?php }?>
+<?php if($url=='trip-list'){?>
+    <script type="text/javascript" src="<?php echo base_url()?>assets/js/bootstrap-tokenfield.js"></script>
+    <script type="text/javascript" src="<?php echo base_url()?>assets/js/typeahead.bundle.min.js"></script>
+    <script type="text/javascript" src="<?php echo base_url()?>assets/js/ion.rangeSlider.min.js"></script>
+    <script type="text/javascript" src="<?php echo base_url()?>assets/js/jquery.bootstrap-touchspin.js"></script>
+    <script type="text/javascript" src="<?php echo base_url()?>assets/js/customs-result.js"></script>
+
+    <script type="text/javascript">
+
+
+
+        if (windowSize >= 720) {
+            $('.filter_mbl').show();
+
+
+        } else {
+            $('.filter_mbl').hide();
+
+
+
+        }
+
+    </script>
+<?php }?>
+    <?php if($url=='trip-calendar-view'){?>
+    <script type="text/javascript" src="<?php echo base_url()?>assets/js/jquery.stickit.js"></script>
+        <script type="text/javascript" src="<?php echo base_url()?>assets/js/bootstrap-tokenfield.js"></script>
+        <script type="text/javascript" src="<?php echo base_url()?>assets/js/typeahead.bundle.min.js"></script>
+        <script type="text/javascript" src="<?php echo base_url()?>assets/js/jquery.sumogallery.js"></script>
+        <script type="text/javascript" src="<?php echo base_url()?>assets/js/images-grid.js"></script>
+        <script type="text/javascript" src="<?php echo base_url()?>assets/js/jquery.bootstrap-touchspin.js"></script>
+        <script type="text/javascript" src="<?php echo base_url()?>assets/js/customs-detail.js"></script> 
+		<script src="<?php echo base_url()?>assets/js/jquery.magnific-popup.js"></script>
+		<script src="<?php echo base_url()?>assets/js/timetable.js"></script>
 <?php }?>
 </body>
 

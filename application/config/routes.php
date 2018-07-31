@@ -106,3 +106,8 @@ $route['make-new-trip/(:num)'] = 'trips/make_new_trip/$1';
 $route['make-new-trip'] = 'trips/make_new_trip';
 $route['edit-trip'] = 'trips/edit_trip';
 $route['getalltags'] = 'trips/getalltags';
+
+
+$route['trip-list'] = 'trips/trip_list';
+$route['trip-calendar-view'] = 'trips/trip_calendar_view';
+$route['trip-view'] = 'trips/trip_view';
