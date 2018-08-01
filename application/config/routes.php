@@ -75,29 +75,55 @@ $route['category-master/loadmodal/(:any)'] = 'master/loadmodal/$1';
 $route['category-master/edit'] = 'master/category_edit';
 $route['category-master/save-edit'] = 'master/category_save_edit';
 $route['category-master/delete/(:num)'] = 'master/category_delete/$1';
+$route['category-master/active/(:num)'] = 'master/category_active/$1';
 $route['category-master/(:any)'] = 'master/category_list/$1';
 $route['category-master'] = 'master/category_list';
 
+
 //Master to admin
-$route['tag-master'] = 'tag/tag_list';
 $route['tag-master/add'] = 'tag/tag_add';
+$route['tag-master/loadmodal/(:any)'] = 'tag/loadmodal/$1';
+$route['tag-master/edit'] = 'tag/tag_edit';
+$route['tag-master/save-edit'] = 'tag/tag_save_edit';
 $route['tag-master/delete/(:num)'] = 'tag/tag_delete/$1';
 $route['tag-master/active/(:num)'] = 'tag/tag_active/$1';
+$route['tag-master/(:any)'] = 'tag/tag_list/$1';
+$route['tag-master'] = 'tag/tag_list';
+
 
 //Master to admin
-$route['trip-inclusions-master'] = 'Tripinclusions/trip_list';
-$route['trip-inclusions-master/delete/(:num)'] = 'Tripinclusions/trip_delete/$1';
-$route['trip-inclusions-master/active/(:num)'] = 'Tripinclusions/trip_active/$1';
-
-//Master to admin
-$route['state-master'] = 'state/state_list';
-$route['state-master/delete/(:num)'] = 'state/state_delete/$1';
-$route['state-master/active/(:num)'] = 'state/state_active/$1';
-
-//Master to admin
-$route['city-master'] = 'city/city_list';
+$route['city-master/add'] = 'city/tag_add';
+$route['city-master/loadmodal/(:any)'] = 'city/loadmodal/$1';
+$route['city-master/edit'] = 'city/city_edit';
+$route['city-master/save-edit'] = 'city/city_save_edit';
 $route['city-master/delete/(:num)'] = 'city/city_delete/$1';
 $route['city-master/active/(:num)'] = 'city/city_active/$1';
+$route['city-master/(:any)'] = 'city/city_list/$1';
+$route['city-master'] = 'city/city_list';
+
+
+//Master to admin
+$route['trip-inclusions-master/add'] = 'Tripinclusions/trip_add';
+$route['trip-inclusions-master/loadmodal/(:any)'] = 'Tripinclusions/loadmodal/$1';
+$route['trip-inclusions-master/edit'] = 'Tripinclusions/trip_edit';
+$route['trip-inclusions-master/save-edit'] = 'Tripinclusions/trip_save_edit';
+$route['trip-inclusions-master/delete/(:num)'] = 'Tripinclusions/trip_delete/$1';
+$route['trip-inclusions-master/active/(:num)'] = 'Tripinclusions/trip_active/$1';
+$route['trip-inclusions-master/(:any)'] = 'Tripinclusions/trip_list/$1';
+$route['trip-inclusions-master'] = 'Tripinclusions/trip_list';
+
+
+//Master to admin
+$route['state-master/add'] = 'state/state_add';
+$route['state-master/loadmodal/(:any)'] = 'state/loadmodal/$1';
+$route['state-master/edit'] = 'state/state_edit';
+$route['state-master/save-edit'] = 'state/state_save_edit';
+$route['state-master/delete/(:num)'] = 'state/state_delete/$1';
+$route['state-master/active/(:num)'] = 'state/state_active/$1';
+$route['state-master/(:any)'] = 'state/state_list/$1';
+$route['state-master'] = 'state/state_list';
+
+
 
 
 

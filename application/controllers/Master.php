@@ -123,8 +123,19 @@ class Master extends CI_Controller {
         if ($this->session->userdata('user_id') == '') {
             redirect('login');
         }
+		$where = array('id' => $id);
         $data = array('isactive' => 0);
-        $this->Master_model->category_update($data, $id);
+        $this->Master_model->category_update($data, $where);
+        redirect('category-master');
+    }
+	
+	public function category_active($id) {
+        if ($this->session->userdata('user_id') == '') {
+            redirect('login');
+        }
+		$where = array('id' => $id);
+        $data = array('isactive' => 1);
+        $this->Master_model->category_update($data, $where);
         redirect('category-master');
     }
 

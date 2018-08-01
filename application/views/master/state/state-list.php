@@ -10,7 +10,7 @@
                         <ol class="breadcrumb">
                             <li><a href="<?php echo base_url()?>">Home</a></li>
                             <li><a href="#">Master</a></li>
-                            <li  class="active"><a href="#">Category Master</a></li>
+                            <li  class="active"><a href="#">State Master</a></li>
                         </ol>
                     </div>
                 </div>
@@ -30,24 +30,26 @@
                                 <div class="form-group">
                                     <label>Search</label>
                                     <div class="row gap-0">
+                                        <?php echo form_open_multipart(base_url() . 'state-master', array('class' => 'form-horizontal margin-top-30', 'id' => 'search-state-form')); ?>
+
                                         <div class="col-xs-9 col-sm-10 col-md-10">
-                                            <input type="text" class="form-control" placeholder="Enter category name">
+                                            <input type="text" name="state_search" class="form-control" placeholder="Enter state name" value="<?=$state_search?>">
                                         </div>
                                         <div class="col-xs-3 col-sm-2 col-md-2">
-                                            <a href="#" class="btn btn-primary btn-block"><i class="fa fa-search"></i></a>
+                                            <button type="submit" class="btn btn-primary btn-block"><i class="fa fa-search"></i></button>
                                         </div>
+                                        <?php echo form_close(); ?>
                                     </div>
                                 </div>
                             </div>
                             <div class="col-xs-2 col-sm-1 col-lg-1 text-right">
-                                <a class="btn btn-info c_mt"  data-toggle="modal" href="#add-category">Add</a>
+                                <a class="btn btn-info c_mt btn-add-state">Add</a>
                             </div>
                             <table class="table ">
                                 <thead>
                                     <tr>
                                         <th>Sno</th>
-										<!--<th>Countery no</th>-->
-                                        <th>Category Name</th>
+                                        <th>state Name</th>
                                         <th>Staus</th>
                                         <th>Action</th>
 
@@ -60,8 +62,7 @@
 									$i=1;
 									foreach($statelist as $row)
 									{
-										$id=$row['id'];
-										//$country_id=$row['country_id'];
+										$id=$row['id'];	
 										$name=$row['name'];
 										$isactive=$row['isactive'];
 										$status_active = array('deactive','active');
@@ -75,7 +76,7 @@
                                         <td><?=$name;?></td>
                                         <td><h4 class="<?=$btn_type[$val];?>"><?=$status_active[$val];?></h4></td>
                                        <?php if($isactive!='0'){?> 
-									   <td><a class="c_mt <?=$btn_type[$val];?>"  data-toggle="modal" href="#edit-category"><i class="fa fa-pencil" data-toggle="tooltip" data-placement="top" title="Click here to edit"></i></a>
+                                        <td><a class="<?=$btn_type[$val];?> btn-edit-state" data-val="<?=$id?>" ><i class="fa fa-pencil" data-toggle="tooltip" data-placement="top" title="Click here to edit"></i></a>
                                             <a href="<?=base_url();?>state-master/delete/<?=$id?>"><i class="fa fa-trash" data-toggle="tooltip" data-placement="top" title="Click here to delete"></i> </a></td><?php }?>
 										<?php if($isactive!='1'){?><td><a href="<?=base_url();?>state-master/active/<?=$id?>" class="<?=$btn_type[$val];?>"><i class="fa fa-check" data-toggle="tooltip" data-placement="top" title="Click here to active"></i></a><?php }?>
 
@@ -99,8 +100,12 @@
 
                                     <div class="clearfix">
                                         <nav>
+                                           
                                             <ul class="pagination">
-                                                <li>
+                                                <?php foreach ($links as $link) {
+                                                    echo "<li>". $link."</li>";
+                                                    } ?>
+<!--                                                <li>
                                                     <a href="#" aria-label="Previous">
                                                         <span aria-hidden="true">&laquo;</span>
                                                     </a>
@@ -115,7 +120,7 @@
                                                     <a href="#" aria-label="Next">
                                                         <span aria-hidden="true">&raquo;</span>
                                                     </a>
-                                                </li>
+                                                </li>-->
                                             </ul>
                                         </nav>
                                     </div>
@@ -130,68 +135,8 @@
             </div>
 
         <!-- end Main Wrapper -->
-        <div id="add-category" class="modal fade login-box-wrapper modal-overflow" tabindex="-1" data-backdrop="static" data-keyboard="false" data-replace="true">
-    
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                <h4 class="modal-title text-center">Add Category</h4>
-            </div>
 
-            <div class="modal-body">
-            <?php echo form_open_multipart(base_url().'category-master/add',array('class' => 'form-horizontal margin-top-30','id'=>'add-category-form'));?>
-
-                <div class="row gap-20">
-
-                    <div class="col-sm-12 col-md-12">
-                        <div class="form-group form-group-lg">
-                            <label>Category Name:</label>
-                            <input name="name" type="text" class="form-control" placeholder="Enter the category name..."/>
-                        </div>
-
-                    </div>
-
-                </div>
-
-            </div>
-            <div class="modal-footer text-center">
-                <button type="submit" class="submit_btn btn btn-primary">Add</button>
-                <button type="button" data-dismiss="modal" class="btn btn-primary btn-border">Close</button>
-            </div>
-            <?php echo form_close(); ?>
-        </div>
-		
-		
-	
-		
-		<div id="edit-category" class="modal fade login-box-wrapper modal-overflow"  tabindex="-1" data-backdrop="static" data-keyboard="false" data-replace="true">
-    
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                <h4 class="modal-title text-center">edit Category</h4>
-            </div>
-
-            <div class="modal-body">
-            <?php echo form_open_multipart(base_url().'category-master/edit/'.$id,array('class' => 'form-horizontal margin-top-30','id'=>'edit-category-form'));?>
-
-                <div class="row gap-20">
-
-                    <div class="col-sm-12 col-md-12">
-                        <div class="form-group form-group-lg">
-                            <label>Category Name:</label>
-                            <input name="name" type="text" class="form-control" value="<?=$name?>" />
-                        </div>
-
-                    </div>
-
-                </div>
-
-            </div>
-            <div class="modal-footer text-center">
-                <button type="submit" class="submit_btn btn btn-primary">Add</button>
-                <button type="button" data-dismiss="modal" class="btn btn-primary btn-border">Close</button>
-            </div>
-            <?php echo form_close(); ?>
-        </div>
+        
 		<!-- start Footer Wrapper -->
 		
 		<?php $this->load->view('includes/footer')?>
