@@ -16,7 +16,7 @@ class City extends CI_Controller {
             redirect('login');
         }
         $citysearch = trim($this->input->post('city_search'));
-        if ($citysearch!= '') {
+        if ($citysearch != '') {
             $city_search = $citysearch;
         }
         $this->load->library('pagination');
@@ -97,7 +97,7 @@ class City extends CI_Controller {
 
             $data = array('id' => $id);
             $data['citydetail'] = $this->City_model->city_detail($data);
-            //$this->City_model->category_update($data,$id);
+            //$this->City_model->city_update($data,$id);
             $this->load->view('master/city/city-edit', $data);
         }
     }

@@ -22,7 +22,7 @@ class City_model extends CI_Model
         return $this->db->insert_id();
     }
 
-    function category_detail($data) {
+    function city_detail($data) {
         $this->db->select()->from('city_master')->where($data);
         $query = $this->db->get();
         return $query->first_row('array');
@@ -37,3 +37,5 @@ class City_model extends CI_Model
 }
 
 ?>
+
+

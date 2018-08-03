@@ -92,7 +92,7 @@ $route['tag-master'] = 'tag/tag_list';
 
 
 //Master to admin
-$route['city-master/add'] = 'city/tag_add';
+$route['city-master/add'] = 'city/city_add';
 $route['city-master/loadmodal/(:any)'] = 'city/loadmodal/$1';
 $route['city-master/edit'] = 'city/city_edit';
 $route['city-master/save-edit'] = 'city/city_save_edit';

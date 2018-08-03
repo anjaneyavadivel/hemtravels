@@ -69,8 +69,8 @@ class Tag extends CI_Controller {
                 $id = trim($this->input->post('id'));
                 $name = ucwords(trim($this->input->post('tag_name')));
                 $whereData = array('isactive' => 1, 'name' => $name);
-                $trip_category_list = selectTable('trip_category', $whereData);
-                if ($trip_category_list->num_rows() > 0) {
+                $trip_tag_list = selectTable('trip_tags', $whereData);
+                if ($trip_tag_list->num_rows() > 0) {
                     echo 'Sorry! All ready exist this name.';
                     return FALSE;
                 }
