@@ -10,6 +10,7 @@ jQuery(function ($) {
      */
 
     $('#make_new_trip_form').validate({
+        ignore: ":hidden:not(textarea)",
         rules: {
             is_shared: {
                 required: true,
@@ -70,6 +71,39 @@ jQuery(function ($) {
                 required: true,
                 number: true
             },
+            state_id:{
+                required: true,
+            },
+            city_id:{
+                required: true,
+            },
+            cancellation_policy:{
+                required: true,
+            },
+            confirmation_policy:{
+                required: true,
+            },
+            refund_policy:{
+                required: true,
+            },
+            "trip_from_time[]":{
+                required: true,
+            },
+            "trip_to_time[]":{
+                required: true,
+            },
+            "trip_from_title[]":{
+                required: true,
+            },
+            "pickup_meeting_point[]":{
+                required: true,
+            },
+            "pickup_meeting_time[]":{
+                required: true,
+            },
+            "pickup_landmark[]":{
+                required: true,
+            }
         },
 //        messages: {
 //            um_email: {

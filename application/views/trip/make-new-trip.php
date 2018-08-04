@@ -1,6 +1,6 @@
 <?php $this->load->view('includes/header')?>
   <!-- start Main Wrapper -->
-
+<
            <div class="main-wrapper scrollspy-container">
 
                 <!-- start breadcrumb -->
@@ -49,7 +49,7 @@
                                 <div class="col-xs-12 col-sm-10 col-sm-offset-1 col-md-8 col-md-offset-2">
 
                                     <div class="form">
-                                  <?php echo form_open_multipart(base_url() . 'make-new-trip', array('class' => 'form-horizontal margin-top-30', 'id' => 'make_new_trip_form')); ?>
+                                  <?php echo form_open_multipart(base_url() . 'trips/add_action', array('class' => 'form-horizontal margin-top-30', 'id' => 'make_new_trip_form')); ?>
 	      
                                         <div class="create-tour-inner">
 
@@ -85,11 +85,14 @@
 
                                                     <div class="form-group">
                                                         <label>Catagory:</label>
-                                                        <select name="" class="selectpicker show-tick form-control" title="Select placeholder">
-                                                            <option value="0">Attraction Visit</option>
-                                                            <option value="1">Boating</option>
-                                                            <option value="1">Cycling</option>
-                                                            <option value="1">Wildlife</option>
+                                                        <select name="trip_category_id"  id="trip_category_id" class="selectpicker show-tick form-control" title="Select placeholder">
+                                                            <?php 
+                                                                if(isset($category_list) && count($category_list) > 0){
+                                                                    foreach($category_list as $v){
+                                                                        echo '<option value="'.$v['id'].'">'.$v['name'].'</option>';
+                                                                    }
+                                                                }
+                                                            ?>
                                                         </select>
                                                     </div>
 
@@ -256,7 +259,7 @@
 
                                                     <div class="form-group">
                                                         <label>State</label>
-                                                        <select name="state_id" class="selectpicker show-tick form-control" title="Select placeholder">
+                                                        <select name="state_id" id="state_id" class="selectpicker show-tick form-control" title="Select a state">
                                                             <option value="">Select a state</option>
                                                             <?php if(isset($state_list) && $state_list->num_rows()>0) {foreach($state_list->result() as $st) {?>
                                                             <option value="<?=  ucfirst($st->id)?>"><?=ucfirst($st->name)?></option>
@@ -269,123 +272,48 @@
 
                                                     <div class="form-group">
                                                         <label>City</label>
-                                                        <select name="city_id" class="selectpicker show-tick form-control" title="Select placeholder">
-                                                            <option value="">Select a city</option>
-                                                            <option value="1">option1</option>
-                                                            <option value="2" selected="">option2</option>
+                                                        <select name="city_id" id="city_id" class="selectpicker show-tick form-control" title="Select a city">
+                                                            <option value="">Select a city</option>                                                            
                                                         </select>
                                                     </div>
 
                                                 </div>
-                                                <div class="col-xs-12 col-sm-5">
-
-                                                    <div class="form-group">
-                                                        <label>Meeting point</label>
-                                                        <input name="meeting_point" type="text" class="form-control" />
-                                                    </div>
-
-                                                </div>
-
-                                                <div class="col-xs-12 col-sm-3">
-
-                                                    <div class="form-group">
-                                                        <label>Meeting time</label>
-                                                        <input name="meeting_time" type="text" class="oh-timepicker form-control" />
-                                                    </div>
-
-                                                </div>
-                                                <div class="col-xs-12 col-sm-4">
-
-                                                    <div class="form-group">
-                                                        <label>Landmark</label>
-                                                        <input type="text" class="oh-timepicker form-control" />
-                                                    </div>
-
-                                                </div>
                                                 
-                                                <div class="col-xs-12 col-sm-5">
+                                                <div class="pickup_location_list_div">
+                                                    <div class="pickup_location_list_default" id="pickup_location_list_0">
+                                                        <div class="col-xs-12 col-sm-5">
 
-                                                    <div class="form-group">
-                                                        <label>Location1</label>
-                                                        <input type="text" class="form-control" />
+                                                            <div class="form-group">
+                                                                <label>Meeting point</label>
+                                                                <input  type="text" class="form-control" name="pickup_meeting_point[]" />
+                                                            </div>
+
+                                                        </div>
+
+                                                        <div class="col-xs-12 col-sm-3">
+
+                                                            <div class="form-group">
+                                                                <label>Meeting time</label>
+                                                                <input type="text" class="oh-timepicker form-control" name="pickup_meeting_time[]"/>
+                                                            </div>
+
+                                                        </div>
+                                                        <div class="col-xs-12 col-sm-4">
+
+                                                            <div class="form-group">
+                                                                <label>Landmark</label>
+                                                                <input type="text" class="oh-timepicker1 form-control" name="pickup_landmark[]" />
+                                                            </div>
+
+                                                        </div>
                                                     </div>
-
-                                                </div>
-
-                                                <div class="col-xs-12 col-sm-3">
-
-                                                    <div class="form-group">
-                                                        <label>Location1 time</label>
-                                                        <input type="text" class="oh-timepicker form-control" />
-                                                    </div>
-
-                                                </div>
-                                                <div class="col-xs-12 col-sm-4">
-
-                                                    <div class="form-group">
-                                                        <label>Location1 Landmark</label>
-                                                        <input type="text" class="oh-timepicker form-control" />
-                                                    </div>
-
-                                                </div>
-                                                
-                                                <div class="col-xs-12 col-sm-5">
-
-                                                    <div class="form-group">
-                                                        <label>Location2</label>
-                                                        <input type="text" class="form-control" />
-                                                    </div>
-
-                                                </div>
-
-                                                <div class="col-xs-12 col-sm-3">
-
-                                                    <div class="form-group">
-                                                        <label>Location2 time</label>
-                                                        <input type="text" class="oh-timepicker form-control" />
-                                                    </div>
-
-                                                </div>
-                                                <div class="col-xs-12 col-sm-4">
-
-                                                    <div class="form-group">
-                                                        <label>Location2 Landmark</label>
-                                                        <input type="text" class="oh-timepicker form-control" />
-                                                    </div>
-
-                                                </div>
-                                                
-                                                
-                                                <div class="col-xs-12 col-sm-5">
-
-                                                    <div class="form-group">
-                                                        <label>Location3</label>
-                                                        <input type="text" class="form-control" />
-                                                    </div>
-
-                                                </div>
-
-                                                <div class="col-xs-12 col-sm-3">
-
-                                                    <div class="form-group">
-                                                        <label>Location3 time</label>
-                                                        <input type="text" class="oh-timepicker form-control" />
-                                                    </div>
-
-                                                </div>
-                                                <div class="col-xs-12 col-sm-4">
-
-                                                    <div class="form-group">
-                                                        <label>Location3 Landmark</label>
-                                                        <input type="text" class="oh-timepicker form-control" />
-                                                    </div>
-
                                                 </div>
                                                 <div class="col-xs-12 col-xs-6 col-md-4">
                                                     <div class="add-more-form">
-                                                        <span>Add/remove form</span> 
-                                                        <a href="#"><i class="ion-android-add-circle"></i></a> 
-                                                        <a href="#"><i class="ion-android-remove-circle"></i></a>
+                                                        <!--<span>Add/remove form</span> -->
+                                                        <span>Add form</span> 
+                                                        <a href="javascript:;" id="addNewPickupLoc"><i class="ion-android-add-circle"></i></a> 
+                                                        <!--<a href="#"><i class="ion-android-remove-circle"></i></a>-->
                                                     </div>
                                                 </div>
                                             </div>
@@ -397,43 +325,43 @@
                                             <div class="row checkbox-wrapper">
                                                 <div class="col-xss-12 col-xs-6 col-sm-6 col-md-4">
                                                     <div class="checkbox-block">
-                                                        <input id="filter_checkbox-1" name="filter_checkbox" type="checkbox" class="checkbox"/>
+                                                        <input class="available_days" id="filter_checkbox-1" name="trip_ava_sun" type="checkbox" class="checkbox" checked/>
                                                         <label class="" for="filter_checkbox-1">Sunday</label>
                                                     </div>
                                                 </div>
                                                 <div class="col-xss-12 col-xs-6 col-sm-6 col-md-4">
                                                     <div class="checkbox-block">
-                                                        <input id="filter_checkbox-2" name="filter_checkbox" type="checkbox" class="checkbox"/>
+                                                        <input class="available_days" id="filter_checkbox-2" name="trip_ava_mon" type="checkbox" class="checkbox" checked/>
                                                         <label class="" for="filter_checkbox-2">Monday</label>
                                                     </div>
                                                 </div>
                                                 <div class="col-xss-12 col-xs-6 col-sm-6 col-md-4">
                                                     <div class="checkbox-block">
-                                                        <input id="filter_checkbox-3" name="filter_checkbox" type="checkbox" class="checkbox"/>
+                                                        <input class="available_days" id="filter_checkbox-3" name="trip_ava_tue" type="checkbox" class="checkbox" checked/>
                                                         <label class="" for="filter_checkbox-3">Tuesday</label>
                                                     </div>
                                                 </div>
                                                 <div class="col-xss-12 col-xs-6 col-sm-6 col-md-4">
                                                     <div class="checkbox-block">
-                                                        <input id="filter_checkbox-4" name="filter_checkbox" type="checkbox" class="checkbox"/>
+                                                        <input class="available_days" id="filter_checkbox-4" name="trip_ava_wed" type="checkbox" class="checkbox" checked/>
                                                         <label class="" for="filter_checkbox-4">Wednesday</label>
                                                     </div>
                                                 </div>
                                                 <div class="col-xss-12 col-xs-6 col-sm-6 col-md-4">
                                                     <div class="checkbox-block">
-                                                        <input id="filter_checkbox-5" name="filter_checkbox" type="checkbox" class="checkbox"/>
+                                                        <input class="available_days" id="filter_checkbox-5" name="trip_ava_thu" type="checkbox" class="checkbox" checked/>
                                                         <label class="" for="filter_checkbox-5">Thursday</label>
                                                     </div>
                                                 </div>
                                                 <div class="col-xss-12 col-xs-6 col-sm-6 col-md-4">
                                                     <div class="checkbox-block">
-                                                        <input id="filter_checkbox-6" name="filter_checkbox" type="checkbox" class="checkbox"/>
+                                                        <input class="available_days" id="filter_checkbox-6" name="trip_ava_fri" type="checkbox" class="checkbox" checked/>
                                                         <label class="" for="filter_checkbox-6">Friday</label>
                                                     </div>
                                                 </div>
                                                 <div class="col-xss-12 col-xs-6 col-sm-6 col-md-4">
                                                     <div class="checkbox-block">
-                                                        <input id="filter_checkbox-7" name="filter_checkbox" type="checkbox" class="checkbox"/>
+                                                        <input class="available_days" id="filter_checkbox-7" name="trip_ava_sat" type="checkbox" class="checkbox" checked/>
                                                         <label class="" for="filter_checkbox-7">Saturday</label>
                                                     </div>
                                                 </div>
@@ -445,67 +373,25 @@
                                             <h4 class="section-title">What's included?</h4>
 
                                             <div class="row checkbox-wrapper">
-                                                <div class="col-xss-12 col-xs-6 col-sm-6 col-md-4">
-                                                    <div class="checkbox-block">
-                                                        <input id="filter_checkbox-1" name="filter_checkbox" type="checkbox" class="checkbox"/>
-                                                        <label class="" for="filter_checkbox-1">Checkbox One</label>
-                                                    </div>
-                                                </div>
-                                                <div class="col-xss-12 col-xs-6 col-sm-6 col-md-4">
-                                                    <div class="checkbox-block">
-                                                        <input id="filter_checkbox-2" name="filter_checkbox" type="checkbox" class="checkbox"/>
-                                                        <label class="" for="filter_checkbox-2">Checkbox Two</label>
-                                                    </div>
-                                                </div>
-                                                <div class="col-xss-12 col-xs-6 col-sm-6 col-md-4">
-                                                    <div class="checkbox-block">
-                                                        <input id="filter_checkbox-3" name="filter_checkbox" type="checkbox" class="checkbox"/>
-                                                        <label class="" for="filter_checkbox-3">Checkbox Three</label>
-                                                    </div>
-                                                </div>
-                                                <div class="col-xss-12 col-xs-6 col-sm-6 col-md-4">
-                                                    <div class="checkbox-block">
-                                                        <input id="filter_checkbox-4" name="filter_checkbox" type="checkbox" class="checkbox"/>
-                                                        <label class="" for="filter_checkbox-4">Checkbox Four</label>
-                                                    </div>
-                                                </div>
-                                                <div class="col-xss-12 col-xs-6 col-sm-6 col-md-4">
-                                                    <div class="checkbox-block">
-                                                        <input id="filter_checkbox-5" name="filter_checkbox" type="checkbox" class="checkbox"/>
-                                                        <label class="" for="filter_checkbox-5">Checkbox Five</label>
-                                                    </div>
-                                                </div>
-                                                <div class="col-xss-12 col-xs-6 col-sm-6 col-md-4">
-                                                    <div class="checkbox-block">
-                                                        <input id="filter_checkbox-6" name="filter_checkbox" type="checkbox" class="checkbox"/>
-                                                        <label class="" for="filter_checkbox-6">Checkbox Six</label>
-                                                    </div>
-                                                </div>
-                                                <div class="col-xss-12 col-xs-6 col-sm-6 col-md-4">
-                                                    <div class="checkbox-block">
-                                                        <input id="filter_checkbox-7" name="filter_checkbox" type="checkbox" class="checkbox"/>
-                                                        <label class="" for="filter_checkbox-7">Checkbox Seven</label>
-                                                    </div>
-                                                </div>
-                                                <div class="col-xss-12 col-xs-6 col-sm-6 col-md-4">
-                                                    <div class="checkbox-block">
-                                                        <input id="filter_checkbox-8" name="filter_checkbox" type="checkbox" class="checkbox"/>
-                                                        <label class="" for="filter_checkbox-8">Checkbox Eight</label>
-                                                    </div>
-                                                </div>
-                                                <div class="col-xss-12 col-xs-6 col-sm-6 col-md-4">
-                                                    <div class="checkbox-block">
-                                                        <input id="filter_checkbox-9" name="filter_checkbox" type="checkbox" class="checkbox"/>
-                                                        <label class="" for="filter_checkbox-9">Checkbox Nine</label>
-                                                    </div>
-                                                </div>
+                                                <?php 
+                                                    if(isset($inclusion_list) && count($inclusion_list) > 0){
+                                                        foreach($inclusion_list as $k=>$v){
+                                                            echo '<div class="col-xss-12 col-xs-6 col-sm-6 col-md-4">
+                                                                        <div class="checkbox-block">
+                                                                            <input id="inclusion_'.$k.'" name="trip_inclusions[]" type="checkbox" class="checkbox" value="'.$v["id"].'"/>
+                                                                            <label class="" for="inclusion_'.$k.'">'.$v["name"].'</label>
+                                                                        </div>
+                                                                   </div>';
+                                                        }
+                                                    }
+                                                ?>                                                
                                             </div>
                                             <div class="row gap-20">
                                             <div class="col-xs-12 col-sm-12 col-md-12">
 												
                                                         <div class="form-group bootstrap-fileinput-style-01">
                                                                 <label>Other inclusions</label>
-                                                                <textarea class="bootstrap3-wysihtml5 form-control" placeholder="Other inclusions point out once by one..." style="height: 150px;"></textarea>
+                                                                <textarea class="bootstrap3-wysihtml5 form-control" name="other_inclusions" placeholder="Other inclusions point out once by one..." style="height: 150px;"></textarea>
                                                         </div>
 
                                                 </div>
@@ -519,7 +405,7 @@
 												
                                                         <div class="form-group bootstrap-fileinput-style-01">
 <!--                                                                <label>Other inclusions</label>-->
-                                                                <textarea class="bootstrap3-wysihtml5 form-control" placeholder="Excluded point out once by one..." style="height: 150px;"></textarea>
+                                                                <textarea class="bootstrap3-wysihtml5 form-control" name="exclusions" placeholder="Excluded point out once by one..." style="height: 150px;"></textarea>
                                                         </div>
 
                                                 </div>
@@ -532,9 +418,11 @@
                                             <div class="submite-list-box">
 
                                                 <div id="file-submit" class="dropzone">
-                                                    <input name="file" type="file" multiple>
+                                                    <input name="file" id="gallery_uploads" type="file" multiple>
                                                     <div class="dz-default dz-message"><span>Click or Drop Images Here</span></div>
                                                 </div>
+                                                
+                                                <input type="hidden" name="gallery_images" id="gallery_images" value="[]">
 
                                             </div>	
 
@@ -545,13 +433,13 @@
 
                                             <div class="itinerary-form-wrapper">
 
-                                                <div class="itinerary-form-item">
+                                                <div class="itinerary-form-item" id="itinerary_form_item_1">
 
                                                     <div class="content clearfix">
 
                                                         <div class="row gap-20">
 
-                                                            <div class="col-xss-12 col-xs-2 col-sm-2 col-md-1">
+                                                            <div class="col-xs-2 col-sm-2 col-md-1">
 
                                                                 <div class="day">
                                                                     <h6 class="text-uppercase mb-0 mt-5 text-muted">Day</h6>
@@ -559,216 +447,56 @@
                                                                 </div>
 
                                                             </div>
-
-                                                            <div class="col-xss-12 col-xs-10 col-sm-10 col-md-11">
-
-                                                                <div class="row gap-20">
-
-                                                                    <div class="col-xs-12 col-sm-5 col-md-3">
-
-                                                                        <div class="form-group form-group-sm">
-                                                                            <label>Time from</label>
-                                                                            <input type="text" class="oh-timepicker form-control" />
-                                                                        </div>
-
-                                                                    </div>
-
-                                                                    <div class="col-xs-12 col-sm-5 col-md-3">
-
-                                                                        <div class="form-group form-group-sm">
-                                                                            <label>Time to</label>
-                                                                            <input type="text" class="oh-timepicker form-control" />
-                                                                        </div>
-
-                                                                    </div>
-
-                                                                </div>
-
-                                                                <div class="row gap-20">
-
-                                                                    <div class="col-xs-12 col-sm-6">
-
-                                                                        <div class="form-group">
-                                                                            <label>Title:</label>
-                                                                            <input type="text" class="form-control"/>
-                                                                        </div>
-
-                                                                        <div class="form-group">
-                                                                            <label>Remark:</label>
-                                                                            <input type="text" class="form-control"/>
-                                                                        </div>
-
-                                                                    </div>
-
-                                                                    <div class="col-xs-12 col-sm-6">
-
-                                                                        <div class="form-group">
-                                                                            <label>Brief Description:</label>
-                                                                            <textarea class="form-control" rows="5"></textarea>
-                                                                        </div>
-
-                                                                    </div>
-
-                                                                    
-
+                                                            
+                                                            <div class="col-xs-12 col-sm-3 col-md-3">
+                                                                <div class="form-group form-group-sm">
+                                                                    <label>Time from</label>
+                                                                    <input type="text" class="oh-timepicker form-control"  name="trip_from_time[]"/>
                                                                 </div>
 
                                                             </div>
 
+                                                            <div class="col-xs-12 col-sm-3 col-md-3">
+
+                                                                <div class="form-group form-group-sm">
+                                                                    <label>Time to</label>
+                                                                    <input type="text" class="oh-timepicker form-control" name="trip_to_time[]" />
+                                                                </div>
+
+                                                            </div>
+                                                            
+                                                            <div class="col-xs-12 col-sm-5 col-md-5">
+                                                                <div class="form-group form-group-sm">
+                                                                    <label>Title:</label>
+                                                                    <input type="text" class="form-control" name="trip_from_title[]"/>
+                                                                </div>
+                                                            </div>
+                                                            
                                                         </div>
-
-                                                    </div>
-
-                                                </div>
-
-                                                <div class="itinerary-form-item">
-
-                                                    <div class="content clearfix">
 
                                                         <div class="row gap-20">
 
-                                                            <div class="col-xss-12 col-xs-2 col-sm-2 col-md-1">
+                                                            <div class="col-xs-12 col-sm-12">
 
-                                                                <div class="day">
-                                                                    <h6 class="text-uppercase mb-0 mt-5 text-muted">Day</h6>
-                                                                    <span class="text-primary block number spacing-1">02</span>
+                                                                <div class="form-group">
+                                                                    <label>Short Description:</label>
+                                                                    <input type="text" class="form-control" name="trip_short_dec[]"/>
                                                                 </div>
 
                                                             </div>
-
-                                                            <div class="col-xss-12 col-xs-10 col-sm-10 col-md-11">
-
-                                                                <div class="row gap-20">
-
-                                                                    <div class="col-xs-12 col-sm-5 col-md-3">
-
-                                                                        <div class="form-group form-group-sm">
-                                                                            <label>Time from</label>
-                                                                            <input type="text" class="oh-timepicker form-control" />
-                                                                        </div>
-
-                                                                    </div>
-
-                                                                    <div class="col-xs-12 col-sm-5 col-md-3">
-
-                                                                        <div class="form-group form-group-sm">
-                                                                            <label>Time to</label>
-                                                                            <input type="text" class="oh-timepicker form-control" />
-                                                                        </div>
-
-                                                                    </div>
-
-                                                                </div>
-
-                                                                <div class="row gap-20">
-
-                                                                    <div class="col-xs-12 col-sm-6">
-
-                                                                        <div class="form-group">
-                                                                            <label>Title:</label>
-                                                                            <input type="text" class="form-control"/>
-                                                                        </div>
-
-                                                                        <div class="form-group">
-                                                                            <label>Remark:</label>
-                                                                            <input type="text" class="form-control"/>
-                                                                        </div>
-
-                                                                    </div>
-
-                                                                    <div class="col-xs-12 col-sm-6">
-
-                                                                        <div class="form-group">
-                                                                            <label>Brief Description:</label>
-                                                                            <textarea class="form-control" rows="5"></textarea>
-                                                                        </div>
-
-                                                                    </div>
-
-                                                                    
-
-                                                                </div>
-
-                                                            </div>
-
                                                         </div>
-
-                                                    </div>
-
-                                                </div>
-
-                                                <div class="itinerary-form-item">
-
-                                                    <div class="content clearfix">
-
+                                                        
                                                         <div class="row gap-20">
+                                                            <div class="col-xs-12 col-sm-12">
 
-                                                            <div class="col-xss-12 col-xs-2 col-sm-2 col-md-1">
-
-                                                                <div class="day">
-                                                                    <h6 class="text-uppercase mb-0 mt-5 text-muted">Day</h6>
-                                                                    <span class="text-primary block number spacing-1">03</span>
+                                                                <div class="form-group">
+                                                                    <label>Brief Description:</label>
+                                                                    <textarea class="bootstrap3-wysihtml5 form-control" name="trip_brief_dec[]" placeholder="Excluded point out once by one..." style="height: 150px;"></textarea>
                                                                 </div>
 
                                                             </div>
-
-                                                            <div class="col-xss-12 col-xs-10 col-sm-10 col-md-11">
-
-                                                                <div class="row gap-20">
-
-                                                                    <div class="col-xs-12 col-sm-5 col-md-3">
-
-                                                                        <div class="form-group form-group-sm">
-                                                                            <label>Time from</label>
-                                                                            <input type="text" class="oh-timepicker form-control" />
-                                                                        </div>
-
-                                                                    </div>
-
-                                                                    <div class="col-xs-12 col-sm-5 col-md-3">
-
-                                                                        <div class="form-group form-group-sm">
-                                                                            <label>Time to</label>
-                                                                            <input type="text" class="oh-timepicker form-control" />
-                                                                        </div>
-
-                                                                    </div>
-
-                                                                </div>
-
-                                                                <div class="row gap-20">
-
-                                                                    <div class="col-xs-12 col-sm-6">
-
-                                                                        <div class="form-group">
-                                                                            <label>Title:</label>
-                                                                            <input type="text" class="form-control"/>
-                                                                        </div>
-
-                                                                        <div class="form-group">
-                                                                            <label>Remark:</label>
-                                                                            <input type="text" class="form-control"/>
-                                                                        </div>
-
-                                                                    </div>
-
-                                                                    <div class="col-xs-12 col-sm-6">
-
-                                                                        <div class="form-group">
-                                                                            <label>Brief Description:</label>
-                                                                            <textarea class="form-control" rows="5"></textarea>
-                                                                        </div>
-
-                                                                    </div>
-
-                                                                    
-
-                                                                </div>
-
-                                                            </div>
-
                                                         </div>
-
+                                                        
                                                     </div>
 
                                                 </div>
@@ -776,11 +504,13 @@
                                             </div>
 
                                             <div class="add-more-form mt-15">
-                                                <span>Add/remove itinerary</span> 
-                                                <a href="#"><i class="ion-android-add-circle"></i></a> 
-                                                <a href="#"><i class="ion-android-remove-circle"></i></a>
+                                               <!-- <span>Add/remove itinerary</span> -->
+                                                <span>Add itinerary</span> 
+                                                <a href="javascript:;"><i class="ion-android-add-circle" id="addNewItinerary"></i></a> 
+                                                <!--<a href="#"><i class="ion-android-remove-circle"></i></a>-->
                                             </div>
-<div class="mb-30"></div>
+                                            
+                                            <div class="mb-30"></div>
 
 
                                             <h4 class="section-title">Policy</h4>
@@ -789,7 +519,7 @@
 												
                                                         <div class="form-group bootstrap-fileinput-style-01">
                                                                 <label>Cancellation Policy</label>
-                                                                <textarea class="bootstrap3-wysihtml5 form-control" placeholder="Enter text ..." style="height: 150px;"></textarea>
+                                                                <textarea class="bootstrap3-wysihtml5 form-control" name="cancellation_policy" id="cancellation_policy" placeholder="Enter text ..." style="height: 150px;"></textarea>
                                                         </div>
 
                                                 </div>
@@ -797,7 +527,7 @@
 												
                                                         <div class="form-group bootstrap-fileinput-style-01">
                                                                 <label>Confirmation Policy</label>
-                                                                <textarea class="bootstrap3-wysihtml5 form-control" placeholder="Enter text ..." style="height: 150px;"></textarea>
+                                                                <textarea class="bootstrap3-wysihtml5 form-control" name="confirmation_policy" id="confirmation_policy" placeholder="Enter text ..." style="height: 150px;"></textarea>
                                                         </div>
 
                                                 </div>
@@ -805,7 +535,7 @@
 												
                                                         <div class="form-group bootstrap-fileinput-style-01">
                                                                 <label>Refund Policy</label>
-                                                                <textarea class="bootstrap3-wysihtml5 form-control" placeholder="Enter text ..." style="height: 150px;"></textarea>
+                                                                <textarea class="bootstrap3-wysihtml5 form-control" name="refund_policy" id="refund_policy" placeholder="Enter text ..." style="height: 150px;"></textarea>
                                                         </div>
 
                                                 </div>
@@ -818,7 +548,7 @@
 
                                                     <div class="form-group">
                                                         <label>Other Setting Type:</label>
-                                                        <select class="selectpicker show-tick form-control" title="Select placeholder">
+                                                        <select class="selectpicker show-tick form-control" name="other_setting" title="Select placeholder">
                                                             <option value="">Select a type</option>
                                                             <option value="0">Set Offer Specific Day</option>
                                                             <option value="1">Set Trip Close Specific Day</option>
@@ -826,16 +556,16 @@
                                                     </div>
 
                                                 </div>
-                                                <div class="row" id="rangeDatePicker">
+                                                <div class="row gap-10" id="rangeDatePicker">
 									
-                                                                <div class="col-xss-12 col-xs-3 col-sm-3  ml-20">
+                                                                <div class="col-xss-12 col-xs-3 col-sm-3">
                                                                         <div class="form-group">
                                                                                 <label>From</label>
                                                                                 <input type="text" id="rangeDatePickerTo" class="form-control" placeholder="yyyy/mm/dd" />
                                                                         </div>
                                                                 </div>
 
-                                                                <div class="col-xss-12 col-xs-3 col-sm-3  ml-20">
+                                                                <div class="col-xss-12 col-xs-3 col-sm-3">
                                                                         <div class="form-group">
                                                                                 <label>To</label>
                                                                                 <input type="text" id="rangeDatePickerFrom" class="form-control" placeholder="yyyy/mm/dd" />
@@ -849,7 +579,7 @@
 
                                                     <div class="form-group">
                                                         <label>Trip size:</label>
-                                                        <input type="text" class="form-control form-spin" value="10" /> 
+                                                        <input type="text" class="form-control form-spin" name="other_no_of_traveller" value="0" /> 
                                                     </div>
 
                                                 </div>
@@ -857,7 +587,7 @@
 
                                                     <div class="form-group">
                                                         <label>Minimum travellers:</label>
-                                                        <input type="text" class="form-control form-spin" value="1" /> 
+                                                        <input type="text" class="form-control form-spin" name="other_no_of_min_booktraveller" value="0" /> 
                                                     </div>
 
                                                 </div>
@@ -865,7 +595,7 @@
 
                                                     <div class="form-group">
                                                         <label>Maximum travellers:</label>
-                                                        <input type="text" class="form-control form-spin" value="0" /> 
+                                                        <input type="text" class="form-control form-spin" name="other_no_of_max_booktraveller" value="0" /> 
                                                     </div>
 
                                                 </div>
@@ -874,7 +604,7 @@
                                                 <div class="col-xs-12 col-sm-4 col-md-4">
                                                     <label>Price to Adult:</label>
                                                     <div class="input-group mb-15">
-                                                        <input class="form-control" type="text" value="0">
+                                                        <input class="form-control" name="other_price_to_adult" type="text" value="0">
                                                         <span class="input-group-addon">Rs / person</span>
                                                     </div>
                                                 </div>
@@ -882,7 +612,7 @@
                                                 <div class="col-xs-12 col-sm-4 col-md-4">
                                                     <label>Price to Child:</label>
                                                     <div class="input-group mb-15">
-                                                        <input class="form-control" type="text" value="0">
+                                                        <input class="form-control" name="other_price_to_child" type="text" value="0">
                                                         <span class="input-group-addon">Rs / person</span>
                                                     </div>
                                                 </div>
@@ -890,7 +620,7 @@
                                                 <div class="col-xs-12 col-sm-4 col-md-4">
                                                     <label>Price to Infan:</label>
                                                     <div class="input-group mb-15">
-                                                        <input class="form-control" type="text" value="0">
+                                                        <input class="form-control" name="other_price_to_infan" type="text" value="0">
                                                         <span class="input-group-addon">Rs / person</span>
                                                     </div>
                                                 </div>
@@ -902,14 +632,17 @@
                                         <div class="mb-50 ">
 
                                             <div class="checkbox-block font-icon-checkbox">
-                                                <input id="term_accept-1" name="term_accept" type="checkbox" class="checkbox" />
-                                                <label class="" for="term_accept-1">Am terminated it excellence invitation projection as. She graceful shy believed distance use nay. Lively is people so basket ladies window expect. <a href="#" class="font700">Terms &amp; Conditions</a></label>
+                                                <input id="term_accept" name="term_accept"  type="checkbox" class="checkbox" />
+                                                <label class="" for="term_accept">Am terminated it excellence invitation projection as. She graceful shy believed distance use nay. Lively is people so basket ladies window expect. <a href="#" class="font700">Terms &amp; Conditions</a></label>
                                             </div>
+                                            <div class="term_accept_err" style="color:red;display:none;"><p>Please accept terms&conditions</p></div>
 
                                             <div class="mb-25"></div>
-                                            <input type="submit" class="btn btn-primary btn-wide" value="Submit">
+                                            <input type="hidden" name="button_type" id="button_type" value="submit">
+                                            <input type="submit" class="btn btn-primary btn-wide tripAddSubmit" data-id="submit" value="Submit">
+                                            <input type="submit" class="btn btn-primary btn-wide btn-wide btn-border tripAddSubmit"  data-id="draft"value="Save as draft">
 <!--                                            <a href="offered-create-done.html" class="btn btn-primary btn-wide">Submit</a>-->
-                                            <a href="#" class="btn btn-primary btn-wide btn-border">Save as draft</a>
+                                            <!--<a href="#" class="btn btn-primary btn-wide btn-border">Save as draft</a>-->
 
                                         </div>
 <?php echo form_close()?>
