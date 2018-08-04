@@ -383,6 +383,27 @@
 <?php }?>
 <?php if($url=='tag-master'){?>
     <script type="text/javascript" src="<?php echo base_url()?>assets-customs/js/master-tag-validation.js"></script>
+    <script type="text/javascript" src="<?php echo base_url()?>assets-customs/js/master-tag.js"></script>
+    
+    <script>//$(document).ready(function(){MasterValidation.init();});</script>
+<?php }?>
+<?php if($url=='trip-inclusions-master'){?>
+    <script type="text/javascript" src="<?php echo base_url()?>assets-customs/js/master-tripinclusion-validation.js"></script>
+    <script type="text/javascript" src="<?php echo base_url()?>assets-customs/js/master-tripinclusion.js"></script>
+    
+    <script>//$(document).ready(function(){MasterValidation.init();});</script>
+<?php }?>
+<?php if($url=='state-master'){?>
+    <script type="text/javascript" src="<?php echo base_url()?>assets-customs/js/master-state-validation.js"></script>
+    <script type="text/javascript" src="<?php echo base_url()?>assets-customs/js/master-state.js"></script>
+    
+    <script>//$(document).ready(function(){MasterValidation.init();});</script>
+<?php }?>
+<?php if($url=='city-master'){?>
+    <script type="text/javascript" src="<?php echo base_url()?>assets-customs/js/master-city-validation.js"></script>
+    <script type="text/javascript" src="<?php echo base_url()?>assets-customs/js/master-city.js"></script>
+    
+    <script>//$(document).ready(function(){MasterValidation.init();});</script>
 <?php }?>
 <?php if($url=='trip-list'){?>
     <script type="text/javascript" src="<?php echo base_url()?>assets/js/bootstrap-tokenfield.js"></script>

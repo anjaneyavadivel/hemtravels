@@ -78,7 +78,7 @@
                                        <?php if($isactive!='0'){?> 
                                         <td><a class="<?=$btn_type[$val];?> btn-edit-category" data-val="<?=$id?>" ><i class="fa fa-pencil" data-toggle="tooltip" data-placement="top" title="Click here to edit"></i></a>
                                             <a href="<?=base_url();?>category-master/delete/<?=$id?>"><i class="fa fa-trash" data-toggle="tooltip" data-placement="top" title="Click here to delete"></i> </a></td><?php }?>
-										<?php if($isactive!='1'){?><td><a href="#" class="<?=$btn_type[$val];?>"><i class="fa fa-check" data-toggle="tooltip" data-placement="top" title="Click here to active"></i></a><?php }?>
+										<?php if($isactive!='1'){?><td><a href="<?=base_url();?>category-master/active/<?=$id?>" class="<?=$btn_type[$val];?>"><i class="fa fa-check" data-toggle="tooltip" data-placement="top" title="Click here to active"></i></a><?php }?>
 
                                     </tr>
 										<?php 				

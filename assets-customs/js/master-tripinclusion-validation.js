@@ -11,12 +11,12 @@ var MasterValidation = function ()
              * make_new_trip_form
              */
 
-            var form2 = $('#add-tag-form');
+            var form2 = $('#add-trip-form');
             form2.validate({
                 focusInvalid: false, // do not focus the last invalid input
                 ignore: "",
                 rules: {
-                    tag_name: {
+                    trip_name: {
                         required: true,
                     },
                 },
@@ -45,7 +45,7 @@ var MasterValidation = function ()
                     {
                         var values = form2.serializeArray();
                         values.push({name: "csrf_test_name", value: $.cookie('csrf_cookie_name')});
-                        var url = base_url + 'tag-master/add';
+                        var url = base_url + 'trip-inclusions-master/add';
                         $.ajax({
                             url: url,
                             type: 'post',
@@ -54,7 +54,7 @@ var MasterValidation = function ()
                                 if (res != '') {
                                     $('.message33').html(res);
                                 } else {
-                                    window.location.replace(base_url + "tag-master");
+                                    window.location.replace(base_url + "trip-inclusions-master");
                                 }
 
                             }
@@ -65,15 +65,15 @@ var MasterValidation = function ()
             });
             
             //edit
-            var form30 = $('#edit-tag-form');
+            var form30 = $('#edit-trip-form');
             form30.validate({
                 focusInvalid: false, // do not focus the last invalid input
                 ignore: "",
                 rules: {
-                    tag_name: {
+                    trip_name: {
                         required: true,
                     },
-                    tag_id: {
+                    trip_id: {
                         required: true,
                     },
                 },
@@ -102,7 +102,7 @@ var MasterValidation = function ()
                     {
                         var values = form30.serializeArray();
                         values.push({name: "csrf_test_name", value: $.cookie('csrf_cookie_name')});
-                        var url = base_url + 'tag-master/save-edit';
+                        var url = base_url + 'trip-inclusions-master/save-edit';
                         $.ajax({
                             url: url,
                             type: 'post',
@@ -111,7 +111,7 @@ var MasterValidation = function ()
                                 if (res != '') {
                                     $('.message33').html(res);
                                 } else {
-                                    window.location.replace(base_url + "tag-master");
+                                    window.location.replace(base_url + "trip-inclusions-master");
                                 }
 
                             }
