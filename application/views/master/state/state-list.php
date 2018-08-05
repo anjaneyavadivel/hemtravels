@@ -49,6 +49,7 @@
                                 <thead>
                                     <tr>
                                         <th>Sno</th>
+										<th>Country Name</th>
                                         <th>state Name</th>
                                         <th>Staus</th>
                                         <th>Action</th>
@@ -63,6 +64,7 @@
 									foreach($statelist as $row)
 									{
 										$id=$row['id'];	
+										$country_name=$row['cname'];
 										$name=$row['name'];
 										$isactive=$row['isactive'];
 										$status_active = array('deactive','active');
@@ -73,6 +75,7 @@
 										?>
                                     <tr>
                                         <td><?=$id;?></td>
+										<td><?=$country_name;?></td>
                                         <td><?=$name;?></td>
                                         <td><h4 class="<?=$btn_type[$val];?>"><?=$status_active[$val];?></h4></td>
                                        <?php if($isactive!='0'){?> 
