@@ -1,5 +1,5 @@
 <?php $this->load->view('includes/header')?>
-<?php $this->load->view('user/side_bar')?>
+<?php $this->load->view('user/side_bar');$v=$view->row();?>
 <div class="col-xs-12 col-sm-8 col-md-9">
 						
 							<div class="dashboard-wrapper">
@@ -12,8 +12,8 @@
 									<div class="row gap-20">
 
 										<div class="col-sm-6 col-md-4">
-												
-											<div class="form-group bootstrap-fileinput-style-01">
+												<img src="<?php if($this->session->userdata('user_img')) echo $this->session->userdata('user_img')?>" alt="image" />
+											<div class="form-group ">
 												<label>Photo</label>
 												<input type="file" name="form-register-photo" id="form-register-photo">
 												<span class="font12 font-italic">** photo must not bigger than 250kb</span>
@@ -27,24 +27,10 @@
 												
 											<div class="form-group">
 												<label>Name</label>
-												<input type="text" class="form-control" value="Christine">
+												<input type="text" class="form-control" value="<?php echo $v->user_fullname?>">
 											</div>
 											
 										</div>
-										
-										<div class="col-sm-6 col-md-4">
-										
-											<div class="form-group">
-												<label>Gender</label>
-												<select class="selectpicker form-control" data-live-search="false">
-                                                                                                        <option value="">select</option>
-                                                                                                        <option value="male">Male</option>
-                                                                                                        <option value="female">Female</option>
-                                                                                                </select>
-											</div>
-											
-										</div>
-										
 										<div class="clear"></div>
 										
 										<div class="col-sm-6 col-md-4">
@@ -85,7 +71,7 @@
 										
 											<div class="form-group">
 												<label>Email</label>
-												<input type="email" class="form-control" value="myemail@gmail.com">
+												<input type="email" class="form-control" value="<?php echo $v->user_fullname?>">
 											</div>
 											
 										</div>
@@ -95,7 +81,7 @@
 										
 											<div class="form-group">
 												<label>Phone/WhatsApp</label>
-												<input type="email" class="form-control" value="9999999999">
+												<input type="email" class="form-control" value="<?php echo $v->user_fullname?>">
 											</div>
 											
 										</div>
@@ -103,7 +89,7 @@
 										
 											<div class="form-group">
 												<label>Alt Phone No</label>
-												<input type="email" class="form-control" value="9999999999">
+												<input type="email" class="form-control" value="<?php echo $v->user_fullname?>">
 											</div>
 											
 										</div>
@@ -114,7 +100,7 @@
 										
 											<div class="form-group">
 												<label>Address1</label>
-												<input type="text" class="form-control" value="254">
+												<input type="text" class="form-control" value="<?php echo $v->user_fullname?>">
 											</div>
 											
 										</div>

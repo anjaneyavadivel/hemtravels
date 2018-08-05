@@ -26,7 +26,6 @@ public $data;
 	}
 	public function gmail()
 	{
-		
 		// Include two files from google-php-client library in controller
 		include_once APPPATH . 'libraries/google/src/Google_Client.php';
 		include_once APPPATH . 'libraries/google/src/contrib/Google_Oauth2Service.php';
@@ -47,6 +46,7 @@ public $data;
 				$name = explode(" ",$content['name']);
 				$fname = isset($name[0])?$name[0]:'';
 				$lname = isset($name[1])?$name[1]:'';
+				print_r($content);exit;
 				$this->check_data('gmail',$content['id'],$fname,$lname,$content['picture']);
 				$_SESSION['token'] = $client->getAccessToken();
 			} 
@@ -121,7 +121,7 @@ public $data;
 	}
 	function check_data($net,$id,$fname,$lname,$profile_image_url)
 	{
-		$check						=	$this->usermodel->select('user_master',array('social_network'=>$net,'auth_id'=>$id));
+		$check						=	$this->user_model->select('user_master',array('social_network'=>$net,'auth_id'=>$id));
 		if($check->num_rows()>0)
 		{
 			$ch		=	$check->row();
@@ -170,7 +170,7 @@ public $data;
 				$last_id=	$this->db->insert_id();
 				if($query)
 				{
-					$check						=	$this->usermodel->select('user_master',array('id'=>$last_id));
+					$check						=	$this->user_model->select('user_master',array('id'=>$last_id));
 					if($check->num_rows()>0)
 					{
 						/*$this->session->set_userdata('login_socail',0);

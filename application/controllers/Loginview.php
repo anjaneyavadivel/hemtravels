@@ -33,13 +33,16 @@ class Loginview extends CI_Controller {
 		$data['view'] = $this->user_model->select('user_master',array('id'=>$user_id));
 		if($data['view']->num_rows()==0)
 			redirect('login/logout');
-		$this->login_verfy();
 		$this->load->view('user/profile',$data);
 	}
 	public function update_profile()
 	{
 		$this->login_verfy();
-		$this->load->view('user/update_profile');
+		$user_id = $this->session->userdata('user_id');
+		$data['view'] = $this->user_model->select('user_master',array('id'=>$user_id));
+		if($data['view']->num_rows()==0)
+			redirect('login/logout');
+		$this->load->view('user/update_profile',$data);
 	}
 	public function change_password()
 	{

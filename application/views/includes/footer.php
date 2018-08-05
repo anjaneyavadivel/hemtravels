@@ -144,10 +144,10 @@
 		<div class="row gap-20">
 		
 			<div class="col-sm-6 col-md-6">
-				<button class="btn btn-facebook btn-block mb-5-xs">Log-in with Facebook</button>
+				<a href="<?php echo base_url()?>fb" class="btn btn-facebook btn-block mb-5-xs">Log-in with Facebook</a>
 			</div>
 			<div class="col-sm-6 col-md-6">
-				<button class="btn btn-google-plus btn-block">Log-in with Google+</button>
+				<a  href="<?php echo base_url()?>gmail" class="btn btn-google-plus btn-block">Log-in with Google+</a>
 			</div>
 			
 			<div class="col-md-12">
@@ -217,10 +217,10 @@
 		<div class="row gap-20">
 		
 			<div class="col-sm-6 col-md-6">
-				<button class="btn btn-facebook btn-block mb-5-xs">Register with Facebook</button>
+				<a href="<?php echo base_url()?>fb" class="btn btn-facebook btn-block mb-5-xs">Register with Facebook</a>
 			</div>
 			<div class="col-sm-6 col-md-6">
-				<button class="btn btn-google-plus btn-block">Register with Google+</button>
+				<a href="<?php echo base_url()?>gmail" class="btn btn-google-plus btn-block">Register with Google+</a>
 			</div>
 			
 			<div class="col-md-12">
