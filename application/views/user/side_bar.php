@@ -56,18 +56,11 @@ switch ($url) {
 													</div>
 													<ul class="user-meta">
 														<li><i class="fa fa-map-marker"></i> 264, Carson Street Lexington, KY 40539 <!-- <span class="mh-5 text-muted">|</span> --></li>
-														 <li><i class="fa fa-envelope"></i> xxxx@xyz.com</li>
-														 <li><i class="fa fa-phone"></i> +4 8547 985</li>
-														<!-- <li>
-															<div class="user-social inline-block">
-																<a href="#"><i class="icon-social-twitter" data-toggle="tooltip" data-placement="top" title="twitter"></i></a>
-																<a href="#"><i class="icon-social-facebook" data-toggle="tooltip" data-placement="top" title="facebook"></i></a>
-																<a href="#"><i class="icon-social-gplus" data-toggle="tooltip" data-placement="top" title="google plus"></i></a>
-																<a href="#"><i class="icon-social-instagram" data-toggle="tooltip" data-placement="top" title="instrgram"></i></a>
-															</div>
-															<a href="#" class="btn btn-primary btn-xs btn-border">Follow</a>
-														</li> -->
-														
+														 <li><i class="fa fa-envelope"></i>  <?php if($this->session->userdata('user_email'))echo $this->session->userdata('user_email')?></li>
+                                                         <?php if($this->session->userdata('user_phone')){?>
+														 <li><i class="fa fa-phone"></i> <?php if($this->session->userdata('user_phone'))echo $this->session->userdata('user_phone')?></li>
+                                                         <?php }?>
+																										
 														
 													</ul>
 												</div>

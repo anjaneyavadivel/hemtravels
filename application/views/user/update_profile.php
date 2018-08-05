@@ -5,20 +5,16 @@
 							<div class="dashboard-wrapper">
 							
 								<h4 class="section-title">Edit profile</h4>
-<!--								<p class="mmt-15 mb-20">Interested astonished he at cultivated or me. Nor brought one invited she produce her.</p>-->
-								
-								<form class="post-form-wrapper">
+								<?php echo form_open_multipart(base_url() . 'update-profile', array('class' => 'form-horizontal margin-top-30', 'id' => 'change_password')); ?>
 									
 									<div class="row gap-20">
-
 										<div class="col-sm-6 col-md-4">
 												<img src="<?php if($this->session->userdata('user_img')) echo $this->session->userdata('user_img')?>" alt="image" />
 											<div class="form-group ">
 												<label>Photo</label>
-												<input type="file" name="form-register-photo" id="form-register-photo">
+												<input type="file" name="image" id="photo">
 												<span class="font12 font-italic">** photo must not bigger than 250kb</span>
 											</div>
-
 										</div>
 										
 										<div class="clear"></div>
@@ -27,7 +23,7 @@
 												
 											<div class="form-group">
 												<label>Name</label>
-												<input type="text" class="form-control" value="<?php echo $v->user_fullname?>">
+												<input type="text" class="form-control" name="user_fullname" maxlength="50" value="<?php echo $v->user_fullname?>">
 											</div>
 											
 										</div>
@@ -71,7 +67,7 @@
 										
 											<div class="form-group">
 												<label>Email</label>
-												<input type="email" class="form-control" value="<?php echo $v->user_fullname?>">
+												<input type="email" class="form-control" maxlength="50" name="email" value="<?php echo $v->email?>">
 											</div>
 											
 										</div>
@@ -81,7 +77,7 @@
 										
 											<div class="form-group">
 												<label>Phone/WhatsApp</label>
-												<input type="email" class="form-control" value="<?php echo $v->user_fullname?>">
+												<input type="text" class="form-control" maxlength="12" name="phone" value="<?php echo $v->phone?>">
 											</div>
 											
 										</div>
@@ -89,7 +85,7 @@
 										
 											<div class="form-group">
 												<label>Alt Phone No</label>
-												<input type="email" class="form-control" value="<?php echo $v->user_fullname?>">
+												<input type="text" class="form-control" maxlength="12" name="alt_phone" value="<?php echo $v->alt_phone?>">
 											</div>
 											
 										</div>
@@ -100,7 +96,7 @@
 										
 											<div class="form-group">
 												<label>Address1</label>
-												<input type="text" class="form-control" value="<?php echo $v->user_fullname?>">
+												<input type="text" class="form-control" maxlength="50" value="<?php echo $v->user_fullname?>">
 											</div>
 											
 										</div>
@@ -141,16 +137,6 @@
 											
 										</div>
 										
-										<div class="clear"></div>
-										
-										<div class="col-sm-6 col-md-4">
-										
-											<div class="form-group">
-												<label>Landmark</label>
-												<input type="text" class="form-control" value="Somewhere ">
-											</div>
-											
-										</div>
 										
 										<div class="col-sm-6 col-md-4">
 										
@@ -161,25 +147,13 @@
 											
 										</div>
 
-										<div class="clear"></div>
 										
-										<div class="col-sm-6 col-md-4">
-										
-											<div class="form-group">
-												<label>Country</label>
-												<select class="selectpicker show-tick form-control" data-live-search="false">
-													<option value="0">Select</option>
-													<option value="1" selected>India</option>
-												</select>
-											</div>
-											
-										</div>
 										<div class="clear"></div>
 										<div class="col-sm-6 col-md-4">
 										
 											<div class="form-group">
 												<label>Emergency Contact Person Name</label>
-												<input type="text" class="form-control" value="xxxxx">
+												<input type="text" class="form-control" maxlength="50" name="emergency_contact_person" value="<?php echo $v->emergency_contact_person?>">
 											</div>
 											
 										</div>
@@ -187,7 +161,7 @@
 										
 											<div class="form-group">
 												<label>Emergency Contact No</label>
-												<input type="text" class="form-control" value="9999999999">
+												<input type="text" class="form-control" maxlength="10" name="emergency_contact_no" value="<?php echo $v->emergency_contact_no?>">
 											</div>
 											
 										</div>
@@ -196,13 +170,13 @@
 										<div class="clear mb-10"></div>
 
 										<div class="col-sm-12">
-											<a href="#" class="btn btn-primary">Save</a>
-											<a href="#" class="btn btn-primary btn-border">Cancel</a>
+											<input type="submit" class="btn btn-primary" value="Save" name="save" />
+											<a href="<?php echo base_url()?>my-profile" class="btn btn-primary btn-border">Cancel</a>
 										</div>
 
 									</div>
 									
-								</form>
+							   <?php echo form_close()?>
 								
 							</div>
 							

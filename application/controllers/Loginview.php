@@ -39,6 +39,59 @@ class Loginview extends CI_Controller {
 	{
 		$this->login_verfy();
 		$user_id = $this->session->userdata('user_id');
+		if($this->input->post('save')){
+			$values=array();
+			$this->form_validation->set_rules('user_fullname', 'Name', 'trim|required|max_length[50]');
+            $this->form_validation->set_rules('email', 'Email', 'trim|required|min_length[6]|max_length[60]');
+			$this->form_validation->set_rules('phone', 'Phone number', 'trim|required|min_length[10]|max_length[12]');
+			$this->form_validation->set_rules('alt_phone', 'Alt Phone', 'trim|min_length[10]|max_length[12]');
+			$this->form_validation->set_rules('emergency_contact_no', 'Emergency contact no', 'trim|min_length[10]|max_length[12]');
+			$this->form_validation->set_rules('emergency_contact_person', 'Emergency contact person', 'trim|min_length[6]|max_length[50]');
+			 if ($this->form_validation->run($this) == FALSE) {
+                $this->session->set_userdata('err', validation_errors());
+                redirect('update-profile');
+            }
+			$email = $this->input->post('email');
+			$check =  $this->user_model->select('user_master',array('id !='=>$user_id,'email'=>$email));
+			if($check->num_rows()>0){
+				$this->session->set_userdata('err', 'Already exist this email, Choose different one.!');
+				redirect('update-profile');     
+			}
+			if (!empty($_FILES['image'])) {
+				if ($_FILES['image']['name'] != "") {
+					$path 		= 'uploads/';
+					$old_name 	= $_FILES["image"]["name"];
+					$split_name = explode('.',$old_name);
+					$time 		= time();
+					$file_name 	= $time.".".$split_name[1];
+					move_uploaded_file($_FILES["image"]["tmp_name"],$path. "/" . $file_name);
+					$values['profile_pic']		=	$file_name;
+					if (trim($file_name) != "" && file_exists("./uploads/$file_name")) 
+					{
+						$image_url	=	base_url()."uploads/$file_name";
+					}
+					else
+					{
+						$image_url	=	base_url()."assets/images/man/01.jpg";
+					}   
+					 $this->session->set_userdata('user_img', $image_url);
+				}				
+			}
+			$values['email']					=	$this->input->post('email');
+			$values['user_fullname']			=	$this->input->post('user_fullname');
+			$values['phone']					=	$this->input->post('phone');
+			$values['alt_phone']				=	$this->input->post('alt_phone');
+			$values['emergency_contact_person']	=	$this->input->post('emergency_contact_person');
+			$values['emergency_contact_no']		=	$this->input->post('emergency_contact_no');
+			$query =  $this->user_model->update('user_master',$values,array('id'=>$user_id));
+			if ($query) {
+				$this->session->set_userdata('suc', 'Succesfully updated your Profile..!');                    
+			} else {
+				$this->session->set_userdata('err', 'Please try again..!');                   
+			}
+			redirect('update-profile');
+			
+		}
 		$data['view'] = $this->user_model->select('user_master',array('id'=>$user_id));
 		if($data['view']->num_rows()==0)
 			redirect('login/logout');
