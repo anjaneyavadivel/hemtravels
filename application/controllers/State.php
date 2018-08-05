@@ -8,7 +8,6 @@ class State extends CI_Controller {
 		parent::__construct();
 		$this->load->model('State_model');	
 		$this->load->library('form_validation');		
-		
 	}
 
     public function state_list($state_search = '') {
@@ -68,7 +67,7 @@ class State extends CI_Controller {
             if ($this->form_validation->run($this) != FALSE) {
                 $id = trim($this->input->post('id'));
                 $name = ucwords(trim($this->input->post('state_name')));
-                $whereData = array('isactive' => 1, 'name' => $name);
+                $whereData = array('isactive' => 1,'country_id' => 1, 'name' => $name);
                 $trip_state_list = selectTable('state_master', $whereData);
                 if ($trip_state_list->num_rows() > 0) {
                     echo 'Sorry! All ready exist this name.';
@@ -77,6 +76,7 @@ class State extends CI_Controller {
                 $data = array(
                     'id' => $id,
                     'name' => $name,
+					'country_id' => 1,
                     'isactive' => 1);
                 $state_id = $this->State_model->state_insert($data);
                 if ($state_id) {

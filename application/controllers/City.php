@@ -6,7 +6,7 @@ class City extends CI_Controller {
 	function __construct()
 	{
 		parent::__construct();
-		$this->load->model('City_model');	
+		$this->load->model('City_model');		
 		$this->load->library('form_validation');		
 		
 	}
@@ -43,6 +43,7 @@ class City extends CI_Controller {
         $data["links"] = explode('&nbsp;', $str_links);
         $data["city_search"] = $city_search;
         $this->load->view('master/city/city-list', $data);
+
     }
 
     public function loadmodal($view) {
@@ -68,7 +69,7 @@ class City extends CI_Controller {
             if ($this->form_validation->run($this) != FALSE) {
                 $id = trim($this->input->post('id'));
                 $name = ucwords(trim($this->input->post('city_name')));
-                $whereData = array('isactive' => 1, 'name' => $name);
+                $whereData = array('isactive' => 1, 'csid'=>$state_id,'name' => $name);
                 $trip_city_list = selectTable('city_master', $whereData);
                 if ($trip_city_list->num_rows() > 0) {
                     echo 'Sorry! All ready exist this name.';
@@ -76,6 +77,7 @@ class City extends CI_Controller {
                 }
                 $data = array(
                     'id' => $id,
+					'csid'=>$state_id,
                     'name' => $name,
                     'isactive' => 1);
                 $city_id = $this->City_model->city_insert($data);
@@ -84,6 +86,9 @@ class City extends CI_Controller {
                 }
             }
         }
+		$data['citydetail']=array('sid'=>'','sname'=>'','csid'=>'');
+		$data['statelist']=$this->State_model->state_list($limit, $start,$state_search);	
+        $this->load->view('master/city/city-add', $data);
         echo 'Sorry! Try again...';
         return FALSE;
     }
