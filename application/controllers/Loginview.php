@@ -60,7 +60,7 @@ class Loginview extends CI_Controller {
 				else{
 					$query =  $this->user_model->update('user_master',array('password'=>md5(md5($password))),array('id'=>$user_id));
 					if ($query) {
-						$this->session->set_userdata('suc', 'Succesfully updated yoyr password..!');                    
+						$this->session->set_userdata('suc', 'Succesfully updated your password..!');                    
 					} else {
 						$this->session->set_userdata('err', 'Please try again..!');                   
 					}
@@ -78,7 +78,60 @@ class Loginview extends CI_Controller {
 	public function account_details()
 	{
 		$this->login_verfy();
-		$this->load->view('user/account_details');
+		$user_id = $this->session->userdata('user_id');
+		if($this->input->post('save')){
+			$this->form_validation->set_rules('bank_name', 'Bank name', 'trim|required');
+            $this->form_validation->set_rules('account_holder_name', 'Account holder name', 'trim|required|min_length[6]|max_length[50]');
+			$this->form_validation->set_rules('account_number', 'Account Number', 'trim|required|min_length[6]|max_length[32]');
+			$this->form_validation->set_rules('ifsc_code', 'IFSC code', 'trim|required|min_length[6]|max_length[12]');
+			$this->form_validation->set_rules('branch_name', 'Account Branch name', 'trim|required|min_length[6]|max_length[100]');
+			$this->form_validation->set_rules('address', 'Address', 'trim|required|min_length[6]|max_length[300]');
+            if ($this->form_validation->run($this) == FALSE) {
+                $this->session->set_userdata('err', validation_errors());
+                redirect('account-details');
+            }
+			if($this->input->post('account_number1') == $this->input->post('account_number') && $this->input->post('account_number')!='')
+			{
+				$password = $this->input->post('account_number1');
+				$check =  $this->user_model->select('user_bank_master',array('user_id'=>$user_id,'account_number'=>$password));
+				if($check->num_rows()>0){
+					$this->session->set_userdata('err', 'Already exist this account number.!');
+					redirect('account-details');     
+				}
+				else{
+					$is_primary=0;
+					if($this->input->post('is_primary')==1)
+					{
+						$is_primary=1;
+						$this->user_model->update('user_bank_master',array('is_primary'=>0),array('user_id'=>$user_id));
+					}
+					$values =  array('user_id' 					=> $user_id,
+										'bank_name' 			=> strtoupper($this->input->post('bank_name')),
+										'account_holder_name' 	=> strtoupper($this->input->post('account_holder_name')),
+										'account_number' 		=> $this->input->post('account_number'),
+										'ifsc_code' 			=> $this->input->post('ifsc_code'),
+										'branch_name' 			=> $this->input->post('branch_name'),
+										'address' 				=> $this->input->post('address'),
+										'is_primary' 			=> $is_primary,
+										'added_by'				=> $user_id
+										);
+					$query =  $this->user_model->insert('user_bank_master',$values);
+					if ($query) {
+						$this->session->set_userdata('suc', 'Succesfully Add your Bank details..!');                    
+					} else {
+						$this->session->set_userdata('err', 'Please try again..!');                   
+					}
+					redirect('account-details');
+				}				
+			}
+			else{
+				$this->session->set_userdata('err', 'Invalid Account number..!');
+                                redirect('account-details');
+			}
+		}
+		
+		$data['view'] = $this->user_model->select('user_bank_master',array('user_id'=>$user_id));
+		$this->load->view('user/account_details',$data);
 	}
 	public function my_post()
 	{

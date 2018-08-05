@@ -107,14 +107,20 @@ switch ($url) {
 									<ul class="common-menu-list">
 										
 										<li class="<?php echo $mn_profile?>"><a href="my-profile">Dashboard</a></li>
-										<li class="<?php echo $mn_updateprofile?>"><a href="update-profile">Edit profile</a></li>
+                                        <li class="<?php echo $mn_updateprofile?>"><a href="update-profile">Edit profile</a></li>
+                                         <?php if($this->session->userdata('user_type') && $this->session->userdata('user_type')=='GU'){?>
+										
 										<li class="<?php echo $mn_history?>"><a href="booking-history">Booking History</a></li>
 										<li class="<?php echo $mn_mywishlist?>"><a href="my-wishlist">My wihslist</a></li>
+                                        <?php }?>
 										<li class="<?php echo $mn_change_password?>"><a href="change-password">Change password</a></li>
 										<li class=""><a href="<?php echo base_url()?>logout">Logout</a></li>
 										<li class="<?php echo $mn_mypost?>"><a href="my-post">My post</a></li>
-										<li class="<?php echo $mn_mytransaction?>"><a href="my-transaction">My Transaction</a></li>
+										
+                                        <?php if($this->session->userdata('user_type') && $this->session->userdata('user_type')=='VA'){?>
+                                        <li class="<?php echo $mn_mytransaction?>"><a href="my-transaction">My Transaction</a></li>
 										<li class="<?php echo $mn_bank_details?>"><a href="account-details">Bank Account</a></li>
+                                        <?php }?>
 									</ul>
 									
 								</div>
