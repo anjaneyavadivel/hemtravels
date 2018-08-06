@@ -49,6 +49,7 @@
                                 <thead>
                                     <tr>
                                         <th>Sno</th>
+										<th>Country Name</th>
 										<th>state Name</th>
                                         <th>city Name</th>
                                         <th>Staus</th>

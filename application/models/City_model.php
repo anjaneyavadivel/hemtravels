@@ -4,12 +4,18 @@ class City_model extends CI_Model
     // Function 1:Get category master list
 	
 	function city_list($limit, $start,$city_search) {
-        $this->db->select('sm.id AS sid,sm.name AS sname,cim.isactive AS isactive,sm.country_id AS country_id,cm.name AS cname,cim.id AS id,cim.id AS id,cim.name AS name,cim.state_id AS csid');
+        $this->db->select('sm.id AS sid,sm.name AS sname,cim.isactive AS isactive,sm.country_id AS country_id,cm.name AS cname,cim.id AS id,cim.name AS name,cim.state_id AS csid');
 		$this->db->from('city_master AS cim');
 		$this->db->join('state_master AS sm', 'sm.id = cim.state_id');
 		$this->db->join('country_master AS cm', 'sm.country_id = cm.id');
         $this->db->like('cim.name',$city_search);
         $this->db->limit($limit, $start);
+        $query = $this->db->get();
+        return $query->result_array();
+    }
+	function state_select() {
+        $this->db->select('sm.id AS sid,sm.name AS state_name,sm.id AS state_id');
+		$this->db->from('state_master AS sm');
         $query = $this->db->get();
         return $query->result_array();
     }
