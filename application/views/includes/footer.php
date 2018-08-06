@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 <?php $url=$this->uri->segment(1);?>
 <div id="common-ajax-modal"  class="modal fade in login-box-wrapper modal-overflow" tabindex="-1" data-backdrop="static" data-keyboard="false" data-replace="true"></div>
 <div class="footer-wrapper scrollspy-footer">
