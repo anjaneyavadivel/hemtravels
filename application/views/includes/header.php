@@ -22,7 +22,7 @@
         <link rel="stylesheet" type="text/css" href="<?php echo base_url() ?>assets/bootstrap/css/bootstrap.min.css" media="screen">	
         <link href="<?php echo base_url() ?>assets/css/main.css" rel="stylesheet">
         <link href="<?php echo base_url() ?>assets/css/plugin.css" rel="stylesheet">
-
+       
         <!-- CSS Custom -->
         <link href="<?php echo base_url() ?>assets/css/style.css" rel="stylesheet">
 
@@ -33,6 +33,11 @@
         <?php if($url=='trip-calendar-view'){?>
 		<link rel="stylesheet" href="<?php echo base_url() ?>assets/css/magnific-popup.css">
 		<link rel="stylesheet" href="<?php echo base_url() ?>assets/css/timetable.css">
+        <?php }?>
+        <?php if($url=='make-new-trip'){?>
+		<link href="<?php echo base_url() ?>assets/css/owlcarousel.css" rel="stylesheet">
+                <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/all.css" integrity="sha384-lKuwvrZot6UHsBSfcMvOkWwlCMgc0TaWr+30HWe3a4ltaBwTZhyTEggF5tJv8tbt" crossorigin="anonymous">
+       
         <?php }?>
         <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
         <!--[if lt IE 9]>
@@ -86,12 +91,16 @@
                                     <li>
                                         <a href="javascript:void(0);">Master</a>
                                         <ul>
+                                             <?php  if ($this->session->userdata('user_type') == 'SA') {  ?>
+                                            <li><a href="coupon-code-master">Coupon Code Master</a></li>
+                                            <?php }?>
                                             <li><a href="<?php echo base_url() ?>category-master">Category Master</a></li>
                                             <li><a href="<?php echo base_url() ?>tag-master">Tag Master</a></li>
                                             <li><a href="<?php echo base_url() ?>trip-inclusions-master">Trip Inclusions</a></li>
                                             <li><a href="<?php echo base_url() ?>state-master">State Master</a></li>
                                             <li><a href="<?php echo base_url() ?>city-master">City Master</a></li>
-                                            <li><a href="<?php echo base_url() ?>location-master">Location Master</a></li>
+                                           
+<!--                                            <li><a href="<?php echo base_url() ?>location-master">Location Master</a></li>-->
                                         </ul>
 
                                     </li>

@@ -368,12 +368,15 @@
     <script type="text/javascript" src="<?php echo base_url()?>assets/js/jquery.bootstrap-touchspin.js"></script>
     <script type="text/javascript" src="<?php echo base_url()?>assets/js/customs-dashboard-guide-info.js"></script>
     <script type="text/javascript" src="<?php echo base_url()?>assets/js/fileinput.min.js"></script>
-    <script type="text/javascript" src="<?php echo base_url()?>assets/js/customs-fileinput.js"></script>
     <script type="text/javascript" src="<?php echo base_url()?>assets/js/dropzone.min.js"></script>
     <script type="text/javascript" src="<?php echo base_url()?>assets/js/jquery-ui.min.js"></script>
     <script type="text/javascript" src="<?php echo base_url()?>assets/js/jquery.ui.timepicker.js"></script>
+    <script type="text/javascript" src="<?php echo base_url()?>assets/js/moment.min.js"></script>
+    <script type="text/javascript" src="<?php echo base_url()?>assets/js/jquery.daterangepicker.js"></script>
+    <script type="text/javascript" src="<?php echo base_url()?>assets/js/customs-fileinput.js"></script>
     <script type="text/javascript" src="<?php echo base_url()?>assets-customs/js/make-trip.js"></script>
 <script type="text/javascript" src="<?php echo base_url()?>assets-customs/js/make-trip-validation.js"></script>
+
 <?php }?>
 <?php if($url=='category-master'){?>
     <script type="text/javascript" src="<?php echo base_url()?>assets-customs/js/master-category-validation.js"></script>
@@ -402,6 +405,15 @@
 <?php if($url=='city-master'){?>
     <script type="text/javascript" src="<?php echo base_url()?>assets-customs/js/master-city-validation.js"></script>
     <script type="text/javascript" src="<?php echo base_url()?>assets-customs/js/master-city.js"></script>
+    
+    <script>//$(document).ready(function(){MasterValidation.init();});</script>
+<?php }?>
+    
+<?php if($url=='coupon-code-master'){?>
+    <script type="text/javascript" src="<?php echo base_url()?>assets/js/moment.min.js"></script>
+    <script type="text/javascript" src="<?php echo base_url()?>assets/js/jquery.daterangepicker.js"></script>
+    <script type="text/javascript" src="<?php echo base_url()?>assets-customs/js/master-coupon-code-validation.js"></script>
+    <script type="text/javascript" src="<?php echo base_url()?>assets-customs/js/master-coupon-code.js"></script>
     
     <script>//$(document).ready(function(){MasterValidation.init();});</script>
 <?php }?>

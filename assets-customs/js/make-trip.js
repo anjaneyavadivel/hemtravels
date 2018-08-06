@@ -209,24 +209,26 @@ jQuery(function($) {
     $('#addNewPickupLoc').on('click',function(){
         var len = $('.pickup_location_list').length,newItem = len+1;
        
-        $('.pickup_location_list_div').append(
+        $('#pickup_location_list_'+len).after(
                         '<div class="pickup_location_list" id="pickup_location_list_'+newItem+'">'+
-                            '<div class="col-xs-12 col-sm-5">'+
-                                '<div class="form-group">'+
-                                    '<label>Location'+newItem+'</label>'+
-                                    '<input type="text" class="form-control" name="pickup_meeting_point[]"/>'+
+                            '<div class="row">'+
+                                '<div class="col-xs-12 col-sm-5">'+
+                                    '<div class="form-group">'+
+                                        '<label>Location'+newItem+'</label>'+
+                                        '<input type="text" class="form-control" name="pickup_meeting_point[]"/>'+
+                                    '</div>'+
                                 '</div>'+
-                            '</div>'+
-                            '<div class="col-xs-12 col-sm-3">'+
-                                '<div class="form-group">'+
-                                    '<label>Location'+newItem+' time</label>'+
-                                    '<input type="text" class="oh-timepicker form-control" name="pickup_meeting_time[]"/>'+
+                                '<div class="col-xs-12 col-sm-3">'+
+                                    '<div class="form-group">'+
+                                        '<label>Location'+newItem+' time</label>'+
+                                        '<input type="text" class="oh-timepicker form-control" name="pickup_meeting_time[]"/>'+
+                                    '</div>'+
                                 '</div>'+
-                            '</div>'+
-                            '<div class="col-xs-12 col-sm-4">'+
-                                '<div class="form-group">'+
-                                    '<label>Location'+newItem+' Landmark</label>'+
-                                    '<input type="text" class="oh-timepicker1 form-control" name="pickup_landmark"/>'+
+                                '<div class="col-xs-12 col-sm-4">'+
+                                    '<div class="form-group">'+
+                                        '<label>Location'+newItem+' Landmark</label>'+
+                                        '<input type="text" class="oh-timepicker1 form-control" name="pickup_landmark[]"/>'+
+                                    '</div>'+
                                 '</div>'+
                             '</div>'+
                         '</div>');
@@ -278,13 +280,14 @@ jQuery(function($) {
                                                         '<div class="col-xs-12 col-sm-12">'+
                                                             '<div class="form-group">'+
                                                                 '<label>Brief Description:</label>'+
-                                                                '<textarea class="bootstrap3-wysihtml5 form-control" name="trip_brief_dec[]" placeholder="Excluded point out once by one..." style="height: 150px;"></textarea>'+
+                                                                '<textarea class="bootstrap3-wysihtml5 form-control map_trip_dec_'+newItem+'" name="trip_brief_dec[]" placeholder="Excluded point out once by one..." style="height: 150px;"></textarea>'+
                                                             '</div>'+
                                                         '</div>'+
                                                     '</div>'+
                                                 '</div>'+
                                                 '</div>');
                     $('.oh-timepicker').timepicker();
+                    $('.map_trip_dec_'+newItem).wysihtml5();
     });
     
     
@@ -296,14 +299,40 @@ jQuery(function($) {
     });
     
     $('.tripAddSubmit').on('click',function(){
-        /*$('.term_accept_err').hide();
+        $('.term_accept_err').hide();
         if($("#term_accept").prop('checked') ===false){
             $('.term_accept_err').show();
             return false;
-        }else{*/
+        }else{
             $('#button_type').val($(this).attr('data-id'));
-        //}
+        }
     });
+    $('#rangeDatePicker > div > div').dateRangePicker({
+		separator : ' to ',
+		autoClose: true,
+		format: 'MMM D, YYYY',
+		stickyMonths: true,
+		startDate: new Date(),
+		showTopbar: false,
+		getValue: function()
+		{
+			if ($('#rangeDatePickerTo').val() && $('#rangeDatePickerFrom').val() )
+				return $('#rangeDatePickerTo').val() + ' to ' + $('#rangeDatePickerFrom').val();
+			else
+				return '';
+		},
+		setValue: function(s,s1,s2)
+		{
+			$('#rangeDatePickerTo').val(s1);
+			$('#rangeDatePickerFrom').val(s2);
+		},
+		customArrowPrevSymbol: '<i class="fa fa-arrow-circle-left"></i>',
+		customArrowNextSymbol: '<i class="fa fa-arrow-circle-right"></i>'
+		
+	});
+    
+    
 	
 });
+
 

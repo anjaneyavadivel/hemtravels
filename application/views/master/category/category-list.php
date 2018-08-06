@@ -48,9 +48,9 @@
                             <table class="table ">
                                 <thead>
                                     <tr>
-                                        <th>Sno</th>
+                                        <th>S.No</th>
                                         <th>Category Name</th>
-                                        <th>Staus</th>
+                                        <th>Status</th>
                                         <th>Action</th>
 
                                     </tr>

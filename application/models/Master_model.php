@@ -34,6 +34,27 @@ class Master_model extends CI_Model {
         $this->db->update('trip_category', $data);
         return $this->db->affected_rows();
     }
+    
+    // Function 1:Get coupon code master
+    function coupon_code_list($limit, $start,$coupon_code_search) {
+        $this->db->select()->from('coupon_code_master');
+        $this->db->or_like('type',$coupon_code_search);
+        $this->db->or_like('coupon_code',$coupon_code_search);
+        $this->db->or_like('coupon_name',$coupon_code_search);
+        $this->db->or_like('offer_type',$coupon_code_search);
+        $this->db->limit($limit, $start);
+        $query = $this->db->get();
+        return $query->result_array();
+    }
+    function coupon_code_count($coupon_code_search) {
+        $this->db->select()->from('coupon_code_master');
+        $this->db->or_like('type',$coupon_code_search);
+        $this->db->or_like('coupon_code',$coupon_code_search);
+        $this->db->or_like('coupon_name',$coupon_code_search);
+        $this->db->or_like('offer_type',$coupon_code_search);
+        $query = $this->db->get();
+        return $query->num_rows();
+    }
 
 }
 

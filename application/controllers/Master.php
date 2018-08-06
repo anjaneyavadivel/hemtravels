@@ -138,5 +138,112 @@ class Master extends CI_Controller {
         $this->Master_model->category_update($data, $where);
         redirect('category-master');
     }
+    
+    
+    public function coupon_code_list($coupon_code_search = '',$status='',$offer_type='') {
+        if ($this->session->userdata('user_id') == '') {
+            redirect('login');
+        }
+        $couponcodesearch = trim($this->input->post('coupon_code_search'));
+        if ($couponcodesearch != '') {
+            $coupon_code_search = $couponcodesearch;
+        }
+        $this->load->library('pagination');
+        $config = array();
+        $config["base_url"] = base_url() . "category-master/" . $coupon_code_search; //?search=".$category_search
+        $config["total_rows"] = $this->Master_model->coupon_code_count($coupon_code_search);
+        $config["per_page"] = 20;
+        //$config["uri_segment"] = 2;
+
+        $config['enable_query_strings'] = TRUE;
+        $config['page_query_string'] = TRUE;
+        $config['use_page_numbers'] = TRUE;
+        $config['query_string_segment'] = 'page';
+        $config['cur_tag_open'] = '&nbsp;<a class="active">';
+        $config['cur_tag_close'] = '</a>';
+
+        $config['next_link'] = '&NestedGreaterGreater;';
+        $config['prev_link'] = '&NestedLessLess;';
+        $this->pagination->initialize($config);
+        $page = ($this->input->get('page')) ? ( ( $this->input->get('page') - 1 ) * $config["per_page"] ) : 0;
+        //$page = ($this->uri->segment(2)) ? $this->uri->segment(2) : 0;
+        $data["couponcodelist"] = $this->Master_model->coupon_code_list($config["per_page"], $page, $coupon_code_search);
+        $str_links = $this->pagination->create_links();
+        $data["links"] = explode('&nbsp;', $str_links);
+        $data["coupon_code_search"] = $coupon_code_search;
+        $data["status"] = $status;
+        $data["offer_type"] = $offer_type;
+        $this->load->view('master/coupon-code/coupon-code-list', $data);
+    }
+
+    public function couponcodeaddmaster() {
+        if ($this->session->userdata('user_id') == '') {
+            return FALSE;
+        }
+        $loginuserid = $this->session->userdata('user_id');
+        $whereData = array('isactive' => 1, 'user_id' => $loginuserid);
+        $data['trip_list'] = selectTable('trip_master', $whereData);
+        if ($this->session->userdata('user_type') == 'SA') {
+            $whereData = array('isactive' => 1);
+            $data['category_list'] = selectTable('trip_category', $whereData);
+        }
+                
+        $this->load->view("master/coupon-code/coupon-code-add", $data);
+        
+    }
+    public function couponcode_vaildation() {
+        if ($this->session->userdata('user_id') == '') {
+            return FALSE;
+        }
+        $couponcode = trim($this->input->post('couponcode'));
+        $check = $this->Master_model->category_count($couponcode);
+        if ($check == 0) {
+            echo "true";
+        } else {
+            echo "false";
+        }
+    }
+    public function coupon_code_add() {
+        if ($this->session->userdata('user_id') == '') {
+            return FALSE;
+        }
+        if ($_POST) {
+            $this->form_validation->set_rules('couponcode', 'Category Name', 'trim|required');
+            $this->form_validation->set_rules('couponname', 'Category Name', 'trim|required');
+            $this->form_validation->set_rules('fromdate', 'Category Name', 'trim|required');
+            $this->form_validation->set_rules('todate', 'Category Name', 'trim|required');
+            $this->form_validation->set_rules('coupontype', 'Category Name', 'trim|required');
+            $this->form_validation->set_rules('offertype', 'Category Name', 'trim|required');
+            $this->form_validation->set_rules('offeramount', 'Category Name', 'trim|required');
+            if ($this->form_validation->run($this) != FALSE) {
+                $user_id = $this->session->userdata('user_id');
+                extract($this->input->post());
+                $data = array(
+                    'coupon_code' => strtoupper($couponcode),
+                    'coupon_name' => ucfirst($couponname),
+                    'comment' => ucfirst($comment),
+                    'category_id' => isset($category_id)?$category_id:0,
+                    'validity_from' => date("Y-m-d", strtotime($fromdate)),
+                    'validity_to' => date("Y-m-d", strtotime($todate)),
+                    'type' => $coupontype,
+                    'offer_type' => $offertype,
+                    'percentage_amount' => $offeramount,
+                    'trip_id' => isset($tripname)?$tripname:0,
+                    'price_to_adult' => $price_to_adult,
+                    'price_to_child' => $price_to_child,
+                    'price_to_infan' => $price_to_infan,
+                    'user_id' => $user_id,
+                    'isactive' => 1);
+                $coupon_code_id   = insertTable('coupon_code_master', $data);
+                if ($coupon_code_id) {
+                    $data['coupon_code_id']=$coupon_code_id;
+                    $couponcodehistory_id   = insertTable('coupon_code_master_history', $data);
+                    return TRUE;
+                }
+            }
+        }
+        echo 'Sorry! Try again...';
+        return FALSE;
+    }
 
 }

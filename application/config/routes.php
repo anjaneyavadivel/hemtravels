@@ -124,7 +124,14 @@ $route['state-master/(:any)'] = 'state/state_list/$1';
 $route['state-master'] = 'state/state_list';
 
 
-
+//coupon-code-master
+$route['coupon-code-master/add'] = 'master/coupon_code_add';
+$route['couponcodeaddmaster'] = 'master/couponcodeaddmaster';
+$route['coupon-code-master/edit'] = 'master/coupon_code_edit';
+$route['coupon-code-master/save-edit'] = 'master/coupon_code_save_edit';
+$route['coupon-code-master/(:any)'] = 'master/coupon_code_list/$1';
+$route['coupon-code-master'] = 'master/coupon_code_list';
+$route['couponcode_vaildation'] = 'master/couponcode_vaildation';
 
 
 //Trip

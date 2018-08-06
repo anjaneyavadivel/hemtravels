@@ -2,3 +2,10 @@
 ALTER TABLE `user_master` CHANGE `fb_id` `social_network` TEXT CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL, CHANGE `google_id` `auth_id` TEXT CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL;
 
 
+Anch------
+ALTER TABLE `coupon_code_master` ADD `price_to_adult` FLOAT(8,2) NOT NULL AFTER `category_id`, ADD `price_to_child` FLOAT(8,2) NOT NULL AFTER `price_to_adult`, ADD `price_to_infan`FLOAT(8,2) NOT NULL AFTER `price_to_child`; 
+
+ALTER TABLE `coupon_code_master_history` ADD `price_to_adult` FLOAT(8,2) NOT NULL AFTER `category_id`, ADD `price_to_child` FLOAT(8,2) NOT NULL AFTER `price_to_adult`, ADD `price_to_infan`FLOAT(8,2) NOT NULL AFTER `price_to_child`; 
+
+ALTER TABLE `coupon_code_master` ADD `user_id` INT NOT NULL AFTER `id`;
+ALTER TABLE `coupon_code_master_history` ADD `user_id` INT NOT NULL AFTER `id`;

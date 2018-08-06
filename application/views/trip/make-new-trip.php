@@ -1,4 +1,10 @@
 <?php $this->load->view('includes/header')?>
+<!--<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">-->
+<style>
+    .ui-datepicker{
+        z-index: 999!important;
+    }
+</style>
   <!-- start Main Wrapper -->
 <
            <div class="main-wrapper scrollspy-container">
@@ -86,6 +92,7 @@
                                                     <div class="form-group">
                                                         <label>Catagory:</label>
                                                         <select name="trip_category_id"  id="trip_category_id" class="selectpicker show-tick form-control" title="Select placeholder">
+                                                            <option value="">Select a catagory...</option>
                                                             <?php 
                                                                 if(isset($category_list) && count($category_list) > 0){
                                                                     foreach($category_list as $v){
@@ -178,10 +185,56 @@
 
                                                     <div class="form-group">
                                                         <label>Brief Description:</label>
-                                                        <textarea name="brief_description" class="form-control" rows="5"></textarea>
+                                                        <textarea name="brief_description" class="bootstrap3-wysihtml5 form-control" rows="5"></textarea>
                                                     </div>
 
                                                 </div>
+                                                
+                                                <div class="col-xs-12 col-sm-12">
+
+                                                    <div class="form-group">
+                                                        <label>Languages:</label>
+                                                        <textarea name="languages" class="bootstrap3-wysihtml5 form-control" rows="5"></textarea>
+                                                    </div>
+
+                                                </div>
+                                                
+                                                <div class="col-xs-12 col-sm-12">
+
+                                                    <div class="form-group">
+                                                        <label>Meal:</label>
+                                                        <textarea name="meal" class="bootstrap3-wysihtml5 form-control" rows="5"></textarea>
+                                                    </div>
+
+                                                </div>
+                                                
+                                                <div class="col-xs-12 col-sm-12">
+
+                                                    <div class="form-group">
+                                                        <label>Transport:</label>
+                                                        <textarea name="transport" class="bootstrap3-wysihtml5 form-control" rows="5"></textarea>
+                                                    </div>
+
+                                                </div>
+                                                
+                                                <div class="col-xs-12 col-sm-12">
+
+                                                    <div class="form-group">
+                                                        <label>Things To Carry:</label>
+                                                        <textarea name="things_to_carry" class="bootstrap3-wysihtml5 form-control" rows="5"></textarea>
+                                                    </div>
+
+                                                </div>
+                                                
+                                                <div class="col-xs-12 col-sm-12">
+
+                                                    <div class="form-group">
+                                                        <label>Tour Type:</label>
+                                                        <textarea name="tour_type" class="bootstrap3-wysihtml5 form-control" rows="5"></textarea>
+                                                    </div>
+
+                                                </div>
+                                                
                                                 <div class="col-xs-12 col-sm-12">
 
                                                     <div class="form-group">
@@ -278,36 +331,106 @@
                                                     </div>
 
                                                 </div>
+                                            </div>
                                                 
                                                 <div class="pickup_location_list_div">
                                                     <div class="pickup_location_list_default" id="pickup_location_list_0">
-                                                        <div class="col-xs-12 col-sm-5">
+                                                        <div class="row">
+                                                            <div class="col-xs-12 col-sm-5">
 
-                                                            <div class="form-group">
-                                                                <label>Meeting point</label>
-                                                                <input  type="text" class="form-control" name="pickup_meeting_point[]" />
+                                                                <div class="form-group">
+                                                                    <label>Meeting point</label>
+                                                                    <input  type="text" class="form-control" name="pickup_meeting_point[]" />
+                                                                </div>
+
                                                             </div>
 
-                                                        </div>
+                                                            <div class="col-xs-12 col-sm-3">
 
-                                                        <div class="col-xs-12 col-sm-3">
+                                                                <div class="form-group">
+                                                                    <label>Meeting time</label>
+                                                                    <input type="text" class="oh-timepicker form-control" name="pickup_meeting_time[]"/>
+                                                                </div>
 
-                                                            <div class="form-group">
-                                                                <label>Meeting time</label>
-                                                                <input type="text" class="oh-timepicker form-control" name="pickup_meeting_time[]"/>
                                                             </div>
+                                                            <div class="col-xs-12 col-sm-4">
 
-                                                        </div>
-                                                        <div class="col-xs-12 col-sm-4">
+                                                                <div class="form-group">
+                                                                    <label>Landmark</label>
+                                                                    <input type="text" class="oh-timepicker1 form-control" name="pickup_landmark[]" />
+                                                                </div>
 
-                                                            <div class="form-group">
-                                                                <label>Landmark</label>
-                                                                <input type="text" class="oh-timepicker1 form-control" name="pickup_landmark[]" />
                                                             </div>
-
                                                         </div>
                                                     </div>
                                                 </div>
+                                                <div class="pickup_location_list" id="pickup_location_list_1">
+                                                    <div class="row">
+                                                        <div class="col-xs-12 col-sm-5">
+                                                            <div class="form-group">
+                                                                <label>Location1</label>
+                                                                <input type="text" class="form-control" name="pickup_meeting_point[]"/>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-xs-12 col-sm-3">
+                                                            <div class="form-group">
+                                                                <label>Location1 time</label>
+                                                                <input type="text" class="oh-timepicker form-control" name="pickup_meeting_time[]"/>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-xs-12 col-sm-4">
+                                                            <div class="form-group">
+                                                                <label>Location1 Landmark</label>
+                                                                <input type="text" class="oh-timepicker1 form-control" name="pickup_landmark[]"/>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="pickup_location_list" id="pickup_location_list_2">
+                                                    <div class="row">
+                                                        <div class="col-xs-12 col-sm-5">
+                                                            <div class="form-group">
+                                                                <label>Location2</label>
+                                                                <input type="text" class="form-control" name="pickup_meeting_point[]"/>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-xs-12 col-sm-3">
+                                                            <div class="form-group">
+                                                                <label>Location2 time</label>
+                                                                <input type="text" class="oh-timepicker form-control" name="pickup_meeting_time[]"/>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-xs-12 col-sm-4">
+                                                            <div class="form-group">
+                                                                <label>Location2 Landmark</label>
+                                                                <input type="text" class="oh-timepicker1 form-control" name="pickup_landmark[]"/>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="pickup_location_list" id="pickup_location_list_3">
+                                                    <div class="row">
+                                                        <div class="col-xs-12 col-sm-5">
+                                                            <div class="form-group">
+                                                                <label>Location3</label>
+                                                                <input type="text" class="form-control" name="pickup_meeting_point[]"/>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-xs-12 col-sm-3">
+                                                            <div class="form-group">
+                                                                <label>Location3 time</label>
+                                                                <input type="text" class="oh-timepicker form-control" name="pickup_meeting_time[]"/>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-xs-12 col-sm-4">
+                                                            <div class="form-group">
+                                                                <label>Location3 Landmark</label>
+                                                                <input type="text" class="oh-timepicker1 form-control" name="pickup_landmark[]"/>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div> 
+                                            <div class="row">
                                                 <div class="col-xs-12 col-xs-6 col-md-4">
                                                     <div class="add-more-form">
                                                         <!--<span>Add/remove form</span> -->
@@ -556,23 +679,41 @@
                                                     </div>
 
                                                 </div>
-                                                <div class="row gap-10" id="rangeDatePicker">
+                                                <div class="col-xs-12 col-sm-4 col-md-4">
+                                                <div class="form-group" id="rangeDatePicker">
+                                                    <div class="pl-30 col-xss-12 col-xs-6 col-sm-6">
+                                                        <div class="form-group">
+                                                            <label>From</label>
+                                                            <input type="text" name="other_from_date" id="rangeDatePickerTo" class="form-control" placeholder="M D, YYYY" />
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="pl-30 col-xss-12 col-xs-6 col-sm-6">
+                                                        <div class="form-group">
+                                                            <label>To</label>
+                                                            <input type="text" name="other_to_date" id="rangeDatePickerFrom" class="form-control" placeholder="M D, YYYY" />
+                                                        </div>
+                                                    </div> 
+                                                </div>
+
+                                            </div>
+<!--                                                <div class="row gap-10" id="rangeDatePicker">
 									
                                                                 <div class="col-xss-12 col-xs-3 col-sm-3">
                                                                         <div class="form-group">
                                                                                 <label>From</label>
-                                                                                <input type="text" id="rangeDatePickerTo" class="form-control" placeholder="yyyy/mm/dd" />
+                                                                                <input type="text" id="rangeDatePickerFrom" name="other_from_date" class="form-control" placeholder="yyyy/mm/dd" />
                                                                         </div>
                                                                 </div>
 
                                                                 <div class="col-xss-12 col-xs-3 col-sm-3">
                                                                         <div class="form-group">
                                                                                 <label>To</label>
-                                                                                <input type="text" id="rangeDatePickerFrom" class="form-control" placeholder="yyyy/mm/dd" />
+                                                                                <input type="text" id="rangeDatePickerTo" name="other_to_date" class="form-control" placeholder="yyyy/mm/dd" />
                                                                         </div>
                                                                 </div>
 
-                                                        </div>
+                                                        </div>-->
                                             </div>
                                              <div class="row gap-20">
                                                 <div class="col-xs-12 col-sm-4 col-md-4">
