@@ -1,25 +1,20 @@
-
 <div class="modal-header">
     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
     <h4 class="modal-title text-center">Add City</h4>
 </div>
-<?php echo form_open_multipart(base_url() . 'city-master/add', array('class' => 'form-horizontal margin-top-30', 'id' => 'add-city-form')); ?>
-
 <div class="modal-body">
-					
+<?php echo form_open_multipart(base_url() . 'city-master/add', array('class' => 'form-horizontal margin-top-30', 'id' => 'add-city-form')); ?>
     <div class="row gap-20">
-	        <div class="col-12 mt-3">
-					<label class="col-xs-3 control-label">Category Name <span style=' color: #d9534f;'>*</span></label>
+	        <div class="col-sm-12 col-md-12">
+                <label class="col-xs-3 control-label">State Name <span style=' color: #d9534f;'>*</span></label>
 						<select class="form-control" name="csid"  >
 							<option value="" selected disabled>--Select--</option>
-							<?php foreach($statelist as $row)
+							<?php foreach($stateselect as $row)
 							{ 
-								?><option value="<?php echo $row['id'];?>" <?php if ($row['id'] == $csid) echo 'selected' ; ?> ><?php echo $row['name']; ?></option><?php 
+								?><option value="<?php echo $row['state_id'];?>" <?php if ($row['state_id'] == $state_id) echo 'selected' ; ?> ><?php echo $row['state_name']; ?></option><?php 
 							} 
 							?>
-						</select>
-					</div>
-        <div class="col-sm-12 col-md-12">
+						</select>			
             <div class="form-group form-group-lg">
                 <label>City Name:</label>
                 <input name="city_name" type="text" class="form-control" placeholder="Enter the city name..."/>
