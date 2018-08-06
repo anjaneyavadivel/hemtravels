@@ -109,6 +109,7 @@ class Login extends CI_Controller {
 				}   
                 $this->session->set_userdata('user_id', $ch->id);
                 $this->session->set_userdata('user_email', $ch->email);
+				$this->session->set_userdata('user_phone', $ch->phone);
                 $this->session->set_userdata('name', $ch->user_fullname);
                 $this->session->set_userdata('user_img', $image_url);
                 $this->session->set_userdata('user_type', $ch->user_type);

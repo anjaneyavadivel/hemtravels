@@ -28,6 +28,71 @@ public $data;
 	{
 		
 		// Include two files from google-php-client library in controller
+		include_once APPPATH . "libraries/google/src/Google/Client.php";
+		include_once APPPATH . "libraries/google/src/Google/Service/Oauth2.php";
+		include_once APPPATH . "libraries/google/src/Google/autoload.php";
+		
+		// Store values in variables from project created in Google Developer Console
+		$client_id 		= '176321012278-aedadjf8eb0v6ptgomn3rvh5lho2am1b.apps.googleusercontent.com';
+		$client_secret 	= 'krA_aoQAPo1OFBa0_6186Tdk';
+		$redirect_uri 	= 'http://goatravelagent.com/gmail';//if this url change means google developer console url also changed
+		$simple_api_key = 'AIzaSyBrE62QSp_ijbM30EaEtKn2H62XonGMQcY';
+		
+		// Create Client Request to access Google API
+		$client 		= new Google_Client();
+		$client->setApplicationName("PHP Google OAuth Login Example");
+		$client->setClientId($client_id);
+		$client->setClientSecret($client_secret);
+		$client->setRedirectUri($redirect_uri);
+		$client->setDeveloperKey($simple_api_key);
+		$client->addScope("https://www.googleapis.com/auth/userinfo.email");
+		
+		// Send Client Request
+		$objOAuthService = new Google_Service_Oauth2($client);
+		
+		// Add Access Token to Session
+		if (isset($_GET['code'])) {
+		$client->authenticate($_GET['code']);
+		$this->session->set_userdata['access_token'] = $client->getAccessToken();
+		header('Location: ' . filter_var($redirect_uri, FILTER_SANITIZE_URL));
+		}
+		
+		// Set Access Token to make Request
+		if (isset($this->session->set_userdata['access_token']) && $this->session->set_userdata['access_token']) {
+		$client->setAccessToken($this->session->set_userdata['access_token']);
+		}
+		
+		// Get User Data from Google and store them in $data
+		if ($client->getAccessToken()) {
+		$userData = $objOAuthService->userinfo->get();
+		$data['userData'] = $userData;
+		$this->session->set_userdata['access_token'] = $client->getAccessToken();
+		
+		
+		
+		$userProfile = $objOAuthService->userinfo->get();
+		print_r($userProfile);exit;
+		//calling function for udate r inserting records to our db.
+	$this->checkUser('google',$userProfile['id'],$userProfile['given_name'],$userProfile['family_name'],$userProfile['email'],$userProfile['gender'],$userProfile['locale'],$userProfile['link'],$userProfile['picture']);
+	$this->session->userdata['google_data'] = $userProfile; // Storing Google User Data in Session
+		
+		} 
+		else 
+		{
+			$authUrl = $client->createAuthUrl();
+			$data['authUrl'] = $authUrl;
+		}
+		if(isset($data['authUrl']))
+			redirect($authUrl);//this is redirect to google in this place
+		else
+		{
+			$this->session->set_userdata('error','You have some error in Goole with Login please try another');
+			redirect (base_url());
+		}
+	}
+	public function gmail1()
+	{
+		// Include two files from google-php-client library in controller
 		include_once APPPATH . 'libraries/google/src/Google_Client.php';
 		include_once APPPATH . 'libraries/google/src/contrib/Google_Oauth2Service.php';
 		
@@ -47,6 +112,7 @@ public $data;
 				$name = explode(" ",$content['name']);
 				$fname = isset($name[0])?$name[0]:'';
 				$lname = isset($name[1])?$name[1]:'';
+				print_r($content);exit;
 				$this->check_data('gmail',$content['id'],$fname,$lname,$content['picture']);
 				$_SESSION['token'] = $client->getAccessToken();
 			} 
@@ -121,7 +187,7 @@ public $data;
 	}
 	function check_data($net,$id,$fname,$lname,$profile_image_url)
 	{
-		$check						=	$this->usermodel->select('user_master',array('social_network'=>$net,'auth_id'=>$id));
+		$check						=	$this->user_model->select('user_master',array('social_network'=>$net,'auth_id'=>$id));
 		if($check->num_rows()>0)
 		{
 			$ch		=	$check->row();
@@ -170,7 +236,7 @@ public $data;
 				$last_id=	$this->db->insert_id();
 				if($query)
 				{
-					$check						=	$this->usermodel->select('user_master',array('id'=>$last_id));
+					$check						=	$this->user_model->select('user_master',array('id'=>$last_id));
 					if($check->num_rows()>0)
 					{
 						/*$this->session->set_userdata('login_socail',0);

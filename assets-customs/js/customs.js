@@ -329,6 +329,78 @@ jQuery(function($) {
             }
         } 
  });
+  $('#addbankAccount').validate({
+	 
+        rules: {
+			bank_name:{				 
+				  required: true,
+				  minlength: 6,
+				  maxlength: 50
+			},
+			account_number: {
+					required: true,
+					minlength: 6
+				},
+			account_number1: {
+				required: true,
+				minlength: 6,
+				equalTo: "#account_number"
+			},
+			account_holder_name:{				 
+				  required: true,
+				  minlength: 3,
+				  maxlength: 50
+			},
+			ifsc_code:{				 
+				  required: true,
+				  minlength: 6,
+				  maxlength: 12
+			},
+			branch_name:{				 
+				  required: true,
+				  minlength: 6,
+				  maxlength: 100
+			},
+			address:{				 
+				  required: true,
+				  minlength: 6,
+				  maxlength: 300
+			},			
+			
+        },
+		messages:{
+			new_email:{
+				required:"This field is required",
+				remote:"Your email already exist kindly Login",
+			},
+			cnew_pasword: {
+					required: "Please provide a password",
+					minlength: "Your password must be at least 5 characters long",
+					equalTo: "Please enter the same password"
+				},
+		},
+         highlight: function(element) {
+        var id_attr = "#" + $( element ).attr("id") + "_icon";
+        $(element).closest('.form-group').removeClass('has-success').addClass('has-error');
+        $(id_attr).removeClass('fa-check').addClass('fa-times');         
+    },
+    unhighlight: function(element) {
+        var id_attr = "#" + $( element ).attr("id") + "_icon";
+        $(element).closest('.form-group').removeClass('has-error').addClass('has-success');
+        $(id_attr).removeClass('fa-times').addClass('fa-check');         
+    },
+    errorElement: 'span',
+        errorClass: 'small help-block',
+        errorPlacement: function(error, element) {
+            if(element.length) {
+                error.insertAfter(element);
+            } else {
+            error.insertAfter(element);
+            }
+        } 
+ });
+ 
+ 
 
 	
 });
