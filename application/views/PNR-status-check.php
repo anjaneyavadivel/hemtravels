@@ -1,5 +1,4 @@
 <?php $this->load->view('includes/header')?>
-
 		<!-- start Main Wrapper -->
 		
 		<div class="main-wrapper scrollspy-container">
