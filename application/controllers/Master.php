@@ -203,6 +203,7 @@ class Master extends CI_Controller {
             echo "false";
         }
     }
+	//code
     public function coupon_code_add() {
         if ($this->session->userdata('user_id') == '') {
             return FALSE;
