@@ -72,6 +72,16 @@ $route['about-us'] = 'welcome/about_us';
 $route['contact-us'] = 'welcome/contact_us';
 $route['faq'] = 'welcome/faq';
 
+//report 
+$route['booking-wise-reports'] = 'report/booking_wise_reports';
+$route['Trip-wise-reports'] = 'report/Trip_wise_reports';
+$route['payment-from-B2C-reports'] = 'report/payment_from_B2C_reports';
+$route['payment-from-B2B-reports'] = 'report/payment_from_B2B_reports';
+$route['payment-to-B2B-reports'] = 'report/payment_to_B2B_reports';
+$route['cancellation-reports'] = 'report/cancellation_reports';
+$route['my-transaction-reports'] = 'report/my_transaction_reports';
+
+
 //Master to admin
 $route['category-master/add'] = 'master/category_add';
 $route['category-master/loadmodal/(:any)'] = 'master/loadmodal/$1';
