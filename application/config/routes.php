@@ -72,6 +72,15 @@ $route['about-us'] = 'welcome/about_us';
 $route['contact-us'] = 'welcome/contact_us';
 $route['faq'] = 'welcome/faq';
 
+
+//PNR STATUS
+$route['PNR-status'] = 'pnr_status/pnr_status_check';
+
+
+//PNR STATUS
+$route['withdrawals-request'] = 'request/withdrawals_request';
+
+
 //report 
 $route['booking-wise-reports'] = 'report/booking_wise_reports';
 $route['Trip-wise-reports'] = 'report/Trip_wise_reports';
