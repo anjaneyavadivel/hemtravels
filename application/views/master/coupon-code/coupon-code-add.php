@@ -57,7 +57,7 @@
                             </select>
                         </div>
                     </div>
-                    <?php if ($trip_list->num_rows() > 0) {?>
+                    <?php if (isset($trip_list) && $trip_list->num_rows() > 0) {?>
                     <div class="col-sm-12 col-md-12">
                         <div class="form-group"> 
                             <label>Trip Name</label>
@@ -72,7 +72,7 @@
                     </div>
                     <?php }?>
                     
-                    <?php if ($category_list->num_rows() > 0) {?>
+                    <?php if (isset($category_list) && $category_list->num_rows() > 0) {?>
                     <div class="col-sm-12 col-md-12">
                         <div class="form-group"> 
                             <label>Category Name</label>
