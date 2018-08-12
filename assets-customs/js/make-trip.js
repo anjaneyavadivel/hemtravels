@@ -21,18 +21,39 @@ jQuery(function($) {
 	if( $('.dropzone').length > 0 ) {
 		Dropzone.autoDiscover = false;                
 		$("#file-submit").dropzone({
-                    url: "trips/gallery_upload",
+                    url: base_url+"trips/gallery_upload",
                     addRemoveLinks: true,
                     init: function() {
                         this.on("sending", function(file, xhr, formData){
                                 formData.append("csrf_test_name", $.cookie('csrf_cookie_name'));
-                        });
+                        });                                              
+                        
+                        // Add server images
+                        var myDropzone = this;
+
+                        //$.get('/server-images', function(data) {
+                            var ex_images = $('#ex_gallery_images').val();
+                            
+                            if(ex_images != '' && ex_images != 'undefined'){
+                                ex_images = $.parseJSON(ex_images);
+
+                                $.each(ex_images, function (key, value) {
+
+                                    var file = {name: value.file_name,image_id:value.id};                                
+                                    myDropzone.options.addedfile.call(myDropzone, file);                                
+                                    myDropzone.options.thumbnail.call(myDropzone, file,base_url+'assets-customs/gallery_images/'+value.file_name);
+                                    myDropzone.emit("complete", file);
+
+                                });
+                            }
+                        //});
+
+
                     },
                     //autoProcessQueue:false
-                    success : function(file, response){
-                        console.log(file);
+                    success : function(file, response){ 
 
-                        response = $.parseJSON(response); console.log(response);
+                        response = $.parseJSON(response); 
                         if(response.upload_data.file_name){                            
                             var value = $('#gallery_images').val();                            
                                 value = $.parseJSON(value);
@@ -41,8 +62,8 @@ jQuery(function($) {
                           
                         }
                     },
-                    removedfile: function(file) {
-                         if(file.xhr.response){
+                    removedfile: function(file) { 
+                        if(file.xhr && file.xhr.response){
                             var re_file = $.parseJSON(file.xhr.response);
 
                             if(re_file.upload_data.file_name){
@@ -51,9 +72,14 @@ jQuery(function($) {
                                 removeItem(ex_files,re_file.upload_data.file_name);
                                 $('#gallery_images').val(JSON.stringify(ex_files)); 
                             }
-                            var _ref;
-                            return (_ref = file.previewElement) != null ? _ref.parentNode.removeChild(file.previewElement) : void 0;
+                           
+                        }else if(file.image_id){
+                           var rm_img = $('#ex_rm_gallery_images').val();
+                               rm_img = $.trim(rm_img) +file.image_id+ ',';
+                               $('#ex_rm_gallery_images').val(rm_img);
                         }
+                        var _ref;
+                           return (_ref = file.previewElement) != null ? _ref.parentNode.removeChild(file.previewElement) : void 0;
                     }
 		});
 
@@ -68,6 +94,7 @@ jQuery(function($) {
 				addRemoveLinks: true
 		});
 	}
+        
         
         function removeItem(array, item){
             for(var i in array){
@@ -307,6 +334,20 @@ jQuery(function($) {
             $('#button_type').val($(this).attr('data-id'));
         }
     });
+    
+    
+    //EDIT PAGE
+    if($('#action').val() == 'edit'){
+        var selVal = $("#trip_duration option:selected").val();
+        if( selVal== '1'){
+            $('#how_many_daysdiv').removeClass('hide');
+        }else if(selVal == '2'){
+            $('#how_many_hoursdiv').removeClass('hide');
+        }
+    }
+    
+    
+    
     $('#rangeDatePicker > div > div').dateRangePicker({
 		separator : ' to ',
 		autoClose: true,
@@ -322,16 +363,14 @@ jQuery(function($) {
 				return '';
 		},
 		setValue: function(s,s1,s2)
-		{
+		{ 
 			$('#rangeDatePickerTo').val(s1);
 			$('#rangeDatePickerFrom').val(s2);
 		},
 		customArrowPrevSymbol: '<i class="fa fa-arrow-circle-left"></i>',
 		customArrowNextSymbol: '<i class="fa fa-arrow-circle-right"></i>'
 		
-	});
-    
-    
+    });
 	
 });
 

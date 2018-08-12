@@ -227,7 +227,7 @@ class Master extends CI_Controller {
                     'validity_to' => date("Y-m-d", strtotime($todate)),
                     'type' => $coupontype,
                     'offer_type' => $offertype,
-                    'percentage_amount' => $offeramount,
+                    'percentage_amount' => $offertype==2?round($offeramount):$offeramount,
                     'trip_id' => isset($tripname)?$tripname:0,
                     'price_to_adult' => $price_to_adult,
                     'price_to_child' => $price_to_child,
@@ -244,6 +244,31 @@ class Master extends CI_Controller {
         }
         echo 'Sorry! Try again...';
         return FALSE;
+    }
+    
+    public function checkhelper() {
+        if ($this->session->userdata('user_id') == '') {
+            return FALSE;
+        }
+        $this->load->helper('custom_helper');
+        $offerdata=array(
+        'trip_id' => 1,
+        'login_user_id' => $this->session->userdata('user_id'),
+        'date_of_trip' => "15-08-2018",
+        'ischeckadmin' => 0);
+        $result = trip_offer($offerdata);
+        print_r($result);
+//        exit();
+        $bookdata=array(
+        'trip_id' => 1,
+        'book_user_id' => $this->session->userdata('user_id'),
+        'no_of_adult' => 1,
+        'no_of_child' => 1,
+        'no_of_infan' => 0,
+        'date_of_trip' => "15-08-2018",
+        'pick_up_location_id' => 1);
+        $result = trip_book($bookdata);
+        print_r($result);
     }
 
 }

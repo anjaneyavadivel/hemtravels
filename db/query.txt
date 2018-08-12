@@ -1,7 +1,7 @@
 2-7-2018
 ALTER TABLE `user_master` CHANGE `fb_id` `social_network` TEXT CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL, CHANGE `google_id` `auth_id` TEXT CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL;
 
-
+8F8DC6B2-AC3F-4071-B562-E25742E796FA
 Anch------
 ALTER TABLE `coupon_code_master` ADD `price_to_adult` FLOAT(8,2) NOT NULL AFTER `category_id`, ADD `price_to_child` FLOAT(8,2) NOT NULL AFTER `price_to_adult`, ADD `price_to_infan`FLOAT(8,2) NOT NULL AFTER `price_to_child`; 
 
@@ -9,3 +9,19 @@ ALTER TABLE `coupon_code_master_history` ADD `price_to_adult` FLOAT(8,2) NOT NUL
 
 ALTER TABLE `coupon_code_master` ADD `user_id` INT NOT NULL AFTER `id`;
 ALTER TABLE `coupon_code_master_history` ADD `user_id` INT NOT NULL AFTER `id`;
+
+ALTER TABLE `trip_master` ADD `total_rating` INT(1) NOT NULL DEFAULT '0' AFTER `is_shared`;
+ALTER TABLE `trip_book_pay` ADD `round_off` FLOAT(8,2) NOT NULL AFTER `gst_amt`;
+ALTER TABLE `trip_book_pay_details` ADD `round_off` FLOAT(8,2) NOT NULL AFTER `gst_amt`;
+ALTER TABLE `trip_book_pay` ADD `discount_percentage` FLOAT(8,2) NOT NULL AFTER `coupon_history_id`;
+ALTER TABLE `trip_book_pay_details` ADD `discount_percentage` FLOAT(8,2) NOT NULL AFTER `coupon_history_id`;
+ALTER TABLE `trip_book_pay` ADD `subtotal_trip_price` FLOAT(8,2) NOT NULL AFTER `total_infan_price`;
+ALTER TABLE `trip_book_pay_details` ADD `subtotal_trip_price` FLOAT(8,2) NOT NULL AFTER `total_infan_price`;
+ALTER TABLE `trip_book_pay` ADD `offer_amt` FLOAT(8,2) NOT NULL AFTER `discount_price`;
+ALTER TABLE `trip_book_pay_details` ADD `offer_amt` FLOAT(8,2) NOT NULL AFTER `discount_price`;
+
+ALTER TABLE `trip_book_pay` ADD `pick_up_location` VARCHAR(150) NOT NULL AFTER `pick_up_location_id`, ADD `pick_up_location_landmark` VARCHAR(150) NOT NULL AFTER `pick_up_location`;
+ALTER TABLE `trip_book_pay_details` ADD `pick_up_location` VARCHAR(150) NOT NULL AFTER `pick_up_location_id`, ADD `pick_up_location_landmark` VARCHAR(150) NOT NULL AFTER `pick_up_location`;
+ALTER TABLE `trip_book_pay` ADD `booked_by` INT NOT NULL AFTER `booked_on`;
+ALTER TABLE `trip_book_pay_details` ADD `booked_by` INT NOT NULL AFTER `booked_on`;
+ALTER TABLE `trip_book_pay` ADD `parent_trip_id` INT NOT NULL DEFAULT '0' AFTER `id`;

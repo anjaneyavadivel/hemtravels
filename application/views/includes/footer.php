@@ -361,7 +361,7 @@
 <!--    <script type="text/javascript" src="<?php echo base_url()?>assets/js/validator.min.js"></script>-->
     <script type="text/javascript" src="<?php echo base_url()?>assets/js/customs-contact.js"></script>
 <?php }?>
-<?php if($url=='make-new-trip'){?>
+<?php if($url=='make-new-trip'  || $url=='trips'){?>
     <script type="text/javascript" src="<?php echo base_url()?>assets/js/bootstrap-tokenfield.js"></script>
     <script type="text/javascript" src="<?php echo base_url()?>assets/js/typeahead.bundle.min.js"></script>
     <script type="text/javascript" src="<?php echo base_url()?>assets/js/bootstrap3-wysihtml5.min.js"></script>
@@ -375,8 +375,7 @@
     <script type="text/javascript" src="<?php echo base_url()?>assets/js/jquery.daterangepicker.js"></script>
     <script type="text/javascript" src="<?php echo base_url()?>assets/js/customs-fileinput.js"></script>
     <script type="text/javascript" src="<?php echo base_url()?>assets-customs/js/make-trip.js"></script>
-<script type="text/javascript" src="<?php echo base_url()?>assets-customs/js/make-trip-validation.js"></script>
-
+    <script type="text/javascript" src="<?php echo base_url()?>assets-customs/js/make-trip-validation.js"></script>    
 <?php }?>
 <?php if($url=='category-master'){?>
     <script type="text/javascript" src="<?php echo base_url()?>assets-customs/js/master-category-validation.js"></script>
@@ -423,6 +422,8 @@
     <script type="text/javascript" src="<?php echo base_url()?>assets/js/ion.rangeSlider.min.js"></script>
     <script type="text/javascript" src="<?php echo base_url()?>assets/js/jquery.bootstrap-touchspin.js"></script>
     <script type="text/javascript" src="<?php echo base_url()?>assets/js/customs-result.js"></script>
+    <script type="text/javascript" src="<?php echo base_url()?>assets-customs/js/trip-list.js"></script>    
+    <script type="text/javascript" src="<?php echo base_url()?>assets-customs/js/bootbox.min.js"></script>
 
     <script type="text/javascript">
 
