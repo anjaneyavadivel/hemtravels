@@ -6,7 +6,6 @@
     }
 </style>
   <!-- start Main Wrapper -->
-<
            <div class="main-wrapper scrollspy-container">
 
                 <!-- start breadcrumb -->
