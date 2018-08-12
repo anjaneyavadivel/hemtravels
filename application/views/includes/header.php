@@ -74,7 +74,7 @@
                         <div id="navbar" class="navbar-nav-wrapper">
                             <ul class="nav navbar-nav" id="responsive-menu">
                                 <li ><a href="<?php echo base_url() ?>">Home</a></li>
-                                <li><a href="PNR-status">PNR Status</a></li>
+                                <li><a href="<?php echo base_url() ?>PNR-status">PNR Status</a></li>
 
                                 <?php
                                 if ($this->session->userdata('user_type') == 'SA') {
@@ -107,13 +107,13 @@
                                     <li>
                                         <a href="#">Report</a>
                                         <ul>
-                                            <li><a href="booking-wise-reports">Booking Wise</a></li>
-                                            <li><a href="Trip-wise-reports">Trip Wise</a></li>
-                                            <li><a href="payment-from-B2C-reports">Payment from B2C</a></li>
-                                            <li><a href="payment-from-B2B-reports">Payment from B2B</a></li>
-                                            <li><a href="payment-to-B2B-reports">Payment to B2B</a></li>
-                                            <li><a href="cancellation-reports">Cancellation Reports</a></li>
-                                            <li><a href="my-transaction-reports">My Transaction</a></li>
+                                            <li><a href="<?php echo base_url() ?>booking-wise-reports">Booking Wise</a></li>
+                                            <li><a href="<?php echo base_url() ?>Trip-wise-reports">Trip Wise</a></li>
+                                            <li><a href="<?php echo base_url() ?>payment-from-B2C-reports">Payment from B2C</a></li>
+                                            <li><a href="<?php echo base_url() ?>payment-from-B2B-reports">Payment from B2B</a></li>
+                                            <li><a href="<?php echo base_url() ?>payment-to-B2B-reports">Payment to B2B</a></li>
+                                            <li><a href="<?php echo base_url() ?>cancellation-reports">Cancellation Reports</a></li>
+                                            <li><a href="<?php echo base_url() ?>my-transaction-reports">My Transaction</a></li>
                                         </ul>
 
                                     </li>
@@ -132,30 +132,30 @@
                                     <li>
                                         <a href="#">Trips</a>
                                         <ul>
-                                            <li><a href="make-new-trip">Make New Trip</a></li>
-                                            <li><a href="trip-list">My Trip List & Book Trip</a></li>
-                                            <li><a href="booking-list">Booking List</a></li>
-                                            <li><a href="cancellation-list">Cancellation List</a></li>
-                                            <li><a href="coupon-code-master">Coupon Code Master</a></li>
+                                            <li><a href="<?php echo base_url() ?>make-new-trip">Make New Trip</a></li>
+                                            <li><a href="<?php echo base_url() ?>trip-list">My Trip List & Book Trip</a></li>
+                                            <li><a href="<?php echo base_url() ?>booking-list">Booking List</a></li>
+                                            <li><a href="<?php echo base_url() ?>cancellation-list">Cancellation List</a></li>
+                                            <li><a href="<?php echo base_url() ?>coupon-code-master">Coupon Code Master</a></li>
                                         </ul>
                                     </li>
                                     <li>
                                         <a href="#">B2B</a>
                                         <ul>
-                                            <li><a href="make-new-trip-from-vendors">Make Trip from Other Vendors</a></li>
-                                            <li><a href="shared-trips">Shared Trips from Vendor</a></li>
+                                            <li><a href="<?php echo base_url() ?>make-new-trip-from-vendors">Make Trip from Other Vendors</a></li>
+                                            <li><a href="<?php echo base_url() ?>shared-trips">Shared Trips from Vendor</a></li>
                                         </ul>
                                     </li>
                                     <li>
                                         <a href="#">Report</a>
                                         <ul>
-                                            <li><a href="booking-wise-reports">Booking Wise</a></li>
-                                            <li><a href="Trip-wise-reports">Trip Wise</a></li>
-                                            <li><a href="payment-from-B2C-reports">Payment from B2C</a></li>
-                                            <li><a href="payment-from-B2B-reports">Payment from B2B</a></li>
-                                            <li><a href="payment-to-B2B-reports">Payment to B2B</a></li>
-                                            <li><a href="cancellation-reports">Cancellation Reports</a></li>
-                                            <li><a href="my-transaction-reports">My Transaction</a></li>
+                                            <li><a href="<?php echo base_url() ?>booking-wise-reports">Booking Wise</a></li>
+                                            <li><a href="<?php echo base_url() ?>Trip-wise-reports">Trip Wise</a></li>
+                                            <li><a href="<?php echo base_url() ?>payment-from-B2C-reports">Payment from B2C</a></li>
+                                            <li><a href="<?php echo base_url() ?>payment-from-B2B-reports">Payment from B2B</a></li>
+                                            <li><a href="<?php echo base_url() ?>payment-to-B2B-reports">Payment to B2B</a></li>
+                                            <li><a href="<?php echo base_url() ?>cancellation-reports">Cancellation Reports</a></li>
+                                            <li><a href="<?php echo base_url() ?>my-transaction-reports">My Transaction</a></li>
                                         </ul>
 
                                     </li>
@@ -171,14 +171,14 @@
                                     <?php
                                 } else if ($this->session->userdata('user_type') == 'CU'||$this->session->userdata('user_type') == 'GU') {
                                     ?>
-                                    <li><a href="trip-list">Trips</a></li>
+                                    <li><a href="<?php echo base_url() ?>trip-list">Trips</a></li>
                                     <li><a href="<?php echo base_url() ?>about-us">About Us</a></li>
                                     <li><a href="<?php echo base_url() ?>contact-us">Contact Us</a></li>
                                     <li><a href="<?php echo base_url() ?>faq">FAQ</a></li>
                                     <?php
                                 }else {
                                     ?>
-                                    <li><a href="trip-list">Trips</a></li>
+                                    <li><a href="<?php echo base_url() ?>trip-list">Trips</a></li>
                                     <li><a href="<?php echo base_url() ?>about-us">About Us</a></li>
                                     <li><a href="<?php echo base_url() ?>contact-us">Contact Us</a></li>
                                     <li><a href="<?php echo base_url() ?>faq">FAQ</a></li>
@@ -197,10 +197,10 @@
                         <div class="nav-mini-wrapper " >
                         <ul class="nav-mini  ">
                             <?php if ($this->session->userdata('user_id') && $this->session->userdata('user_id') > 0) { ?>
-                            <li class="dropdown "> <a href="profile.html" data-toggle="dropdown"> <img src="<?php if($this->session->userdata('user_img')) echo $this->session->userdata('user_img')?>" alt="images" class="drp_dwn" style="border-radius: 50%;" width="30"/> </a>  
+                            <li class="dropdown "> <a href="<?php echo base_url() ?>my-profile" data-toggle="dropdown"> <img src="<?php if($this->session->userdata('user_img')) echo $this->session->userdata('user_img')?>" alt="images" class="drp_dwn" style="border-radius: 50%;" width="30"/> </a>  
                                 <ul class="dropdown-menu"  style="margin-left: -130px;">
                                     <li><a href="<?php echo base_url() ?>my-profile" class="text-dark">Profile</a></li>
-                                    <li><a href="my-transaction" class="text-dark">Wallet <span class="text-primary wallet">Rs:200</span></a></li>
+                                    <li><a href="<?php echo base_url() ?>my-transaction" class="text-dark">Wallet <span class="text-primary wallet">Rs:200</span></a></li>
                                     <li><a href="<?php echo base_url() ?>update-profile" class="text-dark">Update Profile</a></li>
                                     <li><a href="<?php echo base_url() ?>change-password" class="text-dark">Change Password</a></li>
                                     <li><a href="<?php echo base_url() ?>logout" class="text-dark">Logout</a></li>
