@@ -55,6 +55,18 @@ class Master_model extends CI_Model {
         $query = $this->db->get();
         return $query->num_rows();
     }
+	
+	function coupon_code_update($data, $where) {
+        $this->db->where($where);
+        $this->db->update('coupon_code_master', $data);
+        return $this->db->affected_rows();
+    }
+	
+	function coupon_code_detail($data) {
+        $this->db->select()->from('coupon_code_master')->where($data);
+        $query = $this->db->get();
+        return $query->first_row('array');
+    }
 
 }
 
