@@ -407,6 +407,11 @@
     
     <script>//$(document).ready(function(){MasterValidation.init();});</script>
 <?php }?>
+<?php if($url=='triplist'){?>
+    <script type="text/javascript" src="<?php echo base_url()?>assets-customs/js/triplist.js"></script>
+    
+    <script>//$(document).ready(function(){MasterValidation.init();});</script>
+<?php }?>
     
 <?php if($url=='coupon-code-master'){?>
     <script type="text/javascript" src="<?php echo base_url()?>assets/js/moment.min.js"></script>

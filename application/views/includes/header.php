@@ -137,7 +137,8 @@
                                             <li><a href="<?php echo base_url() ?>booking-list">Booking List</a></li>
                                             <li><a href="<?php echo base_url() ?>cancellation-list">Cancellation List</a></li>
                                             <li><a href="<?php echo base_url() ?>coupon-code-master">Coupon Code Master</a></li>
-                                        </ul>
+											<li><a href="<?php echo base_url() ?>triplist">Trip List</a></li>
+										</ul>
                                     </li>
                                     <li>
                                         <a href="#">B2B</a>
