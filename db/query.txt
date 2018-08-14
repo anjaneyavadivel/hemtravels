@@ -10,7 +10,6 @@ ALTER TABLE `coupon_code_master_history` ADD `price_to_adult` FLOAT(8,2) NOT NUL
 ALTER TABLE `coupon_code_master` ADD `user_id` INT NOT NULL AFTER `id`;
 ALTER TABLE `coupon_code_master_history` ADD `user_id` INT NOT NULL AFTER `id`;
 
-ALTER TABLE `trip_master` ADD `total_rating` INT(1) NOT NULL DEFAULT '0' AFTER `is_shared`;
 ALTER TABLE `trip_book_pay` ADD `round_off` FLOAT(8,2) NOT NULL AFTER `gst_amt`;
 ALTER TABLE `trip_book_pay_details` ADD `round_off` FLOAT(8,2) NOT NULL AFTER `gst_amt`;
 ALTER TABLE `trip_book_pay` ADD `discount_percentage` FLOAT(8,2) NOT NULL AFTER `coupon_history_id`;
@@ -25,3 +24,7 @@ ALTER TABLE `trip_book_pay_details` ADD `pick_up_location` VARCHAR(150) NOT NULL
 ALTER TABLE `trip_book_pay` ADD `booked_by` INT NOT NULL AFTER `booked_on`;
 ALTER TABLE `trip_book_pay_details` ADD `booked_by` INT NOT NULL AFTER `booked_on`;
 ALTER TABLE `trip_book_pay` ADD `parent_trip_id` INT NOT NULL DEFAULT '0' AFTER `id`;
+ALTER TABLE `trip_master` ADD `total_rating` INT(1) NOT NULL DEFAULT '0' AFTER `is_shared`;
+ALTER TABLE `trip_master` ADD `total_booking` INT NOT NULL AFTER `total_rating`;
+ALTER TABLE `trip_master` CHANGE `total_booking` `total_booking` INT(11) UNSIGNED NOT NULL DEFAULT '0';
+ALTER TABLE `trip_master` CHANGE `total_rating` `total_rating` FLOAT(1,1) NOT NULL DEFAULT '0';

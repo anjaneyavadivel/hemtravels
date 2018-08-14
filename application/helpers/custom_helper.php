@@ -908,5 +908,86 @@ if (!function_exists('trip_book_status_update')) {
          return FALSE;
     }
 }
+
+
+/**
+ * book the trip
+ input: 
+        'pnr' => pnr
+        'phoneno' => phone no
+ * @return 
+ * @author Anjaneya
+ * */
+if (!function_exists('getpnrinfo')) {
+
+    function getpnrinfo($pnr_no='',$phoneno='') {
+        // TODO: mail sent to customer and vendor
+        $CI = & get_instance();
+        $loginuserid = $CI->session->userdata('user_id');
+        if ($pnr_no == '' ||$phoneno == '') {
+            return FALSE;
+        }
+        $book_pay=array();
+        if ($CI->session->userdata('user_type') == 'VA') {
+            $whereData = array('tpd.isactive' => 1, 'tpd.pnr_no'=>$pnr_no, 'bum.phone'=>$phoneno, 'tpd.user_id'=>$loginuserid);
+            $joins = array(
+                array(
+                    'table' => 'trip_master AS tm',
+                    'condition' => 'tm.id = tpd.trip_id',
+                    'jointype' => 'INNER'
+                ),
+                array(
+                    'table' => 'user_master AS tmum',
+                    'condition' => 'tm.user_id = tmum.id',
+                    'jointype' => 'INNER'
+                ),
+                array(
+                    'table' => 'user_master AS bum',
+                    'condition' => 'tpd.booked_by = bum.id',
+                    'jointype' => 'INNER'
+                ),
+            );
+            $columns = 'tpd.pnr_no,tpd.number_of_persons,tpd.price_to_adult,tpd.price_to_child,tpd.price_to_infan,tpd.subtotal_trip_price,tpd.offer_amt,'
+                    . 'tpd.total_trip_price,tpd.date_of_trip,tpd.time_of_trip,tpd.pick_up_location,tpd.pick_up_location_landmark,'
+                    . 'bum.user_fullname AS bookedby,bum.phone AS bookedby_contactno,bum.email AS bookedby_contactemail,tpd.booked_on,tpd.status,tpd.payment_status,'
+                    . 'tmum.user_fullname AS trip_postby,tmum.phone AS trip_contactno,tmum.email AS trip_contactemail,tm.trip_name,';
+            $tableData = get_joins('trip_book_pay_details AS tpd', $columns, $joins, $whereData);
+            
+            if ($tableData->num_rows() > 0) {
+                return $book_pay = $tableData->result_array(); 
+            }
+        }
+        
+        if(count($book_pay)<1){
+            $whereData = array('tpd.isactive' => 1, 'tpd.pnr_no'=>$pnr_no, 'bum.phone'=>$phoneno);
+            $joins = array(
+                array(
+                    'table' => 'trip_master AS tm',
+                    'condition' => 'tm.id = tpd.trip_id',
+                    'jointype' => 'INNER'
+                ),
+                array(
+                    'table' => 'user_master AS tmum',
+                    'condition' => 'tm.user_id = tmum.id',
+                    'jointype' => 'INNER'
+                ),
+                array(
+                    'table' => 'user_master AS bum',
+                    'condition' => 'tpd.booked_by = bum.id',
+                    'jointype' => 'INNER'
+                ),
+            );
+            $columns = 'tpd.pnr_no,tpd.number_of_persons,tpd.price_to_adult,tpd.price_to_child,tpd.price_to_infan,tpd.subtotal_trip_price,tpd.offer_amt,tpd.gst_amt,tpd.round_off,tpd.net_price,'
+                    . 'tpd.total_trip_price,tpd.date_of_trip,tpd.time_of_trip,tpd.pick_up_location,tpd.pick_up_location_landmark,'
+                    . 'bum.user_fullname AS bookedby,bum.phone AS bookedby_contactno,bum.email AS bookedby_contactemail,tpd.booked_on,tpd.status,tpd.payment_status,'
+                    . 'tmum.user_fullname AS trip_postby,tmum.phone AS trip_contactno,tmum.email AS trip_contactemail,tm.trip_name,';
+            $tableData = get_joins('trip_book_pay AS tpd', $columns, $joins, $whereData);
+            if ($tableData->num_rows() > 0) {
+                return $book_pay = $tableData->result_array(); 
+            }
+        }
+         return FALSE;
+    }
+}
 /* End of file custom_helper.php */
 ?>

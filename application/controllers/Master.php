@@ -248,28 +248,34 @@ class Master extends CI_Controller {
     }
     
     public function checkhelper() {
+        $this->load->helper('custom_helper');
+        
+           $pnr_no='PNR13JSMCG7';$phoneno='9688079118';
+           $result =  getpnrinfo($pnr_no,$phoneno);
+            print_r($result);
+        
+        
         if ($this->session->userdata('user_id') == '') {
             return FALSE;
         }
-        $this->load->helper('custom_helper');
-        $offerdata=array(
-        'trip_id' => 2,
-        'login_user_id' => $this->session->userdata('user_id'),
-        'date_of_trip' => "15-08-2018",
-        'ischeckadmin' => 0);
-        $result = trip_offer($offerdata);
-        print_r($result);
-//        exit();
-        $bookdata=array(
-        'trip_id' => 2,
-        'book_user_id' => $this->session->userdata('user_id'),
-        'no_of_adult' => 1,
-        'no_of_child' => 1,
-        'no_of_infan' => 0,
-        'date_of_trip' => "15-08-2018",
-        'pick_up_location_id' => 2);
-        $result = trip_book($bookdata);
-        print_r($result);
+//        $offerdata=array(
+//        'trip_id' => 2,
+//        'login_user_id' => $this->session->userdata('user_id'),
+//        'date_of_trip' => "15-08-2018",
+//        'ischeckadmin' => 0);
+//        $result = trip_offer($offerdata);
+//        print_r($result);
+////        exit();
+//        $bookdata=array(
+//        'trip_id' => 2,
+//        'book_user_id' => $this->session->userdata('user_id'),
+//        'no_of_adult' => 1,
+//        'no_of_child' => 1,
+//        'no_of_infan' => 0,
+//        'date_of_trip' => "15-08-2018",
+//        'pick_up_location_id' => 2);
+//        $result = trip_book($bookdata);
+//        print_r($result);
     }
 
 }
