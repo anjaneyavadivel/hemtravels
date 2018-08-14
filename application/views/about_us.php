@@ -18,7 +18,7 @@
 			
 			<!-- end Breadcrumb -->
 
-			<div class="pt-50 pb-60">
+			<div class="">
 			
 				<div class="container">
 

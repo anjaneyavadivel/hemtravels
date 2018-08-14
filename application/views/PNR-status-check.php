@@ -5,7 +5,7 @@
 		
 			<!-- start breadcrumb -->
 			
-			<div class="breadcrumb-image-bg pb-100 no-bg" style="background-image:url('images/guide-lightbox/03.jpg');">
+			<div class="breadcrumb-image-bg pb-100 no-bg" style="background-image:url('<?php echo base_url()?>assets/images/guide-lightbox/03.jpg');">
 				<div class="container">
 
 					<div class="page-title">
