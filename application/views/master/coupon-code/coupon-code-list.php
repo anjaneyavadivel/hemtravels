@@ -86,8 +86,10 @@
                                                     
                                                     $isactive=$row['isactive'];
                                                     $status_active = array('deactive','active');
-                                                    //$int=explode(",",$isactive); 
-                                                    $btn_type=array('text-danger','text-info');	
+                                                    $int=explode(",",$isactive); 
+                                                    $btn_type=array('text-danger','text-info');
+													foreach($int as $val)
+										            {
                                                     ?>
                                     <tr>
                                         <td><?=$row['coupon_code'];?></td>
@@ -99,7 +101,7 @@
                                         <td><?=date("M d,Y", strtotime($row['validity_to']));?></td>
                                         <td><?php $row['percentage_amount'];if($row['offer_type']==2){echo '%';}?></td>
                                         <td><h4 class="<?=$btn_type[$isactive];?>"><?=$status_active[$isactive];?></h4></td>
-                                       <?php if($isactive!='0'){?> 
+                                      <?php if($isactive!='0'){?> 
                                         <td><a class=" btn-view-couponcode" data-val="<?=$id?>" ><i class="fa fa-eye" data-toggle="tooltip" data-placement="top" title="Click here to view"></i></a>
                                             <a class="<?=$btn_type[$isactive];?> btn-edit-couponcode" data-val="<?=$id?>" ><i class="fa fa-pencil" data-toggle="tooltip" data-placement="top" title="Click here to edit"></i></a>
                                             <a href="<?=base_url();?>coupon-code-master/delete/<?=$id?>"><i class="fa fa-trash" data-toggle="tooltip" data-placement="top" title="Click here to delete"></i> </a></td><?php }?>
@@ -108,7 +110,8 @@
                                     </tr>
 										<?php 				
 									} 
-								}		
+								}
+									}								
 								?> 	
                                     
                                     
