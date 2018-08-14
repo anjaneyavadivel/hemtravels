@@ -271,5 +271,25 @@ class Master extends CI_Controller {
         $result = trip_book($bookdata);
         print_r($result);
     }
+	
+	public function coupon_code_delete($id) {
+        if ($this->session->userdata('user_id') == '') {
+            redirect('login');
+        }
+		$where = array('id' => $id);
+        $data = array('isactive' => 0);
+        $this->Master_model->coupon_code_update($data, $where);
+        redirect('coupon-code-master');
+    }
+	
+	public function coupon_code_active($id) {
+        if ($this->session->userdata('user_id') == '') {
+            redirect('login');
+        }
+		$where = array('id' => $id);
+        $data = array('isactive' => 1);
+        $this->Master_model->coupon_code_update($data, $where);
+        redirect('coupon-code-master');
+    }
 
 }
