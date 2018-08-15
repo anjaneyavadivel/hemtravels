@@ -259,10 +259,7 @@
                                     <a href="payment-done.html">view <i class="ion-android-arrow-forward"></i></a>
 
                                 </div>
-
-
-                            </div>
-                            
+                            </div> 
                         </div>
 						<?php
 						}
