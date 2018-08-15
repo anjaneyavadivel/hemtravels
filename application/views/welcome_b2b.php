@@ -125,8 +125,8 @@
                                     </thead>
                                     <tbody>
 									<?php
-                    if (isset($trip_booking_list) && count($trip_booking_list) > 0) {
-                        foreach ($trip_booking_list as $row) {
+                    if (isset($trippost_list) && count($trippost_list) > 0) {
+                        foreach ($trippost_list as $row) {
                             
 									{
                                     
@@ -142,7 +142,7 @@
 										foreach($sts as $vals)
 										{
 										$isactive=$row['isactive'];
-										$status_active = array('deactive','active');
+										$status_active = array('Deactive','Active');
 										$int=explode(",",$isactive); 
 										$btn_type=array('text-danger','text-info');	
 										foreach($int as $val)
@@ -240,8 +240,8 @@
 
                     <div class="tab-pane fade active in" id="tab-style-01-01">
 <?php
-                    if (isset($trip_list) && count($trip_list) > 0) {
-                        foreach ($trip_list as $row) {
+                    if (isset($new_booking_list) && count($new_booking_list) > 0) {
+                        foreach ($new_booking_list as $row) {
                             $trip_name = $row['trip_name'];
                             $booked_on = $row['booked_on'];
                             $user_fullname = $row['user_fullname'];
@@ -274,17 +274,17 @@
                             <span class="text-right col-xs-12">
                                 <a href="triplist">View All<i class="ion-android-arrow-forward"></i></a></span>
                     <?php
-                    if (isset($trip_booking_list) && count($trip_booking_list) > 0) {
-                        foreach ($trip_booking_list as $row) {
+                    if (isset($all_booking_list) && count($all_booking_list) > 0) {
+                        foreach ($all_booking_list as $row) {
                             $trip_name = $row['trip_name'];
                             $booked_on = $row['booked_on'];
                             $user_fullname = $row['user_fullname'];
-							$no_of_traveller = $row['no_of_traveller'];
+							$number_of_persons = $row['number_of_persons'];
                             ?>
 							<div class="user-long-sm-item clearfix mb-20">
                                 <div class="tab-inner">
                                     <h3 class="mb-10"><?=$user_fullname; ?></h3>
-                                    <p><b>Booked On :</b> <?=date("d/M/y",strtotime($booked_on));?>  <b>No of Travellor: </b><?=$no_of_traveller; ?></p>
+                                    <p><b>Booked On :</b> <?=date("d/M/y",strtotime($booked_on));?>  <b>No of Travellor: </b><?=$number_of_persons; ?></p>
                                     <p><b>Trip Tittle :</b> <?=$trip_name; ?></p>
                                     <span class="labeling">More Details: </span>
                                     <a href="payment-done.html">view <i class="ion-android-arrow-forward"></i></a>

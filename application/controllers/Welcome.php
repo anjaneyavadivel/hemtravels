@@ -15,10 +15,19 @@ function __construct()
             if($this->session->userdata('user_type')=='SA'){
 		$this->load->view('welcome_b2a');
             }else if($this->session->userdata('user_type')=='VA'){
-		$data['trippost_list']=$this->Welcome_model->get_trip_list();
-		$data['trip_popular_list']=$this->Welcome_model->get_trippopular_list();
-		$data['trip_booking_list']=$this->Welcome_model->get_tripbooking_list();
-		$data['trip_list']=$this->Welcome_model->get_list();
+                $loginuserid = $this->session->userdata('user_id');
+                $where =array('tm.isactive'=>1,'tm.user_id'=>$loginuserid);
+                $limit = 8;
+		$data['trippost_list']=$this->Welcome_model->get_trip_list($where,$limit);
+                $limit = 10;
+		$data['trip_popular_list']=$this->Welcome_model->get_trippopular_list($where);
+                $where =array('tm.isactive' => 1, 'tp.status' => 2,'tm.user_id'=>$loginuserid);
+                $limit = 2;
+		$data['new_booking_list']=$this->Welcome_model->get_tripbooking_list($where,$limit);
+                $where =array('tm.isactive' => 1,'tm.user_id'=>$loginuserid);
+                $limit = 2;
+		$data['all_booking_list']=$this->Welcome_model->get_tripbooking_list($where,$limit);
+		//$data['trip_list']=$this->Welcome_model->get_list($where);
 		$this->load->view('welcome_b2b',$data);
             }else{
 		$this->load->view('welcome_b2c');
