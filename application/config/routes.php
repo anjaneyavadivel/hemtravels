@@ -53,6 +53,8 @@ $route['default_controller'] = 'welcome';
 $route['404_override'] = '';
 $route['translate_uri_dashes'] = FALSE;
 
+
+
 $route['logout'] = 'Loginview/logout';
 
 //Api
@@ -156,6 +158,13 @@ $route['coupon-code-master'] = 'master/coupon_code_list';
 $route['couponcode_vaildation'] = 'master/couponcode_vaildation';
 $route['coupon-code-master/delete/(:num)'] = 'master/coupon_code_delete/$1';
 $route['coupon-code-master/active/(:num)'] = 'master/coupon_code_active/$1';
+
+//triplist vender
+$route['triplist/loadmodal/(:any)'] = 'triplist/loadmodal/$1';
+$route['triplist/delete/(:num)'] = 'triplist/trip_delete/$1';
+$route['triplist/active/(:num)'] = 'triplist/trip_active/$1';
+$route['triplist/(:any)'] = 'triplist/trip_list/$1';
+$route['triplist'] = 'triplist/trip_list';
 
 
 //Trip
