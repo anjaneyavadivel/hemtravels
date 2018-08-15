@@ -23,10 +23,22 @@ if (!defined('BASEPATH'))
 if (!function_exists('profile_pic')) {
 
     function profile_pic($image) {
-        if (trim($image) != "" && file_exists(YH_UPLOAD_PATH . "profile/$image")) {
-            return YH_MEDIA_PATH . "profile/$image";
+        if (trim($image) != "" && file_exists(FCPATH . "profile/$image")) {
+            return base_url() . "profile/$image";
         } else {
-            return YH_MEDIA_PATH . "profile/thumbnail/noprofile.png";
+            return base_url() . "profile/noprofile.png";
+        }
+    }
+
+}
+
+if (!function_exists('trippic')) {
+
+    function trippic($image) {
+        if (trim($image) != "" && file_exists(FCPATH . "uploads/$image")) {
+            return base_url() . "uploads/$image";
+        } else {
+            return base_url() . "uploads/noimg.jpg";
         }
     }
 
