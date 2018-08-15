@@ -267,7 +267,7 @@
                         <div class="itinerary-list-wrapper trip-list-items-wrapper">
                             
                         </div>
-
+                        <input type="hidden" id="userType" value="<?php echo $this->session->userdata('user_type'); ?>">
                     </div>
 
                 </div>

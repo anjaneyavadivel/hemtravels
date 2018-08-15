@@ -51,9 +51,9 @@
                                     <div class="breadcrumb-wrapper text-left">
 
                                         <ol class="breadcrumb">
-                                            <li><a href="#">Home</a></li>
-
-                                            <li class="active">View</li>
+                            <li><a href="#">Home</a></li>
+                            <li><a href="#">Trip</a></li>
+                            <li  class="active"><a href="#">View</a></li>
                                         </ol>
 
                                     </div>
@@ -814,127 +814,127 @@
                                 </div>
 
                             </div>
+                            
+                                <div id="sidebar-sticky" class="col-xs-12 col-sm-12 col-md-4 sticky-mt-70 sticky-mb-0">
+                                    
+                                    <aside class="sidebar-wrapper with-box-shadow">
+                                        <?php if($this->session->userdata('user_type') == 'CU' || $this->session->userdata('user_type') == 'VA') {?>
+                                        <div class="sidebar-booking-box">
 
-                            <div id="sidebar-sticky" class="col-xs-12 col-sm-12 col-md-4 sticky-mt-70 sticky-mb-0">
+                                            <div class="sidebar-booking-header bg-primary clearfix">
 
-                                <aside class="sidebar-wrapper with-box-shadow">
+                                                <div class="price">
+                                                    <?php echo isset($details['meeting_point'])?$details['meeting_point']:'';?>
+                                                </div>
 
-                                    <div class="sidebar-booking-box">
+                                                <div>
+                                                    / traveller
+                                                </div>
 
-                                        <div class="sidebar-booking-header bg-primary clearfix">
-
-                                            <div class="price">
-                                                <?php echo isset($details['meeting_point'])?$details['meeting_point']:'';?>
                                             </div>
 
-                                            <div>
-                                                / traveller
+                                            <div class="sidebar-booking-inner">
+                                                <?php echo form_open_multipart('#', array('class' => 'form-horizontal margin-top-30', 'id' => 'trip_booking')); ?>
+                                                    <div class="row gap-10" id="rangeDatePicker">
+
+                                                        <div class="col-xss-12 col-xs-6 col-sm-6">
+                                                            <div class="form-group">
+                                                                <label>From</label>
+                                                                <input type="text" id="rangeDatePickerTo" name="booking_from_time" class="form-control" placeholder="M D, YYYY" />
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="col-xss-12 col-xs-6 col-sm-6">
+                                                            <div class="form-group">
+                                                                <label>To</label>
+                                                                <input type="text" id="rangeDatePickerFrom" name="booking_to_time" class="form-control" placeholder="M D, YYYY" />
+                                                            </div>
+                                                        </div>
+
+                                                    </div>
+
+                                                    <div class="row gap-20">
+
+                                                        <div class="col-xss-12 col-xs-12 col-sm-12">
+                                                            <div class="form-group">
+                                                                <label>No. of Adult</label>
+                                                                <div class="form-group form-spin-group">
+                                                                    <input type="text" class="form-control form-spin no_of_adult" name="no_of_adult" value="0" /> 
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="col-xss-12 col-xs-12 col-sm-12">
+                                                            <div class="form-group">
+                                                                <label>No. of Children</label>
+                                                                <div class="form-group form-spin-group">
+                                                                    <input type="text" class="form-control form-spin no_of_children" name="no_of_children" value="0"/> 
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="col-xss-12 col-xs-12 col-sm-12">
+                                                            <div class="form-group">
+                                                                <label>No. of Infan</label>
+                                                                <div class="form-group form-spin-group">
+                                                                    <input type="text" class="form-control form-spin no_of_infan" name="no_of_infan" value="0" /> 
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="col-sm-12 col-md-12">
+
+                                                            <div class="form-group">
+                                                                <label>Location</label>
+                                                                <select class="selectpicker show-tick form-control" name="location" data-live-search="false">
+                                                                    <option value="">Select</option>
+                                                                    <?php 
+                                                                     if(isset($pickups) && count($pickups) > 0){
+                                                                        foreach ($pickups as $v){
+                                                                             echo '<option value="'.$v['id'].'">'.$v['location'].'</option>';
+                                                                        }
+                                                                     }
+
+                                                                    ?>
+                                                                </select>
+                                                            </div>
+
+                                                        </div>
+
+                                                        <div class="col-xss-12 col-xs-12 col-sm-12">
+                                                            <div class="book_traveller_missing" style="display:none;">
+                                                                <p style="text-align:center;color:red">No of Adult | No of Children | No of Infan should be greater than zero</p>
+                                                            </div>
+                                                            <div class="mt-5">
+                                                                <a href="javascript:;" class="btn btn-primary btn-block request_book">Request to Book</a>
+                                                            </div>
+                                                        </div>
+
+                                                    </div>
+
+                                                    <div class="mt-10 text-center">
+                                                        <p class="font-md text-muted font500 spacing-2">You won't yet be charged</p>
+                                                    </div>
+                                                    <input type="hidden" id="availableDays" value='<?php echo isset($available_days)?json_encode($available_days):"";?>'>
+                                                <?php echo form_close()?>
                                             </div>
 
                                         </div>
-
-                                        <div class="sidebar-booking-inner">
-                                            <?php echo form_open_multipart(base_url() . 'trips/add_action', array('class' => 'form-horizontal margin-top-30', 'id' => 'trip_booking')); ?>
-                                                <div class="row gap-10" id="rangeDatePicker">
-
-                                                    <div class="col-xss-12 col-xs-6 col-sm-6">
-                                                        <div class="form-group">
-                                                            <label>From</label>
-                                                            <input type="text" id="rangeDatePickerTo" class="form-control" placeholder="M D, YYYY" />
-                                                        </div>
-                                                    </div>
-
-                                                    <div class="col-xss-12 col-xs-6 col-sm-6">
-                                                        <div class="form-group">
-                                                            <label>To</label>
-                                                            <input type="text" id="rangeDatePickerFrom" class="form-control" placeholder="M D, YYYY" />
-                                                        </div>
-                                                    </div>
-
-                                                </div>
-
-                                                <div class="row gap-20">
-
-                                                    <div class="col-xss-12 col-xs-12 col-sm-12">
-                                                        <div class="form-group">
-                                                            <label>No. of Adult</label>
-                                                            <div class="form-group form-spin-group">
-                                                                <input type="text" class="form-control form-spin" value="1" /> 
-                                                            </div>
-                                                        </div>
-                                                    </div>
-
-                                                    <div class="col-xss-12 col-xs-12 col-sm-12">
-                                                        <div class="form-group">
-                                                            <label>No. of Children</label>
-                                                            <div class="form-group form-spin-group">
-                                                                <input type="text" class="form-control form-spin" value="1" /> 
-                                                            </div>
-                                                        </div>
-                                                    </div>
-
-                                                    <div class="col-xss-12 col-xs-12 col-sm-12">
-                                                        <div class="form-group">
-                                                            <label>No. of Infan</label>
-                                                            <div class="form-group form-spin-group">
-                                                                <input type="text" class="form-control form-spin" value="1" /> 
-                                                            </div>
-                                                        </div>
-                                                    </div>
-
-                                                    <div class="col-sm-12 col-md-12">
-
-                                                        <div class="form-group">
-                                                            <label>Location</label>
-                                                            <select class="selectpicker show-tick form-control" data-live-search="false">
-                                                                <option value="0">Select</option>
-                                                                <?php 
-                                                                 if(isset($pickups) && count($pickups) > 0){
-                                                                    foreach ($pickups as $v){
-                                                                         echo '<option value="'.$v['id'].'">'.$v['location'].'</option>';
-                                                                    }
-                                                                 }
-
-                                                                ?>
-                                                            </select>
-                                                        </div>
-
-                                                    </div>
-
-                                                    <div class="col-xss-12 col-xs-12 col-sm-12">
-                                                        <div class="mt-5">
-                                                            <a href="book_ticket.html" class="btn btn-primary btn-block">Request to Book</a>
-                                                        </div>
-                                                    </div>
-
-                                                </div>
-
-                                                <div class="mt-10 text-center">
-                                                    <p class="font-md text-muted font500 spacing-2">You won't yet be charged</p>
-                                                </div>
-                                                <input type="hidden" id="availableDays" value='<?php echo isset($available_days)?json_encode($available_days):"";?>'>
-                                            <?php echo form_close()?>
+                                        <?php } ?>
+                                        <?php if(isset($details['isshared']) && $details['isshared'] == 1 && isset($shared_details) && count($shared_details) > 0) { ?>
+                                        <div class="list-yes-no-box">
+                                            <ul>
+                                                <li><b>Shared Status:</b> Shared</li>
+                                                <li><b>Shared by:</b> <?php echo isset($shared_details['user_fullname'])?$shared_details['user_fullname']:'';?></li>
+                                                <li><b>Shared Email:</b> <?php echo isset($shared_details['to_user_mail'])?$shared_details['to_user_mail']:'';?></li>
+                                                <!--<li><b>Shared Phone:</b> 999999999</li>-->
+                                            </ul>
                                         </div>
+                                        <?php } ?>
+                                    </aside>
 
-                                    </div>
-
-                                    <div class="list-yes-no-box">
-                                        <ul>
-                                            <li><b>Shared Status:</b> Shared</li>
-                                            <li><b>Shared by:</b> XXXXXXXX</li>
-                                            <li><b>Shared Email:</b> abc@gmail.com</li>
-                                            <li><b>Shared Phone:</b> 999999999</li>
-                                            <!--										<li>100% private</li>
-                                                                                                                            <li>Instantly confirmed</li>
-                                                                                                                            <li>Free cancellation</li>
-                                                                                                                            <li>Satisfaction guarantee</li>-->
-                                        </ul>
-                                    </div>
-
-                                </aside>
-
-                            </div>
-
+                                </div>
+                            
                         </div>
 
                     </div>

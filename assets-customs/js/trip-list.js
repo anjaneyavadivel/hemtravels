@@ -51,7 +51,7 @@ jQuery(function($) {
                 success: function (data)
                 {
                     data = $.parseJSON(data);                    
-                    var result = '';
+                    var result = '',user_type =$('#userType').val();
                     if(data.results && data.results.length > 0){ 
                         
                         $('#currentPage').val(parseInt(page)+1); 
@@ -97,17 +97,22 @@ jQuery(function($) {
                                     rating = ' '+comment+' <span  class="stars_rate btn-primary">'+data.total_rating+'</span>';
                                 }
                                 
+                                //EDIT OPTION ENABLE/DISABLE
+                                var is_not_cut = '';
+                                if(user_type != 'CU'){
+                                    is_not_cut ='<div class="mt-10">'+
+                                                    '<a href="'+base_url+'trips/update/'+data.trip_code+'" class="btn btn-info btn-sm">Edit</a>'+
+                                                    '<a href="javascript:;" class="btn btn-danger btn-sm tripDelete" data-id="'+data.id+'">Delete</a>'+
+                                                '</div>'+
+                                                '<div class="trip-by pt-5"><a href="'+base_url+'trip-calendar-view"><span class="text-primary font22 font700 mb-1">15</span> Booking List</a></div>';
+                                }
                                 
                                 result += '<div class="itinerary-list-item trip-list-item-data">'+
                                                 '<div class="row">'+
                                                     '<div class="col-xs-12 col-sm-3 col-md-3">'+
                                                         '<div class="image">'+
                                                             '<a href="'+base_url+'trip-view/'+data.trip_code+'"><img src="'+image+'" alt="'+data.trip_name+'" /></a>'+
-                                                        '</div><div class="mt-10">'+
-                                                            '<a href="'+base_url+'trips/update/'+data.trip_code+'" class="btn btn-info btn-sm">Edit</a>'+
-                                                            '<a href="javascript:;" class="btn btn-danger btn-sm tripDelete" data-id="'+data.id+'">Delete</a>'+
-                                                        '</div>'+
-                                                        '<div class="trip-by pt-5"><a href="'+base_url+'trip-calendar-view"><span class="text-primary font22 font700 mb-1">15</span> Booking List</a></div>'+
+                                                        '</div>'+is_not_cut+
                                                     '</div>'+
                                                     '<div class="col-xs-12 col-sm-6 col-md-6">'+
                                                         '<div class="content">'+

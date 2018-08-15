@@ -28,3 +28,7 @@ ALTER TABLE `trip_master` ADD `total_rating` INT(1) NOT NULL DEFAULT '0' AFTER `
 ALTER TABLE `trip_master` ADD `total_booking` INT NOT NULL AFTER `total_rating`;
 ALTER TABLE `trip_master` CHANGE `total_booking` `total_booking` INT(11) UNSIGNED NOT NULL DEFAULT '0';
 ALTER TABLE `trip_master` CHANGE `total_rating` `total_rating` FLOAT(1,1) NOT NULL DEFAULT '0';
+
+ALTER TABLE `trip_master` CHANGE `total_rating` `total_rating` FLOAT(2,1) NOT NULL DEFAULT '0.0';
+ALTER TABLE `trip_master` CHANGE `other_inclusions` `other_inclusions` TEXT CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL, CHANGE `exclusions` `exclusions` TEXT CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL, CHANGE `transport` `transport` TEXT CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL, CHANGE `things_to_carry` `things_to_carry` TEXT CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL, CHANGE `advisory` `advisory` TEXT CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL, CHANGE `cancellation_policy` `cancellation_policy` TEXT CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL, CHANGE `confirmation_policy` `confirmation_policy` TEXT CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL, CHANGE `refund_policy` `refund_policy` TEXT CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL;
+ALTER TABLE `trip_master` CHANGE `brief_description` `brief_description` LONGTEXT CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL;

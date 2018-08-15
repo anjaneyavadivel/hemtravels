@@ -11,8 +11,8 @@
                     <div class="container">
                         <ol class="breadcrumb">
                             <li><a href="#">Home</a></li>
-                            <li><a href="#">Master</a></li>
-                            <li  class="active"><a href="#">Category Master</a></li>
+                            <li><a href="#">Report</a></li>
+                            <li  class="active"><a href="#">Trip List</a></li>
                         </ol>
                     </div>
                 </div>
@@ -26,43 +26,13 @@
                         <!--                         left side - center-->
                         <div class="col-xs-12 col-sm-12 pt-10 pb-5 clearfix">
                             
-                            <div class="col-xs-12 col-sm-4 col-lg-4">
-                                                <div class="row gap-10" id="rangeDatePicker">
-
-                                                    <div class="col-xss-12 col-xs-6 col-sm-6">
-                                                        <div class="form-group">
-                                                            <label>From</label>
-                                                            <input type="text" id="rangeDatePickerTo" class="form-control" placeholder="yyyy/mm/dd" />
-                                                        </div>
-                                                    </div>
-
-                                                    <div class="col-xss-12 col-xs-6 col-sm-6">
-                                                        <div class="form-group">
-                                                            <label>To</label>
-                                                            <input type="text" id="rangeDatePickerFrom" class="form-control" placeholder="yyyy/mm/dd" />
-                                                        </div>
-                                                    </div>
-
-                                                </div>
-                                            </div>
                                             <div class="col-xs-12 col-sm-3 col-lg-3">
                                                 <div class="form-group">
                                                     <label>Status</label>
                                                     <select class="selectpicker show-tick form-control" title="Select placeholder">
                                                         <option value="">All</option>
-                                                        <option value="0">New</option>
-                                                        <option value="1">Pending</option>
-                                                        <option value="1">Completed</option>
-                                                    </select>
-                                                </div>
-                                            </div>
-                                            <div class="col-xs-12 col-sm-3 col-lg-3">
-                                                <div class="form-group">
-                                                    <label>Booked From</label>
-                                                    <select class="selectpicker show-tick form-control" title="Select placeholder">
-                                                        <option value="">All</option>
-                                                        <option value="0">B2C Booking</option>
-                                                        <option value="1">Office Booking</option>
+                                                        <option value="1">Active</option>
+                                                        <option value="0">Deactive</option>
                                                     </select>
                                                 </div>
                                             </div>
@@ -79,12 +49,6 @@
                                                     </div>
                                                 </div>
                                             </div>
-<!--                            <div class="col-xs-2 col-sm-1 col-lg-1 text-right mr-20">
-                                <a class="btn btn-info c_mt" >Export PDF</a>
-                            </div>-->
-                            <div class="col-xs-2 col-sm-1 col-lg-1 text-right">
-                                <a class="btn btn-info c_mt" >Export XL</a>
-                            </div>
                             <table class="table ">
                                 <thead>
                                     <tr>
@@ -116,18 +80,18 @@
 										foreach($sts as $vals)
 										{
 										$isactive=$row['isactive'];
-										$status_active = array('deactive','active');
+										$status_active = array('Deactive','Active');
 										$int=explode(",",$isactive); 
 										$btn_type=array('text-danger','text-info');	
 										foreach($int as $val)
 										{
 										?>
                                     <tr>
-                                        <td><?=date("d/M/y",strtotime($created_on));?></td>
+                                        <td><?=date("d/M/y",strtotime($created_on));?><sup><small style="color: red;"><?=$status_val[$vals];?></small></sup></td>
                                         <td><?=$trip_name;?></td>
 										<td><?=$price_to_adult;?></td>
 										<td><?=$total_booking;?></td>
-										<td><?=$status_val[$vals];?></td>
+<!--										<td><?=$status_val[$vals];?></td>-->
                                         <td><h4 class="<?=$btn_type[$val];?>"><?=$status_active[$val];?></h4></td>
                                        <?php if($isactive!='0'){?> 
                                         <td><a href="<?=base_url();?>triplist/delete/<?=$id?>"><i class="fa fa-trash" data-toggle="tooltip" data-placement="top" title="Click here to delete"></i> </a></td><?php }?>

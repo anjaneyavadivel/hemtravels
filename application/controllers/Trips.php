@@ -648,7 +648,11 @@ class Trips extends CI_Controller {
                             . "LEFT JOIN trip_tag_map as tam ON tam.trip_id = tm.id AND tam.isactive = 1 "                            
                             . "LEFT JOIN trip_tags as tt ON tt.id = tam.tag_id "
                             . "LEFT JOIN trip_shared as ts ON ts.trip_id = tm.id AND ts.isactive = 1 AND tm.is_shared = 1 "
-                            . "WHERE tm.user_id = ? AND tm.isactive = ? ";
+                            . "WHERE tm.isactive = ? ";
+                    
+                    if($this->session->userdata('user_type') == 'VA') {
+                        $tot_sql .=  'AND tm.user_id = '.$this->session->userdata('user_id').' ';
+                    }
                     
                     //FILTER BY TITLE
                     $searchTitle = $this->input->post('search_title',true);
@@ -763,10 +767,10 @@ class Trips extends CI_Controller {
                     }
                     
                     
-                    $tot_query = $this->db->query($tot_sql, array($this->session->userdata('user_id'), 1));
+                    $tot_query = $this->db->query($tot_sql, array( 1));
                     
                     $res_sql   = $tot_sql." LIMIT ?,5";
-                    $res_query = $this->db->query($res_sql, array($this->session->userdata('user_id'), 1, $page));
+                    $res_query = $this->db->query($res_sql, array( 1, $page));
                     
                     //echo $this->db->last_query();exit;
                     
@@ -800,6 +804,7 @@ class Trips extends CI_Controller {
             $data['itineraries']    = $this->Trip_model->getItinerary($data['details']['id']);
             $data['tags']           = $this->Trip_model->getTags($data['details']['id']);
             $data['pickups']        = $this->Trip_model->getPickupLocations($data['details']['id']);
+            //$data['shared_details'] = $this->Trip_model->getSharedDetails($data['details']['id']);
             
         }
         

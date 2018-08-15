@@ -11,8 +11,8 @@
                     <div class="container">
                         <ol class="breadcrumb">
                             <li><a href="#">Home</a></li>
-                            <li><a href="#">Master</a></li>
-                            <li  class="active"><a href="#">Category Master</a></li>
+                            <li><a href="#">Report</a></li>
+                            <li  class="active"><a href="#">Trip List</a></li>
                         </ol>
                     </div>
                 </div>
@@ -26,33 +26,14 @@
                         <!--                         left side - center-->
                         <div class="col-xs-12 col-sm-12 pt-10 pb-5 clearfix">
                             
-                            <div class="col-xs-12 col-sm-4 col-lg-4">
-                                                <div class="row gap-10" id="rangeDatePicker">
-
-                                                    <div class="col-xss-12 col-xs-6 col-sm-6">
-                                                        <div class="form-group">
-                                                            <label>From</label>
-                                                            <input type="text" id="rangeDatePickerTo" class="form-control" placeholder="yyyy/mm/dd" />
-                                                        </div>
-                                                    </div>
-
-                                                    <div class="col-xss-12 col-xs-6 col-sm-6">
-                                                        <div class="form-group">
-                                                            <label>To</label>
-                                                            <input type="text" id="rangeDatePickerFrom" class="form-control" placeholder="yyyy/mm/dd" />
-                                                        </div>
-                                                    </div>
-
-                                                </div>
-                                            </div>
+                            
                                             <div class="col-xs-12 col-sm-3 col-lg-3">
                                                 <div class="form-group">
                                                     <label>Status</label>
                                                     <select class="selectpicker show-tick form-control" title="Select placeholder">
                                                         <option value="">All</option>
-                                                        <option value="0">New</option>
-                                                        <option value="1">Pending</option>
-                                                        <option value="1">Completed</option>
+                                                        <option value="1">Active</option>
+                                                        <option value="0">Deactive</option>
                                                     </select>
                                                 </div>
                                             </div>

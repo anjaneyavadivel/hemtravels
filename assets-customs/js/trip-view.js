@@ -79,6 +79,61 @@ jQuery(function($) {
             customArrowPrevSymbol: '<i class="fa fa-arrow-circle-left"></i>',
             customArrowNextSymbol: '<i class="fa fa-arrow-circle-right"></i>'
     });
+    
+    
+    //VALIDATION
+    $('#trip_booking').validate({
+        rules: {
+            booking_from_time: {
+                required: true,
+            },
+            booking_to_time: {
+                required: true,
+            },
+            no_of_adult: {
+                required: {
+                    function(e) {
+                        /*return (!$('.no_of_adult').val() || $('.no_of_adult').val() == 0) &&
+                               (!$('.no_of_children').val() || $('.no_of_children').val() == 0) &&
+                               (!$('.no_of_infan').val() || $('.no_of_infan').val() == 0);*/
+                    }
+                }
+            },
+            location: {
+                required: true                
+            }
+        },
+        highlight: function (element) {
+            var id_attr = "#" + $(element).attr("id") + "_icon";
+            $(element).closest('.form-group').removeClass('has-success').addClass('has-error');
+            $(id_attr).removeClass('fa-check').addClass('fa-times');
+        },
+        unhighlight: function (element) {
+            var id_attr = "#" + $(element).attr("id") + "_icon";
+            $(element).closest('.form-group').removeClass('has-error').addClass('has-success');
+            $(id_attr).removeClass('fa-times').addClass('fa-check');
+        },
+        errorElement: 'span',
+        errorClass: 'small help-block',
+        errorPlacement: function (error, element) {
+            if (element.length) {
+                error.insertAfter(element);
+            } else {
+                error.insertAfter(element);
+            }
+        }
+    });
 	
+    //
+    $('.request_book').on('click',function(){
+        $('.book_traveller_missing').hide();
+        if($('#trip_booking').valid()){ //FORM VALIDATION
+            if((!$('.no_of_adult').val() || $('.no_of_adult').val() == 0) &&
+                (!$('.no_of_children').val() || $('.no_of_children').val() == 0) &&
+                (!$('.no_of_infan').val() || $('.no_of_infan').val() == 0)){ //IF ANY ONE OF THE FILED SHOULD BE GREATER THAN ZERO
+                  $('.book_traveller_missing').show();         
+            }
+        }
+    })
 });
 
