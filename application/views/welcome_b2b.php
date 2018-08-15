@@ -331,14 +331,23 @@
                             <div class="GridLex-grid-noGutter-equalHeight   mhn-slide owl-carousel ">
 
                                 <div class="GridLex-col-3_sm-6_xs-6_xss-12  mhn-item ">
-
+					<?php 
+					if(isset($trippost_list) && count($trippost_list)>0)
+					{
+							foreach($trippost_list as  $row)
+							{
+								$trip_name=$row['trip_name'];
+								$trip_img_name=$row['trip_img_name'];
+								$created_on=$row['created_on'];
+								
+								?>
                                     <div class="top-destination-item mhn-inner">
                                         <a href="list.html"><div class="price_off2 mr-10">5% OFF</div>
                                             <div class="image">
-                                                <img src="<?php echo base_url()?>assets/images/ws.jpg" alt="images" />
+                                                <img src="<?php echo base_url()?>uploads/<?=$trip_img_name;?>" alt="images" />
                                             </div>
                                             <div class="up_style">
-                                                <p href="#" class="btn_primary">Watersports
+                                                <p href="#" class="btn_primary"><?=$trip_name;?>
                                                     <br>10+ Packages</p>
                                                 <p href="#" class="btn_primary"></p>
                                                 <h4 class="uppercase"><span>Explore</span></h4>
@@ -346,101 +355,13 @@
                                             </div>										
                                         </a>
                                     </div>
-
+									<?php
+																}
+														}
+									?>
                                 </div>
 
-                                <div class="GridLex-col-3_sm-6_xs-6_xss-12  mhn-item">
-
-                                    <div class="top-destination-item mhn-inner">
-                                        <a href="list.html"><div class="price_off2 mr-10">5% OFF</div>
-                                            <div class="image">
-                                                <img src="<?php echo base_url()?>assets/images/tp.jpg" alt="images" />
-                                            </div>
-                                            <div class="up_style">
-                                                <p href="#" class="btn_primary">Theme Park
-                                                    <br>10+ Packages</p>
-                                                <p href="#" class="btn_primary"></p>
-                                                <h4 class="uppercase"><span>Explore</span></h4>
-                                            </div>								
-                                        </a>
-                                    </div>
-
-                                </div>
-
-                                <div class="GridLex-col-3_sm-6_xs-6_xss-12  mhn-item">
-
-                                    <div class="top-destination-item mhn-inner">
-                                        <a href="list.html"><div class="price_off2 mr-10">5% OFF</div>
-                                            <div class="image">
-                                                <img src="<?php echo base_url()?>assets/images/wl.jpg" alt="images" />
-                                            </div>
-                                            <div class="up_style">
-                                                <p href="#" class="btn_primary">WildLife
-                                                    <br>10+ Packages</p>
-
-                                                <h4 class="uppercase"><span>Explore</span></h4>
-                                            </div>								
-                                        </a>
-                                    </div>
-
-                                </div>
-
-                                <div class="GridLex-col-3_sm-6_xs-6_xss-12  mhn-item">
-
-                                    <div class="top-destination-item mhn-inner">
-                                        <a href="list.html"><div class="price_off2 mr-10">5% OFF</div>
-                                            <div class="image">
-                                                <img src="<?php echo base_url()?>assets/images/br.jpg" alt="images" />
-                                            </div>
-                                            <div class="up_style">
-                                                <p href="#" class="btn_primary">Boat Riding
-                                                    <br>10+ Packages</p>
-                                                <p href="#" class="btn_primary"></p>
-                                                <h4 class="uppercase"><span>Explore</span>
-                                                </h4>
-                                            </div>								
-                                        </a>
-                                    </div>
-
-                                </div>
-
-                                <div class="GridLex-col-3_sm-6_xs-6_xss-12  mhn-item ">
-
-                                    <div class="top-destination-item mhn-inner">
-                                        <a href="list.html"><div class="price_off2 mr-10">5% OFF</div>
-                                            <div class="image">
-                                                <img src="<?php echo base_url()?>assets/images/ws.jpg" alt="images" />
-                                            </div>
-                                            <div class="up_style">
-                                                <p href="#" class="btn_primary">Watersports
-                                                    <br>10+ Packages</p>
-                                                <p href="#" class="btn_primary"></p>
-                                                <h4 class="uppercase"><span>Explore</span></h4>
-
-                                            </div>										
-                                        </a>
-                                    </div>
-
-                                </div>
-
-                                <div class="GridLex-col-3_sm-6_xs-6_xss-12  mhn-item ">
-
-                                    <div class="top-destination-item mhn-inner">
-                                        <a href="list.html"><div class="price_off2 mr-10">5% OFF</div>
-                                            <div class="image">
-                                                <img src="<?php echo base_url()?>assets/images/ws.jpg" alt="images" />
-                                            </div>
-                                            <div class="up_style">
-                                                <p href="#" class="btn_primary">Watersports
-                                                    <br>10+ Packages</p>
-                                                <p href="#" class="btn_primary"></p>
-                                                <h4 class="uppercase"><span>Explore</span></h4>
-
-                                            </div>										
-                                        </a>
-                                    </div>
-
-                                </div>
+                               
 
                             </div>
 
