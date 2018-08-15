@@ -30,12 +30,7 @@ class Triplist_model extends CI_Model {
         $query = $this->db->get();
         return $query->first_row('array');
     }
-function total_booking($trip)
-	{
-		$this->db->select("count(id) AS total");
-		$this->db->from('trip_book_pay');
-		$this->db->where(array('trip_id'=>$trip));
-	}
+
 
 }
 

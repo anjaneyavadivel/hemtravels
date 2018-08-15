@@ -6,7 +6,7 @@ class Welcome extends CI_Controller {
 function __construct()
 	{
 		parent::__construct();
-		$this->load->model('Welcomeb2b_model');	
+		$this->load->model('Welcome_model');	
 		$this->load->helper('custom_helper');	
 	}
 	
@@ -15,7 +15,10 @@ function __construct()
             if($this->session->userdata('user_type')=='SA'){
 		$this->load->view('welcome_b2a');
             }else if($this->session->userdata('user_type')=='VA'){
-		$data['trippost_list']=$this->Welcomeb2b_model->get_trip_list();
+		$data['trippost_list']=$this->Welcome_model->get_trip_list();
+		$data['trip_popular_list']=$this->Welcome_model->get_trippopular_list();
+		$data['trip_booking_list']=$this->Welcome_model->get_tripbooking_list();
+		$data['trip_list']=$this->Welcome_model->get_list();
 		$this->load->view('welcome_b2b',$data);
             }else{
 		$this->load->view('welcome_b2c');
