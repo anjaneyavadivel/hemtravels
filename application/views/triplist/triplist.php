@@ -107,13 +107,9 @@
 										$id=$row['id'];	
 										$created_on=$row['created_on'];
 										$trip_name=$row['trip_name'];
-										$trip=$row['trip_id'];
+										$total_booking=$row['total_booking'];
 										$price_to_adult=$row['price_to_adult'];
-										$this->Triplist_model->total_booking($trip);
-										$get_replies=$this->db->get();
-										$check_total=$get_replies->row()->total;
-										$total=$check_total-1; $booking=$total;
-										$reples="";
+										
 										$status=$row['status'];
 										$status_val = array('Closed','Open');
 										$sts=explode(",",$status);
@@ -130,7 +126,7 @@
                                         <td><?=date("d/M/y",strtotime($created_on));?></td>
                                         <td><?=$trip_name;?></td>
 										<td><?=$price_to_adult;?></td>
-										<td><?=$booking;?></td>
+										<td><?=$total_booking;?></td>
 										<td><?=$status_val[$vals];?></td>
                                         <td><h4 class="<?=$btn_type[$val];?>"><?=$status_active[$val];?></h4></td>
                                        <?php if($isactive!='0'){?> 

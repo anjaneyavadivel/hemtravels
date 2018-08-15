@@ -6,7 +6,6 @@ class Report extends CI_Controller {
 
     function __construct() {
         parent::__construct();
-	    $this->load->model('Report_model');
 
     }
 	public function booking_wise_reports()

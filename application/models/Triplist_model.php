@@ -4,9 +4,8 @@ class Triplist_model extends CI_Model {
 
     // Function 1:Get category master list
     function trip_list($limit, $start,$trip_search) {
-		$this->db->select('tm.id AS id,tbp.trip_id AS trip_id,tm.created_on AS created_on,tm.isactive AS isactive,tm.trip_name AS trip_name,tm.price_to_adult AS price_to_adult,tm.status AS status');
+		$this->db->select('tm.id AS id,tm.created_on AS created_on,tm.isactive AS isactive,tm.trip_name AS trip_name,tm.price_to_adult AS price_to_adult,tm.status AS status,tm.total_booking');
 		$this->db->from('trip_master AS tm');
-		$this->db->join('trip_book_pay AS tbp', 'tm.id = tbp.trip_id','LEFT');
         //$this->db->like('name',$trip_search);
         $this->db->limit($limit, $start);
         $query = $this->db->get();
@@ -14,10 +13,8 @@ class Triplist_model extends CI_Model {
     }
 
     function trip_count($trip_search) {
-        $this->db->select('tm.id AS id,tbp.trip_id AS trip_id,tm.created_on AS created_on,tm.isactive AS isactive,tm.trip_name AS trip_name,tm.price_to_adult AS price_to_adult,tm.status AS status');
+        $this->db->select('tm.id AS id,tm.created_on AS created_on,tm.isactive AS isactive,tm.trip_name AS trip_name,tm.price_to_adult AS price_to_adult,tm.status AS status,tm.total_booking');
 		$this->db->from('trip_master AS tm');
-		$this->db->join('trip_book_pay AS tbp', 'tm.id = tbp.trip_id','LEFT');
-
         //$this->db->like('name',$trip_search);
         $query = $this->db->get();
         return $query->num_rows();
