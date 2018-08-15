@@ -469,7 +469,8 @@
 
         <script type="text/javascript" src="<?php echo base_url()?>assets/js/moment.min.js"></script>
         <script type="text/javascript" src="<?php echo base_url()?>assets/js/jquery.daterangepicker.js"></script>
-        <script type="text/javascript" src="<?php echo base_url()?>assets/js/customs-datepicker.js"></script>
+        <!--<script type="text/javascript" src="<?php echo base_url()?>assets/js/customs-datepicker.js"></script>-->
+        <script type="text/javascript" src="<?php echo base_url()?>assets-customs/js/trip-view.js"></script>
 
         <script>
             var stickyHeaders = (function () {

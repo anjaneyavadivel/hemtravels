@@ -1,6 +1,6 @@
 <?php $this->load->view('includes/header')?>
   <!-- start Main Wrapper -->
-
+  
            <div class="main-wrapper scrollspy-container">
 
                 <!-- start breadcrumb -->
@@ -8,11 +8,10 @@
                     <!-- Indicators -->
                     <ol class="carousel-indicators">
                         <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
-                        <li data-target="#myCarousel" data-slide-to="1"></li>
-                        <li data-target="#myCarousel" data-slide-to="2"></li>
+                        <!--<li data-target="#myCarousel" data-slide-to="1"></li>
+                        <li data-target="#myCarousel" data-slide-to="2"></li>-->
                     </ol>
                     <div class="carousel-inner">
-
                         <div class="item active">
                             <div class="breadcrumb-image-bg detail-breadcrumb" style="background-image:url('<?php echo base_url()?>assets/images/detail-header.jpg');">
                                 <div class="container">
@@ -23,99 +22,15 @@
 
                                             <div class="col-xs-12 col-sm-10 col-sm-offset-1 col-md-8 col-md-offset-2">
 
-                                                <h2>Bangkok-Pattaya Safari Adventure</h2>
-                                                <p style="margin-bottom: 0;"><i class="fa fa-map-marker text-center"></i> Goa</p> 
-                                                <p style="margin-bottom: 0;"><i class="far fa-sun text-center"></i> 14 Days <span class="mh-5 text-muted">|</span><i class="far fa-moon text-center"></i> 14 Nights</p> 
-                                                <div class="rating-item rating-item-lg mb-25">
-                                                    <input type="hidden" class="rating" data-filled="fa fa-star rating-rated" data-empty="fa fa-star-o" data-fractions="2" data-readonly value="4.5"/>
-                                                    <div class="rating-text"> <a href="#">(32 reviews)</a></div>
-                                                </div>
-                                                <ul class="list-with-icon list-inline-block">
-                                                    <li><i class="ion-android-done text-primary"></i>100% private</li>
-                                                    <li><i class="ion-android-done text-primary"></i>Instantly confirmed</li>
-                                                    <li><i class="ion-android-done text-primary"></i>Free cancellation</li>
-                                                    <li><i class="ion-android-done text-primary"></i>Satisfaction guarantee</li>
-                                                </ul>
-
-                                            </div>
-
-                                        </div>
-
-                                    </div>
-
-                                    <div class="breadcrumb-wrapper text-left">
-
-                                        <ol class="breadcrumb">
-                                            <li><a href="#">Home</a></li>
-
-                                            <li class="active">View</li>
-                                        </ol>
-
-                                    </div>
-
-                                </div>
-
-                            </div>
-                        </div>
-
-                        <div class="item">
-                            <div class="breadcrumb-image-bg detail-breadcrumb" style="background-image:url('images/detail-header.jpg');">
-                                <div class="container">
-
-                                    <div class="page-title detail-header-02">
-
-                                        <div class="row">
-
-                                            <div class="col-xs-12 col-sm-10 col-sm-offset-1 col-md-8 col-md-offset-2">
-
-                                                <h2>Bangkok-Pattaya Safari Adventure</h2>
-                                                <p style="margin-bottom: 0;"><i class="fa fa-map-marker text-center"></i> Goa</p> 
-                                                <p style="margin-bottom: 0;"><i class="far fa-sun text-center"></i> 14 Days <span class="mh-5 text-muted">|</span><i class="far fa-moon text-center"></i> 14 Nights</p> 
-                                                <div class="rating-item rating-item-lg mb-25">
-                                                    <input type="hidden" class="rating" data-filled="fa fa-star rating-rated" data-empty="fa fa-star-o" data-fractions="2" data-readonly value="4.5"/>
-                                                    <div class="rating-text"> <a href="#">(32 reviews)</a></div>
-                                                </div>
-                                                <ul class="list-with-icon list-inline-block">
-                                                    <li><i class="ion-android-done text-primary"></i>100% private</li>
-                                                    <li><i class="ion-android-done text-primary"></i>Instantly confirmed</li>
-                                                    <li><i class="ion-android-done text-primary"></i>Free cancellation</li>
-                                                    <li><i class="ion-android-done text-primary"></i>Satisfaction guarantee</li>
-                                                </ul>
-
-                                            </div>
-
-                                        </div>
-
-                                    </div>
-
-                                    <div class="breadcrumb-wrapper text-left">
-
-                                        <ol class="breadcrumb">
-                                            <li><a href="#">Home</a></li>
-
-                                            <li class="active">View</li>
-                                        </ol>
-
-                                    </div>
-
-                                </div>
-
-                            </div>
-                        </div>
-
-                        <div class="item">
-                            <div class="breadcrumb-image-bg detail-breadcrumb" style="background-image:url('images/detail-header.jpg');">
-                                <div class="container">
-
-                                    <div class="page-title detail-header-02">
-
-                                        <div class="row">
-
-                                            <div class="col-xs-12 col-sm-10 col-sm-offset-1 col-md-8 col-md-offset-2">
-
-                                                <h2>Bangkok-Pattaya Safari Adventure</h2>
-                                                <p style="margin-bottom: 0;"><i class="fa fa-map-marker text-center"></i> Goa</p> 
-                                                <p style="margin-bottom: 0;"><i class="far fa-sun text-center"></i> 14 Days <span class="mh-5 text-muted">|</span><i class="far fa-moon text-center"></i> 14 Nights</p> 
+                                                <h2 id="tripName"><?php echo isset($details['trip_name'])?$details['trip_name']:'';?></h2>
+                                                <p style="margin-bottom: 0;"><i class="fa fa-map-marker text-center"></i> <?php echo isset($details['meeting_point'])?$details['meeting_point']:'';?></p>
+                                                <?php 
+                                                    if(isset($details['trip_duration']) && $details['trip_duration'] == '2' && isset($details['how_many_days']) && isset($details['how_many_nights'])){
+                                                        echo '<p style="margin-bottom: 0;"><i class="far fa-sun text-center"></i> '.$details['how_many_days'].' Days <span class="mh-5 text-muted">|</span><i class="far fa-moon text-center"></i> '.$details['how_many_nights'].' Nights</p> ';
+                                                    }else if(isset($details['trip_duration']) && $details['trip_duration'] == '1' && isset($details['how_many_hours'])){
+                                                         echo '<p style="margin-bottom: 0;"><i class="far fa-sun text-center"></i> '.$details['how_many_hours'].' Hours </p> ';
+                                                    }
+                                                ?>                                                
                                                 <div class="rating-item rating-item-lg mb-25">
                                                     <input type="hidden" class="rating" data-filled="fa fa-star rating-rated" data-empty="fa fa-star-o" data-fractions="2" data-readonly value="4.5"/>
                                                     <div class="rating-text"> <a href="#">(32 reviews)</a></div>
@@ -163,15 +78,15 @@
                                 <ul id="multiple-sticky-menu" class="multiple-sticky-menu clearfix">
                                     <li>
                                         <a href="#detail-content-sticky-nav-01">Overview</a>
-                                    </li>
-                                    <!-- <li>
-                                            <a href="#detail-content-sticky-nav-02">Gallery</a>
-                                    </li> -->
+                                    </li>                                    
                                     <li>
                                         <a href="#detail-content-sticky-nav-03">Itinerary</a>
                                     </li>
                                     <li>
-                                        <a href="#detail-content-sticky-nav-04">Condition &amp; Faq</a>
+                                        <a href="#detail-content-sticky-nav-02">Gallery</a>
+                                    </li>
+                                    <li>
+                                        <a href="#detail-content-sticky-nav-04">Condition</a>
                                     </li>
                                     <li>
                                         <a href="#detail-content-sticky-nav-05">Review</a>
@@ -213,111 +128,9 @@
 
                                                         <h3 class="section-title">About this tour</h3>
 
-                                                        <p class="lead">Goodness doubtful material has denoting suitable she two. Dear mean she way and poor bred they come. He otherwise me incommode explained so in remaining. Polite barton in it warmly do county length. Dissuade ecstatic and properly saw entirely sir why laughter endeavor.</p>
+                                                        <p class="lead"><?php echo isset($details['brief_description'])?$details['brief_description']:'';?></p>
 
                                                         <div class="bt mt-30 mb-30"></div>
-
-                                                        <div class="featured-icon-simple-wrapper">
-
-                                                            <div class="GridLex-gap-30">
-
-                                                                <div class="GridLex-grid-noGutter-equalHeight">
-
-                                                                    <div class="GridLex-col-4_sm-4_xs-12_xss-12">
-
-                                                                        <div class="featured-icon-simple-item">
-                                                                            <div class="icon text-primary">
-                                                                                <i class="flaticon-travel-icons-suitcase-1"></i>
-                                                                            </div>
-                                                                            5 days &amp; 4 nights<br />tour
-                                                                        </div>
-
-                                                                    </div>
-
-                                                                    <div class="GridLex-col-4_sm-4_xs-12_xss-12">
-
-                                                                        <div class="featured-icon-simple-item">
-                                                                            <div class="icon text-primary">
-                                                                                <i class="flaticon-travel-icons-map"></i>
-                                                                            </div>
-                                                                            Visit 4 citied:<br />Bangkok, Pattaya, Chonburi, &amp; Sattaheeb
-                                                                        </div>
-
-                                                                    </div>
-
-                                                                    <div class="GridLex-col-4_sm-4_xs-12_xss-12">
-
-                                                                        <div class="featured-icon-simple-item">
-                                                                            <div class="icon text-primary">
-                                                                                <i class="flaticon-travel-icons-bus"></i>
-                                                                            </div>
-                                                                            Travel with exclusive bus <br />all the trip
-                                                                        </div>
-
-                                                                    </div>
-
-                                                                </div>
-
-                                                            </div>
-
-                                                        </div>
-
-                                                        <div class="bt mt-30 mb-40"></div>
-
-                                                        <h3 class="font-lg mb-20">Is this tour best for me?</h3>
-
-                                                        <div class="GridLex-gap-30 mb-20">
-
-                                                            <div class="GridLex-grid-noGutter-equalHeight">
-
-                                                                <div class="GridLex-col-6_sm-6_xs-12_xss-12">
-
-                                                                    <div class="GridLex-inner">
-                                                                        <h4 class="font-lg"><span class="text-primary">Tour style:</span> Adventure, Beach, &amp; Sweet</h4>
-                                                                        <p class="line-15">Procuring education on consulted assurance. Is sympathize he expression mr no travelling. Preference travelling in resolution.</p>
-                                                                    </div>
-
-                                                                </div>
-
-                                                                <div class="GridLex-col-6_sm-6_xs-12_xss-12">
-
-                                                                    <div class="GridLex-inner">
-                                                                        <h4 class="font-lg"><span class="text-primary">Service level:</span> Standard</h4>
-                                                                        <p class="line-15"> Possession travelling sufficient yet our. Talked vanity looked in to. Gay perceive led believed endeavor day insisted required.</p>
-                                                                    </div>
-
-                                                                </div>
-
-                                                                <div class="GridLex-col-6_sm-6_xs-12_xss-12">
-
-                                                                    <div class="GridLex-inner">
-                                                                        <h4 class="font-lg"><span class="text-primary">Trip size:</span> Medium group</h4>
-                                                                        <p class="line-15">Her companions instrument set estimating sex remarkably solicitude motionless. Property men the why smallest graceful.</p>
-                                                                    </div>
-
-                                                                </div>
-
-                                                                <div class="GridLex-col-6_sm-6_xs-12_xss-12">
-
-                                                                    <div class="GridLex-inner">
-                                                                        <h4 class="font-lg"><span class="text-primary">Justice:</span> Stronger unpacked</h4>
-                                                                        <p class="line-15">Drift allow green son walls years for blush. Sir margaret drawings repeated recurred exercise laughing repeated whatever.</p>
-                                                                    </div>
-
-                                                                </div>
-
-                                                                <div class="GridLex-col-12_sm-12_xs-12_xss-12">
-
-                                                                    <div class="GridLex-inner">
-                                                                        <h4 class="font-lg"><span class="text-primary">household :</span> Companions instrument</h4>
-                                                                        <p class="line-15">Raptures stanhill my greatest mistaken or exercise he on although as it of strangers forfeited.</p>
-                                                                    </div>
-
-                                                                </div>
-
-                                                            </div>
-
-                                                        </div>
 
                                                         <h3 class="font-lg mb-20">Trip detail</h3>
 
@@ -329,7 +142,7 @@
                                                                         <h5><i class="ti-location-pin text-primary mr-5"></i> Meeting point</h5>
                                                                     </div>
                                                                     <div class="col-xs-12 col-sm-6 mt-xs">
-                                                                        <span class="pl-xs">Bangkok in't airport</span>
+                                                                        <span class="pl-xs"><?php echo isset($details['meeting_point'])?$details['meeting_point']:'';?></span>
                                                                     </div>
                                                                 </div>
                                                             </li>
@@ -340,7 +153,13 @@
                                                                         <h5><i class="ti-timer text-primary mr-5"></i> Meeting time</h5>
                                                                     </div>
                                                                     <div class="col-xs-12 col-sm-6 mt-xs">
-                                                                        <span class="pl-xs">09:00 am</span>
+                                                                        <span class="pl-xs">
+                                                                            <?php                                                                             
+                                                                                if(isset($details['meeting_time']) && !empty($details['meeting_time'])){
+                                                                                    echo date('h:i a', strtotime($details['meeting_time']));
+                                                                                }
+                                                                            ?>
+                                                                        </span>
                                                                     </div>
                                                                 </div>
                                                             </li>
@@ -348,66 +167,120 @@
                                                             <li>
                                                                 <div class="row">
                                                                     <div class="col-xs-12 col-sm-6">
-                                                                        <h5><i class="ti-user text-primary mr-5"></i> Maximum traellers</h5>
+                                                                        <h5><i class="ti-user text-primary mr-5"></i> Maximum travellers</h5>
                                                                     </div>
                                                                     <div class="col-xs-12 col-sm-6 mt-xs">
-                                                                        <span class="pl-xs">23</span>
+                                                                        <span class="pl-xs"><?php echo isset($details['no_of_max_booktraveller'])?$details['no_of_max_booktraveller']:'';?></span>
                                                                     </div>
                                                                 </div>
                                                             </li>
-
+                                                            <?php if(isset($details['languages']) && !empty($details['languages'])) {?>
                                                             <li>
                                                                 <div class="row">
                                                                     <div class="col-xs-12 col-sm-6">
                                                                         <h5><i class="ti-user text-primary mr-5"></i> Languages </h5>
                                                                     </div>
                                                                     <div class="col-xs-12 col-sm-6 mt-xs">
-                                                                        <span class="pl-xs">English, Thai, Malay</span>
+                                                                        <span class="pl-xs"><?php echo $details['languages']; ?></span>
                                                                     </div>
                                                                 </div>
                                                             </li>
-
+                                                            <?php } ?>
+                                                            <?php if(isset($details['meal']) && !empty($details['meal'])) {?>
                                                             <li>
                                                                 <div class="row">
                                                                     <div class="col-xs-12 col-sm-6">
-                                                                        <h5><i class="ti-car text-primary mr-5"></i> Transport </h5>
+                                                                        <h5><i class="ti-user text-primary mr-5"></i> Meal </h5>
                                                                     </div>
                                                                     <div class="col-xs-12 col-sm-6 mt-xs">
-                                                                        <span class="pl-xs">Exclusive bus</span>
+                                                                        <span class="pl-xs"><?php echo $details['meal']; ?></span>
                                                                     </div>
                                                                 </div>
                                                             </li>
+                                                            <?php } ?>                                                          
 
                                                         </ul>
+                                                        
+                                                        <?php if(isset($details['transport']) && !empty($details['transport'])) {?>                                                            
+                                                            <div class="row">
+                                                                <div class="col-xs-12 col-sm-6 mb-40">
+
+                                                                    <h3 class="font-lg mb-20">Transport</h3>
+                                                                    
+                                                                    <span class="pl-xs"><?php echo $details['transport'];?></span>                                                                    
+
+                                                                </div>                                                                
+                                                            </div>
+                                                            
+                                                        <?php } ?>
+                                                        <?php if(isset($details['things_to_carry']) && !empty($details['things_to_carry'])) {?>                                                            
+                                                                <div class="row">
+                                                                    <div class="col-xs-12 col-sm-6 mb-40">
+
+                                                                        <h3 class="font-lg mb-20">Things To Carry</h3>
+
+                                                                        <span class="pl-xs"><?php echo $details['things_to_carry'];?></span>                                                                    
+
+                                                                    </div>                                                                
+                                                                </div>                                                     
+                                                        <?php } ?>
+                                                        <?php if(isset($details['tour_type']) && !empty($details['tour_type'])) {?>                                                            
+                                                                <div class="row">
+                                                                    <div class="col-xs-12 col-sm-6 mb-40">
+
+                                                                        <h3 class="font-lg mb-20">Tour Type</h3>
+
+                                                                        <span class="pl-xs"><?php echo $details['tour_type'];?></span>                                                                    
+
+                                                                    </div>                                                                
+                                                                </div>                                                            
+                                                        <?php } ?>
 
                                                         <div class="row">
 
-                                                            <div class="col-xs-12 col-sm-6 mb-40">
+                                                            <div class="col-xs-12 col-sm-12 mb-40">
 
                                                                 <h3 class="font-lg mb-20">What's included?</h3>
 
                                                                 <ul class="list-yes-no">
-                                                                    <li>Tickets</li>
-                                                                    <li>Transportations</li>
-                                                                    <li>Free cancellation</li>
-                                                                    <li>Free Gift</li>
+                                                                    <?php 
+                                                                      if(isset($inclusions) && count($inclusions)> 0){
+                                                                          foreach($inclusions as $v){
+                                                                              echo '<li>'.$v.'</li>';
+                                                                          }
+                                                                      }
+                                                                    ?>
                                                                 </ul>
 
-                                                            </div>
-
-                                                            <div class="col-xs-12 col-sm-6 mb-40">
-
-                                                                <h3 class="font-lg mb-20">What's excluded?</h3>
-
-                                                                <ul class="list-yes-no">
-                                                                    <li class="no">Meals</li>
-                                                                    <li class="no">Numerous indulged</li>
-                                                                    <li class="no">Hotel</li>
-                                                                </ul>
-
-                                                            </div>
+                                                            </div>   
 
                                                         </div>
+                                                        <?php if(isset($details['other_inclusions']) && !empty($details['other_inclusions'])) {?>
+                                                            <div class="row">
+                                                                <div class="col-xs-12 col-sm-6 mb-40">
+
+                                                                <h3 class="font-lg mb-20">Other Inclusions</h3>
+
+                                                                <ul class="list-yes-no">
+                                                                    <?php echo $details['other_inclusions'];?>
+                                                                </ul>
+
+                                                            </div>
+                                                            </div>
+                                                        <?php } ?>
+                                                        <?php if(isset($details['exclusions']) && !empty($details['exclusions'])) {?>
+                                                            <div class="row">
+                                                                <div class="col-xs-12 col-sm-6 mb-40">
+
+                                                                    <h3 class="font-lg mb-20">What's excluded?</h3>
+
+                                                                    <ul class="list-yes-no">
+                                                                        <?php echo $details['exclusions'];?>
+                                                                    </ul>
+
+                                                                </div>
+                                                            </div>
+                                                        <?php } ?>
 
                                                     </div>
 
@@ -416,21 +289,6 @@
                                         </div>
                                     </div>
 
-                                    <!-- 	
-                                            <div id="detail-content-sticky-nav-02" >
-            
-                    <div class="container">	
-                    
-                            <h3 class="section-title">Gallery</h3>
-                            
-                            <div class="gallery-grid-equal-width-wrapper mb-50">
-                                    <div id="gallery1"></div>
-                            </div>
-                            
-                    </div>
-                    
-            </div> -->
-
                                     <div id="detail-content-sticky-nav-03">
 
                                         <h2 class="font-lg">Itinerary</h2>
@@ -438,123 +296,37 @@
                                         <div class="itinerary-toggle-wrapper mb-40">
 
                                             <div class="panel-group bootstrap-toggle">
-
-                                                <div class="panel">
-                                                    <div class="panel-heading">
-                                                        <div class="panel-title">
-                                                            <a data-toggle="collapse" data-parent="#" href="#bootstarp-toggle-one-2">
-                                                                <div class="itinerary-day">
-                                                                    Day
-                                                                    <span class="number">01</span>
+                                                
+                                                <?php 
+                                                
+                                                if(isset($itineraries) && count($itineraries) > 0){
+                                                    $itiCnt = 1;
+                                                    foreach($itineraries as $v){
+                                                        echo '<div class="panel">
+                                                                <div class="panel-heading">
+                                                                    <div class="panel-title">
+                                                                        <a data-toggle="collapse" data-parent="#" href="#bootstarp-toggle-one-'.$v['id'].'">
+                                                                            <div class="itinerary-day">
+                                                                                Day
+                                                                                <span class="number">'.str_pad($itiCnt, 2, "0", STR_PAD_LEFT).'</span>
+                                                                            </div>
+                                                                            <div class="itinerary-header">
+                                                                                <h4>'.$v['title'].'</h4>
+                                                                                <p class="font-md">'.$v['short_description'].'</p>
+                                                                            </div>
+                                                                        </a>
+                                                                    </div>
                                                                 </div>
-                                                                <div class="itinerary-header">
-                                                                    <h4>Visit Bangkok, the capital of Thailand</h4>
-                                                                    <p class="font-md">Behind sooner dining so window excuse he summer.</p>
-
+                                                                <div id="bootstarp-toggle-one-'.$v['id'].'" class="panel-collapse collapse">
+                                                                    <div class="panel-body">
+                                                                        '.$v['brief_description'].'
+                                                                    </div>
                                                                 </div>
-                                                            </a>
-                                                        </div>
-                                                    </div>
-                                                    <div id="bootstarp-toggle-one-2" class="panel-collapse collapse">
-                                                        <div class="panel-body">
-                                                            <p class="font-lg">Sociable on as carriage my position weddings raillery consider. Peculiar trifling absolute and wandered vicinity property yet. The and collecting motionless difficulty son. His hearing staying ten colonel met. Sex drew six easy four dear cold deny. Moderate children at of outweigh it. Unsatiable it considered invitation he travelling insensible. Consulted admitting oh mr up as described acuteness propriety moonlight.</p>
-                                                            <p class="font-lg">Ladyship it daughter securing procured or am moreover mr. Put sir she exercise vicinity cheerful wondered. Continual say suspicion provision you neglected sir curiosity unwilling. Simplicity end themselves increasing led day sympathize yet. General windows effects not are drawing man garrets. Common indeed garden you his ladies out yet.</p>
-                                                            <p class="font-md">Tickets and transportations are provided.</p>
-
-
-
-                                                        </div>
-                                                    </div>
-
-                                                </div>
-                                                <!-- end of panel -->
-
-                                                <div class="panel">
-                                                    <div class="panel-heading">
-                                                        <div class="panel-title">
-                                                            <a data-toggle="collapse" data-parent="#" href="#bootstarp-toggle-two-2" class="clearfix">
-                                                                <div class="itinerary-day">
-                                                                    Day
-                                                                    <span class="number">02</span>
-                                                                </div>
-                                                                <div class="itinerary-header">
-                                                                    <h4>Stil touring in Bangkok for one more day</h4>
-                                                                    <p class="font-md">Behind sooner dining so window excuse he summer.</p>
-
-                                                                </div>
-                                                            </a>
-                                                        </div>
-                                                    </div>
-                                                    <div id="bootstarp-toggle-two-2" class="panel-collapse collapse">
-                                                        <div class="panel-body">
-                                                            <p class="font-lg">Necessary ye contented newspaper zealously breakfast he prevailed. Melancholy middletons yet understood decisively boy law she. Answer him easily are its barton little. Oh no though mother be things simple itself. Dashwood horrible he strictly on as. Home fine in so am good body this hope.</p>
-                                                            <p class="font-lg">Kindness to he horrible reserved ye. Effect twenty indeed beyond for not had county. The use him without greatly can private. Increasing it unpleasant no of contrasted no continuing. Nothing colonel my no removed in weather. It dissimilar in up devonshire inhabiting.</p>
-                                                            <p class="font-md">Tickets and transportations are provided.</p>
-
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <!-- end of panel -->
-
-                                                <div class="panel">
-                                                    <div class="panel-heading">
-                                                        <div class="panel-title">
-                                                            <a data-toggle="collapse" data-parent="#" href="#bootstarp-toggle-three-2" class="clearfix">
-                                                                <div class="itinerary-day">
-                                                                    Day
-                                                                    <span class="number">03</span>
-                                                                </div>
-                                                                <div class="itinerary-header">
-                                                                    <h4>Visiting and sleeping at Pattaya</h4>
-                                                                    <p class="font-md">Peculiar trifling absolute and wandered vicinity property yet. </p>
-
-                                                                </div>
-                                                            </a>
-                                                        </div>
-                                                    </div>
-                                                    <div id="bootstarp-toggle-three-2" class="panel-collapse collapse">
-                                                        <div class="panel-body">
-                                                            <p class="font-lg">Kindness to he horrible reserved ye. Effect twenty indeed beyond for not had county. The use him without greatly can private. Increasing it unpleasant no of contrasted no continuing. Nothing colonel my no removed in weather. It dissimilar in up devonshire inhabiting.</p>
-                                                            <ul class="list-bullet-circle font-lg">
-                                                                <li>General windows effects not are drawing man garrets.</li>
-                                                                <li>Preference imprudence contrasted to remarkably</li>
-                                                                <li>Taken now you him trees tears any</li>
-                                                                <li>Her object giving end sister except oppose</li>
-                                                            </ul>
-                                                            <p class="font-lg">Necessary ye contented newspaper zealously breakfast he prevailed. Melancholy middletons yet understood decisively boy law she. Answer him easily are its barton little. Oh no though mother be things simple itself. Dashwood horrible he strictly on as. Home fine in so am good body this hope.</p>
-                                                            <p class="font-md">Tickets and transportations are provided.</p>
-
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <!-- end of panel -->
-
-                                                <div class="panel">
-                                                    <div class="panel-heading">
-                                                        <div class="panel-title">
-                                                            <a data-toggle="collapse" data-parent="#" href="#bootstarp-toggle-four-2" class="clearfix">
-                                                                <div class="itinerary-day">
-                                                                    Day
-                                                                    <span class="number">04</span>
-                                                                </div>
-                                                                <div class="itinerary-header">
-                                                                    <h4>Stil touring in Bangkok for one more day</h4>
-                                                                    <p class="font-md">Warmly little before cousin sussex entire men set.</p>
-
-                                                                </div>
-                                                            </a>
-                                                        </div>
-                                                    </div>
-                                                    <div id="bootstarp-toggle-four-2" class="panel-collapse collapse">
-                                                        <div class="panel-body">
-                                                            <p class="font-lg">Sociable on as carriage my position weddings raillery consider. Peculiar trifling absolute and wandered vicinity property yet. The and collecting motionless difficulty son. His hearing staying ten colonel met. Sex drew six easy four dear cold deny. Moderate children at of outweigh it. Unsatiable it considered invitation he travelling insensible. Consulted admitting oh mr up as described acuteness propriety moonlight.</p>
-                                                            <p class="font-lg">Ladyship it daughter securing procured or am moreover mr. Put sir she exercise vicinity cheerful wondered. Continual say suspicion provision you neglected sir curiosity unwilling. Simplicity end themselves increasing led day sympathize yet. General windows effects not are drawing man garrets. Common indeed garden you his ladies out yet.</p>
-                                                            <p class="font-md">Tickets and transportations are provided.</p>
-
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <!-- end of panel -->
+                                                            </div>';
+                                                        $itiCnt++;
+                                                    }
+                                                    
+                                                }?>
 
                                             </div>
 
@@ -564,101 +336,54 @@
                                         <div class="bb"></div>
                                         <div class="mb-25"></div>
 
-                                    </div>
+                                    </div>                                    
+                                    
+                                    <?php if(isset($galleries) && count($galleries) > 0) {?>
+                                        <div id="detail-content-sticky-nav-02" >
+                                            <div class="row">
+                                                <div class="col-md-12">
+                                                    <h3 class="section-title">Gallery</h3>
 
+                                                    <div class="gallery-grid-equal-width-wrapper mb-50">
+                                                            <div id="view_gallery"></div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <input type="hidden" id="gallery_images" value='<?php echo $galleries;?>'>
+                                        </div>
+                                    <?php } ?>
+                                    
                                     <div id="detail-content-sticky-nav-04">
 
-                                        <h2 class="font-lg">Condition &amp; Faq</h2>
+                                        <h2 class="font-lg">Condition</h2>
 
                                         <div class="text-box-h-bb-wrapper">
+                                           
                                             <div class="text-box-h-bb">
-                                                <div class="row">
-                                                    <div class="col-xs-12 col-sm-4 col-md-3">
-                                                        <h4>Group size</h4>
+                                                <div class="row">                                                    
+                                                    <div class="col-xs-12 col-sm-12 col-md-12">
+                                                        <h4>Cancellation Policy</h4>
+                                                        <p class="font-lg"><?php echo isset($details['cancellation_policy'])?$details['cancellation_policy']:'';?></p>
                                                     </div>
-                                                    <div class="col-xs-12 col-sm-8 col-md-9">
-                                                        <p class="font-lg">Conveying or northward offending admitting perfectly my. </p>
+                                                </div>
+                                            </div>
+                                            <div class="text-box-h-bb">
+                                                <div class="row">                                                    
+                                                    <div class="col-xs-12 col-sm-12 col-md-12">
+                                                        <h4>Confirmation Policy</h4>
+                                                        <p class="font-lg"><?php echo isset($details['confirmation_policy'])?$details['confirmation_policy']:'';?></p>
                                                     </div>
                                                 </div>
                                             </div>
                                             <div class="text-box-h-bb">
                                                 <div class="row">
-                                                    <div class="col-xs-12 col-sm-4 col-md-3">
-                                                        <h4>Guest requirement</h4>
-                                                    </div>
-                                                    <div class="col-xs-12 col-sm-8 col-md-9">
-                                                        <p class="font-lg">Age</p>
-                                                        <p class="font-sm">Interested especially do impression he unpleasant.</p>
-                                                        <p class="font-lg">Identification</p>
-                                                        <p class="font-sm">Sudden up my excuse to suffer ladies though or. Bachelor possible marianne directly confined relation. Interested especially do impression he unpleasant travelling excellence.</p>
+                                                    <div class="col-xs-12 col-sm-12 col-md-12">
+                                                        <h4>Refund Policy</h4>
+                                                        <p class="font-lg"><?php echo isset($details['refund_policy'])?$details['refund_policy']:'';?></p>
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="text-box-h-bb">
-                                                <div class="row">
-                                                    <div class="col-xs-12 col-sm-4 col-md-3">
-                                                        <h4>Cancellation policy</h4>
-                                                    </div>
-                                                    <div class="col-xs-12 col-sm-8 col-md-9">
-                                                        <p class="font-lg">Lose john poor same it case do year we. Full how way even the sigh. Extremely nor furniture fat questions now provision incommode preserved. Our side fail find like now. Discovered travelling for insensible <a href="#">partiality unpleasing impossible</a>.</p>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="text-box-h-bb">
-                                                <div class="row">
-                                                    <div class="col-xs-12 col-sm-4 col-md-3">
-                                                        <h4>FAQ</h4>
-                                                    </div>
-                                                    <div class="col-xs-12 col-sm-8 col-md-9">
-                                                        <div class="GridLex-gap-30 mb-20 mt-5">
-
-                                                            <div class="GridLex-grid-noGutter-equalHeight">
-
-                                                                <div class="GridLex-col-12_sm-12_xs-12_xss-12">
-
-                                                                    <div class="GridLex-inner">
-                                                                        <h4 class="font-lg"><span class="text-primary"><i class="ion-help-circled mr-5"></i></span> Parties all clothes removal cheered?</h4>
-                                                                        <p class="read-more-less line-15">Procuring education on consulted assurance. Is sympathize he expression mr no travelling. Preference travelling in resolution. His hearing staying ten colonel met. Sex drew six easy four dear cold deny. Moderate children at of outweigh it. Unsatiable it considered invitation he travelling insensible. </p>
-                                                                    </div>
-
-                                                                </div>
-
-                                                                <div class="GridLex-col-12_sm-12_xs-12_xss-12">
-
-                                                                    <div class="GridLex-inner">
-                                                                        <h4 class="font-lg"><span class="text-primary"><i class="ion-help-circled mr-5"></i></span> And residence for met the estimable disposing?</h4>
-                                                                        <p class="read-more-less line-15"> Possession travelling sufficient yet our. Talked vanity looked in to. Gay perceive led believed endeavor day insisted required. Warmly little before cousin sussex entire men set. Blessing it ladyship on sensible judgment settling outweigh. Worse linen an of civil jokes leave offer. Parties all clothes removal cheered calling prudent her. And residence for met the estimable disposing.</p>
-
-                                                                    </div>
-
-                                                                </div>
-
-                                                                <div class="GridLex-col-12_sm-12_xs-12_xss-12">
-
-                                                                    <div class="GridLex-inner">
-                                                                        <h4 class="font-lg"><span class="text-primary"><i class="ion-help-circled mr-5"></i></span> Warmly little before cousin sussex?</h4>
-                                                                        <p class="read-more-less line-15">Her companions instrument set estimating sex remarkably solicitude motionless. Property men the why smallest graceful. Worse linen an of civil jokes leave offer. Parties all clothes removal cheered calling prudent her. And residence for met the estimable disposing. Mean if he they been no hold mr. Is at much do made took held help. </p>
-
-                                                                    </div>
-
-                                                                </div>
-
-                                                                <div class="GridLex-col-12_sm-12_xs-12_xss-12">
-
-                                                                    <div class="GridLex-inner">
-                                                                        <h4 class="font-lg"><span class="text-primary"><i class="ion-help-circled mr-5"></i></span> Parties all clothes removal cheered?</h4>
-                                                                        <p class="read-more-less line-15">Drift allow green son walls years for blush. Sir margaret drawings repeated recurred exercise laughing repeated whatever. Parties all clothes removal cheered calling prudent her. And residence for met the estimable disposing. Mean if he they been no hold mr. Is at much do made took held help. Latter person am secure of estate genius. </p>
-                                                                    </div>
-
-                                                                </div>
-
-                                                            </div>
-
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-
+                                            
                                         </div>
 
                                         <div class="mb-25"></div>
@@ -692,7 +417,7 @@
                                                             </div>
 
                                                         </div>
-
+                                                        <?php if($this->session->userdata('user_type') == 'CU') {?>
                                                         <div class="GridLex-col-3_sm-4_xs-12_xss-12">
 
                                                             <div class="GridLex-inner">
@@ -700,7 +425,7 @@
                                                             </div>
 
                                                         </div>
-
+                                                        <?php } ?>
                                                     </div>
 
                                                 </div>
@@ -1020,7 +745,7 @@
                                                 <a href="#" class="review-load-more mb-40">load more...</a>
 
                                             </div>
-
+                                            <?php if($this->session->userdata('user_type') == 'CU') {?>
                                             <div id="review-form" class="review-form">
 
                                                 <h3 class="review-form-title">Leave Your Review</h3>
@@ -1081,7 +806,7 @@
                                                 </form>
 
                                             </div>
-
+                                            <?php } ?>
                                         </div>
 
                                     </div>
@@ -1099,7 +824,7 @@
                                         <div class="sidebar-booking-header bg-primary clearfix">
 
                                             <div class="price">
-                                                Goa
+                                                <?php echo isset($details['meeting_point'])?$details['meeting_point']:'';?>
                                             </div>
 
                                             <div>
@@ -1109,73 +834,86 @@
                                         </div>
 
                                         <div class="sidebar-booking-inner">
+                                            <?php echo form_open_multipart(base_url() . 'trips/add_action', array('class' => 'form-horizontal margin-top-30', 'id' => 'trip_booking')); ?>
+                                                <div class="row gap-10" id="rangeDatePicker">
 
-                                            <div class="row gap-10" id="rangeDatePicker">
-
-                                                <div class="col-xss-12 col-xs-6 col-sm-6">
-                                                    <div class="form-group">
-                                                        <label>From</label>
-                                                        <input type="text" id="rangeDatePickerTo" class="form-control" placeholder="yyyy/mm/dd" />
-                                                    </div>
-                                                </div>
-
-                                                <div class="col-xss-12 col-xs-6 col-sm-6">
-                                                    <div class="form-group">
-                                                        <label>To</label>
-                                                        <input type="text" id="rangeDatePickerFrom" class="form-control" placeholder="yyyy/mm/dd" />
-                                                    </div>
-                                                </div>
-
-                                            </div>
-
-                                            <div class="row gap-20">
-
-                                                <div class="col-xss-12 col-xs-12 col-sm-12">
-                                                    <div class="form-group">
-                                                        <label>No. of Adult</label>
-                                                        <div class="form-group form-spin-group">
-                                                            <input type="text" class="form-control form-spin" value="1" /> 
+                                                    <div class="col-xss-12 col-xs-6 col-sm-6">
+                                                        <div class="form-group">
+                                                            <label>From</label>
+                                                            <input type="text" id="rangeDatePickerTo" class="form-control" placeholder="M D, YYYY" />
                                                         </div>
                                                     </div>
-                                                </div>
 
-                                                <div class="col-xss-12 col-xs-12 col-sm-12">
-                                                    <div class="form-group">
-                                                        <label>No. of Children</label>
-                                                        <div class="form-group form-spin-group">
-                                                            <input type="text" class="form-control form-spin" value="1" /> 
+                                                    <div class="col-xss-12 col-xs-6 col-sm-6">
+                                                        <div class="form-group">
+                                                            <label>To</label>
+                                                            <input type="text" id="rangeDatePickerFrom" class="form-control" placeholder="M D, YYYY" />
                                                         </div>
                                                     </div>
+
                                                 </div>
 
-                                                <div class="col-sm-12 col-md-12">
+                                                <div class="row gap-20">
 
-                                                    <div class="form-group">
-                                                        <label>Location</label>
-                                                        <select class="selectpicker show-tick form-control" data-live-search="false">
-                                                            <option value="0">Select</option>
-                                                            <option value="1">Thailand</option>
-                                                            <option value="2" selected>France</option>
-                                                            <option value="3">China</option>
-                                                            <option value="4">Malaysia </option>
-                                                            <option value="5">Italy</option>
-                                                        </select>
+                                                    <div class="col-xss-12 col-xs-12 col-sm-12">
+                                                        <div class="form-group">
+                                                            <label>No. of Adult</label>
+                                                            <div class="form-group form-spin-group">
+                                                                <input type="text" class="form-control form-spin" value="1" /> 
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="col-xss-12 col-xs-12 col-sm-12">
+                                                        <div class="form-group">
+                                                            <label>No. of Children</label>
+                                                            <div class="form-group form-spin-group">
+                                                                <input type="text" class="form-control form-spin" value="1" /> 
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="col-xss-12 col-xs-12 col-sm-12">
+                                                        <div class="form-group">
+                                                            <label>No. of Infan</label>
+                                                            <div class="form-group form-spin-group">
+                                                                <input type="text" class="form-control form-spin" value="1" /> 
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="col-sm-12 col-md-12">
+
+                                                        <div class="form-group">
+                                                            <label>Location</label>
+                                                            <select class="selectpicker show-tick form-control" data-live-search="false">
+                                                                <option value="0">Select</option>
+                                                                <?php 
+                                                                 if(isset($pickups) && count($pickups) > 0){
+                                                                    foreach ($pickups as $v){
+                                                                         echo '<option value="'.$v['id'].'">'.$v['location'].'</option>';
+                                                                    }
+                                                                 }
+
+                                                                ?>
+                                                            </select>
+                                                        </div>
+
+                                                    </div>
+
+                                                    <div class="col-xss-12 col-xs-12 col-sm-12">
+                                                        <div class="mt-5">
+                                                            <a href="book_ticket.html" class="btn btn-primary btn-block">Request to Book</a>
+                                                        </div>
                                                     </div>
 
                                                 </div>
 
-                                                <div class="col-xss-12 col-xs-12 col-sm-12">
-                                                    <div class="mt-5">
-                                                        <a href="book_ticket.html" class="btn btn-primary btn-block">Request to Book</a>
-                                                    </div>
+                                                <div class="mt-10 text-center">
+                                                    <p class="font-md text-muted font500 spacing-2">You won't yet be charged</p>
                                                 </div>
-
-                                            </div>
-
-                                            <div class="mt-10 text-center">
-                                                <p class="font-md text-muted font500 spacing-2">You won't yet be charged</p>
-                                            </div>
-
+                                                <input type="hidden" id="availableDays" value='<?php echo isset($available_days)?json_encode($available_days):"";?>'>
+                                            <?php echo form_close()?>
                                         </div>
 
                                     </div>
@@ -1205,6 +943,7 @@
 
                 <div class="multiple-sticky no-border hidden-sm hidden-xs">&#032;</div> <!-- is used to stop the above stick menu -->
 
+                <?php if(isset($related_tours) && count($related_tours) > 0) { ?>
                 <div class="bg-light pt-50 pb-70">
 
                     <div class="container">
@@ -1216,167 +955,60 @@
                             <div class="GridLex-gap-20 GridLex-gap-10-mdd GridLex-gap-5-xs">
 
                                 <div class="GridLex-grid-noGutter-equalHeight GridLex-grid-center">
+                                    
+                                    <?php 
+                                        foreach($related_tours as $v) {
+                                            
+                                             $image = base_url().'assets-customs/img/no_image_found.png';
+                                            if(isset($v['trip_img_name']) && !empty($v['trip_img_name'])){
+                                              $image =  base_url().'assets-customs/gallery_images/'.$v['trip_img_name'];  
+                                            }
+                                        
+                                            $duration = '<p style=""><i class="far fa-sun text-center"></i> '.$v['how_many_days'].' Days <span class="mh-5 text-muted">|</span><i class="far fa-moon text-center"></i> '.$v['how_many_nights'].' Nights</p>';
+                                            if(isset($details['trip_duration']) && $details['trip_duration'] == '1' && isset($details['how_many_hours'])){
+                                                $duration = '<p style=""><i class="far fa-sun text-center"></i> '.$v['how_many_hours'].' Days</p>';
+                                            }
+                                         echo '<div class="GridLex-col-3_mdd-4_sm-6_xs-6_xss-12 listview">
 
-                                    <div class="GridLex-col-3_mdd-4_sm-6_xs-6_xss-12 listview">
+                                            <div class="trip-guide-item no-person">
 
-                                        <div class="trip-guide-item no-person">
+                                                <div class="trip-guide-image">
+                                                    <img src="'.$image.'" alt="'.$v['trip_name'].'" />
+                                                </div>
 
-                                            <div class="trip-guide-image">
-                                                <img src="images/trip/01.jpg" alt="images" />
-                                            </div>
+                                                <div class="trip-guide-content">
+                                                    <h3>'.$v['trip_name'].'</h3>
+                                                    <p style="margin-bottom: 0;"><i class="fa fa-map-marker text-center"></i> '.$v['meeting_point'].'</p>
+                                                    '.$duration.'
+                                                    <p style="margin-bottom: 0;overflow: hidden;text-overflow: ellipsis;display: -webkit-box;-webkit-line-clamp: 4;-webkit-box-orient: vertical;">'.$v['brief_description'].'</p>
+                                                </div>
 
-                                            <div class="trip-guide-content">
-                                                <h3>Bangkok-Pattaya Safari Adventure</h3>
-                                                <p style="margin-bottom: 0;"><i class="fa fa-map-marker text-center"></i> Goa</p>
-                                                <p style=""><i class="far fa-sun text-center"></i> 14 Days <span class="mh-5 text-muted">|</span><i class="far fa-moon text-center"></i> 14 Nights</p>
-                                                <p style="margin-bottom: 0;">Game of as rest time eyes with of this it. Add was music merry any truth since going...</p>
-                                            </div>
+                                                <div class="trip-guide-bottom bg-light-primary bt">
 
-                                            <div class="trip-guide-bottom bg-light-primary bt">
-
-                                                <div class="trip-guide-meta row gap-10">
-                                                    <div class="col-xs-6 col-sm-6">
-                                                        <div class="price_off mr-10">5% OFF</div>
-                                                        <div class="price pl-50">
-                                                            <span class="">39000</span><br>
-                                                            <sub> <strike class="text-muted">40000</strike>  </sub> 
+                                                    <div class="trip-guide-meta row gap-10">
+                                                        <div class="col-xs-6 col-sm-6">
+                                                            <div class="price_off mr-10">5% OFF</div>
+                                                            <div class="price pl-50">
+                                                                <span class="">'.$v['price_to_adult'].'</span><br>
+                                                                <sub> <strike class="text-muted">40000</strike>  </sub> 
+                                                            </div>
                                                         </div>
-                                                    </div>
-                                                    <div class="col-xs-6 col-sm-6 text-right">
-                                                        <a href="#" class="btn btn-primary btn-sm">Book</a>
+                                                        <div class="col-xs-6 col-sm-6 text-right">
+                                                            <a href="'.base_url('trip-view/'.$v['trip_code']).'" class="btn btn-primary btn-sm">Book</a>
+
+                                                        </div>
 
                                                     </div>
+
+
 
                                                 </div>
 
-
-
                                             </div>
 
-                                        </div>
-
-                                    </div>
-
-                                    <div class="GridLex-col-3_mdd-4_sm-6_xs-6_xss-12">
-
-                                        <div class="trip-guide-item no-person">
-
-                                            <div class="trip-guide-image">
-                                                <img src="images/trip/01.jpg" alt="images" />
-                                            </div>
-
-                                            <div class="trip-guide-content">
-                                                <h3>Bangkok-Pattaya Safari Adventure</h3>
-                                                <p style="margin-bottom: 0;"><i class="fa fa-map-marker text-center"></i> Goa</p>
-                                                <p style=""><i class="far fa-sun text-center"></i> 14 Days <span class="mh-5 text-muted">|</span><i class="far fa-moon text-center"></i> 14 Nights</p>
-                                                <p style="margin-bottom: 0;">Game of as rest time eyes with of this it. Add was music merry any truth since going...</p>
-                                            </div>
-
-                                            <div class="trip-guide-bottom bg-light-primary bt">
-
-                                                <div class="trip-guide-meta row gap-10">
-                                                    <div class="col-xs-6 col-sm-6">
-                                                        <div class="price_off mr-10">5% OFF</div>
-                                                        <div class="price pl-50">
-                                                            <span class="">39000</span><br>
-                                                            <sub> <strike class="text-muted">40000</strike>  </sub> 
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-xs-6 col-sm-6 text-right">
-                                                        <a href="#" class="btn btn-primary btn-sm">Book</a>
-
-                                                    </div>
-
-                                                </div>
-
-
-
-                                            </div>
-
-                                        </div>
-
-                                    </div>
-
-                                    <div class="GridLex-col-3_mdd-4_sm-6_xs-6_xss-12">
-
-                                        <div class="trip-guide-item no-person">
-
-                                            <div class="trip-guide-image">
-                                                <img src="images/trip/01.jpg" alt="images" />
-                                            </div>
-
-                                            <div class="trip-guide-content">
-                                                <h3>Bangkok-Pattaya Safari Adventure</h3>
-                                                <p style="margin-bottom: 0;"><i class="fa fa-map-marker text-center"></i> Goa</p>
-                                                <p style=""><i class="far fa-sun text-center"></i> 14 Days <span class="mh-5 text-muted">|</span><i class="far fa-moon text-center"></i> 14 Nights</p>
-                                                <p style="margin-bottom: 0;">Game of as rest time eyes with of this it. Add was music merry any truth since going...</p>
-                                            </div>
-
-                                            <div class="trip-guide-bottom bg-light-primary bt">
-
-                                                <div class="trip-guide-meta row gap-10">
-                                                    <div class="col-xs-6 col-sm-6">
-                                                        <div class="price_off mr-10">5% OFF</div>
-                                                        <div class="price pl-50">
-                                                            <span class="">39000</span><br>
-                                                            <sub> <strike class="text-muted">40000</strike>  </sub> 
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-xs-6 col-sm-6 text-right">
-                                                        <a href="#" class="btn btn-primary btn-sm">Book</a>
-
-                                                    </div>
-
-                                                </div>
-
-
-
-                                            </div>
-
-                                        </div>
-
-                                    </div>
-
-                                    <div class="GridLex-col-3_mdd-4_sm-6_xs-6_xss-12">
-
-                                        <div class="trip-guide-item no-person">
-
-                                            <div class="trip-guide-image">
-                                                <img src="images/trip/01.jpg" alt="images" />
-                                            </div>
-
-                                            <div class="trip-guide-content">
-                                                <h3>Bangkok-Pattaya Safari Adventure</h3>
-                                                <p style="margin-bottom: 0;"><i class="fa fa-map-marker text-center"></i> Goa</p>
-                                                <p style=""><i class="far fa-sun text-center"></i> 14 Days <span class="mh-5 text-muted">|</span><i class="far fa-moon text-center"></i> 14 Nights</p>
-                                                <p style="margin-bottom: 0;">Game of as rest time eyes with of this it. Add was music merry any truth since going...</p>
-                                            </div>
-
-                                            <div class="trip-guide-bottom bg-light-primary bt">
-
-                                                <div class="trip-guide-meta row gap-10">
-                                                    <div class="col-xs-6 col-sm-6">
-                                                        <div class="price_off mr-10">5% OFF</div>
-                                                        <div class="price pl-50">
-                                                            <span class="">39000</span><br>
-                                                            <sub> <strike class="text-muted">40000</strike>  </sub> 
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-xs-6 col-sm-6 text-right">
-                                                        <a href="#" class="btn btn-primary btn-sm">Book</a>
-
-                                                    </div>
-
-                                                </div>
-
-
-
-                                            </div>
-
-                                        </div>
-
-                                    </div>
-
+                                        </div>';
+                                        }
+                                    ?>
                                 </div>
 
                             </div>
@@ -1386,7 +1018,7 @@
                     </div>
 
                 </div>
-
+                <?php } ?>
             </div>
 		<!-- start Footer Wrapper -->
 		

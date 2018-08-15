@@ -29,6 +29,18 @@ class Trip_model extends CI_Model
             }
             return $re;
 	}
+	function getInclusionsName($id)
+	{		
+            $this->db->select('ti.name')
+                    ->from('trip_inclusions_map tim')
+                    ->join('trip_inclusions ti','ti.id = tim.inclusions_id','inner')->where(array('tim.trip_id'=>$id,'tim.isactive' => 1));
+            $query = $this->db->get();
+            $re = $query->result_array();
+            if(count($re) > 0){
+                $re = array_column($re, 'name');
+            }
+            return $re;
+	}
 	function getItinerary($id)
 	{		
             $this->db->select()->from('trip_itinerary')->where(array('trip_id'=>$id,'isactive' => 1));

@@ -88,8 +88,13 @@ jQuery(function($) {
                                 
                                 var rating  = '';
                                 
-                                if(data.rating){
-                                    rating = 'Excellent <span  class="stars_rate btn-primary">'+data.rating+'</span>';
+                                if(data.total_rating){
+                                    
+                                    var comment = 'Excellent';
+                                    var rating_val = data.total_rating;
+                                    if(data.total_rating < 1){comment = 'Low';}else if(data.total_rating < 3){comment = 'Average';}else if(data.total_rating < 4){comment = 'Good';}
+                                    
+                                    rating = ' '+comment+' <span  class="stars_rate btn-primary">'+data.total_rating+'</span>';
                                 }
                                 
                                 
@@ -97,7 +102,7 @@ jQuery(function($) {
                                                 '<div class="row">'+
                                                     '<div class="col-xs-12 col-sm-3 col-md-3">'+
                                                         '<div class="image">'+
-                                                            '<a href="'+base_url+'trip-view"><img src="'+image+'" alt="'+data.trip_name+'" /></a>'+
+                                                            '<a href="'+base_url+'trip-view/'+data.trip_code+'"><img src="'+image+'" alt="'+data.trip_name+'" /></a>'+
                                                         '</div><div class="mt-10">'+
                                                             '<a href="'+base_url+'trips/update/'+data.trip_code+'" class="btn btn-info btn-sm">Edit</a>'+
                                                             '<a href="javascript:;" class="btn btn-danger btn-sm tripDelete" data-id="'+data.id+'">Delete</a>'+
@@ -106,7 +111,7 @@ jQuery(function($) {
                                                     '</div>'+
                                                     '<div class="col-xs-12 col-sm-6 col-md-6">'+
                                                         '<div class="content">'+
-                                                            '<h4><a href="'+base_url+'trip-view">'+data.trip_name+'</a></h4>'+
+                                                            '<h4><a href="'+base_url+'trip-view/'+data.trip_code+'">'+data.trip_name+'</a></h4>'+
                                                             '<p style="margin-bottom: 0;"><i class="fa fa-map-marker text-center"></i> '+data.meeting_point+' <span class="mh-5 text-muted">|</span>Status: '+status+'</p>'+
                                                             
                                                             '<p style="margin-bottom: 0;"><i class="fa fa-share text-center"></i> Shared: '+isShared+'</p>'+
@@ -120,7 +125,7 @@ jQuery(function($) {
                                                                 '<div class="content">'+
                                                                     '<h4 class="text-primary">'+rating+'</h4>'+
                                                                     '<div class="rating-item">'+
-                                                                        '<span style="cursor: default;"> <input type="hidden" class="rating" data-filled="fa fa-star rating-rated" data-empty="fa fa-star-o" data-fractions="2" data-readonly="" value="4.5">'+
+                                                                        '<span style="cursor: default;"> <input type="hidden" class="rating" data-filled="fa fa-star rating-rated" data-empty="fa fa-star-o" data-fractions="2" data-readonly="" value="'+rating_val+'">'+
                                                                     '</div>'+
                                                                     '<div class="trip-by"><span class="text-primary font700 mb-1">Staring From</div>'+
                                                                         '<div class="price_off mr-10">5% OFF</div>'+
@@ -129,7 +134,7 @@ jQuery(function($) {
                                                                             '<sub> <strike class="text-muted">40000</strike> </sub>'+
                                                                         '</div>'+
                                                                         '<div class="mt-20 ">'+
-                                                                            '<a href="'+base_url+'trip-view" class="btn btn-primary btn-sm">Book</a>'+
+                                                                            '<a href="'+base_url+'trip-view/'+data.trip_code+'" class="btn btn-primary btn-sm">Book</a>'+
                                                                         '</div>'+																								
                                                                     '</div>'+
                                                                 '</div>'+

@@ -1,11 +1,6 @@
 <?php $this->load->view('includes/header')?>
-<!--<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">-->
-<style>
-    .ui-datepicker{
-        z-index: 999!important;
-    }
-</style>
   <!-- start Main Wrapper -->
+
            <div class="main-wrapper scrollspy-container">
 
                 <!-- start breadcrumb -->

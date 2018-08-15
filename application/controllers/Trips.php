@@ -3,8 +3,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Trips extends CI_Controller {
 
-   
-
     public function make_new_trip($isshared = 0) { 
         
         if ($this->session->userdata('user_id') == '') {redirect('login');}
@@ -617,10 +615,22 @@ class Trips extends CI_Controller {
         
         $this->load->view('trip/trip-calendar-view');
     }
-    public function trip_view() {
+    public function trip_view($tripCode = null) { 
          if ($this->session->userdata('user_id') == '') {redirect('login');}
+         
+        $data  = $this->getTripDetails($tripCode,1); 
         
-        $this->load->view('trip/trip-view');
+        if(isset($data['details']['trip_category_id']) && isset($data['details']['id'])){
+            $whereData = array(
+                'user_id' => $this->session->userdata('user_id'),
+                'trip_category_id' =>$data['details']['trip_category_id'],
+                'isactive'=>1,
+                'id !=' => $data['details']['id']);
+            $data['related_tours'] = selectTable('trip_master', $whereData,['*'],[],[],'','',[],'result_array');       
+        }
+        //echo "<pre>";print_r($data['pickups']);exit;
+        
+        $this->load->view('trip/trip-view',$data);
     }
     
     //GET TRIP LIST DATA
@@ -748,7 +758,7 @@ class Trips extends CI_Controller {
                         }else if($sort_by == '4'){ //NEW POST
                             $tot_sql .= ' ORDER BY tm.created_on DESC';
                         }else if($sort_by == '5'){ //USER RATING
-                            $tot_sql .= ' ORDER BY tm.rating DESC';
+                            $tot_sql .= ' ORDER BY tm.total_rating DESC';
                         }
                     }
                     
@@ -766,12 +776,6 @@ class Trips extends CI_Controller {
                         $returnedData['results']     = $res_query->result_array();
                     }
                     
-
-                    //$returnedData["total_count"] = get_joins('trip_master tm','*',[],$whereData,[],[],'','',array(),'count',0,[],$search_title);;
-                    
-                    //$returnedData["last_page"] = ceil($returnedData["total_count"] / 5);
-                     
-                    //$returnedData['results']     = get_joins('trip_master tm','*',[],$whereData,[],[],'','',array(5,$page),'result_array',1,[],$search_title);
                 }
                 
             }catch(Exception $e){}
@@ -780,7 +784,7 @@ class Trips extends CI_Controller {
         echo json_encode($returnedData);exit;
     }
     
-    public function getTripDetails($tripCode){
+    public function getTripDetails($tripCode,$inc = 0){
         $this->load->model('Trip_model');
         
         $data['details'] = $this->Trip_model->getDetails($tripCode);
@@ -788,7 +792,11 @@ class Trips extends CI_Controller {
         if(count($data['details']) > 0 && isset($data['details']['id'])){
             $data['available_days'] = $this->Trip_model->getAvailableDays($data['details']['id']);
             $data['galleries']      = $this->Trip_model->getGalleries($data['details']['id']);
-            $data['inclusions']     = $this->Trip_model->getInclusions($data['details']['id']);
+            if($inc == 1){
+                $data['inclusions'] = $this->Trip_model->getInclusionsName($data['details']['id']);
+            }else{
+                $data['inclusions'] = $this->Trip_model->getInclusions($data['details']['id']);
+            }
             $data['itineraries']    = $this->Trip_model->getItinerary($data['details']['id']);
             $data['tags']           = $this->Trip_model->getTags($data['details']['id']);
             $data['pickups']        = $this->Trip_model->getPickupLocations($data['details']['id']);
