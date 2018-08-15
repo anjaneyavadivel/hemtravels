@@ -45,14 +45,14 @@
                     <div class="col-sm-12 col-md-12">
 
                         <div class="form-group"> 
-                            <label>Coupon Type<span class="validation">*</span></label>
+                            <label>Offer To?<span class="validation">*</span></label>
                             <select name="coupontype" id="coupontype" class="selectpicker show-tick form-control" title="Select placeholder">
-                                <option value="">Select a coupon type...</option>
+                                <option value="">Select a offer to...</option>
                                 <?php  if ($this->session->userdata('user_type') != 'SA') {  ?>
-                                <option value="1">Vendor</option>
-                                <option value="2">Customer</option>
+                                <option value="1">Vendor Offer</option>
+                                <option value="2">Customer Offer</option>
                                  <?php  }else if ($this->session->userdata('user_type') == 'SA') {  ?>
-                                <option value="3">Super Admin Alter</option>
+                                <option value="3">Admin Offer</option>
                                  <?php  }?>
                             </select>
                         </div>
@@ -115,7 +115,7 @@
                         <div class="form-group"> 
                             <label>Offer Type<span class="validation">*</span></label>
                             <select name="offertype" id="offertype" class="selectpicker show-tick form-control">
-                                <option value="">All</option>
+                                <option value="">Select a offer type...</option>
                                 <option value="1">Fixed</option>
                                 <option value="2">Percentage</option>
                             </select>
@@ -133,7 +133,7 @@
                     <div class="col-sm-12 col-md-12">
 
                         <div class="form-group"> 
-                            <label>comments<span class="validation">*</span></label>
+                            <label>Comments<span class="validation">*</span></label>
                             <textarea class="form-control" name="comment" placeholder="Enter the comments" type="text"> </textarea>
                         </div>
 

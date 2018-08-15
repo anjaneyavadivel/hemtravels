@@ -41,7 +41,17 @@ var MasterValidation = function ()
                     },
 //                    tripname:{
 //                        required: $("#coupontype").val()<=2,
+      
 //                    },
+                    price_to_adult: {
+                        range: [0, 99]
+                    },
+                    price_to_child: {
+                        range: [0, 99]
+                    },
+                    price_to_infan: {
+                        range: [0, 99]
+                    },
                     offertype: {
                         required: true,
                     },

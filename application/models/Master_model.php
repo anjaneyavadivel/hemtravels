@@ -36,22 +36,42 @@ class Master_model extends CI_Model {
     }
     
     // Function 1:Get coupon code master
-    function coupon_code_list($limit, $start,$coupon_code_search) {
-        $this->db->select()->from('coupon_code_master');
-        $this->db->or_like('type',$coupon_code_search);
-        $this->db->or_like('coupon_code',$coupon_code_search);
-        $this->db->or_like('coupon_name',$coupon_code_search);
-        $this->db->or_like('offer_type',$coupon_code_search);
+    function coupon_code_list($limit, $start,$coupon_code_search = '',$offer_type='') {
+        $user_id = $this->session->userdata('user_id');
+        $this->db->select('ccm.*,tm.trip_name,tc.name AS categoryname')->from('coupon_code_master AS ccm');
+        $this->db->join('trip_master AS tm','tm.id=ccm.trip_id','LEFT');
+        $this->db->join('trip_category AS tc','tc.id=ccm.category_id','LEFT');
+        $this->db->where("(coupon_code LIKE '%".$this->db->escape_like_str($coupon_code_search)."%' OR coupon_name LIKE '%".$this->db->escape_like_str($coupon_code_search)."%' )");
+        if($offer_type!=''){
+            $this->db->where('type',$offer_type);
+        }
+        if ($this->session->userdata('user_type') != 'SA') {
+            $this->db->where_not_in('type',3);
+        }
+        if ($this->session->userdata('user_type') == 'VA') {
+            $this->db->where('ccm.user_id',$user_id);
+        }
+        $this->db->order_by("id","DESC");
         $this->db->limit($limit, $start);
         $query = $this->db->get();
         return $query->result_array();
     }
-    function coupon_code_count($coupon_code_search) {
-        $this->db->select()->from('coupon_code_master');
-        $this->db->or_like('type',$coupon_code_search);
-        $this->db->or_like('coupon_code',$coupon_code_search);
-        $this->db->or_like('coupon_name',$coupon_code_search);
-        $this->db->or_like('offer_type',$coupon_code_search);
+    function coupon_code_count($coupon_code_search = '',$offer_type='') {
+        $user_id = $this->session->userdata('user_id');
+        $this->db->select('ccm.*,tm.trip_name,tc.name AS categoryname')->from('coupon_code_master AS ccm');
+        $this->db->join('trip_master AS tm','tm.id=ccm.trip_id','LEFT');
+        $this->db->join('trip_category AS tc','tc.id=ccm.category_id','LEFT');
+        $this->db->where("(coupon_code LIKE '%".$this->db->escape_like_str($coupon_code_search)."%' OR coupon_name LIKE '%".$this->db->escape_like_str($coupon_code_search)."%' )");
+        if($offer_type!=''){
+            $this->db->where('type',$offer_type);
+        }
+        if ($this->session->userdata('user_type') != 'SA') {
+            $this->db->where_not_in('type',3);
+        }
+        if ($this->session->userdata('user_type') == 'VA') {
+            $this->db->where('ccm.user_id',$user_id);
+        }
+        $this->db->order_by("id","DESC");
         $query = $this->db->get();
         return $query->num_rows();
     }

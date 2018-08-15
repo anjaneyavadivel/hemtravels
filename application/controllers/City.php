@@ -1,22 +1,21 @@
 <?php
+
 defined('BASEPATH') OR exit('No direct script access allowed');
 
 class City extends CI_Controller {
 
-	function __construct()
-	{
-		parent::__construct();
-		$this->load->model('City_model');	
-        $this->load->model('State_model');			
-		$this->load->library('form_validation');		
-		
-	}
+    function __construct() {
+        parent::__construct();
+        $this->load->model('City_model');
+        $this->load->model('State_model');
+        $this->load->library('form_validation');
+    }
 
     public function city_list($city_search = '') {
         if ($this->session->userdata('user_id') == '') {
             redirect('login');
         }
-        $citysearch = trim($this->input->post('city_search'));
+        $citysearch = $this->security->xss_clean(trim($this->input->post('city_search')));
         if ($citysearch != '') {
             $city_search = $citysearch;
         }
@@ -44,7 +43,6 @@ class City extends CI_Controller {
         $data["links"] = explode('&nbsp;', $str_links);
         $data["city_search"] = $city_search;
         $this->load->view('master/city/city-list', $data);
-
     }
 
     public function loadmodal($view) {
@@ -55,35 +53,36 @@ class City extends CI_Controller {
                     $data[$key] = $value;
                 }
             }
+            $whereData = array('isactive' => 1, 'country_id' => 1);
+            $state_list = selectTable('state_master', $whereData);
+            $data['state_list'] = $state_list;
             $this->load->view("master/city/$view", $data);
         } else {
             echo "Error";
         }
     }
-	 
 
     public function city_add() {
         if ($this->session->userdata('user_id') == '') {
             return FALSE;
         }
-		         if ($_POST) {
-            $this->form_validation->set_rules('city_name', 'city Name', 'trim|required');
+        if ($_POST) {
+
+            $this->form_validation->set_rules('city_name', 'city Name', 'trim|required|xss_clean');
+            $this->form_validation->set_rules('state_id', 'state_id', 'trim|required');
             if ($this->form_validation->run($this) != FALSE) {
-                $id = trim($this->input->post('id'));
                 $name = ucwords(trim($this->input->post('city_name')));
-                $whereData = array('isactive' => 1, 'csid'=>$state_id,'name' => $name);
+                $state_id = ucwords(trim($this->input->post('state_id')));
+                $whereData = array('state_id' => $state_id, 'name' => $name);
                 $trip_city_list = selectTable('city_master', $whereData);
                 if ($trip_city_list->num_rows() > 0) {
                     echo 'Sorry! All ready exist this name.';
                     return FALSE;
                 }
                 $data = array(
-                    'id' => $id,
-					'csid'=>$state_id,
+                    'state_id' => $state_id,
                     'name' => $name,
                     'isactive' => 1);
-				$data["stateselect"] = $this->City_model->state_select($data);
-				$this->load->view('master/city/city-add', $data);
                 $city_id = $this->City_model->city_insert($data);
                 if ($city_id) {
                     return TRUE;
@@ -102,6 +101,9 @@ class City extends CI_Controller {
             $id = trim($this->input->post('id'));
             $data = array('id' => $id);
             $data['citydetail'] = $this->City_model->city_detail($data);
+            $whereData = array('isactive' => 1, 'country_id' => 1);
+            $state_list = selectTable('state_master', $whereData);
+            $data['state_list'] = $state_list;
             $this->load->view('master/city/city-edit', $data);
         }
     }
@@ -111,14 +113,21 @@ class City extends CI_Controller {
             return FALSE;
         }
         if ($_POST) {
-            $id = trim($this->input->post('city_id'));
-            $name = trim($this->input->post('city_name'));
+            $this->form_validation->set_rules('city_name', 'city Name', 'trim|required|xss_clean');
+            $this->form_validation->set_rules('state_id', 'state_id', 'trim|required');
+            $this->form_validation->set_rules('city_id', 'city_id', 'trim|required');
+            if ($this->form_validation->run($this) != FALSE) {
+                $name = ucwords(trim($this->input->post('city_name')));
+                $state_id = ucwords(trim($this->input->post('state_id')));
+                $id = trim($this->input->post('city_id'));
+                $name = trim($this->input->post('city_name'));
 
-            $where = array('id' => $id);
-            $data = array('name' => $name);
-            $result = $this->City_model->city_update($data, $where);
-            if ($result) {
-                return TRUE;
+                $where = array('id' => $id);
+                $data = array('name' => $name,'state_id' => $state_id);
+                $result = $this->City_model->city_update($data, $where);
+                if ($result) {
+                    return TRUE;
+                }
             }
         }
         echo 'Sorry! Try again...';
@@ -129,17 +138,17 @@ class City extends CI_Controller {
         if ($this->session->userdata('user_id') == '') {
             redirect('login');
         }
-		$where = array('id' => $id);
+        $where = array('id' => $id);
         $data = array('isactive' => 0);
         $this->City_model->city_update($data, $where);
         redirect('city-master');
     }
-	
-	public function city_active($id) {
+
+    public function city_active($id) {
         if ($this->session->userdata('user_id') == '') {
             redirect('login');
         }
-		$where = array('id' => $id);
+        $where = array('id' => $id);
         $data = array('isactive' => 1);
         $this->City_model->city_update($data, $where);
         redirect('city-master');

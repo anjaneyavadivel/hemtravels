@@ -8,7 +8,8 @@ class City_model extends CI_Model
 		$this->db->from('city_master AS cim');
 		$this->db->join('state_master AS sm', 'sm.id = cim.state_id');
 		$this->db->join('country_master AS cm', 'sm.country_id = cm.id');
-        $this->db->like('cim.name',$city_search);
+        $this->db->or_like('cim.name',$city_search);
+        $this->db->or_like('sm.name',$city_search);
         $this->db->limit($limit, $start);
         $query = $this->db->get();
         return $query->result_array();
@@ -21,8 +22,12 @@ class City_model extends CI_Model
     }
 
     function city_count($city_search) {
-        $this->db->select()->from('city_master');
-        $this->db->like('name',$city_search);
+        $this->db->select('sm.id AS sid,sm.name AS sname,cim.isactive AS isactive,sm.country_id AS country_id,cm.name AS cname,cim.id AS id,cim.name AS name,cim.state_id AS csid');
+		$this->db->from('city_master AS cim');
+		$this->db->join('state_master AS sm', 'sm.id = cim.state_id');
+		$this->db->join('country_master AS cm', 'sm.country_id = cm.id');
+        $this->db->or_like('cim.name',$city_search);
+        $this->db->or_like('sm.name',$city_search);
         $query = $this->db->get();
         return $query->num_rows();
     }
@@ -52,7 +57,4 @@ class City_model extends CI_Model
     }
 
 }
-
 ?>
-
-

@@ -10,7 +10,7 @@ class Master extends CI_Controller {
     }
 
     public function category_list($category_search = '') {
-        if ($this->session->userdata('user_id') == '') {
+        if ($this->session->userdata('user_id') == '' || $this->session->userdata('user_type') != 'SA') {
             redirect('login');
         }
         $categorysearch = trim($this->input->post('category_search'));
@@ -44,6 +44,9 @@ class Master extends CI_Controller {
     }
 
     public function loadmodal($view) {
+        if ($this->session->userdata('user_id') == '' || $this->session->userdata('user_type') != 'SA') {
+            return FALSE;
+        }
         if ($view != "") {
             $data = array();
             if (isset($_POST)) {
@@ -58,7 +61,7 @@ class Master extends CI_Controller {
     }
 
     public function category_add() {
-        if ($this->session->userdata('user_id') == '') {
+        if ($this->session->userdata('user_id') == '' || $this->session->userdata('user_type') != 'SA') {
             return FALSE;
         }
         if ($_POST) {
@@ -87,8 +90,8 @@ class Master extends CI_Controller {
     }
 
     public function category_edit() {
-        if ($this->session->userdata('user_id') == '') {
-            redirect('login');
+        if ($this->session->userdata('user_id') == '' || $this->session->userdata('user_type') != 'SA') {
+           redirect('login');
         }
         if ($_POST) {
             $id = trim($this->input->post('id'));
@@ -101,7 +104,7 @@ class Master extends CI_Controller {
     }
 
     public function category_save_edit() {
-        if ($this->session->userdata('user_id') == '') {
+        if ($this->session->userdata('user_id') == '' || $this->session->userdata('user_type') != 'SA') {
             return FALSE;
         }
         if ($_POST) {
@@ -120,7 +123,7 @@ class Master extends CI_Controller {
     }
 
     public function category_delete($id) {
-        if ($this->session->userdata('user_id') == '') {
+        if ($this->session->userdata('user_id') == '' || $this->session->userdata('user_type') != 'SA') {
             redirect('login');
         }
 		$where = array('id' => $id);
@@ -140,18 +143,27 @@ class Master extends CI_Controller {
     }
     
     
-    public function coupon_code_list($coupon_code_search = '',$status='',$offer_type='') {
+    public function coupon_code_list($coupon_code_search ='',$offer_type='') {
         if ($this->session->userdata('user_id') == '') {
             redirect('login');
         }
         $couponcodesearch = trim($this->input->post('coupon_code_search'));
+        $offertype = trim($this->input->post('offer_type'));
+        $type = trim($this->input->get('type'));
+        if ($offertype != '') {
+            $offer_type = $offertype;
+        }
         if ($couponcodesearch != '') {
             $coupon_code_search = $couponcodesearch;
         }
+        if ($type != '') {
+            $offer_type = $type;
+        }
+        $coupon_code_search=$this->security->xss_clean($coupon_code_search);
         $this->load->library('pagination');
         $config = array();
-        $config["base_url"] = base_url() . "category-master/" . $coupon_code_search; //?search=".$category_search
-        $config["total_rows"] = $this->Master_model->coupon_code_count($coupon_code_search);
+        $config["base_url"] = base_url() . "coupon-code-master/" . $coupon_code_search."?type=".$offer_type;
+        $config["total_rows"] = $this->Master_model->coupon_code_count($coupon_code_search,$offer_type);
         $config["per_page"] = 20;
         //$config["uri_segment"] = 2;
 
@@ -167,11 +179,10 @@ class Master extends CI_Controller {
         $this->pagination->initialize($config);
         $page = ($this->input->get('page')) ? ( ( $this->input->get('page') - 1 ) * $config["per_page"] ) : 0;
         //$page = ($this->uri->segment(2)) ? $this->uri->segment(2) : 0;
-        $data["couponcodelist"] = $this->Master_model->coupon_code_list($config["per_page"], $page, $coupon_code_search);
+        $data["couponcodelist"] = $this->Master_model->coupon_code_list($config["per_page"], $page, $coupon_code_search,$offer_type);
         $str_links = $this->pagination->create_links();
         $data["links"] = explode('&nbsp;', $str_links);
         $data["coupon_code_search"] = $coupon_code_search;
-        $data["status"] = $status;
         $data["offer_type"] = $offer_type;
         $this->load->view('master/coupon-code/coupon-code-list', $data);
     }
@@ -246,6 +257,27 @@ class Master extends CI_Controller {
         echo 'Sorry! Try again...';
         return FALSE;
     }
+	
+	public function coupon_code_delete($id) {
+        if ($this->session->userdata('user_id') == '') {
+            redirect('login');
+        }
+		$where = array('id' => $id);
+        $data = array('isactive' => 0);
+        $this->Master_model->coupon_code_update($data, $where);
+        redirect('coupon-code-master');
+    }
+	
+	public function coupon_code_active($id) {
+        if ($this->session->userdata('user_id') == '') {
+            redirect('login');
+        }
+		$where = array('id' => $id);
+        $data = array('isactive' => 1);
+        $this->Master_model->coupon_code_update($data, $where);
+        redirect('coupon-code-master');
+    }
+    
     
     public function checkhelper() {
         $this->load->helper('custom_helper');
@@ -276,26 +308,6 @@ class Master extends CI_Controller {
 //        'pick_up_location_id' => 2);
 //        $result = trip_book($bookdata);
 //        print_r($result);
-    }
-	
-	public function coupon_code_delete($id) {
-        if ($this->session->userdata('user_id') == '') {
-            redirect('login');
-        }
-		$where = array('id' => $id);
-        $data = array('isactive' => 0);
-        $this->Master_model->coupon_code_update($data, $where);
-        redirect('coupon-code-master');
-    }
-	
-	public function coupon_code_active($id) {
-        if ($this->session->userdata('user_id') == '') {
-            redirect('login');
-        }
-		$where = array('id' => $id);
-        $data = array('isactive' => 1);
-        $this->Master_model->coupon_code_update($data, $where);
-        redirect('coupon-code-master');
     }
 
 }
