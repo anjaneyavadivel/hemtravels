@@ -257,7 +257,6 @@
                                     <p><b>Trip Tittle :</b> <?=$trip_name; ?></p>
                                     <span class="labeling">More Details: </span>
                                     <a href="payment-done.html">view <i class="ion-android-arrow-forward"></i></a>
-
                                 </div>
                             </div> 
                         </div>
