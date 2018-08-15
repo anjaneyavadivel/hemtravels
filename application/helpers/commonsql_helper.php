@@ -22,6 +22,28 @@ if (!defined('BASEPATH'))
     }
 
 }
+ if (!function_exists('getGuestLoginDeteails')) {
+
+    function getGuestLoginDeteails($array) {
+        $CI = & get_instance();
+		$email = isset($array['email'])?$array['email']:'';
+		$phone = isset($array['phone'])?$array['phone']:'';
+		if($phone =='' && $email==''){
+			return 0;
+		}
+        $CI->load->model('user_model');
+		$check = $CI->user_model->select('user_master',array('email'=>$email,'phone'=>$phone));
+		if($check->num_rows()>0){
+			$ch = $check->row();
+			return $ch->id;
+		}
+		else{
+			$tableData =  array('email'=>$email,'phone'=>$phone,'user_type'=>'GU','password'=>md5(md5(123456)));
+        	return $insertid = $CI->user_model->insert('user_master', $tableData);
+		}
+    }
+
+}
 
 
 
