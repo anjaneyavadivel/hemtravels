@@ -101,45 +101,47 @@
                                     </tr>
                                 </thead>
                                 <tbody>
+								<?php 
+								if(isset($bookinglist) && count($bookinglist)>0)
+								{
+									$i=1;
+									foreach($bookinglist as $row)
+									{
+                                    
+										$booked_on=$row['booked_on'];	
+										$pnr_no=$row['pnr_no'];
+										$trip_name=$row['trip_name'];
+										$status=$row['status'];
+										$no_of_traveller=$row['no_of_traveller'];
+										$price_to_adult=$row['price_to_adult'];
+										
+										$status=$row['status'];
+										$status_val = array('New','Pending','Completed');
+										$sts=explode(",",$status);
+										foreach($sts as $vals)
+										{
+										
+										?>
                                     <tr>
-                                        <td>10 Feb 2018</td>
-                                        <td>PNR9977234</td>
+                                        <td><?=date("d/M/y",strtotime($booked_on));?></td>
+                                        <td><?=$pnr_no;?></td>
                                         <td>B2C Booking</td>
                                         <td>21 Feb 2018 to 24 Feb 2018</td>
-                                        <td><a href="list.html">Attraction Visit</a></td>
-                                        <td>2</td>
-                                        <td>600</td>
-                                        <td><h4 class="text-info"  data-toggle="tooltip" data-placement="top" data-original-title="New order">New</h4></td>
+                                        <td><a href="list.html"><?=$trip_name;?></a></td>
+                                        <td><?=$no_of_traveller;?></td>
+                                        <td><?=$price_to_adult;?></td>
+                                        <td><h4 class="text-info"  data-toggle="tooltip" data-placement="top" data-original-title="New order"><?=$status_val[$vals];?></h4></td>
                                         <td><a href="payment-done.html" target="_new" class="btn btn-border btn-sm btn-primary">View</a>
 <!--                                            <a href="#" class="btn btn-border btn-sm btn-primary">Edit</a>-->
                                         </td>
                                     </tr>
-                                    <tr>
-                                        <td>10 Feb 2018</td>
-                                        <td>PNR9977234</td>
-                                        <td>Office Booking</td>
-                                        <td>21 Feb 2018 to 24 Feb 2018</td>
-                                        <td><a href="list.html">Attraction Visit</a></td>
-                                        <td>2</td>
-                                        <td>600</td>
-                                        <td><h4 class="text-primary"  data-toggle="tooltip" data-placement="top" data-original-title="Order pending to complete">Pending</h4></td>
-                                        <td><a href="payment-done.html" target="_new" class="btn btn-border btn-sm btn-primary">View</a>
-<!--                                            <a href="#" class="btn btn-border btn-sm btn-primary">Edit</a>-->
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>10 Feb 2018</td>
-                                        <td>PNR9977234</td>
-                                        <td>B2C Booking</td>
-                                        <td>21 Feb 2018 to 24 Feb 2018</td>
-                                        <td><a href="list.html">Attraction Visit</a></td>
-                                        <td>2</td>
-                                        <td>600</td>
-                                        <td><h4 class=""  data-toggle="tooltip" data-placement="top" data-original-title="Order completed">Completed</h4></td>
-                                        <td><a href="payment-done.html" target="_new" class="btn btn-border btn-sm btn-primary">View</a>
-<!--                                            <a href="#" class="btn btn-border btn-sm btn-primary">Edit</a>-->
-                                        </td>
-                                    </tr>
+                                    <?php 				
+									} 
+									}
+									
+								}		
+								?> 	
+                                    
                                 </tbody>
                             </table>
                             <div class="pager-wrappper text-right clearfix bt mt-0  col-sm-12">
@@ -152,8 +154,12 @@
 
                                     <div class="clearfix">
                                         <nav>
+                                           
                                             <ul class="pagination">
-                                                <li>
+                                                <?php foreach ($links as $link) {
+                                                    echo "<li>". $link."</li>";
+                                                    } ?>
+<!--                                                <li>
                                                     <a href="#" aria-label="Previous">
                                                         <span aria-hidden="true">&laquo;</span>
                                                     </a>
@@ -168,11 +174,10 @@
                                                     <a href="#" aria-label="Next">
                                                         <span aria-hidden="true">&raquo;</span>
                                                     </a>
-                                                </li>
+                                                </li>-->
                                             </ul>
                                         </nav>
                                     </div>
-
                                 </div>
 
                             </div>

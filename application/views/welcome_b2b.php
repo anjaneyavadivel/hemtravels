@@ -272,7 +272,7 @@
 
                         <div class="tab-inner">
                             <span class="text-right col-xs-12">
-                                <a href="triplist">View All<i class="ion-android-arrow-forward"></i></a></span>
+                                <a href="booking-wise-reports">View All<i class="ion-android-arrow-forward"></i></a></span>
                     <?php
                     if (isset($trip_booking_list) && count($trip_booking_list) > 0) {
                         foreach ($trip_booking_list as $row) {
