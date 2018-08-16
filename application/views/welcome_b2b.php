@@ -239,7 +239,7 @@
                 <div class="tab-content">
 
                     <div class="tab-pane fade active in" id="tab-style-01-01">
-<?php
+				<?php
                     if (isset($trip_list) && count($trip_list) > 0) {
                         foreach ($trip_list as $row) {
                             $trip_name = $row['trip_name'];
