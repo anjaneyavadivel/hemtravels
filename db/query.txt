@@ -32,3 +32,41 @@ ALTER TABLE `trip_master` CHANGE `total_rating` `total_rating` FLOAT(1,1) NOT NU
 ALTER TABLE `trip_master` CHANGE `total_rating` `total_rating` FLOAT(2,1) NOT NULL DEFAULT '0.0';
 ALTER TABLE `trip_master` CHANGE `other_inclusions` `other_inclusions` TEXT CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL, CHANGE `exclusions` `exclusions` TEXT CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL, CHANGE `transport` `transport` TEXT CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL, CHANGE `things_to_carry` `things_to_carry` TEXT CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL, CHANGE `advisory` `advisory` TEXT CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL, CHANGE `cancellation_policy` `cancellation_policy` TEXT CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL, CHANGE `confirmation_policy` `confirmation_policy` TEXT CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL, CHANGE `refund_policy` `refund_policy` TEXT CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL;
 ALTER TABLE `trip_master` CHANGE `brief_description` `brief_description` LONGTEXT CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL;
+
+CREATE TABLE IF NOT EXISTS `trip_specific_day` (
+  `id` int(11) NOT NULL,
+  `trip_id` int(11) NOT NULL,
+  `type` tinyint(2) NOT NULL DEFAULT '0' COMMENT '1 - Set Offer Specific Day, 2 - Set Trip Close Specific Day',
+  `from_date` date NOT NULL,
+  `to_date` date NOT NULL,
+  `no_of_traveller` int(5) NOT NULL,
+  `no_of_min_booktraveller` int(5) NOT NULL,
+  `no_of_max_booktraveller` int(5) NOT NULL,
+  `offer_type` int(2) NOT NULL DEFAULT '0' COMMENT '1 - Fixed / 2 -Percentage',
+  `price_to_adult` float(8,2) NOT NULL,
+  `price_to_child` float(8,2) NOT NULL,
+  `price_to_infan` float(8,2) NOT NULL,
+  `isactive` tinyint(1) NOT NULL DEFAULT '1'
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Indexes for dumped tables
+--
+
+--
+-- Indexes for table `trip_specific_day`
+--
+ALTER TABLE `trip_specific_day`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- AUTO_INCREMENT for dumped tables
+--
+
+--
+-- AUTO_INCREMENT for table `trip_offers`
+--
+ALTER TABLE `trip_specific_day`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+ALTER TABLE `trip_specific_day` ADD `title` VARCHAR(250) NOT NULL AFTER `type`;

@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Aug 14, 2018 at 02:15 PM
+-- Generation Time: Aug 18, 2018 at 03:16 PM
 -- Server version: 5.6.26
 -- PHP Version: 5.6.12
 
@@ -58,7 +58,7 @@ CREATE TABLE IF NOT EXISTS `city_master` (
   `updated_on` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
   `updated_by` int(11) NOT NULL,
   `isactive` int(1) NOT NULL DEFAULT '1' COMMENT '0 - Deactive, 1 - Active'
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `city_master`
@@ -66,7 +66,9 @@ CREATE TABLE IF NOT EXISTS `city_master` (
 
 INSERT INTO `city_master` (`id`, `state_id`, `name`, `created_on`, `created_by`, `updated_on`, `updated_by`, `isactive`) VALUES
 (1, 2, 'Domlur', '2018-08-01 02:28:52', 0, '0000-00-00 00:00:00', 0, 1),
-(2, 2, 'Indiranagar', '2018-08-01 02:28:52', 0, '0000-00-00 00:00:00', 0, 1);
+(2, 2, 'Indiranagar', '2018-08-01 02:28:52', 0, '0000-00-00 00:00:00', 0, 1),
+(5, 1, 'Coimbatore', '2018-08-15 03:13:22', 0, '0000-00-00 00:00:00', 0, 1),
+(6, 1, 'Chennai', '2018-08-15 03:13:42', 0, '0000-00-00 00:00:00', 0, 1);
 
 -- --------------------------------------------------------
 
@@ -128,16 +130,18 @@ CREATE TABLE IF NOT EXISTS `coupon_code_master` (
   `price_to_infan` float(8,2) NOT NULL,
   `created_on` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `isactive` int(1) NOT NULL DEFAULT '1'
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `coupon_code_master`
 --
 
 INSERT INTO `coupon_code_master` (`id`, `user_id`, `trip_id`, `type`, `coupon_code`, `coupon_name`, `offer_type`, `percentage_amount`, `validity_from`, `validity_to`, `comment`, `category_id`, `price_to_adult`, `price_to_child`, `price_to_infan`, `created_on`, `isactive`) VALUES
-(1, 3, 1, 2, 'B2CDIS50', 'B2C discount 50', 1, 50.00, '2018-08-06', '2018-09-15', ' ', 0, 0.00, 0.00, 0.00, '2018-08-05 14:19:13', 1),
-(2, 2, 0, 3, 'ADMINDIS10', 'B2C discount 10', 2, 10.00, '2018-08-06', '2018-09-15', ' ', 6, 1500.00, 1200.00, 0.00, '2018-08-05 14:19:13', 1),
-(3, 2, 2, 1, 'B2CDIS5', 'B2C discount 5%', 2, 5.00, '2018-08-06', '2018-09-15', ' ', 0, 0.00, 0.00, 0.00, '2018-08-05 14:19:13', 1);
+(1, 3, 1, 2, 'B2BDIS50', 'B2B discount 50', 1, 50.00, '2018-08-06', '2018-09-15', ' ', 0, 0.00, 0.00, 0.00, '2018-08-05 14:19:13', 1),
+(2, 2, 0, 3, 'ADMINDIS5P', 'Admin discount 5%', 2, 5.00, '2018-08-06', '2018-09-15', ' ', 6, 10.00, 10.00, 10.00, '2018-08-05 14:19:13', 1),
+(3, 2, 2, 1, 'B2CDIS5', 'B2C discount 5%', 2, 5.00, '2018-08-06', '2018-09-15', ' ', 0, 0.00, 0.00, 0.00, '2018-08-05 14:19:13', 1),
+(4, 2, 0, 3, 'ADMINDIS7', 'ADMINDIS7', 2, 7.00, '2018-08-15', '2018-09-12', ' ', 1, 10.00, 10.00, 10.00, '2018-08-15 06:32:12', 1),
+(5, 2, 0, 3, 'ADMINOFFER100', 'ADMINOFFER100', 1, 100.00, '2018-08-16', '2018-09-06', ' this admin offer', 7, 10.00, 10.00, 10.00, '2018-08-16 14:57:16', 1);
 
 -- --------------------------------------------------------
 
@@ -164,16 +168,18 @@ CREATE TABLE IF NOT EXISTS `coupon_code_master_history` (
   `price_to_infan` float(8,2) NOT NULL,
   `created_on` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `isactive` int(1) NOT NULL DEFAULT '1'
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `coupon_code_master_history`
 --
 
 INSERT INTO `coupon_code_master_history` (`id`, `user_id`, `coupon_code_id`, `trip_id`, `type`, `coupon_code`, `coupon_name`, `offer_type`, `percentage_amount`, `validity_from`, `validity_to`, `comment`, `category_id`, `price_to_adult`, `price_to_child`, `price_to_infan`, `created_on`, `isactive`) VALUES
-(1, 3, 1, 1, 2, 'B2CDIS50', 'B2C discount 50', 1, 50.00, '2018-08-06', '2018-09-15', ' ', 0, 0.00, 0.00, 0.00, '2018-08-05 08:49:13', 1),
-(2, 2, 2, 0, 3, 'ADMINDIS10', 'B2C discount 10', 2, 10.00, '2018-08-06', '2018-09-15', ' ', 6, 1500.00, 1200.00, 0.00, '2018-08-05 08:49:13', 1),
-(3, 2, 3, 2, 1, 'B2CDIS5', 'B2C discount 5%', 2, 5.00, '2018-08-06', '2018-09-15', ' ', 0, 0.00, 0.00, 0.00, '2018-08-05 08:49:13', 1);
+(1, 3, 1, 1, 2, 'B2BDIS50', 'B2C discount 50', 1, 50.00, '2018-08-06', '2018-09-15', ' ', 0, 0.00, 0.00, 0.00, '2018-08-05 08:49:13', 1),
+(2, 2, 2, 0, 3, 'ADMINDIS5P', 'Admin discount 5%', 2, 5.00, '2018-08-06', '2018-09-15', ' ', 6, 10.00, 10.00, 0.00, '2018-08-05 08:49:13', 1),
+(3, 2, 3, 2, 1, 'B2CDIS5', 'B2C discount 5%', 2, 5.00, '2018-08-06', '2018-09-15', ' ', 0, 0.00, 0.00, 0.00, '2018-08-05 08:49:13', 1),
+(4, 2, 4, 0, 3, 'ADMINDIS7', 'ADMINDIS7', 2, 7.00, '2018-09-16', '2018-10-31', ' ', 1, 10.00, 10.00, 10.00, '2018-08-15 06:32:12', 1),
+(5, 2, 5, 0, 3, 'ADMINOFFER100', 'ADMINOFFER100', 1, 100.00, '2018-08-16', '2018-09-06', ' this admin offer', 7, 10.00, 10.00, 10.00, '2018-08-16 14:57:16', 1);
 
 -- --------------------------------------------------------
 
@@ -203,17 +209,19 @@ CREATE TABLE IF NOT EXISTS `my_transaction` (
   `id` int(11) NOT NULL,
   `book_pay_id` int(11) NOT NULL DEFAULT '0',
   `book_pay_details_id` int(11) NOT NULL DEFAULT '0',
-  `pnr_no` varchar(150) NOT NULL,
+  `pnr_no` varchar(150) DEFAULT NULL,
+  `from_userid` int(11) NOT NULL DEFAULT '0',
   `userid` int(11) NOT NULL,
   `trip_id` int(11) NOT NULL DEFAULT '0',
   `date_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `transaction_short_details` varchar(200) NOT NULL,
+  `transaction_notes` text NOT NULL,
   `transaction_details` tinytext NOT NULL,
   `withdrawals` float(8,2) NOT NULL,
   `deposits` float(8,2) NOT NULL,
   `balance` float(8,2) NOT NULL,
   `b2b_pay_account_info` int(11) NOT NULL DEFAULT '0',
   `withdrawal_request_amt` float(8,2) NOT NULL,
+  `withdrawal_notes` text NOT NULL,
   `withdrawal_paid_on` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
   `status` int(1) NOT NULL COMMENT '0 - new, 1 - InProgress, 2 -  Executed'
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
@@ -318,14 +326,15 @@ CREATE TABLE IF NOT EXISTS `trip_avilable` (
   `created_by` int(11) NOT NULL,
   `updated_on` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
   `updated_by` int(11) NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `trip_avilable`
 --
 
 INSERT INTO `trip_avilable` (`id`, `trip_id`, `sunday`, `monday`, `tuesday`, `wednesday`, `thursday`, `friday`, `saturday`, `isactive`, `created_on`, `created_by`, `updated_on`, `updated_by`) VALUES
-(1, 1, 1, 1, 0, 1, 0, 1, 1, 1, '2018-08-01 02:37:45', 0, '0000-00-00 00:00:00', 0);
+(1, 1, 1, 1, 0, 1, 0, 1, 1, 1, '2018-08-01 02:37:45', 0, '0000-00-00 00:00:00', 0),
+(2, 3, 1, 1, 0, 1, 0, 1, 1, 1, '2018-08-01 02:37:45', 0, '0000-00-00 00:00:00', 0);
 
 -- --------------------------------------------------------
 
@@ -366,18 +375,18 @@ CREATE TABLE IF NOT EXISTS `trip_book_pay` (
   `pick_up_location_landmark` varchar(150) NOT NULL,
   `booked_on` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `booked_by` int(11) NOT NULL,
-  `status` int(1) NOT NULL COMMENT '1 - Pendding, 2- booked, 3 - cancelled',
+  `status` int(1) NOT NULL COMMENT '1 - Pendding, 2- booked, 3 - cancelled, 4 - confirmed',
   `payment_type` int(1) NOT NULL COMMENT '1 - net, 2 - credit, 3 - debit',
   `payment_status` int(1) NOT NULL COMMENT '0 - Pendding,1 - sucess,2 - failed',
   `isactive` int(11) NOT NULL DEFAULT '1'
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `trip_book_pay`
 --
 
 INSERT INTO `trip_book_pay` (`id`, `parent_trip_id`, `trip_id`, `user_id`, `pnr_no`, `number_of_persons`, `price_to_adult`, `price_to_child`, `price_to_infan`, `no_of_adult`, `no_of_child`, `no_of_infan`, `total_adult_price`, `total_child_price`, `total_infan_price`, `subtotal_trip_price`, `total_trip_price`, `coupon_history_id`, `discount_percentage`, `discount_price`, `offer_amt`, `gst_percentage`, `gst_amt`, `round_off`, `net_price`, `date_of_trip`, `time_of_trip`, `pick_up_location_id`, `pick_up_location`, `pick_up_location_landmark`, `booked_on`, `booked_by`, `status`, `payment_type`, `payment_status`, `isactive`) VALUES
-(8, 1, 2, 1, 'PNR13JSMCG7', 2, 1500.00, 1200.00, 0.00, 1, 1, 0, 1500.00, 1200.00, 0.00, 2700.00, 2430.00, 2, 10.00, 0.00, 270.00, 5.00, 121.50, 0.50, 2552.00, '2018-08-15', '09:15:00', 2, 'New Shanthi Sagar Ho', 'Air port', '2018-08-12 15:14:37', 1, 1, 0, 0, 1);
+(1, 1, 2, 1, 'PNR49OBK9MG', 2, 1562.00, 1320.00, 0.00, 1, 1, 0, 1562.00, 1320.00, 0.00, 2882.00, 2738.00, 2, 5.00, 0.00, 144.10, 5.00, 136.90, 0.10, 2875.00, '2018-08-18', '09:15:00', 2, 'New Shanthi Sagar Ho', 'Air port', '2018-08-18 13:04:30', 1, 1, 0, 0, 1);
 
 -- --------------------------------------------------------
 
@@ -424,20 +433,20 @@ CREATE TABLE IF NOT EXISTS `trip_book_pay_details` (
   `pick_up_location_landmark` varchar(150) NOT NULL,
   `booked_on` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `booked_by` int(11) NOT NULL,
-  `status` int(1) NOT NULL COMMENT '1 - Pendding, 2- booked, 3 - cancelled',
+  `status` int(1) NOT NULL COMMENT '1 - Pendding, 2- booked, 3 - cancelled, 4 - confirmed',
   `payment_type` int(1) NOT NULL COMMENT '1 - net, 2 - credit, 3 - debit',
   `payment_status` int(1) NOT NULL COMMENT '0 - Pendding,1 - sucess,2 - failed',
   `isactive` int(11) NOT NULL DEFAULT '1'
-) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `trip_book_pay_details`
 --
 
 INSERT INTO `trip_book_pay_details` (`id`, `book_pay_id`, `parent_trip_id`, `trip_id`, `from_user_id`, `user_id`, `pnr_no`, `number_of_persons`, `price_to_adult`, `price_to_child`, `price_to_infan`, `no_of_adult`, `no_of_child`, `no_of_infan`, `total_adult_price`, `total_child_price`, `total_infan_price`, `subtotal_trip_price`, `total_trip_price`, `coupon_history_id`, `discount_percentage`, `discount_price`, `offer_amt`, `net_price`, `vendor_amt`, `your_amt`, `servicecharge_amt`, `gst_percentage`, `gst_amt`, `round_off`, `your_final_amt`, `date_of_trip`, `time_of_trip`, `pick_up_location_id`, `pick_up_location`, `pick_up_location_landmark`, `booked_on`, `booked_by`, `status`, `payment_type`, `payment_status`, `isactive`) VALUES
-(13, 8, 1, 2, 1, 0, 'PNR13JSMCG7', 2, 1500.00, 1200.00, 0.00, 1, 1, 0, 1500.00, 1200.00, 0.00, 2700.00, 2430.00, 2, 10.00, 0.00, 270.00, 0.00, 2090.00, 340.00, 20.00, 5.00, 17.00, 0.00, 337.00, '2018-08-15', '09:15:00', 2, 'New Shanthi Sagar Ho', 'Air port', '2018-08-12 15:14:37', 1, 1, 0, 0, 1),
-(14, 8, 1, 2, 1, 3, 'PNR13JSMCG7', 2, 1200.00, 1000.00, 0.00, 1, 1, 0, 1200.00, 1000.00, 0.00, 2200.00, 2090.00, 3, 5.00, 0.00, 110.00, 0.00, 1750.00, 340.00, 20.00, 5.00, 17.00, 0.00, 337.00, '2018-08-15', '09:15:00', 2, 'New Shanthi Sagar Ho', 'Air port', '2018-08-12 15:14:38', 1, 1, 0, 0, 1),
-(15, 8, 0, 1, 3, 3, 'PNR13JSMCG7', 2, 1000.00, 800.00, 0.00, 1, 1, 0, 1000.00, 800.00, 0.00, 1800.00, 1750.00, 1, 0.00, 50.00, 50.00, 0.00, 0.00, 1750.00, 35.00, 5.00, 87.50, 0.50, 1803.00, '2018-08-15', '09:15:00', 2, 'New Shanthi Sagar Ho', 'Air port', '2018-08-12 15:14:38', 1, 1, 0, 0, 1);
+(1, 1, 1, 2, 1, 0, 'PNR49OBK9MG', 2, 1562.00, 1320.00, 0.00, 1, 1, 0, 1562.00, 1320.00, 0.00, 2882.00, 2738.00, 2, 5.00, 0.00, 144.10, 249.00, 2489.00, 229.00, 20.00, 5.00, 11.45, -0.45, 240.00, '2018-08-18', '09:15:00', 2, 'New Shanthi Sagar Ho', 'Air port', '2018-08-18 13:04:30', 1, 1, 0, 0, 1),
+(2, 1, 0, 1, 1, 3, 'PNR39R4QVQ7', 2, 1100.00, 900.00, 0.00, 1, 1, 0, 1100.00, 900.00, 0.00, 2000.00, 1900.00, 1, 0.00, 50.00, 100.00, 1900.00, 0.00, 1862.00, 38.00, 5.00, 93.10, -0.10, 1955.00, '2018-08-18', '09:15:00', 2, 'New Shanthi Sagar Ho', 'Air port', '2018-08-18 13:04:30', 1, 1, 0, 0, 1),
+(3, 1, 0, 2, 1, 3, 'PNR39R4QVQ7', 2, 1420.00, 1200.00, 0.00, 1, 1, 0, 1420.00, 1200.00, 0.00, 2620.00, 2489.00, 3, 5.00, 0.00, 131.00, 589.00, 1900.00, 569.00, 20.00, 5.00, 28.45, -0.45, 597.00, '2018-08-18', '09:15:00', 2, 'New Shanthi Sagar Ho', 'Air port', '2018-08-18 13:04:30', 1, 1, 0, 0, 1);
 
 -- --------------------------------------------------------
 
@@ -613,18 +622,18 @@ CREATE TABLE IF NOT EXISTS `trip_master` (
   `total_days` int(3) NOT NULL DEFAULT '0',
   `how_many_time` int(2) NOT NULL DEFAULT '0',
   `how_many_hours` int(2) NOT NULL DEFAULT '0',
-  `brief_description` text NOT NULL,
-  `other_inclusions` tinytext NOT NULL,
-  `exclusions` tinytext NOT NULL,
+  `brief_description` longtext NOT NULL,
+  `other_inclusions` text NOT NULL,
+  `exclusions` text NOT NULL,
   `languages` tinytext NOT NULL,
   `meal` tinytext NOT NULL,
-  `transport` tinytext NOT NULL,
-  `things_to_carry` tinytext NOT NULL,
-  `advisory` tinytext NOT NULL,
+  `transport` text NOT NULL,
+  `things_to_carry` text NOT NULL,
+  `advisory` text NOT NULL,
   `tour_type` tinytext NOT NULL,
-  `cancellation_policy` tinytext NOT NULL,
-  `confirmation_policy` tinytext NOT NULL,
-  `refund_policy` tinytext NOT NULL,
+  `cancellation_policy` text NOT NULL,
+  `confirmation_policy` text NOT NULL,
+  `refund_policy` text NOT NULL,
   `meeting_point` varchar(150) NOT NULL,
   `meeting_time` varchar(100) NOT NULL,
   `no_of_traveller` int(5) NOT NULL DEFAULT '0',
@@ -646,7 +655,8 @@ CREATE TABLE IF NOT EXISTS `trip_master` (
   `other_price_to_infan` float NOT NULL,
   `is_shared` int(1) NOT NULL DEFAULT '0' COMMENT '0- non shared, 1 - shared',
   `trip_shared_id` int(11) NOT NULL DEFAULT '0',
-  `total_rating` int(1) NOT NULL DEFAULT '0',
+  `total_rating` float(2,1) NOT NULL DEFAULT '0.0',
+  `total_booking` int(11) unsigned NOT NULL DEFAULT '0',
   `isactive` int(1) NOT NULL DEFAULT '1' COMMENT '0 - Deactive, 1 - Active',
   `created_on` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `created_by` int(11) NOT NULL,
@@ -658,12 +668,12 @@ CREATE TABLE IF NOT EXISTS `trip_master` (
 -- Dumping data for table `trip_master`
 --
 
-INSERT INTO `trip_master` (`id`, `trip_code`, `user_id`, `trip_category_id`, `trip_name`, `trip_url`, `trip_img_name`, `parent_trip_id`, `address1`, `address2`, `city_id`, `state_id`, `country_id`, `price_to_adult`, `price_to_child`, `price_to_infan`, `trip_duration`, `how_many_days`, `how_many_nights`, `total_days`, `how_many_time`, `how_many_hours`, `brief_description`, `other_inclusions`, `exclusions`, `languages`, `meal`, `transport`, `things_to_carry`, `advisory`, `tour_type`, `cancellation_policy`, `confirmation_policy`, `refund_policy`, `meeting_point`, `meeting_time`, `no_of_traveller`, `no_of_min_booktraveller`, `no_of_max_booktraveller`, `status`, `is_terms_accpet`, `booking_cut_of_time_type`, `booking_cut_of_day`, `booking_cut_of_time`, `other_setting`, `other_from_date`, `other_to_date`, `other_no_of_traveller`, `other_no_of_min_booktraveller`, `other_no_of_max_booktraveller`, `other_price_to_adult`, `other_price_to_child`, `other_price_to_infan`, `is_shared`, `trip_shared_id`, `total_rating`, `isactive`, `created_on`, `created_by`, `updated_on`, `updated_by`) VALUES
-(1, 'TRIP00001', 3, 6, 'Beach Camping In South Goa From Bangalore', '', '1533090838_01.jpg', 0, '', 0, 2, 2, 0, 1000, 800, 0, 2, 2, 1, 3, 0, 0, 'First of its kind, this tour is made up of a chance at camping on the beach, a trek in the jungles of South Goa''s coast, serene views of the shore from the waters along with the feeling of tranquility in one of the offbeat and isolated beaches of Goa. \r\nAfter boarding the transfer vehicle on Day 0, you will drive towards South Goa''s Palolem beach. On the way, you stop and freshen up at Karwar, and have your breakfast.\r\nUpon arrival at Palolem, exploration of the coast begins from trekking along the Kanika islands and wading across a small stream in crystal clear waters. Few cliffs after,  you will bear witness to the crystal clear beaches from an aerial perspective. In the afternoon you would head back to Palolem beach and relax in one of the beach cafes where you would also be served your lunch. Just as the sun starts becoming pleasant,', '<ul><li>Meals<br></li><li>Transport<br></li><li>Pick-Up &amp; Drop<br></li><li>Instructor from BMC</li></ul>', '<ul><li>Personal medication (if any)<br></li><li>Sweaters (Suggested)<br></li><li>Strong backpack (Preferably waterproof)</li></ul>', '', '', '', '', '', '', '<br><div><ul><li>If cancellations are made 30 days before the start date of the trip, 50% of total tour cost will be charged as cancellation fees.</li><li>If cancellations are made within 0-30 days before the start date of the trip, 100% of total tour cos', '<ul><li>The customer receives a confirmation voucher via email within 24 hours of successful booking</li><li>The customer receives a confirmation voucher via email within 24 hours of successful booking</li><li>Alternatively, the customer may choose to can', '<ul><li>The applicable refund amount will be processed within 10 business days</li></ul>', '', '', 25, 1, 3, 1, 0, 1, 2, 0, 0, NULL, '0000-00-00 00:00:00', 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, '2018-08-01 02:37:45', 0, '0000-00-00 00:00:00', 0),
-(2, 'TRIP00002', 3, 6, 'South Goa From Bangalore', '', '1533090838_01.jpg', 1, '', 0, 2, 2, 0, 1200, 1000, 0, 2, 2, 1, 3, 0, 0, 'First of its kind, this tour is made up of a chance at camping on the beach, a trek in the jungles of South Goa''s coast, serene views of the shore from the waters along with the feeling of tranquility in one of the offbeat and isolated beaches of Goa. \r\nAfter boarding the transfer vehicle on Day 0, you will drive towards South Goa''s Palolem beach. On the way, you stop and freshen up at Karwar, and have your breakfast.\r\nUpon arrival at Palolem, exploration of the coast begins from trekking along the Kanika islands and wading across a small stream in crystal clear waters. Few cliffs after,  you will bear witness to the crystal clear beaches from an aerial perspective. In the afternoon you would head back to Palolem beach and relax in one of the beach cafes where you would also be served your lunch. Just as the sun starts becoming pleasant,', '<ul><li>Meals<br></li><li>Transport<br></li><li>Pick-Up &amp; Drop<br></li><li>Instructor from BMC</li></ul>', '<ul><li>Personal medication (if any)<br></li><li>Sweaters (Suggested)<br></li><li>Strong backpack (Preferably waterproof)</li></ul>', '', '', '', '', '', '', '<br><div><ul><li>If cancellations are made 30 days before the start date of the trip, 50% of total tour cost will be charged as cancellation fees.</li><li>If cancellations are made within 0-30 days before the start date of the trip, 100% of total tour cos', '<ul><li>The customer receives a confirmation voucher via email within 24 hours of successful booking</li><li>The customer receives a confirmation voucher via email within 24 hours of successful booking</li><li>Alternatively, the customer may choose to can', '<ul><li>The applicable refund amount will be processed within 10 business days</li></ul>', '', '', 25, 1, 3, 1, 0, 1, 2, 0, 0, NULL, '0000-00-00 00:00:00', 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, '2018-08-01 02:37:45', 0, '0000-00-00 00:00:00', 0),
-(3, 'TRIP00003', 3, 6, 'South Goa From Bangalore3', '', '1533090838_01.jpg', 0, '', 0, 2, 2, 0, 500, 300, 100, 1, 0, 0, 0, 2, 1, 'First of its kind, this tour is made up of a chance at camping on the beach, a trek in the jungles of South Goa''s coast, serene views of the shore from the waters along with the feeling of tranquility in one of the offbeat and isolated beaches of Goa. \r\nAfter boarding the transfer vehicle on Day 0, you will drive towards South Goa''s Palolem beach. On the way, you stop and freshen up at Karwar, and have your breakfast.\r\nUpon arrival at Palolem, exploration of the coast begins from trekking along the Kanika islands and wading across a small stream in crystal clear waters. Few cliffs after,  you will bear witness to the crystal clear beaches from an aerial perspective. In the afternoon you would head back to Palolem beach and relax in one of the beach cafes where you would also be served your lunch. Just as the sun starts becoming pleasant,', '<ul><li>Meals<br></li><li>Transport<br></li><li>Pick-Up &amp; Drop<br></li><li>Instructor from BMC</li></ul>', '<ul><li>Personal medication (if any)<br></li><li>Sweaters (Suggested)<br></li><li>Strong backpack (Preferably waterproof)</li></ul>', '', 'Veg', 'All include', '', '', '', '<br><div><ul><li>If cancellations are made 30 days before the start date of the trip, 50% of total tour cost will be charged as cancellation fees.</li><li>If cancellations are made within 0-30 days before the start date of the trip, 100% of total tour cos', '<ul><li>The customer receives a confirmation voucher via email within 24 hours of successful booking</li><li>The customer receives a confirmation voucher via email within 24 hours of successful booking</li><li>Alternatively, the customer may choose to can', '<ul><li>The applicable refund amount will be processed within 10 business days</li></ul>', 'Goa Airport', '07:00 AM', 10, 1, 2, 1, 0, 1, 2, 0, 0, NULL, '0000-00-00 00:00:00', 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, '2018-08-01 02:37:45', 0, '0000-00-00 00:00:00', 0),
-(4, 'TRIP00004', 4, 6, 'South Goa From Bangalore vendor2', '', '1533090838_01.jpg', 0, '', 0, 2, 2, 0, 500, 300, 100, 1, 0, 0, 0, 2, 1, 'First of its kind, this tour is made up of a chance at camping on the beach, a trek in the jungles of South Goa''s coast, serene views of the shore from the waters along with the feeling of tranquility in one of the offbeat and isolated beaches of Goa. \r\nAfter boarding the transfer vehicle on Day 0, you will drive towards South Goa''s Palolem beach. On the way, you stop and freshen up at Karwar, and have your breakfast.\r\nUpon arrival at Palolem, exploration of the coast begins from trekking along the Kanika islands and wading across a small stream in crystal clear waters. Few cliffs after,  you will bear witness to the crystal clear beaches from an aerial perspective. In the afternoon you would head back to Palolem beach and relax in one of the beach cafes where you would also be served your lunch. Just as the sun starts becoming pleasant,', '<ul><li>Meals<br></li><li>Transport<br></li><li>Pick-Up &amp; Drop<br></li><li>Instructor from BMC</li></ul>', '<ul><li>Personal medication (if any)<br></li><li>Sweaters (Suggested)<br></li><li>Strong backpack (Preferably waterproof)</li></ul>', '', 'Veg', 'All include', '', '', '', '<br><div><ul><li>If cancellations are made 30 days before the start date of the trip, 50% of total tour cost will be charged as cancellation fees.</li><li>If cancellations are made within 0-30 days before the start date of the trip, 100% of total tour cos', '<ul><li>The customer receives a confirmation voucher via email within 24 hours of successful booking</li><li>The customer receives a confirmation voucher via email within 24 hours of successful booking</li><li>Alternatively, the customer may choose to can', '<ul><li>The applicable refund amount will be processed within 10 business days</li></ul>', 'Goa Airport', '07:00 AM', 10, 1, 2, 1, 0, 1, 2, 0, 0, NULL, '0000-00-00 00:00:00', 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, '2018-08-01 02:37:45', 0, '0000-00-00 00:00:00', 0),
-(5, 'TRIP00005', 4, 6, 'South Goa From Bangalore vendor2', '', '1533090838_01.jpg', 0, '', 0, 2, 2, 0, 1200, 1000, 0, 2, 2, 1, 3, 0, 0, 'First of its kind, this tour is made up of a chance at camping on the beach, a trek in the jungles of South Goa''s coast, serene views of the shore from the waters along with the feeling of tranquility in one of the offbeat and isolated beaches of Goa. \r\nAfter boarding the transfer vehicle on Day 0, you will drive towards South Goa''s Palolem beach. On the way, you stop and freshen up at Karwar, and have your breakfast.\r\nUpon arrival at Palolem, exploration of the coast begins from trekking along the Kanika islands and wading across a small stream in crystal clear waters. Few cliffs after,  you will bear witness to the crystal clear beaches from an aerial perspective. In the afternoon you would head back to Palolem beach and relax in one of the beach cafes where you would also be served your lunch. Just as the sun starts becoming pleasant,', '<ul><li>Meals<br></li><li>Transport<br></li><li>Pick-Up &amp; Drop<br></li><li>Instructor from BMC</li></ul>', '<ul><li>Personal medication (if any)<br></li><li>Sweaters (Suggested)<br></li><li>Strong backpack (Preferably waterproof)</li></ul>', '', '', '', '', '', '', '<br><div><ul><li>If cancellations are made 30 days before the start date of the trip, 50% of total tour cost will be charged as cancellation fees.</li><li>If cancellations are made within 0-30 days before the start date of the trip, 100% of total tour cos', '<ul><li>The customer receives a confirmation voucher via email within 24 hours of successful booking</li><li>The customer receives a confirmation voucher via email within 24 hours of successful booking</li><li>Alternatively, the customer may choose to can', '<ul><li>The applicable refund amount will be processed within 10 business days</li></ul>', '', '', 25, 1, 3, 1, 0, 1, 2, 0, 0, NULL, '0000-00-00 00:00:00', 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, '2018-08-01 02:37:45', 0, '0000-00-00 00:00:00', 0);
+INSERT INTO `trip_master` (`id`, `trip_code`, `user_id`, `trip_category_id`, `trip_name`, `trip_url`, `trip_img_name`, `parent_trip_id`, `address1`, `address2`, `city_id`, `state_id`, `country_id`, `price_to_adult`, `price_to_child`, `price_to_infan`, `trip_duration`, `how_many_days`, `how_many_nights`, `total_days`, `how_many_time`, `how_many_hours`, `brief_description`, `other_inclusions`, `exclusions`, `languages`, `meal`, `transport`, `things_to_carry`, `advisory`, `tour_type`, `cancellation_policy`, `confirmation_policy`, `refund_policy`, `meeting_point`, `meeting_time`, `no_of_traveller`, `no_of_min_booktraveller`, `no_of_max_booktraveller`, `status`, `is_terms_accpet`, `booking_cut_of_time_type`, `booking_cut_of_day`, `booking_cut_of_time`, `other_setting`, `other_from_date`, `other_to_date`, `other_no_of_traveller`, `other_no_of_min_booktraveller`, `other_no_of_max_booktraveller`, `other_price_to_adult`, `other_price_to_child`, `other_price_to_infan`, `is_shared`, `trip_shared_id`, `total_rating`, `total_booking`, `isactive`, `created_on`, `created_by`, `updated_on`, `updated_by`) VALUES
+(1, 'TRIP00001', 3, 6, 'Beach Camping In South Goa From Bangalore', '', '1533090838_01.jpg', 0, '', 0, 2, 2, 0, 1000, 800, 0, 2, 2, 1, 3, 0, 0, 'First of its kind, this tour is made up of a chance at camping on the beach, a trek in the jungles of South Goa''s coast, serene views of the shore from the waters along with the feeling of tranquility in one of the offbeat and isolated beaches of Goa. \r\nAfter boarding the transfer vehicle on Day 0, you will drive towards South Goa''s Palolem beach. On the way, you stop and freshen up at Karwar, and have your breakfast.\r\nUpon arrival at Palolem, exploration of the coast begins from trekking along the Kanika islands and wading across a small stream in crystal clear waters. Few cliffs after,  you will bear witness to the crystal clear beaches from an aerial perspective. In the afternoon you would head back to Palolem beach and relax in one of the beach cafes where you would also be served your lunch. Just as the sun starts becoming pleasant,', '<ul><li>Meals<br></li><li>Transport<br></li><li>Pick-Up &amp; Drop<br></li><li>Instructor from BMC</li></ul>', '<ul><li>Personal medication (if any)<br></li><li>Sweaters (Suggested)<br></li><li>Strong backpack (Preferably waterproof)</li></ul>', '', '', '', '', '', '', '<br><div><ul><li>If cancellations are made 30 days before the start date of the trip, 50% of total tour cost will be charged as cancellation fees.</li><li>If cancellations are made within 0-30 days before the start date of the trip, 100% of total tour cos', '<ul><li>The customer receives a confirmation voucher via email within 24 hours of successful booking</li><li>The customer receives a confirmation voucher via email within 24 hours of successful booking</li><li>Alternatively, the customer may choose to can', '<ul><li>The applicable refund amount will be processed within 10 business days</li></ul>', '', '', 25, 1, 3, 1, 0, 1, 2, 0, 0, NULL, '0000-00-00 00:00:00', 0, 0, 0, 0, 0, 0, 0, 0, 3.5, 0, 1, '2018-08-01 02:37:45', 0, '0000-00-00 00:00:00', 0),
+(2, 'TRIP00002', 3, 6, 'South Goa From Bangalore', '', '1533090838_01.jpg', 1, '', 0, 2, 2, 0, 1200, 1000, 0, 2, 2, 1, 3, 0, 0, 'First of its kind, this tour is made up of a chance at camping on the beach, a trek in the jungles of South Goa''s coast, serene views of the shore from the waters along with the feeling of tranquility in one of the offbeat and isolated beaches of Goa. \r\nAfter boarding the transfer vehicle on Day 0, you will drive towards South Goa''s Palolem beach. On the way, you stop and freshen up at Karwar, and have your breakfast.\r\nUpon arrival at Palolem, exploration of the coast begins from trekking along the Kanika islands and wading across a small stream in crystal clear waters. Few cliffs after,  you will bear witness to the crystal clear beaches from an aerial perspective. In the afternoon you would head back to Palolem beach and relax in one of the beach cafes where you would also be served your lunch. Just as the sun starts becoming pleasant,', '<ul><li>Meals<br></li><li>Transport<br></li><li>Pick-Up &amp; Drop<br></li><li>Instructor from BMC</li></ul>', '<ul><li>Personal medication (if any)<br></li><li>Sweaters (Suggested)<br></li><li>Strong backpack (Preferably waterproof)</li></ul>', '', '', '', '', '', '', '<br><div><ul><li>If cancellations are made 30 days before the start date of the trip, 50% of total tour cost will be charged as cancellation fees.</li><li>If cancellations are made within 0-30 days before the start date of the trip, 100% of total tour cos', '<ul><li>The customer receives a confirmation voucher via email within 24 hours of successful booking</li><li>The customer receives a confirmation voucher via email within 24 hours of successful booking</li><li>Alternatively, the customer may choose to can', '<ul><li>The applicable refund amount will be processed within 10 business days</li></ul>', '', '', 25, 1, 3, 1, 0, 1, 2, 0, 0, NULL, '0000-00-00 00:00:00', 0, 0, 0, 0, 0, 0, 0, 1, 4.5, 1, 1, '2018-08-01 02:37:45', 0, '0000-00-00 00:00:00', 0),
+(3, 'TRIP00003', 3, 6, 'South Goa From Bangalore3', '', '1533090838_01.jpg', 0, '', 0, 2, 2, 0, 500, 300, 100, 1, 0, 0, 0, 2, 1, 'First of its kind, this tour is made up of a chance at camping on the beach, a trek in the jungles of South Goa''s coast, serene views of the shore from the waters along with the feeling of tranquility in one of the offbeat and isolated beaches of Goa. \r\nAfter boarding the transfer vehicle on Day 0, you will drive towards South Goa''s Palolem beach. On the way, you stop and freshen up at Karwar, and have your breakfast.\r\nUpon arrival at Palolem, exploration of the coast begins from trekking along the Kanika islands and wading across a small stream in crystal clear waters. Few cliffs after,  you will bear witness to the crystal clear beaches from an aerial perspective. In the afternoon you would head back to Palolem beach and relax in one of the beach cafes where you would also be served your lunch. Just as the sun starts becoming pleasant,', '<ul><li>Meals<br></li><li>Transport<br></li><li>Pick-Up &amp; Drop<br></li><li>Instructor from BMC</li></ul>', '<ul><li>Personal medication (if any)<br></li><li>Sweaters (Suggested)<br></li><li>Strong backpack (Preferably waterproof)</li></ul>', '', 'Veg', 'All include', '', '', '', '<ul><li>If cancellations are made 30 days before the start date of the trip, 50% of total tour cost will be charged as cancellation fees.</li><li>If cancellations are made within 0-30 days before the start date of the trip, 100% of total tour cos  <ul><li', '<ul><li>The customer receives a confirmation voucher via email within 24 hours of successful booking</li><li>The customer receives a confirmation voucher via email within 24 hours of successful booking</li><li>Alternatively, the customer may choose to can', '<ul><li>The applicable refund amount will be processed within 10 business days</li></ul>', 'Goa Airport', '07:00 AM', 10, 1, 2, 1, 0, 1, 2, 0, 0, NULL, '0000-00-00 00:00:00', 0, 0, 0, 0, 0, 0, 0, 0, 0.0, 0, 1, '2018-08-01 02:37:45', 0, '0000-00-00 00:00:00', 0),
+(4, 'TRIP00004', 4, 6, 'South Goa From Bangalore vendor2', '', '1533090838_01.jpg', 0, '', 0, 2, 2, 0, 500, 300, 100, 1, 0, 0, 0, 2, 1, 'First of its kind, this tour is made up of a chance at camping on the beach, a trek in the jungles of South Goa''s coast, serene views of the shore from the waters along with the feeling of tranquility in one of the offbeat and isolated beaches of Goa. \r\nAfter boarding the transfer vehicle on Day 0, you will drive towards South Goa''s Palolem beach. On the way, you stop and freshen up at Karwar, and have your breakfast.\r\nUpon arrival at Palolem, exploration of the coast begins from trekking along the Kanika islands and wading across a small stream in crystal clear waters. Few cliffs after,  you will bear witness to the crystal clear beaches from an aerial perspective. In the afternoon you would head back to Palolem beach and relax in one of the beach cafes where you would also be served your lunch. Just as the sun starts becoming pleasant,', '<ul><li>Meals<br></li><li>Transport<br></li><li>Pick-Up &amp; Drop<br></li><li>Instructor from BMC</li></ul>', '<ul><li>Personal medication (if any)<br></li><li>Sweaters (Suggested)<br></li><li>Strong backpack (Preferably waterproof)</li></ul>', '', 'Veg', 'All include', '', '', '', '<br><div><ul><li>If cancellations are made 30 days before the start date of the trip, 50% of total tour cost will be charged as cancellation fees.</li><li>If cancellations are made within 0-30 days before the start date of the trip, 100% of total tour cos', '<ul><li>The customer receives a confirmation voucher via email within 24 hours of successful booking</li><li>The customer receives a confirmation voucher via email within 24 hours of successful booking</li><li>Alternatively, the customer may choose to can', '<ul><li>The applicable refund amount will be processed within 10 business days</li></ul>', 'Goa Airport', '07:00 AM', 10, 1, 2, 1, 0, 1, 2, 0, 0, NULL, '0000-00-00 00:00:00', 0, 0, 0, 0, 0, 0, 0, 0, 0.0, 0, 1, '2018-08-01 02:37:45', 0, '0000-00-00 00:00:00', 0),
+(5, 'TRIP00005', 4, 1, 'South Goa From Bangalore vendor2', '', '1533090838_01.jpg', 0, '', 0, 2, 2, 0, 1200, 1000, 0, 2, 2, 1, 3, 0, 0, 'First of its kind, this tour is made up of a chance at camping on the beach, a trek in the jungles of South Goa''s coast, serene views of the shore from the waters along with the feeling of tranquility in one of the offbeat and isolated beaches of Goa. \r\nAfter boarding the transfer vehicle on Day 0, you will drive towards South Goa''s Palolem beach. On the way, you stop and freshen up at Karwar, and have your breakfast.\r\nUpon arrival at Palolem, exploration of the coast begins from trekking along the Kanika islands and wading across a small stream in crystal clear waters. Few cliffs after,  you will bear witness to the crystal clear beaches from an aerial perspective. In the afternoon you would head back to Palolem beach and relax in one of the beach cafes where you would also be served your lunch. Just as the sun starts becoming pleasant,', '<ul><li>Meals<br></li><li>Transport<br></li><li>Pick-Up &amp; Drop<br></li><li>Instructor from BMC</li></ul>', '<ul><li>Personal medication (if any)<br></li><li>Sweaters (Suggested)<br></li><li>Strong backpack (Preferably waterproof)</li></ul>', '', '', '', '', '', '', '<br><div><ul><li>If cancellations are made 30 days before the start date of the trip, 50% of total tour cost will be charged as cancellation fees.</li><li>If cancellations are made within 0-30 days before the start date of the trip, 100% of total tour cos', '<ul><li>The customer receives a confirmation voucher via email within 24 hours of successful booking</li><li>The customer receives a confirmation voucher via email within 24 hours of successful booking</li><li>Alternatively, the customer may choose to can', '<ul><li>The applicable refund amount will be processed within 10 business days</li></ul>', '', '', 25, 1, 3, 1, 0, 1, 2, 0, 0, NULL, '0000-00-00 00:00:00', 0, 0, 0, 0, 0, 0, 0, 0, 0.0, 0, 1, '2018-08-01 02:37:45', 0, '0000-00-00 00:00:00', 0);
 
 -- --------------------------------------------------------
 
@@ -682,6 +692,38 @@ CREATE TABLE IF NOT EXISTS `trip_shared` (
   `status` int(1) NOT NULL COMMENT '1 - Pendding, 2- approved, 3 - cancelled',
   `isactive` int(1) NOT NULL DEFAULT '1'
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `trip_specific_day`
+--
+
+CREATE TABLE IF NOT EXISTS `trip_specific_day` (
+  `id` int(11) NOT NULL,
+  `trip_id` int(11) NOT NULL,
+  `type` tinyint(2) NOT NULL DEFAULT '0' COMMENT '1 - Set Offer Specific Day, 2 - Set Trip Close Specific Day',
+  `title` varchar(250) NOT NULL,
+  `from_date` date NOT NULL,
+  `to_date` date NOT NULL,
+  `no_of_traveller` int(5) NOT NULL,
+  `no_of_min_booktraveller` int(5) NOT NULL,
+  `no_of_max_booktraveller` int(5) NOT NULL,
+  `offer_type` int(2) NOT NULL DEFAULT '0' COMMENT '1 - Fixed / 2 -Percentage',
+  `price_to_adult` float(8,2) NOT NULL,
+  `price_to_child` float(8,2) NOT NULL,
+  `price_to_infan` float(8,2) NOT NULL,
+  `isactive` tinyint(1) NOT NULL DEFAULT '1'
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `trip_specific_day`
+--
+
+INSERT INTO `trip_specific_day` (`id`, `trip_id`, `type`, `title`, `from_date`, `to_date`, `no_of_traveller`, `no_of_min_booktraveller`, `no_of_max_booktraveller`, `offer_type`, `price_to_adult`, `price_to_child`, `price_to_infan`, `isactive`) VALUES
+(1, 1, 2, 'For rain due', '2018-08-17', '2018-08-24', 0, 0, 0, 0, 0.00, 0.00, 0.00, 0),
+(2, 1, 1, 'Dwali offer', '2018-08-17', '2018-08-31', 50, 1, 5, 1, 1100.00, 900.00, 0.00, 1),
+(3, 2, 1, 'Dwali offer', '2018-08-17', '2018-08-31', 0, 0, 0, 2, 10.00, 10.00, 10.00, 1);
 
 -- --------------------------------------------------------
 
@@ -985,6 +1027,12 @@ ALTER TABLE `trip_shared`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indexes for table `trip_specific_day`
+--
+ALTER TABLE `trip_specific_day`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `trip_tags`
 --
 ALTER TABLE `trip_tags`
@@ -1033,7 +1081,7 @@ ALTER TABLE `account_info`
 -- AUTO_INCREMENT for table `city_master`
 --
 ALTER TABLE `city_master`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=7;
 --
 -- AUTO_INCREMENT for table `contact_us`
 --
@@ -1048,12 +1096,12 @@ ALTER TABLE `country_master`
 -- AUTO_INCREMENT for table `coupon_code_master`
 --
 ALTER TABLE `coupon_code_master`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=6;
 --
 -- AUTO_INCREMENT for table `coupon_code_master_history`
 --
 ALTER TABLE `coupon_code_master_history`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=6;
 --
 -- AUTO_INCREMENT for table `faq_master`
 --
@@ -1088,17 +1136,17 @@ ALTER TABLE `state_master`
 -- AUTO_INCREMENT for table `trip_avilable`
 --
 ALTER TABLE `trip_avilable`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=3;
 --
 -- AUTO_INCREMENT for table `trip_book_pay`
 --
 ALTER TABLE `trip_book_pay`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=9;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=2;
 --
 -- AUTO_INCREMENT for table `trip_book_pay_details`
 --
 ALTER TABLE `trip_book_pay_details`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=16;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=4;
 --
 -- AUTO_INCREMENT for table `trip_category`
 --
@@ -1139,6 +1187,11 @@ ALTER TABLE `trip_master`
 --
 ALTER TABLE `trip_shared`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT for table `trip_specific_day`
+--
+ALTER TABLE `trip_specific_day`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=4;
 --
 -- AUTO_INCREMENT for table `trip_tags`
 --
