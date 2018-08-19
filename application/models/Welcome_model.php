@@ -26,16 +26,6 @@ class Welcome_model extends CI_Model {
         return $query->result_array();
     }
 
-//    function get_tripbooking_list($where,$limit='') {
-//        $this->db->select('tm.id AS id,tm.total_booking,um.user_fullname AS user_fullname,tm.no_of_traveller AS no_of_traveller,tm.created_on AS created_on,tm.isactive AS isactive,tm.trip_name AS trip_name,tm.price_to_adult AS price_to_adult,tm.status AS status,tm.total_booking');
-//        $this->db->from('trip_master AS tm');
-//        $this->db->join('user_master AS um', 'tm.user_id = um.id', 'INNER');
-//        $this->db->where($where);
-//        if($limit!=''){$this->db->limit($limit);}
-//        $query = $this->db->get();
-//        return $query->result_array();
-//    }
-
     function get_tripbooking_list($where,$limit='') {
         $this->db->select('tm.id AS id,tp.booked_on AS booked_on ,um.user_fullname AS user_fullname,tp.number_of_persons,tm.created_on AS created_on,tm.isactive AS isactive,tm.trip_name AS trip_name,tm.price_to_adult AS price_to_adult,tm.status AS status,tm.total_booking');
         $this->db->from('trip_book_pay AS tp');
@@ -45,6 +35,38 @@ class Welcome_model extends CI_Model {
         if($limit!=''){$this->db->limit($limit);}
         $query = $this->db->get();
         return $query->result_array();
+    }
+	
+	function faq_list($limit, $start,$faq_search) {
+        $this->db->select()->from('faq_master');
+        $this->db->like('question',$faq_search);
+        $this->db->limit($limit, $start);
+        $query = $this->db->get();
+        return $query->result_array();
+    }
+
+    function faq_count($faq_search) {
+        $this->db->select()->from('faq_master');
+        $this->db->like('question',$faq_search);
+        $query = $this->db->get();
+        return $query->num_rows();
+    }
+	
+	function faq_insert($data) {
+        $this->db->insert('faq_master', $data);
+        return $this->db->insert_id();
+    }
+
+    function faq_detail($data) {
+        $this->db->select()->from('faq_master')->where($data);
+        $query = $this->db->get();
+        return $query->first_row('array');
+    }
+
+    function faq_update($data, $where) {
+        $this->db->where($where);
+        $this->db->update('faq_master', $data);
+        return $this->db->affected_rows();
     }
 
 }

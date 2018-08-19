@@ -386,6 +386,8 @@
 <?php if($url=='faq'){?>
     <script type="text/javascript" src="<?php echo base_url()?>assets/js/bootstrap3-wysihtml5.min.js"></script>
     <script type="text/javascript" src="<?php echo base_url()?>assets/js/customs-dashboard-guide-info.js"></script>
+	    <script type="text/javascript" src="<?php echo base_url()?>assets-customs/js/faq.js"></script>
+
 <?php }?>
 <?php if($url=='tag-master'){?>
     <script type="text/javascript" src="<?php echo base_url()?>assets-customs/js/master-tag-validation.js"></script>
@@ -411,6 +413,7 @@
     
     <script>//$(document).ready(function(){MasterValidation.init();});</script>
 <?php }?>
+
 <?php if($url=='triplist'){?>
     <script type="text/javascript" src="<?php echo base_url()?>assets-customs/js/triplist.js"></script>
     
