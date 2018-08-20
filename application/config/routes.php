@@ -72,7 +72,15 @@ $route['my-wishlist'] = 'Loginview/my_wish_list';
 //common to All
 $route['about-us'] = 'welcome/about_us';
 $route['contact-us'] = 'welcome/contact_us';
-$route['faq'] = 'welcome/faq';
+//$route['faq'] = 'welcome/faq';
+
+$route['faq/add'] = 'welcome/faq_add';
+$route['faq/loadmodal/(:any)'] = 'welcome/loadmodal/$1';
+$route['faq/edit'] = 'welcome/faq_edit';
+$route['faq/save-edit'] = 'welcome/faq_save_edit';
+$route['faq/(:any)'] = 'welcome/faq_list/$1';
+$route['faq'] = 'welcome/faq_list';
+
 
 
 //PNR STATUS

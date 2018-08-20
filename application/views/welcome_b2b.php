@@ -264,12 +264,8 @@
 						}
 					}
 					?>
-
                     </div>
-
                     <div class="tab-pane fade" id="tab-style-01-02">
-
-
                         <div class="tab-inner">
                             <span class="text-right col-xs-12">
                                 <a href="booking-wise-reports">View All<i class="ion-android-arrow-forward"></i></a></span>
