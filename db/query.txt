@@ -70,3 +70,12 @@ ALTER TABLE `trip_specific_day`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 ALTER TABLE `trip_specific_day` ADD `title` VARCHAR(250) NOT NULL AFTER `type`;
+ALTER TABLE `my_transaction` CHANGE `pnr_no` `pnr_no` VARCHAR(150) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL;
+ALTER TABLE `my_transaction` ADD `from_userid` INT NOT NULL DEFAULT '0' AFTER `pnr_no`;
+ALTER TABLE `my_transaction` CHANGE `transaction_short_details` `transaction_notes` TEXT CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL;
+ALTER TABLE `my_transaction` ADD `withdrawal_notes` TEXT NOT NULL AFTER `withdrawal_request_amt`;
+ALTER TABLE `trip_book_pay` CHANGE `status` `status` INT(1) NOT NULL COMMENT '1 - Pendding, 2- booked, 3 - cancelled, 4 - confirmed';
+ALTER TABLE `trip_book_pay` CHANGE `status` `status` INT(1) NOT NULL COMMENT '1 - Pendding, 2- booked, 3 - cancelled, 4 - confirmed';
+ALTER TABLE `trip_master` ADD `view_to` INT(1) NULL COMMENT '1- Customer & Vendor,2-Vendor' AFTER `total_booking`;
+
+ALTER TABLE `trip_comment` ADD `created_on` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP AFTER `isactive`;

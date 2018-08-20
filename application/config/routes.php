@@ -177,3 +177,7 @@ $route['getalltags'] = 'trips/getalltags';
 $route['trip-list'] = 'trips/trip_list';
 $route['trip-calendar-view'] = 'trips/trip_calendar_view';
 $route['trip-view/(:any)'] = 'trips/trip_view/$1';
+
+$route['trip-book/(:any)'] = 'TripBookings/book_summary/$1';
+$route['trip-proceed/(:any)'] = 'TripBookings/book_proceed/$1';
+$route['tripbook-done/(:any)'] = 'TripBookings/book_done/$1';

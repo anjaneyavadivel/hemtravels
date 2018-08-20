@@ -32,8 +32,8 @@
                                                     }
                                                 ?>                                                
                                                 <div class="rating-item rating-item-lg mb-25">
-                                                    <input type="hidden" class="rating" data-filled="fa fa-star rating-rated" data-empty="fa fa-star-o" data-fractions="2" data-readonly value="4.5"/>
-                                                    <div class="rating-text"> <a href="#">(32 reviews)</a></div>
+                                                    <input type="hidden" class="rating" data-filled="fa fa-star rating-rated" data-empty="fa fa-star-o" data-fractions="2" data-readonly value="<?php echo isset($details['total_rating'])?>"/>
+                                                    <div class="rating-text"> <a href="#">(<?php echo $review_count; ?> reviews)</a></div>
                                                 </div>
                                                 <ul class="list-with-icon list-inline-block">
                                                     <li><i class="ion-android-done text-primary"></i>100% private</li>
@@ -51,9 +51,9 @@
                                     <div class="breadcrumb-wrapper text-left">
 
                                         <ol class="breadcrumb">
-                            <li><a href="#">Home</a></li>
-                            <li><a href="#">Trip</a></li>
-                            <li  class="active"><a href="#">View</a></li>
+                                            <li><a href="#">Home</a></li>
+
+                                            <li class="active">View</li>
                                         </ol>
 
                                     </div>
@@ -82,15 +82,19 @@
                                     <li>
                                         <a href="#detail-content-sticky-nav-03">Itinerary</a>
                                     </li>
+                                    <?php if(isset($galleries) && count(json_decode($galleries)) > 0) {?>
                                     <li>
                                         <a href="#detail-content-sticky-nav-02">Gallery</a>
                                     </li>
+                                    <?php } ?>
                                     <li>
                                         <a href="#detail-content-sticky-nav-04">Condition</a>
                                     </li>
+                                    <?php if(isset($all_reviews) && count($all_reviews) > 0) {?>
                                     <li>
                                         <a href="#detail-content-sticky-nav-05">Review</a>
                                     </li>
+                                    <?php } ?>
                                     <span class="add_fav">
                                         <i class="fav_list  font22 add_fav far fa-heart"></i>
                                     </span>
@@ -113,8 +117,6 @@
                             <div class="col-xs-12 col-sm-12 col-md-8">
 
                                 <div class="content-wrapper">
-
-
 
                                     <div id="detail-content-sticky-nav-01" >
 
@@ -235,6 +237,8 @@
                                                                     </div>                                                                
                                                                 </div>                                                            
                                                         <?php } ?>
+                                                        
+                                                        <?php if(isset($inclusions1) && count($inclusions)> 0){ ?>
 
                                                         <div class="row">
 
@@ -243,39 +247,38 @@
                                                                 <h3 class="font-lg mb-20">What's included?</h3>
 
                                                                 <ul class="list-yes-no">
-                                                                    <?php 
-                                                                      if(isset($inclusions) && count($inclusions)> 0){
-                                                                          foreach($inclusions as $v){
-                                                                              echo '<li>'.$v.'</li>';
-                                                                          }
-                                                                      }
+                                                                    <?php                                                                       
+                                                                        foreach($inclusions as $v){
+                                                                            echo '<li>'.$v.'</li>';
+                                                                        }                                                                      
                                                                     ?>
                                                                 </ul>
 
                                                             </div>   
-
+                                                       
                                                         </div>
-                                                        <?php if(isset($details['other_inclusions']) && !empty($details['other_inclusions'])) {?>
+                                                        <?php } ?>
+                                                        <?php if(isset($details1['other_inclusions']) && !empty($details['other_inclusions'])) {?>
                                                             <div class="row">
                                                                 <div class="col-xs-12 col-sm-6 mb-40">
 
                                                                 <h3 class="font-lg mb-20">Other Inclusions</h3>
 
                                                                 <ul class="list-yes-no">
-                                                                    <?php echo $details['other_inclusions'];?>
+                                                                    <?php echo html_entity_decode($details['other_inclusions']);?>
                                                                 </ul>
 
                                                             </div>
                                                             </div>
                                                         <?php } ?>
-                                                        <?php if(isset($details['exclusions']) && !empty($details['exclusions'])) {?>
+                                                        <?php if(isset($details1['exclusions']) && !empty($details['exclusions'])) {?>
                                                             <div class="row">
                                                                 <div class="col-xs-12 col-sm-6 mb-40">
 
                                                                     <h3 class="font-lg mb-20">What's excluded?</h3>
 
                                                                     <ul class="list-yes-no">
-                                                                        <?php echo $details['exclusions'];?>
+                                                                        <?php echo html_entity_decode($details['exclusions']);?>
                                                                     </ul>
 
                                                                 </div>
@@ -289,6 +292,7 @@
                                         </div>
                                     </div>
 
+                                    <?php if(isset($itineraries) && count($itineraries) > 0){ ?>
                                     <div id="detail-content-sticky-nav-03">
 
                                         <h2 class="font-lg">Itinerary</h2>
@@ -299,7 +303,7 @@
                                                 
                                                 <?php 
                                                 
-                                                if(isset($itineraries) && count($itineraries) > 0){
+                                                
                                                     $itiCnt = 1;
                                                     foreach($itineraries as $v){
                                                         echo '<div class="panel">
@@ -326,7 +330,7 @@
                                                         $itiCnt++;
                                                     }
                                                     
-                                                }?>
+                                                ?>
 
                                             </div>
 
@@ -336,9 +340,10 @@
                                         <div class="bb"></div>
                                         <div class="mb-25"></div>
 
-                                    </div>                                    
+                                    </div>     
+                                    <?php } ?>
                                     
-                                    <?php if(isset($galleries) && count($galleries) > 0) {?>
+                                    <?php if(isset($galleries) && count(json_decode($galleries)) > 0) {?>
                                         <div id="detail-content-sticky-nav-02" >
                                             <div class="row">
                                                 <div class="col-md-12">
@@ -363,7 +368,7 @@
                                                 <div class="row">                                                    
                                                     <div class="col-xs-12 col-sm-12 col-md-12">
                                                         <h4>Cancellation Policy</h4>
-                                                        <p class="font-lg"><?php echo isset($details['cancellation_policy'])?$details['cancellation_policy']:'';?></p>
+                                                        <p class="font-lg"><?php echo isset($details['cancellation_policy'])?html_entity_decode($details['cancellation_policy']):'';?></p>
                                                     </div>
                                                 </div>
                                             </div>
@@ -371,7 +376,7 @@
                                                 <div class="row">                                                    
                                                     <div class="col-xs-12 col-sm-12 col-md-12">
                                                         <h4>Confirmation Policy</h4>
-                                                        <p class="font-lg"><?php echo isset($details['confirmation_policy'])?$details['confirmation_policy']:'';?></p>
+                                                        <p class="font-lg"><?php echo isset($details['confirmation_policy'])?html_entity_decode($details['confirmation_policy']):'';?></p>
                                                     </div>
                                                 </div>
                                             </div>
@@ -379,7 +384,7 @@
                                                 <div class="row">
                                                     <div class="col-xs-12 col-sm-12 col-md-12">
                                                         <h4>Refund Policy</h4>
-                                                        <p class="font-lg"><?php echo isset($details['refund_policy'])?$details['refund_policy']:'';?></p>
+                                                        <p class="font-lg"><?php echo isset($details['refund_policy'])?html_entity_decode($details['refund_policy']):'';?></p>
                                                     </div>
                                                 </div>
                                             </div>
@@ -392,6 +397,7 @@
 
                                     </div>
 
+                                    <?php if(isset($all_reviews) && count($all_reviews) > 0) {?>
                                     <div id="detail-content-sticky-nav-05">
 
                                         <h2 class="font-lg">Review</h2>
@@ -407,12 +413,12 @@
                                                         <div class="GridLex-col-9_sm-8_xs-12_xss-12">
 
                                                             <div class="review-rating">
-                                                                <div class="number">4.5</div>
+                                                                <div class="number"><?php echo $details['total_rating'];?></div>
                                                                 <div class="rating-wrapper">
                                                                     <div class="rating-item rating-item-lg">
-                                                                        <input type="hidden" class="rating" data-filled="fa fa-star rating-rated" data-empty="fa fa-star-o" data-fractions="2" data-readonly value="4.5"/>
+                                                                        <input type="hidden" class="rating" data-filled="fa fa-star rating-rated" data-empty="fa fa-star-o" data-fractions="2" data-readonly value="<?php echo $details['total_rating'];?>"/>
                                                                     </div>
-                                                                    56 reviews
+                                                                    <?php echo $review_count; ?> reviews
                                                                 </div>
                                                             </div>
 
@@ -435,21 +441,19 @@
                                             <div class="review-content">
 
                                                 <ul class="review-list">
-
+                                                    <?php foreach($all_reviews as $v) { ?>
                                                     <li class="clearfix">
 
                                                         <div class="row">
 
                                                             <div class="col-xs-12 col-sm-4 col-md-3">
                                                                 <div class="review-header">
-                                                                    <h6>Antony Robert</h6>
-                                                                    <span class="review-date">10: 34 - Jan 25, 2017</span>
+                                                                    <h6><?php echo $v['user_fullname']?></h6>
+                                                                    <span class="review-date"><?php echo $v['review_date']?></span>
 
                                                                     <div class="rating-item">
-                                                                        <input type="hidden" class="rating" data-filled="fa fa-star" data-empty="fa fa-star-o" data-fractions="2" data-readonly value="3.5"/>
+                                                                        <input type="hidden" class="rating" data-filled="fa fa-star" data-empty="fa fa-star-o" data-fractions="2" data-readonly value="<?php echo $v['rating']?>"/>
                                                                     </div>
-                                                                    <a href="#" class="btn btn-primary">Reply</a>
-
                                                                 </div>
                                                             </div>
 
@@ -457,292 +461,18 @@
 
                                                                 <div class="review-content">
 
-                                                                    <h4>Over many our good lady feet ask that</h4>
-                                                                    <p>It as announcing it me stimulated frequently continuing. Least their she you now above going stand forth. He pretty future afraid should genius spirit on. Set property addition building put likewise get. Of will at sell well at as. Too want but tall nay like old. Removing yourself be in answered he.</p>
+                                                                    <h4> <?php echo $v['name'];?></h4>
+                                                                    <p> <?php echo $v['message'];?></p>
 
-                                                                </div>
-
-                                                                <div class="review-replied">
-
-                                                                    <div class="review-replied-header">
-
-                                                                        <div class="row">
-
-                                                                            <div class="col-xs-12 col-sm-8 col-md-9">
-                                                                                <h6>Khairoz Nadzri <small>owner of this tour</small></h6>
-                                                                                - <span class="review-date">10: 34 - Jan 25, 2017</span>
-                                                                            </div>
-
-                                                                            <div class="col-xs-12 col-sm-4 col-md-3 text-right text-left-xs">
-                                                                                <a href="#" class="btn btn-primary">Reply</a>
-                                                                            </div>
-
-                                                                        </div>
-
-                                                                    </div>
-
-                                                                    <div class="review-replied-content">
-
-                                                                        <h4>Least their she you now above</h4>
-                                                                        <p>Society excited by cottage private an it esteems. Fully begin on by wound an. Girl rich in do up or both. At declared in as rejoiced of together. He impression collecting delightful unpleasant by prosperous as on. End too talent she object mrs wanted remove giving.</p>
-
-                                                                    </div>
-
-                                                                </div>
-
-                                                                <div class="review-replied">
-
-                                                                    <div class="review-replied-header">
-
-                                                                        <div class="row">
-
-                                                                            <div class="col-xs-12 col-sm-8 col-md-9">
-                                                                                <h6>Khairoz Nadzri <small>owner of this tour</small></h6>
-                                                                                - <span class="review-date">10: 34 - Jan 25, 2017</span>
-                                                                            </div>
-
-                                                                            <div class="col-xs-12 col-sm-4 col-md-3 text-right text-left-xs">
-                                                                                <a href="#" class="btn btn-primary">Reply</a>
-                                                                            </div>
-
-                                                                        </div>
-
-                                                                    </div>
-
-                                                                    <div class="review-replied-content">
-
-                                                                        <h4>Weddings followed the all marianne</h4>
-                                                                        <p>Call why sake has sing pure. Gay six set polite nature worthy. So matter be me we wisdom should basket moment merely. Me burst ample wrong which would mr he could. Visit arise my point timed drawn.</p>
-
-                                                                    </div>
-
-                                                                </div>
-
-                                                                <a href="#" class="review-load-more">load more...</a>
+                                                                </div>         
 
                                                             </div>
 
                                                         </div>
 
                                                     </li>
-
-                                                    <li class="clearfix">
-
-                                                        <div class="row">
-
-                                                            <div class="col-xs-12 col-sm-4 col-md-3">
-                                                                <div class="review-header">
-                                                                    <h6>Édouard Manet</h6>
-                                                                    <span class="review-date">10: 34 - Jan 25, 2017</span>
-
-                                                                    <div class="rating-item">
-                                                                        <input type="hidden" class="rating" data-filled="fa fa-star" data-empty="fa fa-star-o" data-fractions="2" data-readonly value="3.5"/>
-                                                                    </div>
-
-                                                                </div>
-                                                            </div>
-
-                                                            <div class="col-xs-12 col-sm-8 col-md-9">
-
-                                                                <div class="review-content">
-
-                                                                    <h4>Least their she you now above</h4>
-                                                                    <p>Society excited by cottage private an it esteems. Fully begin on by wound an. Girl rich in do up or both. At declared in as rejoiced of together. He impression collecting delightful unpleasant by prosperous as on. End too talent she object mrs wanted remove giving.</p>
-                                                                    <p>Barton did feebly change man she afford square add. Want eyes by neat so just must. Past draw tall up face show rent oh mr. Required is debating extended wondered as do. New get described applauded incommode shameless out extremity but. Resembled at perpetual no believing is otherwise sportsman. Is do he dispatched cultivated travelling astonished. Melancholy am considered possession on collecting everything.</p>
-
-                                                                </div>
-
-                                                                <div class="review-replied">
-
-                                                                    <div class="review-replied-header">
-
-                                                                        <div class="row">
-
-                                                                            <div class="col-xs-12 col-sm-8 col-md-9">
-                                                                                <h6>Khairoz Nadzri <small>owner of this tour</small></h6>
-                                                                                - <span class="review-date">10: 34 - Jan 25, 2017</span>
-                                                                            </div>
-
-                                                                            <div class="col-xs-12 col-sm-4 col-md-3 text-right text-left-xs">
-                                                                                <a href="#" class="btn btn-primary">Reply</a>
-                                                                            </div>
-
-                                                                        </div>
-
-                                                                    </div>
-
-                                                                    <div class="review-replied-content">
-
-                                                                        <h4>Least their she you now above</h4>
-                                                                        <p>Society excited by cottage private an it esteems. Fully begin on by wound an. Girl rich in do up or both. At declared in as rejoiced of together. He impression collecting delightful unpleasant by prosperous as on. End too talent she object mrs wanted remove giving.</p>
-
-                                                                    </div>
-
-                                                                    <div class="review-replied">
-
-                                                                        <div class="review-replied-header">
-
-                                                                            <div class="row">
-
-                                                                                <div class="col-xs-12 col-sm-8 col-md-9">
-                                                                                    <h6>Antony Robert</h6>
-                                                                                    - <span class="review-date">10: 34 - Jan 25, 2017</span>
-                                                                                </div>
-
-                                                                                <div class="col-xs-12 col-sm-4 col-md-3 text-right text-left-xs">
-                                                                                    <a href="#" class="btn btn-primary">Reply</a>
-                                                                                </div>
-
-                                                                            </div>
-
-                                                                        </div>
-
-                                                                        <div class="review-replied-content">
-
-                                                                            <h4>Least their she you now above</h4>
-                                                                            <p>He impression collecting delightful unpleasant by prosperous as on. End too talent she object mrs wanted remove giving.</p>
-
-                                                                        </div>
-
-                                                                    </div>
-
-                                                                    <div class="review-replied">
-
-                                                                        <div class="review-replied-header">
-
-                                                                            <div class="row">
-
-                                                                                <div class="col-xs-12 col-sm-8 col-md-9">
-                                                                                    <h6>Antony Robert</h6>
-                                                                                    - <span class="review-date">10: 34 - Jan 25, 2017</span>
-                                                                                </div>
-
-                                                                                <div class="col-xs-12 col-sm-4 col-md-3 text-right text-left-xs">
-                                                                                    <a href="#" class="btn btn-primary">Reply</a>
-                                                                                </div>
-
-                                                                            </div>
-
-                                                                        </div>
-
-                                                                        <div class="review-replied-content">
-
-                                                                            <h4>Least their she you now above</h4>
-                                                                            <p>He impression collecting delightful unpleasant by prosperous as on. End too talent she object mrs wanted remove giving.</p>
-
-                                                                        </div>
-
-                                                                    </div>
-
-                                                                    <a href="#" class="review-load-more">load more...</a>
-
-                                                                </div>
-
-                                                            </div>
-
-                                                        </div>
-
-                                                    </li>
-
-                                                    <li class="clearfix">
-
-                                                        <div class="row">
-
-                                                            <div class="col-xs-12 col-sm-4 col-md-3">
-                                                                <div class="review-header">
-                                                                    <h6>Mohammed Salem </h6>
-                                                                    <span class="review-date">10: 34 - Jan 25, 2017</span>
-
-                                                                    <div class="rating-item">
-                                                                        <input type="hidden" class="rating" data-filled="fa fa-star" data-empty="fa fa-star-o" data-fractions="2" data-readonly value="3.5"/>
-                                                                    </div>
-
-                                                                </div>
-                                                            </div>
-
-                                                            <div class="col-xs-12 col-sm-8 col-md-9">
-
-                                                                <div class="review-content">
-
-                                                                    <h4>Over many our good lady feet ask that</h4>
-                                                                    <p>It as announcing it me stimulated frequently continuing. Least their she you now above going stand forth. He pretty future afraid should genius spirit on. Set property addition building put likewise get. Of will at sell well at as. Too want but tall nay like old. Removing yourself be in answered he.</p>
-
-                                                                    <ul>
-                                                                        <li>Written enquire painful ye to offices forming it.</li>
-                                                                        <li>
-                                                                            Then so does over sent dull on.
-                                                                            <ul>
-                                                                                <li>Rendered her for put improved concerns his. Moreover end horrible endeavor entrance any families. Income appear extent on of thrown in admire.</li>
-                                                                                <li>Ladies bed wisdom theirs mrs men months set.</li>
-                                                                                <li>Everything so dispatched as it increasing pianoforte.</li>
-                                                                            </ul>
-                                                                        </li>
-                                                                        <li>Likewise offended humoured mrs fat trifling answered.</li>
-                                                                        <li>On ye position greatest so desirous. So wound stood guest weeks no terms up ought.</li>
-                                                                        <li>Then so does greatest so desirous over sent dull on.</li>
-                                                                    </ul>
-
-                                                                    <p>Spot of come to ever hand as lady meet on. Delicate contempt received two yet advanced. Gentleman as belonging he commanded believing dejection in by. On no am winding chicken so behaved. Its preserved sex enjoyment new way behaviour. Him yet devonshire celebrated especially. Unfeeling one provision are smallness resembled repulsive.</p>
-
-                                                                    <ol>
-                                                                        <li>Written enquire painful ye to offices forming it.</li>
-                                                                        <li>
-                                                                            Then so does over sent dull on.
-                                                                            <ol>
-                                                                                <li>Rendered her for put improved concerns his. Moreover end horrible endeavor entrance any families. Income appear extent on of thrown in admire.</li>
-                                                                                <li>Ladies bed wisdom theirs mrs men months set.</li>
-                                                                                <li>Everything so dispatched as it increasing pianoforte.</li>
-                                                                            </ol>
-                                                                        </li>
-                                                                        <li>Likewise offended humoured mrs fat trifling answered.</li>
-                                                                        <li>On ye position greatest so desirous. So wound stood guest weeks no terms up ought.</li>
-                                                                        <li>Then so does greatest so desirous over sent dull on.</li>
-                                                                    </ol>
-
-                                                                    <p>Unpleasant astonished an diminution up partiality. Noisy an their of meant. Death means up civil do an offer wound of. Called square an in afraid direct. Resolution diminution conviction so mr at unpleasing simplicity no. No it as breakfast up conveying earnestly immediate principle. Him son disposed produced humoured overcame she bachelor improved. Studied however out wishing but inhabit fortune windows.</p>
-
-                                                                </div>
-
-                                                            </div>
-
-                                                        </div>
-
-                                                    </li>
-
-                                                    <li class="clearfix">
-
-                                                        <div class="row">
-
-                                                            <div class="col-xs-12 col-sm-4 col-md-3">
-                                                                <div class="review-header">
-                                                                    <h6>Antony Robert</h6>
-                                                                    <span class="review-date">10: 34 - Jan 25, 2017</span>
-
-                                                                    <div class="rating-item">
-                                                                        <input type="hidden" class="rating" data-filled="fa fa-star" data-empty="fa fa-star-o" data-fractions="2" data-readonly value="3.5"/>
-                                                                    </div>
-
-                                                                </div>
-                                                            </div>
-
-                                                            <div class="col-xs-12 col-sm-8 col-md-9">
-
-                                                                <div class="review-content">
-
-                                                                    <h4>Over many our good lady feet ask that</h4>
-                                                                    <p>It as announcing it me stimulated frequently continuing. Least their she you now above going stand forth. He pretty future afraid should genius spirit on. Set property addition building put likewise get. Of will at sell well at as. Too want but tall nay like old. Removing yourself be in answered he.</p>
-
-                                                                </div>
-
-                                                            </div>
-
-                                                        </div>
-
-                                                    </li>
-
-                                                </ul>
-
-                                                <a href="#" class="review-load-more mb-40">load more...</a>
+                                                    <?php } ?>
+                                                </ul>                
 
                                             </div>
                                             <?php if($this->session->userdata('user_type') == 'CU') {?>
@@ -810,10 +540,11 @@
                                         </div>
 
                                     </div>
-
+                                    <?php } ?>
                                 </div>
 
                             </div>
+                            
                             
                                 <div id="sidebar-sticky" class="col-xs-12 col-sm-12 col-md-4 sticky-mt-70 sticky-mb-0">
                                     
@@ -834,20 +565,20 @@
                                             </div>
 
                                             <div class="sidebar-booking-inner">
-                                                <?php echo form_open_multipart('#', array('class' => 'form-horizontal margin-top-30', 'id' => 'trip_booking')); ?>
+                                                <?php echo form_open_multipart('#', array('class' => 'trip-view', 'id' => 'trip_booking')); ?>
                                                     <div class="row gap-10" id="rangeDatePicker">
 
                                                         <div class="col-xss-12 col-xs-6 col-sm-6">
                                                             <div class="form-group">
                                                                 <label>From</label>
-                                                                <input type="text" id="rangeDatePickerTo" name="booking_from_time" class="form-control" placeholder="M D, YYYY" />
+                                                                <input type="text" id="rangeDatePickerFrom" name="booking_from_time" class="form-control" placeholder="M D, YYYY" />
                                                             </div>
                                                         </div>
 
                                                         <div class="col-xss-12 col-xs-6 col-sm-6">
                                                             <div class="form-group">
                                                                 <label>To</label>
-                                                                <input type="text" id="rangeDatePickerFrom" name="booking_to_time" class="form-control" placeholder="M D, YYYY" />
+                                                                <input type="text" id="rangeDatePickerTo" name="booking_to_time" class="form-control" placeholder="M D, YYYY" />
                                                             </div>
                                                         </div>
 
@@ -886,7 +617,7 @@
 
                                                             <div class="form-group">
                                                                 <label>Location</label>
-                                                                <select class="selectpicker show-tick form-control" name="location" data-live-search="false">
+                                                                <select class="selectpicker show-tick form-control" id="location" name="location" data-live-search="false">
                                                                     <option value="">Select</option>
                                                                     <?php 
                                                                      if(isset($pickups) && count($pickups) > 0){
@@ -916,6 +647,8 @@
                                                         <p class="font-md text-muted font500 spacing-2">You won't yet be charged</p>
                                                     </div>
                                                     <input type="hidden" id="availableDays" value='<?php echo isset($available_days)?json_encode($available_days):"";?>'>
+                                                    <input type="hidden" id="cutoff_disable_days" value='<?php echo isset($cutoff_disable_days)?$cutoff_disable_days:"";?>'>
+                                                    <input type="hidden" id="tripCode" value='<?php echo isset($details['trip_code']) ?$details['trip_code']:''; ;?>'>
                                                 <?php echo form_close()?>
                                             </div>
 

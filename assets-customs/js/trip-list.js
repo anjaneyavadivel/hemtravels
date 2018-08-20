@@ -67,10 +67,10 @@ jQuery(function($) {
                         $.each(data.results, function (i, data) { 
                             if(data){
                                 
-                                var trip_duration = '<p style="margin-bottom: 0;"><i class="far fa-sun text-center"></i> '+data.how_many_days+' Days <span class="mh-5 text-muted">|</span><i class="far fa-moon text-center"></i> '+data.how_many_nights+' Nights</p>';
+                                var trip_duration = '<p style="margin-bottom: 0;"><i class="fa fa-sun-o text-center"></i> '+data.how_many_days+' Days <span class="mh-5 text-muted">|</span><i class="fa fa-moon-o text-center"></i> '+data.how_many_nights+' Nights</p>';
                                 
                                 if(data.how_many_hours > 0){
-                                    trip_duration = '<p style="margin-bottom: 0;"><i class="far fa-sun text-center"></i> '+data.how_many_hours+' Hours </p>';                                   
+                                    trip_duration = '<p style="margin-bottom: 0;"><i class="fa fa-sun-o text-center"></i> '+data.how_many_hours+' Hours </p>';                                   
                                 } 
                                 
                                 var status = data.status == '1'?'Open':'Closed';  
@@ -104,7 +104,7 @@ jQuery(function($) {
                                                     '<a href="'+base_url+'trips/update/'+data.trip_code+'" class="btn btn-info btn-sm">Edit</a>'+
                                                     '<a href="javascript:;" class="btn btn-danger btn-sm tripDelete" data-id="'+data.id+'">Delete</a>'+
                                                 '</div>'+
-                                                '<div class="trip-by pt-5"><a href="'+base_url+'trip-calendar-view"><span class="text-primary font22 font700 mb-1">15</span> Booking List</a></div>';
+                                                '<div class="trip-by pt-5"><a href="'+base_url+'trip-calendar-view"><span class="text-primary font22 font700 mb-1">'+data.total_booking+'</span> Booking List</a></div>';
                                 }
                                 
                                 result += '<div class="itinerary-list-item trip-list-item-data">'+

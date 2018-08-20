@@ -69,9 +69,48 @@ class Trip_model extends CI_Model
             $query=$this->db->get();
             return $query->result_array();
 	}
+        
+        function getSharedDetails($id)
+	{		
+            $this->db->select('ts.*,um.user_fullname')->from('trip_shared ts')
+                    ->join('user_master um','um.id = ts.user_id','left')->where(array('ts.trip_id'=>$id,'ts.isactive' => 1));
+            $query=$this->db->get();
+            
+            return $query->row_array();
+            
+	}
+        function getTotalReview($id)
+	{            
+            return $this->db->where(array('trip_id'=>$id,'isactive' => 1))->count_all_results('trip_comment');            
+	}
+	function getTripAllReviews($id)
+	{		
+            $this->db->select('ts.*,DATE_FORMAT(ts.created_on, "%h:%i %p - %b %m -%Y") as review_date,um.user_fullname')->from('trip_comment ts')
+                    ->join('user_master um','um.id = ts.user_id','left')->where(array('ts.trip_id'=>$id,'ts.isactive' => 1));
+            $query=$this->db->get();
+            
+            return $query->result_array();
+            
+	}
 	
-	
-	
+        function getCutoffDaysTime($date,$type,$days,$hours){
+            $disableDays = [];
+            if($type == 1){ //DAYS DISABLE
+               
+                for($i=1;$i<=$days;$i++){
+                    $fo_date = strtotime("+".$i." days", strtotime($date));
+                    $disableDays[$i-1] = date("Y-m-d", $fo_date);
+                }
+                
+            }else if($type == 2){ //HOURS DISABLE                
+                $currentTime = strtotime($date);
+                $fo_date     = strtotime("+".$hours." hours", strtotime($date));
+                $disableDays[0] = date("Y-m-d", $currentTime);
+                $disableDays[1] = date("Y-m-d", $fo_date);
+                
+            }
+            return json_encode($disableDays);
+        }
 	
 	
 }

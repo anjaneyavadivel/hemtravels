@@ -773,8 +773,9 @@ if (!function_exists('trip_book')) {
             }
             // booked user info
             
-            $whereData = array('isactive' => 1, 'id'=>$bookdata['book_user_id']);
-            $trip_list = selectTable('user_master', $whereData);
+            $whereData = array('id'=>$bookdata['book_user_id']);
+            $orWhereData = array('isactive' => 1, 'isactive' => 2);
+            $trip_list = selectTable('user_master', $whereData, $showField = array('*'), $orWhereData);
             if ($trip_list->num_rows() > 0) {
                $row = $trip_list->row();
                $customer_id = $row->id;

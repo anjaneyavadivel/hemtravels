@@ -6,7 +6,7 @@ jQuery(function($) {
     var gallery_images = $('#gallery_images').val();
     
     if(gallery_images != undefined && gallery_images != ''){
-        var gallJSON = $.parseJSON(gallery_images);console.log(gallJSON);
+        var gallJSON = $.parseJSON(gallery_images);
         var res = [];
         if(gallJSON.length > 0){
             for(var i=0;i<gallJSON.length;i++){
@@ -15,8 +15,6 @@ jQuery(function($) {
                 res1.alt     = $('#tripName').text();
                 res1.title   = gallJSON[i].file_name;
                 res1.caption = $('#tripName').text();
-                
-                console.log(res1);
                 
                 res[i] = res1;
             }
@@ -48,6 +46,14 @@ jQuery(function($) {
         
     }
     
+    //CUT OFF DAYS/HOURS DISABLE CALENDAR
+    var cutoff_disable_days = $('#cutoff_disable_days').val();
+    
+    if(cutoff_disable_days != undefined && cutoff_disable_days != ''){
+        cutoff_disable_days = $.parseJSON(cutoff_disable_days);
+    }
+    
+    
     $('#rangeDatePicker > div > div').dateRangePicker({
             separator : ' to ',
             autoClose: true,
@@ -66,12 +72,14 @@ jQuery(function($) {
             },
             setValue: function(s,s1,s2)
             {
-                    $('#rangeDatePickerTo').val(s1);
-                    $('#rangeDatePickerFrom').val(s2);
+                    $('#rangeDatePickerFrom').val(s1);
+                    $('#rangeDatePickerTo').val(s2);
             },
-            beforeShowDay: function(t){
+            beforeShowDay: function(t){ console.log(t);
                    // var valid = !(t.getDate() == 5 || t.getDate() == 17 || t.getDate() == 18 || t.getDate() == 19  || t.getDate() == 26 );
-                    var valid = $.inArray( t.getDay(), disableDays ) >= 0?false:true;
+                    
+                    var today = moment(t).format("YYYY-MM-DD");                   
+                    var valid = $.inArray( t.getDay(), disableDays ) >= 0 || $.inArray( today, cutoff_disable_days ) >= 0?false:true;
                     var _class = '';
                     var _tooltip = valid ? '' : 'not available';
                     return [valid,_class,_tooltip];
@@ -132,7 +140,68 @@ jQuery(function($) {
                 (!$('.no_of_children').val() || $('.no_of_children').val() == 0) &&
                 (!$('.no_of_infan').val() || $('.no_of_infan').val() == 0)){ //IF ANY ONE OF THE FILED SHOULD BE GREATER THAN ZERO
                   $('.book_traveller_missing').show();         
+            }else{
+                var trip_code = $('#tripCode').val();
+                var formData = new FormData();                
+                formData.append('from_date', $('#rangeDatePickerFrom').val());
+                formData.append('to_date', $('#rangeDatePickerTo').val());               
+                formData.append('no_of_adult', $('.no_of_adult').val());
+                formData.append('no_of_children', $('.no_of_children').val());
+                formData.append('no_of_infan', $('.no_of_infan').val());
+                formData.append('location', $('#location').val());                
+                formData.append('csrf_test_name', $.cookie('csrf_cookie_name'));
+               
+                $.ajax({
+                    type: "POST",
+                    url: base_url+'tripBookings/setBookingDetails',
+                    data: formData,
+                    contentType: false,       // The content type used when sending data to the server.
+                    cache: false,             // To unable request pages to be cached
+                    processData:false,   
+                    success: function (data)
+                    {
+                        if(data){
+                            window.location.href = base_url+'trip-book/'+trip_code;
+                        }else{
+                            location.reload();
+                        }
+                    }
+                });
             }
+        }
+    })
+    $('#payment_proceed').on('click',function(){
+        
+        $('.book_traveller_missing').hide();
+        if($('#trip_booking').valid() && $('#totalPrice').val() != ''&& $('#totalPrice').val() != undefined){ //FORM VALIDATION
+                
+                if((!$('.no_of_adult').val() || $('.no_of_adult').val() == 0) &&
+                (!$('.no_of_children').val() || $('.no_of_children').val() == 0) &&
+                (!$('.no_of_infan').val() || $('.no_of_infan').val() == 0)){ //IF ANY ONE OF THE FILED SHOULD BE GREATER THAN ZERO
+                  $('.book_traveller_missing').show();         
+            }else{
+                 var trip_code = $('#tripCode').val();
+                var formData = new FormData();                
+                formData.append('total_price', $('#totalPrice').val());                               
+                formData.append('csrf_test_name', $.cookie('csrf_cookie_name'));
+               
+                $.ajax({
+                    type: "POST",
+                    url: base_url+'tripBookings/setPaymentProceedDetails',
+                    data: formData,
+                    contentType: false,       // The content type used when sending data to the server.
+                    cache: false,             // To unable request pages to be cached
+                    processData:false,   
+                    success: function (data)
+                    {
+                        if(data){
+                            window.location.href = base_url+'trip-proceed/'+trip_code;
+                        }else{
+                            location.reload();
+                        }
+                    }
+                });
+        }
         }
     })
 });

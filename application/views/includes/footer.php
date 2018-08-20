@@ -462,7 +462,7 @@
 		<script src="<?php echo base_url()?>assets/js/jquery.magnific-popup.js"></script>
 		<script src="<?php echo base_url()?>assets/js/timetable.js"></script>
 <?php }?>
-     <?php if($url=='trip-view'){?>           
+     <?php if($url=='trip-view' || $url =='trip-book'){?>           
                 <script type="text/javascript" src="<?php echo base_url()?>assets/js/jquery.stickit.js"></script>
         <script type="text/javascript" src="<?php echo base_url()?>assets/js/bootstrap-tokenfield.js"></script>
         <script type="text/javascript" src="<?php echo base_url()?>assets/js/typeahead.bundle.min.js"></script>
@@ -594,7 +594,9 @@
             });
         </script>
         <?php }?>
+        
+ <?php if($url =='trip-proceed'){?> 
+<script type="text/javascript" src="<?php echo base_url()?>assets-customs/js/trip-payment.js"></script>
+ <?php } ?>
 </body>
-
-
 </html>

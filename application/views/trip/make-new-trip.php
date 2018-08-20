@@ -183,25 +183,19 @@
                                                     </div>
 
                                                 </div>
-                                                
                                                 <div class="col-xs-12 col-sm-12">
-
-                                                    <div class="form-group">
+                                                    <div class="form-group form-group-lg">
                                                         <label>Languages:</label>
-                                                        <textarea name="languages" class="bootstrap3-wysihtml5 form-control" rows="5"></textarea>
+                                                        <input name="languages" type="text" class="form-control" placeholder="Enter the languages"/>
                                                     </div>
-
                                                 </div>
                                                 
                                                 <div class="col-xs-12 col-sm-12">
-
-                                                    <div class="form-group">
+                                                    <div class="form-group form-group-lg">
                                                         <label>Meal:</label>
-                                                        <textarea name="meal" class="bootstrap3-wysihtml5 form-control" rows="5"></textarea>
+                                                        <input name="meal" type="text" class="form-control" placeholder="Enter the meals"/>
                                                     </div>
-
                                                 </div>
-                                                
                                                 <div class="col-xs-12 col-sm-12">
 
                                                     <div class="form-group">
@@ -656,112 +650,20 @@
                                                         </div>
 
                                                 </div>
+                                                <div class="col-xs-12 col-sm-12 col-md-12">
+                                                    <label>Trip View to</label>
+                                                    <div class="radio-block">
+                                                        <input  id="view_type_1" name="view_to" type="radio" class="radio" value="1" checked/>
+                                                        <label class="" for="view_type_1">Vendor and Customer</label>
+                                                    </div>				
+                                                    <div class="radio-block">
+                                                        <input  id="view_type_2" name="view_to" type="radio" class="radio" value="2"/>
+                                                        <label class="" for="view_type_2">Vendor Only</label>
+                                                    </div>
+                                                </div>
                                             </div>
 <div class="mb-30"></div>
-                                            <h4 class="section-title">Other Setting</h4>
-                                            <p>It's optional, You can set specific day offer or Close Trip</p>
-                                            <div class="row gap-20">
-                                                <div class="col-xs-12 col-sm-4 col-md-4">
-
-                                                    <div class="form-group">
-                                                        <label>Other Setting Type:</label>
-                                                        <select class="selectpicker show-tick form-control" name="other_setting" title="Select placeholder">
-                                                            <option value="">Select a type</option>
-                                                            <option value="0">Set Offer Specific Day</option>
-                                                            <option value="1">Set Trip Close Specific Day</option>
-                                                        </select>
-                                                    </div>
-
-                                                </div>
-                                                <div class="col-xs-12 col-sm-4 col-md-4">
-                                                <div class="form-group" id="rangeDatePicker">
-                                                    <div class="pl-30 col-xss-12 col-xs-6 col-sm-6">
-                                                        <div class="form-group">
-                                                            <label>From</label>
-                                                            <input type="text" name="other_from_date" id="rangeDatePickerTo" class="form-control" placeholder="M D, YYYY" />
-                                                        </div>
-                                                    </div>
-
-                                                    <div class="pl-30 col-xss-12 col-xs-6 col-sm-6">
-                                                        <div class="form-group">
-                                                            <label>To</label>
-                                                            <input type="text" name="other_to_date" id="rangeDatePickerFrom" class="form-control" placeholder="M D, YYYY" />
-                                                        </div>
-                                                    </div> 
-                                                </div>
-
-                                            </div>
-<!--                                                <div class="row gap-10" id="rangeDatePicker">
-									
-                                                                <div class="col-xss-12 col-xs-3 col-sm-3">
-                                                                        <div class="form-group">
-                                                                                <label>From</label>
-                                                                                <input type="text" id="rangeDatePickerFrom" name="other_from_date" class="form-control" placeholder="yyyy/mm/dd" />
-                                                                        </div>
-                                                                </div>
-
-                                                                <div class="col-xss-12 col-xs-3 col-sm-3">
-                                                                        <div class="form-group">
-                                                                                <label>To</label>
-                                                                                <input type="text" id="rangeDatePickerTo" name="other_to_date" class="form-control" placeholder="yyyy/mm/dd" />
-                                                                        </div>
-                                                                </div>
-
-                                                        </div>-->
-                                            </div>
-                                             <div class="row gap-20">
-                                                <div class="col-xs-12 col-sm-4 col-md-4">
-
-                                                    <div class="form-group">
-                                                        <label>Trip size:</label>
-                                                        <input type="text" class="form-control form-spin" name="other_no_of_traveller" value="0" /> 
-                                                    </div>
-
-                                                </div>
-                                                <div class="col-xs-12 col-sm-4 col-md-4">
-
-                                                    <div class="form-group">
-                                                        <label>Minimum travellers:</label>
-                                                        <input type="text" class="form-control form-spin" name="other_no_of_min_booktraveller" value="0" /> 
-                                                    </div>
-
-                                                </div>
-                                                <div class="col-xs-12 col-sm-4 col-md-4">
-
-                                                    <div class="form-group">
-                                                        <label>Maximum travellers:</label>
-                                                        <input type="text" class="form-control form-spin" name="other_no_of_max_booktraveller" value="0" /> 
-                                                    </div>
-
-                                                </div>
-
-                                                
-                                                <div class="col-xs-12 col-sm-4 col-md-4">
-                                                    <label>Price to Adult:</label>
-                                                    <div class="input-group mb-15">
-                                                        <input class="form-control" name="other_price_to_adult" type="text" value="0">
-                                                        <span class="input-group-addon">Rs / person</span>
-                                                    </div>
-                                                </div>
-
-                                                <div class="col-xs-12 col-sm-4 col-md-4">
-                                                    <label>Price to Child:</label>
-                                                    <div class="input-group mb-15">
-                                                        <input class="form-control" name="other_price_to_child" type="text" value="0">
-                                                        <span class="input-group-addon">Rs / person</span>
-                                                    </div>
-                                                </div>
-
-                                                <div class="col-xs-12 col-sm-4 col-md-4">
-                                                    <label>Price to Infan:</label>
-                                                    <div class="input-group mb-15">
-                                                        <input class="form-control" name="other_price_to_infan" type="text" value="0">
-                                                        <span class="input-group-addon">Rs / person</span>
-                                                    </div>
-                                                </div>
-                                                
-
-                                            </div>
+                                            
                                         </div>
 
                                         <div class="mb-50 ">
