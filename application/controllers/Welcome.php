@@ -41,123 +41,75 @@ function __construct()
 	{
 		$this->load->view('contact_us');
 	}
-  //      public function faq()
-	//{
-	//	if ($this->session->userdata('user_id') == '') {
-           // redirect('login');
-     //   }
-		
-     //   $data['faqlist']=$this->Welcome_model->get_faq_list();
-     //   $this->load->view('faq', $data);
-	//}
-	
-	    public function faq_list($faq_search = '') {
-        if ($this->session->userdata('user_id') == '') {
-            redirect('login');
-        }
-        
-        $this->load->library('pagination');
-        $config = array();
-        $config["base_url"] = base_url() . "faq/" . $faq_search; //?search=".$tag_search
-        $config["total_rows"] = $this->Welcome_model->faq_count($faq_search);
-        $config["per_page"] = 20;
-        $config["uri_segment"] = 2;
-
-        $config['enable_query_strings'] = TRUE;
-        $config['page_query_string'] = TRUE;
-        $config['use_page_numbers'] = TRUE;
-        $config['query_string_segment'] = 'page';
-        $config['cur_tag_open'] = '&nbsp;<a class="active">';
-        $config['cur_tag_close'] = '</a>';
-
-        $config['next_link'] = '&NestedGreaterGreater;';
-        $config['prev_link'] = '&NestedLessLess;';
-        $this->pagination->initialize($config);
-        $page = ($this->input->get('page')) ? ( ( $this->input->get('page') - 1 ) * $config["per_page"] ) : 0;
-        $page = ($this->uri->segment(2)) ? $this->uri->segment(2) : 0;
-        $data["faqlist"] = $this->Welcome_model->faq_list($config["per_page"], $page, $faq_search);
-        $str_links = $this->pagination->create_links();
-        $data["links"] = explode('&nbsp;', $str_links);
-        $data["faq_search"] = $faq_search;
+     
+	public function faq_list()
+	{
+		if ($this->session->userdata('user_id') == '') { redirect('login'); }		
+		$data['faqlist']=$this->Welcome_model->faq_list();
         $this->load->view('faq', $data);
-    }
-
-    public function loadmodal($view) {
-        if ($view != "") {
-            $data = array();
-            if (isset($_POST)) {
-                foreach ($_POST as $key => $value) {
-                    $data[$key] = $value;
-                }
-            }
-            $this->load->view("faq/$view", $data);
-        } else {
-            echo "Error";
-        }
-    }
-
-    public function faq_add() {
-        if ($this->session->userdata('user_id') == '') {
-            return FALSE;
-        }
-        if ($_POST) {
-            $this->form_validation->set_rules('question', 'question Name', 'trim|required');
-            $this->form_validation->set_rules('answer', 'answer Name', 'trim|required');
-			if ($this->form_validation->run($this) != FALSE) {
-                $id = trim($this->input->post('id'));
-				$answer = ucwords(trim($this->input->post('answer')));
-                $question = ucwords(trim($this->input->post('question')));
-                $whereData = array('isactive' => 1, 'question' => $question,'answer' => $answer);
-                $faq_list = selectTable('faq_master', $whereData);
-                if ($faq_list->num_rows() > 0) {
-                    echo 'Sorry! All ready exist this name.';
-                    return FALSE;
-                }
-                $data = array(
-                    'id' => $id,
-					'question' => $question,
-                    'answer' => $answer,
-                    'isactive' => 1);
-                $faq_id = $this->Welcome_model->faq_insert($data);
-                if ($faq_id) {
-                    return TRUE;
-                }
-            }
-        }
-        echo 'Sorry! Try again...';
-        return FALSE;
-    }
-
-    public function faq_edit() {
-        if ($this->session->userdata('user_id') == '') {
-            redirect('login');
-        }
-        if ($_POST) {
-            $id = trim($this->input->post('id'));
-
-            $data = array('id' => $id);
-            $data['faqdetail'] = $this->Welcome_model->faq_detail($data);
-            //$this->Tag_model->category_update($data,$id);
-            $this->load->view('faq/faq-edit', $data);
-        }
-    }
-
-    public function faq_save_edit() {
-        if ($this->session->userdata('user_id') == '') {
-            return FALSE;
-        }
-        if ($_POST) {
-            $id = trim($this->input->post('faq_id'));
-            $answer = trim($this->input->post('faq_answer'));
-            $question = trim($this->input->post('faq_question'));
-            $where = array('id' => $id);
-            $data = array('answer' => $answer,'question' => $question);
-            $result = $this->Welcome_model->faq_update($data, $where);
-            if ($result) {
-                return TRUE;
-            }
-        }
-        echo 'Sorry! Try again...';
-        return FALSE;
-    }
+	}
+	
+	public function faq_add()
+	{
+		if ($this->session->userdata('user_id') == '') { redirect('login'); }		
+		if($_POST)
+		{
+			$question=trim($this->input->post('question'));
+			$answer=trim($this->input->post('answer'));	
+			
+			$this->form_validation->set_rules('question', 'Name', 'trim|required|max_length[100]');
+			$this->form_validation->set_rules('answer', 'answer', 'trim|required|max_length[100]');
+			
+			if (!$this->form_validation->run()){$error=$this->session->set_userdata('err',validation_errors());}			
+			else if ($this->form_validation->run() == TRUE)
+			{
+				$data = array('question' => $question,'answer' => $answer,'isactive' => 1);
+				$id=$this->Welcome_model->faq_insert($data);
+				if($id>0){$error=$this->session->set_userdata('suc','Successfullly Added');}
+			}
+			redirect(base_url().'faq');
+		}
+		$data['faqdetail']=array('id'=>'','question'=>'','answer'=>'');
+		$data['title']='Add';
+		$data['url']='faq/add';
+		$this->load->view('faq-add',$data);
+	}
+	
+	//Function-3 : edit user type 
+	public function faq_edit($id)
+	{
+		if ($this->session->userdata('user_id') == '') { redirect('login'); }		
+		if($_POST)
+		{
+			$question=trim($this->input->post('question'));
+			$answer=trim($this->input->post('answer'));	
+			
+			$this->form_validation->set_rules('question', 'question', 'trim|required|max_length[100]');
+			$this->form_validation->set_rules('answer', 'answer', 'trim|required|max_length[100]');
+			
+			if (!$this->form_validation->run()){$error=$this->session->set_userdata('err',validation_errors());}			
+			else if ($this->form_validation->run() == TRUE)
+			{
+				$data = array('question' => $question,'answer' => $answer);
+				$this->Welcome_model->usertype_update($data,$id);
+				if($id>0){$error=$this->session->set_userdata('suc','Successfullly Added');}
+			}
+			redirect(base_url().'faq');
+		}
+		$data['faqdetail']=$this->Welcome_model->faq_detail($id);
+		$data['title']='Edit';
+		$data['url']='faq/edit/'.$id;
+		$this->load->view('faq-add',$data);	
+	}
+	
+	//Function-4 : delete user type 
+	public function faq_delete($id)
+	{
+		if ($this->session->userdata('user_id') == '') { redirect('login'); }		
+		$data = array('isactive' => 0);
+		$this->Welcome_model->faq_update($data,$id);
+		redirect(base_url().'faq');	
+	}
 }
+	
+

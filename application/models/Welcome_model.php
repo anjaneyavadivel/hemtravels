@@ -36,37 +36,33 @@ class Welcome_model extends CI_Model {
         $query = $this->db->get();
         return $query->result_array();
     }
+    
+	function faq_list()
+	{		
+		$this->db->select('*')->from('faq_master')->where(array('isactive'=>1));
+		$query=$this->db->get();
+		return $query->result_array();
+	}
 	
-	function faq_list($limit, $start,$faq_search) {
-        $this->db->select()->from('faq_master');
-        $this->db->like('question',$faq_search);
-        $this->db->limit($limit, $start);
-        $query = $this->db->get();
-        return $query->result_array();
-    }
-
-    function faq_count($faq_search) {
-        $this->db->select()->from('faq_master');
-        $this->db->like('question',$faq_search);
-        $query = $this->db->get();
-        return $query->num_rows();
-    }
-	
-	function faq_insert($data) {
+	function faq_insert($data)
+    {
         $this->db->insert('faq_master', $data);
         return $this->db->insert_id();
     }
-
-    function faq_detail($data) {
-        $this->db->select()->from('faq_master')->where($data);
-        $query = $this->db->get();
-        return $query->first_row('array');
-    }
-
-    function faq_update($data, $where) {
-        $this->db->where($where);
-        $this->db->update('faq_master', $data);
-        return $this->db->affected_rows();
-    }
-
+	
+	function faq_detail($id)
+	{
+		$this->db->select()->from('faq_master')->where(array('isactive'=>1,'id'=>$id));		
+		$query=$this->db->get();
+		return $query->first_row('array');
+	}
+	
+	function faq_update($data,$id)
+	{
+		$this->db->where('id',$id);
+		$this->db->update('faq_master',$data);
+		return $this->db->affected_rows();
+	}
 }
+?>
+
