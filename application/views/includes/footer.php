@@ -373,7 +373,7 @@
     <script type="text/javascript" src="<?php echo base_url()?>assets/js/jquery.ui.timepicker.js"></script>
     <script type="text/javascript" src="<?php echo base_url()?>assets/js/moment.min.js"></script>
     <script type="text/javascript" src="<?php echo base_url()?>assets/js/jquery.daterangepicker.js"></script>
-    <script type="text/javascript" src="<?php echo base_url()?>assets/js/customs-fileinput.js"></script>
+<!--    <script type="text/javascript" src="<?php echo base_url()?>assets/js/customs-fileinput.js"></script>-->
     <script type="text/javascript" src="<?php echo base_url()?>assets-customs/js/make-trip.js"></script>
     <script type="text/javascript" src="<?php echo base_url()?>assets-customs/js/make-trip-validation.js"></script>    
 <?php }?>

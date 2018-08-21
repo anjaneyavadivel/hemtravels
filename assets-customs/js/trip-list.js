@@ -81,9 +81,12 @@ jQuery(function($) {
                                   image = base_url+'assets-customs/gallery_images/'+data.trip_img_name;  
                                 }
                                 
-                                var isShared = 'Not shared';
+                                var isShared = 'Not shared',shared_detail = '';
                                 if(data.shared_email && data.shared_email != ''){
                                     isShared = 'Shared by '+data.shared_email;
+                                }
+                                if(user_type == 'SA' || user_type == 'VA'){
+                                   shared_detail = '<p style="margin-bottom: 0;"><i class="fa fa-share text-center"></i> Shared: '+isShared+'</p>';
                                 }
                                 
                                 var rating  = '';
@@ -99,7 +102,7 @@ jQuery(function($) {
                                 
                                 //EDIT OPTION ENABLE/DISABLE
                                 var is_not_cut = '';
-                                if(user_type != 'CU'){
+                                if(user_type == 'SA' || user_type == 'VA'){
                                     is_not_cut ='<div class="mt-10">'+
                                                     '<a href="'+base_url+'trips/update/'+data.trip_code+'" class="btn btn-info btn-sm">Edit</a>'+
                                                     '<a href="javascript:;" class="btn btn-danger btn-sm tripDelete" data-id="'+data.id+'">Delete</a>'+
@@ -119,7 +122,7 @@ jQuery(function($) {
                                                             '<h4><a href="'+base_url+'trip-view/'+data.trip_code+'">'+data.trip_name+'</a></h4>'+
                                                             '<p style="margin-bottom: 0;"><i class="fa fa-map-marker text-center"></i> '+data.meeting_point+' <span class="mh-5 text-muted">|</span>Status: '+status+'</p>'+
                                                             
-                                                            '<p style="margin-bottom: 0;"><i class="fa fa-share text-center"></i> Shared: '+isShared+'</p>'+
+                                                            shared_detail+
                                                             trip_duration+
                                                             '<p class=" font-lg trip-list-brief-description">'+data.brief_description+'</p>'+
                                                         '</div>'+

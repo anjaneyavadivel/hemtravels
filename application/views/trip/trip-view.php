@@ -1,6 +1,6 @@
 <?php $this->load->view('includes/header')?>
   <!-- start Main Wrapper -->
-  
+ 
            <div class="main-wrapper scrollspy-container">
 
                 <!-- start breadcrumb -->
@@ -205,7 +205,7 @@
                                                         
                                                         <?php if(isset($details['transport']) && !empty($details['transport'])) {?>                                                            
                                                             <div class="row">
-                                                                <div class="col-xs-12 col-sm-6 mb-40">
+                                                                <div class="col-xs-12 col-sm-12 mb-40">
 
                                                                     <h3 class="font-lg mb-20">Transport</h3>
                                                                     
@@ -217,7 +217,7 @@
                                                         <?php } ?>
                                                         <?php if(isset($details['things_to_carry']) && !empty($details['things_to_carry'])) {?>                                                            
                                                                 <div class="row">
-                                                                    <div class="col-xs-12 col-sm-6 mb-40">
+                                                                    <div class="col-xs-12 col-sm-12 mb-40">
 
                                                                         <h3 class="font-lg mb-20">Things To Carry</h3>
 
@@ -228,7 +228,7 @@
                                                         <?php } ?>
                                                         <?php if(isset($details['tour_type']) && !empty($details['tour_type'])) {?>                                                            
                                                                 <div class="row">
-                                                                    <div class="col-xs-12 col-sm-6 mb-40">
+                                                                    <div class="col-xs-12 col-sm-12 mb-40">
 
                                                                         <h3 class="font-lg mb-20">Tour Type</h3>
 
@@ -238,7 +238,7 @@
                                                                 </div>                                                            
                                                         <?php } ?>
                                                         
-                                                        <?php if(isset($inclusions1) && count($inclusions)> 0){ ?>
+                                                        <?php if(isset($inclusions) && count($inclusions)> 0){ ?>
 
                                                         <div class="row">
 
@@ -258,9 +258,9 @@
                                                        
                                                         </div>
                                                         <?php } ?>
-                                                        <?php if(isset($details1['other_inclusions']) && !empty($details['other_inclusions'])) {?>
+                                                        <?php if(isset($details['other_inclusions']) && !empty($details['other_inclusions'])) {?>
                                                             <div class="row">
-                                                                <div class="col-xs-12 col-sm-6 mb-40">
+                                                                <div class="col-xs-12 col-sm-12 mb-40">
 
                                                                 <h3 class="font-lg mb-20">Other Inclusions</h3>
 
@@ -271,9 +271,9 @@
                                                             </div>
                                                             </div>
                                                         <?php } ?>
-                                                        <?php if(isset($details1['exclusions']) && !empty($details['exclusions'])) {?>
+                                                        <?php if(isset($details['exclusions']) && !empty($details['exclusions'])) {?>
                                                             <div class="row">
-                                                                <div class="col-xs-12 col-sm-6 mb-40">
+                                                                <div class="col-xs-12 col-sm-12 mb-40">
 
                                                                     <h3 class="font-lg mb-20">What's excluded?</h3>
 
@@ -475,7 +475,7 @@
                                                 </ul>                
 
                                             </div>
-                                            <?php if($this->session->userdata('user_type') == 'CU') {?>
+                                            <?php if($this->session->userdata('user_type') == 'SA' || $this->session->userdata('user_type') == 'VA') {?>
                                             <div id="review-form" class="review-form">
 
                                                 <h3 class="review-form-title">Leave Your Review</h3>
@@ -549,7 +549,7 @@
                                 <div id="sidebar-sticky" class="col-xs-12 col-sm-12 col-md-4 sticky-mt-70 sticky-mb-0">
                                     
                                     <aside class="sidebar-wrapper with-box-shadow">
-                                        <?php if($this->session->userdata('user_type') == 'CU' || $this->session->userdata('user_type') == 'VA') {?>
+                                        
                                         <div class="sidebar-booking-box">
 
                                             <div class="sidebar-booking-header bg-primary clearfix">
@@ -574,14 +574,14 @@
                                                                 <input type="text" id="rangeDatePickerFrom" name="booking_from_time" class="form-control" placeholder="M D, YYYY" />
                                                             </div>
                                                         </div>
-
+                                                        <?php if(isset($details['trip_duration']) && $details['trip_duration'] == '2') { ?>
                                                         <div class="col-xss-12 col-xs-6 col-sm-6">
                                                             <div class="form-group">
                                                                 <label>To</label>
                                                                 <input type="text" id="rangeDatePickerTo" name="booking_to_time" class="form-control" placeholder="M D, YYYY" />
                                                             </div>
                                                         </div>
-
+                                                        <?php } ?>
                                                     </div>
 
                                                     <div class="row gap-20">
@@ -653,7 +653,7 @@
                                             </div>
 
                                         </div>
-                                        <?php } ?>
+                                        
                                         <?php if(isset($details['isshared']) && $details['isshared'] == 1 && isset($shared_details) && count($shared_details) > 0) { ?>
                                         <div class="list-yes-no-box">
                                             <ul>

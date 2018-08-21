@@ -241,7 +241,7 @@ class Trips extends CI_Controller {
                     && !empty($this->input->post('trip_duration')) && !empty($this->input->post('brief_description')) 
                     && !empty($this->input->post('no_of_traveller')) && !empty($this->input->post('no_of_min_booktraveller'))) 
 		{
-                    $error = 'New trip not updated.please try again!.';  
+                    $error = 'Trip not updated.please try again!.';  
                     
                     $this->db->trans_start(); 
                     
@@ -387,20 +387,20 @@ class Trips extends CI_Controller {
                         //TRIP TAG MAP CODE END HERE 
                         
                         $error   = '';
-                        $success = 'New trip has been successfully updated...'; 
+                        $success = 'Trip has been successfully updated...'; 
 
                         $this->db->trans_complete();
 
                         if ($this->db->trans_status() === FALSE)
                         {
-                            $error = 'New trip not updated.please try again!.';  
+                            $error = 'Trip not updated.please try again!.';  
                         }
                     }catch(Exception $e){}
             }            
                 
             if($error != ''){               
                 $this->session->set_userdata('err', $error);
-                redirect('trips/');
+                redirect('trip-list');
             }
             
             if($success != ''){
@@ -592,7 +592,6 @@ class Trips extends CI_Controller {
         }
     
     public function trip_list() {
-         if ($this->session->userdata('user_id') == '') {redirect('login');}
          
         $whereData = array('isactive' => 1);
         $data['category_list'] = selectTable('trip_category', $whereData,['*'],[],[],'','',[],'result_array');
@@ -610,16 +609,22 @@ class Trips extends CI_Controller {
         $this->load->view('trip/trip-calendar-view');
     }
     public function trip_view($tripCode = null) { 
-         if ($this->session->userdata('user_id') == '') {redirect('login');}
          
         $data  = $this->getTripDetails($tripCode,1); 
         
         if(isset($data['details']['trip_category_id']) && isset($data['details']['id'])){
-            $whereData = array(
-                'user_id' => $this->session->userdata('user_id'),
-                'trip_category_id' =>$data['details']['trip_category_id'],
-                'isactive'=>1,
-                'id !=' => $data['details']['id']);
+            $whereData = array(                
+                'trip_category_id' => $data['details']['trip_category_id'],
+                'isactive'         => 1,
+                'id !='            => $data['details']['id']
+            );
+            
+            if($this->session->userdata('user_type') == 'VA'){
+                $whereData['user_id'] = $this->session->userdata('user_id');                
+            }else if($this->session->userdata('user_type') == 'CU' || $this->session->userdata('user_type') == 'GU'){
+                $whereData['view_to'] = 1;                
+            }
+            
             $data['related_tours'] = selectTable('trip_master', $whereData,['*'],[],[],'','',[],'result_array');  
             $data['review_count'] = $this->Trip_model->getTotalReview($data['details']['id']);
             $data['all_reviews'] = $this->Trip_model->getTripAllReviews($data['details']['id']);
@@ -652,7 +657,7 @@ class Trips extends CI_Controller {
                     }
                     
                     //VIEW TO
-                    if($this->session->userdata('user_type') == 'CU') {
+                    if($this->session->userdata('user_type') != 'SA' || $this->session->userdata('user_type') != 'VA') {
                         $tot_sql .=  'AND tm.view_to = 1 ';
                     }
                     

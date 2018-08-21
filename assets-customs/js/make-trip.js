@@ -346,31 +346,6 @@ jQuery(function($) {
         }
     }
     
-    
-    
-    $('#rangeDatePicker > div > div').dateRangePicker({
-		separator : ' to ',
-		autoClose: true,
-		format: 'MMM D, YYYY',
-		stickyMonths: true,
-		startDate: new Date(),
-		showTopbar: false,
-		getValue: function()
-		{
-			if ($('#rangeDatePickerTo').val() && $('#rangeDatePickerFrom').val() )
-				return $('#rangeDatePickerTo').val() + ' to ' + $('#rangeDatePickerFrom').val();
-			else
-				return '';
-		},
-		setValue: function(s,s1,s2)
-		{ 
-			$('#rangeDatePickerTo').val(s1);
-			$('#rangeDatePickerFrom').val(s2);
-		},
-		customArrowPrevSymbol: '<i class="fa fa-arrow-circle-left"></i>',
-		customArrowNextSymbol: '<i class="fa fa-arrow-circle-right"></i>'
-		
-    });
 	
 });
 
