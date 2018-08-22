@@ -385,7 +385,8 @@
 <?php }?>
 <?php if($url=='faq'){?>
     <script type="text/javascript" src="<?php echo base_url()?>assets/js/bootstrap3-wysihtml5.min.js"></script>
-    <script type="text/javascript" src="<?php echo base_url()?>assets/js/customs-dashboard-guide-info.js"></script>
+    <script type="text/javascript" src="<?php echo base_url() ?>assets-customs/js/faq.js"></script>
+<!--    <script type="text/javascript" src="<?php echo base_url()?>assets/js/customs-dashboard-guide-info.js"></script>-->
 
 <?php }?>
 <?php if($url=='tag-master'){?>

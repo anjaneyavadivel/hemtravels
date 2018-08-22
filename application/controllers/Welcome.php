@@ -59,14 +59,14 @@ function __construct()
 	
 	public function faq_add()
 	{
-		if ($this->session->userdata('user_id') == '') { redirect('login'); }		
+		if ($this->session->userdata('user_id') == '') {  return FALSE; }		
 		if($_POST)
 		{
 			$question=trim($this->input->post('question'));
 			$answer=trim($this->input->post('answer'));	
 			
-			$this->form_validation->set_rules('question', 'Name', 'trim|required|max_length[100]');
-			$this->form_validation->set_rules('answer', 'answer', 'trim|required|max_length[100]');
+			$this->form_validation->set_rules('question', 'Name', 'trim|required|max_length[150]');
+			$this->form_validation->set_rules('answer', 'answer', 'trim|required');
 			
 			if (!$this->form_validation->run()){$error=$this->session->set_userdata('err',validation_errors());}			
 			else if ($this->form_validation->run() == TRUE)
@@ -92,8 +92,8 @@ function __construct()
 			$question=trim($this->input->post('question'));
 			$answer=trim($this->input->post('answer'));	
 			
-			$this->form_validation->set_rules('question', 'question', 'trim|required|max_length[100]');
-			$this->form_validation->set_rules('answer', 'answer', 'trim|required|max_length[100]');
+			$this->form_validation->set_rules('question', 'question', 'trim|required|max_length[150]');
+			$this->form_validation->set_rules('answer', 'answer', 'trim|required');
 			
 			if (!$this->form_validation->run()){$error=$this->session->set_userdata('err',validation_errors());}			
 			else if ($this->form_validation->run() == TRUE)

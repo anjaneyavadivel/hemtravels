@@ -893,7 +893,7 @@ if (!function_exists('getpnrinfo')) {
                 ),
                 array(
                     'table' => 'user_master AS bum',
-                    'condition' => 'tpd.booked_by = bum.id',
+                    'condition' => 'tpd.from_user_id = bum.id',
                     'jointype' => 'INNER'
                 ),
             );
@@ -923,7 +923,7 @@ if (!function_exists('getpnrinfo')) {
                 ),
                 array(
                     'table' => 'user_master AS bum',
-                    'condition' => 'tpd.booked_by = bum.id',
+                    'condition' => 'tpd.user_id = bum.id',
                     'jointype' => 'INNER'
                 ),
             );
