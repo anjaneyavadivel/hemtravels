@@ -104,6 +104,7 @@
                     <ul class="tab-nav">
                         <li class="active"><a href="#mytriptab" data-toggle="tab" aria-expanded="true">MY TRIP</a></li>
                         <li class=""><a href="#tshare" data-toggle="tab" aria-expanded="true">VENDOR SHARED TRIP</a></li>
+                        <li class=""><a href="<?php echo base_url() ?>make-new-trip" aria-expanded="true">Make New Trip</a></li>
 
                     </ul>
                     <div class="tab-content">

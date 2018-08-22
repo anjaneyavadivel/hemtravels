@@ -13,11 +13,20 @@ jQuery(function ($) {
     $('.faq_edit').click(function ()
     {
         var id = $(this).attr('data-id');
-        var url = base_path + 'faq/edit/' + id;
-        $.post(url, function (rpres1) {
-            $('#faq_model').html(rpres1);
-            $('#faq_model').modal('show');
-        });
+       var data = {
+            csrf_test_name: $.cookie('csrf_cookie_name'),
+            id: id
+        };
+        $.ajax({
+                url: base_path + 'faq/edit/' + id,
+                type: 'POST',
+                data: data,
+                success: function (result) {
+                    $modal.html(result);
+                    $modal.modal('show');
+                    $('.bootstrap3-wysihtml5').wysihtml5({});
+                }
+            });
     });
 
 //Function-1 : add popup for user type

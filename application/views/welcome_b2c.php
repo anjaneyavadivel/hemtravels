@@ -209,7 +209,7 @@
                         <div class="fearured-join-item">
                             <h2 class="alt-font-size">Create Your Trip?</h2>
                             <p class="mb-20">Rooms oh fully taken by worse do. Points afraid but may end law lasted. Was out laughter raptures returned outweigh outward the him existence assurance.</p>
-                            <a href="#registerModal" class="btn btn-primary btn-lg">Join for Guide</a>
+                            <a data-toggle="modal" href="#registerModal" class="btn btn-primary btn-lg">Join for Guide</a>
                         </div>
 
                     </div>

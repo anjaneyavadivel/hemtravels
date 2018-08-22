@@ -13,7 +13,15 @@ function __construct()
 	public function index()
 	{
             if($this->session->userdata('user_type')=='SA'){
-		$this->load->view('welcome_b2a');
+		$where =array('tm.isactive'=>1);
+                $limit = 4;
+		$data['trippost_list']=$this->Welcome_model->get_trip_list($where,$limit);
+                $limit = 10;
+		$data['trip_popular_list']=$this->Welcome_model->get_trippopular_list($where,$limit);
+                $limit = 8;
+		$where =array('cm.isactive'=>1);
+		$data['tripcategory_list']=$this->Welcome_model->get_tripcategory_list($where,$limit);
+		$this->load->view('welcome_b2a',$data);
             }else if($this->session->userdata('user_type')=='VA'){
                 $loginuserid = $this->session->userdata('user_id');
                 $where =array('tm.isactive'=>1,'tm.user_id'=>$loginuserid);
@@ -35,7 +43,7 @@ function __construct()
 		$data['trippost_list']=$this->Welcome_model->get_trip_list($where,$limit);
                 $limit = 10;
 		$data['trip_popular_list']=$this->Welcome_model->get_trippopular_list($where,$limit);
-                $limit = '';
+                $limit = 8;
 		$where =array('cm.isactive'=>1);
 		$data['tripcategory_list']=$this->Welcome_model->get_tripcategory_list($where,$limit);
 		$this->load->view('welcome_b2c',$data);
@@ -79,6 +87,7 @@ function __construct()
 		}
 		$data['faqdetail']=array('id'=>'','question'=>'','answer'=>'');
 		$data['title']='Add';
+		$data['btnname']='Add';
 		$data['url']='faq/add';
 		$this->load->view('faq-add',$data);
 	}
@@ -86,7 +95,7 @@ function __construct()
 	//Function-3 : edit user type 
 	public function faq_edit($id)
 	{
-		if ($this->session->userdata('user_id') == '') { redirect('login'); }		
+		if ($this->session->userdata('user_id') == '') { return FALSE; }	
 		if($_POST)
 		{
 			$question=trim($this->input->post('question'));
@@ -99,13 +108,14 @@ function __construct()
 			else if ($this->form_validation->run() == TRUE)
 			{
 				$data = array('question' => $question,'answer' => $answer);
-				$this->Welcome_model->usertype_update($data,$id);
+				$this->Welcome_model->faq_update($data,$id);
 				if($id>0){$error=$this->session->set_userdata('suc','Successfullly Added');}
+                                redirect(base_url().'faq');
 			}
-			redirect(base_url().'faq');
 		}
 		$data['faqdetail']=$this->Welcome_model->faq_detail($id);
 		$data['title']='Edit';
+		$data['btnname']='Update';
 		$data['url']='faq/edit/'.$id;
 		$this->load->view('faq-add',$data);	
 	}

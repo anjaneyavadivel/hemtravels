@@ -74,7 +74,7 @@ if (isset($faqlist) && count($faqlist) > 0) {
                                 <div id="faq-item-<?=$id?>" class="faq-thread">
 
                                             <h4 class="faq-title"><?= $question; ?><?php if($this->session->userdata('user_type')=='SA'){?>
-                                                    <a href="javascript:void(0);" class="faq_edit"><i class="fa fa-edit" data-toggle="tooltip" data-placement="top" title="" data-original-title="Click here to edit"></i> </a>
+                                                    <a href="javascript:void(0);" class="faq_edit" data-id="<?=$id?>"><i class="fa fa-edit" data-toggle="tooltip" data-placement="top" title="" data-original-title="Click here to edit"></i> </a>
                                                     <a href="<?= base_url() ?>faq/delete/<?= $id ?>"><i class="fa fa-trash" data-toggle="tooltip" data-placement="top" title="" data-original-title="Click here to delete"></i> </a>
                                                     <?php }?></h4>
                                             <p><?= $answer; ?></p>
