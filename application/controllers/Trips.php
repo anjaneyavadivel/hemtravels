@@ -781,6 +781,9 @@ class Trips extends CI_Controller {
                     
                     //echo $this->db->last_query();exit;
                     
+                    $this->load->helper('custom_helper');
+                    
+                    
                     if($res_query->num_rows() > 0){
                         $returnedData["total_count"] = $tot_query->num_rows();
                         $returnedData["last_page"]   = ceil($returnedData["total_count"] / 5);
@@ -790,6 +793,14 @@ class Trips extends CI_Controller {
                             foreach ($returnedData['results'] as $k=> $v){
                                 if(isset($returnedData['results'][$k]['brief_description']) && !empty($returnedData['results'][$k]['brief_description'])){
                                     $returnedData['results'][$k]['brief_description'] = html_entity_decode($returnedData['results'][$k]['brief_description']);
+                                }
+                                if(isset($returnedData['results'][$k]['id']) && !empty($returnedData['results'][$k]['id'])){
+                                    $offerdata =array(
+                                    'trip_id'      => $returnedData['results'][$k]['id'],                
+                                    'date_of_trip' => date('Y-m-d'),
+                                    'ischeckadmin' => 0);
+                                    
+                                    $returnedData['results'][$k]['offer_details'] = trip_offer($offerdata);
                                 }
                             }
                         }

@@ -295,8 +295,8 @@ class Master extends CI_Controller {
 //            return FALSE;
 //        }
 //        $offerdata=array(
-//        'trip_id' => 2,
-//        'date_of_trip' => "15-08-2018",
+//        'trip_id' => 1,
+//        'date_of_trip' => "21-08-2018",
 //        'ischeckadmin' => 1); 
 //        $result = trip_offer($offerdata);
 //        print_r($result);
@@ -311,6 +311,8 @@ class Master extends CI_Controller {
 //        'pick_up_location_id' => 2);
 //        $result = trip_book($bookdata);
 //        print_r($result);
+        
+        
     }
 
 }

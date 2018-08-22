@@ -5,7 +5,7 @@ class TripBookings extends CI_Controller {
 
    public function book_summary($tripCode = null) { 
         
-        if ($this->session->userdata('user_id') == '' ) {redirect('login');}
+        //if ($this->session->userdata('user_id') == '' ) {redirect('login');}
         
         $data = [];
         if(!empty($tripCode)){
@@ -24,7 +24,7 @@ class TripBookings extends CI_Controller {
                 
                
                 $offerdata=array(
-                'trip_id' => $data['details']['id'],                
+                'trip_id'      => $data['details']['id'],                
                 'date_of_trip' => $this->session->userdata('bk_from_date'),
                 'ischeckadmin' => 0);
                 $data['offer_details'] = trip_offer($offerdata);
@@ -46,8 +46,6 @@ class TripBookings extends CI_Controller {
         $this->load->view('trip/book-ticket',$data);
     }
    public function book_proceed($tripCode = null) { 
-        
-        if ($this->session->userdata('user_id') == '' ) {redirect('login');}
         
         $data = [];
         if(!empty($tripCode)){
@@ -83,8 +81,6 @@ class TripBookings extends CI_Controller {
         $this->load->view('trip/book-proceed',$data);
     }
    public function book_done($tripCode = null) { 
-        
-        if ($this->session->userdata('user_id') == '' ) {redirect('login');}
         
         $data = [];
         

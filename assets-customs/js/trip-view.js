@@ -98,15 +98,15 @@ jQuery(function($) {
             booking_to_time: {
                 required: true,
             },
-            no_of_adult: {
-                required: {
-                    function(e) {
-                        /*return (!$('.no_of_adult').val() || $('.no_of_adult').val() == 0) &&
-                               (!$('.no_of_children').val() || $('.no_of_children').val() == 0) &&
-                               (!$('.no_of_infan').val() || $('.no_of_infan').val() == 0);*/
-                    }
-                }
-            },
+//            no_of_adult: {
+//                required: {
+//                    function(e) {
+//                        /*return (!$('.no_of_adult').val() || $('.no_of_adult').val() == 0) &&
+//                               (!$('.no_of_children').val() || $('.no_of_children').val() == 0) &&
+//                               (!$('.no_of_infan').val() || $('.no_of_infan').val() == 0);*/
+//                    }
+//                }
+//            },
             location: {
                 required: true                
             }

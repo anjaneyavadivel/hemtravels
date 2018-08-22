@@ -81,6 +81,7 @@ jQuery(function($) {
                                   image = base_url+'assets-customs/gallery_images/'+data.trip_img_name;  
                                 }
                                 
+                                //SHARED DETAILS
                                 var isShared = 'Not shared',shared_detail = '';
                                 if(data.shared_email && data.shared_email != ''){
                                     isShared = 'Shared by '+data.shared_email;
@@ -89,8 +90,8 @@ jQuery(function($) {
                                    shared_detail = '<p style="margin-bottom: 0;"><i class="fa fa-share text-center"></i> Shared: '+isShared+'</p>';
                                 }
                                 
-                                var rating  = '';
-                                
+                                //RATING
+                                var rating  = '';                                
                                 if(data.total_rating){
                                     
                                     var comment = 'Excellent';
@@ -109,6 +110,28 @@ jQuery(function($) {
                                                 '</div>'+
                                                 '<div class="trip-by pt-5"><a href="'+base_url+'trip-calendar-view"><span class="text-primary font22 font700 mb-1">'+data.total_booking+'</span> Booking List</a></div>';
                                 }
+                                
+                                //OFFER DETAILS
+                                var price = data.price_to_child > 0 ?data.price_to_child:data.price_to_adult;
+                                var offer_details = '<div class="price">'+
+                                                        '<span class="">'+price+'</span>'+                                        
+                                                    '</div>';
+                                if((data.offer_details.discount_percentage && data.offer_details.discount_percentage > 0)
+                                || (data.offer_details.discount_price && data.offer_details.discount_price > 0)){
+                                    var fin_price = data.final_price_to_child > 0 ?data.final_price_to_child:data.final_price_to_adult;
+                                    
+                                    offer_details = '<div class="price_off mr-10">'+data.offer_details.discount_price+' OFF</div>';
+                                    if(data.offer_details.discount_percentage && data.offer_details.discount_percentage > 0){
+                                        offer_details = '<div class="price_off mr-10">'+data.offer_details.discount_percentage+'% OFF</div>';
+                                    }
+                                    
+                                       offer_details += '<div class="price pl-50">'+
+                                            '<span class="">'+fin_price+'</span>'+
+                                            '<sub> <strike class="text-muted">'+price+'</strike> </sub>'+
+                                        '</div>';
+                                }
+                                    
+                                
                                 
                                 result += '<div class="itinerary-list-item trip-list-item-data">'+
                                                 '<div class="row">'+
@@ -136,11 +159,7 @@ jQuery(function($) {
                                                                         '<span style="cursor: default;"> <input type="hidden" class="rating" data-filled="fa fa-star rating-rated" data-empty="fa fa-star-o" data-fractions="2" data-readonly="" value="'+rating_val+'">'+
                                                                     '</div>'+
                                                                     '<div class="trip-by"><span class="text-primary font700 mb-1">Staring From</div>'+
-                                                                        '<div class="price_off mr-10">5% OFF</div>'+
-                                                                        '<div class="price pl-50">'+
-                                                                            '<span class="">'+data.price_to_adult+'</span>'+
-                                                                            '<sub> <strike class="text-muted">40000</strike> </sub>'+
-                                                                        '</div>'+
+                                                                        offer_details+
                                                                         '<div class="mt-20 ">'+
                                                                             '<a href="'+base_url+'trip-view/'+data.trip_code+'" class="btn btn-primary btn-sm">Book</a>'+
                                                                         '</div>'+																								

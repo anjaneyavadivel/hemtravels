@@ -132,14 +132,14 @@
                                                                                 <input type="text" id="rangeDatePickerFrom" name="booking_from_time" class="form-control" placeholder="M D, YYYY" value="<?php echo isset($from_date)?$from_date:''?>" />
                                                                             </div>
                                                                         </div>
-
+                                                                        <?php if(isset($details['trip_duration']) && $details['trip_duration'] == '2') { ?>
                                                                         <div class="col-xss-12 col-xs-6 col-sm-6">
                                                                             <div class="form-group">
                                                                                 <label>To</label>
                                                                                 <input type="text" id="rangeDatePickerTo" name="booking_to_time" class="form-control" placeholder="M D, YYYY" value="<?php echo isset($to_date)?$to_date:''?>"/>
                                                                             </div>
                                                                         </div>
-
+                                                                        <?php } ?>
                                                                     </div>
 
                                                                     <div class="row gap-20">
@@ -234,9 +234,9 @@
 
                                 </div>
 
-                                <div class="sidebar-booking-inner">
+                                <div class="sidebar-booking-inner"> 
 
-                                    <?php if(isset($offer_details['availabletraveller']) && $offer_details['availabletraveller'] >= $total_traveller) {?>
+                                    <?php if(isset($offer_details['availabletraveller']) && $offer_details['availabletraveller'] >= $total_traveller && $offer_details['is_open'] == 1) {?>
                                     <ul class="price-summary-list">
 
                                         <li>
@@ -276,12 +276,33 @@
                                         <li>
                                             
                                             <?php 
-                                                $adultPrice = $no_of_adult * $offer_details['price_to_adult'];
-                                                $chilrenPrice = $no_of_children * $offer_details['price_to_child'];
-                                                $infanPrice = $no_of_infan * $offer_details['price_to_infan'];
-                                                $discount_price = $offer_details['price_to_infan'];
+                                                $adultPrice     = $no_of_adult    * $offer_details['price_to_adult'];
+                                                $childrenPrice  = $no_of_children * $offer_details['price_to_child'];
+                                                $infanPrice     = $no_of_infan    * $offer_details['price_to_infan'];
                                                 
-                                                $total_price = $adultPrice + $chilrenPrice + $infanPrice - $discount_price;
+                                                $adultDisPrice = 0;$childDisPrice =0;$infanDisPrice=0;$disLabel='';
+                                                if($offer_details['discount_price'] > 0){
+                                                    $adultDisPrice = (int)$adultPrice - (int)$offer_details['discount_price'];
+                                                    $childDisPrice = (int)$childrenPrice - (int)$offer_details['discount_price'];
+                                                    $infanDisPrice = (int)$infanPrice - (int)$offer_details['discount_price'];
+                                                    $disLabel = '(Fixed amount - '.$offer_details['discount_price'].' )';
+                                                }else if($offer_details['discount_percentage'] > 0){
+                                                    $adultDisPrice = (int)$adultPrice - ((int) $adultPrice * ((int) $offer_details['discount_percentage'] / 100));
+                                                    $childDisPrice = (int)$childrenPrice - ((int) $childrenPrice * ((int) $offer_details['discount_percentage'] / 100));
+                                                    $infanDisPrice = (int)$infanPrice - ((int) $infanPrice * ((int) $offer_details['discount_percentage'] / 100));
+                                                    $disLabel = '(% '.$offer_details['discount_percentage'].' )';
+                                                }
+                                                
+                                                $discount_price = $adultDisPrice + $childDisPrice + $infanDisPrice;
+                                                
+                                                
+                                                $total_price = $adultPrice + $childrenPrice + $infanPrice - $discount_price;
+                                                
+                                                $gstPrice = 0;
+                                                if($offer_details['gst_percentage'] > 0){
+                                                    $gstPrice    = ((int) $total_price * ((int) $offer_details['gst_percentage'] / 100));
+                                                    $total_price = (int)$total_price + $gstPrice;
+                                                }
                                             
                                             ?>
                                             <!--<h6 class="heading mt-20 mb-5 text-primary uppercase">Price per person</h6>-->
@@ -301,7 +322,7 @@
                                                     Children Price ( <?php echo $no_of_children.' * '.$offer_details['price_to_child']; ?> )
                                                 </div>
                                                 <div class="col-xs-5 col-sm-5 text-right">
-                                                    &#8377; <?php echo $chilrenPrice; ?>
+                                                    &#8377; <?php echo $childrenPrice; ?>
                                                 </div>
                                             </div>
                                             <?php } ?>
@@ -318,10 +339,20 @@
                                             <?php if(isset($discount_price) && $discount_price > 0){ ?>
                                             <div class="row gap-10 mt-10">
                                                 <div class="col-xs-7 col-sm-7">
-                                                    Discount(%<?php echo $discount_percentage;?>)
+                                                    Discount on per traveller<?php echo $disLabel;?>
                                                 </div>
                                                 <div class="col-xs-5 col-sm-5 text-right">
-                                                    &#8377; <?php echo $discount_price; ?>
+                                                    (-) &#8377; <?php echo $discount_price; ?>
+                                                </div>
+                                            </div>
+                                            <?php } ?>
+                                            <?php if(isset($offer_details['gst_percentage']) && $offer_details['gst_percentage'] > 0){ ?>
+                                            <div class="row gap-10 mt-10">
+                                                <div class="col-xs-7 col-sm-7">
+                                                    GST (<?php echo $offer_details['gst_percentage'].'%';?>)
+                                                </div>
+                                                <div class="col-xs-5 col-sm-5 text-right">
+                                                   (+) &#8377; <?php echo $gstPrice; ?>
                                                 </div>
                                             </div>
                                             <?php } ?>

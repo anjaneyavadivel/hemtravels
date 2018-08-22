@@ -20,7 +20,7 @@ function __construct()
                 $limit = 8;
 		$data['trippost_list']=$this->Welcome_model->get_trip_list($where,$limit);
                 $limit = 10;
-		$data['trip_popular_list']=$this->Welcome_model->get_trippopular_list($where);
+		$data['trip_popular_list']=$this->Welcome_model->get_trippopular_list($where,$limit);
                 $where =array('tm.isactive' => 1, 'tp.status' => 2,'tm.user_id'=>$loginuserid);
                 $limit = 2;
 		$data['new_booking_list']=$this->Welcome_model->get_tripbooking_list($where,$limit);
@@ -30,7 +30,15 @@ function __construct()
 		//$data['trip_list']=$this->Welcome_model->get_list($where);
 		$this->load->view('welcome_b2b',$data);
             }else{
-		$this->load->view('welcome_b2c');
+                $where =array('tm.isactive'=>1);
+                $limit = 4;
+		$data['trippost_list']=$this->Welcome_model->get_trip_list($where,$limit);
+                $limit = 10;
+		$data['trip_popular_list']=$this->Welcome_model->get_trippopular_list($where,$limit);
+                $limit = '';
+		$where =array('cm.isactive'=>1);
+		$data['tripcategory_list']=$this->Welcome_model->get_tripcategory_list($where,$limit);
+		$this->load->view('welcome_b2c',$data);
             }
 	}
         public function about_us()

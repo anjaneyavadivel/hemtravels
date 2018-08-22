@@ -351,7 +351,7 @@
                                         <div class="price_off2 mr-10"><?=$discount_price?> OFF</div>
                                         <?php }?>
                                         <div class="image">
-                                            <img src="<?php echo trippic($trip_img_name) ?>" alt="images" />
+                                            <img src="<?php echo trippic($trip_img_name) ?>" alt="<?= $trip_name; ?>" />
                                         </div>
                                         <div class="up_style">
                                             <p href="#" class="btn_primary"><?= character_limiter($trip_name, 30); ?>
@@ -422,7 +422,7 @@
                                         <div class="price_off2 mr-10"><?=$discount_price?> OFF</div>
                                         <?php }?>
                         <div class="image">
-                            <img src="<?php echo trippic($trip_img_name) ?>" alt="images" />
+                            <img src="<?php echo trippic($trip_img_name) ?>" alt="<?= $trip_name; ?>" />
                         </div>
                         <div class="up_style">
                             <p href="#" class="btn_primary"><?= character_limiter($trip_name, 30); ?>

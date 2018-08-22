@@ -44,6 +44,17 @@ if (!function_exists('trippic')) {
     }
 
 }
+if (!function_exists('categorypic')) {
+
+    function categorypic($image) {
+        if (trim($image) != "" && file_exists(FCPATH . "uploads/category/$image")) {
+            return base_url() . "uploads/category/$image";
+        } else {
+            return base_url() . "uploads/category/04.jpg";
+        }
+    }
+
+}
 // send E- Mail to personal mail id
 /*
  * $username is login user name
@@ -447,10 +458,26 @@ if (!function_exists('trip_offer')) {
                 $totalbookedpersons = $row->totalbookedpersons;
              }
             $availabletraveller=(int)$no_of_traveller-(int)$totalbookedpersons;
+            $final_price_to_adult = $totalpricetoadult; $final_price_to_child = $totalpricetochild; $final_price_to_infan = $totalpricetoinfan;
+            if ($offer_type == 1) {
+                $final_price_to_adult = (int)$totalpricetoadult - (int)$discount_price;
+                $final_price_to_child = (int)$totalpricetochild - (int)$discount_price;
+                $final_price_to_infan = (int)$totalpricetoinfan - (int)$discount_price;
+            }
+            if ($offer_type == 2) {
+                $final_price_to_adult = (int)$totalpricetoadult - ((int) $totalpricetoadult * ((int) $discount_percentage / 100));
+                $final_price_to_child = (int)$totalpricetochild - ((int) $totalpricetochild * ((int) $discount_percentage / 100));
+                $final_price_to_infan = (int)$totalpricetoinfan - ((int) $totalpricetoinfan * ((int) $discount_percentage / 100));
+            }
+            if ($final_price_to_adult<0) { $final_price_to_adult = 0; }
+            if ($final_price_to_child<0) { $final_price_to_child = 0; }
+            if ($final_price_to_infan<0) { $final_price_to_infan = 0; }
+            $gst_percentage = GST_PERCENTAGE;
             $result = array('is_open' => $is_open, 'price_to_adult' => $totalpricetoadult, 'price_to_child' => $totalpricetochild, 'price_to_infan' => $totalpricetoinfan,
                 'no_of_traveller' => $no_of_traveller,'availabletraveller' => $availabletraveller, 'no_of_min_booktraveller' => $no_of_min_booktraveller, 'no_of_max_booktraveller' => $no_of_max_booktraveller,
                 'coupon_history_id' => $coupon_history_id,'offer_by_type' => $offer_by,'coupon_code' => $coupon_history_code,'coupon_name' => $coupon_history_name,'offer_type' => $offer_type, 'offer_type_name' => $offer_type_name, 
-                'coupon_comment' => $coupon_comment,'discount_price' => $discount_price,'discount_percentage' => $discount_percentage);
+                'coupon_comment' => $coupon_comment,'discount_price' => $discount_price,'discount_percentage' => $discount_percentage,'gst_percentage' => $gst_percentage,
+                'final_price_to_adult' => $final_price_to_adult, 'final_price_to_child' => $final_price_to_child, 'final_price_to_infan' => $final_price_to_infan);
             return $result;
         }
         $result = array('is_open' => 0, 'message' =>'Sorry! try again...', 'from_date' => '','to_date' => '');
@@ -926,6 +953,11 @@ if (!function_exists('getallparenttrip')) {
         // TODO: mail sent to customer and vendor
         $CI = & get_instance();
         $loginuserid = $CI->session->userdata('user_id');
+        $whereData = array('isactive' => 1, 'id' => $tripid);
+        $trip_list = selectTable('trip_master', $whereData);
+        if ($trip_list->num_rows() < 1) {
+            return FALSE;
+        }
         $returntripid[] = $tripid;
         while ($tripid > 0) {
             $whereData = array('isactive' => 1, 'id' => $tripid);
