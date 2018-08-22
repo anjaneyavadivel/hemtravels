@@ -21,9 +21,7 @@
             <div class="pt-50 pb-50">
 
                 <div class="container">
-                    <?php if($this->session->userdata('user_type')=='SA'){?>
-                    <button type="button" class="btn btn-primary float-right" data-toggle="modal"  id="faq_add">Add FAQ</button>
-                    <?php }?>
+                    
                     <div class="row">
 
                         <div class="col-xs-12 col-md-3 hidden-sm hidden-xs">
@@ -60,7 +58,9 @@
                         <div class="col-xs-12 col-sm-12 col-md-9">
                             <div class="faq-wrapper">
                                 <div class="section-title bb pb-20">
-                                    <h2 class="text-left" id="faq-item">Frequently asked questions <span class="text-uppercase">(FAQ)</span></h2>
+                                    <h2 class="text-left" id="faq-item">Frequently asked questions <span class="text-uppercase">(FAQ)<?php if($this->session->userdata('user_type')=='SA'){?>
+                    <button type="button" class="btn btn-primary float-right" data-toggle="modal"  id="faq_add">Add new FAQ</button>
+                    <?php }?></span></h2>
                                 </div>
                                 <?php
 if (isset($faqlist) && count($faqlist) > 0) {
