@@ -601,5 +601,8 @@
  <?php if($url =='trip-proceed'){?> 
 <script type="text/javascript" src="<?php echo base_url()?>assets-customs/js/trip-payment.js"></script>
  <?php } ?>
+<?php if($url=='PNR-status'){?>
+    <script type="text/javascript" src="<?php echo base_url()?>assets-customs/js/pnr.js"></script>    
+<?php }?>
 </body>
 </html>
