@@ -86,3 +86,4 @@ ALTER TABLE `trip_master` CHANGE `address2` `address2` INT(150) NULL, CHANGE `br
 ALTER TABLE `trip_category` ADD `img_name` VARCHAR(200) NOT NULL AFTER `name`;
 ALTER TABLE `trip_category` CHANGE `isactive` `isactive` INT(11) NOT NULL DEFAULT '1' COMMENT '0 - Deactive, 1 - Active';
 ALTER TABLE `faq_master` CHANGE `answer` `answer` TEXT CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL;
+ALTER TABLE `trip_book_pay_details` ADD `from_trip_id` INT NOT NULL AFTER `from_user_id`;

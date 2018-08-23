@@ -82,6 +82,7 @@ $route['faq/delete/(:num)'] = 'welcome/faq_delete/$1';
 
 
 //PNR STATUS
+$route['PNR-status/(:any)'] = 'pnr_status/pnr_status_check/$1';
 $route['PNR-status'] = 'pnr_status/pnr_status_check';
 
 

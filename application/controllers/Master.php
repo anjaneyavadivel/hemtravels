@@ -286,9 +286,9 @@ class Master extends CI_Controller {
 //        print_r($result);
 //        exit();
 //        
-//           $pnr_no='PNR13JSMCG7';$phoneno='9688079118';
-//           $result =  getpnrinfo($pnr_no,$phoneno);
-//            print_r($result);
+           $pnr_no='PNR49KXPXG8';$phoneno='9688079118';
+           $result =  getpnrinfo($pnr_no,$phoneno);
+            print_r($result);
 //        
 //        
 //        if ($this->session->userdata('user_id') == '') {

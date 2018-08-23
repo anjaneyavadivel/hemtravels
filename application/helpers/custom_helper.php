@@ -656,6 +656,7 @@ if (!function_exists('trip_book')) {
                     'parent_trip_id' => $parent_trip_id,
                     'trip_id' => $book_pay['trip_id'],
                     'from_user_id' => $bookdata['book_user_id'],
+                    'from_trip_id' => $bookdata['trip_id'],
                     'user_id' => 0,
                     'pnr_no' => $book_pay['pnr_no'],
                     'price_to_adult' => $book_pay['price_to_adult'],
@@ -756,6 +757,7 @@ if (!function_exists('trip_book')) {
                             'parent_trip_id' => $parent_trip_id,
                             'trip_id' => $trip_id,
                             'from_user_id' => $bookdata['book_user_id'],
+                            'from_trip_id' => $bookdata['trip_id'],
                             'user_id' => $user_id,
                             'pnr_no' => 'PNR39R4QVQ7',//$book_pay['pnr_no'],
                             'price_to_adult' => $checkoffer['price_to_adult'],
@@ -874,12 +876,13 @@ if (!function_exists('getpnrinfo')) {
         // TODO: mail sent to customer and vendor
         $CI = & get_instance();
         $loginuserid = $CI->session->userdata('user_id');
-        if ($pnr_no == '' || $phoneno == '') {
+        if ($pnr_no == '') {
             return FALSE;
         }
         $book_pay = array();
         if ($CI->session->userdata('user_type') == 'VA') {
-            $whereData = array('tpd.isactive' => 1, 'tpd.pnr_no' => $pnr_no, 'bum.phone' => $phoneno, 'tpd.user_id' => $loginuserid);
+            $whereData = array('tpd.isactive' => 1, 'tpd.pnr_no' => $pnr_no, 'tpd.user_id' => $loginuserid);
+            if($phoneno!=''){ $whereData['bum.phone']=$phoneno; }
             $joins = array(
                 array(
                     'table' => 'trip_master AS tm',
@@ -897,19 +900,26 @@ if (!function_exists('getpnrinfo')) {
                     'jointype' => 'INNER'
                 ),
             );
-            $columns = 'tpd.pnr_no,tpd.number_of_persons,tpd.price_to_adult,tpd.price_to_child,tpd.price_to_infan,tpd.subtotal_trip_price,tpd.offer_amt,'
+            $columns = 'tpd.pnr_no,tpd.number_of_persons,tpd.price_to_adult,tpd.price_to_child,tpd.price_to_infan,tpd.subtotal_trip_price,tpd.offer_amt,tpd.gst_amt,tpd.round_off,tpd.net_price,'
                     . 'tpd.total_trip_price,tpd.date_of_trip,tpd.time_of_trip,tpd.pick_up_location,tpd.pick_up_location_landmark,'
+                    . 'tm.id AS trip_id,tm.trip_name,tm.trip_code,tm.how_many_days,tm.how_many_nights,tm.total_days,tm.how_many_hours,'
+                    . 'tm.brief_description,tm.other_inclusions,tm.exclusions,tm.languages,tm.meal,tm.cancellation_policy,tm.confirmation_policy,tm.refund_policy,'
                     . 'bum.user_fullname AS bookedby,bum.phone AS bookedby_contactno,bum.email AS bookedby_contactemail,tpd.booked_on,tpd.status,tpd.payment_status,'
                     . 'tmum.user_fullname AS trip_postby,tmum.phone AS trip_contactno,tmum.email AS trip_contactemail,tm.trip_name,';
             $tableData = get_joins('trip_book_pay_details AS tpd', $columns, $joins, $whereData);
-
             if ($tableData->num_rows() > 0) {
-                return $book_pay = $tableData->result_array();
+                $book_pay = $tableData->result_array();
+                $book_pay[0]['date_of_trip']=formatdate($book_pay[0]['date_of_trip'], $format = 'd M Y');
+                $book_pay[0]['time_of_trip']=formatdate($book_pay[0]['time_of_trip'], $format = 'h:i A');
+                $book_pay[0]['booked_on']=formatdate($book_pay[0]['booked_on'], $format = 'd M Y h:i A');
+                $book_pay[0]['gst_percentage']=GST_PERCENTAGE;
+                return $book_pay;
             }
         }
 
         if (count($book_pay) < 1) {
-            $whereData = array('tpd.isactive' => 1, 'tpd.pnr_no' => $pnr_no, 'bum.phone' => $phoneno);
+            $whereData = array('tpd.isactive' => 1, 'tpd.pnr_no' => $pnr_no);
+            if($phoneno!=''){ $whereData['bum.phone']=$phoneno; }
             $joins = array(
                 array(
                     'table' => 'trip_master AS tm',
@@ -929,11 +939,18 @@ if (!function_exists('getpnrinfo')) {
             );
             $columns = 'tpd.pnr_no,tpd.number_of_persons,tpd.price_to_adult,tpd.price_to_child,tpd.price_to_infan,tpd.subtotal_trip_price,tpd.offer_amt,tpd.gst_amt,tpd.round_off,tpd.net_price,'
                     . 'tpd.total_trip_price,tpd.date_of_trip,tpd.time_of_trip,tpd.pick_up_location,tpd.pick_up_location_landmark,'
+                    . 'tm.id AS trip_id,tm.trip_name,tm.trip_code,tm.how_many_days,tm.how_many_nights,tm.total_days,tm.how_many_hours,'
+                    . 'tm.brief_description,tm.other_inclusions,tm.exclusions,tm.languages,tm.meal,tm.cancellation_policy,tm.confirmation_policy,tm.refund_policy,'
                     . 'bum.user_fullname AS bookedby,bum.phone AS bookedby_contactno,bum.email AS bookedby_contactemail,tpd.booked_on,tpd.status,tpd.payment_status,'
                     . 'tmum.user_fullname AS trip_postby,tmum.phone AS trip_contactno,tmum.email AS trip_contactemail,tm.trip_name,';
             $tableData = get_joins('trip_book_pay AS tpd', $columns, $joins, $whereData);
             if ($tableData->num_rows() > 0) {
-                return $book_pay = $tableData->result_array();
+                $book_pay = $tableData->result_array();
+                $book_pay[0]['date_of_trip']=formatdate($book_pay[0]['date_of_trip'], $format = 'd M Y');
+                $book_pay[0]['time_of_trip']=formatdate($book_pay[0]['time_of_trip'], $format = 'h:i A');
+                $book_pay[0]['booked_on']=formatdate($book_pay[0]['booked_on'], $format = 'd M Y h:i A');
+                $book_pay[0]['gst_percentage']=GST_PERCENTAGE;
+                return $book_pay;
             }
         }
         return FALSE;
