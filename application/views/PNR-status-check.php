@@ -65,7 +65,7 @@
                                 <div class="col-xs-12 col-sm-4">
 
                                     <div class="form-group">
-                                        <input type="text" name="pnr_number" value="PNR49KXPXG8" class="form-control" placeholder="Enter the PNR number" id="pnr_number"/>
+                                        <input type="text" name="pnr_number" class="form-control" placeholder="Enter the PNR number" id="pnr_number"/>
                                     </div>
 
                                 </div>
@@ -73,7 +73,7 @@
                                 <div class="col-xs-12 col-sm-4">
 
                                     <div class="form-group">
-                                        <input type="text" name="phone_number" value="9688079118" class="form-control" placeholder="Enter the phone number" id="phone_number"/>
+                                        <input type="text" name="phone_number" class="form-control" placeholder="Enter the phone number" id="phone_number"/>
                                     </div>
 
                                 </div>
