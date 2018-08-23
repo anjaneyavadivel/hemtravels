@@ -608,7 +608,7 @@ if (!function_exists('trip_book')) {
         $book_pay_detailsid=0;
         if($trip_book_payid){
             // check super admin offer for customer
-            if ($CI->session->userdata('user_type') == 'CU' && $offerinfo['offer_by_type']==3) {// super admin coupon changes
+            if (($CI->session->userdata('user_type') == 'GU' || $CI->session->userdata('user_type') == 'CU') && $offerinfo['offer_by_type']==3) {// super admin coupon changes
                 $discount_percentage=0;$discount_price=0;$offer_amt=0;$coupon_history_id=0;
                 $total_adult_price=0;$total_child_price=0;$total_infan_price=0;$subtotal_trip_price=0;
                 //check offer
@@ -696,7 +696,7 @@ if (!function_exists('trip_book')) {
                 //echo '<br><br>'; print_r($book_pay_details);
             }
 
-            if($parent_trip_id>0){
+            if($parenttrip_id>0){
                 $parenttrip = getallparenttrip($parenttrip_id);
                 //echo '<br><br>';print_r($parenttrip);
                 $parent_trip_id =0;$vendor_amt =0;
@@ -759,7 +759,7 @@ if (!function_exists('trip_book')) {
                             'from_user_id' => $bookdata['book_user_id'],
                             'from_trip_id' => $bookdata['trip_id'],
                             'user_id' => $user_id,
-                            'pnr_no' => 'PNR39R4QVQ7',//$book_pay['pnr_no'],
+                            'pnr_no' => $book_pay['pnr_no'],
                             'price_to_adult' => $checkoffer['price_to_adult'],
                             'price_to_child' => $checkoffer['price_to_child'],
                             'price_to_infan' => $checkoffer['price_to_infan'],

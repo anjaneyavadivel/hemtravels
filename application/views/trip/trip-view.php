@@ -130,7 +130,7 @@
 
                                                         <h3 class="section-title">About this tour</h3>
 
-                                                        <p class="lead"><?php echo isset($details['brief_description'])?$details['brief_description']:'';?></p>
+                                                        <p class="lead"><?php echo isset($details['brief_description'])?html_entity_decode($details['brief_description']):'';?></p>
 
                                                         <div class="bt mt-30 mb-30"></div>
 
@@ -209,7 +209,7 @@
 
                                                                     <h3 class="font-lg mb-20">Transport</h3>
                                                                     
-                                                                    <span class="pl-xs"><?php echo $details['transport'];?></span>                                                                    
+                                                                    <span class="pl-xs"><?php echo html_entity_decode($details['transport']);?></span>                                                                    
 
                                                                 </div>                                                                
                                                             </div>
@@ -221,7 +221,7 @@
 
                                                                         <h3 class="font-lg mb-20">Things To Carry</h3>
 
-                                                                        <span class="pl-xs"><?php echo $details['things_to_carry'];?></span>                                                                    
+                                                                        <span class="pl-xs"><?php echo html_entity_decode($details['things_to_carry']);?></span>                                                                    
 
                                                                     </div>                                                                
                                                                 </div>                                                     
@@ -232,7 +232,7 @@
 
                                                                         <h3 class="font-lg mb-20">Tour Type</h3>
 
-                                                                        <span class="pl-xs"><?php echo $details['tour_type'];?></span>                                                                    
+                                                                        <span class="pl-xs"><?php echo html_entity_decode($details['tour_type']);?></span>                                                                    
 
                                                                     </div>                                                                
                                                                 </div>                                                            

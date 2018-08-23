@@ -440,7 +440,7 @@
     <script type="text/javascript">
 
 
-
+    var windowSize = $(window).width(); 
         if (windowSize >= 720) {
             $('.filter_mbl').show();
 

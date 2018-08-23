@@ -74,6 +74,7 @@ class TripBookings extends CI_Controller {
             $data['total_traveller'] = $data['no_of_adult'] + $data['no_of_children'] + $data['no_of_infan'];
             $data['user_fullname'] = $this->session->userdata('name');
             $data['user_email'] = $this->session->userdata('user_email');
+            $data['user_phone'] = $this->session->userdata('user_phone');
             
         }
         //echo "<pre>";print_r($data);exit;
@@ -145,7 +146,7 @@ class TripBookings extends CI_Controller {
     }
     
     public function confirmUser(){
-        $result = false;
+        $result = false;$pnr ='';
         if ($_POST) 
         {
             $this->load->library('session');   
@@ -178,8 +179,8 @@ class TripBookings extends CI_Controller {
                         'no_of_infan' => $this->session->userdata('bk_no_of_infan'),
                         'date_of_trip' => $this->session->userdata('bk_from_date'),
                         'pick_up_location_id' => $this->session->userdata('bk_location'));
-                        $result = trip_book($bookdata);
-                        if(count($result) > 0 ){
+                        $pnr = trip_book($bookdata);
+                        if(count($pnr) > 0 ){
                             $result = true;
                             
                             //CLEAR BOOKING SESSIONS
@@ -198,7 +199,7 @@ class TripBookings extends CI_Controller {
             $this->session->set_userdata('err','Your book request not done.please try again!.'); 
         }
         
-        echo $result;exit;
+        echo $pnr;exit;
     }
     
 }

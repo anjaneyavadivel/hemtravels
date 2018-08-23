@@ -67,10 +67,10 @@ jQuery(function($) {
                     contentType: false,       // The content type used when sending data to the server.
                     cache: false,             // To unable request pages to be cached
                     processData:false,   
-                    success: function (data)
+                    success: function (res)
                     {
-                        if(data){
-                            window.location.href = base_url+'tripbook-done/success';
+                        if(res){
+                            window.location.href = base_url+'PNR-status'+res;
                         }else{
                             window.location.href = base_url+'trip-list';                            
                         }

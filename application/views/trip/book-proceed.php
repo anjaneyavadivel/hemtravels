@@ -129,7 +129,7 @@
                                             <div id="bootstarp-toggle-one-2" class="panel-collapse collapse in">
                                                 <div class="panel-body">
                                                     <div class="row gap-20">
-
+                                                         <?php if ($this->session->userdata('user_id') == '') {?>
                                     <div class="col-sm-6 col-md-6">
                                         <button class="btn btn-facebook btn-block mb-5-xs">Register with Facebook</button>
                                     </div>
@@ -141,14 +141,18 @@
                                         <div class="login-modal-or">
                                             <div><span>or</span></div>
                                         </div>
-                                    </div>
-                                    <?php echo form_open_multipart('#', array('class' => 'trip-proceed', 'id' => 'trip_proceed')); ?>
+                                                         </div> <?php }?>
+                                    <?php echo form_open_multipart('#', array('class' => 'trip-proceed', 'id' => 'trip_proceed')); 
+                                    if($this->session->userdata('user_type')=='VA'){ $user_fullname=''; }
+                                    if($this->session->userdata('user_type')=='VA'){ $user_email=''; }
+                                    if($this->session->userdata('user_type')=='VA'){ $user_phone=''; }
+                                    ?>
                                                         
                                     <div class="col-sm-12 col-md-6">
 
                                         <div class="form-group"> 
                                             <label>Username</label>
-                                            <input class="form-control" placeholder="Min 4 and Max 10 characters" name="user_name" id="user_name" type="text" value="<?php echo isset($user_fullname)?$user_fullname:'';?>"> 
+                                            <input class="form-control" placeholder="Min 4 and Max 10 characters" name="user_name" id="user_name" type="text" value="<?php echo $user_fullname;?>"> 
                                         </div>
 
                                     </div>
@@ -157,7 +161,16 @@
 
                                         <div class="form-group"> 
                                             <label>Email Address</label>
-                                            <input class="form-control" placeholder="Enter your email address" name="email" id="email" type="text" value="<?php echo isset($user_email)?$user_email:'';?>"> 
+                                            <input class="form-control" placeholder="Enter your email address" name="email" id="email" type="text" value="<?php echo $user_email;?>"> 
+                                        </div>
+
+                                    </div>
+
+                                    <div class="col-sm-12 col-md-6">
+
+                                        <div class="form-group"> 
+                                            <label>Phone Number</label>
+                                            <input class="form-control" placeholder="Enter your phone number" name="phonenumber" id="phonenumber" type="text" value="<?php echo $user_phone;?>"> 
                                         </div>
 
                                     </div>
@@ -189,12 +202,13 @@
                                     </div>-->
                                    <input type="hidden" id="tripId" value="<?php echo isset($details['id'])?$details['id']:0?>">                  
                                     <?php echo form_close()?>                    
-
+                                   <?php if ($this->session->userdata('user_id') == '') {?>
                                     <div class="col-sm-12 col-md-12">
                                         <div class="login-box-box-action">
                                             Already have account? <a data-toggle="modal" href="#loginModal">Log-in</a>
                                         </div>
-                                    </div>
+                                    </div>                  
+                                   <?php }?>
 
                                 </div>
                                                     

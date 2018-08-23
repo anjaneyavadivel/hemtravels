@@ -279,31 +279,27 @@
                                                 $adultPrice     = $no_of_adult    * $offer_details['price_to_adult'];
                                                 $childrenPrice  = $no_of_children * $offer_details['price_to_child'];
                                                 $infanPrice     = $no_of_infan    * $offer_details['price_to_infan'];
-                                                
+                                                $number_of_persons = (int)$no_of_adult + (int)$no_of_children + (int)$no_of_infan;
+                                                $subtotal = (int)$adultPrice + (int)$childrenPrice + (int)$infanPrice;
                                                 $adultDisPrice = 0;$childDisPrice =0;$infanDisPrice=0;$disLabel='';
+                                                $discount_price = 0;
                                                 if($offer_details['discount_price'] > 0){
-                                                    $adultDisPrice = (int)$adultPrice - (int)$offer_details['discount_price'];
-                                                    $childDisPrice = (int)$childrenPrice - (int)$offer_details['discount_price'];
-                                                    $infanDisPrice = (int)$infanPrice - (int)$offer_details['discount_price'];
-                                                    $disLabel = '(Fixed amount - '.$offer_details['discount_price'].' )';
+                                                    $discount_price = (int)$offer_details['discount_price'] * (int)$number_of_persons;
+                                                    $disLabel = '('.$offer_details['coupon_code'].' - '.$offer_details['coupon_name'].')';
                                                 }else if($offer_details['discount_percentage'] > 0){
-                                                    $adultDisPrice = (int)$adultPrice - ((int) $adultPrice * ((int) $offer_details['discount_percentage'] / 100));
-                                                    $childDisPrice = (int)$childrenPrice - ((int) $childrenPrice * ((int) $offer_details['discount_percentage'] / 100));
-                                                    $infanDisPrice = (int)$infanPrice - ((int) $infanPrice * ((int) $offer_details['discount_percentage'] / 100));
-                                                    $disLabel = '(% '.$offer_details['discount_percentage'].' )';
+                                                    $discount_price = ((int)$offer_details['discount_percentage']/100) * (int)$subtotal;
+                                                    $disLabel = '('.$offer_details['coupon_code'].' - '.$offer_details['coupon_name'].')';
                                                 }
-                                                
-                                                $discount_price = $adultDisPrice + $childDisPrice + $infanDisPrice;
-                                                
-                                                
-                                                $total_price = $adultPrice + $childrenPrice + $infanPrice - $discount_price;
+                                                $total_price1 = $subtotal - $discount_price;
                                                 
                                                 $gstPrice = 0;
                                                 if($offer_details['gst_percentage'] > 0){
-                                                    $gstPrice    = ((int) $total_price * ((int) $offer_details['gst_percentage'] / 100));
-                                                    $total_price = (int)$total_price + $gstPrice;
+                                                    $gstPrice    = ((int) $total_price1 * ((int) $offer_details['gst_percentage'] / 100));
+                                                    $total_price = (int)$total_price1 + $gstPrice;
                                                 }
-                                            
+                                                $roundoff = 0;
+                                                $roundoff = round($total_price) - $total_price;
+                                                $total_price = round($total_price);
                                             ?>
                                             <!--<h6 class="heading mt-20 mb-5 text-primary uppercase">Price per person</h6>-->
                                             <?php if(isset($no_of_adult) && $no_of_adult > 0) { ?>
@@ -312,7 +308,7 @@
                                                     Adult Price ( <?php echo $no_of_adult.' * '.$offer_details['price_to_adult']; ?> )
                                                 </div>
                                                 <div class="col-xs-5 col-sm-5 text-right">
-                                                    &#8377; <?php echo $adultPrice; ?>
+                                                    &#8377; <?php echo number_format($adultPrice,2); ?>
                                                 </div>
                                             </div>
                                             <?php } ?>
@@ -322,7 +318,7 @@
                                                     Children Price ( <?php echo $no_of_children.' * '.$offer_details['price_to_child']; ?> )
                                                 </div>
                                                 <div class="col-xs-5 col-sm-5 text-right">
-                                                    &#8377; <?php echo $childrenPrice; ?>
+                                                    &#8377; <?php echo number_format($childrenPrice,2); ?>
                                                 </div>
                                             </div>
                                             <?php } ?>
@@ -332,17 +328,17 @@
                                                     Infan Price ( <?php echo $no_of_infan.' * '.$offer_details['price_to_infan']; ?> )
                                                 </div>
                                                 <div class="col-xs-5 col-sm-5 text-right">
-                                                    &#8377; <?php echo $infanPrice; ?>
+                                                    &#8377; <?php echo number_format($infanPrice,2); ?>
                                                 </div>
                                             </div>
                                             <?php } ?>
                                             <?php if(isset($discount_price) && $discount_price > 0){ ?>
                                             <div class="row gap-10 mt-10">
                                                 <div class="col-xs-7 col-sm-7">
-                                                    Discount on per traveller<?php echo $disLabel;?>
+                                                    Discount <?php echo $disLabel;?>
                                                 </div>
                                                 <div class="col-xs-5 col-sm-5 text-right">
-                                                    (-) &#8377; <?php echo $discount_price; ?>
+                                                    (-) &#8377; <?php echo number_format($discount_price,2); ?>
                                                 </div>
                                             </div>
                                             <?php } ?>
@@ -352,7 +348,17 @@
                                                     GST (<?php echo $offer_details['gst_percentage'].'%';?>)
                                                 </div>
                                                 <div class="col-xs-5 col-sm-5 text-right">
-                                                   (+) &#8377; <?php echo $gstPrice; ?>
+                                                   (+) &#8377; <?php echo number_format($gstPrice,2); ?>
+                                                </div>
+                                            </div>
+                                            <?php } ?>
+                                            <?php if(isset($roundoff) && $roundoff > 0){ ?>
+                                            <div class="row gap-10 mt-10">
+                                                <div class="col-xs-7 col-sm-7">
+                                                    Round off 
+                                                </div>
+                                                <div class="col-xs-5 col-sm-5 text-right">
+                                                   (+) &#8377; <?php echo number_format($roundoff,2); ?>
                                                 </div>
                                             </div>
                                             <?php } ?>
@@ -367,7 +373,7 @@
                                                 </div>
                                                 <div class="col-xs-5 col-sm-5 text-right">
                                                     
-                                                    <span class="font600 font26 block text-primary mt-5"><?php echo $total_price; ?></span>
+                                                    <span class="font600 font26 block text-primary mt-5"><?php echo number_format($total_price,2); ?></span>
                                                 </div>
                                             </div>
                                         </li>
