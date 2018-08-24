@@ -449,6 +449,9 @@ if (!function_exists('trip_offer')) {
             if (strpos($discount_percentage, '.00') !== false) {
                 $discount_percentage = round($discount_percentage);
             }
+            if (strpos($discount_price, '.00') !== false) {
+                $discount_price = round($discount_price);
+            }
             $totalbookedpersons=0;
             $showField = array('SUM(number_of_persons) AS totalbookedpersons');
             $whereData = array('isactive' => 1,'status' => 2,'payment_status' => 1, 'trip_id' => $parenttrip_id, 'date_of_trip' => $date_of_trip);

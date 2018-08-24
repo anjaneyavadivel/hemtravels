@@ -26,7 +26,7 @@ jQuery(function($) {
     
     function getTripLists(){ 
         
-        $('.loading').show();
+        ///$('.loading').show();
 
         var formData = new FormData();
         var page = $('#currentPage').val();
@@ -39,7 +39,7 @@ jQuery(function($) {
         formData.append('sort_by', $(".sortOrder option:selected").val());
         formData.append('csrf_test_name', $.cookie('csrf_cookie_name'));
         
-        $('.load_more').show();
+        //$('.load_more').show();
 
         $.ajax({
                 type: "POST",
@@ -50,7 +50,9 @@ jQuery(function($) {
                 processData:false,   
                 success: function (data)
                 {
-                    data = $.parseJSON(data);                    
+                    data = $.parseJSON(data); 
+//                    console.log(data)
+//                    exit;                  
                     var result = '',user_type =$('#userType').val();
                     if(data.results && data.results.length > 0){ 
                         
@@ -96,7 +98,7 @@ jQuery(function($) {
                                     
                                     var comment = 'Excellent';
                                     var rating_val = data.total_rating;
-                                    if(data.total_rating < 1){comment = 'Low';}else if(data.total_rating < 3){comment = 'Average';}else if(data.total_rating < 4){comment = 'Good';}
+                                    if(data.total_rating < 1){comment = 'New';}else if(data.total_rating < 3){comment = 'Average';}else if(data.total_rating < 4){comment = 'Good';}
                                     
                                     rating = ' '+comment+' <span  class="stars_rate btn-primary">'+data.total_rating+'</span>';
                                 }
@@ -112,13 +114,13 @@ jQuery(function($) {
                                 }
                                 
                                 //OFFER DETAILS
-                                var price = data.price_to_child > 0 ?data.price_to_child:data.price_to_adult;
+                                var price = data.offer_details.price_to_child > 0 ?data.offer_details.price_to_child:data.offer_details.price_to_adult;
                                 var offer_details = '<div class="price">'+
                                                         '<span class="">'+price+'</span>'+                                        
                                                     '</div>';
                                 if((data.offer_details.discount_percentage && data.offer_details.discount_percentage > 0)
                                 || (data.offer_details.discount_price && data.offer_details.discount_price > 0)){
-                                    var fin_price = data.final_price_to_child > 0 ?data.final_price_to_child:data.final_price_to_adult;
+                                    var fin_price = data.offer_details.final_price_to_child > 0 ?data.offer_details.final_price_to_child:data.offer_details.final_price_to_adult;
                                     
                                     offer_details = '<div class="price_off mr-10">'+data.offer_details.discount_price+' OFF</div>';
                                     if(data.offer_details.discount_percentage && data.offer_details.discount_percentage > 0){
@@ -131,7 +133,11 @@ jQuery(function($) {
                                         '</div>';
                                 }
                                     
-                                
+                                //trim the string to the maximum length
+                                var trimmedDescription = data.brief_description.substr(0, 200);
+
+                                //re-trim if we are in the middle of a word
+                                trimmedDescription = trimmedDescription.substr(0, Math.min(trimmedDescription.length, trimmedDescription.lastIndexOf(" ")))
                                 
                                 result += '<div class="itinerary-list-item trip-list-item-data">'+
                                                 '<div class="row">'+
@@ -147,7 +153,7 @@ jQuery(function($) {
                                                             
                                                             shared_detail+
                                                             trip_duration+
-                                                            '<p class=" font-lg trip-list-brief-description">'+data.brief_description+'</p>'+
+                                                            '<p class=" font-lg trip-list-brief-description">'+trimmedDescription+'...</p>'+
                                                         '</div>'+
                                                     '</div>'+
                                                     '<div class="col-xs-12 col-sm-3 col-md-3 b_left">'+

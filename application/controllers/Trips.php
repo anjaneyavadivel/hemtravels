@@ -798,7 +798,10 @@ class Trips extends CI_Controller {
                                     $offerdata =array(
                                     'trip_id'      => $returnedData['results'][$k]['id'],                
                                     'date_of_trip' => date('Y-m-d'),
-                                    'ischeckadmin' => 0);
+                                    'ischeckadmin' => 1);
+                                    if ($this->session->userdata('user_type') == 'VA') {
+                                        $offerdata['ischeckadmin']=0;
+                                    }
                                     
                                     $returnedData['results'][$k]['offer_details'] = trip_offer($offerdata);
                                 }
