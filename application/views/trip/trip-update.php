@@ -85,7 +85,7 @@
                                                 <div class="col-xs-6 col-sm-6">
 
                                                     <div class="form-group">
-                                                        <label>Catagory:</label>
+                                                        <label>Catagory:<span style=' color: #d9534f;'>*</span></label>
                                                         <select name="trip_category_id"  id="trip_category_id" class="selectpicker show-tick form-control" title="Select placeholder">
                                                             <option value="">Select a catagory...</option>
                                                             <?php 
@@ -106,7 +106,7 @@
                                                 <div class="col-xs-12 col-sm-12">
 
                                                     <div class="form-group form-group-lg">
-                                                        <label>Trip Name:</label>
+                                                        <label>Trip Name:<span style=' color: #d9534f;'>*</span></label>
                                                         <input name="trip_name" type="text" class="form-control" placeholder="Enter the trip name..." value="<?php echo isset($trip_details['details']['trip_name'])?$trip_details['details']['trip_name']:''?>"/>
                                                     </div>
 
@@ -114,7 +114,7 @@
                                                 
                                                 <div class="col-xs-12 col-sm-4 col-md-4">
                                                     <div class="row gap-20">
-                                                    <label>Price to Adult:</label>
+                                                    <label>Price to Adult:<span style=' color: #d9534f;'>*</span></label>
                                                     <div class="input-group mb-15">
                                                         <input name="price_to_adult" class="form-control" type="text" placeholder="0" value="<?php echo isset($trip_details['details']['price_to_adult'])?$trip_details['details']['price_to_adult']:''?>">
                                                         <span class="input-group-addon">Rs / person</span>
@@ -143,7 +143,7 @@
                                                 </div>
                                                 <div class="col-xs-12 col-sm-4 col-md-4">
                                                     <div class="form-group">
-                                                        <label>Trip Duration:</label>
+                                                        <label>Trip Duration:<span style=' color: #d9534f;'>*</span></label>
                                                         <select name="trip_duration" id="trip_duration" class="selectpicker show-tick form-control" title="Select a trip duration type">                                                            
                                                             <option value="">Select a trip duration type...</option>
                                                             <option value="1" <?php echo isset($trip_details['details']['trip_duration']) && $trip_details['details']['trip_duration'] ==1?'selected':'';?>>Hours / minutes</option>
@@ -183,7 +183,7 @@
                                                 <div class="col-xs-12 col-sm-12">
 
                                                     <div class="form-group">
-                                                        <label>Brief Description:</label>
+                                                        <label>Brief Description:<span style=' color: #d9534f;'>*</span></label>
                                                         <textarea name="brief_description" class="bootstrap3-wysihtml5 form-control" rows="5"><?php echo isset($trip_details['details']['brief_description']) ? $trip_details['details']['brief_description']:''?></textarea>
                                                     </div>
 
@@ -237,7 +237,7 @@
                                                 <div class="col-xs-12 col-sm-12">
 
                                                     <div class="form-group">
-                                                        <label>Tags:</label>
+                                                        <label>Tags:<span style=' color: #d9534f;'>*</span></label>
                                                         <input name="tags" type="text" class="form-control" id="autocompleteTagging2" value="<?php echo isset($trip_details['tags']) ? $trip_details['tags']:''?>" placeholder="" />
                                                     </div>
 
@@ -252,7 +252,7 @@
                                                 <div class="col-xs-12 col-sm-4 col-md-4">
 
                                                     <div class="form-group">
-                                                        <label>Trip size:</label>
+                                                        <label>Trip size:<span style=' color: #d9534f;'>*</span></label>
                                                         <input name="no_of_traveller" type="text" class="form-control form-spin" placeholder="" value="<?php echo isset($trip_details['details']['no_of_traveller']) ? $trip_details['details']['no_of_traveller']:''?>"/> 
                                                     </div>
 
@@ -278,7 +278,7 @@
                                                 <div class="col-xs-12 col-sm-4 col-md-4">
 
                                                     <div class="form-group">
-                                                        <label>Booking cut of time type:</label>
+                                                        <label>Booking cut of time type:<span style=' color: #d9534f;'>*</span></label>
                                                         <select name="booking_cut_of_time_type" class="selectpicker show-tick form-control" title="Select a booking cut of time type">
                                                             <option value="">Select a booking cut of time type...</option>
                                                             <option value="1" <?php echo isset($trip_details['details']['booking_cut_of_time_type']) && $trip_details['details']['booking_cut_of_time_type'] == 1?'selected':''?>>Days</option>
@@ -307,7 +307,7 @@
                                                 <div class="col-xs-12 col-sm-6">
 
                                                     <div class="form-group">
-                                                        <label>State</label>
+                                                        <label>State:<span style=' color: #d9534f;'>*</span></label>
                                                         <select name="state_id" id="state_id" class="selectpicker show-tick form-control" title="Select a state">
                                                             <option value="">Select a state</option>
                                                             <?php if(isset($state_list) && $state_list->num_rows()>0) {
@@ -326,7 +326,7 @@
                                                 <div class="col-xs-12 col-sm-6">
 
                                                     <div class="form-group">
-                                                        <label>City</label>
+                                                        <label>City:<span style=' color: #d9534f;'>*</span></label>
                                                         <select name="city_id" id="city_id" class="selectpicker show-tick form-control" title="Select a city">
                                                             <option value="">Select a city</option>   
                                                              <?php if(isset($city_list) && $city_list->num_rows()>0) {
@@ -350,7 +350,7 @@
                                                             <div class="col-xs-12 col-sm-5">
 
                                                                 <div class="form-group">
-                                                                    <label>Meeting point</label>
+                                                                    <label>Meeting point:<span style=' color: #d9534f;'>*</span></label>
                                                                     <input  type="text" class="form-control" name="ex_pickup_meeting_point[<?php echo isset($trip_details['pickups'][0]['id'])?$trip_details['pickups'][0]['id']:0?>]" value="<?php echo isset($trip_details['pickups'][0]['location']) ? $trip_details['pickups'][0]['location']:'';?>"/>
                                                                 </div>
 
@@ -359,7 +359,7 @@
                                                             <div class="col-xs-12 col-sm-3">
 
                                                                 <div class="form-group">
-                                                                    <label>Meeting time</label>
+                                                                    <label>Meeting time:<span style=' color: #d9534f;'>*</span></label>
                                                                     <input type="text" class="oh-timepicker form-control" name="ex_pickup_meeting_time[<?php echo isset($trip_details['pickups'][0]['id'])?$trip_details['pickups'][0]['id']:0?>]" value="<?php echo isset($trip_details['pickups'][0]['time']) ? $trip_details['pickups'][0]['time']:'';?>"/>
                                                                 </div>
 
@@ -367,7 +367,7 @@
                                                             <div class="col-xs-12 col-sm-4">
 
                                                                 <div class="form-group">
-                                                                    <label>Landmark</label>
+                                                                    <label>Landmark:<span style=' color: #d9534f;'>*</span></label>
                                                                     <input type="text" class="oh-timepicker1 form-control" name="ex_pickup_landmark[<?php echo isset($trip_details['pickups'][0]['id'])?$trip_details['pickups'][0]['id']:0?>]" value="<?php echo isset($trip_details['pickups'][0]['landmark']) ? $trip_details['pickups'][0]['landmark']:'';?>"/>
                                                                 </div>
 
@@ -621,7 +621,7 @@
                                                 <div class="col-xs-12 col-sm-12 col-md-12">
 
                                                         <div class="form-group bootstrap-fileinput-style-01">
-                                                                <label>Cancellation Policy</label>
+                                                                <label>Cancellation Policy:<span style=' color: #d9534f;'>*</span></label>
                                                                 <textarea class="bootstrap3-wysihtml5 form-control" name="cancellation_policy" id="cancellation_policy" placeholder="Enter text ..." style="height: 150px;"><?php echo isset($trip_details['details']['cancellation_policy']) ? $trip_details['details']['cancellation_policy']:''?></textarea>
                                                         </div>
 
@@ -629,7 +629,7 @@
                                                 <div class="col-xs-12 col-sm-12 col-md-12">
 
                                                         <div class="form-group bootstrap-fileinput-style-01">
-                                                                <label>Confirmation Policy</label>
+                                                                <label>Confirmation Policy:<span style=' color: #d9534f;'>*</span></label>
                                                                 <textarea class="bootstrap3-wysihtml5 form-control" name="confirmation_policy" id="confirmation_policy" placeholder="Enter text ..." style="height: 150px;"><?php echo isset($trip_details['details']['confirmation_policy']) ? $trip_details['details']['confirmation_policy']:''?></textarea>
                                                         </div>
 
@@ -637,7 +637,7 @@
                                                 <div class="col-xs-12 col-sm-12 col-md-12">
 
                                                         <div class="form-group bootstrap-fileinput-style-01">
-                                                                <label>Refund Policy</label>
+                                                                <label>Refund Policy:<span style=' color: #d9534f;'>*</span></label>
                                                                 <textarea class="bootstrap3-wysihtml5 form-control" name="refund_policy" id="refund_policy" placeholder="Enter text ..." style="height: 150px;"><?php echo isset($trip_details['details']['refund_policy']) ? $trip_details['details']['refund_policy']:''?></textarea>
                                                         </div>
 
@@ -647,7 +647,7 @@
                                             
                                             <div class="row gap-20">
                                                 <div class="col-xs-12 col-sm-12 col-md-12">
-                                                    <label>Trip View to</label>
+                                                    <label>Trip View to:<span style=' color: #d9534f;'>*</span></label>
                                                     <div class="radio-block">
                                                         <input  id="view_type_1" name="view_to" type="radio" class="radio" value="1" checked/>
                                                         <label class="" for="view_type_1">Vendor and Customer</label>

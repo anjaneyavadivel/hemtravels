@@ -73,7 +73,7 @@
                                                 <div class="col-xs-6 col-sm-6">
 
                                                     <div class="form-group">
-                                                        <label>Trip Type:</label>
+                                                        <label>Trip Type:<span style=' color: #d9534f;'>*</span></label>
                                                         <select name="is_shared" class="selectpicker show-tick form-control" title="Select placeholder">
                                                             <option value="0" <?php if($isshared==0){echo 'selected';}?> >Make New Trip / Own Trip</option>
                                                             <option value="1" <?php if($isshared>0){echo 'selected';}?>>Make New Trip from Vendor / Shared Trips</option>
@@ -84,7 +84,7 @@
                                                 <div class="col-xs-6 col-sm-6">
 
                                                     <div class="form-group">
-                                                        <label>Catagory:</label>
+                                                        <label>Catagory:<span style=' color: #d9534f;'>*</span></label>
                                                         <select name="trip_category_id"  id="trip_category_id" class="selectpicker show-tick form-control" title="Select placeholder">
                                                             <option value="">Select a catagory...</option>
                                                             <?php 
@@ -101,7 +101,7 @@
                                                 <div class="col-xs-12 col-sm-12">
 
                                                     <div class="form-group form-group-lg">
-                                                        <label>Trip Name:</label>
+                                                        <label>Trip Name:<span style=' color: #d9534f;'>*</span></label>
                                                         <input name="trip_name" type="text" class="form-control" placeholder="Enter the trip name..."/>
                                                     </div>
 
@@ -109,7 +109,7 @@
                                                 
                                                 <div class="col-xs-12 col-sm-4 col-md-4">
                                                     <div class="row gap-20">
-                                                    <label>Price to Adult:</label>
+                                                    <label>Price to Adult:<span style=' color: #d9534f;'>*</span></label>
                                                     <div class="input-group mb-15">
                                                         <input name="price_to_adult" class="form-control" type="text" placeholder="1200">
                                                         <span class="input-group-addon">Rs / person</span>
@@ -138,7 +138,7 @@
                                                 </div>
                                                 <div class="col-xs-12 col-sm-4 col-md-4">
                                                     <div class="form-group">
-                                                        <label>Trip Duration:</label>
+                                                        <label>Trip Duration:<span style=' color: #d9534f;'>*</span></label>
                                                         <select name="trip_duration" id="trip_duration" class="selectpicker show-tick form-control" title="Select a trip duration type">
                                                             <option value="">Select a trip duration type...</option>
                                                             <option value="1">Hours / minutes</option>
@@ -178,29 +178,29 @@
                                                 <div class="col-xs-12 col-sm-12">
 
                                                     <div class="form-group">
-                                                        <label>Brief Description:</label>
-                                                        <textarea name="brief_description" class="bootstrap3-wysihtml5 form-control" rows="5"></textarea>
+                                                        <label>Brief Description:<span style=' color: #d9534f;'>*</span></label>
+                                                        <textarea name="brief_description" class="bootstrap3-wysihtml5 form-control" placeholder="Enter the brief description about trip..." rows="5"></textarea>
                                                     </div>
 
                                                 </div>
                                                 <div class="col-xs-12 col-sm-12">
                                                     <div class="form-group form-group-lg">
                                                         <label>Languages:</label>
-                                                        <input name="languages" type="text" class="form-control" placeholder="Enter the languages"/>
+                                                        <input name="languages" type="text" class="form-control" placeholder="eg: English, Thai, Malay"/>
                                                     </div>
                                                 </div>
                                                 
                                                 <div class="col-xs-12 col-sm-12">
                                                     <div class="form-group form-group-lg">
                                                         <label>Meal:</label>
-                                                        <input name="meal" type="text" class="form-control" placeholder="Enter the meals"/>
+                                                        <input name="meal" type="text" class="form-control" placeholder="eg: Vegetarian, Non-Vegetarian"/>
                                                     </div>
                                                 </div>
                                                 <div class="col-xs-12 col-sm-12">
 
                                                     <div class="form-group">
                                                         <label>Transport:</label>
-                                                        <textarea name="transport" class="bootstrap3-wysihtml5 form-control" rows="5"></textarea>
+                                                        <textarea name="transport" class="bootstrap3-wysihtml5 form-control" placeholder="eg: Pick up and drop from hotel in an A/C bus." rows="5"></textarea>
                                                     </div>
 
                                                 </div>
@@ -209,7 +209,7 @@
 
                                                     <div class="form-group">
                                                         <label>Things To Carry:</label>
-                                                        <textarea name="things_to_carry" class="bootstrap3-wysihtml5 form-control" rows="5"></textarea>
+                                                        <textarea name="things_to_carry" class="bootstrap3-wysihtml5 form-control" placeholder="eg: Sunglasses,Camera,Sunscreen" rows="5"></textarea>
                                                     </div>
 
                                                 </div>
@@ -218,7 +218,7 @@
 
                                                     <div class="form-group">
                                                         <label>Tour Type:</label>
-                                                        <textarea name="tour_type" class="bootstrap3-wysihtml5 form-control" rows="5"></textarea>
+                                                        <textarea name="tour_type" class="bootstrap3-wysihtml5 form-control" placeholder="eg: This is a group tour" rows="5"></textarea>
                                                     </div>
 
                                                 </div>
@@ -226,7 +226,7 @@
                                                 <div class="col-xs-12 col-sm-12">
 
                                                     <div class="form-group">
-                                                        <label>Tags:</label>
+                                                        <label>Tags:<span style=' color: #d9534f;'>*</span></label>
                                                         <input name="tags" type="text" class="form-control" id="autocompleteTagging2" value="" placeholder="" />
                                                     </div>
 
@@ -244,7 +244,7 @@
                                                 <div class="col-xs-12 col-sm-4 col-md-4">
 
                                                     <div class="form-group">
-                                                        <label>Trip size:</label>
+                                                        <label>Trip size:<span style=' color: #d9534f;'>*</span></label>
                                                         <input name="no_of_traveller" type="text" class="form-control form-spin" placeholder="20" /> 
                                                     </div>
 
@@ -270,7 +270,7 @@
                                                 <div class="col-xs-12 col-sm-4 col-md-4">
 
                                                     <div class="form-group">
-                                                        <label>Booking cut of time type:</label>
+                                                        <label>Booking cut of time type:<span style=' color: #d9534f;'>*</span></label>
                                                         <select name="booking_cut_of_time_type" class="selectpicker show-tick form-control" title="Select a booking cut of time type">
                                                             <option value="">Select a booking cut of time type...</option>
                                                             <option value="1">Days</option>
@@ -299,7 +299,7 @@
                                                 <div class="col-xs-12 col-sm-6">
 
                                                     <div class="form-group">
-                                                        <label>State</label>
+                                                        <label>State:<span style=' color: #d9534f;'>*</span></label>
                                                         <select name="state_id" id="state_id" class="selectpicker show-tick form-control" title="Select a state">
                                                             <option value="">Select a state</option>
                                                             <?php if(isset($state_list) && $state_list->num_rows()>0) {foreach($state_list->result() as $st) {?>
@@ -312,7 +312,7 @@
                                                 <div class="col-xs-12 col-sm-6">
 
                                                     <div class="form-group">
-                                                        <label>City</label>
+                                                        <label>City:<span style=' color: #d9534f;'>*</span></label>
                                                         <select name="city_id" id="city_id" class="selectpicker show-tick form-control" title="Select a city">
                                                             <option value="">Select a city</option>                                                            
                                                         </select>
@@ -327,7 +327,7 @@
                                                             <div class="col-xs-12 col-sm-5">
 
                                                                 <div class="form-group">
-                                                                    <label>Meeting point</label>
+                                                                    <label>Meeting point:<span style=' color: #d9534f;'>*</span></label>
                                                                     <input  type="text" class="form-control" name="pickup_meeting_point[]" />
                                                                 </div>
 
@@ -336,7 +336,7 @@
                                                             <div class="col-xs-12 col-sm-3">
 
                                                                 <div class="form-group">
-                                                                    <label>Meeting time</label>
+                                                                    <label>Meeting time:<span style=' color: #d9534f;'>*</span></label>
                                                                     <input type="text" class="oh-timepicker form-control" name="pickup_meeting_time[]"/>
                                                                 </div>
 
@@ -344,7 +344,7 @@
                                                             <div class="col-xs-12 col-sm-4">
 
                                                                 <div class="form-group">
-                                                                    <label>Landmark</label>
+                                                                    <label>Landmark:<span style=' color: #d9534f;'>*</span></label>
                                                                     <input type="text" class="oh-timepicker1 form-control" name="pickup_landmark[]" />
                                                                 </div>
 
@@ -561,7 +561,7 @@
                                                             
                                                             <div class="col-xs-12 col-sm-3 col-md-3">
                                                                 <div class="form-group form-group-sm">
-                                                                    <label>Time from</label>
+                                                                    <label>Time from:<span style=' color: #d9534f;'>*</span></label>
                                                                     <input type="text" class="oh-timepicker form-control"  name="trip_from_time[]"/>
                                                                 </div>
 
@@ -570,7 +570,7 @@
                                                             <div class="col-xs-12 col-sm-3 col-md-3">
 
                                                                 <div class="form-group form-group-sm">
-                                                                    <label>Time to</label>
+                                                                    <label>Time to:<span style=' color: #d9534f;'>*</span></label>
                                                                     <input type="text" class="oh-timepicker form-control" name="trip_to_time[]" />
                                                                 </div>
 
@@ -578,8 +578,8 @@
                                                             
                                                             <div class="col-xs-12 col-sm-5 col-md-5">
                                                                 <div class="form-group form-group-sm">
-                                                                    <label>Title:</label>
-                                                                    <input type="text" class="form-control" name="trip_from_title[]"/>
+                                                                    <label>Title:<span style=' color: #d9534f;'>*</span></label>
+                                                                    <input type="text" class="form-control" name="trip_from_title[]" placeholder="eg: Day1: First day trip"/>
                                                                 </div>
                                                             </div>
                                                             
@@ -629,36 +629,36 @@
                                                 <div class="col-xs-12 col-sm-12 col-md-12">
 												
                                                         <div class="form-group bootstrap-fileinput-style-01">
-                                                                <label>Cancellation Policy</label>
-                                                                <textarea class="bootstrap3-wysihtml5 form-control" name="cancellation_policy" id="cancellation_policy" placeholder="Enter text ..." style="height: 150px;"></textarea>
+                                                                <label>Cancellation Policy:<span style=' color: #d9534f;'>*</span></label>
+                                                                <textarea class="bootstrap3-wysihtml5 form-control" name="cancellation_policy" id="cancellation_policy" placeholder="eg: If cancellations are made 15 days before the start date of the trip, 25% of total tour cost will be charged as cancellation fees" style="height: 150px;"></textarea>
                                                         </div>
 
                                                 </div>
                                                 <div class="col-xs-12 col-sm-12 col-md-12">
 												
                                                         <div class="form-group bootstrap-fileinput-style-01">
-                                                                <label>Confirmation Policy</label>
-                                                                <textarea class="bootstrap3-wysihtml5 form-control" name="confirmation_policy" id="confirmation_policy" placeholder="Enter text ..." style="height: 150px;"></textarea>
+                                                                <label>Confirmation Policy:<span style=' color: #d9534f;'>*</span></label>
+                                                                <textarea class="bootstrap3-wysihtml5 form-control" name="confirmation_policy" id="confirmation_policy" placeholder="eg: The customer receives a confirmation voucher via email within 24 hours of successful booking" style="height: 150px;"></textarea>
                                                         </div>
 
                                                 </div>
                                                 <div class="col-xs-12 col-sm-12 col-md-12">
 												
                                                         <div class="form-group bootstrap-fileinput-style-01">
-                                                                <label>Refund Policy</label>
-                                                                <textarea class="bootstrap3-wysihtml5 form-control" name="refund_policy" id="refund_policy" placeholder="Enter text ..." style="height: 150px;"></textarea>
+                                                                <label>Refund Policy:<span style=' color: #d9534f;'>*</span></label>
+                                                                <textarea class="bootstrap3-wysihtml5 form-control" name="refund_policy" id="refund_policy" placeholder="eg: The applicable refund amount will be processed within 10 business days" style="height: 150px;"></textarea>
                                                         </div>
 
                                                 </div>
                                                 <div class="col-xs-12 col-sm-12 col-md-12">
-                                                    <label>Trip View to</label>
+                                                    <label>Trip View to:<span style=' color: #d9534f;'>*</span></label>
                                                     <div class="radio-block">
                                                         <input  id="view_type_1" name="view_to" type="radio" class="radio" value="1" checked/>
                                                         <label class="" for="view_type_1">Vendor and Customer</label>
                                                     </div>				
                                                     <div class="radio-block">
                                                         <input  id="view_type_2" name="view_to" type="radio" class="radio" value="2"/>
-                                                        <label class="" for="view_type_2">Vendor Only</label>
+                                                        <label class="" for="view_type_2">Vendor Only (share trip to other vendor)</label>
                                                     </div>
                                                 </div>
                                             </div>
