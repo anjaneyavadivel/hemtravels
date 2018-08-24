@@ -87,3 +87,4 @@ ALTER TABLE `trip_category` ADD `img_name` VARCHAR(200) NOT NULL AFTER `name`;
 ALTER TABLE `trip_category` CHANGE `isactive` `isactive` INT(11) NOT NULL DEFAULT '1' COMMENT '0 - Deactive, 1 - Active';
 
 ALTER TABLE `trip_master` ADD `return_paid_amt` INT NULL AFTER `view_to`, ADD `return_notes` TEXT NULL AFTER `return_paid_amt`, ADD `return_on` TIMESTAMP NOT NULL AFTER `return_notes`;
+ALTER TABLE `trip_master` ADD `return_paid_status` TINYINT(1) NOT NULL DEFAULT '1' COMMENT '1 - New, 2 - InProgress, 3 - Paid' AFTER `return_paid_amt`;
