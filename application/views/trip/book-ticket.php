@@ -238,8 +238,37 @@
 
                                     <?php if(isset($offer_details['availabletraveller']) && $offer_details['availabletraveller'] >= $total_traveller && $offer_details['is_open'] == 1) {?>
                                     <ul class="price-summary-list">
-
+                                        
                                         <li>
+                                            <div class="col-xs-6 col-sm-6 col-md-6 p-0 mb-5">
+                                                <p><strong>Meeting point:</strong> <span class="text-muted"><?php echo isset($details['meeting_point'])?$details['meeting_point']:'';?></span></p>
+                                            </div>
+                                              <div class="col-xs-6 col-sm-6 col-md-6 ml-0 mb-5">
+                                                <p><strong>Meeting time:</strong> <span class="text-muted"><?php if(isset($details['meeting_time']) && !empty($details['meeting_time'])){
+                                                    echo date('h:i a', strtotime($details['meeting_time']));
+                                                }?></span></p>
+                                            </div>
+                                          
+                                        </li>
+                                        <li>
+                                            <div class="col-xs-12 col-sm-12 col-md-12 ml-0 mb-5">
+                                                <p><strong>Travellers:</strong> <span class="text-muted"><?php
+                                                $travellers = '';
+                                                if(isset($no_of_adult)) {
+                                                    $travellers = $no_of_adult.' adults, '; 
+                                                }
+                                                if(isset($no_of_children)) {
+                                                    $travellers .= $no_of_children.' childrens, '; 
+                                                }
+                                                if(isset($no_of_infan)) {
+                                                    $travellers .= $no_of_infan.' infans '; 
+                                                }
+                                                echo $travellers;
+                                            ?></span></p>
+                                            </div>
+                                          
+                                        </li>
+<!--                                        <li>
                                             <h6>Meeting point</h6>
                                             <p class="text-muted"><?php echo isset($details['meeting_point'])?$details['meeting_point']:'';?></p>
                                         </li>
@@ -251,9 +280,9 @@
                                                     echo date('h:i a', strtotime($details['meeting_time']));
                                                 }
                                             ?></p>
-                                        </li>
+                                        </li>-->
 
-                                        <li>
+<!--                                        <li>
                                             <h6>Travellers</h6>
                                             <?php
                                                 $travellers = '';
@@ -269,7 +298,7 @@
                                                 echo '<p class="text-muted">'.$travellers.'</p>';
                                             ?>
                                             
-                                        </li>
+                                        </li>-->
 
                                         <li class="divider"></li>
 
