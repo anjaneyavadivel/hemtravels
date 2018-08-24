@@ -75,7 +75,7 @@ jQuery(function($) {
                     $('#rangeDatePickerFrom').val(s1);
                     $('#rangeDatePickerTo').val(s2);
             },
-            beforeShowDay: function(t){ console.log(t);
+            beforeShowDay: function(t){ //console.log(t);
                    // var valid = !(t.getDate() == 5 || t.getDate() == 17 || t.getDate() == 18 || t.getDate() == 19  || t.getDate() == 26 );
                     
                     var today = moment(t).format("YYYY-MM-DD");                   
