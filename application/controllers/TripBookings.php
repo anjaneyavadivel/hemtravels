@@ -146,7 +146,7 @@ class TripBookings extends CI_Controller {
     }
     
     public function confirmUser(){
-        $result = false;$pnr ='';
+        $result = false;$pnr =0;
         if ($_POST) 
         {
             $this->load->library('session');   
@@ -155,7 +155,7 @@ class TripBookings extends CI_Controller {
              
             $this->form_validation->set_rules('user_name', 'User name', 'trim|required');
             $this->form_validation->set_rules('email', 'Email', 'trim|required');
-            $this->form_validation->set_rules('password', 'Password', 'trim|required');
+            $this->form_validation->set_rules('phonenumber', 'Phone number', 'trim|required');
 
             if ($this->form_validation->run($this) == FALSE) {
                 $this->session->set_userdata('err',validation_errors());                
@@ -165,10 +165,9 @@ class TripBookings extends CI_Controller {
                     $userData=array(
                     'user_fullname' => $this->input->post('user_name',true),
                     'email'         => $this->input->post('email',true),
-                    'password'      => $this->input->post('password',true),
+                    'phone'      => $this->input->post('phonenumber',true),
                     );
                     $userId         = getGuestLoginDeteails($userData);
-
                     //BOOKING
                     if($userId > 0){
                         $bookdata=array(
@@ -179,10 +178,10 @@ class TripBookings extends CI_Controller {
                         'no_of_infan' => $this->session->userdata('bk_no_of_infan'),
                         'date_of_trip' => $this->session->userdata('bk_from_date'),
                         'pick_up_location_id' => $this->session->userdata('bk_location'));
-                        $pnr = trip_book($bookdata);
-                        if(count($pnr) > 0 ){
+                        $book_pay = trip_book($bookdata);
+                        if(count($book_pay) > 0 ){
                             $result = true;
-                            
+                            $pnr=$book_pay['pnr_no'];
                             //CLEAR BOOKING SESSIONS
                             $array_items = array('bk_no_of_adult', 'bk_no_of_children','bk_no_of_infan','bk_from_date',
                                 'bk_to_date','bk_location');

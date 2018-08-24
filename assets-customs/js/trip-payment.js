@@ -57,7 +57,7 @@ jQuery(function($) {
                 formData.append('trip_id', $('#tripId').val());
                 formData.append('user_name', $('#user_name').val());
                 formData.append('email', $('#email').val());               
-                formData.append('password', $('#password').val());                             
+                formData.append('phonenumber', $('#phonenumber').val());                             
                 formData.append('csrf_test_name', $.cookie('csrf_cookie_name'));
                
                 $.ajax({
@@ -70,7 +70,7 @@ jQuery(function($) {
                     success: function (res)
                     {
                         if(res){
-                            window.location.href = base_url+'PNR-status'+res;
+                            window.location.href = base_url+'PNR-status/'+res;
                         }else{
                             window.location.href = base_url+'trip-list';                            
                         }

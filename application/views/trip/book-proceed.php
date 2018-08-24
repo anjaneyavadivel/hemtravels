@@ -6,8 +6,10 @@
                 <div class="breadcrumb-wrapper">
                     <div class="container">
                         <ol class="breadcrumb">
-                            <li><a href="#">Home</a></li>
-                            <li class="active">Payment</li>
+                            <li><a href="<?php echo base_url()?>">Home</a></li>
+                            <li><a href="<?php echo base_url()?>trip-list">Trip List</a></li>
+                            <li><a href="<?php echo base_url().'trip-view/'.$details['trip_code']?>">Trip View</a></li>
+                            <li class="active">Summary</li>
                         </ol>
                     </div>
                 </div>
@@ -148,7 +150,7 @@
                                     if($this->session->userdata('user_type')=='VA'){ $user_phone=''; }
                                     ?>
                                                         
-                                    <div class="col-sm-12 col-md-6">
+                                    <div class="col-sm-12 col-md-4">
 
                                         <div class="form-group"> 
                                             <label>Username</label>
@@ -157,7 +159,7 @@
 
                                     </div>
 
-                                    <div class="col-sm-12 col-md-6">
+                                    <div class="col-sm-12 col-md-4">
 
                                         <div class="form-group"> 
                                             <label>Email Address</label>
@@ -166,7 +168,7 @@
 
                                     </div>
 
-                                    <div class="col-sm-12 col-md-6">
+                                    <div class="col-sm-12 col-md-4">
 
                                         <div class="form-group"> 
                                             <label>Phone Number</label>
@@ -175,31 +177,6 @@
 
                                     </div>
 
-                                   <!-- <div class="col-sm-12 col-md-6">
-
-                                        <div class="form-group"> 
-                                            <label>Password</label>
-                                            <input class="form-control" placeholder="Min 8 and Max 20 characters" name= "password" id= "password" type="password"> 
-                                        </div>
-
-                                    </div>
-
-                                    <div class="col-sm-12 col-md-6">
-
-                                        <div class="form-group"> 
-                                            <label>Password Confirmation</label>
-                                            <input class="form-control" placeholder="Re-type password again" name="confirm_password" type="password"> 
-                                        </div>
-
-                                    </div>
-
-                                    <div class="col-sm-12 col-md-12">
-                                        <div class="checkbox-block">
-                                            <div class="register_confirm_msg" style="color:red;display: none">Please accept terms and conditions</div>
-                                            <input id="register_accept_checkbox" name="register_accept_checkbox" class="checkbox" value="First Choice" type="checkbox"> 
-                                            <label class="" for="register_accept_checkbox">By register, I read &amp; accept <a href="#">the terms</a></label>
-                                        </div>
-                                    </div>-->
                                    <input type="hidden" id="tripId" value="<?php echo isset($details['id'])?$details['id']:0?>">                  
                                     <?php echo form_close()?>                    
                                    <?php if ($this->session->userdata('user_id') == '') {?>

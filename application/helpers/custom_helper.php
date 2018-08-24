@@ -511,6 +511,9 @@ if (!function_exists('trip_book')) {
 
         $CI = & get_instance();
         $loginuserid = $CI->session->userdata('user_id');
+        if ($loginuserid == '') {
+            $loginuserid = $bookdata['book_user_id'];
+        }
         if (count($bookdata) != 7 || $loginuserid == '') {
             return FALSE;
         }
@@ -916,7 +919,7 @@ if (!function_exists('getpnrinfo')) {
                 $book_pay[0]['time_of_trip']=formatdate($book_pay[0]['time_of_trip'], $format = 'h:i A');
                 $book_pay[0]['booked_on']=formatdate($book_pay[0]['booked_on'], $format = 'd M Y h:i A');
                 $book_pay[0]['gst_percentage']=GST_PERCENTAGE;
-                return $book_pay;
+                return $book_pay[0];
             }
         }
 
@@ -953,7 +956,7 @@ if (!function_exists('getpnrinfo')) {
                 $book_pay[0]['time_of_trip']=formatdate($book_pay[0]['time_of_trip'], $format = 'h:i A');
                 $book_pay[0]['booked_on']=formatdate($book_pay[0]['booked_on'], $format = 'd M Y h:i A');
                 $book_pay[0]['gst_percentage']=GST_PERCENTAGE;
-                return $book_pay;
+                return $book_pay[0];
             }
         }
         return FALSE;

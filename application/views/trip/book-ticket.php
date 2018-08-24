@@ -7,8 +7,10 @@
         <div class="breadcrumb-wrapper">
             <div class="container">
                 <ol class="breadcrumb">
-                    <li><a href="#">Home</a></li>
-                    <li class="active">Payment</li>
+                    <li><a href="<?php echo base_url()?>">Home</a></li>
+                    <li><a href="<?php echo base_url()?>trip-list">Trip List</a></li>
+                    <li><a href="<?php echo base_url().'trip-view/'.$details['trip_code']?>">Trip View</a></li>
+                    <li class="active">Payment Summary</li>
                 </ol>
             </div>
         </div>
@@ -88,13 +90,13 @@
             </div>
 
         </div>
-        <div class=" col-sm-12 pt-30 pb-30 text-center">
+<!--        <div class=" col-sm-12 pt-30 pb-30 text-center">
                         <div class="col-xs-4 col-sm-4 col-lg-4 p-0 ">
                                 <i class="fa fa-check active_book" aria-hidden="true"></i> 
                             <span class="progressline"> </span>
                         </div>
                         <div class="col-xs-4 col-sm-4 col-lg-4 p-0">
-                                <i class="fa fa-check inactive_book " aria-hidden="true"></i> 
+                                <i class="fa fa-check active_book " aria-hidden="true"></i> 
                             <span class="progressline"> </span>
                         </div>
                         <div class="col-xs-4 col-sm-4 col-lg-4 p-0">
@@ -102,7 +104,7 @@
 
                         </div>
 
-                    </div>
+                    </div>-->
 
         <div class="pt-30 pb-50">
 
@@ -126,20 +128,20 @@
                                                                 <?php echo form_open_multipart('#', array('class' => 'trip-book', 'id' => 'trip_booking')); ?>
                                                                     <div class="row gap-10" id="rangeDatePicker">
 
-                                                                        <div class="col-xss-12 col-xs-6 col-sm-6">
-                                                                            <div class="form-group">
-                                                                                <label>From</label>
+                                                                        <div class="col-xss-12 col-xs-12 col-sm-12">
+                                                                        <div class="form-group">
+                                                                            <label>Choose your date</label>
                                                                                 <input type="text" id="rangeDatePickerFrom" name="booking_from_time" class="form-control" placeholder="M D, YYYY" value="<?php echo isset($from_date)?$from_date:''?>" />
                                                                             </div>
                                                                         </div>
-                                                                        <?php if(isset($details['trip_duration']) && $details['trip_duration'] == '2') { ?>
+                                                                        <?php /*if(isset($details['trip_duration']) && $details['trip_duration'] == '2') { ?>
                                                                         <div class="col-xss-12 col-xs-6 col-sm-6">
                                                                             <div class="form-group">
                                                                                 <label>To</label>
                                                                                 <input type="text" id="rangeDatePickerTo" name="booking_to_time" class="form-control" placeholder="M D, YYYY" value="<?php echo isset($to_date)?$to_date:''?>"/>
                                                                             </div>
                                                                         </div>
-                                                                        <?php } ?>
+                                                                        <?php }*/ ?>
                                                                     </div>
 
                                                                     <div class="row gap-20">
@@ -174,7 +176,7 @@
                                                                         <div class="col-sm-12 col-md-12">
 
                                                                             <div class="form-group">
-                                                                                <label>Location</label>
+                                                                                <label>Choose your Location</label>
                                                                                 <select class="selectpicker show-tick form-control" id="location" name="location" data-live-search="false">
                                                                                     <option value="">Select</option>
                                                                                     <?php 
@@ -240,18 +242,18 @@
                                     <ul class="price-summary-list">
                                         
                                         <li>
-                                            <div class="col-xs-6 col-sm-6 col-md-6 p-0 mb-5">
-                                                <p><strong>Meeting point:</strong> <span class="text-muted"><?php echo isset($details['meeting_point'])?$details['meeting_point']:'';?></span></p>
+                                            <div class="col-xs-6 col-sm-6 col-md-6 no-padding mb-5">
+                                                <p><strong>Meeting Point:</strong> <span class="text-muted"><?php echo isset($details['meeting_point'])?$details['meeting_point']:'';?></span></p>
                                             </div>
-                                              <div class="col-xs-6 col-sm-6 col-md-6 ml-0 mb-5">
-                                                <p><strong>Meeting time:</strong> <span class="text-muted"><?php if(isset($details['meeting_time']) && !empty($details['meeting_time'])){
+                                              <div class="col-xs-6 col-sm-6 col-md-6 no-padding mb-5">
+                                                <p><strong>Meeting Time:</strong> <span class="text-muted"><?php if(isset($details['meeting_time']) && !empty($details['meeting_time'])){
                                                     echo date('h:i a', strtotime($details['meeting_time']));
                                                 }?></span></p>
                                             </div>
                                           
                                         </li>
                                         <li>
-                                            <div class="col-xs-12 col-sm-12 col-md-12 ml-0 mb-5">
+                                            <div class="col-xs-12 col-sm-12 col-md-12 no-padding mb-5">
                                                 <p><strong>Travellers:</strong> <span class="text-muted"><?php
                                                 $travellers = '';
                                                 if(isset($no_of_adult)) {
@@ -398,7 +400,7 @@
                                         <li>
                                             <div class="row gap-10 mt-10">
                                                 <div class="col-xs-7 col-sm-7">
-                                                    <span class="font600">Total </span>
+                                                    <span class="font600">Total Price </span>
                                                 </div>
                                                 <div class="col-xs-5 col-sm-5 text-right">
                                                     
@@ -411,9 +413,10 @@
                                         <!--<li>
                                             <small><b>Extra Savings:</b> Earn Cash Back upto Rs500 on this booking</small>
                                         </li>-->
+                                        
                                         <li style="text-align: center;">
                                             <input type="hidden" id="totalPrice" value="<?php echo $total_price; ?>">
-                                            <a class="btn btn-primary  mt-5" id="payment_proceed" href="javascript:;">Proceed</a>
+                                            <a class="btn btn-primary  mt-5" id="payment_proceed" href="javascript:;">Continue to Pay</a>
                                         </li>
 
                                     </ul>

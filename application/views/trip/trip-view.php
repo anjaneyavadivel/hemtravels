@@ -51,8 +51,8 @@
                                     <div class="breadcrumb-wrapper text-left">
 
                                         <ol class="breadcrumb">
-                                            <li><a href="#">Home</a></li>
-
+                                            <li><a href="<?php echo base_url()?>">Home</a></li>
+                                            <li><a href="<?php echo base_url()?>trip-list">Trip List</a></li>
                                             <li class="active">View</li>
                                         </ol>
 
@@ -568,20 +568,20 @@
                                                 <?php echo form_open_multipart('#', array('class' => 'trip-view', 'id' => 'trip_booking')); ?>
                                                     <div class="row gap-10" id="rangeDatePicker">
 
-                                                        <div class="col-xss-12 col-xs-6 col-sm-6">
+                                                        <div class="col-xss-12 col-xs-12 col-sm-12">
                                                             <div class="form-group">
-                                                                <label>From</label>
+                                                                <label>Choose your date</label>
                                                                 <input type="text" id="rangeDatePickerFrom" name="booking_from_time" class="form-control" placeholder="M D, YYYY" />
                                                             </div>
                                                         </div>
-                                                        <?php if(isset($details['trip_duration']) && $details['trip_duration'] == '2') { ?>
+                                                        <?php /*if(isset($details['trip_duration']) && $details['trip_duration'] == '2') { ?>
                                                         <div class="col-xss-12 col-xs-6 col-sm-6">
                                                             <div class="form-group">
                                                                 <label>To</label>
                                                                 <input type="text" id="rangeDatePickerTo" name="booking_to_time" class="form-control" placeholder="M D, YYYY" />
                                                             </div>
                                                         </div>
-                                                        <?php } ?>
+                                                        <?php }*/ ?>
                                                     </div>
 
                                                     <div class="row gap-20">
@@ -616,7 +616,7 @@
                                                         <div class="col-sm-12 col-md-12">
 
                                                             <div class="form-group">
-                                                                <label>Location</label>
+                                                                <label>Choose your Location</label>
                                                                 <select class="selectpicker show-tick form-control" id="location" name="location" data-live-search="false">
                                                                     <option value="">Select</option>
                                                                     <?php 

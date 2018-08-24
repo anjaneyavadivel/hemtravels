@@ -21,15 +21,15 @@ class Pnr_status extends CI_Controller {
                 $data['message'] = 'Enter the PNR number and Phone number';//validation_errors();
             }
             $pnrinfo = getpnrinfo($this->input->post('pnr_number',true),$this->input->post('phone_number',true));
-            if(!isset($pnrinfo[0]['pnr_no'])){
+            if(!isset($pnrinfo['pnr_no'])){
                 $data['message'] = 'Sorry! Please enter valid PNR number and Phone number';
-            }$pnrinfo=$pnrinfo[0];
+            }$pnrinfo=$pnrinfo;
         }else if ($pnr !=''){
             $data['isform'] = FALSE;
             $pnrinfo = getpnrinfo($pnr);
-            if(!isset($pnrinfo[0]['pnr_no'])){
+            if(!isset($pnrinfo['pnr_no'])){
                 $data['message'] = 'Sorry! Please enter valid PNR number and Phone number';
-            }$pnrinfo=$pnrinfo[0];
+            }$pnrinfo=$pnrinfo;
         }$data['pnrinfo'] =  $pnrinfo;
         
         $this->load->view('PNR-status-check',$data);      

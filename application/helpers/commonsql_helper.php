@@ -28,6 +28,7 @@ if (!defined('BASEPATH'))
         $CI = & get_instance();
 		$email = isset($array['email'])?$array['email']:'';
 		$phone = isset($array['phone'])?$array['phone']:'';
+		$user_fullname = isset($array['user_fullname'])?$array['user_fullname']:'';
 		if($phone =='' && $email==''){
 			return 0;
 		}
@@ -38,7 +39,7 @@ if (!defined('BASEPATH'))
 			return $ch->id;
 		}
 		else{
-			$tableData =  array('email'=>$email,'phone'=>$phone,'user_type'=>'GU','password'=>md5(md5(123456)));
+			$tableData =  array('user_fullname'=>$user_fullname,'email'=>$email,'phone'=>$phone,'user_type'=>'GU','password'=>md5(md5(123456)));
         	return $insertid = $CI->user_model->insert('user_master', $tableData);
 		}
     }

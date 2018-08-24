@@ -294,23 +294,23 @@ class Master extends CI_Controller {
 //        if ($this->session->userdata('user_id') == '') {
 //            return FALSE;
 //        }
-        $offerdata=array(
-        'trip_id' => 1,
-        'date_of_trip' => "24-08-2018",
-        'ischeckadmin' => 1); 
-        $result = trip_offer($offerdata);
-        print_r($result);
-        exit();
-//        $bookdata=array(
-//        'trip_id' => 2,
-//        'book_user_id' => $this->session->userdata('user_id'),
-//        'no_of_adult' => 1,
-//        'no_of_child' => 1,
-//        'no_of_infan' => 0,
-//        'date_of_trip' => "18-08-2018",
-//        'pick_up_location_id' => 2);
-//        $result = trip_book($bookdata);
+//        $offerdata=array(
+//        'trip_id' => 1,
+//        'date_of_trip' => "24-08-2018",
+//        'ischeckadmin' => 1); 
+//        $result = trip_offer($offerdata);
 //        print_r($result);
+//        exit();
+        $bookdata=array(
+        'trip_id' => 3,
+        'book_user_id' => 1,
+        'no_of_adult' => 1,
+        'no_of_child' => 0,
+        'no_of_infan' => 0,
+        'date_of_trip' => "Sep 14, 2018",
+        'pick_up_location_id' => 3);
+        $result = trip_book($bookdata);
+        print_r($result);
         
         
     }
