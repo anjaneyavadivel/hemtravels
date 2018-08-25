@@ -604,5 +604,6 @@
 <?php if($url=='PNR-status'){?>
     <script type="text/javascript" src="<?php echo base_url()?>assets-customs/js/pnr.js"></script>    
 <?php }?>
+<script> setTimeout(function(){$(".alert").fadeOut(400);}, 5000)</script>
 </body>
 </html>
