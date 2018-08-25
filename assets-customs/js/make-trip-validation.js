@@ -101,9 +101,12 @@ jQuery(function ($) {
             "pickup_meeting_time[]":{
                 required: true,
             },
-            "pickup_landmark[]":{
-                required: true,
+            "other_city":{
+                required:true
             }
+            /*"pickup_landmark[]":{
+                required: true,
+            }*/
         },
 //        messages: {
 //            um_email: {

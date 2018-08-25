@@ -64,6 +64,7 @@
                             if (isset($pnrinfo) && count($pnrinfo) > 1) {
                                 ?>
                                 <div id="pnrinfo">
+                                    <style> .table-size{ width: 50%;}</style>
                                     <div class="logo pnrinfologo hide">
                                         <a href="<?php echo base_url() ?>"><img src="<?php echo base_url() ?>assets/images/logo-white.png" alt="Logo" /></a>
                                     </div>
@@ -71,7 +72,7 @@
 
                                         <h4 class="section-title">Booking Information</h4>
                                         <p>Compliment interested discretion estimating on stimulated apartments.</p>
-                                        <table class="table ">
+                                        <table class="table">
                                             <tbody>
                                                 <tr><td colspan="2"><span class="font600 package_name">Trip Name:</span> <?= $pnrinfo['trip_name']; ?></td></tr>
                                                 <tr><td><span class="font600 pnr_number">PNR Number:</span> <?= $pnrinfo['pnr_no']; ?></td>
@@ -98,10 +99,10 @@
                                             </tbody>
                                         </table>
                                         <h4 class="section-title">Customer Cost Info</h4>
-                                        <table class="table ">
+                                        <table class="table tablesize">
                                             <tbody>
-                                                <tr><td><span class="font600">Amount: </span></td>
-                                                    <td class="text-right"><?= $pnrinfo['subtotal_trip_price']; ?></td></tr>
+                                                <tr><td class="table-size"><span class="font600">Amount: </span></td>
+                                                    <td class="table-size text-right"><?= $pnrinfo['subtotal_trip_price']; ?></td></tr>
                                                 <?php if ($pnrinfo['offer_amt'] != 0.00) { ?>
                                                 <tr><td><span class="font600 net_price">Offer Amount:
                                                         <?php
@@ -169,10 +170,10 @@
                                                 ?>
                                                 <h4 class="section-title">
                                                      <?php if ($book_pay['user_id'] == 0) { echo 'Admin offer'; }else{ echo $book_pay['trip_postby'];} ?> Cost Info</h4>
-                                                <table class="table ">
+                                        <table class="table tablesize" style="width: 100%">
                                                     <tbody>
-                                                        <tr><td><span class="font600">Vendor/Admin Name: </span></td>
-                                                            <td class="text-right"><?php if ($book_pay['user_id'] == 0) { echo 'Admin offer'; }else{ echo $book_pay['trip_postby'];} ?></td></tr>
+                                                        <tr><td class="table-size"><span class="font600">Vendor/Admin Name: </span></td>
+                                                            <td class="table-size text-right"><?php if ($book_pay['user_id'] == 0) { echo 'Admin offer'; }else{ echo $book_pay['trip_postby'];} ?></td></tr>
                                                         <?php if ($book_pay['trip_name'] !=''){ ?>
                                                             <tr><td><span class="font600">Trip Name: </span></td>
                                                             <td class="text-right"><?php echo $book_pay['trip_name']; ?></td></tr>

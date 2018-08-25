@@ -29,7 +29,8 @@ class Report_model extends CI_Model
         }
         if(isset($whereData['groupby']) && $whereData['groupby']!=''){
             $this->db->group_by($whereData['groupby']);
-        }
+        } 
+        $this->db->order_by('booked_on DESC');
         $this->db->limit($limit, $start);
         $query = $this->db->get();
         return $query->result_array();

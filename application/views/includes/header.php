@@ -114,7 +114,7 @@
                                             <li><a href="<?php echo base_url() ?>payment-to-B2B-reports">Payment to B2B</a></li>
                                             <li><a href="<?php echo base_url() ?>cancellation-reports">Cancellation Reports</a></li>
                                             <li><a href="<?php echo base_url() ?>my-transaction-reports">My Transaction</a></li>
-                                            <li><a href="<?php echo base_url() ?>triplist">Trip List</a></li>
+<!--                                            <li><a href="<?php echo base_url() ?>triplist">Trip List</a></li>-->
                                         </ul>
 
                                     </li>
@@ -157,7 +157,7 @@
                                             <li><a href="<?php echo base_url() ?>payment-to-B2B-reports">Payment to B2B</a></li>
                                             <li><a href="<?php echo base_url() ?>cancellation-reports">Cancellation Reports</a></li>
                                             <li><a href="<?php echo base_url() ?>my-transaction-reports">My Transaction</a></li>
-                                            <li><a href="<?php echo base_url() ?>triplist">Trip List</a></li>
+<!--                                            <li><a href="<?php echo base_url() ?>triplist">Trip List</a></li>-->
                                         </ul>
 
                                     </li>

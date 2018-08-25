@@ -412,6 +412,12 @@ class Trips extends CI_Controller {
         
         //INPUT FILEDS
         public function tripMasterFields(){
+            
+            $city_id = $this->input->post('city_id');
+            if($city_id == 'other'){
+                $city_id = $this->addNewCity($this->input->post('state_id'),$this->input->post('other_city'));
+            }
+            
             //TRIP MASTER TABLE
                 $master_values = array(                    
                     'user_id'           => $this->session->userdata('user_id'),
@@ -438,9 +444,9 @@ class Trips extends CI_Controller {
                     'no_of_max_booktraveller' => $this->input->post('no_of_max_booktraveller'),
                     'booking_cut_of_time_type' => $this->input->post('booking_cut_of_time_type'),
                     'booking_cut_of_day'  => $this->input->post('booking_cut_of_time_type') == 1?$this->input->post('booking_cut_of_time'):0,
-                    'booking_cut_of_time' => $this->input->post('booking_cut_of_time_type') == 2?$this->input->post('booking_cut_of_time') * 24:0,
+                    'booking_cut_of_time' => $this->input->post('booking_cut_of_time_type') == 2?$this->input->post('booking_cut_of_time'):0,
                     'state_id'           => $this->input->post('state_id'),
-                    'city_id'            => $this->input->post('city_id'),
+                    'city_id'            => $city_id,
                     'cancellation_policy'=> !empty($this->input->post('cancellation_policy'))?htmlentities($this->input->post('cancellation_policy')):null,
                     'confirmation_policy'=> !empty($this->input->post('confirmation_policy'))?htmlentities($this->input->post('confirmation_policy')):null,
                     'refund_policy'      => !empty($this->input->post('refund_policy'))?htmlentities($this->input->post('refund_policy')):null,
@@ -590,6 +596,18 @@ class Trips extends CI_Controller {
                 }
                 echo json_encode($data);
         }
+        
+        // ADD NEW CITY
+        function addNewCity($state_id,$name){            
+            $cityValue = array(
+                'state_id'  => $state_id,
+                'name'      => $name,
+                'created_on'  => date('Y-m-d H:i:s'),
+                'created_by'  => $this->session->userdata('user_id')                       
+            );
+            return insertTable('city_master',$cityValue);
+             
+        }
     
     public function trip_list() {
          
@@ -626,11 +644,42 @@ class Trips extends CI_Controller {
             }
             
             $data['related_tours'] = selectTable('trip_master', $whereData,['*'],[],[],'','',[],'result_array');  
+            
+             $this->load->helper('custom_helper');
+            
+            if(count($data['related_tours']) > 0){
+                foreach ($data['related_tours'] as $k=> $v){
+                    if(isset($data['related_tours'][$k]['brief_description']) && !empty($data['related_tours'][$k]['brief_description'])){
+                        //$data['related_tours'][$k]['brief_description'] = html_entity_decode($data['related_tours'][$k]['brief_description']);
+                    }
+                    if(isset($data['related_tours'][$k]['id']) && !empty($data['related_tours'][$k]['id'])){
+                        
+                        $date = date('Y-m-d');
+                        if($data['related_tours'][$k]['booking_cut_of_time_type'] == 1){
+                            $fo_date = strtotime("+".$data['related_tours'][$k]['booking_cut_of_day']." days", strtotime($date));
+                            $date = date("Y-m-d", $fo_date);
+                        }
+                        
+                        $offerdata =array(
+                        'trip_id'      => $data['related_tours'][$k]['id'],                
+                        'date_of_trip' => $date,
+                        'ischeckadmin' => 1);
+                        if ($this->session->userdata('user_type') == 'VA') {
+                            $offerdata['ischeckadmin']=0;
+                        }
+
+                        $data['related_tours'][$k]['offer_details'] = trip_offer($offerdata);
+                    }
+                }
+            }
+            
+            
             $data['review_count'] = $this->Trip_model->getTotalReview($data['details']['id']);
             $data['all_reviews'] = $this->Trip_model->getTripAllReviews($data['details']['id']);
-            $data['cutoff_disable_days'] = $this->Trip_model->getCutoffDaysTime($data['details']['created_on'],$data['details']['booking_cut_of_time_type'],$data['details']['booking_cut_of_day'],$data['details']['booking_cut_of_time']);
+            $data['wishlist'] = $this->Trip_model->getWishlist($data['details']['id']);
+            $data['cutoff_disable_days'] = $this->Trip_model->getCutoffDaysTime($data['details']['created_on'],$data['details']['booking_cut_of_time_type'],$data['details']['booking_cut_of_day'],$data['details']['booking_cut_of_time'],$data['details']['meeting_time']);
         }
-        //echo "<pre>";print_r($data['cutoff_disable_days']);exit;
+        //echo "<pre>";print_r($data['related_tours']);exit;
         
         $this->load->view('trip/trip-view',$data);
     }
@@ -795,12 +844,19 @@ class Trips extends CI_Controller {
                                     $returnedData['results'][$k]['brief_description'] = html_entity_decode($returnedData['results'][$k]['brief_description']);
                                 }
                                 if(isset($returnedData['results'][$k]['id']) && !empty($returnedData['results'][$k]['id'])){
+                                    
+                                    $date = date('Y-m-d');
+                                    if($returnedData['results'][$k]['booking_cut_of_time_type'] == 1){
+                                        $fo_date = strtotime("+".$returnedData['results'][$k]['booking_cut_of_day']." days", strtotime($date));
+                                        $date = date("Y-m-d", $fo_date);
+                                    }
+                                    
                                     $offerdata =array(
                                     'trip_id'      => $returnedData['results'][$k]['id'],                
-                                    'date_of_trip' => date('Y-m-d'),
+                                    'date_of_trip' => $date,
                                     'ischeckadmin' => 1);
                                     if ($this->session->userdata('user_type') == 'VA') {
-                                        $offerdata['ischeckadmin']=0;
+                                        $offerdata['ischeckadmin'] = 0;
                                     }
                                     
                                     $returnedData['results'][$k]['offer_details'] = trip_offer($offerdata);
@@ -839,5 +895,158 @@ class Trips extends CI_Controller {
         
         return $data;
         
+    }
+    
+    public function addRemoveWishlistAction(){
+        $status = 'err';
+        $message = 'Wishlist not added.please try again';
+        if ($_POST) 
+        {
+            $trip_id  = $this->input->post('trip_id');
+            $wishlist_id  = $this->input->post('wish_id');
+            
+            if(!empty($trip_id) && $wishlist_id <= 0){
+                $wishValue = array(
+                    'trip_id'     => $trip_id,
+                    'user_id'     => $this->session->userdata('user_id') ,
+                    'created_on'  => date('Y-m-d H:i:s'),
+                    'created_by'  => $this->session->userdata('user_id')                       
+                );
+                $wishlist_id = insertTable('user_wishlist',$wishValue);
+                
+                if($wishlist_id > 0){
+                    $status  = 'suc';
+                    $message = 'Wishlist has been successfully added';
+                }
+            }else if(!empty($trip_id) && $wishlist_id > 0){
+                $wishValue = array(
+                    'isactive'   => 0,
+                    'updated_on'   => date('Y-m-d H:i:s'),
+                    'updated_by'  => $this->session->userdata('user_id')                       
+                );
+                updateTable('user_wishlist',array('id' => $wishlist_id),$wishValue);
+                
+                $status  = 'suc';
+                $message = 'Wishlist has been successfully removed';
+                
+            }
+        }
+        
+        
+        $this->session->set_userdata($status, $message);            
+        
+        echo 'succss';exit;
+    }
+    
+    public function review_action()
+	{
+            $msg = 'Please check your submission';$status = 'err';
+            
+                $this->form_validation->set_rules('trip_id', 'Trip Details', 'trim|required');
+                $this->form_validation->set_rules('trip_code', 'Trip Details', 'trim|required');
+                $this->form_validation->set_rules('user_name', 'User name', 'trim|required');
+                $this->form_validation->set_rules('message', 'Message', 'trim|required');
+                
+                
+                if ($this->form_validation->run($this) == FALSE) {
+                    $msg = validation_errors();
+                }else{
+                    if (!empty($this->input->post('trip_id')) && !empty($this->input->post('trip_code')) && !empty($this->input->post('user_name')) && !empty($this->input->post('message')))
+                       
+                    {
+                        $msg = 'Review not added.please try again!.';  
+
+                        $this->db->trans_start(); 
+
+                        try{
+                            
+                            $this->load->model('Trip_model');                             
+                            
+                            $totRating  = $this->Trip_model->getTripTotalRating($this->input->post('trip_id'));
+
+                            if($this->session->userdata('user_type') == 'CU'){
+                                $user_id = $this->session->userdata('user_id');
+                            }else{
+                                $user_id  = $this->Trip_model->getUserIdByEmail($this->input->post('email'));
+                            }
+                            
+                            $revValue = array(
+                                'trip_id'     => $this->input->post('trip_id'),
+                                'user_id'     => $user_id,
+                                'name'        => $this->input->post('user_name'),
+                                'email'       => !empty($this->input->post('email'))?$this->input->post('email'):'',
+                                'message'     => $this->input->post('message'),
+                                'rating'      => $this->input->post('rating')                                                     
+                            );
+                            $review_id = insertTable('trip_comment',$revValue);
+                            
+                            //UPDATE TOTAL RATING IN TRIP MASTER
+                            if($review_id > 0){
+                                
+                                $tot_rating = $totRating['tot_rating'] + $this->input->post('rating');
+                                $noReview  = $totRating['total'] + 1;
+                                $tot_re = (int)$tot_rating / (int)$noReview;
+                                $tot_re = round($tot_re,1);
+
+                               $tValue = array(
+                                   'total_rating'   => $tot_re                                                         
+                               );
+                               updateTable('trip_master',array('id' => $this->input->post('trip_id')),$tValue);
+
+                               $msg   = 'Review has been successfully added';
+                               $status = 'suc'; 
+                            }
+
+                            $this->db->trans_complete();
+
+                            if ($this->db->trans_status() === FALSE)
+                            {
+                                $msg = 'Review not added.please try again!.'; 
+                            }
+                        }catch(Exception $e){}
+                }            
+            }
+            
+            $this->session->set_userdata($status, $msg);
+            redirect('trip-view/'.$this->input->post('trip_code'));
+               
+    }
+    
+    
+    public function reviewDeleteAction(){
+        $status = 'err';
+        $message = 'Review not removed.please try again';
+        if ($_POST) 
+        {
+            $trip_id   = $this->input->post('trip_id');
+            $review_id = $this->input->post('review_id');
+            
+            if(!empty($trip_id) && !empty($review_id)){
+                $comValue = array(
+                    'isactive'   => 0                                         
+                );
+                updateTable('trip_comment',array('id' => $review_id),$comValue);
+                
+                $this->load->model('Trip_model');
+                $totRating  = $this->Trip_model->getTripTotalRating($trip_id);
+                $tot_rating = $totRating['tot_rating'];
+                $noReview  = $totRating['total']  - 1 ;
+                $tot_re = (int)$tot_rating / (int)$noReview;
+                $tot_re = round($tot_re,1);
+
+                $tValue = array(
+                    'total_rating'   => $tot_re                                                         
+                );
+                updateTable('trip_master',array('id' => $trip_id),$tValue);
+                
+                $status  = 'suc';
+                $message = 'Review has been successfully removed';
+            }
+        }
+        
+        
+        $this->session->set_userdata($status, $message);            
+        
+        echo 'succss';exit;
     }
 }

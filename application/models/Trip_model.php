@@ -93,7 +93,7 @@ class Trip_model extends CI_Model
             
 	}
 	
-        function getCutoffDaysTime($date,$type,$days,$hours){
+        function getCutoffDaysTime($date,$type,$days,$hours,$meeting_time){
             $disableDays = [];
             if($type == 1){ //DAYS DISABLE
                
@@ -102,16 +102,59 @@ class Trip_model extends CI_Model
                     $disableDays[$i-1] = date("Y-m-d", $fo_date);
                 }
                 
-            }else if($type == 2){ //HOURS DISABLE                
-                $currentTime = strtotime($date);
-                $fo_date     = strtotime("+".$hours." hours", strtotime($date));
-                $disableDays[0] = date("Y-m-d", $currentTime);
-                $disableDays[1] = date("Y-m-d", $fo_date);
+            }else if($type == 2){ //HOURS DISABLE   
+                
+                if($hours >= 24){                    
+                    $days = floor($hours / 24);
+                    for($i=1;$i<=$days;$i++){
+                        $fo_date = strtotime("+".$i." days", strtotime($date));
+                        $disableDays[$i-1] = date("Y-m-d", $fo_date);
+                    }
+                }else{                
+                    $createdDateTime = strtotime($date);
+                    $meeting_time_ca = explode(':',$meeting_time); 
+                    
+                    if(isset($meeting_time_ca[0]) && $meeting_time_ca[0] > $hours){
+                        
+                        $diff_h   = $meeting_time_ca[0] - $hours;                        
+                        $diff_h_s = $diff_h .' hours '.$meeting_time_ca[1].' minutes';
+                        
+                        $fo_dateTime     = strtotime("+".$diff_h_s, $createdDateTime);                        
+                        $fo_date         = strtotime(date("Y-m-d", $fo_dateTime)); 
+                        $d = date('Y-m-d H:i:s');
+                        $currentDateTime = strtotime($d);
+                        $currentDate     = strtotime(date('Y-m-d')); 
+                        
+                        if($fo_dateTime < $currentDateTime && $fo_date == $currentDate){
+                            $disableDays[0] = date("Y-m-d", $createdDateTime);
+                        }
+                        
+                    }else{
+                        $disableDays[0] = date("Y-m-d", $createdDateTime);
+                    }
+                }
                 
             }
             return json_encode($disableDays);
         }
-	
+	function getWishlist($id)
+	{		
+            $this->db->select()->from('user_wishlist')->where(array('trip_id'=>$id,'user_id'=>$this->session->userdata('user_id'),'isactive' => 1));
+            return $this->db->get()->row();            
+	}
+	function getUserIdByEmail($email)
+	{		
+            $this->db->select()->from('user_master')->where(array('email'=>$email,'isactive' => 1));
+            $result = $this->db->get()->row();
+            $result = isset($result->id)?$result->id:'';
+            return $result;            
+	}
+	function getTripTotalRating($tripId)
+	{
+            $query = $this->db->query('SELECT SUM(rating) as tot_rating,COUNT(id) as total FROM trip_comment WHERE isactive = 1');            
+            return $query->row_array();
+                      
+	}
 	
 }
 ?>

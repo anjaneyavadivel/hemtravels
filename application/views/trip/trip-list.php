@@ -60,16 +60,12 @@
                                     <div class="filter-item bb-sm no-bb-xss">
                                         <label class="block-xs hidden-xs">Filter</label>
 
-                                        <!--												<div class="input-group input-group-addon-icon no-border no-br-sm">
-                                                                                                                                                <span class="input-group-addon input-group-addon-icon bg-white"><label><i class="fa fa-map-marker"></i> Filters</label></span>
-                                                                                                                                                <input type="text" class="form-control" id="autocompleteTagging" value="Goa" placeholder="" />
-                                                                                                                                        </div>-->
-
+                                        
                                     </div>
 
                                 </div>
 
-                                <div class="col-xs-12 col-sm-12 col-md-6">
+                                <div class="col-xs-8 col-sm-8 col-md-4">
 
                                     <div class="filter-item-wrapper">
 
@@ -100,9 +96,13 @@
                                     </div>
 
                                 </div>
-
+                                <div class="col-xs-4 col-sm-4 col-md-2">
+                                    <?php if ($this->session->userdata('user_type') == 'SA'||$this->session->userdata('user_type') == 'VA') {?>
+                                <p><a href="<?php echo base_url() ?>triplist">Click Table View</a></p>
+                                    <?php }?>
+                                </div>
                             </div>
-
+                            
                         </div>
 
                         <div class="btn-holder filter_mbl">
@@ -133,7 +133,7 @@
 
                             <div class=""> 
 
-                                <div class="collapse-inner clearfix">
+                                <div class=" clearfix">
 
                                     <div class="row">
 

@@ -22,6 +22,10 @@ class TripBookings extends CI_Controller {
                 //PICKUP
                 $data['pickups'] = $this->Trip_model->getPickupLocations($data['details']['id']);
                 
+                $data['available_days'] = $this->Trip_model->getAvailableDays($data['details']['id']);
+                
+                $data['cutoff_disable_days'] = $this->Trip_model->getCutoffDaysTime($data['details']['created_on'],$data['details']['booking_cut_of_time_type'],$data['details']['booking_cut_of_day'],$data['details']['booking_cut_of_time'],$data['details']['meeting_time']);
+                
                
                 $offerdata=array(
                 'trip_id'      => $data['details']['id'],                
@@ -42,6 +46,9 @@ class TripBookings extends CI_Controller {
             $data['no_of_children'] = $this->session->userdata('bk_no_of_children');
             $data['no_of_infan'] = $this->session->userdata('bk_no_of_infan');
             $data['total_traveller'] = $data['no_of_adult'] + $data['no_of_children'] + $data['no_of_infan'];
+            $data['user_fullname'] = $this->session->userdata('name');
+            $data['user_email'] = $this->session->userdata('user_email');
+            $data['user_phone'] = $this->session->userdata('user_phone');
             
         }
         //echo "<pre>";print_r($data);exit;
@@ -123,32 +130,7 @@ class TripBookings extends CI_Controller {
         echo $result;exit;
     }
     
-    public function setPaymentProceedDetails(){
-        $result = false;
-        if ($_POST) 
-        {
-            $this->load->library('session');            
-            
-            if(!empty($this->input->post('total_price',true))
-            ){
-                $newdata = array(
-                    'bk_total_price'   => $this->input->post('total_price',true)                                       
-                );
-
-                $this->session->set_userdata($newdata); 
-                
-                $result = true;
-            }
-        }
-        
-        if($result === false){
-            $this->session->set_userdata('err','Your book request not done.please try again!.'); 
-        }
-        
-        echo $result;exit;
-    }
-    
-    public function confirmUser(){
+    public function paymentProceed(){
         $result = false;$pnr =0;
         if ($_POST) 
         {

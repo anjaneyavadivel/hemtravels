@@ -70,11 +70,11 @@
 
                                             <div class="row">
 
-                                                <div class="col-xs-6 col-sm-6">
+                                                <div class="col-xs-6 col-sm-6" style="display:none;">
 
                                                     <div class="form-group">
                                                         <label>Trip Type:<span style=' color: #d9534f;'>*</span></label>
-                                                        <select name="is_shared" class="selectpicker show-tick form-control" title="Select placeholder">
+                                                        <select name="is_shared" class="selectpicker show-tick form-control" title="Select trip type">
                                                             <option value="0" <?php if($isshared==0){echo 'selected';}?> >Make New Trip / Own Trip</option>
                                                             <option value="1" <?php if($isshared>0){echo 'selected';}?>>Make New Trip from Vendor / Shared Trips</option>
                                                         </select>
@@ -85,7 +85,7 @@
 
                                                     <div class="form-group">
                                                         <label>Catagory:<span style=' color: #d9534f;'>*</span></label>
-                                                        <select name="trip_category_id"  id="trip_category_id" class="selectpicker show-tick form-control" title="Select placeholder">
+                                                        <select name="trip_category_id"  id="trip_category_id" class="selectpicker show-tick form-control" title="Select category">
                                                             <option value="">Select a catagory...</option>
                                                             <?php 
                                                                 if(isset($category_list) && count($category_list) > 0){
@@ -320,6 +320,15 @@
 
                                                 </div>
                                             </div>
+                                            <div class="row gap-20" id="other_city" style="display:none;">
+                                                <div class="col-xs-12 col-sm-6"></div>
+                                                <div class="col-xs-12 col-sm-6">
+                                                    <div class="form-group">                                                        
+                                                        <input  type="text" class="form-control" name="other_city" />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            
                                                 
                                                 <div class="pickup_location_list_div">
                                                     <div class="pickup_location_list_default" id="pickup_location_list_0">
@@ -344,7 +353,7 @@
                                                             <div class="col-xs-12 col-sm-4">
 
                                                                 <div class="form-group">
-                                                                    <label>Landmark:<span style=' color: #d9534f;'>*</span></label>
+                                                                    <label>Landmark:</label>
                                                                     <input type="text" class="oh-timepicker1 form-control" name="pickup_landmark[]" />
                                                                 </div>
 
@@ -673,6 +682,7 @@
                                                 <label class="" for="term_accept">Am terminated it excellence invitation projection as. She graceful shy believed distance use nay. Lively is people so basket ladies window expect. <a href="#" class="font700">Terms &amp; Conditions</a></label>
                                             </div>
                                             <div class="term_accept_err" style="color:red;display:none;"><p>Please accept terms&conditions</p></div>
+                                            <div class="field_req_err" style="color:red;display:none;"><p>Please fill the all required fields(*).</p></div>
 
                                             <div class="mb-25"></div>
                                             <input type="hidden" name="button_type" id="button_type" value="submit">

@@ -53,13 +53,13 @@ jQuery(function($) {
         cutoff_disable_days = $.parseJSON(cutoff_disable_days);
     }
     
-    
     $('#rangeDatePicker > div > div').dateRangePicker({
             //separator : ' to ',
             autoClose: true,
             format: 'MMM D, YYYY',
             singleDate : true,
             showShortcuts: false,
+            singleMonth: true,
 //            minDays: 4,
 //            maxDays: 4,
 //            stickyMonths: true,
@@ -172,39 +172,174 @@ jQuery(function($) {
             }
         }
     })
+    
+    
+    //VALIDATE USER INFO    
+    $('#trip_proceed').validate({
+        rules: {
+            user_name: {
+                required: true,
+                minlength: 4,
+                maxlength:10,
+            },
+            email:{
+                required:true,
+                email:true
+            },
+            phonenumber:{
+                required:true,
+                number:true,
+                minlength: 10,
+                maxlength:10,
+            }
+        },
+        highlight: function (element) {
+            var id_attr = "#" + $(element).attr("id") + "_icon";
+            $(element).closest('.form-group').removeClass('has-success').addClass('has-error');
+            $(id_attr).removeClass('fa-check').addClass('fa-times');
+        },
+        unhighlight: function (element) {
+            var id_attr = "#" + $(element).attr("id") + "_icon";
+            $(element).closest('.form-group').removeClass('has-error').addClass('has-success');
+            $(id_attr).removeClass('fa-times').addClass('fa-check');
+        },
+        errorElement: 'span',
+        errorClass: 'small help-block',
+        errorPlacement: function (error, element) {
+            if (element.length) {
+                error.insertAfter(element);
+            } else {
+                error.insertAfter(element);
+            }
+        }
+    });
+    
     $('#payment_proceed').on('click',function(){
         
         $('.book_traveller_missing').hide();
-        if($('#trip_booking').valid() && $('#totalPrice').val() != ''&& $('#totalPrice').val() != undefined){ //FORM VALIDATION
+        if($('#trip_booking').valid() && $('#trip_proceed').valid() && $('#totalPrice').val() != ''&& $('#totalPrice').val() != undefined){ //FORM VALIDATION
                 
-                if((!$('.no_of_adult').val() || $('.no_of_adult').val() == 0) &&
-                (!$('.no_of_children').val() || $('.no_of_children').val() == 0) &&
-                (!$('.no_of_infan').val() || $('.no_of_infan').val() == 0)){ //IF ANY ONE OF THE FILED SHOULD BE GREATER THAN ZERO
+            if((!$('.no_of_adult').val() || $('.no_of_adult').val() == 0) &&
+            (!$('.no_of_children').val() || $('.no_of_children').val() == 0) &&
+            (!$('.no_of_infan').val() || $('.no_of_infan').val() == 0)){ //IF ANY ONE OF THE FILED SHOULD BE GREATER THAN ZERO
                   $('.book_traveller_missing').show();         
             }else{
-                 var trip_code = $('#tripCode').val();
+                
                 var formData = new FormData();                
-                formData.append('total_price', $('#totalPrice').val());                               
+                formData.append('trip_id', $('#tripId').val());
+                formData.append('user_name', $('#user_name').val());
+                formData.append('email', $('#email').val());               
+                formData.append('phonenumber', $('#phonenumber').val());                             
                 formData.append('csrf_test_name', $.cookie('csrf_cookie_name'));
                
                 $.ajax({
                     type: "POST",
-                    url: base_url+'tripBookings/setPaymentProceedDetails',
+                    url: base_url+'tripBookings/paymentProceed',
                     data: formData,
                     contentType: false,       // The content type used when sending data to the server.
                     cache: false,             // To unable request pages to be cached
                     processData:false,   
-                    success: function (data)
+                    success: function (res)
                     {
-                        if(data){
-                            window.location.href = base_url+'trip-proceed/'+trip_code;
+                        if(res){
+                            window.location.href = base_url+'PNR-status/'+res;
                         }else{
-                            location.reload();
+                            window.location.href = base_url+'trip-list';                            
                         }
                     }
                 });
+                
+                
+            }
         }
+    });
+    
+    $('#addWishlist').on('click',function(){
+        var trip_id = $(this).attr('data-trip-id');
+        var wish_id = $(this).attr('data-wish-id');
+        
+        if(trip_id != '' && trip_id != undefined){
+            var formData = new FormData();
+            formData.append('trip_id', trip_id);                           
+            formData.append('wish_id', wish_id);                           
+            formData.append('csrf_test_name', $.cookie('csrf_cookie_name'));
+
+            $.ajax({
+                type: "POST",
+                url: base_url+'trips/addRemoveWishlistAction',
+                data: formData,
+                contentType: false,       // The content type used when sending data to the server.
+                cache: false,             // To unable request pages to be cached
+                processData:false,   
+                success: function (data)
+                {                    
+                    location.reload();                    
+                }
+            });
         }
-    })
+    });
+    
+    
+    $('#review_form').validate({        
+        rules: {
+            user_name: {
+                required: true,
+                minlength:3,
+                maxlength:150
+            },
+            email: {
+                required: true,
+                email:true
+            },
+            message: {
+                required: true
+            },
+          
+        },
+        highlight: function (element) {
+            var id_attr = "#" + $(element).attr("id") + "_icon";
+            $(element).closest('.form-group').removeClass('has-success').addClass('has-error');
+            $(id_attr).removeClass('fa-check').addClass('fa-times');
+        },
+        unhighlight: function (element) {
+            var id_attr = "#" + $(element).attr("id") + "_icon";
+            $(element).closest('.form-group').removeClass('has-error').addClass('has-success');
+            $(id_attr).removeClass('fa-times').addClass('fa-check');
+        },
+        errorElement: 'span',
+        errorClass: 'small help-block',
+        errorPlacement: function (error, element) {
+            if (element.length) {
+                error.insertAfter(element);
+            } else {
+                error.insertAfter(element);
+            }
+        }
+    });
+    
+    $('.remove_review').on('click',function(){
+        var trip_id = $(this).attr('data-trip-id');
+        var review_id = $(this).attr('data-id');
+        
+        if(trip_id != '' && trip_id != undefined){
+            var formData = new FormData();
+            formData.append('trip_id', trip_id);                           
+            formData.append('review_id', review_id);                           
+            formData.append('csrf_test_name', $.cookie('csrf_cookie_name'));
+
+            $.ajax({
+                type: "POST",
+                url: base_url+'trips/reviewDeleteAction',
+                data: formData,
+                contentType: false,       // The content type used when sending data to the server.
+                cache: false,             // To unable request pages to be cached
+                processData:false,   
+                success: function (data)
+                {                    
+                    location.reload();                    
+                }
+            });
+        }
+    });
 });
 

@@ -224,6 +224,10 @@ jQuery(function($) {
                             }));
                         }
                     });
+                    $('#city_id').append($('<option>', { 
+                                value: 'other',
+                                text : 'Add New'
+                            }));
                     $('.selectpicker').selectpicker('refresh');
                 }
             });
@@ -327,9 +331,12 @@ jQuery(function($) {
     
     $('.tripAddSubmit').on('click',function(){
         $('.term_accept_err').hide();
+        $('.field_req_err').hide();
         if($("#term_accept").prop('checked') ===false){
             $('.term_accept_err').show();
             return false;
+        }else if(!$('#make_new_trip_form').valid()){
+            $('.field_req_err').show();
         }else{
             $('#button_type').val($(this).attr('data-id'));
         }
@@ -345,6 +352,13 @@ jQuery(function($) {
             $('#how_many_hoursdiv').removeClass('hide');
         }
     }
+    
+    $('#city_id').on('change',function(){
+        $('#other_city').hide();
+        if(this.value == 'other'){
+            $('#other_city').show();
+        }
+    });
     
 	
 });

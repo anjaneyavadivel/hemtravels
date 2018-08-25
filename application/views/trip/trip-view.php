@@ -1,4 +1,9 @@
 <?php $this->load->view('includes/header')?>
+<style>
+    .single-month{
+        left:920px!important;
+    }
+</style>
   <!-- start Main Wrapper -->
  
            <div class="main-wrapper scrollspy-container">
@@ -32,7 +37,7 @@
                                                     }
                                                 ?>                                                
                                                 <div class="rating-item rating-item-lg mb-25">
-                                                    <input type="hidden" class="rating" data-filled="fa fa-star rating-rated" data-empty="fa fa-star-o" data-fractions="2" data-readonly value="<?php echo isset($details['total_rating'])?>"/>
+                                                    <input type="hidden" class="rating" data-filled="fa fa-star rating-rated" data-empty="fa fa-star-o" data-fractions="2" data-readonly value="<?php echo isset($details['total_rating'])?$details['total_rating']:0;?>"/>
                                                     <div class="rating-text"> <a href="#">(<?php echo $review_count; ?> reviews)</a></div>
                                                 </div>
                                                 <ul class="list-with-icon list-inline-block">
@@ -95,9 +100,23 @@
                                         <a href="#detail-content-sticky-nav-05">Review</a>
                                     </li>
                                     <?php } ?>
+                                    <?php if($this->session->userdata('user_type') == 'CU') {?>
                                     <span class="add_fav">
-                                        <i class="fav_list  font22 add_fav far fa-heart"></i>
+                                       <?php 
+                                         $wishStyle = 'color:#bfbbb7!important';;
+                                         $wishLabel = 'Add';
+                                         
+                                         $wishlistId = isset($wishlist->id)?$wishlist->id:0;
+                                         
+                                         if($wishlistId > 0){
+                                            $wishStyle = '';
+                                            $wishLabel = 'Remove';
+                                         }
+                                       ?>
+                                        
+                                        <a href="#" title="<?php echo $wishLabel;?> to wishlist" data-wish-id="<?php echo $wishlistId;?>" data-trip-id="<?php echo $details['id'];?>" id="addWishlist"><i class="fav_list  font22 add_fav fa fa-heart" style="<?php echo $wishStyle;?>"></i></a>
                                     </span>
+                                    <?php } ?>
                                 </ul>
 
                             </div>
@@ -397,7 +416,7 @@
 
                                     </div>
 
-                                    <?php if(isset($all_reviews) && count($all_reviews) > 0) {?>
+                                    <?php if((isset($all_reviews) && count($all_reviews) > 0) || ($this->session->userdata('user_type') == 'CU') || ($this->session->userdata('user_type') == 'GU')) {?>
                                     <div id="detail-content-sticky-nav-05">
 
                                         <h2 class="font-lg">Review</h2>
@@ -446,7 +465,7 @@
 
                                                         <div class="row">
 
-                                                            <div class="col-xs-12 col-sm-4 col-md-3">
+                                                            <div class="col-xs-12 col-sm-3 col-md-3">
                                                                 <div class="review-header">
                                                                     <h6><?php echo $v['user_fullname']?></h6>
                                                                     <span class="review-date"><?php echo $v['review_date']?></span>
@@ -457,7 +476,7 @@
                                                                 </div>
                                                             </div>
 
-                                                            <div class="col-xs-12 col-sm-8 col-md-9">
+                                                            <div class="col-xs-12 col-sm-7 col-md-7">
 
                                                                 <div class="review-content">
 
@@ -467,6 +486,10 @@
                                                                 </div>         
 
                                                             </div>
+                                                            
+                                                            <div class="col-xs-12 col-sm-2 col-md-2" style="text-align: right;">
+                                                                <a href="javascript:;"  class="remove_review" title="Remove this review" data-trip-id="<?php echo $details['id']; ?>" data-id="<?php echo $v['id']; ?>"><i class="fa fa-trash-o"></i></a>
+                                                            </div>
 
                                                         </div>
 
@@ -475,12 +498,12 @@
                                                 </ul>                
 
                                             </div>
-                                            <?php if($this->session->userdata('user_type') == 'SA' || $this->session->userdata('user_type') == 'VA') {?>
+                                            <?php if($this->session->userdata('user_type') == 'CU' || $this->session->userdata('user_type') == 'GU') {?>
                                             <div id="review-form" class="review-form">
 
                                                 <h3 class="review-form-title">Leave Your Review</h3>
 
-                                                <form class="">
+                                                <?php echo form_open_multipart(base_url() . 'trips/review_action', array('class' => '', 'id' => 'review_form')); ?>
 
                                                     <div class="row">
 
@@ -488,19 +511,20 @@
 
                                                             <div class="form-group">
                                                                 <label>Your name: </label>
-                                                                <input type="text" class="form-control" />
+                                                                <input type="text" class="form-control" name="user_name" />
                                                             </div>
 
                                                         </div>
-
+                                                        <?php if($this->session->userdata('user_type') != 'CU') { ?>
                                                         <div class="col-xs-12 col-sm-6 col-md-4">
 
                                                             <div class="form-group">
                                                                 <label>Your email address: </label>
-                                                                <input type="email" class="form-control" />
+                                                                <input type="email" class="form-control" name="email" />
                                                             </div>
 
                                                         </div>
+                                                        <?php } ?>
 
                                                         <div class="col-xs-12 col-sm-6 col-md-4">
 
@@ -508,7 +532,7 @@
                                                                 <label>Your rating: </label>
                                                                 <div class="rating-wrapper mt-5">
                                                                     <div class="rating-item">
-                                                                        <input type="hidden" class="rating-label" data-filled="fa fa-star" data-empty="fa fa-star-o" data-fractions="2" value="0" />
+                                                                        <input type="hidden" name="rating" class="rating-label" data-filled="fa fa-star" data-empty="fa fa-star-o" data-fractions="2" value="0" />
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -521,19 +545,21 @@
 
                                                             <div class="form-group">
                                                                 <label>Your Message: </label>
-                                                                <textarea class="form-control form-control-sm" rows="5"></textarea>
+                                                                <textarea class="form-control form-control-sm" rows="5" name="message"></textarea>
                                                             </div>
                                                         </div>
 
                                                         <div class="clear mb-5"></div>
 
                                                         <div class="col-sm-12 col-md-8">
-                                                            <a href="#" class="btn btn-primary btn-lg">Submit</a>
+                                                            <input type="hidden" name="trip_id" value="<?php  echo isset($details['id'])?$details['id']:0;?>"> 
+                                                            <input type="hidden" name="trip_code" value="<?php  echo isset($details['trip_code'])?$details['trip_code']:'';?>"> 
+                                                            <input type="submit" class="btn btn-primary btn-lg"  value="Submit">                                                            
                                                         </div>
 
                                                     </div>
 
-                                                </form>
+                                                <?php echo form_close()?>
 
                                             </div>
                                             <?php } ?>
@@ -701,6 +727,28 @@
                                             if(isset($details['trip_duration']) && $details['trip_duration'] == '1' && isset($details['how_many_hours'])){
                                                 $duration = '<p style=""><i class="far fa-sun text-center"></i> '.$v['how_many_hours'].' Days</p>';
                                             }
+                                            
+                                            
+                                            //OFFER DETAILS
+                                            $price = $v['offer_details']['price_to_child'] > 0 ?$v['offer_details']['price_to_child']:$v['offer_details']['price_to_adult'];
+                                            $offer_details = '<div class="col-xs-6 col-sm-6"><div class="price">'.$price.'</div></div>';
+                                                                  
+                                            if((isset($v['offer_details']['discount_percentage']) && $v['offer_details']['discount_percentage'] > 0)
+                                            || (isset($v['offer_details']['discount_price']) && $v['offer_details']['discount_price'] > 0)){
+                                                $fin_price = $v['offer_details']['final_price_to_child'] > 0 ?$v['offer_details']['final_price_to_child']:$v['offer_details']['final_price_to_adult'];
+
+                                                $offer_details = '<div class="col-xs-6 col-sm-6"><div class="price_off mr-10">'.$v['offer_details']['discount_price'].' OFF</div>';
+                                                if(isset($v['offer_details']['discount_percentage']) && $v['offer_details']['discount_percentage'] > 0){
+                                                    $offer_details = '<div class="col-xs-6 col-sm-6"><div class="price_off mr-10">'.$v['offer_details']['discount_percentage'].'% OFF</div>';
+                                                }
+
+                                                $offer_details .= '<div class="price pl-50">'.
+                                                     '<span class="">'.$fin_price.'</span>'.
+                                                     '<sub> <strike class="text-muted">'.$price.'</strike> </sub>'.
+                                                 '</div></div>';
+                                            }                                           
+                                            
+                                            
                                          echo '<div class="GridLex-col-3_mdd-4_sm-6_xs-6_xss-12 listview">
 
                                             <div class="trip-guide-item no-person">
@@ -713,19 +761,13 @@
                                                     <h3>'.$v['trip_name'].'</h3>
                                                     <p style="margin-bottom: 0;"><i class="fa fa-map-marker text-center"></i> '.$v['meeting_point'].'</p>
                                                     '.$duration.'
-                                                    <p style="margin-bottom: 0;overflow: hidden;text-overflow: ellipsis;display: -webkit-box;-webkit-line-clamp: 4;-webkit-box-orient: vertical;">'.$v['brief_description'].'</p>
+                                                    <!--<p style="margin-bottom: 0;overflow: hidden;text-overflow: ellipsis;display: -webkit-box;-webkit-line-clamp: 4;-webkit-box-orient: vertical;">'.html_entity_decode($v['brief_description']).'</p>-->
                                                 </div>
 
                                                 <div class="trip-guide-bottom bg-light-primary bt">
 
                                                     <div class="trip-guide-meta row gap-10">
-                                                        <div class="col-xs-6 col-sm-6">
-                                                            <div class="price_off mr-10">5% OFF</div>
-                                                            <div class="price pl-50">
-                                                                <span class="">'.$v['price_to_adult'].'</span><br>
-                                                                <sub> <strike class="text-muted">40000</strike>  </sub> 
-                                                            </div>
-                                                        </div>
+                                                        '.$offer_details.'
                                                         <div class="col-xs-6 col-sm-6 text-right">
                                                             <a href="'.base_url('trip-view/'.$v['trip_code']).'" class="btn btn-primary btn-sm">Book</a>
 
