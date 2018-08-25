@@ -55,8 +55,7 @@ switch ($url) {
 														
 													</div>
 													<ul class="user-meta">
-														<li><i class="fa fa-map-marker"></i> 264, Carson Street Lexington, KY 40539 <!-- <span class="mh-5 text-muted">|</span> --></li>
-														 <li><i class="fa fa-envelope"></i>  <?php if($this->session->userdata('user_email'))echo $this->session->userdata('user_email')?></li>
+																												 <li><i class="fa fa-envelope"></i>  <?php if($this->session->userdata('user_email'))echo $this->session->userdata('user_email')?></li>
                                                          <?php if($this->session->userdata('user_phone')){?>
 														 <li><i class="fa fa-phone"></i> <?php if($this->session->userdata('user_phone'))echo $this->session->userdata('user_phone')?></li>
                                                          <?php }?>

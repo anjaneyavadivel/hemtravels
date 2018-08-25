@@ -112,7 +112,7 @@
 										
 										<div class="clear"></div>
 										
-										<div class="col-sm-6 col-md-4">
+										<!--<div class="col-sm-6 col-md-4">
 										
 											<div class="form-group">
 												<label>City/town</label>
@@ -126,8 +126,8 @@
 												</select>
 											</div>
 											
-										</div>
-										
+										</div>-->
+										<!--
 										<div class="col-sm-6 col-md-4">
 										
 											<div class="form-group">
@@ -145,7 +145,7 @@
 												<input type="text" class="form-control" value="35214">
 											</div>
 											
-										</div>
+										</div>-->
 
 										
 										<div class="clear"></div>

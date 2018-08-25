@@ -609,7 +609,6 @@
         <script type="text/javascript" src="<?php echo base_url()?>assets/js/jquery.daterangepicker.js"></script>
     <script type="text/javascript" src="<?php echo base_url()?>assets-customs/js/trip-book-reports.js"></script>
 <?php }?>
+    <script> setTimeout(function(){$(".alert").fadeOut(400);}, 5000)</script>
 </body>
 </html>
-
-        
