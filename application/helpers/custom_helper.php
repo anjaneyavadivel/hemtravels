@@ -545,14 +545,16 @@ if (!function_exists('trip_book')) {
         'trip_id' => $parenttrip_id,
         'date_of_trip' => $date_of_trip,
         'ischeckadmin' => 1);//default= 1 - if 1 check super admin offer, 2 - vendor offer, 0 - customer offer check
+        if ($CI->session->userdata('user_type') == 'VA') {
+            $offerdata['ischeckadmin']=0;
+        }
         $offerinfo = trip_offer($offerdata);
         //print_r($offerinfo);
-        
         // cost for trip member
         $number_of_persons = (int) $bookdata['no_of_adult'] + (int) $bookdata['no_of_child'] + (int) $bookdata['no_of_infan'];
-        $total_adult_price = $bookdata['no_of_adult'] * $offerinfo['price_to_adult'];
-        $total_child_price = $bookdata['no_of_child'] * $offerinfo['price_to_child'];
-        $total_infan_price = $bookdata['no_of_infan'] * $offerinfo['price_to_infan'];
+        $total_adult_price = (int) $bookdata['no_of_adult'] * (int) $offerinfo['price_to_adult'];
+        $total_child_price = (int) $bookdata['no_of_child'] * (int) $offerinfo['price_to_child'];
+        $total_infan_price = (int) $bookdata['no_of_infan'] * (int) $offerinfo['price_to_infan'];
         $subtotal_trip_price = (int) $total_adult_price + (int) $total_child_price + (int) $total_infan_price;
         // get offer
         if ($offerinfo['offer_type'] == 1) {
@@ -609,12 +611,13 @@ if (!function_exists('trip_book')) {
             'payment_status' => 0
         );
         $trip_book_payid = insertTable('trip_book_pay', $book_pay);
-//        $trip_book_payid=9;
+//        $trip_book_payid=6;
 //        echo '<br><br>'; print_r($book_pay);
+  //exit();
         $book_pay_detailsid=0;
-        if($trip_book_payid){
+        if($trip_book_payid){ 
             // check super admin offer for customer
-            if (($CI->session->userdata('user_type') == 'GU' || $CI->session->userdata('user_type') == 'CU') && $offerinfo['offer_by_type']==3) {// super admin coupon changes
+            if ($offerinfo['offer_by_type']==3) {// super admin coupon changes
                 $discount_percentage=0;$discount_price=0;$offer_amt=0;$coupon_history_id=0;
                 $total_adult_price=0;$total_child_price=0;$total_infan_price=0;$subtotal_trip_price=0;
                 //check offer
@@ -905,13 +908,20 @@ if (!function_exists('getpnrinfo')) {
                     'condition' => 'tpd.from_user_id = bum.id',
                     'jointype' => 'INNER'
                 ),
+                array(
+                    'table' => 'coupon_code_master_history AS ccmhd',
+                    'condition' => 'tpd.coupon_history_id = ccmhd.id',
+                    'jointype' => 'LEFT'
+                ),
             );
             $columns = 'tpd.pnr_no,tpd.number_of_persons,tpd.price_to_adult,tpd.price_to_child,tpd.price_to_infan,tpd.subtotal_trip_price,tpd.offer_amt,tpd.gst_amt,tpd.round_off,tpd.net_price,'
                     . 'tpd.total_trip_price,tpd.date_of_trip,tpd.time_of_trip,tpd.pick_up_location,tpd.pick_up_location_landmark,'
-                    . 'tm.id AS trip_id,tm.trip_name,tm.trip_code,tm.how_many_days,tm.how_many_nights,tm.total_days,tm.how_many_hours,'
+                    . 'tpd.servicecharge_amt,tpd.your_final_amt,tm.id AS trip_id,tm.trip_name,tm.trip_code,tm.how_many_days,tm.how_many_nights,tm.total_days,tm.how_many_hours,'
                     . 'tm.brief_description,tm.other_inclusions,tm.exclusions,tm.languages,tm.meal,tm.cancellation_policy,tm.confirmation_policy,tm.refund_policy,'
                     . 'bum.user_fullname AS bookedby,bum.phone AS bookedby_contactno,bum.email AS bookedby_contactemail,tpd.booked_on,tpd.status,tpd.payment_status,'
-                    . 'tmum.user_fullname AS trip_postby,tmum.phone AS trip_contactno,tmum.email AS trip_contactemail,tm.trip_name,';
+                    . 'tmum.user_fullname AS trip_postby,tmum.phone AS trip_contactno,tmum.email AS trip_contactemail,tm.trip_name,'
+                    . '(CASE WHEN ccmhd.id IS NOT NULL THEN ccmhd.coupon_code END) AS coupon_code,(CASE WHEN ccmhd.id IS NOT NULL THEN ccmhd.offer_type END) AS offer_type,'
+                    . '(CASE WHEN ccmhd.id IS NOT NULL THEN ccmhd.percentage_amount END) AS percentage_amount';
             $tableData = get_joins('trip_book_pay_details AS tpd', $columns, $joins, $whereData);
             if ($tableData->num_rows() > 0) {
                 $book_pay = $tableData->result_array();
@@ -919,6 +929,7 @@ if (!function_exists('getpnrinfo')) {
                 $book_pay[0]['time_of_trip']=formatdate($book_pay[0]['time_of_trip'], $format = 'h:i A');
                 $book_pay[0]['booked_on']=formatdate($book_pay[0]['booked_on'], $format = 'd M Y h:i A');
                 $book_pay[0]['gst_percentage']=GST_PERCENTAGE;
+                //print_r($book_pay);         exit();
                 return $book_pay[0];
             }
         }
@@ -942,13 +953,20 @@ if (!function_exists('getpnrinfo')) {
                     'condition' => 'tpd.user_id = bum.id',
                     'jointype' => 'INNER'
                 ),
+                array(
+                    'table' => 'coupon_code_master_history AS ccmhd',
+                    'condition' => 'tpd.coupon_history_id = ccmhd.id',
+                    'jointype' => 'LEFT'
+                ),
             );
             $columns = 'tpd.pnr_no,tpd.number_of_persons,tpd.price_to_adult,tpd.price_to_child,tpd.price_to_infan,tpd.subtotal_trip_price,tpd.offer_amt,tpd.gst_amt,tpd.round_off,tpd.net_price,'
                     . 'tpd.total_trip_price,tpd.date_of_trip,tpd.time_of_trip,tpd.pick_up_location,tpd.pick_up_location_landmark,'
                     . 'tm.id AS trip_id,tm.trip_name,tm.trip_code,tm.how_many_days,tm.how_many_nights,tm.total_days,tm.how_many_hours,'
                     . 'tm.brief_description,tm.other_inclusions,tm.exclusions,tm.languages,tm.meal,tm.cancellation_policy,tm.confirmation_policy,tm.refund_policy,'
                     . 'bum.user_fullname AS bookedby,bum.phone AS bookedby_contactno,bum.email AS bookedby_contactemail,tpd.booked_on,tpd.status,tpd.payment_status,'
-                    . 'tmum.user_fullname AS trip_postby,tmum.phone AS trip_contactno,tmum.email AS trip_contactemail,tm.trip_name,';
+                    . 'tmum.user_fullname AS trip_postby,tmum.phone AS trip_contactno,tmum.email AS trip_contactemail,tm.trip_name,'
+                    . '(CASE WHEN ccmhd.id IS NOT NULL THEN ccmhd.coupon_code END) AS coupon_code,(CASE WHEN ccmhd.id IS NOT NULL THEN ccmhd.offer_type END) AS offer_type,'
+                    . '(CASE WHEN ccmhd.id IS NOT NULL THEN ccmhd.percentage_amount END) AS percentage_amount';
             $tableData = get_joins('trip_book_pay AS tpd', $columns, $joins, $whereData);
             if ($tableData->num_rows() > 0) {
                 $book_pay = $tableData->result_array();
@@ -956,6 +974,8 @@ if (!function_exists('getpnrinfo')) {
                 $book_pay[0]['time_of_trip']=formatdate($book_pay[0]['time_of_trip'], $format = 'h:i A');
                 $book_pay[0]['booked_on']=formatdate($book_pay[0]['booked_on'], $format = 'd M Y h:i A');
                 $book_pay[0]['gst_percentage']=GST_PERCENTAGE;
+                $book_pay[0]['servicecharge_amt']=0;
+                $book_pay[0]['your_final_amt']=0;
                 return $book_pay[0];
             }
         }

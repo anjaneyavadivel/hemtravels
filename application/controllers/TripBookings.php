@@ -26,7 +26,10 @@ class TripBookings extends CI_Controller {
                 $offerdata=array(
                 'trip_id'      => $data['details']['id'],                
                 'date_of_trip' => $this->session->userdata('bk_from_date'),
-                'ischeckadmin' => 0);
+                'ischeckadmin' => 1);
+                if ($this->session->userdata('user_type') == 'VA') {
+                    $offerdata['ischeckadmin']=0;
+                }
                 $data['offer_details'] = trip_offer($offerdata);
                //echo "<pre>"; print_r($data['offer_details']);exit;
             }

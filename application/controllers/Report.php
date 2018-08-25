@@ -13,14 +13,28 @@ class Report extends CI_Controller {
         if ($this->session->userdata('user_id') == '') {
             redirect('login');
         }
-        $bookingsearch = trim($this->input->post('booking_search'));
-        if ($bookingsearch != '') {
-            $booking_search = $bookingsearch;
+        $url=$this->uri->segment(1);
+        if ($url != 'booking-list' && $url != 'booking-wise-reports') {
+            redirect('login');
         }
+//        $bookingsearch = trim($this->input->post('booking_search'));
+//        if ($bookingsearch != '') {
+//            $booking_search = $bookingsearch;
+//        }
+        $loginuserid = $this->session->userdata('user_id');
+        $title = trim($this->input->get('title'));
+        $from = trim($this->input->get('from'));
+        $to = trim($this->input->get('to'));
+        $status = trim($this->input->get('status'));
+        $bookfrom = trim($this->input->get('bookfrom'));
         $this->load->library('pagination');
         $config = array();
-        $config["base_url"] = base_url() . "booking-wise-reports/" . $booking_search; //?search=".$tag_search
-        $config["total_rows"] = $this->Report_model->booking_count($booking_search);
+        $config["base_url"] = base_url() . $url."?title=".$title."&from=".$from."&to=".$to."&status=".$status."&bookfrom=".$bookfrom;
+        $whereData = array('title'=>$title,'from'=>$from,'to'=>$to,'status'=>$status,'bookfrom'=>$bookfrom);
+        if($this->session->userdata('user_type') == 'VA'){$whereData['tbpd.user_id']=$loginuserid;}
+        if($this->session->userdata('user_type') == 'SA'){$whereData['groupby']='pnr_no';}
+        
+        $config["total_rows"] = $this->Report_model->booking_count($whereData);
         $config["per_page"] = 20;
         //$config["uri_segment"] = 2;
 
@@ -36,10 +50,15 @@ class Report extends CI_Controller {
         $this->pagination->initialize($config);
         $page = ($this->input->get('page')) ? ( ( $this->input->get('page') - 1 ) * $config["per_page"] ) : 0;
         //$page = ($this->uri->segment(2)) ? $this->uri->segment(2) : 0;
-        $data["bookinglist"] = $this->Report_model->booking_list($config["per_page"], $page, $booking_search);
+        $data["bookinglist"] = $this->Report_model->booking_list($whereData,$config["per_page"], $page);
         $str_links = $this->pagination->create_links();
         $data["links"] = explode('&nbsp;', $str_links);
-        $data["booking_search"] = $booking_search;
+        $data["from"] = $from;
+        $data["to"] = $to;
+        $data["status"] = $status;
+        $data["bookfrom"] = $bookfrom;
+        $data["title"] = $title;
+        $data["url"] = $url;
         $this->load->view('report/booking-reports', $data);
     }
 

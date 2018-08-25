@@ -49,13 +49,31 @@
                     <div class="col-xs-12 col-sm-10 col-sm-offset-1 col-md-8 col-md-offset-2">
 
                         <div class="confirmation-inner">
-                            <?php if(!$isform){?>
+                            <?php if(!$isform && $pnrshow==0){?>
                             <div class="promo-box-02 bg-success mb-40">
                                     <div class="icon">
                                             <i class="ti-check"></i>
                                     </div>
 
                                     <h4>Congratulation! Your booking in done. Enjoy the trip.</h4>
+
+                            </div>
+                            <?php }elseif($pnrshow==1){?>
+                            <div class="promo-box-02 bg-success mb-40">
+                                    <div class="icon">
+                                            <i class="ti-check"></i>
+                                    </div>
+
+                                    <h4>PNR Vendor View Report</h4>
+
+                            </div>
+                            <?php }elseif($pnrshow==2){?>
+                            <div class="promo-box-02 bg-success mb-40">
+                                    <div class="icon">
+                                            <i class="ti-check"></i>
+                                    </div>
+
+                                    <h4>Congratulation! Enjoy the trip.</h4>
 
                             </div>
                             <?php }else{?>
@@ -87,7 +105,7 @@
                             <?php if(isset($message) && $message!=''){?>
                             <div class="check_error" style="color:red;"><?=$message?></div>
                             <?php }
-                            if(isset($pnrinfo) && count($pnrinfo)>0){?>
+                            if(isset($pnrinfo) && count($pnrinfo)>1){?>
                             <div id="pnrinfo">
                             <div class="logo pnrinfologo hide">
                                 <a href="<?php echo base_url() ?>"><img src="<?php echo base_url() ?>assets/images/logo-white.png" alt="Logo" /></a>
@@ -104,12 +122,41 @@
                                     <li><span class="font600 no_of_traveller">No Of Traveller:</span><?=$pnrinfo['number_of_persons'];?></li>
                                     <li><span class="font600 net_price">Amount:</span><?=$pnrinfo['subtotal_trip_price'];?></li> 
                                     <?php if($pnrinfo['offer_amt']!=0.00){?>
-                                    <li><span class="font600 net_price">Offer Amount:</span><?=$pnrinfo['offer_amt'];?></li>             
-                                    <?php }if($pnrinfo['gst_percentage']!=0){?>
-                                    <li><span class="font600 net_price">GST Amount (<?=$pnrinfo['gst_percentage'];?>%):</span><?=$pnrinfo['gst_amt'];?></li>                                                                                    
-                                    <?php }if($pnrinfo['net_price']!=0.00){?>
-                                    <li><span class="font600 net_price">Total Amount:</span><?=$pnrinfo['net_price'];?></li>                                                                                    
-                                    <?php }?>
+                                    <li><span class="font600 net_price">Offer Amount:
+                                       <br>
+                                            <?php if($pnrinfo['coupon_code']!=''){
+                                                $offer_type='';
+                                                if (strpos($pnrinfo['percentage_amount'], '.00') !== false) {
+                                                    $pnrinfo['percentage_amount'] = round($pnrinfo['percentage_amount']);
+                                                }
+                                                if($pnrinfo['offer_type']==2){$offer_type='%';}
+                                                echo $pnrinfo['coupon_code'].' ('.$pnrinfo['percentage_amount'].$offer_type.' OFF)'; 
+                                            }
+                                        
+                                        ?>
+                                        </span><?=$pnrinfo['offer_amt'];?></li>             
+                                    <?php }
+                                    if ($this->session->userdata('user_type') == 'VA') {
+                                        if($pnrinfo['net_price']!=0.00){?>
+                                        <li><span class="font600 net_price">Total Amount:</span><?=$pnrinfo['net_price'];?></li>                                                                                    
+                                        <?php }if($pnrinfo['servicecharge_amt']!=0 && $pnrshow==1){?>
+                                        <li><span class="font600 net_price">Service Charge:</span><?=$pnrinfo['servicecharge_amt'];?></li>                                                                                    
+                                        <?php }if($pnrinfo['gst_percentage']!=0 && $pnrshow==1){?>
+                                        <li><span class="font600 net_price">GST Amount (<?=$pnrinfo['gst_percentage'];?>%):</span><?=$pnrinfo['gst_amt'];?></li>                                                                                    
+                                        <?php }if($pnrinfo['round_off']!=0 && $pnrshow==1){?>
+                                        <li><span class="font600 net_price">Round Off:</span><?=$pnrinfo['round_off'];?></li>                                                                                    
+                                        <?php }if($pnrinfo['your_final_amt']!=0 && $pnrshow==1){?>
+                                        <li><span class="font600 net_price">Your Amount:</span><?=$pnrinfo['your_final_amt'];?></li>                                                                                    
+                                        <?php }
+                                    }else{
+                                        if($pnrinfo['gst_percentage']!=0){?>
+                                        <li><span class="font600 net_price">GST Amount (<?=$pnrinfo['gst_percentage'];?>%):</span><?=$pnrinfo['gst_amt'];?></li>                                                                                    
+                                        <?php }if($pnrinfo['round_off']!=0){?>
+                                        <li><span class="font600 net_price">Round Off:</span><?=$pnrinfo['round_off'];?></li>                                                                                    
+                                        <?php }if($pnrinfo['net_price']!=0.00){?>
+                                        <li><span class="font600 net_price">Total Amount:</span><?=$pnrinfo['net_price'];?></li>                                                                                    
+                                        <?php }
+                                    }?>
                                     <li><span class="font600 starting">Date of Trip : </span> <?=$pnrinfo['date_of_trip'];?> <?=$pnrinfo['time_of_trip'];?></li>
                                     <li><span class="font600 included">Pick up location,<br>landmark: </span><?=$pnrinfo['pick_up_location'];?>, <?=$pnrinfo['pick_up_location_landmark'];?></li>
                                     <?php if($pnrinfo['total_days']>0){?>

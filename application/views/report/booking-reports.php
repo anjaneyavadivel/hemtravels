@@ -1,193 +1,189 @@
 
-<?php $this->load->view('includes/header')?>
+<?php $this->load->view('includes/header') ?>
 
-            <!-- start Main Wrapper -->
+<!-- start Main Wrapper -->
 
-            <div class="main-wrapper scrollspy-container">
+<div class="main-wrapper scrollspy-container">
 
-                <!-- start Breadcrumb -->
+    <!-- start Breadcrumb -->
 
-                <div class="breadcrumb-wrapper">
-                    <div class="container">
-                        <ol class="breadcrumb">
-                            <li><a href="#">Home</a></li>
-                            <li><a href="#">Master</a></li>
-                            <li  class="active"><a href="#">Category Master</a></li>
-                        </ol>
-                    </div>
-                </div>
+    <div class="breadcrumb-wrapper">
+        <div class="container">
+            <ol class="breadcrumb">
+                <li><a href="<?= base_url() ?>">Home</a></li>
+                <li  class="active"><a href="#">Booking List</a></li>
+            </ol>
+        </div>
+    </div>
 
-                <!-- end Breadcrumb -->
-                <div class=" container pb-50">
-                    <div class="col-xs-0 col-sm-3">
-                        <!--                         left side-->
-                    </div>
-                    <div class="col-xs-12 col-sm-12 pt-20 pb-5 clearfix">
-                        <!--                         left side - center-->
-                        <div class="col-xs-12 col-sm-12 pt-10 pb-5 clearfix">
-                            
-                            <div class="col-xs-12 col-sm-4 col-lg-4">
-                                                <div class="row gap-10" id="rangeDatePicker">
+    <!-- end Breadcrumb -->
+    <div class=" container pb-50">
+        <div class="col-xs-0 col-sm-3">
+            <!--                         left side-->
+        </div>
+        <div class="col-xs-12 col-sm-12 pt-20 pb-5 clearfix">
+            <!--                         left side - center-->
+            <div class="col-xs-12 col-sm-12 pt-10 pb-5 clearfix">
+                 <?php echo form_open_multipart(base_url() . $url, array('method'=>'get','class' => 'form-horizontal margin-top-30', 'id' => 'search-coupon-code-form')); ?>
+                           
+                <div class="col-xs-12 col-sm-4 col-lg-4">
+                    <div class="row gap-10" id="rangeDatePicker">
 
-                                                    <div class="col-xss-12 col-xs-6 col-sm-6">
-                                                        <div class="form-group">
-                                                            <label>From</label>
-                                                            <input type="text" id="rangeDatePickerTo" class="form-control" placeholder="yyyy/mm/dd" />
-                                                        </div>
-                                                    </div>
-
-                                                    <div class="col-xss-12 col-xs-6 col-sm-6">
-                                                        <div class="form-group">
-                                                            <label>To</label>
-                                                            <input type="text" id="rangeDatePickerFrom" class="form-control" placeholder="yyyy/mm/dd" />
-                                                        </div>
-                                                    </div>
-
-                                                </div>
-                                            </div>
-                                            <div class="col-xs-12 col-sm-3 col-lg-3">
-                                                <div class="form-group">
-                                                    <label>Status</label>
-                                                    <select class="selectpicker show-tick form-control" title="Select placeholder">
-                                                        <option value="">All</option>
-                                                        <option value="0">New</option>
-                                                        <option value="1">Pending</option>
-                                                        <option value="1">Completed</option>
-                                                    </select>
-                                                </div>
-                                            </div>
-                                            <div class="col-xs-12 col-sm-3 col-lg-3">
-                                                <div class="form-group">
-                                                    <label>Booked From</label>
-                                                    <select class="selectpicker show-tick form-control" title="Select placeholder">
-                                                        <option value="">All</option>
-                                                        <option value="0">B2C Booking</option>
-                                                        <option value="1">Office Booking</option>
-                                                    </select>
-                                                </div>
-                                            </div>
-                                            <div class="col-xs-12 col-sm-8 col-lg-8">
-                                                <div class="form-group">
-                                                    <label>Title</label>
-                                                    <div class="row">
-                                                        <div class="col-xs-12 col-sm-8 col-md-8">
-                                                            <input type="text" class="form-control" placeholder="Search Trip Title, PNR No, Phone No">
-                                                        </div>
-                                                        <div class="col-xs-12 col-sm-4 col-md-4">
-                                                            <a href="#" class="btn btn-primary btn-block"><i class="fa fa-search"></i> Search</a>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-<!--                            <div class="col-xs-2 col-sm-1 col-lg-1 text-right mr-20">
-                                <a class="btn btn-info c_mt" >Export PDF</a>
-                            </div>-->
-                            <div class="col-xs-2 col-sm-1 col-lg-1 text-right">
-                                <a class="btn btn-info c_mt" >Export XL</a>
+                        <div class="col-xss-12 col-xs-6 col-sm-6">
+                            <div class="form-group">
+                                <label>Date of Trip From</label>
+                                <input name="from" value="<?=$from?>" type="text" id="rangeDatePickerFrom" class="form-control" placeholder="MMM D, YYYY" />
                             </div>
-                            <table class="table ">
-                                <thead>
-                                    <tr>
-                                        <th>Booked On</th>
-                                        <th>PNR No</th>
-                                        <th>Booked From</th>
-                                        <th>Booking Date</th>
-                                        <th>Trip Title</th>
-                                        <th>No of  Travellers</th>
-                                        <th>Total Amount</th>
-                                        <th>Status</th>
-                                        <th>Action</th>
+                        </div>
 
-                                    </tr>
-                                </thead>
-                                <tbody>
-								<?php 
-								if(isset($bookinglist) && count($bookinglist)>0)
-								{
-									$i=1;
-									foreach($bookinglist as $row)
-									{
-                                    
-										$booked_on=$row['booked_on'];	
-										$pnr_no=$row['pnr_no'];
-										$trip_name=$row['trip_name'];
-										$status=$row['status'];
-										$no_of_traveller=$row['no_of_traveller'];
-										$price_to_adult=$row['price_to_adult'];
-										
-										$status=$row['status'];
-										$status_val = array('New','Pending','Completed');
-										$sts=explode(",",$status);
-										foreach($sts as $vals)
-										{
-										
-										?>
-                                    <tr>
-                                        <td><?=date("d/M/y",strtotime($booked_on));?></td>
-                                        <td><?=$pnr_no;?></td>
-                                        <td>B2C Booking</td>
-                                        <td>21 Feb 2018 to 24 Feb 2018</td>
-                                        <td><a href="list.html"><?=$trip_name;?></a></td>
-                                        <td><?=$no_of_traveller;?></td>
-                                        <td><?=$price_to_adult;?></td>
-                                        <td><h4 class="text-info"  data-toggle="tooltip" data-placement="top" data-original-title="New order"><?=$status_val[$vals];?></h4></td>
-                                        <td><a href="payment-done.html" target="_new" class="btn btn-border btn-sm btn-primary">View</a>
-<!--                                            <a href="#" class="btn btn-border btn-sm btn-primary">Edit</a>-->
-                                        </td>
-                                    </tr>
-                                    <?php 				
-									} 
-									}
-									
-								}		
-								?> 	
-                                    
-                                </tbody>
-                            </table>
-                            <div class="pager-wrappper text-right clearfix bt mt-0  col-sm-12">
-
-                                <div class="pager-innner">
-
-                                    <!-- <div class="clearfix">
-                                            Showing reslut 1 to 15 from 248 
-                                    </div> -->
-
-                                    <div class="clearfix">
-                                        <nav>
-                                           
-                                            <ul class="pagination">
-                                                <?php foreach ($links as $link) {
-                                                    echo "<li>". $link."</li>";
-                                                    } ?>
-<!--                                                <li>
-                                                    <a href="#" aria-label="Previous">
-                                                        <span aria-hidden="true">&laquo;</span>
-                                                    </a>
-                                                </li>
-                                                <li class="active"><a href="#">1</a></li>
-                                                <li><a href="#">2</a></li>
-                                                <li><a href="#">3</a></li>
-                                                <li><span>...</span></li>
-                                                <li><a href="#">12</a></li>
-                                                <li><a href="#">13</a></li>
-                                                <li>
-                                                    <a href="#" aria-label="Next">
-                                                        <span aria-hidden="true">&raquo;</span>
-                                                    </a>
-                                                </li>-->
-                                            </ul>
-                                        </nav>
-                                    </div>
-                                </div>
-
+                        <div class="col-xss-12 col-xs-6 col-sm-6">
+                            <div class="form-group">
+                                <label>Date of Trip To</label>
+                                <input name="to" value="<?=$to?>" type="text" id="rangeDatePickerTo" class="form-control" placeholder="MMM D, YYYY" />
                             </div>
                         </div>
 
                     </div>
                 </div>
+                <div class="col-xs-12 col-sm-3 col-lg-3">
+                    <div class="form-group">
+                        <label>Status</label>
+                        <select name="status" class="selectpicker show-tick form-control" title="Status">
+                            <option value="">All</option>
+                            <option value="1" <?php if($status==1){echo 'selected';}?>>Pending</option>
+                            <option value="2" <?php if($status==2){echo 'selected';}?>>Booked</option>
+                            <option value="3" <?php if($status==3){echo 'selected';}?>>Cancelled</option>
+                            <option value="4" <?php if($status==4){echo 'selected';}?>>Confirmed</option>
+                            <option value="5" <?php if($status==5){echo 'selected';}?>>Completed</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-xs-12 col-sm-3 col-lg-3">
+                    <div class="form-group">
+                        <label>Booked From</label>
+                        <select name="bookfrom" class="selectpicker show-tick form-control" title="Booked From">
+                            <option value="">All</option>
+                            <option value="1" <?php if($bookfrom==1){echo 'selected';}?>>B2C Booking</option>
+                            <option value="2" <?php if($bookfrom==2){echo 'selected';}?>>Office Booking</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-xs-12 col-sm-8 col-lg-8">
+                    <div class="form-group">
+                        <label>Title</label>
+                        <div class="row">
+                            <div class="col-xs-12 col-sm-8 col-md-8">
+                                <input name="title" value="<?=$title?>" type="text" class="form-control" placeholder="Search Trip Title, PNR No, Phone No">
+                            </div>
+                            <div class="col-xs-12 col-sm-4 col-md-4">
+                                     <button type="submit" class="btn btn-primary btn-block"><i class="fa fa-search"></i> Search</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <?php echo form_close(); ?>
+                <?php if($url=='booking-wise-reports'){?>
+                <div class="col-xs-2 col-sm-1 col-lg-1 text-right">
+                    <a class="btn btn-info c_mt" >Export XL</a>
+                </div>
+                <?php }?>
+                <table class="table ">
+                    <thead>
+                        <tr>
+                            <th>Booked On</th>
+                            <th>PNR No</th>
+                            <th>Booked From</th>
+                            <th>Trip Title</th>
+                            <th>Date of Trip</th>
+                            <th>Pickup Location</th>
+                            <th>No of  Travellers</th>
+                            <th>Total Amount</th>
+                            <th>Status</th>
+                            <th>Action</th>
+
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php
+                        if (isset($bookinglist) && count($bookinglist) > 0) {
+                            $i = 1;
+                            foreach ($bookinglist as $row) {
+                                $pnr_no = $row['pnr_no'];
+                                $status = $row['status'];
+                                $user_type = $row['user_type'];
+                                $status_val = array('New', 'Pending', 'Booked', 'Cancelled', 'Confirmed', 'Completed');
+                                $user_type_val = array('CU'=>'B2C Booking','GU'=>'B2C Booking','VA'=>'Office Booking');
+                                    ?>
+                                    <tr>
+                                        <td><?= date("M d, Y", strtotime($row['booked_on'])); ?></td>
+                                        <td><?= $pnr_no; ?></td>
+                                        <td><?=$user_type_val[$user_type]?></td>
+                                        <td><a href="<?=base_url()?>trip-view/<?= $row['trip_code']; ?>" target="_new"><?= $row['trip_name']; ?></a></td>
+                                        <td><?= date("M d, Y", strtotime($row['date_of_trip'])); ?></td>
+                                        <td><?= $row['pick_up_location']; ?></td>
+                                        <td><?= $row['number_of_persons']; ?></td>
+                                        <td><?= $row['total_trip_price']; ?></td>
+                                        <td><h4 class="text-info"  data-toggle="tooltip" data-placement="top" data-original-title="Booking status <?=$status_val[$status]?>"><?= $status_val[$status]; ?></h4></td>
+                                        <td><a href="<?=base_url()?>PNR-status/<?=$pnr_no?>/2" target="_new" class="btn btn-border btn-sm btn-primary">Customer View</a>
+                                            <?php if ($this->session->userdata('user_type') == 'VA') {?>
+                                            <a href="<?=base_url()?>PNR-status/<?=$pnr_no?>/1" target="_new" class="btn btn-border btn-sm btn-primary">Your View</a>
+                                            <?php }if ($this->session->userdata('user_type') == 'SA') {?>
+                                            <a href="<?=base_url()?>PNR-status-report/<?=$pnr_no?>" target="_new" class="btn btn-border btn-sm btn-primary">Your View</a>
+                                            <?php }?>
+                                        </td>
+                                    </tr>
+            <?php
+    }
+}
+?> 	
+
+                    </tbody>
+                </table>
+                <div class="pager-wrappper text-right clearfix bt mt-0  col-sm-12">
+
+                    <div class="pager-innner">
+
+                        <!-- <div class="clearfix">
+                                Showing reslut 1 to 15 from 248 
+                        </div> -->
+
+                        <div class="clearfix">
+                            <nav>
+
+                                <ul class="pagination">
+<?php
+foreach ($links as $link) {
+    echo "<li>" . $link . "</li>";
+}
+?>
+                                    <!--                                                <li>
+                                                                                        <a href="#" aria-label="Previous">
+                                                                                            <span aria-hidden="true">&laquo;</span>
+                                                                                        </a>
+                                                                                    </li>
+                                                                                    <li class="active"><a href="#">1</a></li>
+                                                                                    <li><a href="#">2</a></li>
+                                                                                    <li><a href="#">3</a></li>
+                                                                                    <li><span>...</span></li>
+                                                                                    <li><a href="#">12</a></li>
+                                                                                    <li><a href="#">13</a></li>
+                                                                                    <li>
+                                                                                        <a href="#" aria-label="Next">
+                                                                                            <span aria-hidden="true">&raquo;</span>
+                                                                                        </a>
+                                                                                    </li>-->
+                                </ul>
+                            </nav>
+                        </div>
+                    </div>
+
+                </div>
             </div>
 
-            <!-- end Main Wrapper -->
-		<?php $this->load->view('includes/footer')?>
+        </div>
+    </div>
+</div>
 
-            
+<!-- end Main Wrapper -->
+<?php $this->load->view('includes/footer') ?>
+

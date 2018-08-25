@@ -82,14 +82,17 @@ $route['faq/delete/(:num)'] = 'welcome/faq_delete/$1';
 
 
 //PNR STATUS
+$route['PNR-status/(:any)/(:num)'] = 'pnr_status/pnr_status_check/$1/$2';
 $route['PNR-status/(:any)'] = 'pnr_status/pnr_status_check/$1';
 $route['PNR-status'] = 'pnr_status/pnr_status_check';
+$route['PNR-status-report/(:any)'] = 'pnr_status/pnr_status_report/$1';
 
 
 //PNR STATUS
 $route['withdrawals-request'] = 'request/withdrawals_request';
 
 
+$route['booking-list'] = 'report/booking_wise_reports';
 //report 
 $route['booking-wise-reports'] = 'report/booking_wise_reports';
 $route['Trip-wise-reports'] = 'report/Trip_wise_reports';

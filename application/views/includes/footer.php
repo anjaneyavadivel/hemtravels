@@ -604,5 +604,12 @@
 <?php if($url=='PNR-status'){?>
     <script type="text/javascript" src="<?php echo base_url()?>assets-customs/js/pnr.js"></script>    
 <?php }?>
+<?php if($url=='booking-wise-reports'||$url=='booking-list'){?>
+        <script type="text/javascript" src="<?php echo base_url()?>assets/js/moment.min.js"></script>
+        <script type="text/javascript" src="<?php echo base_url()?>assets/js/jquery.daterangepicker.js"></script>
+    <script type="text/javascript" src="<?php echo base_url()?>assets-customs/js/trip-book-reports.js"></script>
+<?php }?>
 </body>
 </html>
+
+        
