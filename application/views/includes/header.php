@@ -201,7 +201,7 @@
                             <?php if ($this->session->userdata('user_id') && $this->session->userdata('user_id') > 0) { ?>
                             <li class="dropdown "> <a href="<?php echo base_url() ?>my-profile" data-toggle="dropdown"> <img src="<?php if($this->session->userdata('user_img')) echo $this->session->userdata('user_img')?>" alt="images" class="drp_dwn" style="border-radius: 50%;" width="30"/> </a>  
                                 <ul class="dropdown-menu"  style="margin-left: -130px;">
-                                    <li><a href="<?php echo base_url() ?>my-profile" class="text-dark">Profile</a></li>
+                                    <li><a href="<?php echo base_url() ?>my-profile" class="text-dark">Profile<br><?=$this->session->userdata('user_email')?></a></li>
                                     <li><a href="<?php echo base_url() ?>my-transaction" class="text-dark">Wallet <span class="text-primary wallet">Rs:200</span></a></li>
                                     <li><a href="<?php echo base_url() ?>update-profile" class="text-dark">Update Profile</a></li>
                                     <li><a href="<?php echo base_url() ?>change-password" class="text-dark">Change Password</a></li>
