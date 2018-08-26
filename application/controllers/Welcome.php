@@ -128,6 +128,41 @@ function __construct()
 		$this->Welcome_model->faq_update($data,$id);
 		redirect(base_url().'faq');	
 	}
+	
+		public function contact_add()	
+	{
+		if ($this->session->userdata('user_id') == '') { redirect('login'); }		
+if($_POST)
+		{
+			$name=trim($this->input->post('name'));
+			$email=trim($this->input->post('email'));	
+			$subject=trim($this->input->post('subject'));
+			$message=trim($this->input->post('message'));	
+			
+			$this->form_validation->set_rules('name', 'name', 'trim|required|max_length[150]');
+			$this->form_validation->set_rules('email', 'email', 'trim|required');
+			$this->form_validation->set_rules('subject', 'subject', 'trim|required|max_length[150]');
+			$this->form_validation->set_rules('message', 'message', 'trim|required');
+			
+			if (!$this->form_validation->run()){$error=$this->session->set_userdata('err',validation_errors());}			
+			else if ($this->form_validation->run() == TRUE)
+			{
+		$data= array(
+						'id' => $this->input->post('id'),
+						'name' => $this->input->post('name'),
+						'email' => $this->input->post('email'),
+						'subject' => $this->input->post('subject'),
+						'message' => $this->input->post('message'),
+							);
+					$id=$this->Welcome_model->contact_insert($data);
+					if($id>0){$error=$this->session->set_userdata('suc','Successfullly Added');}
+
+					redirect("contact-us");
+	}
+					redirect("contact-us");
+
+		}
+
+	}
 }
 	
-

@@ -609,6 +609,16 @@
         <script type="text/javascript" src="<?php echo base_url()?>assets/js/jquery.daterangepicker.js"></script>
     <script type="text/javascript" src="<?php echo base_url()?>assets-customs/js/trip-book-reports.js"></script>
 <?php }?>
+
+
+<?php if($url =='contact-us'){?> 
+<script type="text/javascript" src="<?=base_url();?>assets-customs/js/contact-us.js"></script>
+<script>
+	jQuery(document).ready(function() {  
+		FormValidation.init();
+	 });
+
+ <?php } ?>
     <script> setTimeout(function(){$(".alert").fadeOut(400);}, 5000)</script>
 </body>
 </html>

@@ -72,6 +72,8 @@ $route['my-wishlist'] = 'Loginview/my_wish_list';
 //common to All
 $route['about-us'] = 'welcome/about_us';
 $route['contact-us'] = 'welcome/contact_us';
+$route['contact/add'] = 'welcome/contact_add';
+
 //$route['faq'] = 'welcome/faq';
 
 $route['faq'] = 'welcome/faq_list';

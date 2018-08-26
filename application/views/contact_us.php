@@ -34,10 +34,8 @@
 							</div>
 							
 							<div class="row">
-
 								<div class="col-xs-12 col-sm-7 col-md-6 col-md-offset-1 mb-30-xs">
-								
-									<form id="contact-form" class="contact-form-wrapper" method="post" action="http://crenoveative.com/envato/togoby/contact-02.php">
+                                   <?php echo form_open_multipart('contact/add',array('class' => 'contact-form-wrapper',"id"=>"contact-form"));?> 
 									
 										<div class="messages"></div>
 										
@@ -47,7 +45,7 @@
 											
 												<div class="form-group">
 													<label for="form_name">Your Name <span class="font10 text-danger">(required)</span></label>
-													<input id="form_name" type="text" class="form-control" name="name" data-error="Your name is required" required="required">
+													<input id="form_name" type="text" class="form-control" name="name" data-error="Your name is required" >
 													<div class="help-block with-errors"></div>
 												</div>
 												
@@ -57,7 +55,7 @@
 											
 												<div class="form-group">
 													<label for="form_email">Your Email <span class="font10 text-danger">(required)</span></label>
-													<input id="form_email" type="email" class="form-control" name="email" data-error="Your email is required and must be a valid email address" required="required">
+													<input id="form_email" type="email" class="form-control" name="email" data-error="Your email is required and must be a valid email address" >
 													<div class="help-block with-errors"></div>
 												</div>
 												
@@ -67,7 +65,7 @@
 											
 												<div class="form-group">
 													<label>Subject</label>
-													<input type="text" class="form-control" name="title" />
+													<input type="text" class="form-control" name="subject" />
 												</div>
 												
 											</div>
@@ -76,7 +74,7 @@
 											
 												<div class="form-group">
 													<label for="form_message">Message <span class="font10 text-danger">(required)</span></label>
-													<textarea id="form_message" class="form-control" name="message" rows="5" data-minlength="50" data-error="Your message is required and must not less than 50 characters" required="required"></textarea>
+													<textarea id="form_message" class="form-control" name="message" rows="5" data-minlength="50" data-error="Your message is required and must not less than 50 characters" ></textarea>
 													<div class="help-block with-errors"></div>
 												</div>
 
@@ -88,7 +86,8 @@
 											
 										</div>
 										
-									</form>
+									<?php echo form_close(); ?>
+
 									
 								</div>
 								
