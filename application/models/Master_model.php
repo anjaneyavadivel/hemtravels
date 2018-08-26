@@ -76,17 +76,21 @@ class Master_model extends CI_Model {
         return $query->num_rows();
     }
 	
+	function coupon_code_detail($data) {
+        $this->db->select()->from('coupon_code_master AS ccm')->where($data);
+		//$this->db->join('trip_master AS tm','tm.id=ccm.trip_id','LEFT');
+        //$this->db->join('trip_category AS tc','tc.id=ccm.category_id','LEFT');
+        $query = $this->db->get();
+        return $query->first_row('array');
+    }
+	
 	function coupon_code_update($data, $where) {
         $this->db->where($where);
         $this->db->update('coupon_code_master', $data);
         return $this->db->affected_rows();
     }
 	
-	function coupon_code_detail($data) {
-        $this->db->select()->from('coupon_code_master')->where($data);
-        $query = $this->db->get();
-        return $query->first_row('array');
-    }
+	
 
 }
 

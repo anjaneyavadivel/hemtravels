@@ -107,6 +107,7 @@
                                     <li>
                                         <a href="#">Report</a>
                                         <ul>
+
                                             <li><a href="<?php echo base_url() ?>booking-wise-reports">Booking Wise</a></li>
                                             <li><a href="<?php echo base_url() ?>Trip-wise-reports">Trip Wise</a></li>
                                             <li><a href="<?php echo base_url() ?>payment-from-B2C-reports">Payment from B2C</a></li>
@@ -115,7 +116,8 @@
                                             <li><a href="<?php echo base_url() ?>cancellation-reports">Cancellation Reports</a></li>
                                             <li><a href="<?php echo base_url() ?>my-transaction-reports">My Transaction</a></li>
 <!--                                            <li><a href="<?php echo base_url() ?>triplist">Trip List</a></li>-->
-                                        </ul>
+                                            <li><a href="<?php echo base_url() ?>trip-specific">trip specific</a></li>
+											</ul>
 
                                     </li>
                                     <li>
