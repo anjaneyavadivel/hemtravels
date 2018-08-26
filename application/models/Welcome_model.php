@@ -81,6 +81,15 @@ class Welcome_model extends CI_Model {
         $query = $this->db->get();
         return $query->result_array();
     }
+	function contact_insert($data) {
+        $this->db->insert('contact_us', $data);
+        return $this->db->insert_id();
+    }
+	function contact_detail($id) {
+        $this->db->select()->from('contact_us')->where(array('isactive' => 1, 'id' => $id));
+        $query = $this->db->get();
+        return $query->first_row('array');
+    }
 
 }
 ?>
