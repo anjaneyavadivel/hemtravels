@@ -88,7 +88,7 @@ class Trips extends CI_Controller {
     }
     
     public function delete_trip(){
-        $succ = 'error';
+        $succ = '';
         if ($_POST) 
         {
             $trip_id  = $this->input->post('trip_id');
@@ -96,6 +96,7 @@ class Trips extends CI_Controller {
             if(!empty($trip_id)){
                 $whereData        = array('isactive' => 0);
                 updateTable('trip_master',array('id' => $trip_id),$whereData);
+                updateTable('trip_master',array('parent_trip_id' => $trip_id),$whereData);
                 $this->session->set_userdata('suc', 'Trip has been successfully deleted');
                 $succ = 'success';
             }
@@ -699,6 +700,8 @@ class Trips extends CI_Controller {
                             . "LEFT JOIN trip_tag_map as tam ON tam.trip_id = tm.id AND tam.isactive = 1 "                            
                             . "LEFT JOIN trip_tags as tt ON tt.id = tam.tag_id "
                             . "LEFT JOIN trip_shared as ts ON ts.trip_id = tm.id AND ts.isactive = 1 AND tm.is_shared = 1 "
+                            . "LEFT JOIN trip_category as tc ON tm.trip_category_id = tc.id AND tc.isactive = 1 "
+                            . "LEFT JOIN city_master as cm ON tm.city_id = cm.id AND cm.isactive = 1 "
                             . "WHERE tm.isactive = ? ";
                     
                     if($this->session->userdata('user_type') == 'VA') {
@@ -711,7 +714,7 @@ class Trips extends CI_Controller {
                     }
                     
                     //FILTER BY TITLE
-                    $searchTitle = $this->input->post('search_title',true);
+                    $searchTitle = $this->db->escape_like_str($this->input->post('search_title',true));
                     if(!empty($searchTitle)){                        
                         $tot_sql .= " AND tm.trip_name LIKE '%{$searchTitle}%' ESCAPE '!'";
                     }
@@ -802,6 +805,13 @@ class Trips extends CI_Controller {
                         
                         $tot_sql .= " AND tt.name IN(".$taQry.")"; 
                     }
+                    
+                     //FILTER BY SEARCH TERM
+                    $searchTerm = $this->db->escape_like_str($this->input->post('search_term',true));
+                    if(!empty($searchTerm)){                        
+                        $tot_sql .= " AND (tm.trip_name LIKE '%{$searchTerm}%' ESCAPE '!' OR tc.name LIKE '%{$searchTerm}%' ESCAPE '!' OR cm.name LIKE '%{$searchTerm}%' ESCAPE '!') ";
+                    }
+                    
                     
                     //GROUP BY
                     $tot_sql .= ' GROUP BY tm.id';
@@ -1030,8 +1040,8 @@ class Trips extends CI_Controller {
                 $this->load->model('Trip_model');
                 $totRating  = $this->Trip_model->getTripTotalRating($trip_id);
                 $tot_rating = $totRating['tot_rating'];
-                $noReview  = $totRating['total']  - 1 ;
-                $tot_re = (int)$tot_rating / (int)$noReview;
+                $noReview  = $totRating['total'] ;
+                $tot_re = $tot_rating / $noReview;
                 $tot_re = round($tot_re,1);
 
                 $tValue = array(

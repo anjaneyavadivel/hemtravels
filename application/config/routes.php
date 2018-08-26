@@ -93,6 +93,7 @@ $route['withdrawals-request'] = 'request/withdrawals_request';
 
 
 $route['booking-list'] = 'report/booking_wise_reports';
+$route['cancellation-list'] = 'report/cancellation_reports';
 //report 
 $route['booking-wise-reports'] = 'report/booking_wise_reports';
 $route['Trip-wise-reports'] = 'report/Trip_wise_reports';
