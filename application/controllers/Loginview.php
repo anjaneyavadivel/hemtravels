@@ -186,16 +186,19 @@ class Loginview extends CI_Controller {
 		$data['view'] = $this->user_model->select('user_bank_master',array('user_id'=>$user_id));
 		$this->load->view('user/account_details',$data);
 	}
+	
 	public function my_post()
 	{
 		$this->login_verfy();
 		$this->load->view('user/my_post');
 	}
+	
 	public function booking_history()
 	{
 		$this->login_verfy();
 		$this->load->view('user/book_history');
 	}
+	
 	public function my_wish_list()
 	{
 		$this->login_verfy();
