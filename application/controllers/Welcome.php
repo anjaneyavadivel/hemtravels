@@ -60,7 +60,7 @@ function __construct()
      
 	public function faq_list()
 	{
-		if ($this->session->userdata('user_id') == '') { redirect('login'); }		
+		//if ($this->session->userdata('user_id') == '') { redirect('login'); }		
 		$data['faqlist']=$this->Welcome_model->faq_list();
         $this->load->view('faq', $data);
 	}

@@ -3,7 +3,16 @@ jQuery(function($) {
 
     "use strict";
     
-     var search_price = '',search_people = '',search_category = '';
+     var search_price = '',search_people = '',search_category = '',search_term = '';
+     
+    var se_cat_param = getParameterByName("category_id"); 
+    if( se_cat_param != null && se_cat_param != ''){
+        search_category = se_cat_param
+    }
+    var se_ser_param = getParameterByName("search"); 
+    if( se_ser_param != null && se_ser_param != ''){
+        search_term = se_ser_param
+    }
 	
     //LOAD DEFAULT LISTS
     getTripLists();
@@ -37,6 +46,7 @@ jQuery(function($) {
         formData.append('search_category', search_category);
         formData.append('search_tags', $('#autocompleteTagging2').val());
         formData.append('sort_by', $(".sortOrder option:selected").val());
+        formData.append('search_term', search_term);
         formData.append('csrf_test_name', $.cookie('csrf_cookie_name'));
         
         //$('.load_more').show();
@@ -233,6 +243,13 @@ jQuery(function($) {
     
     //PEOPLE   
     $('.search_category').click(function(){ 
+        
+        var uri = window.location.href.toString();
+        if (uri.indexOf("?") > 0) {
+            var clean_uri = uri.substring(0, uri.indexOf("?"));
+            window.history.replaceState({}, document.title, clean_uri);
+        }
+        
         search_category = '';
         $('#currentPage').val(1);
         
@@ -254,7 +271,7 @@ jQuery(function($) {
         
         var trip_id = $(this).attr('data-id');
         bootbox.confirm({
-            message: "Are you sure want to delete this trip?",
+            message: "Are you sure want to delete this trip and their child trips?",
             buttons: {
                 confirm: {
                     label: 'Yes',
@@ -289,7 +306,15 @@ jQuery(function($) {
         
     });
     
-       
+    function getParameterByName(name, url) {
+        if (!url) url = window.location.href;
+        name = name.replace(/[\[\]]/g, "\\$&");
+        var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
+            results = regex.exec(url);
+        if (!results) return null;
+        if (!results[2]) return '';
+        return decodeURIComponent(results[2].replace(/\+/g, " "));
+    }   
 	
 });
 

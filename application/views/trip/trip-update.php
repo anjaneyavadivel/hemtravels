@@ -1,5 +1,9 @@
 <?php $this->load->view('includes/header')?>
-
+<style>
+    .dz-size{
+        display:none;
+    }
+</style>
   <!-- start Main Wrapper -->
 
            <div class="main-wrapper scrollspy-container">
@@ -71,7 +75,7 @@
 
                                             <div class="row">
 
-                                                <div class="col-xs-6 col-sm-6">
+                                                <div class="col-xs-6 col-sm-6" style="display:none;">
 
                                                     <div class="form-group">
                                                         <label>Trip Type:</label>
@@ -338,9 +342,18 @@
                                                                     ?>
                                                                     <option value="<?= $ct->id?>" <?= $iscSelected ?>><?=ucfirst($ct->name)?></option>
                                                             <?php }} ?>
+                                                            <option value="other">Add New</option> 
                                                         </select>
                                                     </div>
 
+                                                </div>
+                                            </div>
+                                            <div class="row gap-20" id="other_city" style="display:none;">
+                                                <div class="col-xs-12 col-sm-6"></div>
+                                                <div class="col-xs-12 col-sm-6">
+                                                    <div class="form-group">                                                        
+                                                        <input  type="text" class="form-control" name="other_city" />
+                                                    </div>
                                                 </div>
                                             </div>
                                                 
@@ -367,7 +380,7 @@
                                                             <div class="col-xs-12 col-sm-4">
 
                                                                 <div class="form-group">
-                                                                    <label>Landmark:<span style=' color: #d9534f;'>*</span></label>
+                                                                    <label>Landmark:</label>
                                                                     <input type="text" class="oh-timepicker1 form-control" name="ex_pickup_landmark[<?php echo isset($trip_details['pickups'][0]['id'])?$trip_details['pickups'][0]['id']:0?>]" value="<?php echo isset($trip_details['pickups'][0]['landmark']) ? $trip_details['pickups'][0]['landmark']:'';?>"/>
                                                                 </div>
 
@@ -667,7 +680,7 @@
                                                 <label class="" for="term_accept">Am terminated it excellence invitation projection as. She graceful shy believed distance use nay. Lively is people so basket ladies window expect. <a href="#" class="font700">Terms &amp; Conditions</a></label>
                                             </div>
                                             <div class="term_accept_err" style="color:red;display:none;"><p>Please accept terms&conditions</p></div>
-
+                                            <div class="field_req_err" style="color:red;display:none;"><p>Please fill the all required fields(*).</p></div>
                                             <div class="mb-25"></div>                                            
                                             <input type="submit" class="btn btn-primary btn-wide tripAddSubmit" data-id="submit" value="Submit">
                                             

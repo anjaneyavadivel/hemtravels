@@ -224,9 +224,11 @@
                                                         <label>Category</label>
                                                         <div class="row checkbox-wrapper">
                                                             <?php foreach($category_list as $v) { 
+                                                                
+                                                                $isChecked = $this->input->get('category_id', TRUE) == $v['id']?'checked':'';
                                                                 echo '<div class="col-xss-12 col-xs-12 col-sm-12 col-md-12 col-lg-12">
                                                                         <div class="checkbox-block">
-                                                                            <input id="catgeory_'.$v['id'].'" name="categor_ids[]" type="checkbox" class="checkbox search_category" value="'.$v['id'].'"/>
+                                                                            <input id="catgeory_'.$v['id'].'" name="categor_ids[]" type="checkbox" class="checkbox search_category" value="'.$v['id'].'" '.$isChecked.'/>
                                                                             <label class="" for="catgeory_'.$v['id'].'">'.$v['name'].'</label>
                                                                         </div>
                                                                       </div>';

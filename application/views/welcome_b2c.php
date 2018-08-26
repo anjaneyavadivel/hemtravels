@@ -8,20 +8,19 @@
             <h1>Where do you want to go?</h1>
             <p>Discover and book your unique travel experiences offered by local experts</p>
 
-            <form>
+            <?php echo form_open_multipart(base_url() . 'trip-list', array('method' => 'get','class' => 'form-horizontal margin-top-30', 'id' => 'add-city-form')); ?>
+ 
                 <div class="form-group">
-                    <input type="text" placeholder="eg: Goa, Bangalore, Coorg" class="form-control flexdatalist" data-data="data/countries.json" data-search-in='["name","capital"]' data-visible-properties='["capital","name","continent"]' data-group-by="continent" data-selection-required="true" data-focus-first-result="true" data-min-length="1" data-value-property="iso2" data-text-property="{capital}, {name}" data-search-contain="false" name="countries">
+                    <input type="text" name="search" placeholder="Search for activities, tours, city... eg: goa, boating " class="form-control" >
                     <button class="btn"><i class="icon-magnifier"></i></button>
                 </div>
-            </form>
+            <?php echo form_close(); ?>
 
             <div class="top-search">
                 <span class="font700">Top Searches : </span>
-                <a href="#">Goa</a>
-                <a href="#">Bangalore</a>
-                <a href="#">Coorg</a>
-                <a href="#">Rishikesh</a>
-                <a href="#">Ceylon</a>
+                <a href="<?=base_url()?>trip-list?search=Goa">Goa</a>
+                <a href="<?=base_url()?>trip-list?search=Boating">Boating</a>
+                <a href="<?=base_url()?>trip-list?search=Water Rides">Water Rides</a>
             </div>
 
         </div>
@@ -109,7 +108,7 @@
                     <div class="GridLex-col-3_sm-6_xs-6_xss-12">
 
                         <div class="top-destination-item">
-                            <a href="<?php echo base_url() ?>trip-list?category=<?=$row['id']?>">
+                            <a href="<?php echo base_url() ?>trip-list?category_id=<?=$row['id']?>">
                                 <div class="image">
                                     <img src="<?php echo categorypic($row['img_name']) ?>" alt="<?=$row['name']?>" />
                                 </div>

@@ -442,7 +442,7 @@
                                                             </div>
 
                                                         </div>
-                                                        <?php if($this->session->userdata('user_type') == 'CU') {?>
+                                                        <?php if($this->session->userdata('user_type') != 'SA' && $this->session->userdata('user_type') != 'VA') {?>
                                                         <div class="GridLex-col-3_sm-4_xs-12_xss-12">
 
                                                             <div class="GridLex-inner">
@@ -486,11 +486,11 @@
                                                                 </div>         
 
                                                             </div>
-                                                            
+                                                            <?php if($this->session->userdata('user_type') == 'SA' || $this->session->userdata('user_type') == 'VA') {?>
                                                             <div class="col-xs-12 col-sm-2 col-md-2" style="text-align: right;">
                                                                 <a href="javascript:;"  class="remove_review" title="Remove this review" data-trip-id="<?php echo $details['id']; ?>" data-id="<?php echo $v['id']; ?>"><i class="fa fa-trash-o"></i></a>
                                                             </div>
-
+                                                             <?php } ?>
                                                         </div>
 
                                                     </li>
@@ -498,7 +498,7 @@
                                                 </ul>                
 
                                             </div>
-                                            <?php if($this->session->userdata('user_type') == 'CU' || $this->session->userdata('user_type') == 'GU') {?>
+                                            <?php if($this->session->userdata('user_type') != 'SA' && $this->session->userdata('user_type') != 'VA') {?>
                                             <div id="review-form" class="review-form">
 
                                                 <h3 class="review-form-title">Leave Your Review</h3>

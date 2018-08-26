@@ -63,7 +63,7 @@ jQuery(function($) {
 //            minDays: 4,
 //            maxDays: 4,
 //            stickyMonths: true,
-//            //startDate: new Date(),
+            startDate: new Date(),
 //            showTopbar: false,
 //            getValue: function()
 //            {
