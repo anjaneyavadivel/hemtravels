@@ -5,7 +5,7 @@
 <?php echo form_open_multipart(base_url() . 'coupon-code-master/save-edit', array('class' => 'form-horizontal margin-top-30', 'id' => 'edit-coupon-code-form')); ?>
 
 <div class="modal-body">
-        <input name="category_id" type="hidden" class="form-control"  value="<?=$categorydetail['id']?>"/>
+        <input name="category_id" type="hidden" class="form-control"  value="<?=$coupondetail['id']?>"/>
 
                 <div class="row gap-20">
 
@@ -13,7 +13,7 @@
 
                         <div class="form-group"> 
                             <label>Coupon Code<span class="validation">*</span></label>
-                            <input class="form-control" name="couponcode" placeholder="eg:B2CDIS200, XXXXXB2C100,  XXXXXB2B200..." type="text"> 
+                            <input class="form-control" name="couponcode" placeholder="eg:B2CDIS200, XXXXXB2C100,  XXXXXB2B200..." type="text" value="<?=$coupondetail['coupon_code']?>"> 
                         </div>
 
                     </div>
@@ -21,7 +21,7 @@
 
                         <div class="form-group"> 
                             <label>Coupon Name<span class="validation">*</span></label>
-                            <input class="form-control" name="couponname" placeholder="eg:B2C100, B2B200, diwali offer..." type="text"> 
+                            <input class="form-control" name="couponname" placeholder="eg:B2C100, B2B200, diwali offer..." type="text" value="<?=$coupondetail['coupon_name']?>"> 
                         </div>
 
                     </div>
@@ -30,14 +30,14 @@
                             <div class="col-xss-12 col-xs-6 col-sm-6">
                                 <div class="form-group">
                                     <label>From<span class="validation">*</span></label>
-                                    <input type="text" name="fromdate" id="rangeDatePickerTo" class="form-control" placeholder="M D, YYYY" />
+                                    <input type="text" name="fromdate" id="rangeDatePickerTo" class="form-control" placeholder="M D, YYYY" value="<?=$coupondetail['validity_from']?>" />
                                 </div>
                             </div>
 
                             <div class="col-xss-12 col-xs-6 col-sm-6">
                                 <div class="form-group">
                                     <label>To<span class="validation">*</span></label>
-                                    <input type="text" name="todate" id="rangeDatePickerFrom" class="form-control" placeholder="M D, YYYY" />
+                                    <input type="text" name="todate" id="rangeDatePickerFrom" class="form-control" placeholder="M D, YYYY" value="<?=$coupondetail['validity_to']?>"/>
                                 </div>
                             </div> 
                         </div>
@@ -127,7 +127,7 @@
 
                         <div class="form-group"> 
                             <label>Amount / Percentage<span class="validation">*</span></label>
-                            <input class="form-control" name="offeramount" placeholder="Enter the Fixed Amount / Percentage" type="text"> 
+                            <input class="form-control" name="offeramount" placeholder="Enter the Fixed Amount / Percentage" type="text" value="<?=$coupondetail['percentage_amount']?>"> 
                         </div>
 
                     </div>
@@ -135,7 +135,7 @@
 
                         <div class="form-group"> 
                             <label>Comments<span class="validation">*</span></label>
-                            <textarea class="form-control" name="comment" placeholder="Enter the comments" type="text"> </textarea>
+                            <textarea class="form-control" name="comment" placeholder="Enter the comments" type="text" value="<?=$coupondetail['comment']?>"> </textarea>
                         </div>
 
                     </div>

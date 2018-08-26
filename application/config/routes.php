@@ -148,6 +148,17 @@ $route['trip-inclusions-master/active/(:num)'] = 'Tripinclusions/trip_active/$1'
 $route['trip-inclusions-master/(:any)'] = 'Tripinclusions/trip_list/$1';
 $route['trip-inclusions-master'] = 'Tripinclusions/trip_list';
 
+//Master to admin
+$route['trip-specific/add'] = 'tripspecific/trip-specific_add';
+$route['trip-specific/loadmodal/(:any)'] = 'tripspecific/loadmodal/$1';
+$route['trip-specific/edit'] = 'tripspecific/trip_edit';
+$route['trip-specific/save-edit'] = 'tripspecific/trip_save_edit';
+$route['trip-specific/delete/(:num)'] = 'tripspecific/trip_delete/$1';
+$route['trip-specific/active/(:num)'] = 'tripspecific/trip_active/$1';
+$route['trip-specific/(:any)'] = 'tripspecific/trip_list/$1';
+$route['trip-specific'] = 'tripspecific/trip_list';
+
+
 
 //Master to admin
 $route['state-master/add'] = 'state/state_add';

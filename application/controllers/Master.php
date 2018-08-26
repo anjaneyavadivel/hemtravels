@@ -258,6 +258,67 @@ class Master extends CI_Controller {
         return FALSE;
     }
 	
+	public function coupon_code_edit() {
+        if ($this->session->userdata('user_id') == '' || $this->session->userdata('user_type') != 'SA') {
+           redirect('login');
+        }
+        if ($_POST) {
+            $id = trim($this->input->post('id'));
+
+            $data = array('id' => $id);
+            $data['coupondetail'] = $this->Master_model->coupon_code_detail($data);
+            //$this->Master_model->category_update($data,$id);
+            $this->load->view('master/coupon-code/coupon-code-edit', $data);
+        }
+    }
+
+
+public function coupon_code_save_edit() {
+        if ($this->session->userdata('user_id') == '') {
+            return FALSE;
+        }
+        if ($_POST) {
+            $this->form_validation->set_rules('couponcode', 'Category Name', 'trim|required');
+            $this->form_validation->set_rules('couponname', 'Category Name', 'trim|required');
+            $this->form_validation->set_rules('fromdate', 'Category Name', 'trim|required');
+            $this->form_validation->set_rules('todate', 'Category Name', 'trim|required');
+            $this->form_validation->set_rules('coupontype', 'Category Name', 'trim|required');
+            $this->form_validation->set_rules('offertype', 'Category Name', 'trim|required');
+            $this->form_validation->set_rules('offeramount', 'Category Name', 'trim|required');
+            if ($this->form_validation->run($this) != FALSE) {
+                $couponname = ucwords(trim($this->input->post('coupon_name')));
+                $category_id = ucwords(trim($this->input->post('category_id')));
+                $id = trim($this->input->post('city_id'));
+                $name = trim($this->input->post('city_name'));
+
+                $where = array('id' => $id);
+                $data = array(
+                    'coupon_code' => strtoupper($couponcode),
+                    'coupon_name' => ucfirst($couponname),
+                    'comment' => ucfirst($comment),
+                    'category_id' => isset($category_id)?$category_id:0,
+                    'validity_from' => date("Y-m-d", strtotime($fromdate)),
+                    'validity_to' => date("Y-m-d", strtotime($todate)),
+                    'type' => $coupontype,
+                    'offer_type' => $offertype,
+                    'percentage_amount' => $offertype==2?round($offeramount):$offeramount,
+                    'trip_id' => isset($tripname)?$tripname:0,
+                    'price_to_adult' => $price_to_adult,
+                    'price_to_child' => $price_to_child,
+                    'price_to_infan' => $price_to_infan,
+                    'user_id' => $user_id,
+                    'isactive' => 1);
+                $result = $this->Master_model->coupon_code_update($data, $where);
+
+                if ($result) {
+                    return TRUE;
+                }
+            }
+        }
+        echo 'Sorry! Try again...';
+        return FALSE;
+    }
+	
 	public function coupon_code_delete($id) {
         if ($this->session->userdata('user_id') == '') {
             redirect('login');
