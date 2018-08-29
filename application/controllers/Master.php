@@ -214,6 +214,25 @@ class Master extends CI_Controller {
             echo "false";
         }
     }
+    
+
+    public function gettripinfo() {
+        if ($this->session->userdata('user_id') == '') {
+            return FALSE;
+        }
+        if ($_POST) {
+            $this->form_validation->set_rules('tripid', 'tripid', 'trim|required');
+            if ($this->form_validation->run($this) != FALSE) {
+                $loginuserid = $this->session->userdata('user_id');
+                extract($this->input->post());
+                $whereData = array('isactive' => 1, 'id' => $tripid, 'user_id' => $loginuserid);
+                $trip_info = selectTable('trip_master', $whereData);
+                $data['trip_info'] =$trip_info->row();
+                $this->load->view("master/coupon-code/gettripinfo", $data);
+            }
+        }
+        
+    }
 	//code
     public function coupon_code_add() {
         if ($this->session->userdata('user_id') == '') {
@@ -258,9 +277,9 @@ class Master extends CI_Controller {
         return FALSE;
     }
 	
-	public function coupon_code_edit() {
-        if ($this->session->userdata('user_id') == '' || $this->session->userdata('user_type') != 'SA') {
-           redirect('login');
+    public function coupon_code_edit() {
+        if ($this->session->userdata('user_id') == '') {
+           return FALSE;
         }
         if ($_POST) {
             $id = trim($this->input->post('id'));
@@ -278,6 +297,7 @@ public function coupon_code_save_edit() {
             return FALSE;
         }
         if ($_POST) {
+            $this->form_validation->set_rules('coupon_id', 'coupon id', 'trim|required');
             $this->form_validation->set_rules('couponcode', 'Category Name', 'trim|required');
             $this->form_validation->set_rules('couponname', 'Category Name', 'trim|required');
             $this->form_validation->set_rules('fromdate', 'Category Name', 'trim|required');
@@ -286,12 +306,10 @@ public function coupon_code_save_edit() {
             $this->form_validation->set_rules('offertype', 'Category Name', 'trim|required');
             $this->form_validation->set_rules('offeramount', 'Category Name', 'trim|required');
             if ($this->form_validation->run($this) != FALSE) {
-                $couponname = ucwords(trim($this->input->post('coupon_name')));
-                $category_id = ucwords(trim($this->input->post('category_id')));
-                $id = trim($this->input->post('city_id'));
-                $name = trim($this->input->post('city_name'));
+                $user_id = $this->session->userdata('user_id');
+                extract($this->input->post());
 
-                $where = array('id' => $id);
+                $where = array('id' => $coupon_id, 'user_id' => $user_id);
                 $data = array(
                     'coupon_code' => strtoupper($couponcode),
                     'coupon_name' => ucfirst($couponname),
@@ -305,9 +323,7 @@ public function coupon_code_save_edit() {
                     'trip_id' => isset($tripname)?$tripname:0,
                     'price_to_adult' => $price_to_adult,
                     'price_to_child' => $price_to_child,
-                    'price_to_infan' => $price_to_infan,
-                    'user_id' => $user_id,
-                    'isactive' => 1);
+                    'price_to_infan' => $price_to_infan);
                 $result = $this->Master_model->coupon_code_update($data, $where);
 
                 if ($result) {

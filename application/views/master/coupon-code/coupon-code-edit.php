@@ -5,7 +5,7 @@
 <?php echo form_open_multipart(base_url() . 'coupon-code-master/save-edit', array('class' => 'form-horizontal margin-top-30', 'id' => 'edit-coupon-code-form')); ?>
 
 <div class="modal-body">
-        <input name="category_id" type="hidden" class="form-control"  value="<?=$coupondetail['id']?>"/>
+        <input name="coupon_id" type="hidden" class="form-control"  value="<?=$coupondetail['id']?>"/>
 
                 <div class="row gap-20">
 
@@ -30,14 +30,14 @@
                             <div class="col-xss-12 col-xs-6 col-sm-6">
                                 <div class="form-group">
                                     <label>From<span class="validation">*</span></label>
-                                    <input type="text" name="fromdate" id="rangeDatePickerTo" class="form-control" placeholder="M D, YYYY" value="<?=$coupondetail['validity_from']?>" />
+                                    <input type="text" name="fromdate" id="rangeDatePickerTo" class="form-control" placeholder="M D, YYYY" value="<?=date("M d, Y", strtotime($coupondetail['validity_from']))?>" />
                                 </div>
                             </div>
 
                             <div class="col-xss-12 col-xs-6 col-sm-6">
                                 <div class="form-group">
                                     <label>To<span class="validation">*</span></label>
-                                    <input type="text" name="todate" id="rangeDatePickerFrom" class="form-control" placeholder="M D, YYYY" value="<?=$coupondetail['validity_to']?>"/>
+                                    <input type="text" name="todate" id="rangeDatePickerFrom" class="form-control" placeholder="M D, YYYY" value="<?=date("M d, Y", strtotime($coupondetail['validity_to']))?>"/>
                                 </div>
                             </div> 
                         </div>
@@ -50,10 +50,10 @@
                             <select name="coupontype" id="coupontype" class="selectpicker show-tick form-control" title="Select placeholder">
                                 <option value="">Select a offer to...</option>
                                 <?php  if ($this->session->userdata('user_type') != 'SA') {  ?>
-                                <option value="1">Vendor Offer</option>
-                                <option value="2">Customer Offer</option>
+                                <option value="1" <?php if($coupondetail['type']==1){?>selected<?php }?>>Vendor Offer</option>
+                                <option value="2" <?php if($coupondetail['type']==2){?>selected<?php }?>>Customer Offer</option>
                                  <?php  }else if ($this->session->userdata('user_type') == 'SA') {  ?>
-                                <option value="3">Admin Offer</option>
+                                <option value="3" <?php if($coupondetail['type']==3){?>selected<?php }?>>Admin Offer</option>
                                  <?php  }?>
                             </select>
                         </div>
@@ -62,14 +62,17 @@
                     <div class="col-sm-12 col-md-12">
                         <div class="form-group"> 
                             <label>Trip Name</label>
-                            <select name="tripname" class="selectpicker show-tick form-control">
+                            <select name="tripname" class="cm_tripname selectpicker show-tick form-control">
                                 <option value="">Select a trip...</option>
                                 <?php foreach($trip_list->result() as $row){?>
-                                    <option value="<?=$row->id?>"><?=$row->trip_code.' | '.$row->trip_name.' | Adult:'.$row->price_to_adult.' | Child:'.$row->price_to_child.' | Infan:'.$row->price_to_infan?></option> 
+                                    <option value="<?=$row->id?>" <?php if($coupondetail['trip_id']==$row->id){?>selected<?php }?>><?=$row->trip_code.' | '.$row->trip_name.' | Adult:'.$row->price_to_adult.' | Child:'.$row->price_to_child.' | Infan:'.$row->price_to_infan?></option> 
                                 <?php }?>
                             </select>
                         </div>
 
+                    </div>
+                    <div class="col-sm-12 col-md-12" id="cm_tripinfo">
+                        
                     </div>
                     <?php }?>
                     
@@ -80,7 +83,7 @@
                             <select name="category_id" class="selectpicker show-tick form-control">
                                 <option value="">Select a category...</option>
                                 <?php foreach($category_list->result() as $row){?>
-                                    <option value="<?=$row->id?>"><?=$row->name?></option> 
+                                    <option value="<?=$row->id?>" <?php if($coupondetail['category_id']==$row->id){?>selected<?php }?>><?=$row->name?></option> 
                                 <?php }?>
                             </select>
                         </div>
@@ -92,7 +95,7 @@
 
                         <div class="form-group"> 
                                 <label>Increase Price(%) to Adult</label>
-                                <input class="form-control" name="price_to_adult" placeholder="Enter the increase price percentage... ex: 5" type="text"> 
+                                <input class="form-control" name="price_to_adult" value="<?=$coupondetail['price_to_adult']?>" placeholder="Enter the increase price percentage... ex: 5" type="text"> 
                             </div>
                     </div>
                     
@@ -100,7 +103,7 @@
 
                         <div class="form-group"> 
                                 <label>Increase Price(%) to Child</label>
-                                <input class="form-control" name="price_to_child" placeholder="Enter the increase price percentage... ex: 4" type="text"> 
+                                <input class="form-control" name="price_to_child" value="<?=$coupondetail['price_to_child']?>" placeholder="Enter the increase price percentage... ex: 4" type="text"> 
                             </div>
                     </div>
                     
@@ -108,7 +111,7 @@
 
                         <div class="form-group"> 
                                 <label>Increase Price(%) to Infan</label>
-                                <input class="form-control" name="price_to_infan" placeholder="Enter the increase price percentage... ex: 2" type="text"> 
+                                <input class="form-control" name="price_to_infan" value="<?=$coupondetail['price_to_infan']?>" placeholder="Enter the increase price percentage... ex: 2" type="text"> 
                             </div>
                     </div>
                     <div class="col-sm-12 col-md-12">
@@ -117,8 +120,8 @@
                             <label>Offer Type<span class="validation">*</span></label>
                             <select name="offertype" id="offertype" class="selectpicker show-tick form-control">
                                 <option value="">Select a offer type...</option>
-                                <option value="1">Fixed</option>
-                                <option value="2">Percentage</option>
+                                <option value="1" <?php if($coupondetail['offer_type']==1){?>selected<?php }?>>Fixed</option>
+                                <option value="2" <?php if($coupondetail['offer_type']==2){?>selected<?php }?>>Percentage</option>
                             </select>
                         </div>
 

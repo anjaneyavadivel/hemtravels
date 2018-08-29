@@ -61,14 +61,17 @@
                     <div class="col-sm-12 col-md-12">
                         <div class="form-group"> 
                             <label>Trip Name</label>
-                            <select name="tripname" class="selectpicker show-tick form-control">
+                            <select name="tripname" class="cm_tripname selectpicker show-tick form-control">
                                 <option value="">Select a trip...</option>
                                 <?php foreach($trip_list->result() as $row){?>
-                                    <option value="<?=$row->id?>"><?=$row->trip_code.' | '.$row->trip_name.' | Adult:'.$row->price_to_adult.' | Child:'.$row->price_to_child.' | Infan:'.$row->price_to_infan?></option> 
+                                    <option value="<?=$row->id?>"><?=$row->trip_code.' | '.$row->trip_name?></option> 
                                 <?php }?>
                             </select>
                         </div>
 
+                    </div>
+                    <div class="col-sm-12 col-md-12" id="cm_tripinfo">
+                        
                     </div>
                     <?php }?>
                     

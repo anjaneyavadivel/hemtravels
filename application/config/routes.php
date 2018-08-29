@@ -182,6 +182,7 @@ $route['coupon-code-master'] = 'master/coupon_code_list';
 $route['couponcode_vaildation'] = 'master/couponcode_vaildation';
 $route['coupon-code-master/delete/(:num)'] = 'master/coupon_code_delete/$1';
 $route['coupon-code-master/active/(:num)'] = 'master/coupon_code_active/$1';
+$route['coupon-code/gettripinfo'] = 'master/gettripinfo';
 
 //triplist vender
 $route['triplist/loadmodal/(:any)'] = 'triplist/loadmodal/$1';
