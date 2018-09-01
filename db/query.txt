@@ -97,3 +97,6 @@ ALTER TABLE `trip_book_pay` CHANGE `return_paid_status` `return_paid_status` TIN
 ALTER TABLE `trip_book_pay_details` CHANGE `return_paid_status` `return_paid_status` TINYINT(2) NULL DEFAULT '1' COMMENT '1 - New, 2 - InProgress, 3 - Paid';
 ALTER TABLE `trip_book_pay` ADD `cancelled_on` DATETIME NULL AFTER `payment_status`;
 ALTER TABLE `trip_book_pay_details` ADD `cancelled_on` DATETIME NULL AFTER `payment_status`;
+
+
+my_transaction

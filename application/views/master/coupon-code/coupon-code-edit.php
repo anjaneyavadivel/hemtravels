@@ -50,8 +50,8 @@
                             <select name="coupontype" id="coupontype" class="selectpicker show-tick form-control" title="Select placeholder">
                                 <option value="">Select a offer to...</option>
                                 <?php  if ($this->session->userdata('user_type') != 'SA') {  ?>
-                                <option value="1" <?php if($coupondetail['type']==1){?>selected<?php }?>>Vendor Offer</option>
-                                <option value="2" <?php if($coupondetail['type']==2){?>selected<?php }?>>Customer Offer</option>
+                                <option value="1" <?php if($coupondetail['type']==1){?>selected<?php }?>>Customer Offer</option>
+                                <option value="2" <?php if($coupondetail['type']==2){?>selected<?php }?>>Vendor Offer</option>
                                  <?php  }else if ($this->session->userdata('user_type') == 'SA') {  ?>
                                 <option value="3" <?php if($coupondetail['type']==3){?>selected<?php }?>>Admin Offer</option>
                                  <?php  }?>
@@ -65,14 +65,23 @@
                             <select name="tripname" class="cm_tripname selectpicker show-tick form-control">
                                 <option value="">Select a trip...</option>
                                 <?php foreach($trip_list->result() as $row){?>
-                                    <option value="<?=$row->id?>" <?php if($coupondetail['trip_id']==$row->id){?>selected<?php }?>><?=$row->trip_code.' | '.$row->trip_name.' | Adult:'.$row->price_to_adult.' | Child:'.$row->price_to_child.' | Infan:'.$row->price_to_infan?></option> 
+                                    <option value="<?=$row->id?>" <?php if($coupondetail['trip_id']==$row->id){?>selected<?php }?>><?=$row->trip_code.' | '.$row->trip_name?></option> 
                                 <?php }?>
                             </select>
                         </div>
 
                     </div>
                     <div class="col-sm-12 col-md-12" id="cm_tripinfo">
-                        
+                        <table class="table">
+    <tbody>
+        <tr><td><span class="font600 package_name">Price to Adult:</span></td>
+            <td class="table-size text-right"> <?= number_format($pnrinfo->price_to_adult,2); ?></td></tr>
+        <tr><td><span class="font600 package_name">Price to Child:</span></td>
+            <td class="table-size text-right"> <?= number_format($pnrinfo->price_to_child,2); ?></td></tr>
+        <tr><td><span class="font600 package_name">Price to Infan:</span></td>
+            <td class="table-size text-right"> <?= number_format($pnrinfo->price_to_infan,2); ?></td></tr>
+    </tbody>
+</table>
                     </div>
                     <?php }?>
                     

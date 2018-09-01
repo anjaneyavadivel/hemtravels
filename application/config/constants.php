@@ -13,6 +13,14 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 */
 defined('SHOW_DEBUG_BACKTRACE') OR define('SHOW_DEBUG_BACKTRACE', TRUE);
 
+define('site_title', "Book Your Trips");
+define('admin_email', "support@goatravelagent.com");//
+define('admin_phone', "98221 53576");
+define('email_bottem_email', "goahemtravels@gmail.com");
+define('email_bottem_phone', "98221 53576");
+define('donotreply', "support@goatravelagent.com");
+//define('cc_email', "anjaneyavadivel@gmail.com");
+
 /*
 |--------------------------------------------------------------------------
 | File and Directory Modes

@@ -25,30 +25,17 @@
                         <label>Search</label>
                         <div class="row gap-0">
                             <?php echo form_open_multipart(base_url() . 'coupon-code-master', array('class' => 'form-horizontal margin-top-30', 'id' => 'search-coupon-code-form')); ?>
-                            <!--                                        <div class="col-xs-12 col-sm-6 col-md-2">
-                                                                        <select name="status" class="selectpicker show-tick form-control" title="Select placeholder">
-                                                                            <option value="">All</option>
-                                                                            <option value="1" <?php if ($status == 1) {
-                                echo 'selected';
-                            } ?>>New</option>
-                                                                            <option value="2" <?php if ($status == 2) {
-                                echo 'selected';
-                            } ?>>Live</option>
-                                                                            <option value="3" <?php if ($status == 3) {
-                                echo 'selected';
-                            } ?>>Completed</option>
-                                                                        </select>
-                                                                    </div>-->
                             <div class="col-xs-12 col-sm-6 col-md-2">
                                 <select name="offer_type" class="selectpicker show-tick form-control" title="Select placeholder">
-                                    <option value="">Offer To?</option>
+                                    <option value="">Offer <?php if ($this->session->userdata('user_type') != 'SA') { echo 'To';}else{echo 'Type';}?>? All</option>
+                            <?php if ($this->session->userdata('user_type') != 'SA') { ?>
                                     <option value="1" <?php if ($offer_type == 1) {
                                 echo 'selected';
                             } ?>>Customer Offer</option>
                                     <option value="2" <?php if ($offer_type == 2) {
                                 echo 'selected';
                             } ?>>Vendor Offer</option>
-                            <?php if ($this->session->userdata('user_type') == 'SA') { ?>
+                            <?php }if ($this->session->userdata('user_type') == 'SA') { ?>
                                         <option value="3" <?php if ($offer_type == 3) {
                                     echo 'selected';
                                 } ?>>Admin Offer</option>
@@ -73,7 +60,7 @@
                         <tr>
                             <th>Coupon Code</th>
                             <th>Name</th>
-                            <th>Offer To</th>
+                            <th>Offer <?php if ($this->session->userdata('user_type') != 'SA') { echo 'To';}else{echo 'Type';}?></th>
                             <th>Trip Title</th> 
                         <?php if ($this->session->userdata('user_type') == 'SA') { ?>
                                 <th>Category Name</th> 
@@ -95,7 +82,7 @@
                                 $validity_from = $row['validity_from'];
                                 $validity_to = $row['validity_to'];
                                 $status_active = array('deactive', 'active');
-                                $coupontype = array('', 'Vendor', 'Customer', 'Super Admin Alter');
+                                $coupontype = array('', 'Customer', 'Vendor', 'Admin Offer');
 
                                 $isactive = $row['isactive'];
                                 $status_active = array('deactive', 'active');
@@ -119,7 +106,7 @@
                             } ?></td>
                                         <td><h4 class="<?= $btn_type[$isactive]; ?>"><?= $status_active[$isactive]; ?></h4></td>
             <?php if ($isactive != '0') { ?> 
-                                            <td><a class=" btn-view-couponcode" data-val="<?= $id ?>" ><i class="fa fa-eye" data-toggle="tooltip" data-placement="top" title="Click here to view"></i></a>
+                                           <td><!-- <a class=" btn-view-couponcode" data-val="<?= $id ?>" ><i class="fa fa-eye" data-toggle="tooltip" data-placement="top" title="Click here to view"></i></a>-->
                                                 <a class="<?= $btn_type[$isactive]; ?> btn-edit-coupon-code" data-val="<?= $id ?>" ><i class="fa fa-pencil" data-toggle="tooltip" data-placement="top" title="Click here to edit"></i></a>
                                                 <a href="<?= base_url(); ?>coupon-code-master/delete/<?= $id ?>"><i class="fa fa-trash" data-toggle="tooltip" data-placement="top" title="Click here to delete"></i> </a></td><?php } ?>
             <?php if ($isactive != '1') { ?><td><a href="<?= base_url(); ?>coupon-code-master/active/<?= $id ?>" class="<?= $btn_type[$val]; ?>"><i class="fa fa-check" data-toggle="tooltip" data-placement="top" title="Click here to active"></i></a><?php } ?>

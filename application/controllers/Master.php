@@ -91,7 +91,7 @@ class Master extends CI_Controller {
 
     public function category_edit() {
         if ($this->session->userdata('user_id') == '' || $this->session->userdata('user_type') != 'SA') {
-           redirect('login');
+            redirect('login');
         }
         if ($_POST) {
             $id = trim($this->input->post('id'));
@@ -126,24 +126,23 @@ class Master extends CI_Controller {
         if ($this->session->userdata('user_id') == '' || $this->session->userdata('user_type') != 'SA') {
             redirect('login');
         }
-		$where = array('id' => $id);
+        $where = array('id' => $id);
         $data = array('isactive' => 0);
         $this->Master_model->category_update($data, $where);
         redirect('category-master');
     }
-	
-	public function category_active($id) {
+
+    public function category_active($id) {
         if ($this->session->userdata('user_id') == '') {
             redirect('login');
         }
-		$where = array('id' => $id);
+        $where = array('id' => $id);
         $data = array('isactive' => 1);
         $this->Master_model->category_update($data, $where);
         redirect('category-master');
     }
-    
-    
-    public function coupon_code_list($coupon_code_search ='',$offer_type='') {
+
+    public function coupon_code_list($coupon_code_search = '', $offer_type = '') {
         if ($this->session->userdata('user_id') == '') {
             redirect('login');
         }
@@ -159,11 +158,11 @@ class Master extends CI_Controller {
         if ($type != '') {
             $offer_type = $type;
         }
-        $coupon_code_search=$this->security->xss_clean($coupon_code_search);
+        $coupon_code_search = $this->security->xss_clean($coupon_code_search);
         $this->load->library('pagination');
         $config = array();
-        $config["base_url"] = base_url() . "coupon-code-master/" . $coupon_code_search."?type=".$offer_type;
-        $config["total_rows"] = $this->Master_model->coupon_code_count($coupon_code_search,$offer_type);
+        $config["base_url"] = base_url() . "coupon-code-master/" . $coupon_code_search . "?type=" . $offer_type;
+        $config["total_rows"] = $this->Master_model->coupon_code_count($coupon_code_search, $offer_type);
         $config["per_page"] = 20;
         //$config["uri_segment"] = 2;
 
@@ -179,7 +178,7 @@ class Master extends CI_Controller {
         $this->pagination->initialize($config);
         $page = ($this->input->get('page')) ? ( ( $this->input->get('page') - 1 ) * $config["per_page"] ) : 0;
         //$page = ($this->uri->segment(2)) ? $this->uri->segment(2) : 0;
-        $data["couponcodelist"] = $this->Master_model->coupon_code_list($config["per_page"], $page, $coupon_code_search,$offer_type);
+        $data["couponcodelist"] = $this->Master_model->coupon_code_list($config["per_page"], $page, $coupon_code_search, $offer_type);
         $str_links = $this->pagination->create_links();
         $data["links"] = explode('&nbsp;', $str_links);
         $data["coupon_code_search"] = $coupon_code_search;
@@ -198,10 +197,10 @@ class Master extends CI_Controller {
             $whereData = array('isactive' => 1);
             $data['category_list'] = selectTable('trip_category', $whereData);
         }
-                
+
         $this->load->view("master/coupon-code/coupon-code-add", $data);
-        
     }
+
     public function couponcode_vaildation() {
         if ($this->session->userdata('user_id') == '') {
             return FALSE;
@@ -214,7 +213,6 @@ class Master extends CI_Controller {
             echo "false";
         }
     }
-    
 
     public function gettripinfo() {
         if ($this->session->userdata('user_id') == '') {
@@ -227,13 +225,13 @@ class Master extends CI_Controller {
                 extract($this->input->post());
                 $whereData = array('isactive' => 1, 'id' => $tripid, 'user_id' => $loginuserid);
                 $trip_info = selectTable('trip_master', $whereData);
-                $data['trip_info'] =$trip_info->row();
+                $data['pnrinfo'] = $trip_info->row();
                 $this->load->view("master/coupon-code/gettripinfo", $data);
             }
         }
-        
     }
-	//code
+
+    //code
     public function coupon_code_add() {
         if ($this->session->userdata('user_id') == '') {
             return FALSE;
@@ -253,22 +251,22 @@ class Master extends CI_Controller {
                     'coupon_code' => strtoupper($couponcode),
                     'coupon_name' => ucfirst($couponname),
                     'comment' => ucfirst($comment),
-                    'category_id' => isset($category_id)?$category_id:0,
+                    'category_id' => isset($category_id) ? $category_id : 0,
                     'validity_from' => date("Y-m-d", strtotime($fromdate)),
                     'validity_to' => date("Y-m-d", strtotime($todate)),
                     'type' => $coupontype,
                     'offer_type' => $offertype,
-                    'percentage_amount' => $offertype==2?round($offeramount):$offeramount,
-                    'trip_id' => isset($tripname)?$tripname:0,
+                    'percentage_amount' => $offertype == 2 ? round($offeramount) : $offeramount,
+                    'trip_id' => isset($tripname) ? $tripname : 0,
                     'price_to_adult' => $price_to_adult,
                     'price_to_child' => $price_to_child,
                     'price_to_infan' => $price_to_infan,
                     'user_id' => $user_id,
                     'isactive' => 1);
-                $coupon_code_id   = insertTable('coupon_code_master', $data);
+                $coupon_code_id = insertTable('coupon_code_master', $data);
                 if ($coupon_code_id) {
-                    $data['coupon_code_id']=$coupon_code_id;
-                    $couponcodehistory_id   = insertTable('coupon_code_master_history', $data);
+                    $data['coupon_code_id'] = $coupon_code_id;
+                    $couponcodehistory_id = insertTable('coupon_code_master_history', $data);
                     return TRUE;
                 }
             }
@@ -276,23 +274,34 @@ class Master extends CI_Controller {
         echo 'Sorry! Try again...';
         return FALSE;
     }
-	
+
     public function coupon_code_edit() {
         if ($this->session->userdata('user_id') == '') {
-           return FALSE;
+            return FALSE;
         }
         if ($_POST) {
+            $loginuserid = $this->session->userdata('user_id');
             $id = trim($this->input->post('id'));
 
             $data = array('id' => $id);
             $data['coupondetail'] = $this->Master_model->coupon_code_detail($data);
-            //$this->Master_model->category_update($data,$id);
+            $whereData = array('isactive' => 1, 'user_id' => $loginuserid);
+            $trip_list = selectTable('trip_master', $whereData);
+            if ($trip_list->num_rows() > 0) {
+                $whereData = array('isactive' => 1, 'id' => $data['coupondetail']['trip_id'], 'user_id' => $loginuserid);
+                $trip_info = selectTable('trip_master', $whereData);
+                $data['pnrinfo'] = $trip_info->row();
+            }
+            $data['trip_list'] = $trip_list;
+            if ($this->session->userdata('user_type') == 'SA') {
+                $whereData = array('isactive' => 1);
+                $data['category_list'] = selectTable('trip_category', $whereData);
+            }
             $this->load->view('master/coupon-code/coupon-code-edit', $data);
         }
     }
 
-
-public function coupon_code_save_edit() {
+    public function coupon_code_save_edit() {
         if ($this->session->userdata('user_id') == '') {
             return FALSE;
         }
@@ -314,13 +323,13 @@ public function coupon_code_save_edit() {
                     'coupon_code' => strtoupper($couponcode),
                     'coupon_name' => ucfirst($couponname),
                     'comment' => ucfirst($comment),
-                    'category_id' => isset($category_id)?$category_id:0,
+                    'category_id' => isset($category_id) ? $category_id : 0,
                     'validity_from' => date("Y-m-d", strtotime($fromdate)),
                     'validity_to' => date("Y-m-d", strtotime($todate)),
                     'type' => $coupontype,
                     'offer_type' => $offertype,
-                    'percentage_amount' => $offertype==2?round($offeramount):$offeramount,
-                    'trip_id' => isset($tripname)?$tripname:0,
+                    'percentage_amount' => $offertype == 2 ? round($offeramount) : $offeramount,
+                    'trip_id' => isset($tripname) ? $tripname : 0,
                     'price_to_adult' => $price_to_adult,
                     'price_to_child' => $price_to_child,
                     'price_to_infan' => $price_to_infan);
@@ -334,30 +343,43 @@ public function coupon_code_save_edit() {
         echo 'Sorry! Try again...';
         return FALSE;
     }
-	
-	public function coupon_code_delete($id) {
+
+    public function coupon_code_delete($id) {
         if ($this->session->userdata('user_id') == '') {
             redirect('login');
         }
-		$where = array('id' => $id);
+        $where = array('id' => $id);
         $data = array('isactive' => 0);
         $this->Master_model->coupon_code_update($data, $where);
         redirect('coupon-code-master');
     }
-	
-	public function coupon_code_active($id) {
+
+    public function coupon_code_active($id) {
         if ($this->session->userdata('user_id') == '') {
             redirect('login');
         }
-		$where = array('id' => $id);
+        $where = array('id' => $id);
         $data = array('isactive' => 1);
         $this->Master_model->coupon_code_update($data, $where);
         redirect('coupon-code-master');
     }
-    
-    
+
     public function checkhelper() {
         $this->load->helper('custom_helper');
+        $toemail='anjaneyavadivel@gmail.com';
+        $subject='Welcome to trip';
+        $message='This is test msg';
+        $mailData = array(
+        //'fromuserid' => 1,
+        //'touserid' => 10,  use touserid or toemail
+        'toemail' => $toemail,
+        'subject' => $subject,
+        'message' => $message,
+        //'othermsg' => ''
+        );
+        
+        sendemail_personalmail($mailData);
+        
 //        $tripid=2;
 //        $result = getallparenttrip($tripid);
 //        print_r($result);
@@ -389,7 +411,6 @@ public function coupon_code_save_edit() {
 //        $result = trip_book($bookdata);
 //        print_r($result);
 //        
-        
     }
 
 }

@@ -47,6 +47,8 @@ class Master_model extends CI_Model {
         }
         if ($this->session->userdata('user_type') != 'SA') {
             $this->db->where_not_in('type',3);
+        }else{
+            $this->db->where_not_in('type',array(1,2));
         }
         if ($this->session->userdata('user_type') == 'VA') {
             $this->db->where('ccm.user_id',$user_id);
@@ -67,6 +69,8 @@ class Master_model extends CI_Model {
         }
         if ($this->session->userdata('user_type') != 'SA') {
             $this->db->where_not_in('type',3);
+        }else{
+            $this->db->where_not_in('type',array(1,2));
         }
         if ($this->session->userdata('user_type') == 'VA') {
             $this->db->where('ccm.user_id',$user_id);
