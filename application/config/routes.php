@@ -150,7 +150,7 @@ $route['trip-inclusions-master/(:any)'] = 'Tripinclusions/trip_list/$1';
 $route['trip-inclusions-master'] = 'Tripinclusions/trip_list';
 
 //Master to admin
-$route['trip-specific/add'] = 'tripspecific/trip-specific_add';
+$route['trip-specific/add'] = 'tripspecific/trip_specific_add';
 $route['trip-specific/loadmodal/(:any)'] = 'tripspecific/loadmodal/$1';
 $route['trip-specific/edit'] = 'tripspecific/trip_edit';
 $route['trip-specific/save-edit'] = 'tripspecific/trip_save_edit';

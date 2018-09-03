@@ -54,33 +54,49 @@ class Tripspecific extends CI_Controller {
                     $data[$key] = $value;
                 }
             }
-            $this->load->view("master/trip-specific/$view", $data);
+            $this->load->view("master/$view", $data);
         } else {
             echo "Error";
         }
     }
 
-    public function category_add() {
+    public function trip_specific_add() {
         if ($this->session->userdata('user_id') == '' || $this->session->userdata('user_type') != 'SA') {
             return FALSE;
         }
         if ($_POST) {
-            $this->form_validation->set_rules('category_name', 'Category Name', 'trim|required');
+            $this->form_validation->set_rules('title', 'Trip title', 'trim|required');
             if ($this->form_validation->run($this) != FALSE) {
                 $id = trim($this->input->post('id'));
-                $name = ucwords(trim($this->input->post('category_name')));
-                $whereData = array('isactive' => 1, 'name' => $name);
-                $trip_category_list = selectTable('trip_category', $whereData);
+                $title = ucwords(trim($this->input->post('title')));
+				$type = trim($this->input->post('type'));
+                $from_date = ucwords(trim($this->input->post('from_date')));
+				$to_date = trim($this->input->post('to_date'));
+                $no_of_traveller = ucwords(trim($this->input->post('no_of_traveller')));
+				$no_of_min_booktraveller = trim($this->input->post('no_of_min_booktraveller'));
+                $no_of_max_booktraveller = ucwords(trim($this->input->post('no_of_max_booktraveller')));
+				$offer_type = ucwords(trim($this->input->post('offer_type')));
+				
+                $whereData = array('isactive' => 1, 'title' => $title,'type' => $type,'from_date' => $from_date,'to_date' => $to_date,'no_of_traveller' => $no_of_traveller,'no_of_min_booktraveller' => $no_of_min_booktraveller,'no_of_max_booktraveller' => $no_of_max_booktraveller,'offer_type' => $offer_type);
+                $trip_category_list = selectTable('trip_specific_day', $whereData);
                 if ($trip_category_list->num_rows() > 0) {
-                    echo 'Sorry! All ready exist this name.';
+                    echo 'Sorry! All ready exist this title.';
                     return FALSE;
                 }
                 $data = array(
                     'id' => $id,
-                    'name' => $name,
+                    'title' => $title,
+                    'type' => $type,
+					'trip_id' => isset($tripname) ? $tripname : 0,
+					'from_date' => date("Y-m-d", strtotime($from_date)),
+                    'to_date' => date("Y-m-d", strtotime($to_date)),
+					'no_of_traveller' => $no_of_traveller,
+                    'no_of_min_booktraveller' => $no_of_min_booktraveller,
+					'no_of_max_booktraveller' => $no_of_max_booktraveller,
+                    'offer_type' => $offer_type,
                     'isactive' => 1);
-                $category_id = $this->Master_model->category_insert($data);
-                if ($category_id) {
+                $trip_id = $this->Tripspecific_model->trip_insert($data);
+                if ($trip_id) {
                     return TRUE;
                 }
             }

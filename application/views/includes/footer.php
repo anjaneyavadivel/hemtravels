@@ -407,6 +407,13 @@
     
     <script>//$(document).ready(function(){MasterValidation.init();});</script>
 <?php }?>
+<?php if($url=='trip-specific'){?>
+<script type="text/javascript" src="<?php echo base_url()?>assets/js/moment.min.js"></script>
+    <script type="text/javascript" src="<?php echo base_url()?>assets/js/jquery.daterangepicker.js"></script>
+    <script type="text/javascript" src="<?php echo base_url()?>assets-customs/js/master-tripspl.js"></script>
+    
+    <script>//$(document).ready(function(){MasterValidation.init();});</script>
+<?php }?>
 <?php if($url=='city-master'){?>
     <script type="text/javascript" src="<?php echo base_url()?>assets-customs/js/master-city-validation.js"></script>
     <script type="text/javascript" src="<?php echo base_url()?>assets-customs/js/master-city.js"></script>

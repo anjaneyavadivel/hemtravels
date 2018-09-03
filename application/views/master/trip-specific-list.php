@@ -28,7 +28,7 @@
                             </div>
                             
                             <div class="col-xs-2 col-sm-1 col-lg-1 text-right">
-                                <a class="btn btn-info c_mt btn-add-city">Add</a>
+                                <a class="btn btn-info c_mt btn-add-trip">Add</a>
                             </div>
                             <table class="table ">
                                 <thead>

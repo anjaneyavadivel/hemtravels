@@ -29,14 +29,14 @@
                             <div class="col-xss-12 col-xs-6 col-sm-6">
                                 <div class="form-group">
                                     <label>From<span class="validation">*</span></label>
-                                    <input type="text" name="fromdate" id="rangeDatePickerTo" class="form-control" placeholder="M D, YYYY" />
+                                    <input type="text" name="from_date" id="rangeDatePickerTo" class="form-control" placeholder="M D, YYYY" />
                                 </div>
                             </div>
 
                             <div class="col-xss-12 col-xs-6 col-sm-6">
                                 <div class="form-group">
                                     <label>To<span class="validation">*</span></label>
-                                    <input type="text" name="todate" id="rangeDatePickerFrom" class="form-control" placeholder="M D, YYYY" />
+                                    <input type="text" name="to_date" id="rangeDatePickerFrom" class="form-control" placeholder="M D, YYYY" />
                                 </div>
                             </div> 
                         </div>
