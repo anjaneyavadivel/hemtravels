@@ -1,12 +1,7 @@
-
 <?php $this->load->view('includes/header')?>
-
             <!-- start Main Wrapper -->
-
             <div class="main-wrapper scrollspy-container">
-
                 <!-- start Breadcrumb -->
-
                 <div class="breadcrumb-wrapper">
                     <div class="container">
                         <ol class="breadcrumb">
