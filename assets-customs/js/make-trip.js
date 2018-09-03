@@ -360,6 +360,13 @@ jQuery(function($) {
         }
     });
     
+    $('#trip_category_id').on('change',function(){
+        $('#addNewCategory').hide();
+        if(this.value == 'other'){
+            $('#addNewCategory').show();
+        }
+    });
+    
 	
 });
 

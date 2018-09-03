@@ -1094,38 +1094,42 @@ if (!function_exists('getallparenttrip')) {
  * */
 if (!function_exists('sendemail_personalmail')) {
 
-    function sendemail_personalmail($mailData = array()) { echo "ds";   //changed $email to $identity
+    function sendemail_personalmail($mailData = array()) {
+        echo "ds";   //changed $email to $identity
         if (!empty($mailData)) {
-//            $to      = 'nobody@example.com'; 
-//$subject = 'the subject'; 
-//$message = 'hello'; 
-//$headers = 'From: manager.tradezap@gmail.com' . "\r\n" . 
-//    'X-Mailer: PHP/' . phpversion(); 
-//
-//mail($to, $subject, $message, $headers); 
-//exit();
             $CI = & get_instance();
-            $fromemail='';$toemail='';$donotreply = donotreply;$mailData['tousername']='';
+            $fromemail = '';
+            $toemail = '';
+            $donotreply = donotreply;
+            $mailData['tousername'] = '';
             // get from user info
-            if(isset($mailData['fromuserid']) && $mailData['fromuserid']!=''){
+            if (isset($mailData['fromuserid']) && $mailData['fromuserid'] != '') {
                 $whereData = array('isactive' => 1, 'id' => $mailData['fromuserid']);
                 $showField = array('email,phone');
-                $fromuser_info = selectTable('user_master', $whereData,$showField)->row();
-                $fromemail=$fromuser_info->email;
+                $fromuser_info = selectTable('user_master', $whereData, $showField)->row();
+                $fromemail = $fromuser_info->email;
             }
             // get to user info
-            if(isset($mailData['touserid']) && $mailData['touserid']!=''){
+            if (isset($mailData['touserid']) && $mailData['touserid'] != '') {
                 $whereData = array('isactive' => 1, 'id' => $mailData['touserid']);
                 $showField = array('email,phone,user_fullname');
-                $touser_info = selectTable('user_master', $whereData,$showField)->row();
-                $toemail=$touser_info->email;
-                $mailData['tousername']=$touser_info->user_fullname;
+                $touser_info = selectTable('user_master', $whereData, $showField)->row();
+                $toemail = $touser_info->email;
+                $mailData['tousername'] = $touser_info->user_fullname;
             }
-            if($mailData['tousername']==''){$mailData['tousername']='Customer';}
-            if($fromemail==''){$fromemail=admin_email;}
-            if($toemail=='' && isset($mailData['toemail'])){$toemail=$mailData['toemail'];}
-            if($fromemail=='' ||$toemail==''){return TRUE;}
-            
+            if ($mailData['tousername'] == '') {
+                $mailData['tousername'] = 'Customer';
+            }
+            if ($fromemail == '') {
+                $fromemail = admin_email;
+            }
+            if ($toemail == '' && isset($mailData['toemail'])) {
+                $toemail = $mailData['toemail'];
+            }
+            if ($fromemail == '' || $toemail == '') {
+                return TRUE;
+            }
+
             $CI->email->clear();
             $message = $CI->load->view('email/default_template.tpl.php', $mailData, TRUE);
             $email_config = array(
@@ -1134,19 +1138,19 @@ if (!function_exists('sendemail_personalmail')) {
                 'smtp_port' => 465,
                 'smtp_user' => 'support@goatravelagent.com',
                 'smtp_pass' => 'Goatravel@456',
-                'smtp_timeout'  => '30',
-                'crlf'  => '\n',
-                'newline'  => '\r\n',
-                'mailtype'  => 'html',
-                'charset'   => 'utf-8'
+                'smtp_timeout' => '30',
+                'crlf' => '\n',
+                'newline' => '\r\n',
+                'mailtype' => 'html',
+                'charset' => 'utf-8'
             );
-            $CI->load->library('email',$email_config);
-            $CI->email->set_mailtype("html"); 
+            $CI->load->library('email', $email_config);
+            $CI->email->set_mailtype("html");
             $CI->email->from($fromemail);
             $CI->email->to($toemail);
-//            if(isset($donotreply) &&  $donotreply != "") {
-//                $CI->email->reply_to($donotreply, 'Do-not-reply');
-//            }
+            if (isset($donotreply) && $donotreply != "") {
+                $CI->email->reply_to($donotreply, 'Do-not-reply');
+            }
             $CI->email->subject($mailData['subject'] . ' - ' . site_title);
             $CI->email->message($message); //echo $subject;
             if ($CI->email->send()) {
@@ -1157,6 +1161,108 @@ if (!function_exists('sendemail_personalmail')) {
         } else {
             return FALSE;
         }
+    }
+
+}
+
+
+//$userid = userid
+//$iscleared = 0 - total, 1 - uncleared,  2 - cleared, 
+if (!function_exists('checkbal_mypayment')) {
+
+    function checkbal_mypayment($userid = '',$iscleared = 2) {
+        $CI = & get_instance();
+        if ($userid <0) {
+            return FALSE;
+        }
+        $balance = 0;$unclearedbalance = 0;
+        $whereData = array('userid' => $userid);
+        $inWhereData = array('status', array(2));
+        $transaction = selectTable('my_transaction', $whereData, $showField = array('*'), $orWhereData = array(), $group = array(), $order = 'id DESC', $having = '', $limit = array(), $result_way = 'all', $echo = 0, $inWhereData, $notInWhereData = array());
+        if ($transaction->num_rows() > 0) {
+            $row = $transaction->row();
+            $balance = $row->balance;
+            if ($balance > 0 && $iscleared==0) {
+                return $balance;
+            }
+            $whereData = array('userid' => $userid);
+            $inWhereData = array('status', array(0,1));
+            $transaction = selectTable('my_transaction', $whereData, $showField = array('*'), $orWhereData = array(), $group = array(), $order = 'id DESC', $having = '', $limit = array(), $result_way = 'all', $echo = 0, $inWhereData, $notInWhereData = array());
+            if ($transaction->num_rows() > 0) {
+                foreach ($transaction->result() as $row) {
+                    $balance = $balance - $row->withdrawal_request_amt;
+                    $unclearedbalance = (int)$unclearedbalance + (int)$row->withdrawal_request_amt;
+                }
+            }
+            if ($balance > 0 && $iscleared==2) {
+                return $balance;
+            }
+            if ($balance > 0 && $iscleared==1) {
+                return $unclearedbalance;
+            }
+        }
+        return FALSE;
+    }
+
+}
+/**
+ * book the trip
+  input: array(
+  book_pay_id  //from trip_book_pay
+  book_pay_details_id  //from trip_book_pay_details
+  pnr_no
+  userid //from user_master ( owner of recored)
+  from_userid //if 0- super admin / if own trip from user id
+  trip_id //from trip_master ( billing trip )
+  transaction_notes
+  withdrawals
+  deposits
+  b2b_pay_account_info //from account_info
+  withdrawal_request_amt
+  withdrawal_notes
+  withdrawal_paid_on
+  status  //0 - new, 1 - InProgress, 2 -  Executed,3 - withdrawals request
+ * ) 
+ * @return 
+ * @author Anjaneya
+ * */
+// if pay sucess need to pass $updatedata['payment_status']==1 && $updatedata['status']==2
+if (!function_exists('update_mypayment')) {
+
+    function update_mypayment($insertdata = array()) {
+        // TODO: mail sent to customer and vendor
+        // TODO: my_transaction when success payment
+
+        $CI = & get_instance();
+        $loginuserid = $CI->session->userdata('user_id');
+        if (isset($insertdata['userid'])) {
+            $balance = 0;
+            $frombalance = 0;
+            $whereData = array('userid' => $insertdata['userid']);
+            $inWhereData = array('status', array(2)); // only Executed
+            $transaction = selectTable('my_transaction', $whereData, $showField = array('*'), $orWhereData = array(), $group = array(), $order = 'id DESC', $having = '', $limit = array(), $result_way = 'all', $echo = 0, $inWhereData, $notInWhereData = array());
+            if ($transaction->num_rows() > 0) {
+                $row = $transaction->row();
+                $balance = $row->balance;
+            }
+                        
+            if (isset($insertdata['withdrawals'])) {
+                $balance = (int) $balance - (int) $insertdata['withdrawals'];
+            }
+            if (isset($insertdata['deposits'])) {
+                $balance = (int) $balance + (int) $insertdata['deposits'];
+            }
+            //if ($balance <= 0) { $balance = 0; }
+            $insertdata['balance'] = $balance;
+
+            print_r($insertdata);
+            $result = 1;//insertTable('my_transaction', $insertdata);
+            //TODO: email
+
+            if ($result)
+                return TRUE;
+        }
+        return FALSE;
     }
 
 }
@@ -1183,36 +1289,54 @@ if (!function_exists('sendemail_personalmail')) {
  * @author Anjaneya
  * */
 // if pay sucess need to pass $updatedata['payment_status']==1 && $updatedata['status']==2
-if (!function_exists('update_mypayment')) {
+if (!function_exists('make_mypayment')) {
 
-    function update_mypayment($insertdata = array(), $pnr_no = '') {
+    function make_mypayment($makedata = array()) {
         // TODO: mail sent to customer and vendor
         // TODO: my_transaction when success payment
 
         $CI = & get_instance();
         $loginuserid = $CI->session->userdata('user_id');
-        if (isset($insertdata['userid']) && isset($insertdata['transaction_notes'])) {
+        if (isset($makedata['userid'])) {
             $balance = 0;
-            $whereData = array('userid' => $insertdata['userid']);
-            $transaction = selectTable('my_transaction', $whereData = array(), $showField = array('*'), $orWhereData = array(), $group = array(), $order = 'id DESC', $having = '', $limit = array(), $result_way = 'all', $echo = 0, $inWhereData, $notInWhereData = array());
+            $frombalance = 0;
+            $whereData = array('userid' => $makedata['userid']);
+            $inWhereData = array('status', array(2)); // only Executed
+            $transaction = selectTable('my_transaction', $whereData, $showField = array('*'), $orWhereData = array(), $group = array(), $order = 'id DESC', $having = '', $limit = array(), $result_way = 'all', $echo = 0, $inWhereData, $notInWhereData = array());
             if ($transaction->num_rows() > 0) {
                 $row = $transaction->row();
                 $balance = $row->balance;
             }
-            if (isset($insertdata['withdrawals'])) {
-                $balance = (int) $balance - (int) $insertdata['withdrawals'];
-                if ($balance <= 0) {
-                    $balance = 0;
+            // amt get from user
+            if ($makedata['from_userid'] >= 0) {
+                $frombalance = checkbal_mypayment($makedata['from_userid']);
+                if ($makedata['deposits'] > $frombalance) {
+                    return FALSE;
                 }
+                //Cash Withdrawal
+                $paymentdata = array(
+                'userid' => $makedata['from_userid'],
+                'to_userid' => $makedata['userid'],
+                'transaction_notes' => $makedata['transaction_notes'],
+                'book_pay_id' => $makedata['book_pay_id'],
+                'book_pay_details_id' => $makedata['book_pay_details_id'],
+                'pnr_no' => $makedata['pnr_no'],
+                'trip_id' => $makedata['trip_id'],
+                'withdrawals' => $makedata['deposits'],
+                'status' => $makedata['status']);
+                update_mypayment($paymentdata);
             }
-            if (isset($insertdata['deposits'])) {
-                $balance = (int) $balance + (int) $insertdata['deposits'];
-                if ($balance <= 0) {
-                    $balance = 0;
-                }
-            }
-            $insertdata['balance'] = $balance;
-            $result = insertTable('my_transaction', $insertdata);
+            $paymentdata = array(
+            'userid' => $makedata['userid'],
+            'transaction_notes' => $makedata['transaction_notes'],
+            'book_pay_id' => $makedata['book_pay_id'],
+            'book_pay_details_id' => $makedata['book_pay_details_id'],
+            'pnr_no' => $makedata['pnr_no'],
+            'from_userid' => $makedata['from_userid'],  // default -1
+            'trip_id' => $makedata['trip_id'],
+            'deposits' => $makedata['deposits'],
+            'status' => $makedata['status']);
+            $result = update_mypayment($paymentdata);
             //TODO: email
 
             if ($result)

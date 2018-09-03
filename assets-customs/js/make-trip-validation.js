@@ -101,6 +101,9 @@ jQuery(function ($) {
             "pickup_meeting_time[]":{
                 required: true,
             },
+            "other_category":{
+                required:true
+            },
             "other_city":{
                 required:true
             }

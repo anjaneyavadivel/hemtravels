@@ -120,7 +120,7 @@ jQuery(function($) {
                                                     '<a href="'+base_url+'trips/update/'+data.trip_code+'" class="btn btn-info btn-sm">Edit</a>'+
                                                     '<a href="javascript:;" class="btn btn-danger btn-sm tripDelete" data-id="'+data.id+'">Delete</a>'+
                                                 '</div>'+
-                                                '<div class="trip-by pt-5"><a href="'+base_url+'trip-calendar-view"><span class="text-primary font22 font700 mb-1">'+data.total_booking+'</span> Booking List</a></div>';
+                                                '<div class="trip-by pt-5"><a href="'+base_url+'trip-calendar-view/'+data.trip_code+'"><span class="text-primary font22 font700 mb-1">'+data.total_booking+'</span> Booking List</a></div>';
                                 }
                                 
                                 //OFFER DETAILS

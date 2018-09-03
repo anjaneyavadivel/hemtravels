@@ -412,5 +412,61 @@ class Master extends CI_Controller {
 //        print_r($result);
 //        
     }
+    public function mypayment() {
+        $this->load->helper('custom_helper');
+        //Cash Deposited
+//        $paymentdata = array(
+//        'userid' => 1,
+//        'transaction_notes' => 'Cash Deposited',
+//        'deposits' => 500,
+//        'status' => 2);
+//        make_mypayment($paymentdata);
+        
+        //Cash Withdrawal
+//        $paymentdata = array(
+//        'userid' => 1,
+//        'transaction_notes' => 'Cash Withdrawal',
+//        'withdrawals' => 250,
+//        'status' => 2);
+//        make_mypayment($paymentdata);
+        
+       // withdrawal Request
+//        $paymentdata = array(
+//        'userid' => 1,
+//        'transaction_notes' => 'Cash Withdrawal Request',
+//        'withdrawal_request_amt' => 250,
+//        'b2b_pay_account_info' => 1,
+//        'status' => 0);
+//        make_mypayment($paymentdata);
+        
+        // ticket book B2c to Admin
+//        $paymentdata = array(
+//        'userid' => 0,
+//        'transaction_notes' => 'Trip booked PNR826YTZGV / TRIPFGSbgNw / North Goa Sightseeing Full Day Tour',
+//        'book_pay_id' => 1,
+//        'book_pay_details_id' => 0,
+//        'pnr_no' => 'PNR826YTZGV',
+//        'from_userid' => 1,
+//        'trip_id' => 1,
+//        'deposits' => 3098,
+//        'status' => 2);
+//        make_mypayment($paymentdata);
+        
+        // ticket book Admin to b2b
+        $paymentdata = array(
+        'userid' => 3,
+        'transaction_notes' => 'Trip booked PNR826YTZGV / TRIPFGSbgNw / North Goa Sightseeing Full Day Tour',
+        'book_pay_id' => 1,
+        'book_pay_details_id' => 1,
+        'pnr_no' => 'PNR826YTZGV',
+        'from_userid' => 0,  // default -1
+        'trip_id' => 1,
+        'deposits' => 3036,
+        'status' => 2);
+        make_mypayment($paymentdata);
+        
+      // echo checkbal_mypayment(1,2);
+        
+    }
 
 }

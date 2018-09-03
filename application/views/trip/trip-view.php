@@ -28,7 +28,13 @@
                                             <div class="col-xs-12 col-sm-10 col-sm-offset-1 col-md-8 col-md-offset-2">
 
                                                 <h2 id="tripName"><?php echo isset($details['trip_name'])?$details['trip_name']:'';?></h2>
-                                                <p style="margin-bottom: 0;"><i class="fa fa-map-marker text-center"></i> <?php echo isset($details['meeting_point'])?$details['meeting_point']:'';?></p>
+                                                <p style="margin-bottom: 0;">
+                                                    <?php if(isset($pickups) && count($pickups) > 0) {
+                                                        foreach($pickups as $v){
+                                                            echo '<i class="fa fa-map-marker text-center"></i>  '.$v['location'].'&nbsp;';
+                                                        }
+                                                    }?>
+                                                </p>   
                                                 <?php 
                                                     if(isset($details['trip_duration']) && $details['trip_duration'] == '2' && isset($details['how_many_days']) && isset($details['how_many_nights'])){
                                                         echo '<p style="margin-bottom: 0;"><i class="far fa-sun text-center"></i> '.$details['how_many_days'].' Days <span class="mh-5 text-muted">|</span><i class="far fa-moon text-center"></i> '.$details['how_many_nights'].' Nights</p> ';
@@ -648,7 +654,8 @@
                                                                     <?php 
                                                                      if(isset($pickups) && count($pickups) > 0){
                                                                         foreach ($pickups as $v){
-                                                                             echo '<option value="'.$v['id'].'">'.$v['location'].'</option>';
+                                                                            $time = date("g:i a", strtotime($v['time'].':00'));
+                                                                            echo '<option value="'.$v['id'].'">'.$v['location'].' at '.$time.'</option>';
                                                                         }
                                                                      }
 

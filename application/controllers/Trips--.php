@@ -418,16 +418,12 @@ class Trips extends CI_Controller {
             if($city_id == 'other'){
                 $city_id = $this->addNewCity($this->input->post('state_id'),$this->input->post('other_city'));
             }
-            $category_id = $this->input->post('trip_category_id');
-            if($category_id == 'other'){
-                $category_id = $this->addNewCategory($this->input->post('other_category'));
-            }
             
             //TRIP MASTER TABLE
                 $master_values = array(                    
                     'user_id'           => $this->session->userdata('user_id'),
                     'trip_name'         => $this->input->post('trip_name'),
-                    'trip_category_id'  => $category_id,
+                    'trip_category_id'  => $this->input->post('trip_category_id'),
                     'is_shared'         => $this->input->post('is_shared') == 1?1:0,
                     'price_to_adult'    => $this->input->post('price_to_adult'),
                     'price_to_child'    => $this->input->post('price_to_child'),
@@ -613,15 +609,6 @@ class Trips extends CI_Controller {
             return insertTable('city_master',$cityValue);
              
         }
-        // ADD NEW Category
-        function addNewCategory($name){            
-            $categoryValue = array(               
-                'name'      => $name,                
-                'created_by'  => $this->session->userdata('user_id')                       
-            );
-            return insertTable('trip_category',$categoryValue);
-             
-        }
     
     public function trip_list() {
          
@@ -635,16 +622,10 @@ class Trips extends CI_Controller {
         
         $this->load->view('trip/trip-list',$data);
     }
-    public function trip_calendar_view($tripCode = null) {
-        if ($this->session->userdata('user_type') != 'SA'&& $this->session->userdata('user_type')!='VA' && $this->session->userdata('user_id') == '') {redirect('login');}
+    public function trip_calendar_view() {
+         if ($this->session->userdata('user_id') == '') {redirect('login');}
         
-        $data  = $this->getTripDetails($tripCode); 
-        $data['review_count'] = 0;
-        if(isset($data['details']['id'])){ 
-            $data['review_count'] = $this->Trip_model->getTotalReview($data['details']['id']);
-        }
-        
-        $this->load->view('trip/trip-calendar-view',$data);
+        $this->load->view('trip/trip-calendar-view');
     }
     public function trip_view($tripCode = null) { 
          
@@ -698,18 +679,6 @@ class Trips extends CI_Controller {
             $data['all_reviews'] = $this->Trip_model->getTripAllReviews($data['details']['id']);
             $data['wishlist'] = $this->Trip_model->getWishlist($data['details']['id']);
             $data['cutoff_disable_days'] = $this->Trip_model->getCutoffDaysTime($data['details']['created_on'],$data['details']['booking_cut_of_time_type'],$data['details']['booking_cut_of_day'],$data['details']['booking_cut_of_time'],$data['details']['meeting_time']);
-            //echo "<pre>";print_r($data['pickups']);exit;
-            //ALL PICKUP LOCATIONS
-            if(isset($data['pickups']) && count($data['pickups']) > 0){
-                $pickup_locations = '';
-                foreach($data['pickups'] as $v){
-                    $pickup_locations .= $v['location'].', ';
-                }
-                $data['pickup_locations'] = trim($pickup_locations,', ');
-            }
-            
-            
-            
         }
         //echo "<pre>";print_r($data['related_tours']);exit;
         
@@ -733,7 +702,6 @@ class Trips extends CI_Controller {
                             . "LEFT JOIN trip_shared as ts ON ts.trip_id = tm.id AND ts.isactive = 1 AND tm.is_shared = 1 "
                             . "LEFT JOIN trip_category as tc ON tm.trip_category_id = tc.id AND tc.isactive = 1 "
                             . "LEFT JOIN city_master as cm ON tm.city_id = cm.id AND cm.isactive = 1 "
-                            . "LEFT JOIN state_master as sm ON tm.state_id = sm.id AND sm.isactive = 1 "
                             . "WHERE tm.isactive = ? ";
                     
                     if($this->session->userdata('user_type') == 'VA') {
@@ -841,9 +809,9 @@ class Trips extends CI_Controller {
                      //FILTER BY SEARCH TERM
                     $searchTerm = $this->db->escape_like_str($this->input->post('search_term',true));
                     if(!empty($searchTerm)){                        
-                        $tot_sql .= " AND (tm.trip_name LIKE '%{$searchTerm}%' ESCAPE '!' OR tc.name LIKE '%{$searchTerm}%' ESCAPE '!' "
-                        . "OR cm.name LIKE '%{$searchTerm}%' ESCAPE '!' OR sm.name LIKE '%{$searchTerm}%' ESCAPE '!') ";
+                        $tot_sql .= " AND (tm.trip_name LIKE '%{$searchTerm}%' ESCAPE '!' OR tc.name LIKE '%{$searchTerm}%' ESCAPE '!' OR cm.name LIKE '%{$searchTerm}%' ESCAPE '!') ";
                     }
+                    
                     
                     //GROUP BY
                     $tot_sql .= ' GROUP BY tm.id';
@@ -931,7 +899,6 @@ class Trips extends CI_Controller {
             $data['itineraries']    = $this->Trip_model->getItinerary($data['details']['id']);
             $data['tags']           = $this->Trip_model->getTags($data['details']['id']);
             $data['pickups']        = $this->Trip_model->getPickupLocations($data['details']['id']);
-            $data['shared_details'] = $this->Trip_model->getSharedDetails($data['details']['id']);
             $data['shared_details'] = $this->Trip_model->getSharedDetails($data['details']['id']);
             
         }

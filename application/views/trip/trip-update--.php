@@ -103,16 +103,9 @@
                                                                     }
                                                                 }
                                                             ?>
-                                                            <option value="other">Add New</option>
                                                         </select>
                                                     </div>
 
-                                                </div>
-                                                <div class="col-xs-12 col-sm-6" id="addNewCategory" style="display:none;">
-                                                    <label></label>
-                                                    <div class="form-group">                                                        
-                                                        <input  type="text" class="form-control" name="other_category" placeholder="Enter new category"/>
-                                                    </div>
                                                 </div>
                                                 <div class="col-xs-12 col-sm-12">
 

@@ -136,6 +136,9 @@ and open the template in the editor.
 }
 .bootbox.modal {
     background: transparent;
-    width: 50%;
-}    
+    width: 44%;
+}   
+.bootbox .modal-dialog{
+    margin: 0px!important;
+}
 

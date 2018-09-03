@@ -1,4 +1,7 @@
 <?php $this->load->view('includes/header') ?>
+<?php if($pnrshow == 3) { ?>
+<link rel="stylesheet" href="<?php echo base_url()?>assets-customs/css/trip-list.css">
+<?php } ?>
 <!-- start Main Wrapper -->
 
 <div class="main-wrapper scrollspy-container">
@@ -74,6 +77,15 @@
                                     </div>
 
                                     <h4>Congratulation! Enjoy the trip.</h4>
+
+                            </div>
+                            <?php }elseif($pnrshow==3){?>
+                            <div class="promo-box-02 bg-danger mb-40">
+                                    <div class="icon">
+                                            <i class="fa fa-remove"></i>
+                                    </div>
+
+                                    <h4>Cancel your Trip.</h4>
 
                             </div>
                             <?php }else{?>
@@ -288,10 +300,12 @@
                                 <div class="mb-50 text-center">
 
                                     <div class="mb-15"></div>
-
+                                    <?php if($pnrshow!=3){?>
                                     <a href="javascript:;" class="btn btn-primary btn-wide pnr_print"><i class="ion-android-print"></i> Print</a>
                                     <!--<a href="#" class="btn btn-primary btn-wide btn-border"><i class="ion-android-share"></i> Send to</a>-->
-
+                                    <?php } else { ?>
+                                    <a href="javascript:;" class="btn btn-primary btn-wide cancel_trip" data-pnr="<?php echo $pnrinfo['pnr_no'];?>"><i class="fa fa-remove"></i> Cancel Trip</a>
+                                    <?php } ?>
                                 </div>
                             </div>
                             </div>

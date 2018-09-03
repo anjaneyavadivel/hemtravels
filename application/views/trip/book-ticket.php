@@ -183,12 +183,13 @@
                                                                                      if(isset($pickups) && count($pickups) > 0){
                                                                                         foreach ($pickups as $v){
                                                                                             $selected = '';
+                                                                                            $time = date("g:i a", strtotime($v['time'].':00'));
                                                                                             
                                                                                             if(isset($location) && $location == $v['id']){
                                                                                                 $selected = 'selected';
                                                                                             }
                                                                                             
-                                                                                             echo '<option value="'.$v['id'].'" '.$selected.'>'.$v['location'].'</option>';
+                                                                                             echo '<option value="'.$v['id'].'" '.$selected.'>'.$v['location'].' at '.$time.'</option>';
                                                                                         }
                                                                                      }
 
@@ -240,7 +241,7 @@
                                 <div class="sidebar-booking-inner"> 
 
                                     <?php if(isset($offer_details['availabletraveller']) && $offer_details['availabletraveller'] >= $total_traveller && $offer_details['is_open'] == 1) {?>
-                                    <ul class="price-summary-list">
+                                    <ul class="price-summary-list">                                      
                                         
                                         <li>
                                             <div class="col-xs-6 col-sm-6 col-md-6 no-padding mb-5">
@@ -250,6 +251,15 @@
                                                 <p><strong>Meeting Time:</strong> <span class="text-muted"><?php if(isset($details['meeting_time']) && !empty($details['meeting_time'])){
                                                     echo date('h:i a', strtotime($details['meeting_time']));
                                                 }?></span></p>
+                                            </div>
+                                          
+                                        </li>
+                                        <li>
+                                            <div class="col-xs-6 col-sm-6 col-md-6 no-padding mb-5">
+                                                <p><strong>From Date:</strong> <span class="text-muted"><?php echo isset($from_date)?$from_date:''?></span></p>
+                                            </div>
+                                              <div class="col-xs-6 col-sm-6 col-md-6 no-padding mb-5">
+                                                <p><strong>To Date:</strong> <span class="text-muted"><?php echo isset($from_date)?$from_date:''?></span></p>
                                             </div>
                                           
                                         </li>
@@ -437,7 +447,7 @@
 
                                         <div class="form-group"> 
                                             <label>Username</label>
-                                            <input class="form-control" placeholder="Min 4 and Max 10 characters" name="user_name" id="user_name" type="text" value="<?php echo $user_fullname;?>"> 
+                                            <input class="form-control" placeholder="Min 4 and Max 10 characters" name="user_name" id="user_name" type="text" value="<?php echo isset($user_fullname)?$user_fullname:'';?>"> 
                                         </div>
 
                                     </div>
@@ -446,7 +456,7 @@
 
                                         <div class="form-group"> 
                                             <label>Email Address</label>
-                                            <input class="form-control" placeholder="Enter your email address" name="email" id="email" type="text" value="<?php echo $user_email;?>"> 
+                                            <input class="form-control" placeholder="Enter your email address" name="email" id="email" type="text" value="<?php echo isset($user_email)?$user_email:'';?>"> 
                                         </div>
 
                                     </div>
@@ -455,7 +465,7 @@
 
                                         <div class="form-group"> 
                                             <label>Phone Number</label>
-                                            <input class="form-control" placeholder="Enter your phone number" name="phonenumber" id="phonenumber" type="text" value="<?php echo $user_phone;?>"> 
+                                            <input class="form-control" placeholder="Enter your phone number" name="phonenumber" id="phonenumber" type="text" value="<?php echo isset($user_phone)?$user_phone:'';?>"> 
                                         </div>
 
                                     </div>

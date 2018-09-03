@@ -85,6 +85,43 @@ jQuery(function($) {
 
         document.body.innerHTML = originalContents;
     });
+    
+    $('.cancel_trip').on('click',function(){
+       var pnr_no = $(this).attr('data-pnr');
+       bootbox.confirm({
+            message: "Are you sure want to cancel your trip?",
+            buttons: {
+                confirm: {
+                    label: 'Yes',
+                    className: 'btn-success'
+                },
+                cancel: {
+                    label: 'No',
+                    className: 'btn-danger'
+                }
+            },
+            callback: function (result) {
+                if(result){
+                    var formData = new FormData();
+                    formData.append('pnr_no', pnr_no);
+                    formData.append('csrf_test_name', $.cookie('csrf_cookie_name'));
+                    
+                    $.ajax({
+                        type: "POST",
+                        url: base_url+'Pnr_status/cancel_trip',
+                        data: formData,
+                        contentType: false,       // The content type used when sending data to the server.
+                        cache: false,             // To unable request pages to be cached
+                        processData:false,   
+                        success: function (data)
+                        {
+                          window.location.href = base_url+'trip-list';
+                        }
+                    });
+                }
+            }
+        });
+    });
        
 	
 });
