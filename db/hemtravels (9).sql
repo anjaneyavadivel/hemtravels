@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Aug 24, 2018 at 09:37 PM
+-- Generation Time: Sep 03, 2018 at 07:05 AM
 -- Server version: 5.6.26
 -- PHP Version: 5.6.12
 
@@ -137,11 +137,11 @@ CREATE TABLE IF NOT EXISTS `coupon_code_master` (
 --
 
 INSERT INTO `coupon_code_master` (`id`, `user_id`, `trip_id`, `type`, `coupon_code`, `coupon_name`, `offer_type`, `percentage_amount`, `validity_from`, `validity_to`, `comment`, `category_id`, `price_to_adult`, `price_to_child`, `price_to_infan`, `created_on`, `isactive`) VALUES
-(1, 3, 1, 2, 'B2BDIS50', 'B2B discount 50', 1, 50.00, '2018-08-06', '2018-09-15', ' ', 0, 0.00, 0.00, 0.00, '2018-08-05 14:19:13', 1),
-(2, 2, 0, 3, 'ADMINDIS5P', 'Admin discount 5%', 2, 5.00, '2018-08-06', '2018-09-15', ' ', 6, 10.00, 10.00, 10.00, '2018-08-05 14:19:13', 1),
-(3, 2, 2, 1, 'B2CDIS5', 'B2C discount 5%', 2, 5.00, '2018-08-06', '2018-09-15', ' ', 0, 0.00, 0.00, 0.00, '2018-08-05 14:19:13', 1),
-(4, 2, 0, 3, 'ADMINDIS7', 'ADMINDIS7', 2, 7.00, '2018-08-15', '2018-09-12', ' ', 1, 10.00, 10.00, 10.00, '2018-08-15 06:32:12', 1),
-(5, 2, 0, 3, 'ADMINOFFER100', 'ADMINOFFER100', 1, 100.00, '2018-08-16', '2018-09-06', ' this admin offer', 7, 10.00, 10.00, 10.00, '2018-08-16 14:57:16', 1);
+(1, 3, 1, 2, 'B2BDIS50', 'B2B discount 50', 1, 150.00, '2018-08-06', '2018-09-30', ' ', 0, 0.00, 0.00, 0.00, '2018-08-05 14:19:13', 1),
+(2, 2, 0, 3, 'ADMINDIS5P', 'Admin discount 5%', 2, 5.00, '2018-08-06', '2018-09-30', ' ', 6, 10.00, 10.00, 10.00, '2018-08-05 14:19:13', 1),
+(3, 2, 2, 1, 'B2CDIS5', 'B2C discount 5%', 2, 5.00, '2018-08-06', '2018-09-30', ' ', 0, 0.00, 0.00, 0.00, '2018-08-05 14:19:13', 1),
+(4, 2, 0, 3, 'ADMINDIS7', 'ADMINDIS7', 2, 7.00, '2018-08-15', '2018-09-30', ' ', 1, 10.00, 10.00, 10.00, '2018-08-15 06:32:12', 1),
+(5, 2, 0, 3, 'ADMINOFFER100', 'ADMINOFFER100', 1, 100.00, '2018-08-16', '2018-09-30', ' this admin offer', 7, 10.00, 10.00, 10.00, '2018-08-16 14:57:16', 1);
 
 -- --------------------------------------------------------
 
@@ -175,12 +175,12 @@ CREATE TABLE IF NOT EXISTS `coupon_code_master_history` (
 --
 
 INSERT INTO `coupon_code_master_history` (`id`, `user_id`, `coupon_code_id`, `trip_id`, `type`, `coupon_code`, `coupon_name`, `offer_type`, `percentage_amount`, `validity_from`, `validity_to`, `comment`, `category_id`, `price_to_adult`, `price_to_child`, `price_to_infan`, `created_on`, `isactive`) VALUES
-(1, 3, 1, 1, 2, 'B2BDIS50', 'B2C discount 50', 1, 50.00, '2018-08-06', '2018-09-15', ' ', 0, 0.00, 0.00, 0.00, '2018-08-05 08:49:13', 1),
-(2, 2, 2, 0, 3, 'ADMINDIS5P', 'Admin discount 5%', 2, 5.00, '2018-08-06', '2018-09-15', ' ', 6, 10.00, 10.00, 0.00, '2018-08-05 08:49:13', 1),
-(3, 2, 3, 1, 1, 'B2CDIS5', 'B2C discount 5%', 2, 5.00, '2018-08-06', '2018-09-15', ' ', 0, 0.00, 0.00, 0.00, '2018-08-05 08:49:13', 1),
+(1, 3, 1, 1, 2, 'B2BDIS50', 'B2C discount 50', 1, 50.00, '2018-08-06', '2018-09-30', ' ', 0, 0.00, 0.00, 0.00, '2018-08-05 08:49:13', 1),
+(2, 2, 2, 0, 3, 'ADMINDIS5P', 'Admin discount 5%', 2, 5.00, '2018-08-06', '2018-09-30', ' ', 6, 10.00, 10.00, 0.00, '2018-08-05 08:49:13', 1),
+(3, 2, 3, 1, 1, 'B2CDIS5', 'B2C discount 5%', 2, 5.00, '2018-08-06', '2018-09-30', ' ', 0, 0.00, 0.00, 0.00, '2018-08-05 08:49:13', 1),
 (4, 2, 4, 0, 3, 'ADMINDIS7', 'ADMINDIS7', 2, 7.00, '2018-09-16', '2018-10-31', ' ', 1, 10.00, 10.00, 10.00, '2018-08-15 06:32:12', 1),
-(5, 2, 5, 0, 3, 'ADMINOFFER100', 'ADMINOFFER100', 1, 100.00, '2018-08-16', '2018-09-06', ' this admin offer', 7, 10.00, 10.00, 10.00, '2018-08-16 14:57:16', 0),
-(6, 2, 3, 1, 1, 'B2CDIS50', 'B2C discount 50', 1, 50.00, '2018-08-06', '2018-09-15', ' ', 0, 0.00, 0.00, 0.00, '2018-08-05 08:49:13', 0);
+(5, 2, 5, 0, 3, 'ADMINOFFER100', 'ADMINOFFER100', 1, 100.00, '2018-08-16', '2018-09-30', ' this admin offer', 7, 10.00, 10.00, 10.00, '2018-08-16 14:57:16', 0),
+(6, 2, 3, 1, 1, 'B2CDIS50', 'B2C discount 50', 1, 50.00, '2018-08-06', '2018-09-30', ' ', 0, 0.00, 0.00, 0.00, '2018-08-05 08:49:13', 0);
 
 -- --------------------------------------------------------
 
@@ -219,12 +219,12 @@ CREATE TABLE IF NOT EXISTS `my_transaction` (
   `book_pay_id` int(11) NOT NULL DEFAULT '0',
   `book_pay_details_id` int(11) NOT NULL DEFAULT '0',
   `pnr_no` varchar(150) DEFAULT NULL,
-  `from_userid` int(11) NOT NULL DEFAULT '0',
-  `userid` int(11) NOT NULL,
+  `from_userid` int(11) NOT NULL DEFAULT '-1',
+  `to_userid` int(11) NOT NULL DEFAULT '-1',
+  `userid` int(11) NOT NULL DEFAULT '-1',
   `trip_id` int(11) NOT NULL DEFAULT '0',
   `date_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `transaction_notes` text NOT NULL,
-  `transaction_details` tinytext NOT NULL,
   `withdrawals` float(8,2) NOT NULL,
   `deposits` float(8,2) NOT NULL,
   `balance` float(8,2) NOT NULL,
@@ -232,8 +232,19 @@ CREATE TABLE IF NOT EXISTS `my_transaction` (
   `withdrawal_request_amt` float(8,2) NOT NULL,
   `withdrawal_notes` text NOT NULL,
   `withdrawal_paid_on` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
-  `status` int(1) NOT NULL COMMENT '0 - new, 1 - InProgress, 2 -  Executed'
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+  `status` int(1) NOT NULL COMMENT '0 - new, 1 - InProgress, 2 -  Executed, 3- Sent'
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `my_transaction`
+--
+
+INSERT INTO `my_transaction` (`id`, `book_pay_id`, `book_pay_details_id`, `pnr_no`, `from_userid`, `to_userid`, `userid`, `trip_id`, `date_time`, `transaction_notes`, `withdrawals`, `deposits`, `balance`, `b2b_pay_account_info`, `withdrawal_request_amt`, `withdrawal_notes`, `withdrawal_paid_on`, `status`) VALUES
+(3, 0, 0, NULL, -1, -1, 1, 0, '2018-09-02 09:56:14', 'Amount deposited', 0.00, 500.00, 500.00, 0, 0.00, '', '0000-00-00 00:00:00', 2),
+(4, 0, 0, NULL, -1, -1, 1, 0, '2018-09-02 09:56:17', 'Amount deposited', 0.00, 5000.00, 6000.00, 0, 0.00, '', '0000-00-00 00:00:00', 2),
+(5, 0, 0, NULL, -1, -1, 1, 0, '2018-09-02 09:58:46', 'Cash Withdrawal', 250.00, 0.00, 5750.00, 0, 0.00, '', '0000-00-00 00:00:00', 2),
+(6, 0, 0, NULL, -1, -1, 1, 0, '2018-09-02 10:02:37', 'Cash Withdrawal Request', 0.00, 0.00, 5750.00, 1, 250.00, '', '0000-00-00 00:00:00', 0),
+(7, 1, 0, 'PNR826YTZGV', 1, -1, 0, 1, '2018-09-02 10:18:18', 'Trip booked PNR826YTZGV / TRIPFGSbgNw / North Goa Sightseeing Full Day Tour', 0.00, 3098.00, 3098.00, 0, 0.00, '', '0000-00-00 00:00:00', 2);
 
 -- --------------------------------------------------------
 
@@ -390,22 +401,30 @@ CREATE TABLE IF NOT EXISTS `trip_book_pay` (
   `pick_up_location_landmark` varchar(150) NOT NULL,
   `booked_on` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `booked_by` int(11) NOT NULL,
-  `status` int(1) NOT NULL COMMENT '1 - Pendding, 2- booked, 3 - cancelled, 4 - confirmed',
-  `payment_type` int(1) NOT NULL COMMENT '1 - net, 2 - credit, 3 - debit',
-  `payment_status` int(1) NOT NULL COMMENT '0 - Pendding,1 - sucess,2 - failed',
+  `status` int(1) NOT NULL COMMENT '1 - Pendding, 2- booked, 3 - cancelled, 4 - confirmed, 5 -Completed',
+  `payment_type` int(1) NOT NULL DEFAULT '0' COMMENT '1 - net, 2 - credit, 3 - debit',
+  `payment_status` int(1) NOT NULL DEFAULT '1' COMMENT '0 - Pendding,1 - sucess,2 - failed',
+  `cancelled_on` datetime DEFAULT NULL,
+  `return_paid_amt` float(8,2) DEFAULT NULL,
+  `return_notes` text,
+  `return_on` timestamp NULL DEFAULT NULL,
+  `return_paid_status` tinyint(2) DEFAULT '1' COMMENT '1 - New, 2 - InProgress, 3 - Paid',
   `isactive` int(11) NOT NULL DEFAULT '1'
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `trip_book_pay`
 --
 
-INSERT INTO `trip_book_pay` (`id`, `parent_trip_id`, `trip_id`, `user_id`, `pnr_no`, `number_of_persons`, `price_to_adult`, `price_to_child`, `price_to_infan`, `no_of_adult`, `no_of_child`, `no_of_infan`, `total_adult_price`, `total_child_price`, `total_infan_price`, `subtotal_trip_price`, `total_trip_price`, `coupon_history_id`, `discount_percentage`, `discount_price`, `offer_amt`, `gst_percentage`, `gst_amt`, `round_off`, `net_price`, `date_of_trip`, `time_of_trip`, `pick_up_location_id`, `pick_up_location`, `pick_up_location_landmark`, `booked_on`, `booked_by`, `status`, `payment_type`, `payment_status`, `isactive`) VALUES
-(1, 0, 1, 7, 'PNR826YTZGV', 3, 1100.00, 900.00, 0.00, 2, 1, 0, 2200.00, 900.00, 0.00, 3100.00, 2950.00, 1, 0.00, 50.00, 150.00, 5.00, 147.50, 0.50, 3098.00, '2018-08-23', '07:10:00', 1, 'Calangute,Goa', '', '2018-08-23 15:42:05', 3, 1, 0, 0, 1),
-(2, 2, 3, 1, 'PNR5604B2IO', 1, 2200.00, 1650.00, 0.00, 1, 0, 0, 2200.00, 0.00, 0.00, 2200.00, 2090.00, 2, 5.00, 0.00, 110.00, 5.00, 104.50, 0.50, 2195.00, '2018-09-14', '09:10:00', 3, 'Candolim, Goa', '', '2018-08-24 19:08:26', 1, 1, 0, 0, 1),
-(3, 0, 2, 1, 'PNR61RGXS87', 1, 1500.00, 1000.00, 0.00, 1, 0, 0, 1500.00, 0.00, 0.00, 1500.00, 1500.00, 0, 0.00, 0.00, 0.00, 5.00, 75.00, 0.00, 1575.00, '2018-09-14', '09:10:00', 6, 'Candolim, Goa', 'Candolim', '2018-08-24 19:12:19', 1, 1, 0, 0, 1),
-(4, 0, 1, 1, 'PNR59B0GWER', 1, 500.00, 400.00, 0.00, 1, 0, 0, 500.00, 0.00, 0.00, 500.00, 475.00, 3, 5.00, 0.00, 25.00, 5.00, 23.75, 0.25, 499.00, '2018-09-13', '07:10:00', 1, 'Calangute,Goa', '', '2018-08-24 19:17:33', 1, 1, 0, 0, 1),
-(5, 2, 3, 1, 'PNR74WZ9LQA', 1, 2200.00, 1650.00, 0.00, 1, 0, 0, 2200.00, 0.00, 0.00, 2200.00, 2090.00, 2, 5.00, 0.00, 110.00, 5.00, 104.50, 0.50, 2195.00, '2018-09-14', '10:10:00', 4, 'Arpora, Goa', '', '2018-08-24 19:19:19', 1, 1, 0, 0, 1);
+INSERT INTO `trip_book_pay` (`id`, `parent_trip_id`, `trip_id`, `user_id`, `pnr_no`, `number_of_persons`, `price_to_adult`, `price_to_child`, `price_to_infan`, `no_of_adult`, `no_of_child`, `no_of_infan`, `total_adult_price`, `total_child_price`, `total_infan_price`, `subtotal_trip_price`, `total_trip_price`, `coupon_history_id`, `discount_percentage`, `discount_price`, `offer_amt`, `gst_percentage`, `gst_amt`, `round_off`, `net_price`, `date_of_trip`, `time_of_trip`, `pick_up_location_id`, `pick_up_location`, `pick_up_location_landmark`, `booked_on`, `booked_by`, `status`, `payment_type`, `payment_status`, `cancelled_on`, `return_paid_amt`, `return_notes`, `return_on`, `return_paid_status`, `isactive`) VALUES
+(1, 0, 1, 7, 'PNR826YTZGV', 3, 1100.00, 900.00, 0.00, 2, 1, 0, 2200.00, 900.00, 0.00, 3100.00, 2950.00, 1, 0.00, 50.00, 150.00, 5.00, 147.50, 0.50, 3098.00, '2018-08-23', '07:10:00', 1, 'Calangute,Goa', '', '2018-08-23 15:42:05', 3, 3, 0, 1, '2018-08-25 00:00:00', 1950.00, 'Cancelled charge 1000', '0000-00-00 00:00:00', 2, 1),
+(2, 2, 3, 1, 'PNR5604B2IO', 1, 2200.00, 1650.00, 0.00, 1, 0, 0, 2200.00, 0.00, 0.00, 2200.00, 2090.00, 2, 5.00, 0.00, 110.00, 5.00, 104.50, 0.50, 2195.00, '2018-09-14', '09:10:00', 3, 'Candolim, Goa', '', '2018-08-24 19:08:26', 1, 1, 0, 0, NULL, NULL, NULL, NULL, 1, 1),
+(3, 0, 2, 1, 'PNR61RGXS87', 1, 1500.00, 1000.00, 0.00, 1, 0, 0, 1500.00, 0.00, 0.00, 1500.00, 1500.00, 0, 0.00, 0.00, 0.00, 5.00, 75.00, 0.00, 1575.00, '2018-09-14', '09:10:00', 6, 'Candolim, Goa', 'Candolim', '2018-08-24 19:12:19', 1, 1, 0, 0, NULL, NULL, NULL, NULL, 1, 1),
+(4, 0, 1, 1, 'PNR59B0GWER', 1, 500.00, 400.00, 0.00, 1, 0, 0, 500.00, 0.00, 0.00, 500.00, 475.00, 3, 5.00, 0.00, 25.00, 5.00, 23.75, 0.25, 499.00, '2018-09-13', '07:10:00', 1, 'Calangute,Goa', '', '2018-08-24 19:17:33', 1, 1, 0, 0, NULL, NULL, NULL, NULL, 1, 1),
+(5, 2, 3, 1, 'PNR74WZ9LQA', 1, 2200.00, 1650.00, 0.00, 1, 0, 0, 2200.00, 0.00, 0.00, 2200.00, 2090.00, 2, 5.00, 0.00, 110.00, 5.00, 104.50, 0.50, 2195.00, '2018-09-14', '10:10:00', 4, 'Arpora, Goa', '', '2018-08-24 19:19:19', 1, 1, 0, 0, NULL, NULL, NULL, NULL, 1, 1),
+(7, 2, 3, 1, 'PNR51S06RTX', 1, 2200.00, 1650.00, 0.00, 1, 0, 0, 2200.00, 0.00, 0.00, 2200.00, 2090.00, 2, 5.00, 0.00, 110.00, 5.00, 104.50, 0.50, 2195.00, '2018-09-14', '09:10:00', 3, 'Candolim, Goa', '', '2018-08-25 12:29:08', 1, 1, 0, 0, NULL, NULL, NULL, NULL, 1, 1),
+(8, 2, 3, 1, 'PNR90FV1NXC', 2, 2200.00, 1650.00, 0.00, 1, 1, 0, 2200.00, 1650.00, 0.00, 3850.00, 3658.00, 2, 5.00, 0.00, 192.50, 5.00, 182.90, 0.10, 3841.00, '2018-09-14', '10:10:00', 4, 'Arpora, Goa', '', '2018-08-25 17:53:20', 1, 1, 0, 0, NULL, NULL, NULL, NULL, 1, 1),
+(9, 0, 1, 11, 'PNR86KAVFDC', 1, 500.00, 400.00, 0.00, 1, 0, 0, 500.00, 0.00, 0.00, 500.00, 500.00, 0, 0.00, 0.00, 0.00, 5.00, 25.00, 0.00, 525.00, '2018-10-22', '07:10:00', 1, 'Calangute,Goa', '', '2018-08-26 11:10:36', 3, 1, 0, 0, NULL, NULL, NULL, NULL, 1, 1);
 
 -- --------------------------------------------------------
 
@@ -453,24 +472,36 @@ CREATE TABLE IF NOT EXISTS `trip_book_pay_details` (
   `pick_up_location_landmark` varchar(150) NOT NULL,
   `booked_on` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `booked_by` int(11) NOT NULL,
-  `status` int(1) NOT NULL COMMENT '1 - Pendding, 2- booked, 3 - cancelled, 4 - confirmed',
+  `status` int(1) NOT NULL COMMENT '1 - Pending, 2- booked, 3 - cancelled, 4 - confirmed, 5 - Completed',
   `payment_type` int(1) NOT NULL COMMENT '1 - net, 2 - credit, 3 - debit',
   `payment_status` int(1) NOT NULL COMMENT '0 - Pendding,1 - sucess,2 - failed',
+  `cancelled_on` datetime DEFAULT NULL,
+  `return_paid_amt` float(8,2) DEFAULT NULL,
+  `return_notes` text,
+  `return_on` timestamp NULL DEFAULT NULL,
+  `return_paid_status` tinyint(2) DEFAULT '1' COMMENT '1 - New, 2 - InProgress, 3 - Paid',
   `isactive` int(11) NOT NULL DEFAULT '1'
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `trip_book_pay_details`
 --
 
-INSERT INTO `trip_book_pay_details` (`id`, `book_pay_id`, `parent_trip_id`, `trip_id`, `from_user_id`, `from_trip_id`, `user_id`, `pnr_no`, `number_of_persons`, `price_to_adult`, `price_to_child`, `price_to_infan`, `no_of_adult`, `no_of_child`, `no_of_infan`, `total_adult_price`, `total_child_price`, `total_infan_price`, `subtotal_trip_price`, `total_trip_price`, `coupon_history_id`, `discount_percentage`, `discount_price`, `offer_amt`, `net_price`, `vendor_amt`, `your_amt`, `servicecharge_amt`, `gst_percentage`, `gst_amt`, `round_off`, `your_final_amt`, `date_of_trip`, `time_of_trip`, `pick_up_location_id`, `pick_up_location`, `pick_up_location_landmark`, `booked_on`, `booked_by`, `status`, `payment_type`, `payment_status`, `isactive`) VALUES
-(1, 1, 0, 1, 7, 1, 3, 'PNR826YTZGV', 3, 1100.00, 900.00, 0.00, 2, 1, 0, 2200.00, 900.00, 0.00, 3100.00, 2950.00, 1, 0.00, 50.00, 150.00, 2950.00, 0.00, 2891.00, 59.00, 5.00, 144.55, 0.45, 3036.00, '2018-08-23', '07:10:00', 1, 'Calangute,Goa', '', '2018-08-23 15:42:05', 3, 1, 0, 0, 1),
-(2, 2, 0, 2, 1, 3, 3, 'PNR5604B2IO', 1, 1500.00, 1000.00, 0.00, 1, 0, 0, 1500.00, 0.00, 0.00, 1500.00, 1500.00, 0, 0.00, 0.00, 0.00, 1500.00, 0.00, 1470.00, 30.00, 5.00, 73.50, 0.50, 1544.00, '2018-09-14', '09:10:00', 3, 'Candolim, Goa', '', '2018-08-24 19:08:26', 1, 1, 0, 0, 1),
-(3, 2, 0, 3, 1, 3, 4, 'PNR5604B2IO', 1, 2000.00, 1500.00, 0.00, 1, 0, 0, 2000.00, 0.00, 0.00, 2000.00, 2000.00, 0, 0.00, 0.00, 0.00, 500.00, 1500.00, 480.00, 20.00, 5.00, 24.00, 0.00, 504.00, '2018-09-14', '09:10:00', 3, 'Candolim, Goa', '', '2018-08-24 19:08:26', 1, 1, 0, 0, 1),
-(4, 3, 0, 2, 1, 2, 3, 'PNR61RGXS87', 1, 1500.00, 1000.00, 0.00, 1, 0, 0, 1500.00, 0.00, 0.00, 1500.00, 1500.00, 0, 0.00, 0.00, 0.00, 1500.00, 0.00, 1470.00, 30.00, 5.00, 73.50, 0.50, 1544.00, '2018-09-14', '09:10:00', 6, 'Candolim, Goa', 'Candolim', '2018-08-24 19:12:19', 1, 1, 0, 0, 1),
-(5, 4, 0, 1, 1, 1, 3, 'PNR59B0GWER', 1, 500.00, 400.00, 0.00, 1, 0, 0, 500.00, 0.00, 0.00, 500.00, 475.00, 3, 5.00, 0.00, 25.00, 475.00, 0.00, 455.00, 20.00, 5.00, 22.75, 0.25, 478.00, '2018-09-13', '07:10:00', 1, 'Calangute,Goa', '', '2018-08-24 19:17:33', 1, 1, 0, 0, 1),
-(6, 5, 0, 2, 1, 3, 3, 'PNR74WZ9LQA', 1, 1500.00, 1000.00, 0.00, 1, 0, 0, 1500.00, 0.00, 0.00, 1500.00, 1500.00, 0, 0.00, 0.00, 0.00, 1500.00, 0.00, 1470.00, 30.00, 5.00, 73.50, 0.50, 1544.00, '2018-09-14', '10:10:00', 4, 'Arpora, Goa', '', '2018-08-24 19:19:19', 1, 1, 0, 0, 1),
-(7, 5, 0, 3, 1, 3, 4, 'PNR74WZ9LQA', 1, 2000.00, 1500.00, 0.00, 1, 0, 0, 2000.00, 0.00, 0.00, 2000.00, 2000.00, 0, 0.00, 0.00, 0.00, 500.00, 1500.00, 480.00, 20.00, 5.00, 24.00, 0.00, 504.00, '2018-09-14', '10:10:00', 4, 'Arpora, Goa', '', '2018-08-24 19:19:20', 1, 1, 0, 0, 1);
+INSERT INTO `trip_book_pay_details` (`id`, `book_pay_id`, `parent_trip_id`, `trip_id`, `from_user_id`, `from_trip_id`, `user_id`, `pnr_no`, `number_of_persons`, `price_to_adult`, `price_to_child`, `price_to_infan`, `no_of_adult`, `no_of_child`, `no_of_infan`, `total_adult_price`, `total_child_price`, `total_infan_price`, `subtotal_trip_price`, `total_trip_price`, `coupon_history_id`, `discount_percentage`, `discount_price`, `offer_amt`, `net_price`, `vendor_amt`, `your_amt`, `servicecharge_amt`, `gst_percentage`, `gst_amt`, `round_off`, `your_final_amt`, `date_of_trip`, `time_of_trip`, `pick_up_location_id`, `pick_up_location`, `pick_up_location_landmark`, `booked_on`, `booked_by`, `status`, `payment_type`, `payment_status`, `cancelled_on`, `return_paid_amt`, `return_notes`, `return_on`, `return_paid_status`, `isactive`) VALUES
+(1, 1, 0, 1, 7, 1, 3, 'PNR826YTZGV', 3, 1100.00, 900.00, 0.00, 2, 1, 0, 2200.00, 900.00, 0.00, 3100.00, 2950.00, 1, 0.00, 50.00, 150.00, 2950.00, 0.00, 2891.00, 59.00, 5.00, 144.55, 0.45, 3036.00, '2018-08-23', '07:10:00', 1, 'Calangute,Goa', '', '2018-08-23 15:42:05', 3, 3, 0, 1, '2018-08-25 00:00:00', 1950.00, 'Cancelled charge 1000', NULL, 2, 1),
+(2, 2, 0, 2, 1, 3, 3, 'PNR5604B2IO', 1, 1500.00, 1000.00, 0.00, 1, 0, 0, 1500.00, 0.00, 0.00, 1500.00, 1500.00, 0, 0.00, 0.00, 0.00, 1500.00, 0.00, 1470.00, 30.00, 5.00, 73.50, 0.50, 1544.00, '2018-09-14', '09:10:00', 3, 'Candolim, Goa', '', '2018-08-24 19:08:26', 1, 1, 0, 0, NULL, NULL, NULL, NULL, 1, 1),
+(3, 2, 0, 3, 1, 3, 4, 'PNR5604B2IO', 1, 2000.00, 1500.00, 0.00, 1, 0, 0, 2000.00, 0.00, 0.00, 2000.00, 2000.00, 0, 0.00, 0.00, 0.00, 500.00, 1500.00, 480.00, 20.00, 5.00, 24.00, 0.00, 504.00, '2018-09-14', '09:10:00', 3, 'Candolim, Goa', '', '2018-08-24 19:08:26', 1, 1, 0, 0, NULL, NULL, NULL, NULL, 1, 1),
+(4, 3, 0, 2, 1, 2, 3, 'PNR61RGXS87', 1, 1500.00, 1000.00, 0.00, 1, 0, 0, 1500.00, 0.00, 0.00, 1500.00, 1500.00, 0, 0.00, 0.00, 0.00, 1500.00, 0.00, 1470.00, 30.00, 5.00, 73.50, 0.50, 1544.00, '2018-09-14', '09:10:00', 6, 'Candolim, Goa', 'Candolim', '2018-08-24 19:12:19', 1, 1, 0, 0, NULL, NULL, NULL, NULL, 1, 1),
+(5, 4, 0, 1, 1, 1, 3, 'PNR59B0GWER', 1, 500.00, 400.00, 0.00, 1, 0, 0, 500.00, 0.00, 0.00, 500.00, 475.00, 3, 5.00, 0.00, 25.00, 475.00, 0.00, 455.00, 20.00, 5.00, 22.75, 0.25, 478.00, '2018-09-13', '07:10:00', 1, 'Calangute,Goa', '', '2018-08-24 19:17:33', 1, 1, 0, 0, NULL, NULL, NULL, NULL, 1, 1),
+(6, 5, 0, 2, 1, 3, 3, 'PNR74WZ9LQA', 1, 1500.00, 1000.00, 0.00, 1, 0, 0, 1500.00, 0.00, 0.00, 1500.00, 1500.00, 0, 0.00, 0.00, 0.00, 1500.00, 0.00, 1470.00, 30.00, 5.00, 73.50, 0.50, 1544.00, '2018-09-14', '10:10:00', 4, 'Arpora, Goa', '', '2018-08-24 19:19:19', 1, 1, 0, 0, NULL, NULL, NULL, NULL, 1, 1),
+(7, 5, 0, 3, 1, 3, 4, 'PNR74WZ9LQA', 1, 2000.00, 1500.00, 0.00, 1, 0, 0, 2000.00, 0.00, 0.00, 2000.00, 2000.00, 0, 0.00, 0.00, 0.00, 500.00, 1500.00, 480.00, 20.00, 5.00, 24.00, 0.00, 504.00, '2018-09-14', '10:10:00', 4, 'Arpora, Goa', '', '2018-08-24 19:19:20', 1, 1, 0, 0, NULL, NULL, NULL, NULL, 1, 1),
+(10, 7, 2, 3, 1, 3, 0, 'PNR51S06RTX', 1, 2200.00, 1650.00, 0.00, 1, 0, 0, 2200.00, 0.00, 0.00, 2200.00, 2090.00, 2, 5.00, 0.00, 110.00, 90.00, 2000.00, 70.00, 20.00, 5.00, 3.50, 0.50, 74.00, '2018-09-14', '09:10:00', 3, 'Candolim, Goa', '', '2018-08-25 12:29:08', 1, 1, 0, 0, NULL, NULL, NULL, NULL, 1, 1),
+(11, 7, 0, 2, 1, 3, 3, 'PNR51S06RTX', 1, 1500.00, 1000.00, 0.00, 1, 0, 0, 1500.00, 0.00, 0.00, 1500.00, 1500.00, 0, 0.00, 0.00, 0.00, 1500.00, 0.00, 1470.00, 30.00, 5.00, 73.50, 0.50, 1544.00, '2018-09-14', '09:10:00', 3, 'Candolim, Goa', '', '2018-08-25 12:29:08', 1, 1, 0, 0, NULL, NULL, NULL, NULL, 1, 1),
+(12, 7, 0, 3, 1, 3, 4, 'PNR51S06RTX', 1, 2000.00, 1500.00, 0.00, 1, 0, 0, 2000.00, 0.00, 0.00, 2000.00, 2000.00, 0, 0.00, 0.00, 0.00, 500.00, 1500.00, 480.00, 20.00, 5.00, 24.00, 0.00, 504.00, '2018-09-14', '09:10:00', 3, 'Candolim, Goa', '', '2018-08-25 12:29:08', 1, 1, 0, 0, NULL, NULL, NULL, NULL, 1, 1),
+(13, 8, 2, 3, 1, 3, 0, 'PNR90FV1NXC', 2, 2200.00, 1650.00, 0.00, 1, 1, 0, 2200.00, 1650.00, 0.00, 3850.00, 3658.00, 2, 5.00, 0.00, 192.50, 158.00, 3500.00, 138.00, 20.00, 5.00, 6.90, 0.10, 145.00, '2018-09-14', '10:10:00', 4, 'Arpora, Goa', '', '2018-08-25 17:53:21', 1, 1, 0, 0, NULL, NULL, NULL, NULL, 1, 1),
+(14, 8, 0, 2, 1, 3, 3, 'PNR90FV1NXC', 2, 1500.00, 1000.00, 0.00, 1, 1, 0, 1500.00, 1000.00, 0.00, 2500.00, 2500.00, 0, 0.00, 0.00, 0.00, 2500.00, 0.00, 2450.00, 50.00, 5.00, 122.50, 0.50, 2573.00, '2018-09-14', '10:10:00', 4, 'Arpora, Goa', '', '2018-08-25 17:53:21', 1, 1, 0, 0, NULL, NULL, NULL, NULL, 1, 1),
+(15, 8, 0, 3, 1, 3, 4, 'PNR90FV1NXC', 2, 2000.00, 1500.00, 0.00, 1, 1, 0, 2000.00, 1500.00, 0.00, 3500.00, 3500.00, 0, 0.00, 0.00, 0.00, 1000.00, 2500.00, 980.00, 20.00, 5.00, 49.00, 0.00, 1029.00, '2018-09-14', '10:10:00', 4, 'Arpora, Goa', '', '2018-08-25 17:53:21', 1, 1, 0, 0, NULL, NULL, NULL, NULL, 1, 1),
+(16, 9, 0, 1, 11, 1, 3, 'PNR86KAVFDC', 1, 500.00, 400.00, 0.00, 1, 0, 0, 500.00, 0.00, 0.00, 500.00, 500.00, 0, 0.00, 0.00, 0.00, 500.00, 0.00, 480.00, 20.00, 5.00, 24.00, 0.00, 504.00, '2018-10-22', '07:10:00', 1, 'Calangute,Goa', '', '2018-08-26 11:10:36', 3, 1, 0, 0, NULL, NULL, NULL, NULL, 1, 1);
 
 -- --------------------------------------------------------
 
@@ -481,7 +512,7 @@ INSERT INTO `trip_book_pay_details` (`id`, `book_pay_id`, `parent_trip_id`, `tri
 CREATE TABLE IF NOT EXISTS `trip_category` (
   `id` int(11) NOT NULL,
   `name` varchar(150) NOT NULL,
-  `img_name` varchar(200) NOT NULL,
+  `img_name` varchar(200) DEFAULT NULL,
   `created_on` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `created_by` int(11) NOT NULL,
   `updated_on` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
@@ -699,10 +730,6 @@ CREATE TABLE IF NOT EXISTS `trip_master` (
   `total_rating` float(2,1) NOT NULL DEFAULT '0.0',
   `total_booking` int(11) unsigned NOT NULL DEFAULT '0',
   `view_to` int(1) DEFAULT '1' COMMENT '1- Customer & Vendor,2-Vendor',
-  `return_paid_amt` int(11) DEFAULT NULL,
-  `return_paid_status` tinyint(1) NOT NULL DEFAULT '1' COMMENT '1 - New, 2 - InProgress, 3 - Paid',
-  `return_notes` text,
-  `return_on` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
   `isactive` int(1) NOT NULL DEFAULT '1' COMMENT '0 - Deactive, 1 - Active',
   `created_on` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `created_by` int(11) NOT NULL,
@@ -714,10 +741,10 @@ CREATE TABLE IF NOT EXISTS `trip_master` (
 -- Dumping data for table `trip_master`
 --
 
-INSERT INTO `trip_master` (`id`, `trip_code`, `user_id`, `trip_category_id`, `trip_name`, `trip_url`, `trip_img_name`, `parent_trip_id`, `address1`, `address2`, `city_id`, `state_id`, `country_id`, `price_to_adult`, `price_to_child`, `price_to_infan`, `trip_duration`, `how_many_days`, `how_many_nights`, `total_days`, `how_many_time`, `how_many_hours`, `brief_description`, `other_inclusions`, `exclusions`, `languages`, `meal`, `transport`, `things_to_carry`, `advisory`, `tour_type`, `cancellation_policy`, `confirmation_policy`, `refund_policy`, `meeting_point`, `meeting_time`, `no_of_traveller`, `no_of_min_booktraveller`, `no_of_max_booktraveller`, `status`, `is_terms_accpet`, `booking_cut_of_time_type`, `booking_cut_of_day`, `booking_cut_of_time`, `other_setting`, `other_from_date`, `other_to_date`, `other_no_of_traveller`, `other_no_of_min_booktraveller`, `other_no_of_max_booktraveller`, `other_price_to_adult`, `other_price_to_child`, `other_price_to_infan`, `is_shared`, `trip_shared_id`, `total_rating`, `total_booking`, `view_to`, `return_paid_amt`, `return_paid_status`, `return_notes`, `return_on`, `isactive`, `created_on`, `created_by`, `updated_on`, `updated_by`) VALUES
-(1, 'TRIPFGSbgNw', 3, 7, 'North Goa Sightseeing Full Day Tour', 'north-goa-sightseeing-full-day-tour', '1534779603_033.jpg', 0, NULL, NULL, 2, 2, 0, 500, 400, 0, 2, 1, 1, 2, 0, 0, '&lt;ul&gt;&lt;li&gt;Embark on this amazing sightseeing tour in North Goa and get a chance to explore the stunning beauty of this region.&lt;/li&gt;&lt;li&gt;Start your trip after getting picked up from the hotel at around 08:30 AM by bus.&lt;/li&gt;&lt;li&gt;Explore some of the most favourite tourist spots of this region with the beautiful sights.&lt;/li&gt;&lt;li&gt;This tour includes a visit to the famous Fort Aguada, Anjuna Beach, Vagator Beach, Calangute beach, Morjim Beach &amp; Ashvem Beach.&lt;/li&gt;&lt;li&gt;Enjoy the cool sea breeze while at the beaches and the breath taking sunset&lt;/li&gt;&lt;li&gt;Conclude your tour after you are dropped back to the hotel at around 05:00 PM. by car and 4:30 PM by bus.&lt;/li&gt;&lt;/ul&gt;', NULL, NULL, 'english', 'Non-veg, veg', '&lt;ul&gt;&lt;li&gt;Pick up and drop from hotel in an A/C bus.&lt;/li&gt;&lt;/ul&gt;', '&lt;ul&gt;&lt;li&gt;Sunscreen&lt;/li&gt;&lt;li&gt;Sunglasses&lt;/li&gt;&lt;li&gt;Hat&lt;/li&gt;&lt;li&gt;Camera&lt;/li&gt;&lt;/ul&gt;', NULL, '&lt;ul&gt;&lt;li&gt;This is a group tour&lt;/li&gt;&lt;/ul&gt;', '&lt;ul&gt;&lt;li&gt;If cancellations are made 15 days before the start date of the trip, 25% of total tour cost will be charged as cancellation fees&lt;/li&gt;&lt;li&gt;If cancellations are made 7-15 days before the start date of the trip, 50% of total tour cost will be charged as cancellation fees.&lt;/li&gt;&lt;li&gt;If cancellations are made within 0-7 days before the start date of the trip, 100% of total tour cost will be charged as cancellation fees.&lt;/li&gt;&lt;li&gt;In case of unforeseen weather conditions or government restrictions, certain activities may be cancelled and in such cases the operator will try his best to provide an alternate feasible activity. However no refund will be provided for the same.&lt;/li&gt;&lt;/ul&gt;', '&lt;ul&gt;&lt;li&gt;The customer receives a confirmation voucher via email within 24 hours of successful booking&lt;/li&gt;&lt;li&gt;In case the preferred slots are unavailable, an alternate schedule of the customer&rsquo;s preference will be arranged and a new confirmation voucher will be sent via email.&lt;/li&gt;&lt;li&gt;Alternatively, the customer may choose to cancel their booking and a full refund will be processed.&lt;/li&gt;&lt;/ul&gt;', '&lt;ul&gt;&lt;li&gt;The applicable refund amount will be processed within 10 business days&lt;/li&gt;&lt;/ul&gt;', 'Calangute,Goa', '07:10', 20, 1, 2, 1, 1, 1, 0, 0, 0, NULL, '0000-00-00 00:00:00', 0, 0, 0, NULL, NULL, NULL, 0, 0, 4.0, 0, 1, NULL, 1, NULL, '0000-00-00 00:00:00', 1, '2018-08-20 12:22:34', 3, '2018-08-23 10:57:57', 3),
-(2, 'TRIP3dnxM91', 3, 11, 'Luxury Stay At Mayfair Resorts, Goa', 'luxury-stay-at-mayfair-resorts-goa', '1535027789_b2.jpg', 0, NULL, NULL, 2, 2, 0, 1500, 1000, 0, 2, 2, 1, 3, 0, 0, '&lt;li&gt;Experience a luxurious stay at the Mayfair Resorts, Goa with friends and family for an unparalleled experience.&lt;/li&gt;&lt;li&gt;While at Mayfair Resorts, apart from the relaxing stay you will be taken out for an enthralling sightseeing tour to Mangeshi Temple, Old Goa Church and Miramar Beach.&lt;/li&gt;&lt;li&gt;You can relax with a couple massage or a candle light dinner with a bottle of wine with your partner.&lt;/li&gt;&lt;li&gt;The resort has special packages for luxurious and honeymoon stays.&lt;/li&gt;&lt;li&gt;Complimentary Goa Airport / Madgaon railway station transfer by sharing on fixed departures.&lt;br&gt;&lt;/li&gt;&lt;li&gt;Meals are also provided in this package&lt;br&gt;&lt;/li&gt;&lt;li&gt;The stay is available at Double Occupancy&lt;/li&gt;', '&lt;ul&gt;&lt;li&gt;Non-alcoholic Welcome Drink&lt;/li&gt;&lt;li&gt;Two bottles of packaged drinking water.&lt;/li&gt;&lt;li&gt;Swimming Pool and fitness centre facilities.&lt;/li&gt;&lt;/ul&gt;', NULL, '', 'Vegetarian and Non-Vegetarian - Breakfast, Lunch, Dinner', NULL, '&lt;ul&gt;&lt;li&gt;Camera&lt;/li&gt;&lt;li&gt;Extra Set of clothes&lt;/li&gt;&lt;li&gt;Bathing Suit&lt;/li&gt;&lt;li&gt;Sunscreen&lt;/li&gt;&lt;li&gt;Sunglasses&lt;/li&gt;&lt;/ul&gt;', NULL, 'family', '&lt;ul&gt;&lt;li&gt;The customer receives a confirmation voucher via email within 24 hours of successful booking&lt;/li&gt;&lt;/ul&gt;', '&lt;ul&gt;&lt;li&gt;The customer receives a confirmation voucher via email within 24 hours of successful booking&lt;/li&gt;&lt;li&gt;In case the preferred slots are unavailable, an alternate schedule of the customer&rsquo;s preference will be arranged and a new confirmation voucher will be sent via email.&lt;/li&gt;&lt;li&gt;Alternatively, the customer may choose to cancel their booking and a full refund will be processed.&lt;/li&gt;&lt;/ul&gt;', '&lt;ul&gt;&lt;li&gt;The applicable refund amount will be processed within 15 business days&lt;/li&gt;&lt;/ul&gt;', 'Baga, Goa', '08:25', 10, 1, 5, 1, 1, 1, 15, 0, 0, NULL, '0000-00-00 00:00:00', 0, 0, 0, NULL, NULL, NULL, 0, 0, 2.0, 0, 1, NULL, 1, NULL, '0000-00-00 00:00:00', 1, '2018-08-23 09:11:10', 3, '0000-00-00 00:00:00', 0),
-(3, 'TRIP3dnx100', 4, 6, 'Mayfair Resorts Shared Trip, Goa', 'mayfair-resorts-shared-trip-goa', '1535027789_b2.jpg', 2, NULL, NULL, 2, 2, 0, 2000, 1500, 0, 2, 2, 1, 3, 0, 0, '&lt;li&gt;Experience a luxurious stay at the Mayfair Resorts, Goa with friends and family for an unparalleled experience.&lt;/li&gt;&lt;li&gt;While at Mayfair Resorts, apart from the relaxing stay you will be taken out for an enthralling sightseeing tour to Mangeshi Temple, Old Goa Church and Miramar Beach.&lt;/li&gt;&lt;li&gt;You can relax with a couple massage or a candle light dinner with a bottle of wine with your partner.&lt;/li&gt;&lt;li&gt;The resort has special packages for luxurious and honeymoon stays.&lt;/li&gt;&lt;li&gt;Complimentary Goa Airport / Madgaon railway station transfer by sharing on fixed departures.&lt;br&gt;&lt;/li&gt;&lt;li&gt;Meals are also provided in this package&lt;br&gt;&lt;/li&gt;&lt;li&gt;The stay is available at Double Occupancy&lt;/li&gt;', '&lt;ul&gt;&lt;li&gt;Non-alcoholic Welcome Drink&lt;/li&gt;&lt;li&gt;Two bottles of packaged drinking water.&lt;/li&gt;&lt;li&gt;Swimming Pool and fitness centre facilities.&lt;/li&gt;&lt;/ul&gt;', NULL, '', 'Vegetarian and Non-Vegetarian - Breakfast, Lunch, Dinner', NULL, '&lt;ul&gt;&lt;li&gt;Camera&lt;/li&gt;&lt;li&gt;Extra Set of clothes&lt;/li&gt;&lt;li&gt;Bathing Suit&lt;/li&gt;&lt;li&gt;Sunscreen&lt;/li&gt;&lt;li&gt;Sunglasses&lt;/li&gt;&lt;/ul&gt;', NULL, 'family', '&lt;ul&gt;&lt;li&gt;The customer receives a confirmation voucher via email within 24 hours of successful booking&lt;/li&gt;&lt;/ul&gt;', '&lt;ul&gt;&lt;li&gt;The customer receives a confirmation voucher via email within 24 hours of successful booking&lt;/li&gt;&lt;li&gt;In case the preferred slots are unavailable, an alternate schedule of the customer&rsquo;s preference will be arranged and a new confirmation voucher will be sent via email.&lt;/li&gt;&lt;li&gt;Alternatively, the customer may choose to cancel their booking and a full refund will be processed.&lt;/li&gt;&lt;/ul&gt;', '&lt;ul&gt;&lt;li&gt;The applicable refund amount will be processed within 15 business days&lt;/li&gt;&lt;/ul&gt;', 'Baga, Goa', '08:25', 10, 1, 5, 1, 1, 1, 15, 0, 0, NULL, '0000-00-00 00:00:00', 0, 0, 0, NULL, NULL, NULL, 1, 0, 0.0, 0, 1, NULL, 1, NULL, '0000-00-00 00:00:00', 1, '2018-08-23 09:11:10', 3, '0000-00-00 00:00:00', 0);
+INSERT INTO `trip_master` (`id`, `trip_code`, `user_id`, `trip_category_id`, `trip_name`, `trip_url`, `trip_img_name`, `parent_trip_id`, `address1`, `address2`, `city_id`, `state_id`, `country_id`, `price_to_adult`, `price_to_child`, `price_to_infan`, `trip_duration`, `how_many_days`, `how_many_nights`, `total_days`, `how_many_time`, `how_many_hours`, `brief_description`, `other_inclusions`, `exclusions`, `languages`, `meal`, `transport`, `things_to_carry`, `advisory`, `tour_type`, `cancellation_policy`, `confirmation_policy`, `refund_policy`, `meeting_point`, `meeting_time`, `no_of_traveller`, `no_of_min_booktraveller`, `no_of_max_booktraveller`, `status`, `is_terms_accpet`, `booking_cut_of_time_type`, `booking_cut_of_day`, `booking_cut_of_time`, `other_setting`, `other_from_date`, `other_to_date`, `other_no_of_traveller`, `other_no_of_min_booktraveller`, `other_no_of_max_booktraveller`, `other_price_to_adult`, `other_price_to_child`, `other_price_to_infan`, `is_shared`, `trip_shared_id`, `total_rating`, `total_booking`, `view_to`, `isactive`, `created_on`, `created_by`, `updated_on`, `updated_by`) VALUES
+(1, 'TRIPFGSbgNw', 3, 7, 'North Goa Sightseeing Full Day Tour', 'north-goa-sightseeing-full-day-tour', '1534779603_033.jpg', 0, NULL, NULL, 2, 2, 0, 500, 400, 0, 2, 1, 1, 2, 0, 0, '&lt;ul&gt;&lt;li&gt;Embark on this amazing sightseeing tour in North Goa and get a chance to explore the stunning beauty of this region.&lt;/li&gt;&lt;li&gt;Start your trip after getting picked up from the hotel at around 08:30 AM by bus.&lt;/li&gt;&lt;li&gt;Explore some of the most favourite tourist spots of this region with the beautiful sights.&lt;/li&gt;&lt;li&gt;This tour includes a visit to the famous Fort Aguada, Anjuna Beach, Vagator Beach, Calangute beach, Morjim Beach &amp; Ashvem Beach.&lt;/li&gt;&lt;li&gt;Enjoy the cool sea breeze while at the beaches and the breath taking sunset&lt;/li&gt;&lt;li&gt;Conclude your tour after you are dropped back to the hotel at around 05:00 PM. by car and 4:30 PM by bus.&lt;/li&gt;&lt;/ul&gt;', NULL, NULL, 'english', 'Non-veg, veg', '&lt;ul&gt;&lt;li&gt;Pick up and drop from hotel in an A/C bus.&lt;/li&gt;&lt;/ul&gt;', '&lt;ul&gt;&lt;li&gt;Sunscreen&lt;/li&gt;&lt;li&gt;Sunglasses&lt;/li&gt;&lt;li&gt;Hat&lt;/li&gt;&lt;li&gt;Camera&lt;/li&gt;&lt;/ul&gt;', NULL, '&lt;ul&gt;&lt;li&gt;This is a group tour&lt;/li&gt;&lt;/ul&gt;', '&lt;ul&gt;&lt;li&gt;If cancellations are made 15 days before the start date of the trip, 25% of total tour cost will be charged as cancellation fees&lt;/li&gt;&lt;li&gt;If cancellations are made 7-15 days before the start date of the trip, 50% of total tour cost will be charged as cancellation fees.&lt;/li&gt;&lt;li&gt;If cancellations are made within 0-7 days before the start date of the trip, 100% of total tour cost will be charged as cancellation fees.&lt;/li&gt;&lt;li&gt;In case of unforeseen weather conditions or government restrictions, certain activities may be cancelled and in such cases the operator will try his best to provide an alternate feasible activity. However no refund will be provided for the same.&lt;/li&gt;&lt;/ul&gt;', '&lt;ul&gt;&lt;li&gt;The customer receives a confirmation voucher via email within 24 hours of successful booking&lt;/li&gt;&lt;li&gt;In case the preferred slots are unavailable, an alternate schedule of the customer&rsquo;s preference will be arranged and a new confirmation voucher will be sent via email.&lt;/li&gt;&lt;li&gt;Alternatively, the customer may choose to cancel their booking and a full refund will be processed.&lt;/li&gt;&lt;/ul&gt;', '&lt;ul&gt;&lt;li&gt;The applicable refund amount will be processed within 10 business days&lt;/li&gt;&lt;/ul&gt;', 'Calangute,Goa', '07:10', 20, 1, 2, 1, 1, 1, 0, 0, 0, NULL, '0000-00-00 00:00:00', 0, 0, 0, NULL, NULL, NULL, 0, 0, 4.0, 0, 1, 1, '2018-08-20 12:22:34', 3, '2018-08-23 10:57:57', 3),
+(2, 'TRIP3dnxM91', 3, 11, 'Luxury Stay At Mayfair Resorts, Goa', 'luxury-stay-at-mayfair-resorts-goa', '1535027789_b2.jpg', 0, NULL, NULL, 2, 2, 0, 1500, 1000, 0, 2, 2, 1, 3, 0, 0, '&lt;li&gt;Experience a luxurious stay at the Mayfair Resorts, Goa with friends and family for an unparalleled experience.&lt;/li&gt;&lt;li&gt;While at Mayfair Resorts, apart from the relaxing stay you will be taken out for an enthralling sightseeing tour to Mangeshi Temple, Old Goa Church and Miramar Beach.&lt;/li&gt;&lt;li&gt;You can relax with a couple massage or a candle light dinner with a bottle of wine with your partner.&lt;/li&gt;&lt;li&gt;The resort has special packages for luxurious and honeymoon stays.&lt;/li&gt;&lt;li&gt;Complimentary Goa Airport / Madgaon railway station transfer by sharing on fixed departures.&lt;br&gt;&lt;/li&gt;&lt;li&gt;Meals are also provided in this package&lt;br&gt;&lt;/li&gt;&lt;li&gt;The stay is available at Double Occupancy&lt;/li&gt;', '&lt;ul&gt;&lt;li&gt;Non-alcoholic Welcome Drink&lt;/li&gt;&lt;li&gt;Two bottles of packaged drinking water.&lt;/li&gt;&lt;li&gt;Swimming Pool and fitness centre facilities.&lt;/li&gt;&lt;/ul&gt;', NULL, '', 'Vegetarian and Non-Vegetarian - Breakfast, Lunch, Dinner', NULL, '&lt;ul&gt;&lt;li&gt;Camera&lt;/li&gt;&lt;li&gt;Extra Set of clothes&lt;/li&gt;&lt;li&gt;Bathing Suit&lt;/li&gt;&lt;li&gt;Sunscreen&lt;/li&gt;&lt;li&gt;Sunglasses&lt;/li&gt;&lt;/ul&gt;', NULL, 'family', '&lt;ul&gt;&lt;li&gt;The customer receives a confirmation voucher via email within 24 hours of successful booking&lt;/li&gt;&lt;/ul&gt;', '&lt;ul&gt;&lt;li&gt;The customer receives a confirmation voucher via email within 24 hours of successful booking&lt;/li&gt;&lt;li&gt;In case the preferred slots are unavailable, an alternate schedule of the customer&rsquo;s preference will be arranged and a new confirmation voucher will be sent via email.&lt;/li&gt;&lt;li&gt;Alternatively, the customer may choose to cancel their booking and a full refund will be processed.&lt;/li&gt;&lt;/ul&gt;', '&lt;ul&gt;&lt;li&gt;The applicable refund amount will be processed within 15 business days&lt;/li&gt;&lt;/ul&gt;', 'Baga, Goa', '08:25', 10, 1, 5, 1, 1, 1, 15, 0, 0, NULL, '0000-00-00 00:00:00', 0, 0, 0, NULL, NULL, NULL, 0, 0, 2.0, 0, 1, 1, '2018-08-23 09:11:10', 3, '0000-00-00 00:00:00', 0),
+(3, 'TRIP3dnx100', 4, 6, 'Mayfair Resorts Shared Trip, Goa', 'mayfair-resorts-shared-trip-goa', '1535027789_b2.jpg', 2, NULL, NULL, 2, 2, 0, 2000, 1500, 0, 2, 2, 1, 3, 0, 0, '&lt;li&gt;Experience a luxurious stay at the Mayfair Resorts, Goa with friends and family for an unparalleled experience.&lt;/li&gt;&lt;li&gt;While at Mayfair Resorts, apart from the relaxing stay you will be taken out for an enthralling sightseeing tour to Mangeshi Temple, Old Goa Church and Miramar Beach.&lt;/li&gt;&lt;li&gt;You can relax with a couple massage or a candle light dinner with a bottle of wine with your partner.&lt;/li&gt;&lt;li&gt;The resort has special packages for luxurious and honeymoon stays.&lt;/li&gt;&lt;li&gt;Complimentary Goa Airport / Madgaon railway station transfer by sharing on fixed departures.&lt;br&gt;&lt;/li&gt;&lt;li&gt;Meals are also provided in this package&lt;br&gt;&lt;/li&gt;&lt;li&gt;The stay is available at Double Occupancy&lt;/li&gt;', '&lt;ul&gt;&lt;li&gt;Non-alcoholic Welcome Drink&lt;/li&gt;&lt;li&gt;Two bottles of packaged drinking water.&lt;/li&gt;&lt;li&gt;Swimming Pool and fitness centre facilities.&lt;/li&gt;&lt;/ul&gt;', NULL, '', 'Vegetarian and Non-Vegetarian - Breakfast, Lunch, Dinner', NULL, '&lt;ul&gt;&lt;li&gt;Camera&lt;/li&gt;&lt;li&gt;Extra Set of clothes&lt;/li&gt;&lt;li&gt;Bathing Suit&lt;/li&gt;&lt;li&gt;Sunscreen&lt;/li&gt;&lt;li&gt;Sunglasses&lt;/li&gt;&lt;/ul&gt;', NULL, 'family', '&lt;ul&gt;&lt;li&gt;The customer receives a confirmation voucher via email within 24 hours of successful booking&lt;/li&gt;&lt;/ul&gt;', '&lt;ul&gt;&lt;li&gt;The customer receives a confirmation voucher via email within 24 hours of successful booking&lt;/li&gt;&lt;li&gt;In case the preferred slots are unavailable, an alternate schedule of the customer&rsquo;s preference will be arranged and a new confirmation voucher will be sent via email.&lt;/li&gt;&lt;li&gt;Alternatively, the customer may choose to cancel their booking and a full refund will be processed.&lt;/li&gt;&lt;/ul&gt;', '&lt;ul&gt;&lt;li&gt;The applicable refund amount will be processed within 15 business days&lt;/li&gt;&lt;/ul&gt;', 'Baga, Goa', '08:25', 10, 1, 5, 1, 1, 1, 15, 0, 0, NULL, '0000-00-00 00:00:00', 0, 0, 0, NULL, NULL, NULL, 1, 0, 0.0, 0, 1, 1, '2018-08-23 09:11:10', 3, '0000-00-00 00:00:00', 0);
 
 -- --------------------------------------------------------
 
@@ -733,9 +760,16 @@ CREATE TABLE IF NOT EXISTS `trip_shared` (
   `user_id` int(11) NOT NULL,
   `to_user_mail` varchar(150) NOT NULL,
   `coupon_history_id` int(11) NOT NULL DEFAULT '0',
-  `status` int(1) NOT NULL COMMENT '1 - Pendding, 2- approved, 3 - cancelled',
+  `status` int(1) NOT NULL DEFAULT '1' COMMENT '1 - new, 2- maked, 3 - cancelled',
   `isactive` int(1) NOT NULL DEFAULT '1'
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `trip_shared`
+--
+
+INSERT INTO `trip_shared` (`id`, `code`, `trip_id`, `shared_user_id`, `user_id`, `to_user_mail`, `coupon_history_id`, `status`, `isactive`) VALUES
+(1, 'SHARE52431', 2, 3, 4, '', 0, 1, 1);
 
 -- --------------------------------------------------------
 
@@ -765,9 +799,9 @@ CREATE TABLE IF NOT EXISTS `trip_specific_day` (
 --
 
 INSERT INTO `trip_specific_day` (`id`, `trip_id`, `type`, `title`, `from_date`, `to_date`, `no_of_traveller`, `no_of_min_booktraveller`, `no_of_max_booktraveller`, `offer_type`, `price_to_adult`, `price_to_child`, `price_to_infan`, `isactive`) VALUES
-(1, 1, 2, 'For rain due', '2018-08-17', '2018-08-24', 0, 0, 0, 0, 0.00, 0.00, 0.00, 0),
-(2, 1, 1, 'Dwali offer', '2018-08-17', '2018-08-31', 50, 1, 5, 1, 1100.00, 900.00, 0.00, 1),
-(3, 2, 1, 'Dwali offer', '2018-08-17', '2018-08-31', 0, 0, 0, 2, 10.00, 10.00, 10.00, 1);
+(1, 1, 2, 'For rain due', '2018-09-01', '2018-09-15', 0, 0, 0, 0, 0.00, 0.00, 0.00, 1),
+(2, 1, 1, 'Dwali offer', '2018-08-17', '2018-08-31', 50, 1, 5, 1, 1100.00, 900.00, 0.00, 0),
+(3, 2, 1, 'Dwali offer', '2018-08-17', '2018-08-31', 0, 0, 0, 2, 10.00, 10.00, 10.00, 0);
 
 -- --------------------------------------------------------
 
@@ -879,7 +913,14 @@ CREATE TABLE IF NOT EXISTS `user_bank_master` (
   `updated_on` timestamp NULL DEFAULT NULL,
   `updated_by` int(11) DEFAULT NULL,
   `bank_master_status` int(11) NOT NULL DEFAULT '1' COMMENT '1->active,0->de active'
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `user_bank_master`
+--
+
+INSERT INTO `user_bank_master` (`bank_id`, `user_id`, `bank_name`, `account_holder_name`, `account_number`, `ifsc_code`, `branch_name`, `address`, `is_primary`, `added_on`, `added_by`, `updated_on`, `updated_by`, `bank_master_status`) VALUES
+(1, 1, 'HDFC', 'abcd', '1059876543210', 'HDFC0001059', 'Coimbator', NULL, 1, '2018-09-02 10:07:34', 0, NULL, NULL, 1);
 
 -- --------------------------------------------------------
 
@@ -911,7 +952,7 @@ CREATE TABLE IF NOT EXISTS `user_master` (
   `created_on` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `last_visit` timestamp NULL DEFAULT NULL,
   `isactive` tinyint(1) NOT NULL DEFAULT '2' COMMENT '0->de active, 1->active,2->not activated'
-) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `user_master`
@@ -923,7 +964,9 @@ INSERT INTO `user_master` (`id`, `user_type`, `email`, `password`, `user_fullnam
 (3, 'VA', 'vendor@gmail.com', '14e1b600b1fd579f47433b88e8d85291', 'Vendor1', '2018-06-22', '1', '9688079118', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0.00, 0.00, '', '', 1, '2018-06-30 13:20:09', NULL, 1),
 (4, 'VA', 'vendor2@gmail.com', '14e1b600b1fd579f47433b88e8d85291', 'Vendor2', '2018-06-22', '1', '9688079118', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0.00, 0.00, '', '', 1, '2018-06-30 13:20:09', NULL, 1),
 (5, 'GU', 'gucustomer@gmail.com', '14e1b600b1fd579f47433b88e8d85291', 'gust', NULL, NULL, '9688079118', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0.00, 0.00, NULL, NULL, 1, '2018-08-20 16:03:49', NULL, 2),
-(7, 'GU', 'customer2@gmail.com', '14e1b600b1fd579f47433b88e8d85291', 'gust2', NULL, NULL, '9688079118', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0.00, 0.00, NULL, NULL, 1, '2018-08-23 15:42:04', NULL, 2);
+(7, 'GU', 'customer2@gmail.com', '14e1b600b1fd579f47433b88e8d85291', 'gust2', NULL, NULL, '9688079118', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0.00, 0.00, NULL, NULL, 1, '2018-08-23 15:42:04', NULL, 2),
+(10, 'GU', 'gus4@gmail.com', '14e1b600b1fd579f47433b88e8d85291', 'gus4', NULL, NULL, '9688079118', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0.00, 0.00, NULL, NULL, 1, '2018-08-25 12:07:23', NULL, 2),
+(11, 'GU', 'gust5@gmail.com', '14e1b600b1fd579f47433b88e8d85291', 'gust5', NULL, NULL, '9688079118', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0.00, 0.00, NULL, NULL, 1, '2018-08-26 11:10:36', NULL, 2);
 
 -- --------------------------------------------------------
 
@@ -1169,7 +1212,7 @@ ALTER TABLE `faq_master`
 -- AUTO_INCREMENT for table `my_transaction`
 --
 ALTER TABLE `my_transaction`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=8;
 --
 -- AUTO_INCREMENT for table `notification`
 --
@@ -1199,12 +1242,12 @@ ALTER TABLE `trip_avilable`
 -- AUTO_INCREMENT for table `trip_book_pay`
 --
 ALTER TABLE `trip_book_pay`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=6;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=10;
 --
 -- AUTO_INCREMENT for table `trip_book_pay_details`
 --
 ALTER TABLE `trip_book_pay_details`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=8;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=17;
 --
 -- AUTO_INCREMENT for table `trip_category`
 --
@@ -1244,7 +1287,7 @@ ALTER TABLE `trip_master`
 -- AUTO_INCREMENT for table `trip_shared`
 --
 ALTER TABLE `trip_shared`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=2;
 --
 -- AUTO_INCREMENT for table `trip_specific_day`
 --
@@ -1269,12 +1312,12 @@ ALTER TABLE `user_address`
 -- AUTO_INCREMENT for table `user_bank_master`
 --
 ALTER TABLE `user_bank_master`
-  MODIFY `bank_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `bank_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=2;
 --
 -- AUTO_INCREMENT for table `user_master`
 --
 ALTER TABLE `user_master`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=10;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=12;
 --
 -- AUTO_INCREMENT for table `user_wishlist`
 --
