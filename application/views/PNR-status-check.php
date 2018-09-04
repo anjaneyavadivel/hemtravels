@@ -67,7 +67,7 @@
                                             <i class="ti-check"></i>
                                     </div>
 
-                                    <h4>PNR Vendor View Report</h4>
+                                    <h4>View PNR With Vendor Report</h4>
 
                             </div>
                             <?php }elseif($pnrshow==2){?>
@@ -85,7 +85,7 @@
                                             <i class="fa fa-remove"></i>
                                     </div>
 
-                                    <h4>Cancel your Trip.</h4>
+                                    <h4>Are you sure want to cancel your trip?</h4>
 
                             </div>
                             <?php }else{?>
@@ -131,8 +131,11 @@
                                     <li><span class="font600 pnr_number">PNR Number:</span><?=$pnrinfo['pnr_no'];?></li>
                                     <li><span class="font600 package_name">Trip Code:</span><?=$pnrinfo['trip_code'];?></li>
                                     <li><span class="font600 package_name">Trip Name:</span><?=$pnrinfo['trip_name'];?></li>
-                                    <li><span class="font600 no_of_traveller">No Of Traveller:</span><?=$pnrinfo['number_of_persons'];?></li>
-                                    <li><span class="font600 net_price">Amount:</span><?=$pnrinfo['subtotal_trip_price'];?></li> 
+                                    <li><span class="font600 no_of_traveller">No Of Traveller:</span><?=$pnrinfo['number_of_persons'];?> </li>
+                                    <li><span class="font600 net_price">Amount:</span><?=$pnrinfo['subtotal_trip_price'];?> ( 
+                                    <?php if($pnrinfo['no_of_adult']>0){echo $pnrinfo['no_of_adult'].'*'.$pnrinfo['price_to_adult'];}?> 
+                                    <?php if($pnrinfo['no_of_child']>0){echo ', '.$pnrinfo['no_of_child'].'*'.$pnrinfo['price_to_child'];}?> 
+                                    <?php if($pnrinfo['no_of_infan']>0){echo ', '.$pnrinfo['no_of_infan'].'*'.$pnrinfo['price_to_infan'];}?> )</li> 
                                     <?php if($pnrinfo['offer_amt']!=0.00){?>
                                     <li><span class="font600 net_price">Offer Amount:
                                        <br>
@@ -149,7 +152,7 @@
                                         </span><?=$pnrinfo['offer_amt'];?></li>             
                                     <?php }
                                     if ($this->session->userdata('user_type') == 'VA') {
-                                        if($pnrinfo['net_price']!=0.00){?>
+                                        if($pnrinfo['net_price']!=0.00 && $pnrinfo['net_price']!=$pnrinfo['subtotal_trip_price']){?>
                                         <li><span class="font600 net_price">Total Amount:</span><?=$pnrinfo['net_price'];?></li>                                                                                    
                                         <?php }if($pnrinfo['servicecharge_amt']!=0 && $pnrshow==1){?>
                                         <li><span class="font600 net_price">Service Charge:</span><?=$pnrinfo['servicecharge_amt'];?></li>                                                                                    
@@ -158,7 +161,16 @@
                                         <?php }if($pnrinfo['round_off']!=0 && $pnrshow==1){?>
                                         <li><span class="font600 net_price">Round Off:</span><?=$pnrinfo['round_off'];?></li>                                                                                    
                                         <?php }if($pnrinfo['your_final_amt']!=0 && $pnrshow==1){?>
-                                        <li><span class="font600 net_price">Your Amount:</span><?=$pnrinfo['your_final_amt'];?></li>                                                                                    
+                                        <li><span class="font600 net_price">Your Amount:</span><b><?=$pnrinfo['your_final_amt'];?></b></li>                                                                                    
+                                        <?php }if($pnrshow==0||$pnrshow==2||$pnrshow==3){
+                                            
+                                            $gst_amt = $pnrinfo['net_price'] * ($pnrinfo['gst_percentage'] / 100);
+                                            $round_off = round(round($pnrinfo['net_price'] + $gst_amt) - ($pnrinfo['net_price'] + $gst_amt), 2);
+                                            $net_price = $pnrinfo['net_price'] + $gst_amt + $round_off;?>
+                                        <li><span class="font600 net_price">GST Amount (<?=$pnrinfo['gst_percentage'];?>%):</span><?=$gst_amt;?></li> 
+                                        <li><span class="font600 net_price">Round Off:</span><?=$round_off;?></li> 
+                                        
+                                        <li><span class="font600 net_price">Paid Amount:</span><b><?=$net_price;?></b></li>                                                                                    
                                         <?php }
                                     }else{
                                         if($pnrinfo['gst_percentage']!=0){?>
@@ -166,7 +178,7 @@
                                         <?php }if($pnrinfo['round_off']!=0){?>
                                         <li><span class="font600 net_price">Round Off:</span><?=$pnrinfo['round_off'];?></li>                                                                                    
                                         <?php }if($pnrinfo['net_price']!=0.00){?>
-                                        <li><span class="font600 net_price">Total Amount:</span><?=$pnrinfo['net_price'];?></li>                                                                                    
+                                        <li><span class="font600 net_price">Paid Amount:</span><b><?=$pnrinfo['net_price'];?></b></li>                                                                                    
                                         <?php }
                                     }?>
                                     <li><span class="font600 starting">Date of Trip : </span> <?=$pnrinfo['date_of_trip'];?> <?=$pnrinfo['time_of_trip'];?></li>
