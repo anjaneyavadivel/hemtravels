@@ -105,7 +105,7 @@ class Tripspecific extends CI_Controller {
         return FALSE;
     }
 
-    public function category_edit() {
+    public function trip_edit() {
         if ($this->session->userdata('user_id') == '' || $this->session->userdata('user_type') != 'SA') {
            redirect('login');
         }
@@ -113,7 +113,7 @@ class Tripspecific extends CI_Controller {
             $id = trim($this->input->post('id'));
 
             $data = array('id' => $id);
-            $data['categorydetail'] = $this->Master_model->category_detail($data);
+            $data['categorydetail'] = $this->Tripspecific_model->category_detail($data);
             //$this->Master_model->category_update($data,$id);
             $this->load->view('master/category/category-edit', $data);
         }
@@ -129,7 +129,7 @@ class Tripspecific extends CI_Controller {
 
             $where = array('id' => $id);
             $data = array('name' => $name);
-            $result = $this->Master_model->category_update($data, $where);
+            $result = $this->Tripspecific_model->category_update($data, $where);
             if ($result) {
                 return TRUE;
             }
