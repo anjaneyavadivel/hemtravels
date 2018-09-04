@@ -70,7 +70,7 @@ class Tripspecific extends CI_Controller {
                 $id = trim($this->input->post('id'));
                 $name = ucwords(trim($this->input->post('category_name')));
                 $whereData = array('isactive' => 1, 'name' => $name);
-                $trip_category_list = selectTable('trip_category', $whereData);
+                $trip_category_list = selectTable('trip_specific_day', $whereData);
                 if ($trip_category_list->num_rows() > 0) {
                     echo 'Sorry! All ready exist this name.';
                     return FALSE;
