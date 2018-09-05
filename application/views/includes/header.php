@@ -99,6 +99,7 @@
                                             <li><a href="<?php echo base_url() ?>trip-inclusions-master">Trip Inclusions</a></li>
                                             <li><a href="<?php echo base_url() ?>state-master">State Master</a></li>
                                             <li><a href="<?php echo base_url() ?>city-master">City Master</a></li>
+											<li><a href="<?php echo base_url() ?>trip-shared">trip shared</a></li>
                                            
 <!--                                            <li><a href="<?php echo base_url() ?>location-master">Location Master</a></li>-->
                                         </ul>

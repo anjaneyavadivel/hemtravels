@@ -106,6 +106,12 @@ $route['cancellation-reports'] = 'report/cancellation_reports';
 $route['my-transaction-reports'] = 'report/my_transaction_reports';
 
 
+$route['trip-shared'] = 'tripshared/trip_list';
+$route['trip-shared/loadmodal/(:any)'] = 'tripshared/loadmodal/$1';
+$route['trip-shared/(:any)'] = 'tripshared/trip_list/$1';
+$route['trip-shared'] = 'tripshared/trip_list';
+
+
 //Master to admin
 $route['category-master/add'] = 'master/category_add';
 $route['category-master/loadmodal/(:any)'] = 'master/loadmodal/$1';
