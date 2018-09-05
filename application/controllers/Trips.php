@@ -646,6 +646,28 @@ class Trips extends CI_Controller {
         
         $this->load->view('trip/trip-calendar-view',$data);
     }
+    public function getCalendarData($file = null) {
+        $query = $this->db->query("SELECT DATE(booked_on) as date,DAY(booked_on) as day,Month(booked_on) as month,YEAR(booked_on) as year,count(*) as b_count FROM `trip_book_pay` where status !=1 and status !=3 and isactive =1
+                 GROUP by date");
+        
+        $result = $query->result_array();
+        $re_json = [];
+        if(count($result) > 0){
+            foreach($result as $v){
+                $re_json[] = array(
+                    "name" => $v['b_count'].' booking(s)',
+                    "date"  => $v['day'],
+                    "month" => $v['month'],
+                    "year"  => $v['year'],
+                    "start_time" => "",
+                    // "end_time" => "15:30",
+                    "color" => "1",
+                    "description"  => $v['b_count'].' booking(s)',
+                );
+            }
+        }//echo "<pre>";print_r($re_json);exit;
+        echo json_encode($re_json);exit;
+    }
     public function trip_view($tripCode = null) { 
          
         $data  = $this->getTripDetails($tripCode,1); 
