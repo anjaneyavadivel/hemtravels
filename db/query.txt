@@ -99,4 +99,7 @@ ALTER TABLE `trip_book_pay` ADD `cancelled_on` DATETIME NULL AFTER `payment_stat
 ALTER TABLE `trip_book_pay_details` ADD `cancelled_on` DATETIME NULL AFTER `payment_status`;
 
 
+ALTER TABLE `trip_master` DROP `other_setting`, DROP `other_from_date`, DROP `other_to_date`, DROP `other_no_of_traveller`, DROP `other_no_of_min_booktraveller`, DROP `other_no_of_max_booktraveller`, DROP `other_price_to_adult`, DROP `other_price_to_child`, DROP `other_price_to_infan`;
+ALTER TABLE `trip_master` ADD `booking_max_cut_of_month` INT(5) NOT NULL DEFAULT '12' AFTER `booking_cut_of_time`;
 my_transaction
+trip_shared

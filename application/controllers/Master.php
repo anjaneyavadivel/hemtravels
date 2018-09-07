@@ -334,6 +334,10 @@ class Master extends CI_Controller {
                     'price_to_child' => $price_to_child,
                     'price_to_infan' => $price_to_infan);
                 $result = $this->Master_model->coupon_code_update($data, $where);
+                $data['coupon_code_id'] = $coupon_id;
+                $data['user_id'] = $user_id;
+                $data['isactive'] = 1;
+                $couponcodehistory_id = insertTable('coupon_code_master_history', $data);
 
                 if ($result) {
                     return TRUE;
@@ -351,6 +355,8 @@ class Master extends CI_Controller {
         $where = array('id' => $id);
         $data = array('isactive' => 0);
         $this->Master_model->coupon_code_update($data, $where);
+        $where = array('coupon_code_id' => $id);
+        $this->Master_model->coupon_code_history_update($data, $where);
         redirect('coupon-code-master');
     }
 
@@ -361,6 +367,8 @@ class Master extends CI_Controller {
         $where = array('id' => $id);
         $data = array('isactive' => 1);
         $this->Master_model->coupon_code_update($data, $where);
+        $where = array('coupon_code_id' => $id);
+        $this->Master_model->coupon_code_history_update($data, $where);
         redirect('coupon-code-master');
     }
 

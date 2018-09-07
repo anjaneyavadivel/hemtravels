@@ -646,6 +646,40 @@ class Trips extends CI_Controller {
         
         $this->load->view('trip/trip-calendar-view',$data);
     }
+    public function getCalendarData($file = null) {
+        $query = $this->db->query("SELECT DATE(tb.booked_on) as date,DAY(tb.booked_on) as day,Month(tb.booked_on) as month,
+                 YEAR(booked_on) as year,count(*) as b_count,tm.no_of_traveller,tm.id as trip_id FROM `trip_book_pay` as tb 
+                 INNER JOIN trip_master as tm ON tm.id = tb.trip_id 
+                 where tb.status != 1 and tb.status != 3 and tb.isactive =1 GROUP by date");
+        
+        $result = $query->result_array();
+        $re_json = [];
+        if(count($result) > 0){
+            foreach($result as $v){
+                
+                $showField = array('SUM(number_of_persons) AS totalbookedpersons');
+                $whereData = array('isactive' => 1, 'status' => 2, 'payment_status' => 1, 'trip_id' => $v['trip_id'], 'date_of_trip' => $v['date']);
+                $trip_book_pay_list = selectTable('trip_book_pay', $whereData, $showField);
+                if ($trip_book_pay_list->num_rows() > 0) {
+                    $row = $trip_book_pay_list->row();
+                    $totalbookedpersons = !empty($row->totalbookedpersons)?$row->totalbookedpersons:0;
+                }
+                $availabletraveller = (int) $v['no_of_traveller'] - (int) $totalbookedpersons;
+                $re_json[] = array(
+                    //"name" => $v['b_count'].' booking(s)',
+                    "name" =>  'Total:'.$v['no_of_traveller'].'<br>Booked:'.$totalbookedpersons.'<br>Available:'.$availabletraveller,
+                    "date"  => $v['day'],
+                    "month" => $v['month'],
+                    "year"  => $v['year'],
+                    "start_time" => "",
+                    // "end_time" => "15:30",
+                    "color" => "4",
+                    "description"  => $v['b_count'].' booking(s)',
+                );
+            }
+        }//echo "<pre>";print_r($re_json);exit;
+        echo json_encode($re_json);exit;
+    }
     public function trip_view($tripCode = null) { 
          
         $data  = $this->getTripDetails($tripCode,1); 
