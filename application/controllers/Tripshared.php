@@ -41,7 +41,7 @@ class Tripshared extends CI_Controller {
         $str_links = $this->pagination->create_links();
         $data["links"] = explode('&nbsp;', $str_links);
         $data["trip_search"] = $trip_search;
-        $this->load->view('tripshared-list', $data);
+        $this->load->view('report/tripshared-list', $data);
     }
 
     public function loadmodal($view) {
@@ -52,7 +52,7 @@ class Tripshared extends CI_Controller {
                     $data[$key] = $value;
                 }
             }
-            $this->load->view("tripshared-list/$view", $data);
+            $this->load->view("report/tripshared-list/$view", $data);
         } else {
             echo "Error";
         }
