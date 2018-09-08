@@ -99,7 +99,7 @@
                                             <li><a href="<?php echo base_url() ?>trip-inclusions-master">Trip Inclusions</a></li>
                                             <li><a href="<?php echo base_url() ?>state-master">State Master</a></li>
                                             <li><a href="<?php echo base_url() ?>city-master">City Master</a></li>
-											<li><a href="<?php echo base_url() ?>trip-shared">trip shared</a></li>
+											
                                            
 <!--                                            <li><a href="<?php echo base_url() ?>location-master">Location Master</a></li>-->
                                         </ul>
@@ -117,6 +117,7 @@
                                             <li><a href="<?php echo base_url() ?>cancellation-reports">Cancellation Reports</a></li>
                                             <li><a href="<?php echo base_url() ?>my-transaction-reports">My Transaction</a></li>
 <!--                                            <li><a href="<?php echo base_url() ?>triplist">Trip List</a></li>-->
+											<li><a href="<?php echo base_url() ?>trip-shared">trip shared</a></li>
                                             <li><a href="<?php echo base_url() ?>trip-specific">trip specific</a></li>
 											</ul>
 
