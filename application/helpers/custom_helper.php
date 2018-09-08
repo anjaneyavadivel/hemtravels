@@ -564,12 +564,16 @@ if (!function_exists('trip_book')) {
             $trip_location_name = $location->location;
             $trip_location_landmark = $location->landmark;
         }
+        $how_many_days = 0;
         $whereData = array('isactive' => 1, 'id' => $bookdata['trip_id']);
         $trip_list = selectTable('trip_master', $whereData);
         if ($trip_list->num_rows() > 0) {
             $row = $trip_list->row();
             $parent_trip_id = $row->parent_trip_id;
+            $how_many_days = $row->how_many_days;
         }
+        $dateoftrip = date('Y-m-d', strtotime($bookdata['date_of_trip']. ' + '.$how_many_days.' days'));
+        $date_of_trip_to = formatdate($dateoftrip, $format = 'Y-m-d');
         // find offer for customer
         $offer_amt = 0;
         $discount_percentage = 0;
@@ -634,6 +638,7 @@ if (!function_exists('trip_book')) {
             'round_off' => $round_off,
             'net_price' => $net_price,
             'date_of_trip' => formatdate($bookdata['date_of_trip'], $format = 'Y-m-d'),
+            'date_of_trip_to' => $date_of_trip_to,
             'time_of_trip' => $time_of_trip,
             'pick_up_location_id' => $bookdata['pick_up_location_id'],
             'pick_up_location' => $trip_location_name,
@@ -731,6 +736,7 @@ if (!function_exists('trip_book')) {
                     'your_final_amt' => $your_final_amt,
                     'round_off' => number_format($round_off, 2),
                     'date_of_trip' => $book_pay['date_of_trip'],
+                    'date_of_trip_to' => $book_pay['date_of_trip_to'],
                     'time_of_trip' => $book_pay['time_of_trip'],
                     'pick_up_location_id' => $book_pay['pick_up_location_id'],
                     'pick_up_location' => $book_pay['pick_up_location'],
@@ -840,6 +846,7 @@ if (!function_exists('trip_book')) {
                             'round_off' => number_format($round_off, 2),
                             'date_of_trip' => $book_pay['date_of_trip'],
                             'time_of_trip' => $book_pay['time_of_trip'],
+                            'date_of_trip_to' => $book_pay['date_of_trip_to'],
                             'pick_up_location_id' => $book_pay['pick_up_location_id'],
                             'pick_up_location' => $book_pay['pick_up_location'],
                             'pick_up_location_landmark' => $book_pay['pick_up_location_landmark'],
@@ -976,7 +983,7 @@ if (!function_exists('getpnrinfo')) {
             );
             $columns = 'tpd.pnr_no,tpd.number_of_persons,tpd.price_to_adult,tpd.price_to_child,tpd.price_to_infan,tpd.no_of_adult,tpd.no_of_child,tpd.no_of_infan,'
                     . 'tpd.subtotal_trip_price,tpd.offer_amt,tpd.gst_amt,tpd.round_off,tpd.net_price,'
-                    . 'tpd.total_trip_price,tpd.date_of_trip,tpd.time_of_trip,tpd.pick_up_location,tpd.pick_up_location_landmark,'
+                    . 'tpd.total_trip_price,tpd.date_of_trip,tpd.date_of_trip_to,tpd.time_of_trip,tpd.pick_up_location,tpd.pick_up_location_landmark,'
                     . 'tpd.servicecharge_amt,tpd.your_final_amt,tm.id AS trip_id,tm.trip_name,tm.trip_code,tm.how_many_days,tm.how_many_nights,tm.total_days,tm.how_many_hours,'
                     . 'tm.brief_description,tm.other_inclusions,tm.exclusions,tm.languages,tm.meal,tm.cancellation_policy,tm.confirmation_policy,tm.refund_policy,'
                     . 'bum.user_fullname AS bookedby,bum.phone AS bookedby_contactno,bum.email AS bookedby_contactemail,tpd.booked_on,tpd.status,tpd.payment_status,'
@@ -988,6 +995,11 @@ if (!function_exists('getpnrinfo')) {
                 $book_pay = $tableData->result_array();
                 $book_pay[0]['date_of_trip'] = formatdate($book_pay[0]['date_of_trip'], $format = 'd M Y');
                 $book_pay[0]['time_of_trip'] = formatdate($book_pay[0]['time_of_trip'], $format = 'h:i A');
+                if($book_pay[0]['date_of_trip_to'] !='' && $book_pay[0]['date_of_trip_to'] !='0000-00-00'){
+                $book_pay[0]['date_of_trip_to'] = formatdate($book_pay[0]['date_of_trip_to'], $format = 'd M Y');
+                }else{
+                    $book_pay[0]['date_of_trip_to'] = '';
+                }
                 $book_pay[0]['booked_on'] = formatdate($book_pay[0]['booked_on'], $format = 'd M Y h:i A');
                 $book_pay[0]['gst_percentage'] = GST_PERCENTAGE;
                 //print_r($book_pay);         exit();
@@ -1024,7 +1036,7 @@ if (!function_exists('getpnrinfo')) {
             );
             $columns = 'tpd.pnr_no,tpd.number_of_persons,tpd.price_to_adult,tpd.price_to_child,tpd.price_to_infan,tpd.no_of_adult,tpd.no_of_child,tpd.no_of_infan,'
                     . 'tpd.subtotal_trip_price,tpd.offer_amt,tpd.gst_amt,tpd.round_off,tpd.net_price,'
-                    . 'tpd.total_trip_price,tpd.date_of_trip,tpd.time_of_trip,tpd.pick_up_location,tpd.pick_up_location_landmark,'
+                    . 'tpd.total_trip_price,tpd.date_of_trip,tpd.date_of_trip_to,tpd.time_of_trip,tpd.pick_up_location,tpd.pick_up_location_landmark,'
                     . 'tm.id AS trip_id,tm.trip_name,tm.trip_code,tm.how_many_days,tm.how_many_nights,tm.total_days,tm.how_many_hours,'
                     . 'tm.brief_description,tm.other_inclusions,tm.exclusions,tm.languages,tm.meal,tm.cancellation_policy,tm.confirmation_policy,tm.refund_policy,'
                     . 'bum.user_fullname AS bookedby,bum.phone AS bookedby_contactno,bum.email AS bookedby_contactemail,tpd.booked_on,tpd.status,tpd.payment_status,'
@@ -1036,6 +1048,11 @@ if (!function_exists('getpnrinfo')) {
                 $book_pay = $tableData->result_array();
                 $book_pay[0]['date_of_trip'] = formatdate($book_pay[0]['date_of_trip'], $format = 'd M Y');
                 $book_pay[0]['time_of_trip'] = formatdate($book_pay[0]['time_of_trip'], $format = 'h:i A');
+                if($book_pay[0]['date_of_trip_to'] !='' && $book_pay[0]['date_of_trip_to'] !='0000-00-00'){
+                $book_pay[0]['date_of_trip_to'] = formatdate($book_pay[0]['date_of_trip_to'], $format = 'd M Y');
+                }else{
+                    $book_pay[0]['date_of_trip_to'] = '';
+                }
                 $book_pay[0]['booked_on'] = formatdate($book_pay[0]['booked_on'], $format = 'd M Y h:i A');
                 $book_pay[0]['gst_percentage'] = GST_PERCENTAGE;
                 $book_pay[0]['servicecharge_amt'] = 0;

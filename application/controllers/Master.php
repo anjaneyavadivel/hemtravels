@@ -374,28 +374,29 @@ class Master extends CI_Controller {
 
     public function checkhelper() {
         $this->load->helper('custom_helper');
-        $toemail='anjaneyavadivel@gmail.com';
-        $subject='Welcome to trip';
-        $message='This is test msg';
-        $mailData = array(
-        //'fromuserid' => 1,
-        //'touserid' => 10,  use touserid or toemail
-        'toemail' => $toemail,
-        'subject' => $subject,
-        'message' => $message,
-        //'othermsg' => ''
-        );
         
-        sendemail_personalmail($mailData);
+//        $toemail='anjaneyavadivel@gmail.com';
+//        $subject='Welcome to trip';
+//        $message='This is test msg';
+//        $mailData = array(
+//        //'fromuserid' => 1,
+//        //'touserid' => 10,  use touserid or toemail
+//        'toemail' => $toemail,
+//        'subject' => $subject,
+//        'message' => $message,
+//        //'othermsg' => ''
+//        );
+//        
+//        sendemail_personalmail($mailData);
         
 //        $tripid=2;
 //        $result = getallparenttrip($tripid);
 //        print_r($result);
 //        exit();
 //        
-//           $pnr_no='PNR49KXPXG8';$phoneno='9688079118';
-//           $result =  getpnrinfo($pnr_no,$phoneno);
-//            print_r($result);
+           $pnr_no='PNR74WZ9LQA';$phoneno='9688079118';
+           $result =  getpnrinfo($pnr_no,$phoneno);
+            print_r($result);
 //        
 //        
 //        if ($this->session->userdata('user_id') == '') {
