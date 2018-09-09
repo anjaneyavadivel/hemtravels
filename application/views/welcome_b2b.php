@@ -246,7 +246,7 @@
                             $trip_name = $row['trip_name'];
                             $booked_on = $row['booked_on'];
                             $user_fullname = $row['user_fullname'];
-							$no_of_traveller = $row['no_of_traveller'];
+							$number_of_persons = $row['number_of_persons'];
                             ?>
                         <div class="tab-inner">
                             <span class="text-right col-xs-12">
@@ -254,7 +254,7 @@
                             <div class="user-long-sm-item clearfix mb-20">
                                 <div class="tab-inner">
                                     <h3 class="mb-10"><?=$user_fullname; ?></h3>
-                                    <p><b>Booked On :</b> <?=date("d/M/y",strtotime($booked_on));?> <b>No of Travellor: </b><?=$no_of_traveller; ?></p>
+                                    <p><b>Booked On :</b> <?=date("d/M/y",strtotime($booked_on));?> <b>No of Travellor: </b><?=$number_of_persons; ?></p>
                                     <p><b>Trip Tittle :</b> <?=$trip_name; ?></p>
                                     <span class="labeling">More Details: </span>
                                     <a href="payment-done.html">view <i class="ion-android-arrow-forward"></i></a>

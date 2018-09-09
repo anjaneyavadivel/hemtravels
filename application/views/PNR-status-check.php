@@ -183,6 +183,7 @@
                                     }?>
                                     <li><span class="font600 starting">Date of Trip : </span> <?=$pnrinfo['date_of_trip'];?> <?=$pnrinfo['time_of_trip'];?></li>
                                     <li><span class="font600 included">Pick up location,<br>landmark: </span><?=$pnrinfo['pick_up_location'];?>, <?=$pnrinfo['pick_up_location_landmark'];?></li>
+                                    <li><span class="font600 starting">Date of Trip End: </span> <?=$pnrinfo['date_of_trip_to'];?></li>
                                     <?php if($pnrinfo['total_days']>0){?>
                                     <li><span class="font600 excluded">Total Days: </span><?=$pnrinfo['how_many_days'];?> day(s),
                                     <?php if($pnrinfo['how_many_nights']>0){?><?=$pnrinfo['how_many_nights'];?> night(s)<?php }?></li>

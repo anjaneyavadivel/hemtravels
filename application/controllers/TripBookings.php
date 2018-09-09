@@ -26,6 +26,7 @@ class TripBookings extends CI_Controller {
                 
                 $data['cutoff_disable_days'] = $this->Trip_model->getCutoffDaysTime($data['details']['created_on'],$data['details']['booking_cut_of_time_type'],$data['details']['booking_cut_of_day'],$data['details']['booking_cut_of_time'],$data['details']['meeting_time']);
                 
+                 $data['cutoff_max_month'] = $this->Trip_model->getCutoffMonth($data['details']['created_on'],$data['details']['booking_max_cut_of_month']);
                
                 $offerdata=array(
                 'trip_id'      => $data['details']['id'],                
@@ -164,9 +165,19 @@ class TripBookings extends CI_Controller {
                         'date_of_trip' => $this->session->userdata('bk_from_date'),
                         'pick_up_location_id' => $this->session->userdata('bk_location'));
                         $book_pay = trip_book($bookdata);
-                        if(count($book_pay) > 0 ){
+                        if(count($book_pay) > 0 ){  
+                            
                             $result = true;
                             $pnr=$book_pay['pnr_no'];
+                            
+                            //MANUALLY CHANGE BOOKING STATUS
+                            $updatedata = array(
+                                    'payment_type' => 1,  // 1 - net, 2 - credit, 3 - debit
+                                    'payment_status' =>  1,
+                                    'status' =>  2); 
+
+                            trip_book_status_update($updatedata,$book_pay['pnr_no']);
+                            
                             //CLEAR BOOKING SESSIONS
                             $array_items = array('bk_no_of_adult', 'bk_no_of_children','bk_no_of_infan','bk_from_date',
                                 'bk_to_date','bk_location');

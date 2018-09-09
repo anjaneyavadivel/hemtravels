@@ -310,6 +310,33 @@
 
                                             </div>
                                             
+                                            <div class="row">
+                                                <div class="col-xs-12 col-md-6">
+
+                                                    <div class="form-group">
+                                                        <?php 
+                                                        $booking_max_cut_of_month = isset($trip_details['details']['booking_max_cut_of_month']) ? $trip_details['details']['booking_max_cut_of_month']:12;
+                                                        ?>
+                                                        <label>Booking Maximum cut of month:<span style=' color: #d9534f;'>*</span></label>
+                                                        <select name="booking_max_cut_of_month" class="selectpicker show-tick form-control" title="Select a booking maximum cut of month">                                                            
+                                                            <option value="1" <?php echo $booking_max_cut_of_month == 1? 'selected':''?>>1</option>
+                                                            <option value="2" <?php echo $booking_max_cut_of_month == 2? 'selected':''?>>2</option>
+                                                            <option value="3" <?php echo $booking_max_cut_of_month == 3? 'selected':''?>>3</option>
+                                                            <option value="4" <?php echo $booking_max_cut_of_month == 4? 'selected':''?>>4</option>
+                                                            <option value="5" <?php echo $booking_max_cut_of_month == 5? 'selected':''?>>5</option>
+                                                            <option value="6" <?php echo $booking_max_cut_of_month == 6? 'selected':''?>>6</option>
+                                                            <option value="7" <?php echo $booking_max_cut_of_month == 7? 'selected':''?>>7</option>
+                                                            <option value="8" <?php echo $booking_max_cut_of_month == 8? 'selected':''?>>8</option>
+                                                            <option value="9" <?php echo $booking_max_cut_of_month == 9? 'selected':''?>>9</option>
+                                                            <option value="10" <?php echo $booking_max_cut_of_month == 10? 'selected':''?>>10</option>
+                                                            <option value="11" <?php echo $booking_max_cut_of_month == 11? 'selected':''?>>11</option>
+                                                            <option value="12" <?php echo $booking_max_cut_of_month == 12? 'selected':''?>>12</option>
+                                                        </select>
+                                                    </div>
+
+                                                </div>
+                                            </div>
+                                            
 
                                             <div class="mb-40"></div>
 

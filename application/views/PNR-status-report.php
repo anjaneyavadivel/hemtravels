@@ -89,8 +89,9 @@
                                                  <td><span class="font600 starting">Phone Number: </span> <?= $pnrinfo['bookedby_contactno']; ?> </td></tr>
                                                  <tr>    <td><span class="font600 starting">Booked on: </span> <?= $pnrinfo['booked_on']; ?> </td>
                                                 <td><span class="font600 starting">Date of Trip : </span> <?= $pnrinfo['date_of_trip']; ?> <?= $pnrinfo['time_of_trip']; ?></td></tr>
-                                                <tr><td><span class="font600 no_of_traveller">No Of Traveller:</span> <?= $pnrinfo['number_of_persons']; ?></td>
-                                                   <td <?php if ($pnrinfo['languages'] == '') { ?>colspan="2"<?php } ?>><span class="font600 included">Pick up location,<br>landmark: </span> <?= $pnrinfo['pick_up_location']; ?>, <?= $pnrinfo['pick_up_location_landmark']; ?></td>
+                                                <tr><td><span class="font600 starting">No Of Traveller:</span> <?= $pnrinfo['number_of_persons']; ?></td>
+                                                <td><span class="font600 no_of_traveller">Date of Trip End: </span> <?= $pnrinfo['date_of_trip_to']; ?></td></tr>
+                                                   <td colspan="2"><span class="font600 included">Pick up location landmark: </span> <?= $pnrinfo['pick_up_location']; ?>, <?= $pnrinfo['pick_up_location_landmark']; ?></td>
                                                 
                                                 <tr>
                                                     <td><span class="font600 excluded">Languages: </span><?= $pnrinfo['languages']; ?></td>

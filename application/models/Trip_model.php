@@ -137,6 +137,14 @@ class Trip_model extends CI_Model
             }
             return json_encode($disableDays);
         }
+        
+        function getCutoffMonth($date,$maxMonth){
+                
+            $fo_date = strtotime("+".$maxMonth." month", strtotime($date));
+            return  date("Y-m-d", $fo_date);
+            
+        }
+        
 	function getWishlist($id)
 	{		
             $this->db->select()->from('user_wishlist')->where(array('trip_id'=>$id,'user_id'=>$this->session->userdata('user_id'),'isactive' => 1));

@@ -99,6 +99,7 @@
                                             <li><a href="<?php echo base_url() ?>trip-inclusions-master">Trip Inclusions</a></li>
                                             <li><a href="<?php echo base_url() ?>state-master">State Master</a></li>
                                             <li><a href="<?php echo base_url() ?>city-master">City Master</a></li>
+                                            <li><a href="<?php echo base_url() ?>trip-specific">Trip Specific Offer</a></li>
 											
                                            
 <!--                                            <li><a href="<?php echo base_url() ?>location-master">Location Master</a></li>-->
@@ -117,8 +118,6 @@
                                             <li><a href="<?php echo base_url() ?>cancellation-reports">Cancellation Reports</a></li>
                                             <li><a href="<?php echo base_url() ?>my-transaction-reports">My Transaction</a></li>
 <!--                                            <li><a href="<?php echo base_url() ?>triplist">Trip List</a></li>-->
-											<li><a href="<?php echo base_url() ?>trip-shared">trip shared</a></li>
-                                            <li><a href="<?php echo base_url() ?>trip-specific">trip specific</a></li>
 											</ul>
 
                                     </li>
@@ -142,13 +141,14 @@
                                             <li><a href="<?php echo base_url() ?>booking-list">Booking List</a></li>
                                             <li><a href="<?php echo base_url() ?>cancellation-list">Cancellation List</a></li>
                                             <li><a href="<?php echo base_url() ?>coupon-code-master">Coupon Code Master</a></li>
+                                            <li><a href="<?php echo base_url() ?>trip-specific">Trip Specific Offer</a></li>
 										</ul>
                                     </li>
                                     <li>
                                         <a href="#">B2B</a>
                                         <ul>
-                                            <li><a href="<?php echo base_url() ?>make-new-trip-from-vendors">Make Trip from Other Vendors</a></li>
-                                            <li><a href="<?php echo base_url() ?>shared-trips">Shared Trips from Vendor</a></li>
+<!--                                            <li><a href="<?php echo base_url() ?>make-new-trip-from-vendors">Make Trip from Other Vendors</a></li>-->
+                                            <li><a href="<?php echo base_url() ?>trip-shared">Shared Trips from Vendor</a></li>
                                         </ul>
                                     </li>
                                     <li>

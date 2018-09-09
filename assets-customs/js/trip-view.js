@@ -53,6 +53,13 @@ jQuery(function($) {
         cutoff_disable_days = $.parseJSON(cutoff_disable_days);
     }
     
+    //CUT OFF MAX MONTH DISABLE CALENDAR
+    var cutoff_max_month = $('#cutoff_max_month').val();
+    
+    if(cutoff_max_month != undefined && cutoff_max_month != ''){
+        cutoff_max_month = cutoff_max_month;
+    }
+    
     $('#rangeDatePicker > div > div').dateRangePicker({
             //separator : ' to ',
             autoClose: true,
@@ -80,8 +87,12 @@ jQuery(function($) {
             beforeShowDay: function(t){ //console.log(t);
                    // var valid = !(t.getDate() == 5 || t.getDate() == 17 || t.getDate() == 18 || t.getDate() == 19  || t.getDate() == 26 );
                     
-                    var today = moment(t).format("YYYY-MM-DD");                   
-                    var valid = $.inArray( t.getDay(), disableDays ) >= 0 || $.inArray( today, cutoff_disable_days ) >= 0?false:true;
+                    var today = moment(t).format("YYYY-MM-DD");      
+                    var ToDate = new Date(today).getTime();
+    
+                    var valid = $.inArray( t.getDay(), disableDays ) >= 0 
+                            || $.inArray( today, cutoff_disable_days ) >= 0
+                            || (cutoff_max_month != '' && new Date(cutoff_max_month).getTime() < ToDate)?false:true;
                     var _class = '';
                     var _tooltip = valid ? '' : 'not available';
                     return [valid,_class,_tooltip];

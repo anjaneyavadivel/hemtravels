@@ -41,22 +41,22 @@ class Tripshared extends CI_Controller {
         $str_links = $this->pagination->create_links();
         $data["links"] = explode('&nbsp;', $str_links);
         $data["trip_search"] = $trip_search;
-        $this->load->view('report/tripshared-list', $data);
+            $this->load->view('tripshared/tripshared-list', $data);
     }
 
-    public function loadmodal($view) {
-        if ($view != "") {
-            $data = array();
-            if (isset($_POST)) {
-                foreach ($_POST as $key => $value) {
-                    $data[$key] = $value;
-                }
-            }
-            $this->load->view("report/tripshared-list/$view", $data);
-        } else {
-            echo "Error";
-        }
-    }
+//    public function loadmodal($view) {
+//        if ($view != "") {
+//            $data = array();
+//            if (isset($_POST)) {
+//                foreach ($_POST as $key => $value) {
+//                    $data[$key] = $value;
+//                }
+//            }
+//            $this->load->view("tripshared/tripshared-list/$view", $data);
+//        } else {
+//            echo "Error";
+//        }
+//    }
 
     
 

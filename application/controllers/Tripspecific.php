@@ -50,7 +50,7 @@ class Tripspecific extends CI_Controller {
         $data["links"] = explode('&nbsp;', $str_links);
         $data["trip_search"] = $trip_search;
         $data["offer_type"] = $offer_type;
-        $this->load->view('report/trip-specific/trip-specific-list', $data);
+        $this->load->view('trip-specific/trip-specific-list', $data);
     }
 
     

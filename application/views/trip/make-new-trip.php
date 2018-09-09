@@ -294,10 +294,32 @@
                                                     </div>
 
                                                 </div>
-                                                
 
                                             </div>
                                             
+                                            <div class="row">
+                                                <div class="col-xs-12 col-md-6">
+
+                                                    <div class="form-group">
+                                                        <label>Booking Maximum cut of month:<span style=' color: #d9534f;'>*</span></label>
+                                                        <select name="booking_max_cut_of_month" class="selectpicker show-tick form-control" title="Select a booking maximum cut of month">                                                            
+                                                            <option value="1">1</option>
+                                                            <option value="2">2</option>
+                                                            <option value="3">3</option>
+                                                            <option value="4">4</option>
+                                                            <option value="5">5</option>
+                                                            <option value="6">6</option>
+                                                            <option value="7">7</option>
+                                                            <option value="8">8</option>
+                                                            <option value="9">9</option>
+                                                            <option value="10">10</option>
+                                                            <option value="11">11</option>
+                                                            <option value="12" selected="">12</option>
+                                                        </select>
+                                                    </div>
+
+                                                </div>
+                                            </div>
 
                                             <div class="mb-40"></div>
 

@@ -459,6 +459,7 @@ class Trips extends CI_Controller {
                     'exclusions'         => !empty($this->input->post('exclusions'))?htmlentities($this->input->post('exclusions')):null,                   
                     'is_terms_accpet'    => 1,
                     'view_to'          => $this->input->post('view_to'),
+                    'booking_max_cut_of_month' => !empty($this->input->post('booking_max_cut_of_month'))?$this->input->post('booking_max_cut_of_month'):12,
                     );           
                 
             return $master_values;
@@ -635,6 +636,7 @@ class Trips extends CI_Controller {
         
         $this->load->view('trip/trip-list',$data);
     }
+    
     public function trip_calendar_view($tripCode = null) {
         if ($this->session->userdata('user_type') != 'SA'&& $this->session->userdata('user_type')!='VA' && $this->session->userdata('user_id') == '') {redirect('login');}
         
@@ -646,40 +648,77 @@ class Trips extends CI_Controller {
         
         $this->load->view('trip/trip-calendar-view',$data);
     }
+    
     public function getCalendarData($file = null) {
-        $query = $this->db->query("SELECT DATE(tb.booked_on) as date,DAY(tb.booked_on) as day,Month(tb.booked_on) as month,
-                 YEAR(booked_on) as year,count(*) as b_count,tm.no_of_traveller,tm.id as trip_id FROM `trip_book_pay` as tb 
+        $query = $this->db->query("SELECT tb.date_of_trip as date,DAY(tb.date_of_trip) as day,Month(tb.date_of_trip) as month,
+                 YEAR(date_of_trip) as year,count(*) as b_count,tm.no_of_traveller,tm.id as trip_id,
+                 SUM(number_of_persons) AS totalbookedpersons,(tm.no_of_traveller - SUM(number_of_persons)) as availabletraveller
+                 FROM `trip_book_pay` as tb 
                  INNER JOIN trip_master as tm ON tm.id = tb.trip_id 
-                 where tb.status != 1 and tb.status != 3 and tb.isactive =1 GROUP by date");
+                 where tb.status NOT IN(1,3)
+                 and tm.user_id = {$this->session->userdata('user_id')} and tb.isactive = 1 GROUP by tb.date_of_trip");
         
-        $result = $query->result_array();
+        $result = $query->result_array(); //echo "<pre>";print_r($result);exit;
         $re_json = [];
         if(count($result) > 0){
             foreach($result as $v){
-                
-                $showField = array('SUM(number_of_persons) AS totalbookedpersons');
-                $whereData = array('isactive' => 1, 'status' => 2, 'payment_status' => 1, 'trip_id' => $v['trip_id'], 'date_of_trip' => $v['date']);
-                $trip_book_pay_list = selectTable('trip_book_pay', $whereData, $showField);
-                if ($trip_book_pay_list->num_rows() > 0) {
-                    $row = $trip_book_pay_list->row();
-                    $totalbookedpersons = !empty($row->totalbookedpersons)?$row->totalbookedpersons:0;
-                }
-                $availabletraveller = (int) $v['no_of_traveller'] - (int) $totalbookedpersons;
-                $re_json[] = array(
-                    //"name" => $v['b_count'].' booking(s)',
-                    "name" =>  'Total:'.$v['no_of_traveller'].'<br>Booked:'.$totalbookedpersons.'<br>Available:'.$availabletraveller,
+               
+                $re_json[] = array(                    
+                    "name" =>  'Total:'.$v['no_of_traveller'].'<br>Booked:'.$v['totalbookedpersons'].'<br>Available:'.$v['availabletraveller'],
                     "date"  => $v['day'],
                     "month" => $v['month'],
                     "year"  => $v['year'],
                     "start_time" => "",
                     // "end_time" => "15:30",
                     "color" => "4",
-                    "description"  => $v['b_count'].' booking(s)',
+                    "description"  => $this->calendarDescription($v['date']),
                 );
             }
         }//echo "<pre>";print_r($re_json);exit;
         echo json_encode($re_json);exit;
     }
+    
+    private function calendarDescription($date){
+        $query2 = $this->db->query("SELECT tb.date_of_trip as date,tb.pnr_no,um.user_fullname,um.phone,tb.number_of_persons
+                 FROM `trip_book_pay` as tb 
+                 INNER JOIN trip_master as tm ON tm.id = tb.trip_id 
+                 INNER JOIN user_master as um ON um.id = tb.user_id 
+                 where tb.status NOT IN(1,3)
+                 and tm.user_id = {$this->session->userdata('user_id')} and tb.isactive = 1 and tb.date_of_trip = '{$date}'");
+                 
+        $result2 = $query2->result_array(); //echo "<pre>";print_r($result);exit;
+        $bookDescription = '';
+        if(count($result2) > 0){
+            $bookDescription = '<h3>Booking Details</h3><hr>
+                <table class="table table-striped">
+                <thead>
+                  <tr>
+                    <th>Sno.</th>
+                    <th>PNR No</th>
+                    <th>No of persons</th>
+                    <th>Customer</th>
+                    <th>Phone</th>
+                  </tr>
+                </thead>
+                <tbody>';
+            
+            foreach($result2 as $k=>$v){
+                $sno = $k+1;
+                $bookDescription .= '
+                    <tr>
+                        <td>'.$sno.'</td>
+                        <td><a href="'.base_url().'/PNR-status/'.$v['pnr_no'].'" target="_blank">'.$v['pnr_no'].'<a></td>
+                        <td>'.$v['number_of_persons'].'</td>
+                        <td>'.$v['user_fullname'].'</td>
+                        <td>'.$v['phone'].'</td>
+                    </tr>';
+            }
+            
+            $bookDescription .= '</tbody></table>';
+        }
+        return $bookDescription;
+    }
+    
     public function trip_view($tripCode = null) { 
          
         $data  = $this->getTripDetails($tripCode,1); 
@@ -732,6 +771,7 @@ class Trips extends CI_Controller {
             $data['all_reviews'] = $this->Trip_model->getTripAllReviews($data['details']['id']);
             $data['wishlist'] = $this->Trip_model->getWishlist($data['details']['id']);
             $data['cutoff_disable_days'] = $this->Trip_model->getCutoffDaysTime($data['details']['created_on'],$data['details']['booking_cut_of_time_type'],$data['details']['booking_cut_of_day'],$data['details']['booking_cut_of_time'],$data['details']['meeting_time']);
+            $data['cutoff_max_month'] = $this->Trip_model->getCutoffMonth($data['details']['created_on'],$data['details']['booking_max_cut_of_month']);
             //echo "<pre>";print_r($data['pickups']);exit;
             //ALL PICKUP LOCATIONS
             if(isset($data['pickups']) && count($data['pickups']) > 0){
