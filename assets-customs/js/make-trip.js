@@ -73,10 +73,18 @@ jQuery(function($) {
                                 $('#gallery_images').val(JSON.stringify(ex_files)); 
                             }
                            
-                        }else if(file.image_id){
-                           var rm_img = $('#ex_rm_gallery_images').val();
+                        }else if(file.image_id){ 
+                            var rm_img = $('#ex_rm_gallery_images').val();
                                rm_img = $.trim(rm_img) +file.image_id+ ',';
                                $('#ex_rm_gallery_images').val(rm_img);
+                               
+                            var parent_trip_id = $('#parent_trip_id').val();
+                            if(parent_trip_id != '' && parent_trip_id != undefined && parent_trip_id != 0 && parent_trip_id > 0 && file.name){
+                                var ex_files = $('#gallery_images').val();
+                                    ex_files = $.parseJSON(ex_files);
+                                    removeItem(ex_files,file.name); console.log(ex_files)                                   
+                                    $('#gallery_images').val(JSON.stringify(ex_files)); 
+                            }
                         }
                         var _ref;
                            return (_ref = file.previewElement) != null ? _ref.parentNode.removeChild(file.previewElement) : void 0;

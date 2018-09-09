@@ -361,7 +361,7 @@
 <!--    <script type="text/javascript" src="<?php echo base_url()?>assets/js/validator.min.js"></script>-->
     <script type="text/javascript" src="<?php echo base_url()?>assets/js/customs-contact.js"></script>
 <?php }?>
-<?php if($url=='make-new-trip'  || $url=='trips'){?>
+<?php if($url=='make-new-trip'  || $url=='trips' || $url=='make-shared-trip'){?>
     <script type="text/javascript" src="<?php echo base_url()?>assets/js/bootstrap-tokenfield.js"></script>
     <script type="text/javascript" src="<?php echo base_url()?>assets/js/typeahead.bundle.min.js"></script>
     <script type="text/javascript" src="<?php echo base_url()?>assets/js/bootstrap3-wysihtml5.min.js"></script>

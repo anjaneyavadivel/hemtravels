@@ -10,18 +10,22 @@ class Tripshared extends CI_Controller {
 		$this->load->library('form_validation');		
 	}
 
-    public function trip_list($trip_search = '') {
+    public function trip_list() {
         if ($this->session->userdata('user_id') == '') {
             redirect('login');
         }
-        $tripsearch = trim($this->input->post('trip_search'));
-        if ($tripsearch != '') {
-            $trip_search = $tripsearch;
+        $url = $this->uri->segment(1);
+        if ($url != 'trip-shared') {
+            redirect('login');
         }
+        $loginuserid = $this->session->userdata('user_id');
+        $title = trim($this->input->get('title'));
+        $status = trim($this->input->get('status'));
         $this->load->library('pagination');
         $config = array();
-        $config["base_url"] = base_url() . "trip-shared/" . $trip_search; //?search=".$trip_search
-        $config["total_rows"] = $this->Tripshared_model->trip_count($trip_search);
+        $config["base_url"] = base_url() . $url . "?title=" . $title . "&status=" . $status;
+        $whereData = array('title' => $title, 'status' => $status);
+        $config["total_rows"] = $this->Tripshared_model->trip_count($whereData);
         $config["per_page"] = 20;
         //$config["uri_segment"] = 2;
 
@@ -37,10 +41,12 @@ class Tripshared extends CI_Controller {
         $this->pagination->initialize($config);
         $page = ($this->input->get('page')) ? ( ( $this->input->get('page') - 1 ) * $config["per_page"] ) : 0;
         //$page = ($this->uri->segment(2)) ? $this->uri->segment(2) : 0;
-        $data["triplist"] = $this->Tripshared_model->trip_list($config["per_page"], $page, $trip_search);
+        $data["triplist"] = $this->Tripshared_model->trip_list($whereData, $config["per_page"], $page);
         $str_links = $this->pagination->create_links();
         $data["links"] = explode('&nbsp;', $str_links);
-        $data["trip_search"] = $trip_search;
+        $data["status"] = $status;
+        $data["title"] = $title;
+        $data["url"] = $url;
             $this->load->view('tripshared/tripshared-list', $data);
     }
 

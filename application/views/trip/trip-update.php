@@ -19,7 +19,7 @@
 
                                 <div class="col-sm-8 col-sm-offset-2 col-md-6 col-md-offset-3">
 
-                                    <h2>Update Your Trip</h2>
+                                    <h2><?php echo isset($is_shared) && $is_shared == 1 ?'Share':'Update'?> Your Trip</h2>
                                     <p>Celebrated no he decisively thoroughly.</p>
 
                                 </div>
@@ -32,7 +32,7 @@
 
                             <ol class="breadcrumb">
                                 <li><a href="<?php echo base_url() ?>">Home</a></li>
-                                <li class="active"><span>Update Your Trip</span></li>
+                                <li class="active"><span><?php echo isset($is_shared) && $is_shared == 1 ?'Share':'Update'?> Your Trip</span></li>
                             </ol>
 
                         </div>
@@ -54,7 +54,8 @@
                                 <div class="col-xs-12 col-sm-10 col-sm-offset-1 col-md-8 col-md-offset-2">
 
                                     <div class="form">
-                                  <?php echo form_open_multipart(base_url() . 'trips/edit_action', array('class' => 'form-horizontal margin-top-30', 'id' => 'make_new_trip_form')); ?>
+                                      <?php  $form_action = isset($is_shared) && $is_shared == 1 ?'add_action':'edit_action'; ?>
+                                  <?php echo form_open_multipart(base_url().'trips/'.$form_action, array('class' => 'form-horizontal margin-top-30', 'id' => 'make_new_trip_form')); ?>
 	      
                                         <div class="create-tour-inner">
 
@@ -80,8 +81,8 @@
                                                     <div class="form-group">
                                                         <label>Trip Type:</label>
                                                         <select name="is_shared" class="selectpicker show-tick form-control" title="Select placeholder">
-                                                            <option value="0" <?php if(isset($trip_details['details']['isshared']) && $trip_details['details']['isshared'] ==0){echo 'selected';}?> >Make New Trip / Own Trip</option>
-                                                            <option value="1" <?php if(isset($trip_details['details']['isshared']) && $trip_details['details']['isshared'] ==1){echo 'selected';}?>>Make New Trip from Vendor / Shared Trips</option>
+                                                            <option value="0" <?php if(isset($trip_details['details']['isshared']) && isset($is_shared) && $is_shared == 0 && $trip_details['details']['isshared'] ==0){echo 'selected';}?> >Make New Trip / Own Trip</option>
+                                                            <option value="1" <?php if((isset($trip_details['details']['isshared']) && $trip_details['details']['isshared'] ==1) || (isset($is_shared) && $is_shared == 1)){echo 'selected';}?>>Make New Trip from Vendor / Shared Trips</option>
                                                         </select>
                                                     </div>
 
@@ -571,7 +572,7 @@
                                                     <div class="dz-default dz-message"><span>Click or Drop Images Here</span></div>
                                                 </div>
                                                 
-                                                <input type="hidden" name="gallery_images" id="gallery_images" value="[]">
+                                                <input type="hidden" name="gallery_images" id="gallery_images" value='<?php echo isset($is_shared) && isset($shared_galleries) && $is_shared == 1 ? $shared_galleries:[]?>'>
                                                 <input type="hidden"  id="ex_gallery_images" value='<?php echo isset($trip_details['galleries'])?$trip_details['galleries']:"[]" ?>'>
                                                 <input type="hidden"  id="ex_rm_gallery_images" value=''>
 
@@ -720,6 +721,9 @@
                                             
                                         </div>
                                             <input type="hidden" name="trip_id"  id="trip_id" value="<?php echo isset($trip_details['details']['id'])?$trip_details['details']['id']:0;?>">
+                                            <input type="hidden" name="parent_trip_id"  id="parent_trip_id" value="<?php echo isset($parent_trip_id)?$parent_trip_id:0;?>">
+                                            <input type="hidden" name="is_shared"  id="is_shared" value="<?php echo isset($is_shared)?$is_shared:0;?>">
+                                            <input type="hidden" name="share_code"  id="share_code" value="<?php echo isset($share_code)?$share_code:0;?>">
                                             <input type="hidden"  id="action" value="edit">
                                         
 <?php echo form_close()?>

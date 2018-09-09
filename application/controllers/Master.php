@@ -394,21 +394,21 @@ class Master extends CI_Controller {
 //        print_r($result);
 //        exit();
 //        
-           $pnr_no='PNR74WZ9LQA';$phoneno='9688079118';
-           $result =  getpnrinfo($pnr_no,$phoneno);
-            print_r($result);
+//           $pnr_no='PNR74WZ9LQA';$phoneno='9688079118';
+//           $result =  getpnrinfo($pnr_no,$phoneno);
+//            print_r($result);
 //        
 //        
 //        if ($this->session->userdata('user_id') == '') {
 //            return FALSE;
 //        }
-//        $offerdata=array(
-//        'trip_id' => 3,
-//        'date_of_trip' => "10-09-2018",
-//        'ischeckadmin' => 1); 
-//        $result = trip_offer($offerdata);
-//        print_r($result);
-//        exit();
+        $offerdata=array(
+        'trip_id' => 1,
+        'date_of_trip' => "09-09-2018",
+        'ischeckadmin' => 1); 
+        $result = trip_offer($offerdata);
+        print_r($result);
+        exit();
 //        $bookdata=array(
 //        'trip_id' => 3,
 //        'book_user_id' => 1,

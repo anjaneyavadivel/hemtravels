@@ -125,6 +125,7 @@ jQuery(function($) {
                                 
                                 //OFFER DETAILS
                                 var price = data.offer_details.price_to_child > 0 ?data.offer_details.price_to_child:data.offer_details.price_to_adult;
+                                if(price==undefined){price = data.price_to_child;}
                                 var offer_details = '<div class="price">'+
                                                         '<span class="">'+price+'</span>'+                                        
                                                     '</div>';

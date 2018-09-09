@@ -30,6 +30,30 @@ class Trips extends CI_Controller {
     public function update($tripCode = null) { 
         
         if ($this->session->userdata('user_id') == '') {redirect('login');}
+        
+        $data['is_shared'] = 0;
+        $data['parent_trip_id'] = 0;
+        
+        //SHARED TRIP DETAILS
+        if($this->uri->segment(1) == 'make-shared-trip'){
+            
+            $this->db->select('ts.*,tm.trip_code')->from('trip_shared as ts')
+                    ->join('trip_master tm','tm.id = ts.trip_id','inner')
+                    ->where(array('ts.user_id'=>$this->session->userdata('user_id'),'ts.isactive' => 1,'ts.status' => 1,'ts.code' => $tripCode));
+            $query =$this->db->get();
+            
+            $result = $query->row_array(); 
+            
+            if(count($result) > 0){
+                $tripCode = $result['trip_code'];
+                $data['parent_trip_id'] = $result['shared_user_id'];
+                $data['is_shared'] = 1;
+                $data['share_code'] = $result['code'];
+            }else{
+                $this->session->set_userdata('err', 'Unable to share this trip');
+                redirect('/');
+            }
+        }
        
         $data['trip_details']  = $this->getTripDetails($tripCode);   
         
@@ -59,7 +83,17 @@ class Trips extends CI_Controller {
         
         }
         
-        //echo "<pre>";print_r($data['trip_details']['inclusions']);exit;
+        //SHARED TRIP DETAILS
+        if($this->uri->segment(1) == 'make-shared-trip' && isset($data['trip_details']['galleries']) && !empty($data['trip_details']['galleries'])){
+            $sharedGalleries = json_decode($data['trip_details']['galleries'],true);
+            $shared_galleries = [];
+            if(count($sharedGalleries) > 0){
+               $shared_galleries  = array_column($sharedGalleries,'file_name');
+            }
+            $data['shared_galleries'] = json_encode($shared_galleries);
+        }
+        
+        //echo "<pre>";print_r($data['shared_galleries']);exit;
         
         $this->load->view('trip/trip-update',$data);
     }
@@ -152,6 +186,11 @@ class Trips extends CI_Controller {
                             $master_values['isactive']   = $this->input->post('button_type') == 'draft'?2:1;
                             $master_values['created_on'] = date('Y-m-d H:i:s');
                             $master_values['created_by'] = $this->session->userdata('user_id');
+                            
+                            //FOR SHARED TRIP
+                            if(!empty($this->input->post('parent_trip_id')) && !empty($this->input->post('is_shared'))){
+                                 $master_values['parent_trip_id'] = $this->input->post('parent_trip_id');
+                            }
 
                             //echo "<pre>";print_r($master_values);exit;
 
@@ -205,7 +244,13 @@ class Trips extends CI_Controller {
                             $query5   = insertTable('trip_avilable',$tripAvailable);
 
                             //TRIP TAG MAP
-                            $this->tagAddUpdate($trip_id);                                      
+                            $this->tagAddUpdate($trip_id);     
+                            
+                            
+                            //UPDATE SHARED TRIP TABLE FOR SHARED TRIP
+                            if(!empty($this->input->post('parent_trip_id')) && !empty($this->input->post('is_shared')) && !empty($this->input->post('share_code'))){
+                                updateTable('trip_shared',array('code' => $this->input->post('share_code')),array('status' => 2));
+                            }
 
                             $error   = '';
                             $success = 'New trip has been successfully added...'; 
@@ -222,7 +267,13 @@ class Trips extends CI_Controller {
                 
             if($error != ''){               
                 $this->session->set_userdata('err', $error);
-                redirect('make-new-trip');
+                
+                //FOR SHARED TRIP
+                if(!empty($this->input->post('parent_trip_id')) && !empty($this->input->post('is_shared')) && !empty($this->input->post('share_code'))){
+                    redirect('make-shared-trip').$this->input->post('share_code');
+                }else{
+                    redirect('make-new-trip');
+                }
             }
             
             if($success != ''){
@@ -238,166 +289,178 @@ class Trips extends CI_Controller {
             
             if ($this->session->userdata('user_id') == '') {redirect('login');}
             
-		if (!empty($this->input->post('trip_id')) && !empty($this->input->post('trip_name')) && !empty($this->input->post('trip_category_id')) 
-                    && !empty($this->input->post('trip_duration')) && !empty($this->input->post('brief_description')) 
-                    && !empty($this->input->post('no_of_traveller')) && !empty($this->input->post('no_of_min_booktraveller'))) 
-		{
-                    $error = 'Trip not updated.please try again!.';  
-                    
-                    $this->db->trans_start(); 
-                    
-                    try{         
-                        
-                        $trip_id = $this->input->post('trip_id');
+            $this->form_validation->set_rules('trip_name', 'Trip name', 'trim|required');
+            $this->form_validation->set_rules('trip_category_id', 'Trip Category id', 'trim|required');
+            $this->form_validation->set_rules('trip_duration', 'Trip Duration', 'trim|required');
+            $this->form_validation->set_rules('brief_description', 'Brief Description', 'trim|required');
+            $this->form_validation->set_rules('no_of_traveller', 'No of traveller', 'trim|required');
+            $this->form_validation->set_rules('no_of_min_booktraveller', 'No of min booltraveller', 'trim|required');
+                
+                if ($this->form_validation->run($this) == FALSE) {
+                    $error = validation_errors();
+                }else{
+            
+                    if (!empty($this->input->post('trip_id')) && !empty($this->input->post('trip_name')) && !empty($this->input->post('trip_category_id')) 
+                        && !empty($this->input->post('trip_duration')) && !empty($this->input->post('brief_description')) 
+                        && !empty($this->input->post('no_of_traveller')) && !empty($this->input->post('no_of_min_booktraveller'))) 
+                    {
+                        $error = 'Trip not updated.please try again!.';  
 
-                        $master_values = $this->tripMasterFields();
-                        $master_values['updated_on'] = date('Y-m-d H:i:s');
-                        $master_values['updated_by'] = $this->session->userdata('user_id'); 
+                        $this->db->trans_start(); 
 
-                        //GALLERY IMAGES CODE BEGIN HERE
-                        
-                            //ADD NEW
-                                $this->galleryImages($trip_id);
+                        try{         
 
-                            //REMOVE GALLERY IMAGES
-                                if(!empty($this->input->post('ex_rm_gallery_images'))){
-                                    $rm_imgs = trim($this->input->post('ex_rm_gallery_images'),', ');
-                                    $rm_imgs = explode(',', $rm_imgs);
+                            $trip_id = $this->input->post('trip_id');
 
-                                    if(count($rm_imgs) > 0){
-                                        $this->db->where_in('id', $rm_imgs);
-                                        $this->db->update('trip_gallery', array('isactive' => 0));
-                                    }
-                                }
-                                
-                        //GALLERY IMAGES CODE END HERE   
-                        
+                            $master_values = $this->tripMasterFields();
+                            $master_values['updated_on'] = date('Y-m-d H:i:s');
+                            $master_values['updated_by'] = $this->session->userdata('user_id'); 
 
-                        //PICKUP LOCATION MAP CODE BEGIN HERE
-                           
-                            //UPDATE
-                                $meeting_point = '';
-                                $meeting_time  = '';
-                                if(!empty($this->input->post('ex_pickup_meeting_point'))){
-                                    $exPickLocs = $this->input->post('ex_pickup_meeting_point');
-                                    $c1 = 0;
-                                    foreach($exPickLocs as $k=>$v){
+                            //GALLERY IMAGES CODE BEGIN HERE
 
-                                        if($c1 == 0){
-                                            $meeting_point = isset($_POST['ex_pickup_meeting_point'][$k])?$_POST['ex_pickup_meeting_point'][$k]:'';
-                                            $meeting_time  = isset($_POST['ex_pickup_meeting_time'][$k])?$_POST['ex_pickup_meeting_time'][$k]:'';
+                                //ADD NEW
+                                    $this->galleryImages($trip_id);
+
+                                //REMOVE GALLERY IMAGES
+                                    if(!empty($this->input->post('ex_rm_gallery_images'))){
+                                        $rm_imgs = trim($this->input->post('ex_rm_gallery_images'),', ');
+                                        $rm_imgs = explode(',', $rm_imgs);
+
+                                        if(count($rm_imgs) > 0){
+                                            $this->db->where_in('id', $rm_imgs);
+                                            $this->db->update('trip_gallery', array('isactive' => 0));
                                         }
-                                        $exPickLocValue = array(                                        
-                                            'city_id'   => $this->input->post('city_id'),
-                                            'location'  => isset($_POST['ex_pickup_meeting_point'][$k])?$_POST['ex_pickup_meeting_point'][$k]:0,
-                                            'time'      => isset($_POST['ex_pickup_meeting_time'][$k])?$_POST['ex_pickup_meeting_time'][$k]:0,
-                                            'landmark'  => isset($_POST['ex_pickup_landmark'][$k])?$_POST['ex_pickup_landmark'][$k]:0,
-                                        );
-                                        $exPicQry = updateTable('pick_up_location_map',array('trip_id' => $trip_id,'id'=>$k),$exPickLocValue);                                    
-                                        $c1++;
                                     }
 
-                                }
+                            //GALLERY IMAGES CODE END HERE   
 
-                            //INSERT
-                                if(!empty($this->input->post('pickup_meeting_point'))){
-                                    $pickLocs = $this->input->post('pickup_meeting_point');
-                                    $this->pickupLocations($pickLocs,$trip_id);                            
-                                }
-                                
-                        //PICKUP LOCATION MAP CODE END HERE                          
 
-                        //UPDATE TRIP TABLE                    
-                        $upQry = updateTable('trip_master',array('id' => $trip_id),$master_values);
+                            //PICKUP LOCATION MAP CODE BEGIN HERE
 
-                        //TRIP INCLUSIONS CODE BEGIN HERE
-                        
-                                $this->db->select('id')->from('trip_inclusions_map')->where(array('trip_id'=>$trip_id,'isactive' => 1));
-                                $ex_inclusions = $this->db->get()->result_array();
-                                
-                                if(count($ex_inclusions) >0){
-                                    $ex_inclusions = array_column($ex_inclusions, 'id');
-                                }
-                                
-                                $tripInclusions = [];
-                                
-                                if(!empty($this->input->post('trip_inclusions'))){
-                                    $tripInclusions = $this->input->post('trip_inclusions');
-                                }                               
-                            
+                                //UPDATE
+                                    $meeting_point = '';
+                                    $meeting_time  = '';
+                                    if(!empty($this->input->post('ex_pickup_meeting_point'))){
+                                        $exPickLocs = $this->input->post('ex_pickup_meeting_point');
+                                        $c1 = 0;
+                                        foreach($exPickLocs as $k=>$v){
 
-                            //DELETE
-                                $rm_inclusions  = array_diff($ex_inclusions, $tripInclusions);
-                                if(!empty($rm_inclusions) && count($rm_inclusions) > 0){
-                                    $this->db->where_in('id', $rm_inclusions);
-                                    $this->db->update('trip_inclusions_map', array('isactive' => 0));
-                                }
-
-                            //INSERT
-                                $add_inclusions = array_diff($tripInclusions,$ex_inclusions);
-                                if(!empty($add_inclusions) && count($add_inclusions) > 0){
-                                    foreach($add_inclusions as $k=>$v){
-                                        $incValue = array(
-                                            'trip_id' => $trip_id,
-                                            'inclusions_id' => $v                              
-                                        );
-                                        $query3   = insertTable('trip_inclusions_map',$incValue);
-                                    }
-                                }
-                             
-                        //TRIP INCLUSIONS CODE END HERE
-
-                        //TRIP IITINERARY CODE BEGIN HERE
-                                
-                            //UPDATE
-                                if(!empty($this->input->post('ex_trip_from_time'))){
-                                    foreach($this->input->post('ex_trip_from_time') as $k=>$v){
-
-                                        if(isset($_POST['ex_trip_from_time'][$k]) && !empty($_POST['ex_trip_from_time'][$k])){
-                                            $exItiValue = array(                                                
-                                                'from_time'         => isset($_POST['ex_trip_from_time'][$k])?$_POST['ex_trip_from_time'][$k]:0,
-                                                'to_time'           => isset($_POST['ex_trip_to_time'][$k])?$_POST['ex_trip_to_time'][$k]:0,
-                                                'title'             => isset($_POST['ex_trip_from_title'][$k])?$_POST['ex_trip_from_title'][$k]:'',                             
-                                                'short_description' => isset($_POST['ex_trip_short_dec'][$k])?$_POST['ex_trip_short_dec'][$k]:'',                             
-                                                'brief_description' => isset($_POST['ex_trip_brief_dec'][$k])?$_POST['ex_trip_brief_dec'][$k]:'',                             
+                                            if($c1 == 0){
+                                                $meeting_point = isset($_POST['ex_pickup_meeting_point'][$k])?$_POST['ex_pickup_meeting_point'][$k]:'';
+                                                $meeting_time  = isset($_POST['ex_pickup_meeting_time'][$k])?$_POST['ex_pickup_meeting_time'][$k]:'';
+                                            }
+                                            $exPickLocValue = array(                                        
+                                                'city_id'   => $this->input->post('city_id'),
+                                                'location'  => isset($_POST['ex_pickup_meeting_point'][$k])?$_POST['ex_pickup_meeting_point'][$k]:0,
+                                                'time'      => isset($_POST['ex_pickup_meeting_time'][$k])?$_POST['ex_pickup_meeting_time'][$k]:0,
+                                                'landmark'  => isset($_POST['ex_pickup_landmark'][$k])?$_POST['ex_pickup_landmark'][$k]:0,
                                             );
-                                            $exItiQry = updateTable('trip_itinerary',array('trip_id' => $trip_id,'id'=>$k),$exItiValue);                                    
+                                            $exPicQry = updateTable('pick_up_location_map',array('trip_id' => $trip_id,'id'=>$k),$exPickLocValue);                                    
+                                            $c1++;
+                                        }
+
+                                    }
+
+                                //INSERT
+                                    if(!empty($this->input->post('pickup_meeting_point'))){
+                                        $pickLocs = $this->input->post('pickup_meeting_point');
+                                        $this->pickupLocations($pickLocs,$trip_id);                            
+                                    }
+
+                            //PICKUP LOCATION MAP CODE END HERE                          
+
+                            //UPDATE TRIP TABLE                    
+                            $upQry = updateTable('trip_master',array('id' => $trip_id),$master_values);
+
+                            //TRIP INCLUSIONS CODE BEGIN HERE
+
+                                    $this->db->select('id')->from('trip_inclusions_map')->where(array('trip_id'=>$trip_id,'isactive' => 1));
+                                    $ex_inclusions = $this->db->get()->result_array();
+
+                                    if(count($ex_inclusions) >0){
+                                        $ex_inclusions = array_column($ex_inclusions, 'id');
+                                    }
+
+                                    $tripInclusions = [];
+
+                                    if(!empty($this->input->post('trip_inclusions'))){
+                                        $tripInclusions = $this->input->post('trip_inclusions');
+                                    }                               
+
+
+                                //DELETE
+                                    $rm_inclusions  = array_diff($ex_inclusions, $tripInclusions);
+                                    if(!empty($rm_inclusions) && count($rm_inclusions) > 0){
+                                        $this->db->where_in('id', $rm_inclusions);
+                                        $this->db->update('trip_inclusions_map', array('isactive' => 0));
+                                    }
+
+                                //INSERT
+                                    $add_inclusions = array_diff($tripInclusions,$ex_inclusions);
+                                    if(!empty($add_inclusions) && count($add_inclusions) > 0){
+                                        foreach($add_inclusions as $k=>$v){
+                                            $incValue = array(
+                                                'trip_id' => $trip_id,
+                                                'inclusions_id' => $v                              
+                                            );
+                                            $query3   = insertTable('trip_inclusions_map',$incValue);
                                         }
                                     }
-                                }
-                                
-                            //INSERT
-                                $this->itineraryAdd($trip_id);
-                                
-                        //TRIP IITINERARY CODE END HERE
-                                
 
-                        //TRIP AVAILABLE
-                        $tripAvailable = $this->getTripAvailable($trip_id);
-                        $avaQry = updateTable('trip_avilable',array('trip_id' => $trip_id),$tripAvailable);                                    
-                        
+                            //TRIP INCLUSIONS CODE END HERE
 
-                        //TRIP TAG MAP CODE BEGIN HERE 
-                            
-                            //DELETE ALL
-                               $tagDelALLQry = updateTable('trip_tag_map',array('trip_id' => $trip_id,'isactive !=' => 0),array('isactive' => 0));                                
-                            
-                            //INSERT
-                               $this->tagAddUpdate($trip_id,1);
-                               
-                        //TRIP TAG MAP CODE END HERE 
-                        
-                        $error   = '';
-                        $success = 'Trip has been successfully updated...'; 
+                            //TRIP IITINERARY CODE BEGIN HERE
 
-                        $this->db->trans_complete();
+                                //UPDATE
+                                    if(!empty($this->input->post('ex_trip_from_time'))){
+                                        foreach($this->input->post('ex_trip_from_time') as $k=>$v){
 
-                        if ($this->db->trans_status() === FALSE)
-                        {
-                            $error = 'Trip not updated.please try again!.';  
-                        }
-                    }catch(Exception $e){}
-            }            
+                                            if(isset($_POST['ex_trip_from_time'][$k]) && !empty($_POST['ex_trip_from_time'][$k])){
+                                                $exItiValue = array(                                                
+                                                    'from_time'         => isset($_POST['ex_trip_from_time'][$k])?$_POST['ex_trip_from_time'][$k]:0,
+                                                    'to_time'           => isset($_POST['ex_trip_to_time'][$k])?$_POST['ex_trip_to_time'][$k]:0,
+                                                    'title'             => isset($_POST['ex_trip_from_title'][$k])?$_POST['ex_trip_from_title'][$k]:'',                             
+                                                    'short_description' => isset($_POST['ex_trip_short_dec'][$k])?$_POST['ex_trip_short_dec'][$k]:'',                             
+                                                    'brief_description' => isset($_POST['ex_trip_brief_dec'][$k])?$_POST['ex_trip_brief_dec'][$k]:'',                             
+                                                );
+                                                $exItiQry = updateTable('trip_itinerary',array('trip_id' => $trip_id,'id'=>$k),$exItiValue);                                    
+                                            }
+                                        }
+                                    }
+
+                                //INSERT
+                                    $this->itineraryAdd($trip_id);
+
+                            //TRIP IITINERARY CODE END HERE
+
+
+                            //TRIP AVAILABLE
+                            $tripAvailable = $this->getTripAvailable($trip_id);
+                            $avaQry = updateTable('trip_avilable',array('trip_id' => $trip_id),$tripAvailable);                                    
+
+
+                            //TRIP TAG MAP CODE BEGIN HERE 
+
+                                //DELETE ALL
+                                   $tagDelALLQry = updateTable('trip_tag_map',array('trip_id' => $trip_id,'isactive !=' => 0),array('isactive' => 0));                                
+
+                                //INSERT
+                                   $this->tagAddUpdate($trip_id,1);
+
+                            //TRIP TAG MAP CODE END HERE 
+
+                            $error   = '';
+                            $success = 'Trip has been successfully updated...'; 
+
+                            $this->db->trans_complete();
+
+                            if ($this->db->trans_status() === FALSE)
+                            {
+                                $error = 'Trip not updated.please try again!.';  
+                            }
+                        }catch(Exception $e){}
+                }        
+            }
                 
             if($error != ''){               
                 $this->session->set_userdata('err', $error);

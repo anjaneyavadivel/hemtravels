@@ -24,16 +24,16 @@
         <div class="col-xs-12 col-sm-12 pt-20 pb-5 clearfix">
             <!--                         left side - center-->
             <div class="col-xs-12 col-sm-12 pt-10 pb-5 clearfix">
-                <?php echo form_open_multipart(base_url() . 'trip-shared', array('class' => 'form-horizontal margin-top-30', 'id' => 'search-state-form')); ?>
+                <?php echo form_open_multipart(base_url()  . $url, array('method'=>'get','class' => 'form-horizontal margin-top-30', 'id' => 'search-state-form')); ?>
 
                 <div class="col-xs-12 col-sm-3 col-lg-3">
                     <div class="form-group">
                         <label>Status</label>
-                        <select class="selectpicker show-tick form-control" title="Select placeholder">
+                        <select name="status" class="selectpicker show-tick form-control" title="Select placeholder">
                             <option value="">All</option>
-                            <option value="0">New</option>
-                            <option value="1">Pending</option>
-                            <option value="1">Completed</option>
+                            <option value="1" <?php if($status==1){echo 'selected';}?>>New</option>
+                            <option value="2" <?php if($status==2){echo 'selected';}?>>Maked Trip</option>
+                            <option value="3" <?php if($status==3){echo 'selected';}?>>Cancelled</option>
                         </select>
                     </div>
                 </div>
@@ -42,7 +42,7 @@
                         <label>Title</label>
                         <div class="row">
                             <div class="col-xs-12 col-sm-8 col-md-8">
-                                <input type="text" class="form-control" placeholder="Search Trip Title, PNR No, Phone No">
+                                <input type="text" name="title" value="<?=$title?>"  class="form-control" placeholder="Search Trip Title, Shared Code...">
                             </div>
                             <div class="col-xs-12 col-sm-4 col-md-4">
                                 <button type="submit" class="btn btn-primary btn-block"><i class="fa fa-search"></i> Search</button>
@@ -69,23 +69,22 @@
                         if (isset($triplist) && count($triplist) > 0) {
                             $i = 1;
                             foreach ($triplist as $row) {
-                                $id = $row['id'];
                                 $code = $row['code'];
                                 $trip_name = $row['trip_name'];
-                                $user_fullname = $row['user_fullname'];
-                                $user_fullname = $row['user_fullname'];
+                                $sharedusername = $row['sharedusername'];
+                                $tousername = $row['tousername'];
                                 $email = $row['email'];
                                 $coupon_name = $row['coupon_name'];
                                 $status = $row['status'];
-                                $status_active = array('', 'new', 'marked', 'cancelled');
+                                $status_active = array('', 'new', 'Maked Trip', 'cancelled');
                                 $int = explode(",", $status);
                                 foreach ($int as $val) {
                                     ?>
                                     <tr>
                                         <td><?= $code; ?></td>
                                         <td><?= $trip_name; ?></td>
-                                        <td><?= $user_fullname; ?></td>
-                                        <td><?= $user_fullname; ?></td>
+                                        <td><?= $sharedusername; ?></td>
+                                        <td><?= $tousername; ?></td>
                                         <td><?= $email; ?></td>
                                         <td><?= $coupon_name; ?></td>
                                         <td><h4><?= $status_active[$val]; ?></h4></td>

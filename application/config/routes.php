@@ -107,10 +107,7 @@ $route['my-transaction-reports'] = 'report/my_transaction_reports';
 
 
 $route['trip-shared'] = 'tripshared/trip_list';
-$route['trip-shared/loadmodal/(:any)'] = 'tripshared/loadmodal/$1';
-$route['trip-shared/(:any)'] = 'tripshared/trip_list/$1';
-$route['trip-shared'] = 'tripshared/trip_list';
-
+$route['make-shared-trip/(:any)'] = 'trips/update/$1';
 
 //Master to admin
 $route['category-master/add'] = 'master/category_add';
