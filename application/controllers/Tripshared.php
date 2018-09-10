@@ -24,7 +24,7 @@ class Tripshared extends CI_Controller {
         $this->load->library('pagination');
         $config = array();
         $config["base_url"] = base_url() . $url . "?title=" . $title . "&status=" . $status;
-        $whereData = array('title' => $title, 'status' => $status);
+        $whereData = array('loginuserid' => $loginuserid,'title' => $title, 'status' => $status);
         $config["total_rows"] = $this->Tripshared_model->trip_count($whereData);
         $config["per_page"] = 20;
         //$config["uri_segment"] = 2;
@@ -47,6 +47,7 @@ class Tripshared extends CI_Controller {
         $data["status"] = $status;
         $data["title"] = $title;
         $data["url"] = $url;
+        $data["loginuserid"] = $loginuserid;
             $this->load->view('tripshared/tripshared-list', $data);
     }
 

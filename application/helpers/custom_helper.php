@@ -1275,11 +1275,11 @@ if (!function_exists('update_mypayment')) {
             $insertdata['balance'] = $balance;
 
             print_r($insertdata);
-            $result = 1;//insertTable('my_transaction', $insertdata);
+            $result = insertTable('my_transaction', $insertdata);
             //TODO: email
 
             if ($result)
-                return TRUE;
+                return $result;
         }
         return FALSE;
     }
@@ -1308,15 +1308,58 @@ if (!function_exists('update_mypayment')) {
  * @author Anjaneya
  * */
 // if pay sucess need to pass $updatedata['payment_status']==1 && $updatedata['status']==2
+//$status=0 default deposits (or) from Withdrawal, 1 -withdrawals request, 2 -withdrawals
 if (!function_exists('make_mypayment')) {
 
-    function make_mypayment($makedata = array()) {
+    function make_mypayment($makedata = array(), $status=0) {
         // TODO: mail sent to customer and vendor
         // TODO: my_transaction when success payment
 
         $CI = & get_instance();
         $loginuserid = $CI->session->userdata('user_id');
         if (isset($makedata['userid'])) {
+            //$status=1 -withdrawals request,
+            if ($status== 1) {
+                $withdrawalsdata = array(
+                'userid' => $makedata['userid'],
+                'to_userid' => -1,
+                'transaction_notes' => $makedata['transaction_notes'],
+                'book_pay_id' => 0,
+                'book_pay_details_id' => 0,
+                'pnr_no' => '',
+                'trip_id' => 0,
+                'b2b_pay_account_info' => $makedata['b2b_pay_account_info'],
+                'withdrawal_request_amt' => $makedata['withdrawal_request_amt'],
+                'status' => $makedata['status']);
+                return update_mypayment($withdrawalsdata);
+            }  
+            //$status=2 -withdrawals ,
+            if ($status== 2) {
+                $withdrawalsdata = array(
+                'userid' => $makedata['userid'],
+                'to_userid' => -1,
+                'transaction_notes' => $makedata['transaction_notes'],
+                'book_pay_id' => 0,
+                'book_pay_details_id' => 0,
+                'pnr_no' => '',
+                'trip_id' => 0,
+                'b2b_pay_account_info' => $makedata['b2b_pay_account_info'],
+                'withdrawals' => $makedata['withdrawals'],
+                'withdrawal_notes' => $makedata['withdrawal_notes'],
+                'withdrawal_paid_on' => date("Y-m-d", strtotime($makedata['withdrawal_paid_on'])),
+                'status' => $makedata['status']);
+                $withdrawresult =  update_mypayment($withdrawalsdata);
+                if($withdrawresult){
+                    if(isset($makedata['withdrawal_request_id']) && $makedata['withdrawal_request_id']!=''){
+                        $whereData = array('id' => $makedata['withdrawal_request_id']);
+                        $updatedata = array('status' => 3); //sent
+                        $result = updateTable('trip_book_pay', $whereData, $updatedata);
+                    }
+                    return $withdrawresult; 
+                }
+               return FALSE; 
+            }  
+            //$status=0 default deposits (or) from Withdrawal,
             $balance = 0;
             $frombalance = 0;
             $whereData = array('userid' => $makedata['userid']);

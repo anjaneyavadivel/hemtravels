@@ -61,6 +61,7 @@
                             <th>Shared To Mail	</th>
                             <th>Coupon Name</th>
                             <th>Status</th>
+                            <th>Action</th>
 
                         </tr>
                     </thead>
@@ -77,8 +78,6 @@
                                 $coupon_name = $row['coupon_name'];
                                 $status = $row['status'];
                                 $status_active = array('', 'new', 'Maked Trip', 'cancelled');
-                                $int = explode(",", $status);
-                                foreach ($int as $val) {
                                     ?>
                                     <tr>
                                         <td><?= $code; ?></td>
@@ -88,10 +87,15 @@
                                         <td><?= $email; ?></td>
                                         <td><?= $coupon_name; ?></td>
                                         <td><h4><?= $status_active[$val]; ?></h4></td>
-
+                                        <td>
+                                            <?php if($status==1){?>
+                                            <a href="<?=base_url()?>make-shared-trip/<?=$code?>" target="_new" class="btn btn-border btn-sm btn-primary">Make Trip</a>
+                                            <?php }if($loginuserid==$row['shared_user_id']){?>
+                                            <a href="<?=base_url()?>cancel-shared-trip/<?=$code?>" class="btn btn-border btn-sm btn-primary">Cancel</a>
+                                            <?php }?>
+                                        </td>
                                     </tr>
             <?php
-        }
     }
 }
 ?> 

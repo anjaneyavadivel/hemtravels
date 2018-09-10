@@ -177,47 +177,52 @@
                                 <a href="shared_trips.html">View All<i class="ion-android-arrow-forward"></i></a></span>
                             <div class="tab-inner">
                                 <table class="table ">
-                                    <thead>
-                                        <tr>
-                                            <th>Shared Date</th>
-                                            <th>Shared By</th>
-                                            <th>Email of Vendor</th>
-                                            <th>Trip Tittle</th>
-                                            <th>Shared Status</th>
-                                            <th>Status</th>
-                                            <th>Actions</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr>
-                                            <td>10/Feb/2018</td>
-                                            <td>Sam</td>
-                                            <td>sam@gmail.com</td>
-                                            <td class="text-primary">Cycling</td>
-                                            <td><h4 class="text-info">Active</h4></td>
-                                            <td><h4 class="text-info">New</h4></td>
-                                            <td><a href="view.html" class="btn btn-sm btn-primary btn-border">View</a>
-                                                <a href="create_vendors_trip.html" class="btn btn-sm btn-primary btn-border">Make Trip</a></td>
-                                        </tr>
-                                        <tr>
-                                            <td>10/Feb/2018</td>
-                                            <td>Sam</td>
-                                            <td>sam@gmail.com</td>
-                                            <td class="text-primary">Cycling</td>
-                                            <td><h4 class="text-danger">Deactive</h4></td>
-                                            <td><h4 class="text-info">New</h4></td>
-                                            <td><a href="view.html" class="btn btn-sm btn-primary btn-border">View</a></td>
-                                        </tr>
-                                        <tr>
-                                            <td>10/Feb/2018</td>
-                                            <td>Sam</td>
-                                            <td>sam@gmail.com</td>
-                                            <td class="text-primary">Cycling</td>
-                                            <td><h4 class="text-info">Active</h4></td>
-                                            <td><h4 class="text-color-02">Maked Trip</h4></td>
-                                            <td><a href="view.html" class="btn btn-sm btn-primary btn-border">View</a></td>
-                                        </tr>
-                                    </tbody>
+                                   <thead>
+                        <tr>
+                            <th>Code</th>
+                            <th>Trip Name</th>
+                            <th>Shared By</th>
+                            <th>Shared To</th>
+                            <th>Shared To Mail	</th>
+                            <th>Coupon Name</th>
+                            <th>Status</th>
+                            <th>Action</th>
+
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php
+                        if (isset($sharedtriplist) && count($sharedtriplist) > 0) {
+                            $i = 1;
+                            foreach ($sharedtriplist as $row) {
+                                $code = $row['code'];
+                                $trip_name = $row['trip_name'];
+                                $sharedusername = $row['sharedusername'];
+                                $tousername = $row['tousername'];
+                                $email = $row['email'];
+                                $coupon_name = $row['coupon_name'];
+                                $status = $row['status'];
+                                $status_active = array('', 'new', 'Maked Trip', 'cancelled');
+                                    ?>
+                                    <tr>
+                                        <td><?= $code; ?></td>
+                                        <td><?= $trip_name; ?></td>
+                                        <td><?= $sharedusername; ?></td>
+                                        <td><?= $tousername; ?></td>
+                                        <td><?= $email; ?></td>
+                                        <td><?= $coupon_name; ?></td>
+                                        <td><h4><?= $status_active[$val]; ?></h4></td>
+                                        <td>
+                                            <?php if($status==1){?>
+                                            <a href="<?=base_url()?>make-shared-trip/<?=$code?>" target="_new" class="btn btn-border btn-sm btn-primary">Make Trip</a>
+                                            <?php }?>
+                                        </td>
+                                    </tr>
+            <?php
+    }
+}
+?> 
+                    </tbody>
                                 </table>
                             </div>
 

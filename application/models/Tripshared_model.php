@@ -17,6 +17,12 @@ class Tripshared_model extends CI_Model
         if(isset($whereData['status']) && $whereData['status']!=''){
             $this->db->where('ts.status',$whereData['status']);
         }
+        if(isset($whereData['loginuserid']) && $whereData['loginuserid']!=''){
+              $this->db->where('(tm.shared_user_id IN ('.$this->db->escape_like_str($whereData['loginuserid']).') OR ts.user_id IN('.$this->db->escape_like_str($whereData['loginuserid']).'))');
+        }
+        if(isset($whereData['isactive']) && $whereData['isactive']!=''){
+            $this->db->where('ts.isactive',$whereData['isactive']);
+        }
         $this->db->limit($limit, $start);
         $query = $this->db->get();
         return $query->result_array();
@@ -35,6 +41,12 @@ class Tripshared_model extends CI_Model
         }
         if(isset($whereData['status']) && $whereData['status']!=''){
             $this->db->where('ts.status',$whereData['status']);
+        }
+        if(isset($whereData['isactive']) && $whereData['isactive']!=''){
+            $this->db->where('ts.isactive',$whereData['isactive']);
+        }
+        if(isset($whereData['loginuserid']) && $whereData['loginuserid']!=''){
+              $this->db->where('(tm.shared_user_id IN ('.$this->db->escape_like_str($whereData['loginuserid']).') OR ts.user_id IN('.$this->db->escape_like_str($whereData['loginuserid']).'))');
         }
         $query = $this->db->get();
         return $query->num_rows();

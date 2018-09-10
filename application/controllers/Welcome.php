@@ -34,6 +34,8 @@ class Welcome extends CI_Controller {
             $where = array('tm.isactive' => 1, 'tm.user_id' => $loginuserid);
             $limit = 2;
             $data['all_booking_list'] = $this->Welcome_model->get_tripbooking_list($where, $limit);
+            $whereData = array('isactive' => 1);
+            $data["sharedtriplist"] = $this->Tripshared_model->trip_list($whereData, $config["per_page"], $page);
             //$data['trip_list']=$this->Welcome_model->get_list($where);
             $this->load->view('welcome_b2b', $data);
         } else {

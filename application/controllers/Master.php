@@ -423,22 +423,7 @@ class Master extends CI_Controller {
     }
     public function mypayment() {
         $this->load->helper('custom_helper');
-        //Cash Deposited
-//        $paymentdata = array(
-//        'userid' => 1,
-//        'transaction_notes' => 'Cash Deposited',
-//        'deposits' => 500,
-//        'status' => 2);
-//        make_mypayment($paymentdata);
-        
-        //Cash Withdrawal
-//        $paymentdata = array(
-//        'userid' => 1,
-//        'transaction_notes' => 'Cash Withdrawal',
-//        'withdrawals' => 250,
-//        'status' => 2);
-//        make_mypayment($paymentdata);
-        
+         
        // withdrawal Request
 //        $paymentdata = array(
 //        'userid' => 1,
@@ -446,12 +431,40 @@ class Master extends CI_Controller {
 //        'withdrawal_request_amt' => 250,
 //        'b2b_pay_account_info' => 1,
 //        'status' => 0);
-//        make_mypayment($paymentdata);
+//        //$status = 1 withdrawal Request, 2 withdrawal
+//        make_mypayment($paymentdata, 1);
+//        
+//        // withdrawal
+//        $paymentdata = array(
+//        'userid' => 1,
+//        'transaction_notes' => 'Cash Withdrawal',
+//        'withdrawals' => 250,
+//        'withdrawal_notes' => "We are transfted",
+//        'withdrawal_paid_on' => "10-09-2018",
+//        'b2b_pay_account_info' => 1,
+//        'status' => 2,
+//        'withdrawal_request_id' => 6); // withdrawal_request_id - id in my_transaction table
+//        //$status = 1 withdrawal Request, 2 withdrawal
+//        make_mypayment($paymentdata, 2);
         
         // ticket book B2c to Admin
+        
+      //  Cash Deposited
+//        $paymentdata = array(
+//        'userid' => 1,
+//        'transaction_notes' => 'Cash Deposited',
+//        'from_userid' => -1,
+//        'book_pay_id' => 0,
+//        'book_pay_details_id' => 0,
+//        'pnr_no' => '',
+//        'trip_id' => 0,
+//        'deposits' => 3098,
+//        'status' => 2);
+//        make_mypayment($paymentdata);
+//        
 //        $paymentdata = array(
 //        'userid' => 0,
-//        'transaction_notes' => 'Trip booked PNR826YTZGV / TRIPFGSbgNw / North Goa Sightseeing Full Day Tour',
+//        'transaction_notes' => 'Trip has been booked PNR826YTZGV / TRIPFGSbgNw / North Goa Sightseeing Full Day Tour',
 //        'book_pay_id' => 1,
 //        'book_pay_details_id' => 0,
 //        'pnr_no' => 'PNR826YTZGV',
@@ -462,17 +475,17 @@ class Master extends CI_Controller {
 //        make_mypayment($paymentdata);
         
         // ticket book Admin to b2b
-        $paymentdata = array(
-        'userid' => 3,
-        'transaction_notes' => 'Trip booked PNR826YTZGV / TRIPFGSbgNw / North Goa Sightseeing Full Day Tour',
-        'book_pay_id' => 1,
-        'book_pay_details_id' => 1,
-        'pnr_no' => 'PNR826YTZGV',
-        'from_userid' => 0,  // default -1
-        'trip_id' => 1,
-        'deposits' => 3036,
-        'status' => 2);
-        make_mypayment($paymentdata);
+//        $paymentdata = array(
+//        'userid' => 3,
+//        'transaction_notes' => 'Trip has been booked PNR826YTZGV / TRIPFGSbgNw / North Goa Sightseeing Full Day Tour',
+//        'book_pay_id' => 1,
+//        'book_pay_details_id' => 1,
+//        'pnr_no' => 'PNR826YTZGV',
+//        'from_userid' => 0,  // default -1
+//        'trip_id' => 1,
+//        'deposits' => 3036,
+//        'status' => 2);
+//        make_mypayment($paymentdata);
         
       // echo checkbal_mypayment(1,2);
         
