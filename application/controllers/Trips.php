@@ -701,13 +701,15 @@ class Trips extends CI_Controller {
     }
     
     public function trip_calendar_view($tripCode = null) {
-        if ($this->session->userdata('user_type') != 'SA'&& $this->session->userdata('user_type')!='VA' && $this->session->userdata('user_id') == '') {redirect('login');}
+        if ($this->session->userdata('user_type') != 'SA' && $this->session->userdata('user_type')!='VA' && $this->session->userdata('user_id') == '') {redirect('login');}
         
         $data  = $this->getTripDetails($tripCode); 
         $data['review_count'] = 0;
         if(isset($data['details']['id'])){ 
             $data['review_count'] = $this->Trip_model->getTotalReview($data['details']['id']);
         }
+        
+        $this->session->set_userdata('show_calendar_trip', $tripCode);
         
         $this->load->view('trip/trip-calendar-view',$data);
     }
@@ -719,7 +721,10 @@ class Trips extends CI_Controller {
                  FROM `trip_book_pay` as tb 
                  INNER JOIN trip_master as tm ON tm.id = tb.trip_id 
                  where tb.status NOT IN(1,3)
-                 and tm.user_id = {$this->session->userdata('user_id')} and tb.isactive = 1 GROUP by tb.date_of_trip");
+                    and tm.user_id   = {$this->session->userdata('user_id')} "
+                 . "and tm.trip_code = '{$this->session->userdata('show_calendar_trip')}' "
+                 . "and tb.isactive  = 1 "
+                . "GROUP by tb.date_of_trip");
         
         $result = $query->result_array(); //echo "<pre>";print_r($result);exit;
         $re_json = [];
