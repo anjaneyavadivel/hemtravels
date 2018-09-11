@@ -103,3 +103,5 @@ ALTER TABLE `trip_master` DROP `other_setting`, DROP `other_from_date`, DROP `ot
 ALTER TABLE `trip_master` ADD `booking_max_cut_of_month` INT(5) NOT NULL DEFAULT '12' AFTER `booking_cut_of_time`;
 my_transaction
 trip_shared
+ALTER TABLE `trip_book_pay` ADD `date_of_trip_to` DATE NULL AFTER `date_of_trip`;
+ALTER TABLE `trip_book_pay_details` ADD `date_of_trip_to` DATE NULL AFTER `date_of_trip`;
