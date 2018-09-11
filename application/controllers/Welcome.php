@@ -22,7 +22,9 @@ class Welcome extends CI_Controller {
             $data['tripcategory_list'] = $this->Welcome_model->get_tripcategory_list($where, $limit);
             $this->load->view('welcome_b2a', $data);
         } else if ($this->session->userdata('user_type') == 'VA') {
+            $this->load->model('Tripshared_model');	
             $loginuserid = $this->session->userdata('user_id');
+             $data["loginuserid"] = $loginuserid;
             $where = array('tm.isactive' => 1, 'tm.user_id' => $loginuserid);
             $limit = 8;
             $data['trippost_list'] = $this->Welcome_model->get_trip_list($where, $limit);
@@ -34,8 +36,8 @@ class Welcome extends CI_Controller {
             $where = array('tm.isactive' => 1, 'tm.user_id' => $loginuserid);
             $limit = 2;
             $data['all_booking_list'] = $this->Welcome_model->get_tripbooking_list($where, $limit);
-            $whereData = array('isactive' => 1);
-            $data["sharedtriplist"] = $this->Tripshared_model->trip_list($whereData, $config["per_page"], $page);
+            $whereData = array('loginuserid' => $loginuserid,'isactive' => 1);
+            $data["sharedtriplist"] = $this->Tripshared_model->trip_list($whereData, 5, 0);
             //$data['trip_list']=$this->Welcome_model->get_list($where);
             $this->load->view('welcome_b2b', $data);
         } else {

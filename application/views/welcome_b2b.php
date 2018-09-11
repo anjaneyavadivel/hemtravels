@@ -156,7 +156,7 @@
                                             <td><?=$total_booking; ?></td>
                                             <td><h4 class="text-info"><?=$status_active[$val]; ?></h4></td>
                                             <td>
-                                                <a href="view.html" class="btn btn-sm btn-primary btn-border "><i class="ion-eye"></i> View</a>
+                                                <a href="<?=base_url()?>trip-view/<?=$row['trip_code']?>" class="btn btn-sm btn-primary btn-border "><i class="ion-eye"></i> View</a>
                                                 <a class="btn btn-primary btn-sm btn-border" data-toggle="modal" href="#share"   data-toggle="tooltip" data-placement="top" data-original-title="Share Trip to other vendor"><i class="ion-android-share"></i> Share</a>
                                             </td>
                                         </tr>
@@ -180,11 +180,11 @@
                                    <thead>
                         <tr>
                             <th>Code</th>
-                            <th>Trip Name</th>
+<!--                            <th>Trip Name</th>-->
                             <th>Shared By</th>
                             <th>Shared To</th>
                             <th>Shared To Mail	</th>
-                            <th>Coupon Name</th>
+<!--                            <th>Coupon Name</th>-->
                             <th>Status</th>
                             <th>Action</th>
 
@@ -206,15 +206,17 @@
                                     ?>
                                     <tr>
                                         <td><?= $code; ?></td>
-                                        <td><?= $trip_name; ?></td>
+<!--                                        <td><?= $trip_name; ?></td>-->
                                         <td><?= $sharedusername; ?></td>
                                         <td><?= $tousername; ?></td>
                                         <td><?= $email; ?></td>
-                                        <td><?= $coupon_name; ?></td>
+<!--                                        <td><?= $coupon_name; ?></td>-->
                                         <td><h4><?= $status_active[$val]; ?></h4></td>
                                         <td>
-                                            <?php if($status==1){?>
+                                            <?php if($status==1 && $loginuserid==$row['user_id']){?>
                                             <a href="<?=base_url()?>make-shared-trip/<?=$code?>" target="_new" class="btn btn-border btn-sm btn-primary">Make Trip</a>
+                                            <?php }if($loginuserid==$row['shared_user_id']){?>
+                                            <a href="<?=base_url()?>cancel-shared-trip/<?=$code?>" class="btn bt btn-border btn-sm btn-primary">Cancel</a>
                                             <?php }?>
                                         </td>
                                     </tr>

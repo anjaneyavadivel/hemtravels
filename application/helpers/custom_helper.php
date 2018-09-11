@@ -27,7 +27,7 @@ if (!function_exists('profile_pic')) {
         if (trim($image) != "" && file_exists(FCPATH . "profile/$image")) {
             return base_url() . "profile/$image";
         } else {
-            return base_url() . "profile/noprofile.png";
+            return base_url() . "assets/images/man/01.jpg";
         }
     }
 

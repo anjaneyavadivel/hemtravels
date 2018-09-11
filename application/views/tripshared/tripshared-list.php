@@ -81,14 +81,14 @@
                                     ?>
                                     <tr>
                                         <td><?= $code; ?></td>
-                                        <td><?= $trip_name; ?></td>
-                                        <td><?= $sharedusername; ?></td>
-                                        <td><?= $tousername; ?></td>
+                                        <td><a href="<?=base_url()?>trip-view/<?=$row['trip_code']?>" target="_new" class=""><?= $trip_name; ?></a></td>
+                                        <td><a href="<?=base_url()?>profile/<?=$row['shared_user_id']?>" target="_new" class=""><?= $sharedusername; ?></a></td>
+                                        <td><a href="<?=base_url()?>profile/<?=$row['user_id']?>" target="_new" class=""><?= $tousername; ?></a></td>
                                         <td><?= $email; ?></td>
                                         <td><?= $coupon_name; ?></td>
-                                        <td><h4><?= $status_active[$val]; ?></h4></td>
+                                        <td><h4><?= $status_active[$status]; ?></h4></td>
                                         <td>
-                                            <?php if($status==1){?>
+                                            <?php if($status==1 && $loginuserid==$row['user_id']){?>
                                             <a href="<?=base_url()?>make-shared-trip/<?=$code?>" target="_new" class="btn btn-border btn-sm btn-primary">Make Trip</a>
                                             <?php }if($loginuserid==$row['shared_user_id']){?>
                                             <a href="<?=base_url()?>cancel-shared-trip/<?=$code?>" class="btn btn-border btn-sm btn-primary">Cancel</a>

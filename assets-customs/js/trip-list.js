@@ -120,12 +120,16 @@ jQuery(function($) {
                                                     '<a href="'+base_url+'trips/update/'+data.trip_code+'" class="btn btn-info btn-sm">Edit</a>'+
                                                     '<a href="javascript:;" class="btn btn-danger btn-sm tripDelete" data-id="'+data.id+'">Delete</a>'+
                                                 '</div>'+
-                                                '<div class="trip-by pt-5"><a href="'+base_url+'trip-calendar-view/'+data.trip_code+'"><span class="text-primary font22 font700 mb-1">'+data.total_booking+'</span> Booking List</a></div>';
+                                                //'<div class="trip-by pt-5"><a href="'+base_url+'trip-calendar-view/'+data.trip_code+'"><span class="text-primary font22 font700 mb-1">'+data.total_booking+'</span> Booking List</a></div>';
+                                                '<div class="trip-by pt-5"><a href="'+base_url+'trip-calendar-view/'+data.trip_code+'">Month View</a></div>';
                                 }
                                 
                                 //OFFER DETAILS
                                 var price = data.offer_details.price_to_child > 0 ?data.offer_details.price_to_child:data.offer_details.price_to_adult;
-                                if(price==undefined){price = data.price_to_child;}
+                                
+                                if(price == undefined){
+                                    price = data.price_to_child > 0 ? data.price_to_child:data.price_to_adult;
+                                }
                                 var offer_details = '<div class="price">'+
                                                         '<span class="">'+price+'</span>'+                                        
                                                     '</div>';

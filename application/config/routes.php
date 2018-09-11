@@ -62,7 +62,8 @@ $route['gmail'] = 'api/gmail';
 $route['fb'] = 'api/fb';
 
 $route['update-profile'] = 'Loginview/update_profile';
-$route['my-profile'] = 'Loginview/profile';
+$route['profile'] = 'Loginview/profile';
+$route['profile/(:num)'] = 'Loginview/profile/$1';
 $route['account-details'] = 'Loginview/account_details';
 $route['change-password'] = 'Loginview/change_password';
 $route['my-post'] = 'Loginview/my_post';

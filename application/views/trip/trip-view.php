@@ -29,12 +29,19 @@
 
                                                 <h2 id="tripName"><?php echo isset($details['trip_name'])?$details['trip_name']:'';?></h2>
                                                 <p style="margin-bottom: 0;">
-                                                    <?php if(isset($pickups) && count($pickups) > 0) {
-                                                        foreach($pickups as $v){
-                                                            echo '<i class="fa fa-map-marker text-center"></i>  '.$v['location'].'&nbsp;';
-                                                        }
+                                                    <?php if(isset($pickups) && count($pickups) > 0 && isset($pickups[0]['location'])) {
+                                                            echo '<i class="fa fa-map-marker text-primary"></i>  '.$pickups[0]['location'].'&nbsp;';
                                                     }?>
-                                                </p>   
+                                                </p>
+                                                <?php if(isset($pickups) && count($pickups) > 0) {
+                                                    echo '<ul class="list-with-icon list-inline-block" style="margin: 0px;">';
+                                                    foreach($pickups as $k=>$v){
+                                                        if($k != 0){
+                                                            echo '<i class="fa fa-map-marker text-primary"></i>  '.$v['location'].'&nbsp;';
+                                                        }
+                                                    }
+                                                    echo '</ul>';
+                                                }?>
                                                 <?php 
                                                     if(isset($details['trip_duration']) && $details['trip_duration'] == '2' && isset($details['how_many_days']) && isset($details['how_many_nights'])){
                                                         echo '<p style="margin-bottom: 0;"><i class="far fa-sun text-center"></i> '.$details['how_many_days'].' Days <span class="mh-5 text-muted">|</span><i class="far fa-moon text-center"></i> '.$details['how_many_nights'].' Nights</p> ';

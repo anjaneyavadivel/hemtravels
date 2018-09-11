@@ -1,13 +1,17 @@
 <?php $this->load->view('includes/header')?>
-<?php $this->load->view('user/side_bar');$v=$view->row();?>
+<?php  
+$data['view'] =$view;
+$data['loginuserid'] =$loginuserid;
+		$data['profile_id'] =$profile_id;
+$this->load->view('user/side_bar',$data);$v=$view->row();?>
 <div class="col-xs-12 col-sm-8 col-md-9">
 						
 							<div class="dashboard-wrapper">
 							<h4 class="section-title">Profile:</h4>
-							
+							<?php if ($v->about_me!='') { ?>
 							<p class="lead"><?php echo $v->about_me?></p>
-							
 							<div class="bt mt-30 mb-30"></div>
+                                                        <?php } ?>
 							
 							<ul class="featured-list-with-h">
 							

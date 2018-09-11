@@ -260,7 +260,10 @@
                                                 <p><strong>From Date:</strong> <span class="text-muted"><?php echo isset($from_date)?$from_date:''?></span></p>
                                             </div>
                                               <div class="col-xs-6 col-sm-6 col-md-6 no-padding mb-5">
-                                                <p><strong>To Date:</strong> <span class="text-muted"><?php echo isset($from_date)?$from_date:''?></span></p>
+                                                  <?php $add_days = isset($details['how_many_days'])?$details['how_many_days']:0;
+                                                  $to_date = date("M d, Y", strtotime("+".$add_days." days", strtotime($from_date)));
+                                                  ?>
+                                                <p><strong>To Date:</strong> <span class="text-muted"><?php echo isset($to_date)?$to_date:''?></span></p>
                                             </div>
                                           
                                         </li>
@@ -430,7 +433,7 @@
                                         <button class="btn btn-facebook btn-block mb-5-xs">Register with Facebook</button>
                                     </div>
                                     <div class="col-sm-6 col-md-6">
-                                        <button class="btn btn-google-plus btn-block">Register with Google+</button>
+                                        <a  href="<?php echo base_url('gmail'); ?>" class="btn btn-google-plus btn-block">Register with Google+</a>
                                     </div>
 
                                     <div class="col-md-12">

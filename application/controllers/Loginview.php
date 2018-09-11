@@ -26,13 +26,18 @@ class Loginview extends CI_Controller {
 			return false;
 		}
 	}
-	public function profile()
+	public function profile($profile_id='')
 	{
 		$this->login_verfy();
 		$user_id = $this->session->userdata('user_id');
-		$data['view'] = $this->user_model->select('user_master',array('id'=>$user_id));
+                $this->load->helper('custom_helper');
+                if($profile_id==''){$profile_id=$user_id;}
+		$data['view'] = $this->user_model->select('user_master',array('id'=>$profile_id));
 		if($data['view']->num_rows()==0)
 			redirect('login/logout');
+                
+		$data['loginuserid'] =$user_id;
+		$data['profile_id'] =$profile_id;
 		$this->load->view('user/profile',$data);
 	}
 	public function update_profile()
