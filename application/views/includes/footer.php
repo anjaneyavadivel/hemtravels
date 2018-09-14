@@ -359,7 +359,7 @@
     <script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=false"></script>
     <script type="text/javascript" src="<?php echo base_url()?>assets/js/infobox.js"></script>
 <!--    <script type="text/javascript" src="<?php echo base_url()?>assets/js/validator.min.js"></script>-->
-    <script type="text/javascript" src="<?php echo base_url()?>assets/js/customs-contact.js"></script>
+<!--    <script type="text/javascript" src="<?php echo base_url()?>assets/js/customs-contact.js"></script>-->
 <?php }?>
 <?php if($url=='make-new-trip'  || $url=='trips' || $url=='make-shared-trip'){?>
     <script type="text/javascript" src="<?php echo base_url()?>assets/js/bootstrap-tokenfield.js"></script>
@@ -623,10 +623,10 @@
 <script type="text/javascript" src="<?=base_url();?>assets-customs/js/contact-us.js"></script>
 <script>
 	jQuery(document).ready(function() {  
-		FormValidation.init();
+		MasterValidation.init();
 	 });
 
  <?php } ?>
-    <script> setTimeout(function(){$(".alert").fadeOut(400);}, 5000)</script>
+    setTimeout(function(){$(".alert").fadeOut(400);}, 5000)</script>
 </body>
 </html>

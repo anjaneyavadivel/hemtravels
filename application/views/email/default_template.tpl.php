@@ -36,7 +36,7 @@
                             <table  style="width: 100%; border-spacing: 0; padding: 0 50px;">
                                 <tr>
                                     <td align="left">
-                                        <h2 class="welcme_user" style="font-weight: 200;font-size:16px; margin: 25px 0; color: #333;">Hi <?= ucwords($tousername)?>,</h2>
+                                        <h2 class="welcme_user" style="font-weight: 200;font-size:16px; margin: 25px 0; color: #333;">Dear <?= ucwords($tousername)?>,</h2>
                                         <div class="border_bottom" style="border-bottom: 1px solid #eee; margin: 0px auto;"></div>
                                         <!-- /hero -->
                                     </td>

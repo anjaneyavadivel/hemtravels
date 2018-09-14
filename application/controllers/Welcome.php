@@ -137,16 +137,13 @@ class Welcome extends CI_Controller {
     }
 
     public function contact_add() {
-        if ($this->session->userdata('user_id') == '') {
-            redirect('login');
-        }
         if ($_POST) {
             $name = trim($this->input->post('name'));
             $email = trim($this->input->post('email'));
             $subject = trim($this->input->post('subject'));
             $message = trim($this->input->post('message'));
 
-            $this->form_validation->set_rules('name', 'name', 'trim|required|max_length[150]');
+            $this->form_validation->set_rules('name', 'name', 'trim|required|max_length[100]');
             $this->form_validation->set_rules('email', 'email', 'trim|required');
             $this->form_validation->set_rules('subject', 'subject', 'trim|required|max_length[150]');
             $this->form_validation->set_rules('message', 'message', 'trim|required');
@@ -158,17 +155,31 @@ class Welcome extends CI_Controller {
                     'id' => $this->input->post('id'),
                     'name' => $this->input->post('name'),
                     'email' => $this->input->post('email'),
+                    'phone_number' => $this->input->post('phone_number'),
                     'subject' => $this->input->post('subject'),
                     'message' => $this->input->post('message'),
                 );
                 $id = $this->Welcome_model->contact_insert($data);
                 if ($id > 0) {
-                    $error = $this->session->set_userdata('suc', 'Successfullly send mail, Our representative will contact you shortly...');
-                }
+                    //$toemail='anjaneyavadivel@gmail.com';
+                    $toemail=admin_email;
+                    $subject=$this->input->post('subject').' from contact us/'.site_title;
+                    $message='Name: '.$this->input->post('name').'<br>'.'Email: '.$this->input->post('email').'<br><br>'.$this->input->post('message');
+                    $mailData = array(
+                    'fromemail' => $this->input->post('email'),
+                    'toemail' => $toemail,
+                    'subject' => $subject,
+                    'message' => $message,
+                    //'othermsg' => ''
+                    );
 
-                redirect("contact-us");
+                    sendemail_personalmail($mailData);
+                    $error = $this->session->set_userdata('suc', 'Successfullly send mail, Our representative will contact you shortly...');
+                    return TRUE;
+                }
             }
-            redirect("contact-us");
+            $error = $this->session->set_userdata('suc', 'Successfullly send mail, Our representative will contact you shortly...');
+            return FALSE;
         }
     }
 

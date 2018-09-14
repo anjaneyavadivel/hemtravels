@@ -374,7 +374,13 @@ class Master extends CI_Controller {
 
     public function checkhelper() {
         $this->load->helper('custom_helper');
-        
+        $updatedata = array(
+                                    'payment_type' => 1,  // 1 - net, 2 - credit, 3 - debit
+                                    'payment_status' =>  1,
+                                    'status' =>  2); 
+
+                            trip_book_status_update($updatedata,'PNR01GLNGTR');
+                            exit();
 //        $toemail='anjaneyavadivel@gmail.com';
 //        $subject='Welcome to trip';
 //        $message='This is test msg';
@@ -388,7 +394,7 @@ class Master extends CI_Controller {
 //        );
 //        
 //        sendemail_personalmail($mailData);
-        
+//        exit();
 //        $tripid=2;
 //        $result = getallparenttrip($tripid);
 //        print_r($result);
@@ -402,13 +408,13 @@ class Master extends CI_Controller {
 //        if ($this->session->userdata('user_id') == '') {
 //            return FALSE;
 //        }
-        $offerdata=array(
-        'trip_id' => 1,
-        'date_of_trip' => "09-09-2018",
-        'ischeckadmin' => 1); 
-        $result = trip_offer($offerdata);
-        print_r($result);
-        exit();
+//        $offerdata=array(
+//        'trip_id' => 1,
+//        'date_of_trip' => "09-09-2018",
+//        'ischeckadmin' => 1); 
+//        $result = trip_offer($offerdata);
+//        print_r($result);
+//        exit();
 //        $bookdata=array(
 //        'trip_id' => 3,
 //        'book_user_id' => 1,

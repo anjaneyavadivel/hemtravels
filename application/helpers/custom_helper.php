@@ -353,7 +353,8 @@ if (!function_exists('trip_offer')) {
                     if ($parent_trip_id == 0) {
                         // root trip
                         if ($offer->type == 2) { // 2 - Set Trip Close Specific Day
-                            $result = array('is_open' => 0, 'message' => $offer->title, 'from_date' => formatdate($offer->from_date, $format = 'M d, Y'),
+                            $msg = 'Sorry, we could not proceed your request. '.$offer->title. ' from '.formatdate($offer->from_date, $format = 'M d, Y'). ' to '.formatdate($offer->to_date, $format = 'M d, Y');
+                            $result = array('is_open' => 0, 'message' => $msg, 'from_date' => formatdate($offer->from_date, $format = 'M d, Y'),
                                 'to_date' => formatdate($offer->to_date, $format = 'M d, Y'));
                             return $result;
                         }
@@ -513,7 +514,7 @@ if (!function_exists('trip_offer')) {
                 'final_price_to_adult' => $final_price_to_adult, 'final_price_to_child' => $final_price_to_child, 'final_price_to_infan' => $final_price_to_infan);
             return $result;
         }
-        $result = array('is_open' => 0, 'message' => 'Sorry! try again...', 'from_date' => '', 'to_date' => '');
+        $result = array('is_open' => 0, 'message' => 'Sorry, we could not proceed your request.please try again later!...', 'from_date' => '', 'to_date' => '');
         return $result;
     }
 
@@ -698,8 +699,8 @@ if (!function_exists('trip_book')) {
                     $servicecharge_amt = SERVICECHARGE_AMT;
                 }
                 $your_amt = (int) $net_price - (int) $servicecharge_amt;
-                $gst_amt = $your_amt * (GST_PERCENTAGE / 100);
-                $your_final_amt_temp = $your_amt + $gst_amt;
+                $gst_amt = (int)$your_amt * ((int)GST_PERCENTAGE / 100);
+                $your_final_amt_temp = (int)$your_amt + (int)$gst_amt;
                 $round_off = round($your_final_amt_temp) - ($your_final_amt_temp);
                 $your_final_amt = $round_off + $your_final_amt_temp;
 
@@ -909,7 +910,24 @@ if (!function_exists('trip_book_status_update')) {
             return FALSE;
         }
         if ((isset($updatedata['payment_type']) || isset($updatedata['payment_status']) || isset($updatedata['status'])) && $pnr_no != '') {
-
+            $whereData = array('pnr_no' => $pnr_no);
+            $trip_book_list = selectTable('trip_book_pay', $whereData);
+            if ($trip_book_list->num_rows() <1) {return FALSE; }
+            $row = $trip_book_list->row();
+            $book_pay_id = $row->id;
+            $user_id = $row->user_id;
+            $trip_id = $row->trip_id;
+            $net_price = $row->net_price;
+            $status = $row->status;
+            $payment_status = $row->payment_status;
+            
+            $whereData = array('id' => $trip_id);
+            $trip_list = selectTable('trip_master', $whereData);
+            if ($trip_list->num_rows() <1) {return FALSE; }
+            $row = $trip_list->row();
+            $trip_code = $row->trip_code;
+            $trip_name = $row->trip_name;
+            
             $whereData = array('pnr_no' => $pnr_no);
             $result = updateTable('trip_book_pay_details', $whereData, $updatedata);
 
@@ -917,9 +935,266 @@ if (!function_exists('trip_book_status_update')) {
             $result = updateTable('trip_book_pay', $whereData, $updatedata);
 
             if (isset($updatedata['status']) && isset($updatedata['payment_status']) && $updatedata['payment_status'] == 1 && $updatedata['status'] == 2) {
+                // ticket book B2c to Admin
+        
+                //  Cash Deposited
+                  $paymentdata = array(
+                  'userid' => $user_id,
+                  'transaction_notes' => 'Cash Deposited',
+                  'from_userid' => -1,
+                  'book_pay_id' => 0,
+                  'book_pay_details_id' => 0,
+                  'pnr_no' => '',
+                  'trip_id' => 0,
+                  'deposits' => $net_price,
+                  'status' => 2);
+                 // make_mypayment($paymentdata);
+                  
+                  $paymentdata = array(
+                  'userid' => 0,
+                  'transaction_notes' => 'Trip has been booked '.$pnr_no.' / '.$trip_code.' / '.$trip_name,
+                  'book_pay_id' => $book_pay_id,
+                  'book_pay_details_id' => 0,
+                  'pnr_no' => $pnr_no,
+                  'from_userid' => $user_id,
+                  'trip_id' => $trip_id,
+                  'deposits' => $net_price,
+                  'status' => 2);
+                 // make_mypayment($paymentdata);
+                  
+                 $pnrinfo = getpnrinfo($pnr_no); 
                 // TODO: need to send mail for pay sucess
+                 
+                 $subtotal_trip_price = $pnrinfo['subtotal_trip_price'].' ( ';
+                 if($pnrinfo['no_of_adult']>0){$subtotal_trip_price .= $pnrinfo['no_of_adult'].'*'.$pnrinfo['price_to_adult'];}
+                 if($pnrinfo['no_of_child']>0){$subtotal_trip_price .= ', '.$pnrinfo['no_of_child'].'*'.$pnrinfo['price_to_child'];} 
+                 if($pnrinfo['no_of_infan']>0){$subtotal_trip_price .= ', '.$pnrinfo['no_of_infan'].'*'.$pnrinfo['price_to_infan'];}
+                 $subtotal_trip_price .= ')';
+                $othermsg = '<tr>
+                                <td align="left" style="border-bottom: 1px solid #eee;">
+                                    <div class="f_img_div" style="width:35%; float:left;"><p class="welcome_description" style="color: #333;font-weight:bold; font-size: 16px;">PNR Number :</p></div>
+                                    <div class="f_content_div" style="width:65%; float:right;"><p class="f_content" style="padding-right: 20px; margin-bottom: 15px; line-height: 1.6; color: #333; font-size: 15px;">'.$pnrinfo['pnr_no'].' </p></div>
+                                </td>
+                            </tr><tr>
+                                <td align="left" style="border-bottom: 1px solid #eee;">
+                                    <div class="f_img_div" style="width:35%; float:left;"><p class="welcome_description" style="color: #333;font-weight:bold; font-size: 16px;">Trip Code :</p></div>
+                                    <div class="f_content_div" style="width:65%; float:right;"><p class="f_content" style="padding-right: 20px; margin-bottom: 15px; line-height: 1.6; color: #333; font-size: 15px;">'.$pnrinfo['trip_code'].' </p></div>
+                                </td>
+                            </tr><tr>
+                                <td align="left" style="border-bottom: 1px solid #eee;">
+                                    <div class="f_img_div" style="width:35%; float:left;"><p class="welcome_description" style="color: #333;font-weight:bold; font-size: 16px;">Trip Name :</p></div>
+                                    <div class="f_content_div" style="width:65%; float:right;"><p class="f_content" style="padding-right: 20px; margin-bottom: 15px; line-height: 1.6; color: #333; font-size: 15px;">'.$pnrinfo['trip_name'].' </p></div>
+                                </td>
+                            </tr><tr>
+                                <td align="left" style="border-bottom: 1px solid #eee;">
+                                    <div class="f_img_div" style="width:35%; float:left;"><p class="welcome_description" style="color: #333;font-weight:bold; font-size: 16px;">No Of Traveller :</p></div>
+                                    <div class="f_content_div" style="width:65%; float:right;"><p class="f_content" style="padding-right: 20px; margin-bottom: 15px; line-height: 1.6; color: #333; font-size: 15px;">'.$pnrinfo['number_of_persons'].' </p></div>
+                                </td>
+                            </tr><tr>
+                                <td align="left" style="border-bottom: 1px solid #eee;">
+                                    <div class="f_img_div" style="width:35%; float:left;"><p class="welcome_description" style="color: #333;font-weight:bold; font-size: 16px;">Amount :</p></div>
+                                    <div class="f_content_div" style="width:65%; float:right;"><p class="f_content" style="padding-right: 20px; margin-bottom: 15px; line-height: 1.6; color: #333; font-size: 15px;">'.$subtotal_trip_price.' </p></div>
+                                </td>
+                            </tr>';
+                            if($pnrinfo['offer_amt']!=0.00){
+                                $coupon_code='';
+                                if($pnrinfo['coupon_code']!=''){
+                                    $offer_type='';
+                                    if (strpos($pnrinfo['percentage_amount'], '.00') !== false) {
+                                        $pnrinfo['percentage_amount'] = round($pnrinfo['percentage_amount']);
+                                    }
+                                    if($pnrinfo['offer_type']==2){$offer_type='%';}
+                                    $coupon_code= '<br>'.$pnrinfo['coupon_code'].' ('.$pnrinfo['percentage_amount'].$offer_type.' OFF)'; 
+                                }
+                                $othermsg .= '<tr>
+                                    <td align="left" style="border-bottom: 1px solid #eee;">
+                                        <div class="f_img_div" style="width:35%; float:left;"><p class="welcome_description" style="color: #333;font-weight:bold; font-size: 16px;">Offer Amount :'.$coupon_code.'</p></div>
+                                        <div class="f_content_div" style="width:65%; float:right;"><p class="f_content" style="padding-right: 20px; margin-bottom: 15px; line-height: 1.6; color: #333; font-size: 15px;">'.$pnrinfo['offer_amt'].' </p></div>
+                                    </td>
+                                </tr>';
+                            }
+                            if($pnrinfo['gst_percentage']!=0){
+                                 $othermsg .= '<tr>
+                                    <td align="left" style="border-bottom: 1px solid #eee;">
+                                        <div class="f_img_div" style="width:35%; float:left;"><p class="welcome_description" style="color: #333;font-weight:bold; font-size: 16px;">GST Amount ('.$pnrinfo['gst_percentage'].'%) :</p></div>
+                                        <div class="f_content_div" style="width:65%; float:right;"><p class="f_content" style="padding-right: 20px; margin-bottom: 15px; line-height: 1.6; color: #333; font-size: 15px;">'.$pnrinfo['gst_amt'].' </p></div>
+                                    </td>
+                                </tr>';
+                            }
+                            if($pnrinfo['round_off']!=0){
+                                 $othermsg .= '<tr>
+                                    <td align="left" style="border-bottom: 1px solid #eee;">
+                                        <div class="f_img_div" style="width:35%; float:left;"><p class="welcome_description" style="color: #333;font-weight:bold; font-size: 16px;">Round Off :</p></div>
+                                        <div class="f_content_div" style="width:65%; float:right;"><p class="f_content" style="padding-right: 20px; margin-bottom: 15px; line-height: 1.6; color: #333; font-size: 15px;">'.$pnrinfo['round_off'].' </p></div>
+                                    </td>
+                                </tr>';
+                            }
+                            if($pnrinfo['net_price']!=0.00){
+                                 $othermsg .= '<tr>
+                                    <td align="left" style="border-bottom: 1px solid #eee;">
+                                        <div class="f_img_div" style="width:35%; float:left;"><p class="welcome_description" style="color: #333;font-weight:bold; font-size: 16px;">Paid Amount :</p></div>
+                                        <div class="f_content_div" style="width:65%; float:right;"><p class="f_content" style="padding-right: 20px; margin-bottom: 15px; line-height: 1.6; color: #333; font-size: 15px;">'.$pnrinfo['total_trip_price'].' </p></div>
+                                    </td>
+                                </tr>';
+                            }
+                            $othermsg .= '<tr>
+                                <td align="left" style="border-bottom: 1px solid #eee;">
+                                    <div class="f_img_div" style="width:35%; float:left;"><p class="welcome_description" style="color: #333;font-weight:bold; font-size: 16px;">Date of Trip :</p></div>
+                                    <div class="f_content_div" style="width:65%; float:right;"><p class="f_content" style="padding-right: 20px; margin-bottom: 15px; line-height: 1.6; color: #333; font-size: 15px;">'.$pnrinfo['date_of_trip'].' '.$pnrinfo['time_of_trip'].' </p></div>
+                                </td>
+                            </tr><tr>
+                                <td align="left" style="border-bottom: 1px solid #eee;">
+                                    <div class="f_img_div" style="width:35%; float:left;"><p class="welcome_description" style="color: #333;font-weight:bold; font-size: 16px;">Pick up location,<br>landmark :</p></div>
+                                    <div class="f_content_div" style="width:65%; float:right;"><p class="f_content" style="padding-right: 20px; margin-bottom: 15px; line-height: 1.6; color: #333; font-size: 15px;">'.$pnrinfo['pick_up_location'].', '.$pnrinfo['pick_up_location_landmark'].' </p></div>
+                                </td>
+                            </tr><tr>
+                                <td align="left" style="border-bottom: 1px solid #eee;">
+                                    <div class="f_img_div" style="width:35%; float:left;"><p class="welcome_description" style="color: #333;font-weight:bold; font-size: 16px;">Date of Trip End :</p></div>
+                                    <div class="f_content_div" style="width:65%; float:right;"><p class="f_content" style="padding-right: 20px; margin-bottom: 15px; line-height: 1.6; color: #333; font-size: 15px;">'.$pnrinfo['date_of_trip_to'].' </p></div>
+                                </td>
+                            </tr>';
+                            if($pnrinfo['total_days']>0){
+                                $how_many_nights='';
+                                if($pnrinfo['how_many_nights']>0){ $how_many_nights=$pnrinfo['how_many_nights']. 'night(s)'; }
+                                 $othermsg .= '<tr>
+                                    <td align="left" style="border-bottom: 1px solid #eee;">
+                                        <div class="f_img_div" style="width:35%; float:left;"><p class="welcome_description" style="color: #333;font-weight:bold; font-size: 16px;">Total Days :</p></div>
+                                        <div class="f_content_div" style="width:65%; float:right;"><p class="f_content" style="padding-right: 20px; margin-bottom: 15px; line-height: 1.6; color: #333; font-size: 15px;">'.$pnrinfo['how_many_days'].' day(s), '.$how_many_nights.'</p></div>
+                                    </td>
+                                </tr>';
+                            }
+                            if($pnrinfo['how_many_hours']>0){
+                                 $othermsg .= '<tr>
+                                    <td align="left" style="border-bottom: 1px solid #eee;">
+                                        <div class="f_img_div" style="width:35%; float:left;"><p class="welcome_description" style="color: #333;font-weight:bold; font-size: 16px;">Total Hours :</p></div>
+                                        <div class="f_content_div" style="width:65%; float:right;"><p class="f_content" style="padding-right: 20px; margin-bottom: 15px; line-height: 1.6; color: #333; font-size: 15px;">'.$pnrinfo['how_many_hours'].' </p></div>
+                                    </td>
+                                </tr>';
+                            }
+                            if($pnrinfo['languages']>0){
+                                 $othermsg .= '<tr>
+                                    <td align="left" style="border-bottom: 1px solid #eee;">
+                                        <div class="f_img_div" style="width:35%; float:left;"><p class="welcome_description" style="color: #333;font-weight:bold; font-size: 16px;">Languages :</p></div>
+                                        <div class="f_content_div" style="width:65%; float:right;"><p class="f_content" style="padding-right: 20px; margin-bottom: 15px; line-height: 1.6; color: #333; font-size: 15px;">'.$pnrinfo['languages'].' </p></div>
+                                    </td>
+                                </tr>';
+                            }
+                            if($pnrinfo['meal']>0){
+                                 $othermsg .= '<tr>
+                                    <td align="left" style="border-bottom: 1px solid #eee;">
+                                        <div class="f_img_div" style="width:35%; float:left;"><p class="welcome_description" style="color: #333;font-weight:bold; font-size: 16px;">Meals :</p></div>
+                                        <div class="f_content_div" style="width:65%; float:right;"><p class="f_content" style="padding-right: 20px; margin-bottom: 15px; line-height: 1.6; color: #333; font-size: 15px;">'.$pnrinfo['meal'].' </p></div>
+                                    </td>
+                                </tr>';
+                            }
+                            $othermsg .= '<tr>
+                                <td align="left" style="border-bottom: 1px solid #eee;">
+                                    <div class="f_img_div" style="width:35%; float:left;"><p class="welcome_description" style="color: #333;font-weight:bold; font-size: 16px;">Billing By :</p></div>
+                                    <div class="f_content_div" style="width:65%; float:right;"><p class="f_content" style="padding-right: 20px; margin-bottom: 15px; line-height: 1.6; color: #333; font-size: 15px;">'.$pnrinfo['bookedby'].' </p></div>
+                                </td>
+                            </tr><tr>
+                                <td align="left" style="border-bottom: 1px solid #eee;">
+                                    <div class="f_img_div" style="width:35%; float:left;"><p class="welcome_description" style="color: #333;font-weight:bold; font-size: 16px;">Billing Email :</p></div>
+                                    <div class="f_content_div" style="width:65%; float:right;"><p class="f_content" style="padding-right: 20px; margin-bottom: 15px; line-height: 1.6; color: #333; font-size: 15px;">'.$pnrinfo['bookedby_contactemail'].' </p></div>
+                                </td>
+                            </tr><tr>
+                                <td align="left" style="border-bottom: 1px solid #eee;">
+                                    <div class="f_img_div" style="width:35%; float:left;"><p class="welcome_description" style="color: #333;font-weight:bold; font-size: 16px;">Phone Number :</p></div>
+                                    <div class="f_content_div" style="width:65%; float:right;"><p class="f_content" style="padding-right: 20px; margin-bottom: 15px; line-height: 1.6; color: #333; font-size: 15px;">'.$pnrinfo['bookedby_contactno'].' </p></div>
+                                </td>
+                            </tr><tr>
+                                <td align="left" style="border-bottom: 1px solid #eee;">
+                                    <div class="f_img_div" style="width:35%; float:left;"><p class="welcome_description" style="color: #333;font-weight:bold; font-size: 16px;">Booked on :</p></div>
+                                    <div class="f_content_div" style="width:65%; float:right;"><p class="f_content" style="padding-right: 20px; margin-bottom: 15px; line-height: 1.6; color: #333; font-size: 15px;">'.$pnrinfo['booked_on'].' </p></div>
+                                </td>
+                            </tr>';
+                            if($pnrinfo['brief_description']!=''){
+                            $othermsg .= '<tr>
+                                    <td align="left" style="border-bottom: 1px solid #eee;padding-top:40px;">
+                                        <div class="f_img_div" style="width:100%; float:left;"><p class="welcome_description" style="color: #333;font-weight:bold; font-size: 22px;">Brief Description</p></div>
+
+                                    </td>
+                                </tr> 
+                                <tr style=" line-height: 1.6; color: #333; font-size: 15px;">
+                                    <td align="left" style="border-bottom: 1px solid #eee;">
+                                        <p>'.html_entity_decode($pnrinfo['brief_description']).'</p>
+
+                                    </td>
+                                </tr>';
+                            }
+                            if($pnrinfo['confirmation_policy']!=''){
+                            $othermsg .= '<tr>
+                                    <td align="left" style="border-bottom: 1px solid #eee;padding-top:40px;">
+                                        <div class="f_img_div" style="width:100%; float:left;"><p class="welcome_description" style="color: #333;font-weight:bold; font-size: 22px;">Confirmation Policy</p></div>
+
+                                    </td>
+                                </tr> 
+                                <tr style=" line-height: 1.6; color: #333; font-size: 15px;">
+                                    <td align="left" style="border-bottom: 1px solid #eee;">
+                                        <p>'.html_entity_decode($pnrinfo['confirmation_policy']).'</p>
+
+                                    </td>
+                                </tr>';
+                            }
+                            if($pnrinfo['cancellation_policy']!=''){
+                            $othermsg .= '<tr>
+                                    <td align="left" style="border-bottom: 1px solid #eee;padding-top:40px;">
+                                        <div class="f_img_div" style="width:100%; float:left;"><p class="welcome_description" style="color: #333;font-weight:bold; font-size: 22px;">Cancellation Policy</p></div>
+
+                                    </td>
+                                </tr> 
+                                <tr style=" line-height: 1.6; color: #333; font-size: 15px;">
+                                    <td align="left" style="border-bottom: 1px solid #eee;">
+                                        <p>'.html_entity_decode($pnrinfo['cancellation_policy']).'</p>
+
+                                    </td>
+                                </tr>';
+                            }
+                            if($pnrinfo['refund_policy']!=''){
+                            $othermsg .= '<tr>
+                                    <td align="left" style="border-bottom: 1px solid #eee;padding-top:40px;">
+                                        <div class="f_img_div" style="width:100%; float:left;"><p class="welcome_description" style="color: #333;font-weight:bold; font-size: 22px;">Refund Policy</p></div>
+
+                                    </td>
+                                </tr> 
+                                <tr style=" line-height: 1.6; color: #333; font-size: 15px;">
+                                    <td align="left" style="border-bottom: 1px solid #eee;">
+                                        <p>'.html_entity_decode($pnrinfo['refund_policy']).'</p>
+
+                                    </td>
+                                </tr>';
+                            }
+                            $othermsg .= '<tr>
+                                    <td align="left" style="border-bottom: 1px solid #eee;padding-top:40px;">
+                                        <div class="f_img_div" style="width:100%; float:left;"><p class="welcome_description" style="color: #333;font-weight:bold; font-size: 22px;">NEED BOOKING HELP?</p></div>
+
+                                    </td>
+                                </tr> 
+                                <tr style=" line-height: 1.6; color: #333; font-size: 15px;">
+                                    <td align="left" style="border-bottom: 1px solid #eee;">
+                                        <p style="font-weight:600;">Email:'.$pnrinfo['trip_contactemail'].'</p>
+                                        <p style="font-weight:600;">Hotline: '.$pnrinfo['trip_contactno'].'</p>
+
+                                    </td>
+                                </tr>';
+                $touserid= $pnrinfo['bookedbyid'];
+                $subject='Trip has been booked '.$pnr_no;
+                $message='Trip has been booked '.$pnr_no.' / '.$trip_code.' / '.$trip_name. ' at '.site_title;
+                $mailData = array(
+                //'fromuserid' => $pnrinfo['trip_postbyid'],
+                'ccemail' => 'anjaneyavadivel@gmail.com,'.$pnrinfo['bookedby_contactemail'],
+                'bccemail' => admin_email,',anjaneyavadivel@gmail.com,'.$pnrinfo['bookedby_contactemail'],
+                //'touserid' => $touserid,
+                'toemail' => 'anjaneyavadivel@gmail.com',
+                'subject' => $subject,
+                'message' => $message,
+                'othermsg' => $othermsg
+                );
+                //print_r($pnrinfo);
+                //print_r($mailData);
+                sendemail_personalmail($mailData);
             }
-            if (isset($updatedata['status']) && isset($updatedata['payment_status']) && $updatedata['payment_status'] == 1 && $updatedata['status'] == 3) {
+            if (isset($updatedata['status']) && $updatedata['status'] == 3) {
                 // TODO: need to send mail for cancelled ticket
             }
             if (isset($updatedata['status']) && $updatedata['status'] == 4) {
@@ -927,7 +1202,7 @@ if (!function_exists('trip_book_status_update')) {
             }
             if (isset($updatedata['status']) && $updatedata['status'] == 5) {
                 // TODO: need to send mail for Completed ticket so ask review
-            }
+            }exit();
             return TRUE;
         }
         return FALSE;
@@ -986,8 +1261,8 @@ if (!function_exists('getpnrinfo')) {
                     . 'tpd.total_trip_price,tpd.date_of_trip,tpd.date_of_trip_to,tpd.time_of_trip,tpd.pick_up_location,tpd.pick_up_location_landmark,'
                     . 'tpd.servicecharge_amt,tpd.your_final_amt,tm.id AS trip_id,tm.trip_name,tm.trip_code,tm.how_many_days,tm.how_many_nights,tm.total_days,tm.how_many_hours,'
                     . 'tm.brief_description,tm.other_inclusions,tm.exclusions,tm.languages,tm.meal,tm.cancellation_policy,tm.confirmation_policy,tm.refund_policy,'
-                    . 'bum.user_fullname AS bookedby,bum.phone AS bookedby_contactno,bum.email AS bookedby_contactemail,tpd.booked_on,tpd.status,tpd.payment_status,'
-                    . 'tmum.user_fullname AS trip_postby,tmum.phone AS trip_contactno,tmum.email AS trip_contactemail,tm.trip_name,'
+                    . 'bum.id AS bookedbyid,bum.user_fullname AS bookedby,bum.phone AS bookedby_contactno,bum.email AS bookedby_contactemail,tpd.booked_on,tpd.status,tpd.payment_status,'
+                    . 'tmum.id AS trip_postbyid,tmum.user_fullname AS trip_postby,tmum.phone AS trip_contactno,tmum.email AS trip_contactemail,tm.trip_name,'
                     . '(CASE WHEN ccmhd.id IS NOT NULL THEN ccmhd.coupon_code END) AS coupon_code,(CASE WHEN ccmhd.id IS NOT NULL THEN ccmhd.offer_type END) AS offer_type,'
                     . '(CASE WHEN ccmhd.id IS NOT NULL THEN ccmhd.percentage_amount END) AS percentage_amount';
             $tableData = get_joins('trip_book_pay_details AS tpd', $columns, $joins, $whereData);
@@ -1039,8 +1314,8 @@ if (!function_exists('getpnrinfo')) {
                     . 'tpd.total_trip_price,tpd.date_of_trip,tpd.date_of_trip_to,tpd.time_of_trip,tpd.pick_up_location,tpd.pick_up_location_landmark,'
                     . 'tm.id AS trip_id,tm.trip_name,tm.trip_code,tm.how_many_days,tm.how_many_nights,tm.total_days,tm.how_many_hours,'
                     . 'tm.brief_description,tm.other_inclusions,tm.exclusions,tm.languages,tm.meal,tm.cancellation_policy,tm.confirmation_policy,tm.refund_policy,'
-                    . 'bum.user_fullname AS bookedby,bum.phone AS bookedby_contactno,bum.email AS bookedby_contactemail,tpd.booked_on,tpd.status,tpd.payment_status,'
-                    . 'tmum.user_fullname AS trip_postby,tmum.phone AS trip_contactno,tmum.email AS trip_contactemail,tm.trip_name,'
+                    . 'bum.id AS bookedbyid,bum.user_fullname AS bookedby,bum.phone AS bookedby_contactno,bum.email AS bookedby_contactemail,tpd.booked_on,tpd.status,tpd.payment_status,'
+                    . 'tmum.id AS trip_postbyid,tmum.user_fullname AS trip_postby,tmum.phone AS trip_contactno,tmum.email AS trip_contactemail,tm.trip_name,'
                     . '(CASE WHEN ccmhd.id IS NOT NULL THEN ccmhd.coupon_code END) AS coupon_code,(CASE WHEN ccmhd.id IS NOT NULL THEN ccmhd.offer_type END) AS offer_type,'
                     . '(CASE WHEN ccmhd.id IS NOT NULL THEN ccmhd.percentage_amount END) AS percentage_amount';
             $tableData = get_joins('trip_book_pay AS tpd', $columns, $joins, $whereData);
@@ -1102,8 +1377,11 @@ if (!function_exists('getallparenttrip')) {
  * book the trip
   input: $mailData array(
  * fromuserid //(option)
+ * fromemail  //(option) use fromuserid or fromemail
  * touserid  //(option) use touserid or toemail
  * toemail  //(option) use touserid or toemail
+ * ccemail  //(option) 
+ * bccemail  //(option) 
  * subject
  * message
  * othermsg (option) like book PNR info show /table format 
@@ -1114,19 +1392,21 @@ if (!function_exists('getallparenttrip')) {
 if (!function_exists('sendemail_personalmail')) {
 
     function sendemail_personalmail($mailData = array()) {
-        echo "ds";   //changed $email to $identity
         if (!empty($mailData)) {
             $CI = & get_instance();
             $fromemail = '';
-            $toemail = '';
+            $toemail = '';$ccemail ='';$bccemail ='';
             $donotreply = donotreply;
             $mailData['tousername'] = '';
             // get from user info
             if (isset($mailData['fromuserid']) && $mailData['fromuserid'] != '') {
                 $whereData = array('isactive' => 1, 'id' => $mailData['fromuserid']);
-                $showField = array('email,phone');
+                $showField = array('email','phone');
                 $fromuser_info = selectTable('user_master', $whereData, $showField)->row();
                 $fromemail = $fromuser_info->email;
+            }
+            if (isset($mailData['fromemail']) && $mailData['fromemail'] != '') {
+                $fromemail = $mailData['fromemail'];
             }
             // get to user info
             if (isset($mailData['touserid']) && $mailData['touserid'] != '') {
@@ -1137,13 +1417,19 @@ if (!function_exists('sendemail_personalmail')) {
                 $mailData['tousername'] = $touser_info->user_fullname;
             }
             if ($mailData['tousername'] == '') {
-                $mailData['tousername'] = 'Customer';
+                $mailData['tousername'] = 'Sir/Madam';
             }
             if ($fromemail == '') {
                 $fromemail = admin_email;
             }
             if ($toemail == '' && isset($mailData['toemail'])) {
                 $toemail = $mailData['toemail'];
+            }
+            if ($ccemail == '' && isset($mailData['ccemail'])) {
+                $ccemail = $mailData['ccemail'];
+            }
+            if ($bccemail == '' && isset($mailData['bccemail'])) {
+                $bccemail = $mailData['bccemail'];
             }
             if ($fromemail == '' || $toemail == '') {
                 return TRUE;
@@ -1167,6 +1453,12 @@ if (!function_exists('sendemail_personalmail')) {
             $CI->email->set_mailtype("html");
             $CI->email->from($fromemail);
             $CI->email->to($toemail);
+            if (isset($ccemail) && $ccemail != "") {
+                $CI->email->cc($ccemail);
+            }
+            if (isset($bccemail) && $bccemail != "") {
+                $CI->email->bcc($bccemail);
+            }
             if (isset($donotreply) && $donotreply != "") {
                 $CI->email->reply_to($donotreply, 'Do-not-reply');
             }
@@ -1408,5 +1700,6 @@ if (!function_exists('make_mypayment')) {
     }
 
 }
+
 /* End of file custom_helper.php */
 ?>

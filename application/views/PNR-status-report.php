@@ -234,18 +234,27 @@
                                         
                                         
 
-                                        <div class="mb-40"></div>
-                                        <h4 class="section-title">Brief Description</h4>
-                                        <p><?= html_entity_decode($pnrinfo['brief_description']); ?></p>
-                                        <div class="mb-40"></div>
-                                        <h4 class="section-title">Confirmation Policy</h4>
-                                        <p><?= html_entity_decode($pnrinfo['confirmation_policy']); ?></p>
-                                        <div class="mb-40"></div>
-                                        <h4 class="section-title">Cancellation Policy</h4>
-                                        <p><?= html_entity_decode($pnrinfo['cancellation_policy']); ?></p>
-                                        <div class="mb-40"></div>
-                                        <h4 class="section-title">Refund Policy</h4>
-                                        <p><?= html_entity_decode($pnrinfo['refund_policy']); ?></p>
+                                        
+                                <?php if($pnrinfo['brief_description']!=''){?>
+                                <div class="mb-40"></div>
+                                <h4 class="section-title">Brief Description</h4>
+                                <p><?=html_entity_decode($pnrinfo['brief_description']);?></p>
+                                <?php }?>
+                                <?php if($pnrinfo['confirmation_policy']!=''){?>
+                                <div class="mb-40"></div>
+                                <h4 class="section-title">Confirmation Policy</h4>
+                                <p><?=html_entity_decode($pnrinfo['confirmation_policy']);?></p>
+                                <?php }?>
+                                <?php if($pnrinfo['cancellation_policy']!=''){?>
+                                <div class="mb-40"></div>
+                                <h4 class="section-title">Cancellation Policy</h4>
+                                <p><?=html_entity_decode($pnrinfo['cancellation_policy']);?></p>
+                                <?php }?>
+                                <?php if($pnrinfo['refund_policy']!=''){?>
+                                <div class="mb-40"></div>
+                                <h4 class="section-title">Refund Policy</h4>
+                                <p><?=html_entity_decode($pnrinfo['refund_policy']);?></p>
+                                <?php }?>
 
                                         <div class="mb-40"></div>
 

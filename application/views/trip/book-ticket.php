@@ -341,8 +341,8 @@
                                                 $gstPrice = 0;
                                                 if($offer_details['gst_percentage'] > 0){
                                                     $gstPrice    = ((int) $total_price1 * ((int) $offer_details['gst_percentage'] / 100));
-                                                    $total_price = (int)$total_price1 + $gstPrice;
                                                 }
+                                                $total_price = (int)$total_price1 + $gstPrice;
                                                 $roundoff = 0;
                                                 $roundoff = round($total_price) - $total_price;
                                                 $total_price = round($total_price);

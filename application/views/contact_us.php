@@ -64,6 +64,16 @@
 											<div class="col-sm-12">
 											
 												<div class="form-group">
+													<label for="phone_number">Your Phone No <span class="font10 text-danger">(required)</span></label>
+                                                                                                        <input id="phone_number" type="text" class="form-control" name="phone_number" data-error="Your Phone No is required and must be a valid phone number" >
+													<div class="help-block with-errors"></div>
+												</div>
+												
+											</div>
+											
+											<div class="col-sm-12">
+											
+												<div class="form-group">
 													<label>Subject</label>
 													<input type="text" class="form-control" name="subject" />
 												</div>
