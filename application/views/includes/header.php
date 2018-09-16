@@ -110,8 +110,8 @@
                                         <a href="#">Report</a>
                                         <ul>
 
-                                            <li><a href="<?php echo base_url() ?>booking-wise-reports">Booking Wise</a></li>
-                                            <li><a href="<?php echo base_url() ?>Trip-wise-reports">Trip Wise</a></li>
+                                            <li><a href="<?php echo base_url() ?>booking-wise-reports">Booking List</a></li>
+                                            <li><a href="<?php echo base_url() ?>Trip-wise-reports">Trip List</a></li>
                                             <li><a href="<?php echo base_url() ?>payment-from-B2C-reports">Payment from B2C</a></li>
                                             <li><a href="<?php echo base_url() ?>payment-from-B2B-reports">Payment from B2B</a></li>
                                             <li><a href="<?php echo base_url() ?>payment-to-B2B-reports">Payment to B2B</a></li>
@@ -154,8 +154,8 @@
                                     <li>
                                         <a href="#">Report</a>
                                         <ul>
-                                            <li><a href="<?php echo base_url() ?>booking-wise-reports">Booking Wise</a></li>
-                                            <li><a href="<?php echo base_url() ?>Trip-wise-reports">Trip Wise</a></li>
+                                            <li><a href="<?php echo base_url() ?>booking-wise-reports">Booking List</a></li>
+                                            <li><a href="<?php echo base_url() ?>Trip-wise-reports">Trip List</a></li>
                                             <li><a href="<?php echo base_url() ?>payment-from-B2C-reports">Payment from B2C</a></li>
                                             <li><a href="<?php echo base_url() ?>payment-from-B2B-reports">Payment from B2B</a></li>
                                             <li><a href="<?php echo base_url() ?>payment-to-B2B-reports">Payment to B2B</a></li>

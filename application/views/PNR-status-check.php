@@ -173,7 +173,7 @@
                                         <li><span class="font600 net_price">Paid Amount:</span><b><?=$net_price;?></b></li>                                                                                    
                                         <?php }
                                     }else{
-                                        if($pnrinfo['gst_percentage']!=0){?>
+                                        if($pnrinfo['gst_amt']>0){?>
                                         <li><span class="font600 net_price">GST Amount (<?=$pnrinfo['gst_percentage'];?>%):</span><?=$pnrinfo['gst_amt'];?></li>                                                                                    
                                         <?php }if($pnrinfo['round_off']!=0){?>
                                         <li><span class="font600 net_price">Round Off:</span><?=$pnrinfo['round_off'];?></li>                                                                                    

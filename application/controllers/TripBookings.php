@@ -36,7 +36,7 @@ class TripBookings extends CI_Controller {
                     $offerdata['ischeckadmin']=0;
                 }
                 $data['offer_details'] = trip_offer($offerdata);
-               //echo "<pre>"; print_r($data['offer_details']);exit;
+               // echo "<pre>"; print_r($data['offer_details']);exit;
             }
             
             //CALENDAR DETAILS
@@ -51,7 +51,15 @@ class TripBookings extends CI_Controller {
             $data['user_email'] = $this->session->userdata('user_email');
             $data['user_phone'] = $this->session->userdata('user_phone');
             
+            
+            //SET REDIRECT URL
+            if(empty($this->session->userdata('user_type'))){
+                $redirect_url = $this->uri->segment(1).'/'.$this->uri->segment(2);
+                $this->session->set_userdata('last_url',$redirect_url);
+            }
+            
         }
+        
         //echo "<pre>";print_r($data);exit;
         
         $this->load->view('trip/book-ticket',$data);

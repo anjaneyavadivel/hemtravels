@@ -343,6 +343,7 @@
                                                     $gstPrice    = ((int) $total_price1 * ((int) $offer_details['gst_percentage'] / 100));
                                                 }
                                                 $total_price = (int)$total_price1 + $gstPrice;
+                                               
                                                 $roundoff = 0;
                                                 $roundoff = round($total_price) - $total_price;
                                                 $total_price = round($total_price);
@@ -445,13 +446,22 @@
                                     if($this->session->userdata('user_type')=='VA'){ $user_fullname=''; }
                                     if($this->session->userdata('user_type')=='VA'){ $user_email=''; }
                                     if($this->session->userdata('user_type')=='VA'){ $user_phone=''; }
+                                    
+                                    $user_name_label = 'Your Name';
+                                    $user_email_label = 'Your Email';
+                                    $user_phone_label = 'Your Phoneno';
+                                    if($this->session->userdata('user_type')=='SA' || $this->session->userdata('user_type')=='VA'){ $user_name_label='Customer Name'; }
+                                    if($this->session->userdata('user_type')=='SA' || $this->session->userdata('user_type')=='VA'){ $user_email_label='Customer Email'; }
+                                    if($this->session->userdata('user_type')=='SA' || $this->session->userdata('user_type')=='VA'){ $user_phone_label='Customer Phoneno'; }
+                                    
+                                    
                                     ?>
                                                         
                                     <div class="col-sm-12 col-md-4">
 
                                         <div class="form-group"> 
-                                            <label>Username</label>
-                                            <input class="form-control" placeholder="Min 4 and Max 10 characters" name="user_name" id="user_name" type="text" value="<?php echo isset($user_fullname)?$user_fullname:'';?>"> 
+                                            <label><?php echo $user_name_label; ?></label>
+                                            <input class="form-control" placeholder="Enter <?php echo $user_name_label; ?>" name="user_name" id="user_name" type="text" value="<?php echo isset($user_fullname)?$user_fullname:'';?>"> 
                                         </div>
 
                                     </div>
@@ -459,8 +469,8 @@
                                     <div class="col-sm-12 col-md-4">
 
                                         <div class="form-group"> 
-                                            <label>Email Address</label>
-                                            <input class="form-control" placeholder="Enter your email address" name="email" id="email" type="text" value="<?php echo isset($user_email)?$user_email:'';?>"> 
+                                            <label><?php echo $user_email_label; ?></label>
+                                            <input class="form-control" placeholder="Enter <?php echo $user_email_label; ?>" name="email" id="email" type="text" value="<?php echo isset($user_email)?$user_email:'';?>"> 
                                         </div>
 
                                     </div>
@@ -468,8 +478,8 @@
                                     <div class="col-sm-12 col-md-4">
 
                                         <div class="form-group"> 
-                                            <label>Phone Number</label>
-                                            <input class="form-control" placeholder="Enter your phone number" name="phonenumber" id="phonenumber" type="text" value="<?php echo isset($user_phone)?$user_phone:'';?>"> 
+                                            <label><?php echo $user_phone_label; ?></label>
+                                            <input class="form-control" placeholder="Enter <?php echo $user_phone_label; ?>" name="phonenumber" id="phonenumber" type="text" value="<?php echo isset($user_phone)?$user_phone:'';?>"> 
                                         </div>
 
                                     </div>
@@ -497,13 +507,17 @@
                                         </li>
 
                                     </ul>
-                                    <?php } else { 
+                                    <?php } 
+                                    else if(isset($offer_details['message']) && !empty($offer_details['message'])) { 
+                                        echo "<div style='text-align:center'>".$offer_details['message']."</div>";
+                                    }
+                                    else { 
                                         echo "<div style='text-align:center'> Sorry, we could not proceed your request.please try again later!...</div>";
                                     }
                                     ?>
                                 </div>
 
-                            </div>
+                           </div>
 
                         </aside>
 

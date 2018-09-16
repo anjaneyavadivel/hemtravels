@@ -45,7 +45,7 @@ class Tripspecific extends CI_Controller {
         $this->pagination->initialize($config);
         $page = ($this->input->get('page')) ? ( ( $this->input->get('page') - 1 ) * $config["per_page"] ) : 0;
         //$page = ($this->uri->segment(2)) ? $this->uri->segment(2) : 0;
-        $data["couponcodelist"] = $this->Tripspecific_model->trip_list($config["per_page"], $page, $trip_search, $offer_type);
+        $data["triplist"] = $this->Tripspecific_model->trip_list($config["per_page"], $page, $trip_search, $offer_type);
         $str_links = $this->pagination->create_links();
         $data["links"] = explode('&nbsp;', $str_links);
         $data["trip_search"] = $trip_search;

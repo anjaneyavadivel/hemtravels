@@ -1013,7 +1013,7 @@ if (!function_exists('trip_book_status_update')) {
                                     </td>
                                 </tr>';
                             }
-                            if($pnrinfo['gst_percentage']!=0){
+                            if($pnrinfo['gst_amt']>0){
                                  $othermsg .= '<tr>
                                     <td align="left" style="border-bottom: 1px solid #eee;">
                                         <div class="f_img_div" style="width:35%; float:left;"><p class="welcome_description" style="color: #333;font-weight:bold; font-size: 16px;">GST Amount ('.$pnrinfo['gst_percentage'].'%) :</p></div>
@@ -1033,7 +1033,7 @@ if (!function_exists('trip_book_status_update')) {
                                  $othermsg .= '<tr>
                                     <td align="left" style="border-bottom: 1px solid #eee;">
                                         <div class="f_img_div" style="width:35%; float:left;"><p class="welcome_description" style="color: #333;font-weight:bold; font-size: 16px;">Paid Amount :</p></div>
-                                        <div class="f_content_div" style="width:65%; float:right;"><p class="f_content" style="padding-right: 20px; margin-bottom: 15px; line-height: 1.6; color: #333; font-size: 15px;">'.$pnrinfo['total_trip_price'].' </p></div>
+                                        <div class="f_content_div" style="width:65%; float:right;"><p class="f_content" style="padding-right: 20px; margin-bottom: 15px; line-height: 1.6; color: #333; font-size: 15px;">'.$pnrinfo['net_price'].' </p></div>
                                     </td>
                                 </tr>';
                             }
@@ -1257,7 +1257,7 @@ if (!function_exists('getpnrinfo')) {
                 ),
             );
             $columns = 'tpd.pnr_no,tpd.number_of_persons,tpd.price_to_adult,tpd.price_to_child,tpd.price_to_infan,tpd.no_of_adult,tpd.no_of_child,tpd.no_of_infan,'
-                    . 'tpd.subtotal_trip_price,tpd.offer_amt,tpd.gst_amt,tpd.round_off,tpd.net_price,'
+                    . 'tpd.subtotal_trip_price,tpd.offer_amt,tpd.gst_amt,tpd.round_off,tpd.net_price,tpd.gst_percentage,'
                     . 'tpd.total_trip_price,tpd.date_of_trip,tpd.date_of_trip_to,tpd.time_of_trip,tpd.pick_up_location,tpd.pick_up_location_landmark,'
                     . 'tpd.servicecharge_amt,tpd.your_final_amt,tm.id AS trip_id,tm.trip_name,tm.trip_code,tm.how_many_days,tm.how_many_nights,tm.total_days,tm.how_many_hours,'
                     . 'tm.brief_description,tm.other_inclusions,tm.exclusions,tm.languages,tm.meal,tm.cancellation_policy,tm.confirmation_policy,tm.refund_policy,'
@@ -1276,7 +1276,7 @@ if (!function_exists('getpnrinfo')) {
                     $book_pay[0]['date_of_trip_to'] = '';
                 }
                 $book_pay[0]['booked_on'] = formatdate($book_pay[0]['booked_on'], $format = 'd M Y h:i A');
-                $book_pay[0]['gst_percentage'] = GST_PERCENTAGE;
+                //$book_pay[0]['gst_percentage'] = GST_PERCENTAGE;
                 //print_r($book_pay);         exit();
                 return $book_pay[0];
             }
@@ -1310,7 +1310,7 @@ if (!function_exists('getpnrinfo')) {
                 ),
             );
             $columns = 'tpd.pnr_no,tpd.number_of_persons,tpd.price_to_adult,tpd.price_to_child,tpd.price_to_infan,tpd.no_of_adult,tpd.no_of_child,tpd.no_of_infan,'
-                    . 'tpd.subtotal_trip_price,tpd.offer_amt,tpd.gst_amt,tpd.round_off,tpd.net_price,'
+                    . 'tpd.subtotal_trip_price,tpd.offer_amt,tpd.gst_amt,tpd.round_off,tpd.net_price,tpd.gst_percentage,'
                     . 'tpd.total_trip_price,tpd.date_of_trip,tpd.date_of_trip_to,tpd.time_of_trip,tpd.pick_up_location,tpd.pick_up_location_landmark,'
                     . 'tm.id AS trip_id,tm.trip_name,tm.trip_code,tm.how_many_days,tm.how_many_nights,tm.total_days,tm.how_many_hours,'
                     . 'tm.brief_description,tm.other_inclusions,tm.exclusions,tm.languages,tm.meal,tm.cancellation_policy,tm.confirmation_policy,tm.refund_policy,'
@@ -1329,7 +1329,7 @@ if (!function_exists('getpnrinfo')) {
                     $book_pay[0]['date_of_trip_to'] = '';
                 }
                 $book_pay[0]['booked_on'] = formatdate($book_pay[0]['booked_on'], $format = 'd M Y h:i A');
-                $book_pay[0]['gst_percentage'] = GST_PERCENTAGE;
+                //$book_pay[0]['gst_percentage'] = GST_PERCENTAGE;
                 $book_pay[0]['servicecharge_amt'] = 0;
                 $book_pay[0]['your_final_amt'] = 0;
                 return $book_pay[0];

@@ -26,7 +26,7 @@
                         <div class="row gap-0">
                             <?php echo form_open_multipart(base_url() . 'trip-specific', array('class' => 'form-horizontal margin-top-30', 'id' => 'search-coupon-code-form')); ?>
                             <div class="col-xs-12 col-sm-6 col-md-2">
-                                
+
                             </div>
                             <div class="col-xs-9 col-sm-5 col-md-6">
                                 <input type="text" name="trip_search" class="form-control" placeholder="Enter the name" value="<?= $trip_search ?>">
@@ -34,7 +34,7 @@
                             <div class="col-xs-3 col-sm-1 col-md-1">
                                 <button type="submit" class="btn btn-primary btn-block"><i class="fa fa-search"></i></button>
                             </div>
-<?php echo form_close(); ?>
+                            <?php echo form_close(); ?>
                         </div>
                     </div>
                 </div>
@@ -44,15 +44,13 @@
                 <table class="table ">
                     <thead>
                         <tr>
-                            <th>id</th>
-                            <th>Name</th>
-							<th>type</th>
-                            
+                            <th>Title</th>
+                            <th>Type</th>
                             <th>Valid From</th>
                             <th>Valid To</th>
-                            <th>no of travel</th>
-							 <th>no of max</th>
-							  <th>no of min</th>
+                            <th>Trip Name</th>
+                            <th>Offer Type</th>
+                            <th>Offer Amount/Percentage</th>
                             <th>Status</th>
                             <th>Action</th>
 
@@ -64,11 +62,12 @@
                             $i = 1;
                             foreach ($triplist as $row) {
                                 $id = $row['id'];
-								$title = $row['title'];
+                                $title = $row['title'];
                                 $from_date = $row['from_date'];
                                 $to_date = $row['to_date'];
                                 $status_active = array('deactive', 'active');
                                 $type = array('', 'Set Offer Specific Day', 'Set Trip Close Specific Day');
+                                $offertype = array('', 'Fixed', 'Percentage');
 
                                 $isactive = $row['isactive'];
                                 $status_active = array('deactive', 'active');
@@ -77,30 +76,33 @@
                                 foreach ($int as $val) {
                                     ?>
                                     <tr>
-                                        <td><?= $row['id']; ?></td>
                                         <td><?= $row['title']; ?></td>
                                         <td><?= $type[$row['type']]; ?></td>
-                                        <td><?= $row['trip_name']; ?></td>
-            
                                         <td><?= date("M d,Y", strtotime($row['from_date'])); ?></td>
                                         <td><?= date("M d,Y", strtotime($row['to_date'])); ?></td>
-                                        <td><?php echo $row['percentage_amount'];
-                            if ($row['offer_type'] == 2) {
-                                echo '%';
-                            } ?></td>
+                                        <td><?= $row['trip_name']; ?></td>
+                                        <td><?= $offertype[$row['offer_type']]; ?></td>
+                                        <td><?php
+                                            if (strpos($row['price_to_adult'], '.00') !== false) {
+                                                echo round($row['price_to_adult']);
+                                            }
+                                            if ($row['offer_type'] == 2) {
+                                                echo '%';
+                                            }
+                                            ?></td>
                                         <td><h4 class="<?= $btn_type[$isactive]; ?>"><?= $status_active[$isactive]; ?></h4></td>
             <?php if ($isactive != '0') { ?> 
-                                           <td><!-- <a class=" btn-view-couponcode" data-val="<?= $id ?>" ><i class="fa fa-eye" data-toggle="tooltip" data-placement="top" title="Click here to view"></i></a>-->
+                                               <td><!-- <a class=" btn-view-couponcode" data-val="<?= $id ?>" ><i class="fa fa-eye" data-toggle="tooltip" data-placement="top" title="Click here to view"></i></a>-->
                                                 <a class="<?= $btn_type[$isactive]; ?> btn-edit-coupon-code" data-val="<?= $id ?>" ><i class="fa fa-pencil" data-toggle="tooltip" data-placement="top" title="Click here to edit"></i></a>
                                                 <a href="<?= base_url(); ?>trip-shared/delete/<?= $id ?>"><i class="fa fa-trash" data-toggle="tooltip" data-placement="top" title="Click here to delete"></i> </a></td><?php } ?>
-            <?php if ($isactive != '1') { ?><td><a href="<?= base_url(); ?>trip-shared/active/<?= $id ?>" class="<?= $btn_type[$val]; ?>"><i class="fa fa-check" data-toggle="tooltip" data-placement="top" title="Click here to active"></i></a><?php } ?>
+                                    <?php if ($isactive != '1') { ?><td><a href="<?= base_url(); ?>trip-shared/active/<?= $id ?>" class="<?= $btn_type[$val]; ?>"><i class="fa fa-check" data-toggle="tooltip" data-placement="top" title="Click here to active"></i></a><?php } ?>
 
                                     </tr>
-            <?php
-        }
-    }
-}
-?> 	
+                                    <?php
+                                }
+                            }
+                        }
+                        ?> 	
 
 
                     </tbody>
@@ -117,11 +119,11 @@
                             <nav>
 
                                 <ul class="pagination">
-<?php
-foreach ($links as $link) {
-    echo "<li>" . $link . "</li>";
-}
-?>
+                                    <?php
+                                    foreach ($links as $link) {
+                                        echo "<li>" . $link . "</li>";
+                                    }
+                                    ?>
                                     <!--                                                <li>
                                                                                         <a href="#" aria-label="Previous">
                                                                                             <span aria-hidden="true">&laquo;</span>
