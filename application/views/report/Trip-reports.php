@@ -74,11 +74,9 @@
                 </div>                
                 <table class="table ">
                     <thead>
-                        <tr>
-                            <th>Sno</th>
+                        <tr>                            
                             <th>Trip Code</th>
-                            <th>Name</th>
-                            <th>Vendor</th>
+                            <th>Trip Name</th>                            
                             <th>Category</th>                            
                             <th>State</th>                            
                             <th>City</th>                            
@@ -86,7 +84,8 @@
                             <th>Price to Children</th>
                             <th>Price to Infan</th>
                             <!--<th>View To</th>-->
-                            <th>Created On</th>                            
+                            <th>Posted By</th>                            
+                            <th>Posted On</th>                            
                             <th>Status</th>
                             <th>Action</th>
                         </tr>
@@ -101,23 +100,22 @@
                                 $status_val = array('New', 'Pending', 'Booked', 'Cancelled', 'Confirmed', 'Completed');
                                 $user_type_val = array('CU'=>'B2C Booking','GU'=>'B2C Booking','VA'=>'Office Booking');
                                     ?>
-                                    <tr>
-                                        <td><?= $i; ?></td>
+                                    <tr>                                        
                                         <td><?= $row['trip_code']; ?></td>
-                                        <td><?= $row['trip_name']; ?></td>
-                                        <td><?= $row['user_fullname']; ?></td>
+                                        <td><?= $row['trip_name']; ?></td>                                        
                                         <td><?= $row['category']; ?></td>
                                         <td><?= $row['state']; ?></td>
                                         <td><?= $row['city']; ?></td>
                                         <td><?= $row['price_to_adult']; ?></td>
                                         <td><?= $row['price_to_child']; ?></td>
-                                        <td><?= $row['price_to_infan']; ?></td>                                       
+                                        <td><?= $row['price_to_infan']; ?></td>
+                                        <td><?= $row['user_fullname']; ?></td>
                                         <td><?= date("M d, Y", strtotime($row['created_on'])); ?></td>
                                         <td><?= $isactive ?></td>
                                         <td><a href="<?=base_url()?>trip-view/<?=$row['trip_code']?>" target="_new" class="btn btn-border btn-sm btn-primary">View</a></td>                                       
                                     </tr>
                                     <?php
-                                   $i++;
+                                   //$i++;
                             }
                         }else{
                             echo "<td colspan='13' style='text-align:center'>No Data Found</td>";

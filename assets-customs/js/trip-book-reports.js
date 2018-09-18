@@ -41,5 +41,27 @@ jQuery(function($) {
             customArrowNextSymbol: '<i class="fa fa-arrow-circle-right"></i>'
     });
     
+    $('#bookExportXLSX').on('click',function(){ 
+        
+        var search_from = $('#rangeDatePickerFrom').val() != undefined ?$('#rangeDatePickerFrom').val():'';
+        var search_to   = $('#rangeDatePickerTo').val() != undefined ?$('#rangeDatePickerTo').val():'';
+        var status      = $('#bookingStatus').val() != undefined ?$('#bookingStatus').val():'';
+        var bookedFrom  = $('#bookedFrom').val() != undefined ?$('#bookedFrom').val():'';
+        var titleSearch = $('#bookSearchTitle').val() != undefined ?$('#bookSearchTitle').val():'';
+         
+        document.location = base_url+'booking-wise-reports?from='+search_from+'&to='+search_to+'&status='+status+'&bookfrom='+bookedFrom+'&title='+titleSearch+'&download=1';
+       
+    });
+    $('#bookSearchBtn').on('click',function(e){
+        e.preventDefault();
+        if (location.href.indexOf('download=') > -1) {
+            location.href = location.href.replace('download=1', 'download=0');
+            setTimeout(function() { $('#booking-report-form').submit(); },2000);
+        }else{
+            $('#booking-report-form').submit();
+        }
+        
+    });
+    
 });
 

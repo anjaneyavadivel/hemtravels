@@ -39,7 +39,7 @@
                     </div>
                 </div>
                 <div class="col-xs-2 col-sm-2 col-lg-2 text-right">
-                    <a class="btn btn-info c_mt btn-add-coupon-code">Add</a>
+                    <a class="btn btn-info c_mt btn-add-trip-specific">Add</a>
                 </div>
                 <table class="table ">
                     <thead>
@@ -91,11 +91,11 @@
                                             }
                                             ?></td>
                                         <td><h4 class="<?= $btn_type[$isactive]; ?>"><?= $status_active[$isactive]; ?></h4></td>
-            <?php if ($isactive != '0') { ?> 
+                                    <?php if ($isactive != '0') { ?> 
                                                <td><!-- <a class=" btn-view-couponcode" data-val="<?= $id ?>" ><i class="fa fa-eye" data-toggle="tooltip" data-placement="top" title="Click here to view"></i></a>-->
-                                                <a class="<?= $btn_type[$isactive]; ?> btn-edit-coupon-code" data-val="<?= $id ?>" ><i class="fa fa-pencil" data-toggle="tooltip" data-placement="top" title="Click here to edit"></i></a>
-                                                <a href="<?= base_url(); ?>trip-shared/delete/<?= $id ?>"><i class="fa fa-trash" data-toggle="tooltip" data-placement="top" title="Click here to delete"></i> </a></td><?php } ?>
-                                    <?php if ($isactive != '1') { ?><td><a href="<?= base_url(); ?>trip-shared/active/<?= $id ?>" class="<?= $btn_type[$val]; ?>"><i class="fa fa-check" data-toggle="tooltip" data-placement="top" title="Click here to active"></i></a><?php } ?>
+                                                <a class="<?= $btn_type[$isactive]; ?> btn-edit-trip-specific" data-val="<?= $id ?>" ><i class="fa fa-pencil" data-toggle="tooltip" data-placement="top" title="Click here to edit"></i></a>
+                                                <a href="<?= base_url(); ?>tripspecific/delete/<?= $id ?>"><i class="fa fa-trash" data-toggle="tooltip" data-placement="top" title="Click here to delete"></i> </a></td><?php } ?>
+                                    <?php if ($isactive != '1') { ?><td><a href="<?= base_url(); ?>tripspecific/active/<?= $id ?>" class="<?= $btn_type[$val]; ?>"><i class="fa fa-check" data-toggle="tooltip" data-placement="top" title="Click here to active"></i></a><?php } ?>
 
                                     </tr>
                                     <?php

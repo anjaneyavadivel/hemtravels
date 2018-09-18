@@ -934,35 +934,7 @@ if (!function_exists('trip_book_status_update')) {
             $whereData = array('pnr_no' => $pnr_no);
             $result = updateTable('trip_book_pay', $whereData, $updatedata);
 
-            if (isset($updatedata['status']) && isset($updatedata['payment_status']) && $updatedata['payment_status'] == 1 && $updatedata['status'] == 2) {
-                // ticket book B2c to Admin
-        
-                //  Cash Deposited
-                  $paymentdata = array(
-                  'userid' => $user_id,
-                  'transaction_notes' => 'Cash Deposited',
-                  'from_userid' => -1,
-                  'book_pay_id' => 0,
-                  'book_pay_details_id' => 0,
-                  'pnr_no' => '',
-                  'trip_id' => 0,
-                  'deposits' => $net_price,
-                  'status' => 2);
-                 // make_mypayment($paymentdata);
-                  
-                  $paymentdata = array(
-                  'userid' => 0,
-                  'transaction_notes' => 'Trip has been booked '.$pnr_no.' / '.$trip_code.' / '.$trip_name,
-                  'book_pay_id' => $book_pay_id,
-                  'book_pay_details_id' => 0,
-                  'pnr_no' => $pnr_no,
-                  'from_userid' => $user_id,
-                  'trip_id' => $trip_id,
-                  'deposits' => $net_price,
-                  'status' => 2);
-                 // make_mypayment($paymentdata);
-                  
-                 $pnrinfo = getpnrinfo($pnr_no); 
+            $pnrinfo = getpnrinfo($pnr_no); 
                 // TODO: need to send mail for pay sucess
                  
                  $subtotal_trip_price = $pnrinfo['subtotal_trip_price'].' ( ';
@@ -1177,6 +1149,37 @@ if (!function_exists('trip_book_status_update')) {
 
                                     </td>
                                 </tr>';
+//            'payment_status' =>  1, // 0 - Pendding,1 - sucess,2 - failed
+//            'status' =>  2) //1 - Pendding, 2- booked, 3 - cancelled, 4 - confirmed, 5 -Completed
+            if (isset($updatedata['status']) && isset($updatedata['payment_status']) && $updatedata['payment_status'] == 1 && $updatedata['status'] == 2) {
+                // ticket book B2c to Admin
+        
+                //  Cash Deposited
+                  $paymentdata = array(
+                  'userid' => $user_id,
+                  'transaction_notes' => 'Cash Deposited',
+                  'from_userid' => -1,
+                  'book_pay_id' => 0,
+                  'book_pay_details_id' => 0,
+                  'pnr_no' => '',
+                  'trip_id' => 0,
+                  'deposits' => $net_price,
+                  'status' => 2);
+                 // make_mypayment($paymentdata);
+                  
+                  $paymentdata = array(
+                  'userid' => 0,
+                  'transaction_notes' => 'Trip has been booked '.$pnr_no.' / '.$trip_code.' / '.$trip_name,
+                  'book_pay_id' => $book_pay_id,
+                  'book_pay_details_id' => 0,
+                  'pnr_no' => $pnr_no,
+                  'from_userid' => $user_id,
+                  'trip_id' => $trip_id,
+                  'deposits' => $net_price,
+                  'status' => 2);
+                 // make_mypayment($paymentdata);
+                  
+                 
                 $touserid= $pnrinfo['bookedbyid'];
                 $subject='Trip has been booked '.$pnr_no;
                 $message='Trip has been booked '.$pnr_no.' / '.$trip_code.' / '.$trip_name. ' at '.site_title;
@@ -1194,15 +1197,63 @@ if (!function_exists('trip_book_status_update')) {
                 //print_r($mailData);
                 sendemail_personalmail($mailData);
             }
+//            'status' =>  3) //1 - Pendding, 2- booked, 3 - cancelled, 4 - confirmed, 5 -Completed
             if (isset($updatedata['status']) && $updatedata['status'] == 3) {
-                // TODO: need to send mail for cancelled ticket
+                $touserid= $pnrinfo['bookedbyid'];
+                $subject='Trip has been cancelled '.$pnr_no;
+                $message='Trip has been cancelled '.$pnr_no.' / '.$trip_code.' / '.$trip_name. ' at '.site_title;
+                $mailData = array(
+                //'fromuserid' => $pnrinfo['trip_postbyid'],
+                'ccemail' => 'anjaneyavadivel@gmail.com,'.$pnrinfo['bookedby_contactemail'],
+                'bccemail' => admin_email,',anjaneyavadivel@gmail.com,'.$pnrinfo['bookedby_contactemail'],
+                //'touserid' => $touserid,
+                'toemail' => 'anjaneyavadivel@gmail.com',
+                'subject' => $subject,
+                'message' => $message,
+                'othermsg' => $othermsg
+                );
+                //print_r($pnrinfo);
+                //print_r($mailData);
+                sendemail_personalmail($mailData);
             }
+//            'status' =>  4) //1 - Pendding, 2- booked, 3 - cancelled, 4 - confirmed, 5 -Completed
             if (isset($updatedata['status']) && $updatedata['status'] == 4) {
-                // TODO: need to send mail for confirmed ticket
+                $touserid= $pnrinfo['bookedbyid'];
+                $subject='Trip has been confirmed '.$pnr_no;
+                $message='Trip has been confirmed '.$pnr_no.' / '.$trip_code.' / '.$trip_name. ' at '.site_title;
+                $mailData = array(
+                //'fromuserid' => $pnrinfo['trip_postbyid'],
+                'ccemail' => 'anjaneyavadivel@gmail.com,'.$pnrinfo['bookedby_contactemail'],
+                'bccemail' => admin_email,',anjaneyavadivel@gmail.com,'.$pnrinfo['bookedby_contactemail'],
+                //'touserid' => $touserid,
+                'toemail' => 'anjaneyavadivel@gmail.com',
+                'subject' => $subject,
+                'message' => $message,
+                'othermsg' => $othermsg
+                );
+                //print_r($pnrinfo);
+                //print_r($mailData);
+                sendemail_personalmail($mailData);
             }
+//            'status' =>  5) //1 - Pendding, 2- booked, 3 - cancelled, 4 - confirmed, 5 -Completed
             if (isset($updatedata['status']) && $updatedata['status'] == 5) {
-                // TODO: need to send mail for Completed ticket so ask review
-            }exit();
+                $touserid= $pnrinfo['bookedbyid'];
+                $subject='Trip has been completed '.$pnr_no;
+                $message='Trip has been completed '.$pnr_no.' / '.$trip_code.' / '.$trip_name. ' at '.site_title;
+                $mailData = array(
+                //'fromuserid' => $pnrinfo['trip_postbyid'],
+                'ccemail' => 'anjaneyavadivel@gmail.com,'.$pnrinfo['bookedby_contactemail'],
+                'bccemail' => admin_email,',anjaneyavadivel@gmail.com,'.$pnrinfo['bookedby_contactemail'],
+                //'touserid' => $touserid,
+                'toemail' => 'anjaneyavadivel@gmail.com',
+                'subject' => $subject,
+                'message' => $message,
+                'othermsg' => $othermsg
+                );
+                //print_r($pnrinfo);
+                //print_r($mailData);
+                sendemail_personalmail($mailData);
+            }
             return TRUE;
         }
         return FALSE;
@@ -1566,7 +1617,7 @@ if (!function_exists('update_mypayment')) {
             //if ($balance <= 0) { $balance = 0; }
             $insertdata['balance'] = $balance;
 
-            print_r($insertdata);
+            //print_r($insertdata);
             $result = insertTable('my_transaction', $insertdata);
             //TODO: email
 
@@ -1600,7 +1651,7 @@ if (!function_exists('update_mypayment')) {
  * @author Anjaneya
  * */
 // if pay sucess need to pass $updatedata['payment_status']==1 && $updatedata['status']==2
-//$status=0 default deposits (or) from Withdrawal, 1 -withdrawals request, 2 -withdrawals
+//$status=0 default Deposited (or) from Withdrawal, 1 -withdrawals request, 2 -withdrawals
 if (!function_exists('make_mypayment')) {
 
     function make_mypayment($makedata = array(), $status=0) {
@@ -1672,24 +1723,33 @@ if (!function_exists('make_mypayment')) {
                 'userid' => $makedata['from_userid'],
                 'to_userid' => $makedata['userid'],
                 'transaction_notes' => $makedata['transaction_notes'],
-                'book_pay_id' => $makedata['book_pay_id'],
-                'book_pay_details_id' => $makedata['book_pay_details_id'],
-                'pnr_no' => $makedata['pnr_no'],
-                'trip_id' => $makedata['trip_id'],
+                'trip_id' => isset($makedata['trip_id'])?$makedata['trip_id']:0,
                 'withdrawals' => $makedata['deposits'],
-                'status' => $makedata['status']);
+                'status' => $makedata['status'],
+                'book_pay_id' => isset($makedata['book_pay_id'])?$makedata['book_pay_id']:0,
+                'book_pay_details_id' => isset($makedata['book_pay_details_id'])?$makedata['book_pay_details_id']:0,
+                'pnr_no' => isset($makedata['pnr_no'])?$makedata['pnr_no']:'',
+                'withdrawal_notes' => isset($makedata['withdrawal_notes'])?$makedata['withdrawal_notes']:'',
+                'withdrawal_paid_on' => isset($makedata['withdrawal_paid_on'])?date("Y-m-d", strtotime($makedata['withdrawal_paid_on'])):'',
+                'b2b_pay_account_info' => isset($makedata['b2b_pay_account_info'])?$makedata['b2b_pay_account_info']:0,
+                'withdrawal_request_id' => isset($makedata['withdrawal_request_id'])?$makedata['withdrawal_request_id']:0);
                 update_mypayment($paymentdata);
             }
             $paymentdata = array(
             'userid' => $makedata['userid'],
             'transaction_notes' => $makedata['transaction_notes'],
-            'book_pay_id' => $makedata['book_pay_id'],
-            'book_pay_details_id' => $makedata['book_pay_details_id'],
-            'pnr_no' => $makedata['pnr_no'],
+            'book_pay_id' => isset($makedata['book_pay_id'])?$makedata['book_pay_id']:0,
+            'book_pay_details_id' => isset($makedata['book_pay_details_id'])?$makedata['book_pay_details_id']:0,
+            'trip_id' => isset($makedata['trip_id'])?$makedata['trip_id']:0,
             'from_userid' => $makedata['from_userid'],  // default -1
-            'trip_id' => $makedata['trip_id'],
+            'trip_id' => isset($makedata['trip_id'])?$makedata['trip_id']:0,
             'deposits' => $makedata['deposits'],
-            'status' => $makedata['status']);
+            'status' => $makedata['status'],
+            'pnr_no' => isset($makedata['pnr_no'])?$makedata['pnr_no']:'',
+            'withdrawal_notes' => isset($makedata['withdrawal_notes'])?$makedata['withdrawal_notes']:'',
+            'withdrawal_paid_on' => isset($makedata['withdrawal_paid_on'])?date("Y-m-d", strtotime($makedata['withdrawal_paid_on'])):'',
+            'b2b_pay_account_info' => isset($makedata['b2b_pay_account_info'])?$makedata['b2b_pay_account_info']:0,
+            'withdrawal_request_id' => isset($makedata['withdrawal_request_id'])?$makedata['withdrawal_request_id']:0);
             $result = update_mypayment($paymentdata);
             //TODO: email
 

@@ -105,3 +105,9 @@ my_transaction
 trip_shared
 ALTER TABLE `trip_book_pay` ADD `date_of_trip_to` DATE NULL AFTER `date_of_trip`;
 ALTER TABLE `trip_book_pay_details` ADD `date_of_trip_to` DATE NULL AFTER `date_of_trip`;
+
+ALTER TABLE `trip_book_pay` ADD `b2b_payment_status` INT(2) NOT NULL DEFAULT '0' COMMENT '0 - Pendding,1 - sucess,2 - failed' AFTER `payment_status`;
+ALTER TABLE `trip_book_pay_details` ADD `b2b_payment_status` INT(2) NOT NULL DEFAULT '0' COMMENT '0 - Pendding,1 - sucess,2 - failed' AFTER `payment_status`;
+ALTER TABLE `trip_book_pay` CHANGE `payment_status` `payment_status` INT(1) NOT NULL DEFAULT '0' COMMENT '0 - Pendding,1 - sucess,2 - failed';
+ALTER TABLE `trip_book_pay` ADD `b2b_payment_on` DATE NULL AFTER `b2b_payment_status`;
+ALTER TABLE `trip_book_pay_details` ADD `b2b_payment_on` DATE NULL AFTER `b2b_payment_status`;

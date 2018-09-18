@@ -24,7 +24,7 @@
         <div class="col-xs-12 col-sm-12 pt-20 pb-5 clearfix">
             <!--                         left side - center-->
             <div class="col-xs-12 col-sm-12 pt-10 pb-5 clearfix">
-                 <?php echo form_open_multipart(base_url() . $url, array('method'=>'get','class' => 'form-horizontal margin-top-30', 'id' => 'search-coupon-code-form')); ?>
+                 <?php echo form_open_multipart(base_url() . $url, array('method'=>'get','class' => 'form-horizontal margin-top-30', 'id' => 'booking-report-form')); ?>
                            
                 <div class="col-xs-12 col-sm-4 col-lg-4">
                     <div class="row gap-10" id="rangeDatePicker">
@@ -48,7 +48,7 @@
                 <div class="col-xs-12 col-sm-3 col-lg-3">
                     <div class="form-group">
                         <label>Status</label>
-                        <select name="status" class="selectpicker show-tick form-control" title="Status">
+                        <select name="status" class="selectpicker show-tick form-control" id="bookingStatus" title="Status">
                             <option value="">All</option>
                             <option value="1" <?php if($status==1){echo 'selected';}?>>Pending</option>
                             <option value="2" <?php if($status==2){echo 'selected';}?>>Booked</option>
@@ -61,7 +61,7 @@
                 <div class="col-xs-12 col-sm-3 col-lg-3">
                     <div class="form-group">
                         <label>Booked From</label>
-                        <select name="bookfrom" class="selectpicker show-tick form-control" title="Booked From">
+                        <select name="bookfrom" class="selectpicker show-tick form-control" id="bookedFrom" title="Booked From">
                             <option value="">All</option>
                             <option value="1" <?php if($bookfrom==1){echo 'selected';}?>>B2C Booking</option>
                             <option value="2" <?php if($bookfrom==2){echo 'selected';}?>>Office Booking</option>
@@ -73,10 +73,10 @@
                         <label>Title</label>
                         <div class="row">
                             <div class="col-xs-12 col-sm-8 col-md-8">
-                                <input name="title" value="<?=$title?>" type="text" class="form-control" placeholder="Search Trip Title, PNR No, Phone No">
+                                <input name="title" value="<?=$title?>" type="text" id="bookSearchTitle" class="form-control" placeholder="Search Trip Title, PNR No, Phone No">
                             </div>
                             <div class="col-xs-12 col-sm-4 col-md-4">
-                                     <button type="submit" class="btn btn-primary btn-block"><i class="fa fa-search"></i> Search</button>
+                                <button type="submit" class="btn btn-primary btn-block" id="bookSearchBtn"><i class="fa fa-search"></i> Search</button>
                             </div>
                         </div>
                     </div>
@@ -84,7 +84,7 @@
                 <?php echo form_close(); ?>
                 <?php if($url=='booking-wise-reports'){?>
                 <div class="col-xs-2 col-sm-1 col-lg-1 text-right">
-                    <a class="btn btn-info c_mt" >Export XL</a>
+                    <a class="btn btn-info c_mt" id="bookExportXLSX">Export</a>
                 </div>
                 <?php }?>
                 <table class="table ">
@@ -132,10 +132,12 @@
                                             <?php }?>
                                         </td>
                                     </tr>
-            <?php
-    }
-}
-?> 	
+                            <?php
+                        }
+                    }else{
+                        echo "<tr><td colspan='10' style='text-align:center'>No Data Found</td></tr>";
+                    }
+                    ?> 	
 
                     </tbody>
                 </table>

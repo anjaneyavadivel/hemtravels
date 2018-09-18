@@ -80,6 +80,7 @@ class Login extends CI_Controller {
             }
         }
         if ($this->input->post('login')) {
+            $this->load->helper('custom_helper');
             $this->form_validation->set_rules('um_email', 'Email address', 'trim|required');
             $this->form_validation->set_rules('um_password', 'Password', 'trim|required|min_length[6]');
             if ($this->form_validation->run($this) == FALSE) {
@@ -97,19 +98,23 @@ class Login extends CI_Controller {
             $codition['isactive'] = 1;
             $check = $this->user_model->select('user_master', $codition);
             if ($check->num_rows() > 0) {
-                $ch = $check->row();  
-				$image=$ch->profile_pic;
-				if (trim($image) != "" && file_exists("./uploads/$image")) 
-				{
-					$image_url	=	base_url()."uploads/$image";
-				}
-				else
-				{
-					$image_url	=	base_url()."assets/images/man/01.jpg";
-				}   
+                $ch = $check->row();
+                if($ch->user_type=='SA'){
+                    $updatedata = array('balance_amt' => checkbal_mypayment(0,2),'unclear_amt' => checkbal_mypayment(0,1)); 
+                }else{
+                    $updatedata = array('balance_amt' => checkbal_mypayment($ch->id,2),'unclear_amt' => checkbal_mypayment($ch->id,1)); 
+                }
+                $whereData = array('id' => $ch->id);
+                $result = updateTable('user_master', $whereData, $updatedata);
+                $image = $ch->profile_pic;
+                if (trim($image) != "" && file_exists("./uploads/$image")) {
+                    $image_url = base_url() . "uploads/$image";
+                } else {
+                    $image_url = base_url() . "assets/images/man/01.jpg";
+                }
                 $this->session->set_userdata('user_id', $ch->id);
                 $this->session->set_userdata('user_email', $ch->email);
-				$this->session->set_userdata('user_phone', $ch->phone);
+                $this->session->set_userdata('user_phone', $ch->phone);
                 $this->session->set_userdata('name', $ch->user_fullname);
                 $this->session->set_userdata('user_img', $image_url);
                 $this->session->set_userdata('user_type', $ch->user_type);
@@ -158,10 +163,10 @@ class Login extends CI_Controller {
         } else {
 
             $values = array('email' => $this->input->post('new_email'),
-                'password'			=>	md5(md5($this->input->post('cnew_pasword'))),
+                'password' => md5(md5($this->input->post('cnew_pasword'))),
                 'activation_code' => '',
                 'user_type' => 'CM',
-               );
+            );
             $query = $this->user_model->insert('user_master', $values);
             $user_id = $this->db->insert_id();
             if ($query) {
@@ -242,15 +247,12 @@ class Login extends CI_Controller {
                 $values = array('um_updated_on' => date('Y-m-d h:i:s'),
                     'um_updated_by' => $ch->id,
                 );
-				$image=$ch->profile_pic;
-				if (trim($image) != "" && file_exists("./uploads/$image")) 
-				{
-					$image_url	=	base_url()."uploads/$image";
-				}
-				else
-				{
-					$image_url	=	base_url()."assets/images/man/01.jpg";
-				}
+                $image = $ch->profile_pic;
+                if (trim($image) != "" && file_exists("./uploads/$image")) {
+                    $image_url = base_url() . "uploads/$image";
+                } else {
+                    $image_url = base_url() . "assets/images/man/01.jpg";
+                }
                 $this->session->set_userdata('user_id', $ch->id);
                 $this->session->set_userdata('user_email', $ch->email);
                 $this->session->set_userdata('name', $ch->fullname);
@@ -358,6 +360,5 @@ class Login extends CI_Controller {
         $this->session->sess_destroy();
         redirect();
     }
-	
 
 }

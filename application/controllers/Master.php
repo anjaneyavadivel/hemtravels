@@ -374,13 +374,13 @@ class Master extends CI_Controller {
 
     public function checkhelper() {
         $this->load->helper('custom_helper');
-        $updatedata = array(
-                                    'payment_type' => 1,  // 1 - net, 2 - credit, 3 - debit
-                                    'payment_status' =>  1,
-                                    'status' =>  2); 
-
-                            trip_book_status_update($updatedata,'PNR01GLNGTR');
-                            exit();
+//        $updatedata = array(
+//                                    'payment_type' => 1,  // 1 - net, 2 - credit, 3 - debit
+//                                    'payment_status' =>  1,
+//                                    'status' =>  2); 
+//
+//                            trip_book_status_update($updatedata,'PNR01GLNGTR');
+//                            exit();
 //        $toemail='anjaneyavadivel@gmail.com';
 //        $subject='Welcome to trip';
 //        $message='This is test msg';
@@ -480,14 +480,34 @@ class Master extends CI_Controller {
 //        'status' => 2);
 //        make_mypayment($paymentdata);
         
-        // ticket book Admin to b2b
+        
+        //cancelled ticket b2b to customer
+        //$paymentdata = array(
+//        'userid' => 1, // customer userid
+//        'transaction_notes' => 'Cash Withdrawal - Trip has been cancelled PNR826YTZGV / TRIPFGSbgNw / North Goa Sightseeing Full Day Tour',
+//        'deposits' => 1950,
+//        'from_userid' => 3, // vendor userid
+//        'book_pay_id' => 1,
+//        'book_pay_details_id' => 0,
+//        'pnr_no' => 'PNR826YTZGV',
+//        'trip_id' => 1,
+//        'withdrawal_notes' => "We are transfted",
+//        'withdrawal_paid_on' => "10-09-2018",
+//        'b2b_pay_account_info' => 1,
+//        'status' => 2,
+//        'withdrawal_request_id' => 0); // withdrawal_request_id - id in my_transaction table
+//        make_mypayment($paymentdata);
+//        
+//        
+//        
+        // ticket book Admin to b2b, b2b to b2b
 //        $paymentdata = array(
-//        'userid' => 3,
+//        'userid' => 3,  // b2b
 //        'transaction_notes' => 'Trip has been booked PNR826YTZGV / TRIPFGSbgNw / North Goa Sightseeing Full Day Tour',
 //        'book_pay_id' => 1,
 //        'book_pay_details_id' => 1,
 //        'pnr_no' => 'PNR826YTZGV',
-//        'from_userid' => 0,  // default -1
+//        'from_userid' => 0,  // default -1  //admin / b2b
 //        'trip_id' => 1,
 //        'deposits' => 3036,
 //        'status' => 2);
