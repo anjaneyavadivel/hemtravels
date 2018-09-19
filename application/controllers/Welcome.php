@@ -22,9 +22,9 @@ class Welcome extends CI_Controller {
             $data['tripcategory_list'] = $this->Welcome_model->get_tripcategory_list($where, $limit);
             $this->load->view('welcome_b2a', $data);
         } else if ($this->session->userdata('user_type') == 'VA') {
-            $this->load->model('Tripshared_model');	
+            $this->load->model('Tripshared_model');
             $loginuserid = $this->session->userdata('user_id');
-             $data["loginuserid"] = $loginuserid;
+            $data["loginuserid"] = $loginuserid;
             $where = array('tm.isactive' => 1, 'tm.user_id' => $loginuserid);
             $limit = 8;
             $data['trippost_list'] = $this->Welcome_model->get_trip_list($where, $limit);
@@ -36,7 +36,7 @@ class Welcome extends CI_Controller {
             $where = array('tm.isactive' => 1, 'tm.user_id' => $loginuserid);
             $limit = 2;
             $data['all_booking_list'] = $this->Welcome_model->get_tripbooking_list($where, $limit);
-            $whereData = array('loginuserid' => $loginuserid,'isactive' => 1);
+            $whereData = array('loginuserid' => $loginuserid, 'isactive' => 1);
             $data["sharedtriplist"] = $this->Tripshared_model->trip_list($whereData, 5, 0);
             //$data['trip_list']=$this->Welcome_model->get_list($where);
             $this->load->view('welcome_b2b', $data);
@@ -162,15 +162,15 @@ class Welcome extends CI_Controller {
                 $id = $this->Welcome_model->contact_insert($data);
                 if ($id > 0) {
                     //$toemail='anjaneyavadivel@gmail.com';
-                    $toemail=admin_email;
-                    $subject=$this->input->post('subject').' from contact us/'.site_title;
-                    $message='Name: '.$this->input->post('name').'<br>'.'Email: '.$this->input->post('email').'<br><br>'.$this->input->post('message');
+                    $toemail = admin_email;
+                    $subject = $this->input->post('subject') . ' from contact us/' . site_title;
+                    $message = 'Name: ' . $this->input->post('name') . '<br>' . 'Email: ' . $this->input->post('email') . '<br><br>' . $this->input->post('message');
                     $mailData = array(
-                    'fromemail' => $this->input->post('email'),
-                    'toemail' => $toemail,
-                    'subject' => $subject,
-                    'message' => $message,
-                    //'othermsg' => ''
+                        'fromemail' => $this->input->post('email'),
+                        'toemail' => $toemail,
+                        'subject' => $subject,
+                        'message' => $message,
+                            //'othermsg' => ''
                     );
 
                     sendemail_personalmail($mailData);
@@ -181,6 +181,101 @@ class Welcome extends CI_Controller {
             $error = $this->session->set_userdata('suc', 'Successfullly send mail, Our representative will contact you shortly...');
             return FALSE;
         }
+    }
+
+    public function checkTripCompleted() {
+        $cur_date = date('Y-m-d');
+        $whereData = array('tpd.isactive' => 1, 'tpd.date_of_trip_to <' => $cur_date);
+        $joins = array(
+            array(
+                'table' => 'trip_master AS tm',
+                'condition' => 'tm.id = tpd.trip_id',
+                'jointype' => 'INNER'
+            ),
+            array(
+                'table' => 'user_master AS tmum',
+                'condition' => 'tm.user_id = tmum.id',
+                'jointype' => 'INNER'
+            ),
+            array(
+                'table' => 'user_master AS bum',
+                'condition' => 'tpd.user_id = bum.id',
+                'jointype' => 'INNER'
+            ),
+            array(
+                'table' => 'coupon_code_master_history AS ccmhd',
+                'condition' => 'tpd.coupon_history_id = ccmhd.id',
+                'jointype' => 'LEFT'
+            ),
+        );
+        $columns = 'tpd.*,'
+                . 'tm.id AS trip_id,tm.trip_name,tm.trip_code,tm.how_many_days,tm.how_many_nights,tm.total_days,tm.how_many_hours,'
+                . 'tm.brief_description,tm.other_inclusions,tm.exclusions,tm.languages,tm.meal,tm.cancellation_policy,tm.confirmation_policy,tm.refund_policy,'
+                . 'bum.id AS bookedbyid,bum.user_fullname AS bookedby,bum.phone AS bookedby_contactno,bum.email AS bookedby_contactemail,tpd.booked_on,tpd.status,tpd.payment_status,'
+                . 'tmum.id AS trip_postbyid,tmum.user_fullname AS trip_postby,tmum.phone AS trip_contactno,tmum.email AS trip_contactemail,tm.trip_name,'
+                . '(CASE WHEN ccmhd.id IS NOT NULL THEN ccmhd.coupon_code END) AS coupon_code,(CASE WHEN ccmhd.id IS NOT NULL THEN ccmhd.offer_type END) AS offer_type,'
+                . '(CASE WHEN ccmhd.id IS NOT NULL THEN ccmhd.percentage_amount END) AS percentage_amount';
+        $tableData = get_joins('trip_book_pay AS tpd', $columns, $joins, $whereData, $orWhereData = array(), $group = array(), $order = 'tpd.id ASC');
+        if ($tableData->num_rows() > 0) {
+            $book_pay = $tableData->result();
+            foreach ($book_pay as $book_pay) {
+
+                $where_pay_details = array('tpd.isactive' => 1, 'pnr_no' => $book_pay->pnr_no);
+                $joins = array(
+                    array(
+                        'table' => 'trip_master AS tm',
+                        'condition' => 'tm.id = tpd.trip_id',
+                        'jointype' => 'INNER'
+                    ),
+                    array(
+                        'table' => 'user_master AS tmum',
+                        'condition' => 'tm.user_id = tmum.id',
+                        'jointype' => 'INNER'
+                    ),
+                    array(
+                        'table' => 'user_master AS bum',
+                        'condition' => 'tpd.from_user_id = bum.id',
+                        'jointype' => 'INNER'
+                    ),
+                    array(
+                        'table' => 'coupon_code_master_history AS ccmhd',
+                        'condition' => 'tpd.coupon_history_id = ccmhd.id',
+                        'jointype' => 'LEFT'
+                    ),
+                );
+                $columns = 'tpd.*,'
+                        . 'tpd.servicecharge_amt,tpd.your_final_amt,tm.id AS trip_id,tm.trip_name,tm.trip_code,tm.how_many_days,tm.how_many_nights,tm.total_days,tm.how_many_hours,'
+                        . 'tm.brief_description,tm.other_inclusions,tm.exclusions,tm.languages,tm.meal,tm.cancellation_policy,tm.confirmation_policy,tm.refund_policy,'
+                        . 'bum.id AS bookedbyid,bum.user_fullname AS bookedby,bum.phone AS bookedby_contactno,bum.email AS bookedby_contactemail,tpd.booked_on,tpd.status,tpd.payment_status,'
+                        . 'tmum.id AS trip_postbyid,tmum.user_fullname AS trip_postby,tmum.phone AS trip_contactno,tmum.email AS trip_contactemail,tm.trip_name,'
+                        . '(CASE WHEN ccmhd.id IS NOT NULL THEN ccmhd.coupon_code END) AS coupon_code,(CASE WHEN ccmhd.id IS NOT NULL THEN ccmhd.offer_type END) AS offer_type,'
+                        . '(CASE WHEN ccmhd.id IS NOT NULL THEN ccmhd.percentage_amount END) AS percentage_amount';
+                $tableData = get_joins('trip_book_pay_details AS tpd', $columns, $joins, $where_pay_details, $orWhereData = array(), $group = array(), $order = 'tpd.id ASC');
+                if ($tableData->num_rows() > 0) {
+                    $pay_details = $tableData->result();
+                    foreach ($pay_details as $pay) {
+                        if($pay->user_id!=0){
+                            $paymentdata = array(
+                            'userid' => $pay->user_id,  // b2b
+                            'transaction_notes' => 'Trip has been booked PNR826YTZGV / TRIPFGSbgNw / North Goa Sightseeing Full Day Tour',
+                            'book_pay_id' => $pay->book_pay_id,
+                            'book_pay_details_id' => $pay->id,
+                            'pnr_no' => $pay->pnr_no,
+                            'from_userid' => $pay->from_user_id,  // default -1  //admin / b2b
+                            'trip_id' => $pay->trip_id,
+                            'deposits' => $pay->net_price,
+                            'status' => 2);
+                    //        make_mypayment($paymentdata);
+
+                            print_r($paymentdata);
+                            echo '<br><br>';
+                        }
+                    }
+                }
+                        
+            }
+        }
+        return FALSE;
     }
 
 }

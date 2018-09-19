@@ -395,10 +395,10 @@ class Master extends CI_Controller {
 //        
 //        sendemail_personalmail($mailData);
 //        exit();
-//        $tripid=2;
-//        $result = getallparenttrip($tripid);
-//        print_r($result);
-//        exit();
+        $tripid=3;
+        $result = getallparenttrip($tripid);
+        print_r($result);
+        exit();
 //        
 //           $pnr_no='PNR74WZ9LQA';$phoneno='9688079118';
 //           $result =  getpnrinfo($pnr_no,$phoneno);

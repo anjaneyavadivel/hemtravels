@@ -119,7 +119,9 @@
                             <label>Offer Type<span class="validation">*</span></label>
                             <select name="offertype" id="offertype" class="selectpicker show-tick form-control">
                                 <option value="">Select a offer type...</option>
+                                <?php  if ($this->session->userdata('user_type') != 'SA') {  ?>
                                 <option value="1">Fixed</option>
+                                <?php  }  ?>
                                 <option value="2">Percentage</option>
                             </select>
                         </div>
