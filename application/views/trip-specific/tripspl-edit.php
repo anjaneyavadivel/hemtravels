@@ -78,7 +78,7 @@
                         </div>
                     </div>     
                     <div class="form-group ">
-                        <label>Offer Type<span style=' color: #d9534f;'>*</span><span style='color: #d9534f;'>*</span></label>
+                        <label>Offer Type<span style=' color: #d9534f;'>*</span></label>
                         <select class="form-control" name="offer_type"  id="offer_type">
                             <option value="">Select a offer to...</option>
                             <option value="1" <?php echo isset($details['offer_type']) && $details['offer_type'] == 1?"selected":"" ?>>fixed</option>
@@ -88,21 +88,21 @@
                     <div class="row">
                         <div class="col-md-4">
                             <div class="form-group ">
-                                <label>Price To Adult<span style=' color: #d9534f;'>*</span></label>
+                                <label>Price To Adult<span style=' color: #d9534f;'>*</span>&nbsp;&nbsp;<small class="totAdult"></small></label>
                                 <input name="price_to_adult" id="price_to_adult" type="text" class="form-control" placeholder="Enter the adult price" value="<?php echo isset($details['price_to_adult'])?$details['price_to_adult']:''?>"/>
                                 <input  id="db_price_to_adult" type="hidden" class="form-control" placeholder="Enter the adult price" value="<?php echo isset($details['price_to_adult'])?$details['price_to_adult']:''?>"/>
                             </div>
                         </div>
                         <div class="col-md-4">
                             <div class="form-group ">
-                                <label>Price To Children<span style=' color: #d9534f;'>*</span></label>
-                                <input name="price_to_children" id="price_to_children" type="text" class="form-control" placeholder="Enter the children price" value="<?php echo isset($details['price_to_child'])?$details['price_to_child']:''?>"/>
-                                <input  id="db_price_to_children" type="hidden" class="form-control" placeholder="Enter the children price" value="<?php echo isset($details['price_to_child'])?$details['price_to_child']:''?>"/>
+                                <label>Price To Children &nbsp;&nbsp;<small class="totChild"></small></label>
+                                <input name="price_to_child" id="price_to_child" type="text" class="form-control" placeholder="Enter the children price" value="<?php echo isset($details['price_to_child'])?$details['price_to_child']:''?>"/>
+                                <input  id="db_price_to_child" type="hidden" class="form-control" placeholder="Enter the children price" value="<?php echo isset($details['price_to_child'])?$details['price_to_child']:''?>"/>
                             </div>
                         </div>
                         <div class="col-md-4">
                             <div class="form-group ">
-                                <label>Price To Infan<span style=' color: #d9534f;'>*</span></label>
+                                <label>Price To Infan &nbsp;&nbsp;<small class="totInfan"></small></label>
                                 <input name="price_to_infan" id="price_to_infan" type="text" class="form-control" placeholder="Enter the infan price" value="<?php echo isset($details['price_to_infan'])?$details['price_to_infan']:''?>"/>
                                 <input id="db_price_to_infan" type="hidden" class="form-control" placeholder="Enter the infan price" value="<?php echo isset($details['price_to_infan'])?$details['price_to_infan']:''?>"/>
                             </div>

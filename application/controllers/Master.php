@@ -374,6 +374,11 @@ class Master extends CI_Controller {
 
     public function checkhelper() {
         $this->load->helper('custom_helper');
+        $whereData = array('isactive' => 1, 'id' => 1);
+                $showField = array('email','phone','user_fullname');
+                $touser_info = selectTable('user_master', $whereData, $showField)->row();
+               echo $toemail = $touser_info->email;
+               echo  $mailData['tousername'] = $touser_info->user_fullname;
 //        $updatedata = array(
 //                                    'payment_type' => 1,  // 1 - net, 2 - credit, 3 - debit
 //                                    'payment_status' =>  1,
@@ -395,10 +400,10 @@ class Master extends CI_Controller {
 //        
 //        sendemail_personalmail($mailData);
 //        exit();
-        $tripid=3;
-        $result = getallparenttrip($tripid);
-        print_r($result);
-        exit();
+//        $tripid=3;
+//        $result = getallparenttrip($tripid);
+//        print_r($result);
+//        exit();
 //        
 //           $pnr_no='PNR74WZ9LQA';$phoneno='9688079118';
 //           $result =  getpnrinfo($pnr_no,$phoneno);

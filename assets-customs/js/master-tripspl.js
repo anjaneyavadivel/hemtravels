@@ -20,6 +20,29 @@ jQuery(function ($) {
         }, 1000);
     });
     
+    var id = 0;
+    $('body').on('click', '.btn-edit-state', function () {
+        $('body').modalmanager('loading');
+        id = $(this).attr('data-val');
+        var data = {
+            csrf_test_name: $.cookie('csrf_cookie_name'),
+            id: id
+        };
+        setTimeout(function () {
+            $.ajax({
+                url: base_url + 'state-master/edit',
+                type: 'POST',
+                data: data,
+                success: function (result) {
+                    $modal.html(result);
+                    $modal.modal('show');
+                    MasterValidation.init();
+                    //$modal.modal();
+                }
+            });
+        }, 1000);
+    });
+    
     //ADD
     $('body').on('click', '.btn-add-trip-specific', function () {
         $('body').modalmanager('loading');        
@@ -46,34 +69,18 @@ jQuery(function ($) {
                 calendarInit();
                 
                 addValidation();
-            });
-        }, 1000);
-    });
-            
-    var id = 0;
-    $('body').on('click', '.btn-edit-state', function () {
-        $('body').modalmanager('loading');
-        id = $(this).attr('data-val');
-        var data = {
-            csrf_test_name: $.cookie('csrf_cookie_name'),
-            id: id
-        };
-        setTimeout(function () {
-            $.ajax({
-                url: base_url + 'state-master/edit',
-                type: 'POST',
-                data: data,
-                success: function (result) {
-                    $modal.html(result);
-                    $modal.modal('show');
-                    MasterValidation.init();
-                    //$modal.modal();
-                }
+                
+                $('#trip_id').change();
+                setTimeout(function(){
+                    $('#price_to_adult').keyup();
+                    $('#price_to_child').keyup();
+                    $('#price_to_infan').keyup();
+                },1000);
             });
         }, 1000);
     });
     
-    $('body').on('click','#trip_type',function(){
+    $('body').on('change','#trip_type',function(){
        $('.offer_specific_day').hide();
        
        if($(this).val() == 1){
@@ -81,20 +88,62 @@ jQuery(function ($) {
        }
     });
     
-    $('body').on('click','#offer_type',function(){
-        
-       $('#price_to_adult').val(''); 
-       $('#price_to_child').val(''); 
-       $('#price_to_infan').val(''); 
-       
-       if($(this).val() == 1){
-            $('#price_to_adult').val($('#db_price_to_adult').val()); 
-            $('#price_to_child').val($('#db_price_to_child').val()); 
-            $('#price_to_infan').val($('#db_price_to_infan').val());     
-       }
+    $('body').on('change','#offer_type',function(){
+        if($('#trip_id').valid()){
+            //$('#price_to_adult').val(''); 
+            //$('#price_to_child').val(''); 
+            //$('#price_to_infan').val(''); 
+            
+             $('#price_to_adult').val($('#db_price_to_adult').val()); 
+                 $('#price_to_child').val($('#db_price_to_child').val()); 
+                 $('#price_to_infan').val($('#db_price_to_infan').val());  
+
+             $('#price_to_adult').attr('placeholder','Enter the adult percentage eg:10');
+             $('#price_to_child').attr('placeholder','Enter the children percentage eg:10');
+             $('#price_to_infan').attr('placeholder','Enter the infan percentage eg:10');
+
+            if($(this).val() == 1){
+                 
+
+                 $('#price_to_adult').attr('placeholder','Enter the adult price eg:1000');
+                 $('#price_to_child').attr('placeholder','Enter the children price eg:1000');
+                 $('#price_to_infan').attr('placeholder','Enter the infan price eg:1000');
+            }
+        }
     });
     
-    $('body').on('click','#trip_id',function(){
+    $('body').on('keyup','#price_to_adult',function(){
+        if($('#offer_type').val() == 2){
+            var per = $(this).val();
+            var res = ($('#db_price_to_adult').val() * per) / 100;
+            res = (Math.round((res * 1000)/10)/100).toFixed(2);
+            res = $('#db_price_to_adult').val() - res;
+            res = res > 0 ? res:0;
+            $('.totAdult').text(res);
+        }
+    });
+    $('body').on('keyup','#price_to_child',function(){
+        if($('#offer_type').val() == 2){
+            var per = $(this).val();
+            var res = ($('#db_price_to_child').val() * per) / 100;
+            res = (Math.round((res * 1000)/10)/100).toFixed(2);
+            res = $('#db_price_to_child').val() - res;
+            res = res > 0 ? res:0;
+            $('.totChild').text(res);
+        }
+    });
+    $('body').on('keyup','#price_to_infan',function(){
+        if($('#offer_type').val() == 2){
+            var per = $(this).val();
+            var res = ($('#db_price_to_infan').val() * per) / 100;
+            res = (Math.round((res * 1000)/10)/100).toFixed(2);
+            res = $('#db_price_to_infan').val() - res;
+            res = res > 0 ? res:0;
+            $('.totInfan').text(res);
+        }
+    });
+    
+    $('body').on('change','#trip_id',function(){
         
         if(this.value){
          var formData = new FormData();
@@ -163,12 +212,13 @@ jQuery(function ($) {
                    },
                    price_to_adult: {
                        required: true,
+                       number:true
                    },
                    price_to_children: {
-                       required: true,
+                       number:true
                    },
                    price_to_infan: {
-                       required: true,
+                       number:true
                    }
                },              
                highlight: function (element) {

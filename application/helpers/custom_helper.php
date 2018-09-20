@@ -1200,14 +1200,15 @@ if (!function_exists('trip_book_status_update')) {
                 $message='Trip has been booked '.$pnr_no.' / '.$trip_code.' / '.$trip_name. ' at '.site_title;
                 $mailData = array(
                 //'fromuserid' => $pnrinfo['trip_postbyid'],
-                'ccemail' => 'anjaneyavadivel@gmail.com,'.$pnrinfo['bookedby_contactemail'],
-                'bccemail' => admin_email.','.email_bottem_email.','.$pnrinfo['bookedby_contactemail'],
+                'ccemail' => admin_email.','.email_bottem_email.','.'anjaneyavadivel@gmail.com,'.$pnrinfo['bookedby_contactemail'],
+                //'bccemail' => admin_email.','.email_bottem_email.','.$pnrinfo['bookedby_contactemail'],
                 'touserid' => $touserid,
                 //'toemail' => 'anjaneyavadivel@gmail.com',
                 'subject' => $subject,
                 'message' => $message,
                 'othermsg' => $othermsg
                 );
+                                
                 sendemail_personalmail($mailData);
             }
 //            'status' =>  3) //1 - Pendding, 2- booked, 3 - cancelled, 4 - confirmed, 5 -Completed
@@ -1217,8 +1218,8 @@ if (!function_exists('trip_book_status_update')) {
                 $message='Trip has been cancelled '.$pnr_no.' / '.$trip_code.' / '.$trip_name. ' at '.site_title;
                 $mailData = array(
                 //'fromuserid' => $pnrinfo['trip_postbyid'],
-                'ccemail' => 'anjaneyavadivel@gmail.com,'.$pnrinfo['bookedby_contactemail'],
-                'bccemail' => admin_email.','.email_bottem_email.','.$pnrinfo['bookedby_contactemail'],
+                'ccemail' => admin_email.','.email_bottem_email.','.'anjaneyavadivel@gmail.com,'.$pnrinfo['bookedby_contactemail'],
+                //'bccemail' => admin_email.','.email_bottem_email.','.$pnrinfo['bookedby_contactemail'],
                 'touserid' => $touserid,
                 //'toemail' => 'anjaneyavadivel@gmail.com',
                 'subject' => $subject,
@@ -1234,8 +1235,8 @@ if (!function_exists('trip_book_status_update')) {
                 $message='Trip has been confirmed '.$pnr_no.' / '.$trip_code.' / '.$trip_name. ' at '.site_title;
                 $mailData = array(
                 //'fromuserid' => $pnrinfo['trip_postbyid'],
-                'ccemail' => 'anjaneyavadivel@gmail.com,'.$pnrinfo['bookedby_contactemail'],
-                'bccemail' => admin_email.','.email_bottem_email.','.$pnrinfo['bookedby_contactemail'],
+                'ccemail' => admin_email.','.email_bottem_email.','.'anjaneyavadivel@gmail.com,'.$pnrinfo['bookedby_contactemail'],
+                //'bccemail' => admin_email.','.email_bottem_email.','.$pnrinfo['bookedby_contactemail'],
                 'touserid' => $touserid,
                 //'toemail' => 'anjaneyavadivel@gmail.com',
                 'subject' => $subject,
@@ -1437,6 +1438,7 @@ if (!function_exists('getallparenttrip')) {
  * book the trip
   input: $mailData array(
  * fromuserid //(option)
+ * fromusername //(option)
  * fromemail  //(option) use fromuserid or fromemail
  * touserid  //(option) use touserid or toemail
  * toemail  //(option) use touserid or toemail
@@ -1460,21 +1462,26 @@ if (!function_exists('sendemail_personalmail')) {
             $mailData['tousername'] = '';
             // get from user info
             if (isset($mailData['fromuserid']) && $mailData['fromuserid'] != '') {
-                $whereData = array('isactive' => 1, 'id' => $mailData['fromuserid']);
-                $showField = array('email','phone');
-                $fromuser_info = selectTable('user_master', $whereData, $showField)->row();
-                $fromemail = $fromuser_info->email;
+                $whereData = array('id' => (int)$mailData['fromuserid']);
+                //$showField = array('email','phone');
+                $tableData = selectTable('user_master', $whereData)->row();
+                $fromuser_info = $tableData->first_row('array');
+                $fromemail = $fromuser_info['email'];
             }
             if (isset($mailData['fromemail']) && $mailData['fromemail'] != '') {
                 $fromemail = $mailData['fromemail'];
             }
             // get to user info
             if (isset($mailData['touserid']) && $mailData['touserid'] != '') {
-                $whereData = array('isactive' => 1, 'id' => $mailData['touserid']);
-                $showField = array('email','phone','user_fullname');
-                $touser_info = selectTable('user_master', $whereData, $showField)->row();
-                $toemail = $touser_info->email;
-                $mailData['tousername'] = $touser_info->user_fullname;
+                $whereData = array('id' => (int)$mailData['touserid']);
+                //$showField = array('email','phone','user_fullname');
+                $tableData = selectTable('user_master', $whereData);
+                $touserinfo = $tableData->first_row('array');
+                $toemail = $touserinfo['email'];
+                $mailData['tousername'] = $touserinfo['user_fullname'];
+            }
+            if (isset($mailData['fromusername']) && $mailData['fromusername'] != '') {
+                $mailData['tousername'] = $mailData['fromusername'];
             }
             if ($mailData['tousername'] == '') {
                 $mailData['tousername'] = 'Sir/Madam';
@@ -1492,9 +1499,8 @@ if (!function_exists('sendemail_personalmail')) {
                 $bccemail = $mailData['bccemail'];
             }
             if ($fromemail == '' || $toemail == '') {
-                return TRUE;
+                return FALSE;
             }
-
             $CI->email->clear();
             $message = $CI->load->view('email/default_template.tpl.php', $mailData, TRUE);
             $email_config = array(
@@ -1510,6 +1516,7 @@ if (!function_exists('sendemail_personalmail')) {
                 'charset' => 'utf-8'
             );
             $CI->load->library('email', $email_config);
+            //echo $fromemail;echo $toemail;echo $ccemail;
             $CI->email->set_mailtype("html");
             $CI->email->from($fromemail);
             $CI->email->to($toemail);
@@ -1527,6 +1534,7 @@ if (!function_exists('sendemail_personalmail')) {
             if ($CI->email->send()) {
                 return TRUE;
             } else {
+                //$this->email->print_debugger();
                 return FALSE;
             }
         } else {

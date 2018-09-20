@@ -282,6 +282,9 @@ jQuery(function($) {
 				  required: true,
 				  remote:{
 					 type:"post",
+					 data: {
+						'csrf_test_name': $.cookie('csrf_cookie_name'),
+						},
 					 url:base_url+"login/new_email_vaildation",
 				 },
 				  
@@ -295,10 +298,31 @@ jQuery(function($) {
 					minlength: 6,
 					equalTo: "#new_pasword"
 				},
+                user_type: {
+                required: true,
+                },
+                user_fullname: {
+                required: true,
+                },
+                phone: {
+                required: true,
+                number: true,
+                minlength: 10,
+		maxlength: 10
+                },
+                register_accept_checkbox: {
+                required: true,
+                },
 			
 			
         },
 		messages:{
+			phone:{
+				required:"Please enter the valid phone number",
+			},
+			register_accept_checkbox:{
+				required:"Please read and accept the terms",
+			},
 			new_email:{
 				required:"This field is required",
 				remote:"Your email already exist kindly Login",

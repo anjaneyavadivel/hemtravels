@@ -232,8 +232,39 @@
 			<div class="col-sm-12 col-md-12">
 	
 				<div class="form-group"> 
+					<label>Name</label>
+                                        <input class="form-control" placeholder="Enter your name"  type="text" id="user_fullname" name="user_fullname"> 
+				</div>
+			
+			</div>
+			
+			<div class="col-sm-12 col-md-12">
+	
+				<div class="form-group"> 
 					<label>Email Address</label>
 					<input class="form-control" placeholder="Enter your email address"  type="email" id="new_email" name="new_email"> 
+				</div>
+			
+			</div>
+			
+			<div class="col-sm-12 col-md-12">
+	
+				<div class="form-group"> 
+					<label>Phone Number</label>
+                                        <input class="form-control" placeholder="Enter your phone number"  type="number" id="phone" name="phone"> 
+				</div>
+			
+			</div>
+			
+			<div class="col-sm-12 col-md-12">
+	
+				<div class="form-group"> 
+					<label>You are?</label>
+                                        <select name="user_type" class="form-control" placeholder="You are?">
+                                            <option value="">Choose you are?</option>
+                                            <option value="VA">Vendor / Business</option>
+                                            <option value="CU">Customer / Guest</option>
+                                        </select>
 				</div>
 			
 			</div>
@@ -257,10 +288,12 @@
 			</div>
 			
 			<div class="col-sm-12 col-md-12">
-				<div class="checkbox-block"> 
-					<input id="register_accept_checkbox" name="register_accept_checkbox" class="checkbox" value="First Choice" type="checkbox"> 
+                            <div class="form-group">
+<!--				<div class="checkbox-block"> -->
+					<input id="register_accept_checkbox" name="register_accept_checkbox" class=" form-control" value="1" type="checkbox"> 
 					<label class="" for="register_accept_checkbox">By register, I read &amp; accept <a href="#">the terms</a></label>
-				</div>
+<!--				</div>-->
+                            </div>
 			</div>
 			
 			<div class="col-sm-12 col-md-12">

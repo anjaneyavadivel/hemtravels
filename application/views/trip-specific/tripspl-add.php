@@ -71,7 +71,7 @@
                     </div>
                 </div>     
                 <div class="form-group ">
-                    <label>Offer Type<span style=' color: #d9534f;'>*</span><span style='color: #d9534f;'>*</span></label>
+                    <label>Offer Type<span style=' color: #d9534f;'>*</span></label>
                     <select class="form-control" name="offer_type"  id="offer_type">
                         <option value="">Select a offer to...</option>
                         <option value="1">fixed</option>
@@ -81,22 +81,22 @@
                 <div class="row">
                     <div class="col-md-4">
                         <div class="form-group ">
-                            <label>Price To Adult<span style=' color: #d9534f;'>*</span></label>
-                            <input name="price_to_adult" id="price_to_adult" type="text" class="form-control" placeholder="Enter the adult price"/>
+                            <label>Price To Adult<span style=' color: #d9534f;'>*</span>&nbsp;&nbsp;<small class="totAdult"></small></label>
+                            <input name="price_to_adult" id="price_to_adult" type="text" class="form-control" placeholder="Enter the adult price eg:1000"/>
                             <input  id="db_price_to_adult" type="hidden" class="form-control" placeholder="Enter the adult price"/>
                         </div>
                     </div>
                     <div class="col-md-4">
                         <div class="form-group ">
-                            <label>Price To Children<span style=' color: #d9534f;'>*</span></label>
-                            <input name="price_to_children" id="price_to_children" type="text" class="form-control" placeholder="Enter the children price"/>
-                            <input  id="db_price_to_children" type="hidden" class="form-control" placeholder="Enter the children price"/>
+                            <label>Price To Children &nbsp;&nbsp;<small class="totChild"></small></label>
+                            <input name="price_to_child" id="price_to_child" type="text" class="form-control" placeholder="Enter the children price eg:1000"/>
+                            <input  id="db_price_to_child" type="hidden" class="form-control" placeholder="Enter the children price"/>
                         </div>
                     </div>
                     <div class="col-md-4">
                         <div class="form-group ">
-                            <label>Price To Infan<span style=' color: #d9534f;'>*</span></label>
-                            <input name="price_to_infan" id="price_to_infan" type="text" class="form-control" placeholder="Enter the infan price"/>
+                            <label>Price To Infan &nbsp;&nbsp;<small class="totInfan"></small></label>
+                            <input name="price_to_infan" id="price_to_infan" type="text" class="form-control" placeholder="Enter the infan price eg:1000"/>
                             <input id="db_price_to_infan" type="hidden" class="form-control" placeholder="Enter the infan price"/>
                         </div>
                     </div>

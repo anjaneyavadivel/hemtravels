@@ -1234,4 +1234,15 @@ class Trips extends CI_Controller {
         
         echo 'succss';exit;
     }
+    
+    public function tripLinkShareModal($tripCode = null) { 
+        if ($this->session->userdata('user_id') == '' || 
+            ($this->session->userdata('user_type') != 'SA' && $this->session->userdata('user_type') !='VA' )) {
+            return FALSE;
+        }
+        $data['tripCode'] = $tripCode;
+       
+        $this->load->view("trip/trip-share-modal",$data);
+        
+    }
 }

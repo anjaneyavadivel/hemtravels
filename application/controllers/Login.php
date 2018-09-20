@@ -99,10 +99,10 @@ class Login extends CI_Controller {
             $check = $this->user_model->select('user_master', $codition);
             if ($check->num_rows() > 0) {
                 $ch = $check->row();
-                if($ch->user_type=='SA'){
-                    $updatedata = array('balance_amt' => checkbal_mypayment(0,2),'unclear_amt' => checkbal_mypayment(0,1)); 
-                }else{
-                    $updatedata = array('balance_amt' => checkbal_mypayment($ch->id,2),'unclear_amt' => checkbal_mypayment($ch->id,1)); 
+                if ($ch->user_type == 'SA') {
+                    $updatedata = array('balance_amt' => checkbal_mypayment(0, 2), 'unclear_amt' => checkbal_mypayment(0, 1));
+                } else {
+                    $updatedata = array('balance_amt' => checkbal_mypayment($ch->id, 2), 'unclear_amt' => checkbal_mypayment($ch->id, 1));
                 }
                 $whereData = array('id' => $ch->id);
                 $result = updateTable('user_master', $whereData, $updatedata);
@@ -161,23 +161,40 @@ class Login extends CI_Controller {
                 redirect();
             }
         } else {
+            $this->load->helper('custom_helper');
 
             $values = array('email' => $this->input->post('new_email'),
+                'user_fullname' => $this->input->post('user_fullname'),
                 'password' => md5(md5($this->input->post('cnew_pasword'))),
                 'activation_code' => '',
-                'user_type' => 'CM',
+                'user_type' => $this->input->post('user_type'),
             );
             $query = $this->user_model->insert('user_master', $values);
             $user_id = $this->db->insert_id();
             if ($query) {
                 $activation_code = md5(md5($user_id . date('ymdhis')));
                 $data['activation_code'] = $activation_code;
-                $data['new_email'] = $this->input->post('new_email');
+                //$data['new_email'] = $this->input->post('new_email');
                 $upt = $this->user_model->update('user_master', array('activation_code' => $activation_code), array('id' => $user_id));
                 if ($upt) {
                     //echo $this->input->post('new_email');exit;
-                    $messages = $this->load->view('mail/confrimation', $data, true);
-                    $query1 = $this->user_model->email_sent_user($this->input->post('new_email'), "Confirmation from Hem Travel", $messages);
+                    //$messages = $this->load->view('mail/confrimation', $data, true);
+                    $toemail=$this->input->post('new_email');
+                    $subject='Email verification';
+                    $message='Congratulations! You recently added a new email address to your '.site_title.'. To verify that you own this email address, simply click on the link below.<br><br>'
+                            . '<a href="'.base_url().'login/email_verfication/'.$activation_code.'" target="_blank" >Click here to verify your email</a>'
+                            . '<br><br>Verifying your email address ensures that you can securely retrieve your account information if your password is lost or stolen. You must verify your email address before you can use it on  '.site_title.'! services that require an email address.';
+                    $mailData = array(
+                    //'fromuserid' => 1,
+                    'fromusername' => $this->input->post('user_fullname'),
+                    'toemail' => $toemail,
+                    'subject' => $subject,
+                    'message' => $message,
+                    //'othermsg' => ''
+                    );
+
+                    $query1 = sendemail_personalmail($mailData);
+                    //$query1 = $this->user_model->email_sent_user($this->input->post('new_email'), "Confirmation from Hem Travel", $messages);
                     if ($query1) {
                         if ($this->session->userdata('last_url')) {
                             $this->session->set_userdata('suc', 'Successfully registerd please Confirm Your mail..!');
@@ -213,18 +230,25 @@ class Login extends CI_Controller {
 
     function email_verfication() {
         if ($this->session->userdata('user_id') == '') {
-            $check = $this->user_model->select('user_master', array('activation_code' => $this->uri->segment(2)));
+            $check = $this->user_model->select('user_master', array('activation_code' => $this->uri->segment(3)));
             if ($check->num_rows() > 0) {
                 $ch = $check->row();
-                $values = array('um_updated_on' => date('Y-m-d h:i:s'),
-                        /* 'um_updated_by'	=>	$ch->um_user_id,
-                          'um_status'		=>	1 */                        );
-                $this->pet_model->update('user_master', $values, array('activation_code' => $this->uri->segment(2)));
+                $values = array('last_visit' => date('Y-m-d h:i:s'),
+                'activation_code'=>'',
+                'isactive'=>1 );
+                $this->user_model->update('user_master', $values, array('id' => $ch->id));
+                $image = $ch->profile_pic;
+                if (trim($image) != "" && file_exists("./uploads/$image")) {
+                    $image_url = base_url() . "uploads/$image";
+                } else {
+                    $image_url = base_url() . "assets/images/man/01.jpg";
+                }
                 $this->session->set_userdata('user_id', $ch->id);
                 $this->session->set_userdata('user_email', $ch->email);
-                $this->session->set_userdata('name', $ch->full_name);
-                $this->session->set_userdata('user_img', $ch->profile_pic);
-                $this->session->set_userdata('user_type', $ch->type);
+                $this->session->set_userdata('user_phone', $ch->phone);
+                $this->session->set_userdata('name', $ch->user_fullname);
+                $this->session->set_userdata('user_img', $image_url);
+                $this->session->set_userdata('user_type', $ch->user_type);
                 $this->session->set_userdata('signup_socail', 2);
 
                 $this->session->set_userdata('suc', 'Login Successfully...!');
@@ -281,30 +305,39 @@ class Login extends CI_Controller {
     }
 
     function new_email_vaildation() {
-        $check = $this->user_model->select('user_master', array('email' => $_POST['new_email']));
-        if ($check->num_rows() > 0) {
-            echo "false";
-        } else {
-            echo "true";
+        if ($_POST) {
+            $check = $this->user_model->select('user_master', array('email' => $this->input->post('new_email')));
+            if ($check->num_rows() > 0) {
+                echo "false";
+                return false;
+            }
         }
+        echo "true";
+        return TRUE;
     }
 
     function old_email_vaildation() {
-        $check = $this->user_model->select('user_master', array('email' => $_POST['um_email']));
-        if ($check->num_rows() == 0) {
-            echo "false";
-        } else {
-            echo "true";
+        if ($_POST) {
+            $check = $this->user_model->select('user_master', array('email' => $this->input->post('um_email')));
+            if ($check->num_rows() == 0) {
+                echo "false";
+                return false;
+            }
         }
+        echo "true";
+        return TRUE;
     }
 
     function for_email_vaildation() {
-        $check = $this->user_model->select('user_master', array('email' => $_POST['forget_email']));
-        if ($check->num_rows() == 0) {
-            echo "false";
-        } else {
-            echo "true";
+        if ($_POST) {
+            $check = $this->user_model->select('user_master', array('email' => $this->input->post('forget_email')));
+            if ($check->num_rows() == 0) {
+                echo "false";
+                return false;
+            }
         }
+        echo "true";
+        return TRUE;
     }
 
     function signup() {

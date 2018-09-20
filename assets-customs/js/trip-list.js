@@ -121,7 +121,8 @@ jQuery(function($) {
                                                     '<a href="javascript:;" class="btn btn-danger btn-sm tripDelete" data-id="'+data.id+'">Delete</a>'+
                                                 '</div>'+
                                                 //'<div class="trip-by pt-5"><a href="'+base_url+'trip-calendar-view/'+data.trip_code+'"><span class="text-primary font22 font700 mb-1">'+data.total_booking+'</span> Booking List</a></div>';
-                                                '<div class="trip-by pt-5"><a href="'+base_url+'trip-calendar-view/'+data.trip_code+'">Month View</a></div>';
+                                                '<div class="trip-by pt-5"><a href="'+base_url+'trip-calendar-view/'+data.trip_code+'">Month View</a></div>'+
+                                                '<div class="trip-by pt-5"><a class="share-link" href="javscript:;" data-val="'+data.trip_code+'">Share Link</a></div>';
                                 }
                                 
                                 //OFFER DETAILS
@@ -320,6 +321,24 @@ jQuery(function($) {
         if (!results[2]) return '';
         return decodeURIComponent(results[2].replace(/\+/g, " "));
     }   
+    
+    
+    $.fn.modalmanager.defaults.resize = true;
+    $.fn.modalmanager.defaults.spinner = '<div class="loading-spinner fade" style="width: 200px; margin-left: -100px;"><span style="font-weight:300; color: #eee; font-size: 18px; font-family:Open Sans;">&nbsp;Loading...</div>';
+
+    var $modal = $('#common-ajax-modal');
+    
+    $('body').on('click', '.share-link', function () {
+        $('body').modalmanager('loading'); 
+        var id = $(this).attr('data-val');
+        setTimeout(function () {            
+            $modal.load(base_url + 'trips/tripLinkShareModal/'+id, '', function () {
+                
+                $modal.modal();
+                
+            });
+        }, 1000);
+    });
 	
 });
 
