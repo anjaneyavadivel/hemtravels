@@ -201,6 +201,17 @@
                                                             <li>
                                                                 <div class="row">
                                                                     <div class="col-xs-12 col-sm-6">
+                                                                        <h5><i class="ti-user text-primary mr-5"></i> Minimum travellers</h5>
+                                                                    </div>
+                                                                    <div class="col-xs-12 col-sm-6 mt-xs">
+                                                                        <span class="pl-xs"><?php echo isset($details['no_of_min_booktraveller'])?$details['no_of_min_booktraveller']:1;?></span>
+                                                                    </div>
+                                                                </div>
+                                                            </li>
+
+                                                            <li>
+                                                                <div class="row">
+                                                                    <div class="col-xs-12 col-sm-6">
                                                                         <h5><i class="ti-user text-primary mr-5"></i> Maximum travellers</h5>
                                                                     </div>
                                                                     <div class="col-xs-12 col-sm-6 mt-xs">
@@ -695,10 +706,11 @@
 
                                         </div>
                                         
-                                        <?php if(isset($details['isshared']) && $details['isshared'] == 1 && isset($shared_details) && count($shared_details) > 0) { ?>
+                                        <?php if(isset($details['is_shared']) && $details['is_shared'] == 1 && isset($shared_details) && count($shared_details) > 0) { ?>
                                         <div class="list-yes-no-box">
                                             <ul>
                                                 <li><b>Shared Status:</b> Shared</li>
+                                                <li><b>Shared Trip:</b> <?php echo isset($shared_details['trip_name'])?$shared_details['trip_name']:'';?></li>
                                                 <li><b>Shared by:</b> <?php echo isset($shared_details['user_fullname'])?$shared_details['user_fullname']:'';?></li>
                                                 <li><b>Shared Email:</b> <?php echo isset($shared_details['to_user_mail'])?$shared_details['to_user_mail']:'';?></li>
                                                 <!--<li><b>Shared Phone:</b> 999999999</li>-->

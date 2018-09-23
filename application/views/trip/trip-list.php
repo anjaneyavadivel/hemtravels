@@ -84,6 +84,7 @@
                                                             <option value="3"> Category</option>
                                                             <option value="4"> New Post</option>
                                                             <option value="5"> User Rating</option>
+                                                            <option value="6"> Most Booking</option>
                                                         </select>
                                                     </div>
 

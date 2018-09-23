@@ -157,6 +157,14 @@ jQuery(function($) {
 		limit: '5',
 	});
         
+        $('#autocompleteTagging2').on('tokenfield:createtoken', function (event) {
+            var existingTokens = $(this).tokenfield('getTokens');
+            $.each(existingTokens, function(index, token) {
+                if (token.value === event.attrs.value)
+                    event.preventDefault();
+            });
+        });
+        
         // Instantiate the Bloodhound suggestion engine
 //        var tags = new Bloodhound({
 //            datumTokenizer: function (datum) {

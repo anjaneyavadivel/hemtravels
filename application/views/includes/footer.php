@@ -660,7 +660,7 @@
 		MasterValidation.init();
 	 });
 
- <?php } ?>
     setTimeout(function(){$(".alert").fadeOut(400);}, 5000)</script>
+ <?php } ?>
 </body>
 </html>

@@ -20,7 +20,7 @@ class Login extends CI_Controller {
             if ($this->input->post('forget_email') != '') {
                 $this->session->unset_userdata('signup_socail');
                 $codition = array();
-                $codition['email'] = $this->input->post('forget_email');
+                $codition['email'] = strtolower($this->input->post('forget_email'));
                 $codition['status'] = 1;
                 $check = $this->user_model->select('user_master', $codition);
                 if ($check->num_rows() > 0) {
@@ -29,7 +29,7 @@ class Login extends CI_Controller {
                     $user_ids = $ch->um_user_id;
                     $activation_code = md5(md5($user_ids . date('ymdhis')));
                     $data['activation_code'] = $activation_code;
-                    $data['new_email'] = $this->input->post('new_email');
+                    $data['new_email'] = strtolower($this->input->post('new_email'));
                     $upt = $this->user_model->update('user_master', array('forgotten_password_code' => $activation_code), array('id' => $user_ids));
                     if ($upt) {
                         $messages = $this->load->view('mail/forgot', $data, true);
@@ -93,7 +93,7 @@ class Login extends CI_Controller {
             }
             $this->session->unset_userdata('signup_socail');
             $codition = array();
-            $codition['email'] = $this->input->post('um_email');
+            $codition['email'] = strtolower($this->input->post('um_email'));
             $codition['password'] = md5(md5($this->input->post('um_password')));
             $codition['isactive'] = 1;
             $check = $this->user_model->select('user_master', $codition);
@@ -151,7 +151,7 @@ class Login extends CI_Controller {
 
     function login_sign_up() {
         $this->session->unset_userdata('signup_socail');
-        $check = $this->user_model->select('user_master', array('email' => $this->input->post('new_email')));
+        $check = $this->user_model->select('user_master', array('email' => strtolower($this->input->post('new_email'))));
         if ($check->num_rows() > 0) {
             if ($this->session->userdata('last_url')) {
                 $this->session->set_userdata('err', 'Already Exist mail id Please Login...!');
@@ -163,8 +163,8 @@ class Login extends CI_Controller {
         } else {
             $this->load->helper('custom_helper');
 
-            $values = array('email' => $this->input->post('new_email'),
-                'user_fullname' => $this->input->post('user_fullname'),
+            $values = array('email' => strtolower($this->input->post('new_email')),
+                'user_fullname' => ucwords($this->input->post('user_fullname')),
                 'password' => md5(md5($this->input->post('cnew_pasword'))),
                 'activation_code' => '',
                 'user_type' => $this->input->post('user_type'),
@@ -306,7 +306,7 @@ class Login extends CI_Controller {
 
     function new_email_vaildation() {
         if ($_POST) {
-            $check = $this->user_model->select('user_master', array('email' => $this->input->post('new_email')));
+            $check = $this->user_model->select('user_master', array('email' => strtolower($this->input->post('new_email'))));
             if ($check->num_rows() > 0) {
                 echo "false";
                 return false;
@@ -318,7 +318,7 @@ class Login extends CI_Controller {
 
     function old_email_vaildation() {
         if ($_POST) {
-            $check = $this->user_model->select('user_master', array('email' => $this->input->post('um_email')));
+            $check = $this->user_model->select('user_master', array('email' => strtolower($this->input->post('um_email'))));
             if ($check->num_rows() == 0) {
                 echo "false";
                 return false;

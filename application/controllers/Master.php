@@ -374,17 +374,12 @@ class Master extends CI_Controller {
 
     public function checkhelper() {
         $this->load->helper('custom_helper');
-        $whereData = array('isactive' => 1, 'id' => 1);
-                $showField = array('email','phone','user_fullname');
-                $touser_info = selectTable('user_master', $whereData, $showField)->row();
-               echo $toemail = $touser_info->email;
-               echo  $mailData['tousername'] = $touser_info->user_fullname;
 //        $updatedata = array(
 //                                    'payment_type' => 1,  // 1 - net, 2 - credit, 3 - debit
 //                                    'payment_status' =>  1,
 //                                    'status' =>  2); 
 //
-//                            trip_book_status_update($updatedata,'PNR01GLNGTR');
+//                            trip_book_paid_sucess($updatedata,'PNR01GLNGTR');
 //                            exit();
 //        $toemail='anjaneyavadivel@gmail.com';
 //        $subject='Welcome to trip';

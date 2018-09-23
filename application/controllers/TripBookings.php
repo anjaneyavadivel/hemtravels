@@ -157,8 +157,8 @@ class TripBookings extends CI_Controller {
             
                 if(!empty($this->input->post('trip_id',true))){
                     $userData=array(
-                    'user_fullname' => $this->input->post('user_name',true),
-                    'email'         => $this->input->post('email',true),
+                    'user_fullname' => ucwords($this->input->post('user_name',true)),
+                    'email'         => strtolower($this->input->post('email',true)),
                     'phone'      => $this->input->post('phonenumber',true),
                     );
                     $userId         = getGuestLoginDeteails($userData);
@@ -184,7 +184,7 @@ class TripBookings extends CI_Controller {
                                     'payment_status' =>  1,
                                     'status' =>  2); 
 
-                            trip_book_status_update($updatedata,$book_pay['pnr_no']);
+                            trip_book_paid_sucess($updatedata,$book_pay['pnr_no']);
                             
                             //CLEAR BOOKING SESSIONS
                             $array_items = array('bk_no_of_adult', 'bk_no_of_children','bk_no_of_infan','bk_from_date',

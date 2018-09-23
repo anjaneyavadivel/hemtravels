@@ -46,7 +46,7 @@ class Trips extends CI_Controller {
             
             if(count($result) > 0){
                 $tripCode = $result['trip_code'];
-                $data['parent_trip_id'] = $result['shared_user_id'];
+                $data['parent_trip_id'] = $result['trip_id'];
                 $data['is_shared'] = 1;
                 $data['share_code'] = $result['code'];
             }else{
@@ -147,7 +147,7 @@ class Trips extends CI_Controller {
 	{
             $error = 'Please check your submission';$success = '';
             
-            if ($this->session->userdata('user_id') == '') {redirect('login');}
+            if ($this->session->userdata('user_id') == '') {redirect('login');} 
             
                 $this->form_validation->set_rules('trip_name', 'Trip name', 'trim|required');
                 $this->form_validation->set_rules('trip_category_id', 'Trip Category id', 'trim|required');
@@ -166,102 +166,117 @@ class Trips extends CI_Controller {
                         $error = 'New trip not added.please try again!.';  
 
                         $this->db->trans_start(); 
-
-                        try{
-                            $this->load->helper('string');
-                            $trip_code = 'TRIP'.random_string('alnum',7);
-                            //Lower case everything
-                            $trip_url = strtolower($this->input->post('trip_name'));
-                            //Make alphanumeric (removes all other characters)
-                            $trip_url = preg_replace("/[^a-z0-9_\s-]/", "", $trip_url);
-                            //Clean up multiple dashes or whitespaces
-                            $trip_url = preg_replace("/[\s-]+/", " ", $trip_url);
-                            //Convert whitespaces and underscore to dash
-                            $trip_url = preg_replace("/[\s_]/", "-", $trip_url);                            
-
-                            //TRIP MASTER TABLE
-                            $master_values = $this->tripMasterFields();
-                            $master_values['trip_code']  = $trip_code;
-                            $master_values['trip_url']   = $trip_url;                        
-                            $master_values['isactive']   = $this->input->post('button_type') == 'draft'?2:1;
-                            $master_values['created_on'] = date('Y-m-d H:i:s');
-                            $master_values['created_by'] = $this->session->userdata('user_id');
-                            
-                            //FOR SHARED TRIP
-                            if(!empty($this->input->post('parent_trip_id')) && !empty($this->input->post('is_shared'))){
-                                 $master_values['parent_trip_id'] = $this->input->post('parent_trip_id');
+                        
+                        $isValid = true;
+                        
+                        //FOR SHARED TRIP 
+                        if(!empty($this->input->post('parent_trip_id')) && !empty($this->input->post('is_shared'))){
+                            $whereData = array('isactive' => '1','id' => $this->input->post('parent_trip_id'));
+                            $parentTrip = selectTable('trip_master', $whereData,['*'],[],[],'','',[],'row_array');                            
+                           
+                            if(isset($parentTrip['no_of_traveller']) && !empty($this->input->post('no_of_traveller')) &&
+                                $parentTrip['no_of_traveller'] < $this->input->post('no_of_traveller')){
+                                $isValid = false;
+                                $error = 'Trip size not more than '.$parentTrip['no_of_traveller']; 
                             }
+                        }
+                        if($isValid === true){
+                            try{
+                                $this->load->helper('string');
+                                $trip_code = 'TRIP'.random_string('alnum',7);
+                                //Lower case everything
+                                $trip_url = strtolower($this->input->post('trip_name'));
+                                //Make alphanumeric (removes all other characters)
+                                $trip_url = preg_replace("/[^a-z0-9_\s-]/", "", $trip_url);
+                                //Clean up multiple dashes or whitespaces
+                                $trip_url = preg_replace("/[\s-]+/", " ", $trip_url);
+                                //Convert whitespaces and underscore to dash
+                                $trip_url = preg_replace("/[\s_]/", "-", $trip_url);                            
 
-                            //echo "<pre>";print_r($master_values);exit;
+                                //TRIP MASTER TABLE
+                                $master_values = $this->tripMasterFields();
+                                $master_values['trip_code']  = $trip_code;
+                                $master_values['trip_url']   = $trip_url;                        
+                                $master_values['isactive']   = $this->input->post('button_type') == 'draft'?2:1;
+                                $master_values['created_on'] = date('Y-m-d H:i:s');
+                                $master_values['created_by'] = $this->session->userdata('user_id');
 
-
-                            $query   = insertTable('trip_master', $master_values);
-                            $trip_id = $this->db->insert_id();
-
-                            //GALLERY IMAGES
-                            if(!empty($this->input->post('gallery_images'))){
-                                $trip_img_names = json_decode($_POST['gallery_images'],true);
-                                $trip_img_name = isset($trip_img_names[0])?$trip_img_names[0]:null;                        
-                            }
-                            $this->galleryImages($trip_id);
-
-
-                            //PICKUP LOCATION MAP
-                            $meeting_point = '';
-                            $meeting_time  = '';
-                            if(!empty($this->input->post('pickup_meeting_point'))){
-                                $pickLocs = $this->input->post('pickup_meeting_point');
-
-                                $meeting_point = isset($_POST['pickup_meeting_point'][0])?$_POST['pickup_meeting_point'][0]:'';
-                                $meeting_time  = isset($_POST['pickup_meeting_time'][0])?$_POST['pickup_meeting_time'][0]:'';
-
-                                $this->pickupLocations($pickLocs,$trip_id);
-                            }
-
-                            //UPDATE TRIP TABLE                    
-                            $upQry = updateTable('trip_master',array('id' => $trip_id),
-                                     array('trip_img_name' => $trip_img_name,
-                                           'meeting_point' => $meeting_point,
-                                           'meeting_time'  => $meeting_time,
-                                         ));
-
-                            //TRIP INCLUSIONS
-                            if(!empty($this->input->post('trip_inclusions'))){
-                                foreach($this->input->post('trip_inclusions') as $k=>$v){
-                                    $incValue = array(
-                                        'trip_id' => $trip_id,
-                                        'inclusions_id' => $v                              
-                                    );
-                                    $query3   = insertTable('trip_inclusions_map',$incValue);
+                                //FOR SHARED TRIP
+                                if(!empty($this->input->post('parent_trip_id')) && !empty($this->input->post('is_shared'))){
+                                     $master_values['parent_trip_id'] = $this->input->post('parent_trip_id');
                                 }
-                            }
 
-                            //TRIP IITINERARY
-                            $this->itineraryAdd($trip_id);                        
+                                //echo "<pre>";print_r($master_values);exit;
 
-                            //TRIP AVAILABLE
-                            $tripAvailable = $this->getTripAvailable($trip_id);
-                            $query5   = insertTable('trip_avilable',$tripAvailable);
 
-                            //TRIP TAG MAP
-                            $this->tagAddUpdate($trip_id);     
-                            
-                            
-                            //UPDATE SHARED TRIP TABLE FOR SHARED TRIP
-                            if(!empty($this->input->post('parent_trip_id')) && !empty($this->input->post('is_shared')) && !empty($this->input->post('share_code'))){
-                                updateTable('trip_shared',array('code' => $this->input->post('share_code')),array('status' => 2));
-                            }
+                                $query   = insertTable('trip_master', $master_values);
+                                $trip_id = $this->db->insert_id();
 
-                            $error   = '';
-                            $success = 'New trip has been successfully added...'; 
+                                //GALLERY IMAGES
+                                if(!empty($this->input->post('gallery_images'))){
+                                    $trip_img_names = json_decode($_POST['gallery_images'],true);
+                                    $trip_img_name = isset($trip_img_names[0])?$trip_img_names[0]:null;                        
+                                }
+                                $this->galleryImages($trip_id);
 
-                            $this->db->trans_complete();
 
-                            if ($this->db->trans_status() === FALSE)
-                            {
-                                $error = 'New trip not added.please try again!.';  
-                            }
-                        }catch(Exception $e){}
+                                //PICKUP LOCATION MAP
+                                $meeting_point = '';
+                                $meeting_time  = '';
+                                if(!empty($this->input->post('pickup_meeting_point'))){
+                                    $pickLocs = $this->input->post('pickup_meeting_point');
+
+                                    $meeting_point = isset($_POST['pickup_meeting_point'][0])?$_POST['pickup_meeting_point'][0]:'';
+                                    $meeting_time  = isset($_POST['pickup_meeting_time'][0])?$_POST['pickup_meeting_time'][0]:'';
+
+                                    $this->pickupLocations($pickLocs,$trip_id);
+                                }
+
+                                //UPDATE TRIP TABLE                    
+                                $upQry = updateTable('trip_master',array('id' => $trip_id),
+                                         array('trip_img_name' => $trip_img_name,
+                                               'meeting_point' => $meeting_point,
+                                               'meeting_time'  => $meeting_time,
+                                             ));
+
+                                //TRIP INCLUSIONS
+                                if(!empty($this->input->post('trip_inclusions'))){
+                                    foreach($this->input->post('trip_inclusions') as $k=>$v){
+                                        $incValue = array(
+                                            'trip_id' => $trip_id,
+                                            'inclusions_id' => $v                              
+                                        );
+                                        $query3   = insertTable('trip_inclusions_map',$incValue);
+                                    }
+                                }
+
+                                //TRIP IITINERARY
+                                $this->itineraryAdd($trip_id);                        
+
+                                //TRIP AVAILABLE
+                                $tripAvailable = $this->getTripAvailable($trip_id);
+                                $query5   = insertTable('trip_avilable',$tripAvailable);
+
+                                //TRIP TAG MAP
+                                $this->tagAddUpdate($trip_id);     
+
+
+                                //UPDATE SHARED TRIP TABLE FOR SHARED TRIP
+                                if(!empty($this->input->post('parent_trip_id')) && !empty($this->input->post('is_shared')) && !empty($this->input->post('share_code'))){
+                                    updateTable('trip_shared',array('code' => $this->input->post('share_code')),array('status' => 2));
+                                }
+
+                                $error   = '';
+                                $success = 'New trip has been successfully added...'; 
+
+                                $this->db->trans_complete();
+
+                                if ($this->db->trans_status() === FALSE)
+                                {
+                                    $error = 'New trip not added.please try again!.';  
+                                }
+                            }catch(Exception $e){}
+                        }
                 }            
             }
                 
@@ -270,7 +285,7 @@ class Trips extends CI_Controller {
                 
                 //FOR SHARED TRIP
                 if(!empty($this->input->post('parent_trip_id')) && !empty($this->input->post('is_shared')) && !empty($this->input->post('share_code'))){
-                    redirect('make-shared-trip').$this->input->post('share_code');
+                    redirect('make-shared-trip/'.$this->input->post('share_code'));
                 }else{
                     redirect('make-new-trip');
                 }
@@ -298,7 +313,7 @@ class Trips extends CI_Controller {
                 
                 if ($this->form_validation->run($this) == FALSE) {
                     $error = validation_errors();
-                }else{
+                }else{  
             
                     if (!empty($this->input->post('trip_id')) && !empty($this->input->post('trip_name')) && !empty($this->input->post('trip_category_id')) 
                         && !empty($this->input->post('trip_duration')) && !empty($this->input->post('brief_description')) 
@@ -849,11 +864,11 @@ class Trips extends CI_Controller {
                 }
                 $data['pickup_locations'] = trim($pickup_locations,', ');
             }
-            
+            $data['shared_details'] = $this->Trip_model->getSharedDetails($data['details']['parent_trip_id']);
             
             
         }
-        //echo "<pre>";print_r($data['related_tours']);exit;
+        //echo "<pre>";print_r($data['shared_details']);exit;
         
         $this->load->view('trip/trip-view',$data);
     }
@@ -1003,6 +1018,8 @@ class Trips extends CI_Controller {
                             $tot_sql .= ' ORDER BY tm.created_on DESC';
                         }else if($sort_by == '5'){ //USER RATING
                             $tot_sql .= ' ORDER BY tm.total_rating DESC';
+                        }else if($sort_by == '6'){ //BOOKINF
+                            $tot_sql .= ' ORDER BY tm.total_booking DESC';
                         }
                     }
                     
@@ -1072,10 +1089,7 @@ class Trips extends CI_Controller {
             }
             $data['itineraries']    = $this->Trip_model->getItinerary($data['details']['id']);
             $data['tags']           = $this->Trip_model->getTags($data['details']['id']);
-            $data['pickups']        = $this->Trip_model->getPickupLocations($data['details']['id']);
-            $data['shared_details'] = $this->Trip_model->getSharedDetails($data['details']['id']);
-            $data['shared_details'] = $this->Trip_model->getSharedDetails($data['details']['id']);
-            
+            $data['pickups']        = $this->Trip_model->getPickupLocations($data['details']['id']);            
         }
         
         return $data;
@@ -1240,9 +1254,75 @@ class Trips extends CI_Controller {
             ($this->session->userdata('user_type') != 'SA' && $this->session->userdata('user_type') !='VA' )) {
             return FALSE;
         }
-        $data['tripCode'] = $tripCode;
-       
+        $data['tripCode']    = $tripCode;       
+        $whereData1 = array('trip_code' => $tripCode);
+        $data['trip_master'] = selectTable('trip_master', $whereData1,['*'],[],[],'','',[],'row_array');
+        $data['coupon_list'] = [];
+        
+        if(isset($data['trip_master']['id'])){
+            $data['trip_id']     = $data['trip_master']['id'];
+            $date                = date('Y-m-d');
+            $whereData           = array('isactive' => 1, 'trip_id' => $data['trip_master']['id'], 'validity_from <=' => $date, 'validity_to >=' => $date,'type' => 2);
+            $data['coupon_list'] = selectTable('coupon_code_master_history', $whereData, $showField = array('*'), $orWhereData = array(), $group = array(), $order = 'id DESC','',[],'result_array');
+        }
+        //echo "<pre>";print_r($data);exit;
         $this->load->view("trip/trip-share-modal",$data);
         
+    }
+    
+    public function vendorShare(){
+        $status = 'err';
+        $message = 'Not shared.please try again';
+        if ($_POST) 
+        {
+            $emails             = $this->input->post('emails');
+            $share_trip_id      = $this->input->post('share_trip_id');
+            $coupon_history_id  = $this->input->post('coupon_history_id');
+            
+            $emails = explode(',', $emails);
+            //$emails = trim($emails,', ');
+            $coupon_history_id = !empty($coupon_history_id)?$coupon_history_id:0;
+            
+            if(!empty($emails) && !empty($share_trip_id)){
+                $this->load->helper('string');
+                $shareCode = 'SHARE'.random_string('alnum',5);
+                foreach($emails as $v){
+                    $whereData1 = array('user_type' => 'VA','email' => $v,'isactive' => 1);
+                    $email   = $v;
+                    $user_id = NULL;
+                    $user  = selectTable('user_master', $whereData1,['*'],[],[],'','',[],'row_array');
+                    
+                    if(count($user) > 0 && isset($user->id)){
+                        $user_id = $user->id;
+                        $email   = NULL;
+                    }
+                            
+                    $share = array(
+                        'code'               => $shareCode,
+                        'trip_id'            => $share_trip_id,
+                        'shared_user_id'     => $this->session->userdata('user_id'),
+                        'user_id'            => $user_id,
+                        'to_user_mail'      => $email,
+                        'coupon_history_id' => $coupon_history_id
+                    );
+                    $trip_shared_id = insertTable('trip_shared',$share);
+                    
+                    $data['code'] = $shareCode;
+                }
+                
+                
+                if($trip_shared_id > 0){
+                    $status  = 'suc';
+                    $message = 'Successfully shared';
+                }
+            }
+        }
+        
+        $data['status'] = $status;
+        $data['message'] = $message;
+        
+        $this->session->set_userdata($status, $message);            
+        
+        echo json_encode($data);exit;
     }
 }

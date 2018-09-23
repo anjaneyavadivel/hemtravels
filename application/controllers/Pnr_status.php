@@ -84,9 +84,9 @@ class Pnr_status extends CI_Controller {
             
             if(!empty($pnr_no)){
                 $this->load->helper('custom_helper');
+                
                 $updatedata = array('status' =>  3); 
-
-                if(trip_book_status_update($updatedata,$pnr_no)){
+                if(trip_book_paid_sucess($updatedata,$pnr_no)){
                     $this->session->set_userdata('suc', 'Trip has been successfully cancelled.');
                     $succ = 'success';
                 }

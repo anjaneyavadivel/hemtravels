@@ -195,7 +195,7 @@
                                                 <div class="col-xs-12 col-sm-12">
 
                                                     <div class="form-group">
-                                                        <label>Brief Description:<span style=' color: #d9534f;'>*</span></label>
+                                                        <label>Brief Description:<span style=' color: #d9534f;'>*</span> <small>(Please enter at least 50 characters)</small></label>
                                                         <textarea name="brief_description" class="bootstrap3-wysihtml5 form-control" rows="5"><?php echo isset($trip_details['details']['brief_description']) ? $trip_details['details']['brief_description']:''?></textarea>
                                                     </div>
 
@@ -395,11 +395,23 @@
                                                 <div class="pickup_location_list_div">
                                                     <div class="pickup_location_list_default" id="pickup_location_list_0">
                                                         <div class="row">
+                                                            <?php 
+                                                               $pickupId = isset($trip_details['pickups'][0]['id'])?$trip_details['pickups'][0]['id']:0;
+                                                               $meetingPointName =  "ex_pickup_meeting_point[".$pickupId."]";
+                                                               $meetingPointTime =  "ex_pickup_meeting_time[".$pickupId."]";
+                                                               $pickup_landmark  =  "ex_pickup_landmark[".$pickupId."]";
+                                                               if(isset($is_shared) && $is_shared == 1){
+                                                                   $meetingPointName = "pickup_meeting_point[]";
+                                                                   $meetingPointTime = "pickup_meeting_time[]";
+                                                                   $pickup_landmark  = "pickup_landmark[]";
+                                                               }
+                                                            ?>
+                                                            
                                                             <div class="col-xs-12 col-sm-5">
 
                                                                 <div class="form-group">
                                                                     <label>Meeting point:<span style=' color: #d9534f;'>*</span></label>
-                                                                    <input  type="text" class="form-control" name="ex_pickup_meeting_point[<?php echo isset($trip_details['pickups'][0]['id'])?$trip_details['pickups'][0]['id']:0?>]" value="<?php echo isset($trip_details['pickups'][0]['location']) ? $trip_details['pickups'][0]['location']:'';?>"/>
+                                                                    <input  type="text" class="form-control" name="<?php echo $meetingPointName; ?>" value="<?php echo isset($trip_details['pickups'][0]['location']) ? $trip_details['pickups'][0]['location']:'';?>"/>
                                                                 </div>
 
                                                             </div>
@@ -408,7 +420,7 @@
 
                                                                 <div class="form-group">
                                                                     <label>Meeting time:<span style=' color: #d9534f;'>*</span></label>
-                                                                    <input type="text" class="oh-timepicker form-control" name="ex_pickup_meeting_time[<?php echo isset($trip_details['pickups'][0]['id'])?$trip_details['pickups'][0]['id']:0?>]" value="<?php echo isset($trip_details['pickups'][0]['time']) ? $trip_details['pickups'][0]['time']:'';?>"/>
+                                                                    <input type="text" class="oh-timepicker form-control" name="<?php echo $meetingPointTime; ?>" value="<?php echo isset($trip_details['pickups'][0]['time']) ? $trip_details['pickups'][0]['time']:'';?>"/>
                                                                 </div>
 
                                                             </div>
@@ -416,7 +428,7 @@
 
                                                                 <div class="form-group">
                                                                     <label>Landmark:</label>
-                                                                    <input type="text" class="oh-timepicker1 form-control" name="ex_pickup_landmark[<?php echo isset($trip_details['pickups'][0]['id'])?$trip_details['pickups'][0]['id']:0?>]" value="<?php echo isset($trip_details['pickups'][0]['landmark']) ? $trip_details['pickups'][0]['landmark']:'';?>"/>
+                                                                    <input type="text" class="oh-timepicker1 form-control" name="<?php echo $pickup_landmark; ?>" value="<?php echo isset($trip_details['pickups'][0]['landmark']) ? $trip_details['pickups'][0]['landmark']:'';?>"/>
                                                                 </div>
 
                                                             </div>
@@ -427,24 +439,30 @@
                                                   if(isset($trip_details['pickups']) && count($trip_details['pickups']) > 1){
                                                       foreach($trip_details['pickups'] as $k=>$v) {
                                                           if( $k != 0){
+                                                              if(!isset($is_shared) || $is_shared == 0){
+                                                                  $meetingPointName = "ex_pickup_meeting_point[".$v['id']."]";
+                                                                  $meetingPointTime = "ex_pickup_meeting_time[".$v['id']."]";
+                                                                  $pickup_landmark  = "ex_pickup_landmark[".$v['id']."]";
+                                                              }
+                                                              
                                                               echo '<div class="pickup_location_list" id="pickup_location_list_'.$k.'">
                                                                         <div class="row">
                                                                             <div class="col-xs-12 col-sm-5">
                                                                                 <div class="form-group">
                                                                                     <label>Location'.$k.'</label>
-                                                                                    <input type="text" class="form-control" name="ex_pickup_meeting_point['.$v['id'].']" value="'.$v['location'].'"/>
+                                                                                    <input type="text" class="form-control" name="'.$meetingPointName.'" value="'.$v['location'].'"/>
                                                                                 </div>
                                                                             </div>
                                                                             <div class="col-xs-12 col-sm-3">
                                                                                 <div class="form-group">
                                                                                     <label>Location'.$k.' time</label>
-                                                                                    <input type="text" class="oh-timepicker form-control" name="ex_pickup_meeting_time['.$v['id'].']" value="'.$v['time'].'"/>
+                                                                                    <input type="text" class="oh-timepicker form-control" name="'.$meetingPointTime.'" value="'.$v['time'].'"/>
                                                                                 </div>
                                                                             </div>
                                                                             <div class="col-xs-12 col-sm-4">
                                                                                 <div class="form-group">
                                                                                     <label>Location'.$k.' Landmark</label>
-                                                                                    <input type="text" class="oh-timepicker1 form-control" name="ex_pickup_landmark['.$v['id'].']" value="'.$v['landmark'].'"/>
+                                                                                    <input type="text" class="oh-timepicker1 form-control" name="'.$pickup_landmark.'" value="'.$v['landmark'].'"/>
                                                                                 </div>
                                                                             </div>
                                                                         </div>
@@ -587,9 +605,24 @@
                                                 
                                                 <?php 
                                                  if(isset($trip_details['itineraries']) && count($trip_details['itineraries']) > 0) {
+                                                     $tripFromTime    = 'trip_from_time[]';
+                                                     $tripToTime      = 'trip_to_time[]';
+                                                     $tripFromTitle   = 'trip_from_title[]';
+                                                     $tripShortDec    = 'trip_short_dec[]';
+                                                     $tripBriefDec    = 'trip_brief_dec[]';
+                                                     
                                                      foreach($trip_details['itineraries'] as $k=>$v) { 
                                                          $key = $k+1;
                                                          $day = str_pad($key,2,"0",STR_PAD_LEFT);
+                                                         
+                                                        if(!isset($is_shared) || $is_shared == 0){
+                                                            $tripFromTime    = "ex_trip_from_time[".$v['id']."]";
+                                                            $tripToTime      = "ex_trip_to_time[".$v['id']."]";
+                                                            $tripFromTitle   = "ex_trip_from_title[".$v['id']."]";
+                                                            $tripShortDec    = "ex_trip_short_dec[".$v['id']."]";
+                                                            $tripBriefDec    = "ex_trip_brief_dec[".$v['id']."]";
+                                                        }
+                                                         
                                                         echo '<div class="itinerary-form-item" id="itinerary_form_item_'.$key.'">
 
                                                             <div class="content clearfix">
@@ -608,7 +641,7 @@
                                                                     <div class="col-xs-12 col-sm-3 col-md-3">
                                                                         <div class="form-group form-group-sm">
                                                                             <label>Time from</label>
-                                                                            <input type="text" class="oh-timepicker form-control"  name="ex_trip_from_time['.$v['id'].']" value="'.$v['from_time'].'"/>
+                                                                            <input type="text" class="oh-timepicker form-control"  name="'.$tripFromTime.'" value="'.$v['from_time'].'"/>
                                                                         </div>
 
                                                                     </div>
@@ -617,7 +650,7 @@
 
                                                                         <div class="form-group form-group-sm">
                                                                             <label>Time to</label>
-                                                                            <input type="text" class="oh-timepicker form-control" name="ex_trip_to_time['.$v['id'].']" value="'.$v['to_time'].'"/>
+                                                                            <input type="text" class="oh-timepicker form-control" name="'.$tripToTime.'" value="'.$v['to_time'].'"/>
                                                                         </div>
 
                                                                     </div>
@@ -625,7 +658,7 @@
                                                                     <div class="col-xs-12 col-sm-5 col-md-5">
                                                                         <div class="form-group form-group-sm">
                                                                             <label>Title:</label>
-                                                                            <input type="text" class="form-control" name="ex_trip_from_title['.$v['id'].']" value="'.$v['title'].'"/>
+                                                                            <input type="text" class="form-control" name="'.$tripFromTitle.'" value="'.$v['title'].'"/>
                                                                         </div>
                                                                     </div>
 
@@ -637,7 +670,7 @@
 
                                                                         <div class="form-group">
                                                                             <label>Short Description:</label>
-                                                                            <input type="text" class="form-control" name="ex_trip_short_dec['.$v['id'].']" value="'.$v['short_description'].'"/>
+                                                                            <input type="text" class="form-control" name="'.$tripShortDec.'" value="'.$v['short_description'].'"/>
                                                                         </div>
 
                                                                     </div>
@@ -647,7 +680,7 @@
                                                                     <div class="col-xs-12 col-sm-12">
                                                                         <div class="form-group">
                                                                             <label>Brief Description:</label>
-                                                                            <textarea class="bootstrap3-wysihtml5 form-control" name="ex_trip_brief_dec['.$v['id'].']" placeholder="Excluded point out once by one..." style="height: 150px;">'.$v['brief_description'].'</textarea>
+                                                                            <textarea class="bootstrap3-wysihtml5 form-control" name="'.$tripBriefDec.'" placeholder="Excluded point out once by one..." style="height: 150px;">'.$v['brief_description'].'</textarea>
                                                                         </div>
                                                                     </div>
                                                                 </div>                                                        
@@ -670,7 +703,7 @@
 
                                                         <div class="form-group bootstrap-fileinput-style-01">
                                                                 <label>Cancellation Policy:<span style=' color: #d9534f;'>*</span></label>
-                                                                <textarea class="bootstrap3-wysihtml5 form-control" name="cancellation_policy" id="cancellation_policy" placeholder="Enter text ..." style="height: 150px;"><?php echo isset($trip_details['details']['cancellation_policy']) ? $trip_details['details']['cancellation_policy']:''?></textarea>
+                                                                <textarea class="bootstrap3-wysihtml5 form-control" name="cancellation_policy" id="cancellation_policy" placeholder="Refund:100% if Cancelled 10 days before, 50% if Cancelled 5 days before, 25% if Cancelled 3 days before, 0% if Cancelled within 3 days before" style="height: 150px;"><?php echo isset($trip_details['details']['cancellation_policy']) ? $trip_details['details']['cancellation_policy']:''?></textarea>
                                                         </div>
 
                                                 </div>
@@ -678,7 +711,7 @@
 
                                                         <div class="form-group bootstrap-fileinput-style-01">
                                                                 <label>Confirmation Policy:<span style=' color: #d9534f;'>*</span></label>
-                                                                <textarea class="bootstrap3-wysihtml5 form-control" name="confirmation_policy" id="confirmation_policy" placeholder="Enter text ..." style="height: 150px;"><?php echo isset($trip_details['details']['confirmation_policy']) ? $trip_details['details']['confirmation_policy']:''?></textarea>
+                                                                <textarea class="bootstrap3-wysihtml5 form-control" name="confirmation_policy" id="confirmation_policy" placeholder="Confirmation on 100% payment and the generation of PNR" style="height: 150px;"><?php echo isset($trip_details['details']['confirmation_policy']) ? $trip_details['details']['confirmation_policy']:''?></textarea>
                                                         </div>
 
                                                 </div>
@@ -686,7 +719,7 @@
 
                                                         <div class="form-group bootstrap-fileinput-style-01">
                                                                 <label>Refund Policy:<span style=' color: #d9534f;'>*</span></label>
-                                                                <textarea class="bootstrap3-wysihtml5 form-control" name="refund_policy" id="refund_policy" placeholder="Enter text ..." style="height: 150px;"><?php echo isset($trip_details['details']['refund_policy']) ? $trip_details['details']['refund_policy']:''?></textarea>
+                                                                <textarea class="bootstrap3-wysihtml5 form-control" name="refund_policy" id="refund_policy" placeholder="Refund will be processed in 10-15 working days." style="height: 150px;"><?php echo isset($trip_details['details']['refund_policy']) ? $trip_details['details']['refund_policy']:''?></textarea>
                                                         </div>
 
                                                 </div>
@@ -710,7 +743,7 @@
 
                                         <div class="mb-50 ">
 
-                                            <div class="checkbox-block font-icon-checkbox" style="display:none;">
+                                            <div class="checkbox-block font-icon-checkbox" style="<?php echo isset($is_shared) && $is_shared == 1?"":"display:none;";?>">
                                                 <input id="term_accept" name="term_accept"  type="checkbox" class="checkbox"  checked=""/>
                                                 <label class="" for="term_accept">Am terminated it excellence invitation projection as. She graceful shy believed distance use nay. Lively is people so basket ladies window expect. <a href="#" class="font700">Terms &amp; Conditions</a></label>
                                             </div>

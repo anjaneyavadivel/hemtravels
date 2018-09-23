@@ -184,8 +184,9 @@ class Welcome extends CI_Controller {
     }
 
     public function checkTripCompleted() {
-        $cur_date = date('Y-m-d');
-        $whereData = array('tpd.isactive' => 1, 'tpd.date_of_trip_to <' => $cur_date);
+        $cur_date = date('Y-m-d', strtotime(' +10 day')); //date('Y-m-d', strtotime(' -1 day'));
+
+        $whereData = array('tpd.isactive' => 1, 'tpd.payment_status' => 1, 'tpd.date_of_trip_to <' => $cur_date);
         $joins = array(
             array(
                 'table' => 'trip_master AS tm',
@@ -211,7 +212,7 @@ class Welcome extends CI_Controller {
         $columns = 'tpd.*,'
                 . 'tm.id AS trip_id,tm.trip_name,tm.trip_code,tm.how_many_days,tm.how_many_nights,tm.total_days,tm.how_many_hours,'
                 . 'tm.brief_description,tm.other_inclusions,tm.exclusions,tm.languages,tm.meal,tm.cancellation_policy,tm.confirmation_policy,tm.refund_policy,'
-                . 'bum.id AS bookedbyid,bum.user_fullname AS bookedby,bum.phone AS bookedby_contactno,bum.email AS bookedby_contactemail,tpd.booked_on,tpd.status,tpd.payment_status,'
+                . 'bum.id AS bookedbyid,bum.user_fullname AS bookedby,bum.phone AS bookedby_contactno,bum.email AS bookedby_contactemail,'
                 . 'tmum.id AS trip_postbyid,tmum.user_fullname AS trip_postby,tmum.phone AS trip_contactno,tmum.email AS trip_contactemail,tm.trip_name,'
                 . '(CASE WHEN ccmhd.id IS NOT NULL THEN ccmhd.coupon_code END) AS coupon_code,(CASE WHEN ccmhd.id IS NOT NULL THEN ccmhd.offer_type END) AS offer_type,'
                 . '(CASE WHEN ccmhd.id IS NOT NULL THEN ccmhd.percentage_amount END) AS percentage_amount';
@@ -220,7 +221,8 @@ class Welcome extends CI_Controller {
             $book_pay = $tableData->result();
             foreach ($book_pay as $book_pay) {
 
-                $where_pay_details = array('tpd.isactive' => 1, 'pnr_no' => $book_pay->pnr_no);
+                $inWhereData = array('tpd.status', array(2, 4));
+                $where_pay_details = array('tpd.isactive' => 1, 'tpd.payment_status' => 1, 'pnr_no' => $book_pay->pnr_no);
                 $joins = array(
                     array(
                         'table' => 'trip_master AS tm',
@@ -244,35 +246,64 @@ class Welcome extends CI_Controller {
                     ),
                 );
                 $columns = 'tpd.*,'
-                        . 'tpd.servicecharge_amt,tpd.your_final_amt,tm.id AS trip_id,tm.trip_name,tm.trip_code,tm.how_many_days,tm.how_many_nights,tm.total_days,tm.how_many_hours,'
+                        . 'tm.id AS trip_id,tm.trip_name,tm.trip_code,tm.how_many_days,tm.how_many_nights,tm.total_days,tm.how_many_hours,'
                         . 'tm.brief_description,tm.other_inclusions,tm.exclusions,tm.languages,tm.meal,tm.cancellation_policy,tm.confirmation_policy,tm.refund_policy,'
-                        . 'bum.id AS bookedbyid,bum.user_fullname AS bookedby,bum.phone AS bookedby_contactno,bum.email AS bookedby_contactemail,tpd.booked_on,tpd.status,tpd.payment_status,'
+                        . 'bum.id AS bookedbyid,bum.user_fullname AS bookedby,bum.phone AS bookedby_contactno,bum.email AS bookedby_contactemail,'
                         . 'tmum.id AS trip_postbyid,tmum.user_fullname AS trip_postby,tmum.phone AS trip_contactno,tmum.email AS trip_contactemail,tm.trip_name,'
                         . '(CASE WHEN ccmhd.id IS NOT NULL THEN ccmhd.coupon_code END) AS coupon_code,(CASE WHEN ccmhd.id IS NOT NULL THEN ccmhd.offer_type END) AS offer_type,'
                         . '(CASE WHEN ccmhd.id IS NOT NULL THEN ccmhd.percentage_amount END) AS percentage_amount';
-                $tableData = get_joins('trip_book_pay_details AS tpd', $columns, $joins, $where_pay_details, $orWhereData = array(), $group = array(), $order = 'tpd.id ASC');
+                $tableData = get_joins('trip_book_pay_details AS tpd', $columns, $joins, $where_pay_details, $orWhereData = array(), $group = array(), $order = 'tpd.id ASC', $having = '', $limit = array(), $result_way = 'all', $echo = 0, $inWhereData);
                 if ($tableData->num_rows() > 0) {
                     $pay_details = $tableData->result();
                     foreach ($pay_details as $pay) {
-                        if($pay->user_id!=0){
+                        if ($pay->user_id != 0) {
+                            $transaction_notes = 'Trip has been booked ' . $pay->pnr_no . ' / ' . $pay->trip_code . ' / ' . $pay->trip_name . '.';
+                            if ($pay->servicecharge_amt > 0 || $pay->gst_amt > 0) {
+                                $transaction_notes .=' Include GST and Service Charge.';
+                            }
                             $paymentdata = array(
-                            'userid' => $pay->user_id,  // b2b
-                            'transaction_notes' => 'Trip has been booked PNR826YTZGV / TRIPFGSbgNw / North Goa Sightseeing Full Day Tour',
-                            'book_pay_id' => $pay->book_pay_id,
-                            'book_pay_details_id' => $pay->id,
-                            'pnr_no' => $pay->pnr_no,
-                            'from_userid' => $pay->from_user_id,  // default -1  //admin / b2b
-                            'trip_id' => $pay->trip_id,
-                            'deposits' => $pay->net_price,
-                            'status' => 2);
-                    //        make_mypayment($paymentdata);
+                                'userid' => $pay->user_id, // b2b
+                                'transaction_notes' => $transaction_notes,
+                                'book_pay_id' => $pay->book_pay_id,
+                                'book_pay_details_id' => $pay->id,
+                                'pnr_no' => $pay->pnr_no,
+                                'from_userid' => 0, // default -1  //admin / b2b
+                                'trip_id' => $pay->trip_id,
+                                'deposits' => $pay->your_final_amt,
+                                'status' => 2);
+                            if(make_mypayment($paymentdata)){
+                                $whereData22 = array('id' => $pay->id);
+                                $updatedata22 = array('status' => 5, 'b2b_payment_status' => 1, 'b2b_payment_on' => date('Y-m-d'));
+                                $result = updateTable('trip_book_pay_details', $whereData22, $updatedata22);
+                                
+                                $touserid= $pay->user_id;
+                                $subject='You are received Amount for '.$pnr_no;
+                                $message='You are received Amount for '.$pnr_no.' / '.$trip_code.' / '.$trip_name. ' from '.site_title.'. '
+                                        . '<a href="'.base_url().'my-transaction-reports">View Website</a>';
+                                $mailData = array(
+                                //'fromuserid' => $pnrinfo['trip_postbyid'],
+                                'ccemail' => admin_email.','.email_bottem_email.','.'anjaneyavadivel@gmail.com,'.$pnrinfo['bookedby_contactemail'],
+                                //'bccemail' => admin_email.','.email_bottem_email.','.$pnrinfo['bookedby_contactemail'],
+                                'touserid' => $touserid,
+                                //'toemail' => 'anjaneyavadivel@gmail.com',
+                                'subject' => $subject,
+                                'message' => $message,
+                                //'othermsg' => $othermsg
+                                );
 
-                            print_r($paymentdata);
-                            echo '<br><br>';
+                                sendemail_personalmail($mailData);
+                            }
                         }
                     }
                 }
-                        
+                $inWhereData = array('status', array(2, 4));
+                $whereData = array('isactive' => 1, 'payment_status' => 1,'id' => $book_pay->id);
+                $trip_list = selectTable('trip_book_pay_details', $whereData, $showField = array('*'), $orWhereData = array(), $group = array(), $order = '', $having = '', $limit = array(), $result_way = 'all', $echo = 0,$inWhereData,$notInWhereData = array());
+                if ($trip_list->num_rows() < 1) {
+                    $whereData22 = array('id' => $book_pay->id);
+                    $updatedata22 = array('status' => 5, 'b2b_payment_status' => 1, 'b2b_payment_on' => date('Y-m-d'));
+                    $result = updateTable('trip_book_pay', $whereData22, $updatedata22);
+                }
             }
         }
         return FALSE;

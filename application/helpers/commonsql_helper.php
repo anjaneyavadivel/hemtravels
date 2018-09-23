@@ -33,13 +33,13 @@ if (!defined('BASEPATH'))
 			return 0;
 		}
         $CI->load->model('user_model');
-		$check = $CI->user_model->select('user_master',array('email'=>$email,'phone'=>$phone));
+		$check = $CI->user_model->select('user_master',array('email'=>strtolower($email),'phone'=>$phone));
 		if($check->num_rows()>0){
 			$ch = $check->row();
 			return $ch->id;
 		}
 		else{
-			$tableData =  array('user_fullname'=>$user_fullname,'email'=>$email,'phone'=>$phone,'user_type'=>'GU','password'=>md5(md5(123456)));
+			$tableData =  array('user_fullname'=>  ucwords($user_fullname),'email'=>strtolower($email),'phone'=>$phone,'user_type'=>'GU','password'=>md5(md5(123456)));
         	return $insertid = $CI->user_model->insert('user_master', $tableData);
 		}
     }

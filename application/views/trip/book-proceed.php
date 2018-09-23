@@ -154,7 +154,7 @@
 
                                         <div class="form-group"> 
                                             <label>Username</label>
-                                            <input class="form-control" placeholder="Min 4 and Max 10 characters" name="user_name" id="user_name" type="text" value="<?php echo $user_fullname;?>"> 
+                                            <input class="form-control" placeholder="Min 4 characters" name="user_name" id="user_name" type="text" value="<?php echo $user_fullname;?>"> 
                                         </div>
 
                                     </div>

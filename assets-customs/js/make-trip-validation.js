@@ -86,7 +86,7 @@ jQuery(function ($) {
             refund_policy:{
                 required: true,
             },
-            "trip_from_time[]":{
+            /*"trip_from_time[]":{
                 required: true,
             },
             "trip_to_time[]":{
@@ -94,7 +94,7 @@ jQuery(function ($) {
             },
             "trip_from_title[]":{
                 required: true,
-            },
+            },*/
             "pickup_meeting_point[]":{
                 required: true,
             },

@@ -185,7 +185,7 @@
                                                 <div class="col-xs-12 col-sm-12">
 
                                                     <div class="form-group">
-                                                        <label>Brief Description:<span style=' color: #d9534f;'>*</span></label>
+                                                        <label>Brief Description:<span style=' color: #d9534f;'>*</span> <small>(Please enter at least 50 characters)</small></label>
                                                         <textarea name="brief_description" class="bootstrap3-wysihtml5 form-control" placeholder="Enter the brief description about trip..." rows="5"></textarea>
                                                     </div>
 
@@ -599,7 +599,7 @@
                                                             
                                                             <div class="col-xs-12 col-sm-3 col-md-3">
                                                                 <div class="form-group form-group-sm">
-                                                                    <label>Time from:<span style=' color: #d9534f;'>*</span></label>
+                                                                    <label>Time from:</label>
                                                                     <input type="text" class="oh-timepicker form-control"  name="trip_from_time[]"/>
                                                                 </div>
 
@@ -608,7 +608,7 @@
                                                             <div class="col-xs-12 col-sm-3 col-md-3">
 
                                                                 <div class="form-group form-group-sm">
-                                                                    <label>Time to:<span style=' color: #d9534f;'>*</span></label>
+                                                                    <label>Time to:</label>
                                                                     <input type="text" class="oh-timepicker form-control" name="trip_to_time[]" />
                                                                 </div>
 
@@ -616,7 +616,7 @@
                                                             
                                                             <div class="col-xs-12 col-sm-5 col-md-5">
                                                                 <div class="form-group form-group-sm">
-                                                                    <label>Title:<span style=' color: #d9534f;'>*</span></label>
+                                                                    <label>Title:</label>
                                                                     <input type="text" class="form-control" name="trip_from_title[]" placeholder="eg: Day1: First day trip"/>
                                                                 </div>
                                                             </div>
@@ -668,7 +668,7 @@
 												
                                                         <div class="form-group bootstrap-fileinput-style-01">
                                                                 <label>Cancellation Policy:<span style=' color: #d9534f;'>*</span></label>
-                                                                <textarea class="bootstrap3-wysihtml5 form-control" name="cancellation_policy" id="cancellation_policy" placeholder="eg: If cancellations are made 15 days before the start date of the trip, 25% of total tour cost will be charged as cancellation fees" style="height: 150px;"></textarea>
+                                                                <textarea class="bootstrap3-wysihtml5 form-control" name="cancellation_policy" id="cancellation_policy" placeholder="Refund:100% if Cancelled 10 days before, 50% if Cancelled 5 days before, 25% if Cancelled 3 days before, 0% if Cancelled within 3 days before" style="height: 150px;"></textarea>
                                                         </div>
 
                                                 </div>
@@ -676,7 +676,7 @@
 												
                                                         <div class="form-group bootstrap-fileinput-style-01">
                                                                 <label>Confirmation Policy:<span style=' color: #d9534f;'>*</span></label>
-                                                                <textarea class="bootstrap3-wysihtml5 form-control" name="confirmation_policy" id="confirmation_policy" placeholder="eg: The customer receives a confirmation voucher via email within 24 hours of successful booking" style="height: 150px;"></textarea>
+                                                                <textarea class="bootstrap3-wysihtml5 form-control" name="confirmation_policy" id="confirmation_policy" placeholder="Confirmation on 100% payment and the generation of PNR" style="height: 150px;"></textarea>
                                                         </div>
 
                                                 </div>
@@ -684,7 +684,7 @@
 												
                                                         <div class="form-group bootstrap-fileinput-style-01">
                                                                 <label>Refund Policy:<span style=' color: #d9534f;'>*</span></label>
-                                                                <textarea class="bootstrap3-wysihtml5 form-control" name="refund_policy" id="refund_policy" placeholder="eg: The applicable refund amount will be processed within 10 business days" style="height: 150px;"></textarea>
+                                                                <textarea class="bootstrap3-wysihtml5 form-control" name="refund_policy" id="refund_policy" placeholder="Refund will be processed in 10-15 working days." style="height: 150px;"></textarea>
                                                         </div>
 
                                                 </div>
