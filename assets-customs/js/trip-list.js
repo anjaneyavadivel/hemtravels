@@ -373,6 +373,7 @@ jQuery(function($) {
     
     $('body').on('click','.vendorShare',function(){
        var emails = $('#shared_emails').val();
+       //var emails = $('#shared_emails-tokenfield').val();
        $('.shareEmailsErr').show();
        
        if(emails != '' && emails != undefined){

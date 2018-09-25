@@ -658,6 +658,7 @@ if (!function_exists('trip_book')) {
             'payment_status' => 0
         );
         $trip_book_payid = insertTable('trip_book_pay', $book_pay);
+        $paydetailsidmaster = $pay_details_id = '-'.$trip_book_payid;
 //        $trip_book_payid=6;
 //        echo '<br><br>'; print_r($book_pay);
         //exit();
@@ -754,9 +755,11 @@ if (!function_exists('trip_book')) {
                     'pick_up_location_landmark' => $book_pay['pick_up_location_landmark'],
                     'booked_by' => $loginuserid,
                     'status' => 1,
-                    'payment_status' => 0
+                    'payment_status' => 0,
+                    'pay_details_id' => $pay_details_id
                 );
                 $book_pay_detailsid = insertTable('trip_book_pay_details', $book_pay_details);
+                $pay_details_id = $book_pay_detailsid;
                 //echo '<br><br>'; print_r($book_pay_details);
             }
 
@@ -867,14 +870,20 @@ if (!function_exists('trip_book')) {
                             'pick_up_location_landmark' => $book_pay['pick_up_location_landmark'],
                             'booked_by' => $loginuserid,
                             'status' => 1,
-                            'payment_status' => 0
+                            'payment_status' => 0,
+                            'pay_details_id' => $pay_details_id
                         );
                         $book_pay_detailsid = insertTable('trip_book_pay_details', $book_pay_details);
                         //echo '<br><br>'; print_r($book_pay_details);
                         $vendor_amt = $total_trip_price;
                         $parent_trip_id = $row->parent_trip_id;
+                        $pay_details_id = $book_pay_detailsid;
                     }
                 }
+                
+                $whereData = array('pay_details_id' => $paydetailsidmaster);
+                $updatedata = array('pay_details_id' => $pay_details_id);
+                $result = updateTable('trip_book_pay_details', $whereData, $updatedata);
             }
             // booked user info
 
@@ -1200,7 +1209,7 @@ if (!function_exists('trip_book_paid_sucess')) {
                     'trip_id' => 0,
                     'deposits' => $net_price,
                     'status' => 2);
-                make_mypayment($paymentdata);
+                $result = make_mypayment($paymentdata);
 
                 $paymentdata = array(
                     'userid' => 0,
@@ -1212,7 +1221,7 @@ if (!function_exists('trip_book_paid_sucess')) {
                     'trip_id' => $trip_id,
                     'deposits' => $net_price,
                     'status' => 2);
-                make_mypayment($paymentdata);
+                $result = make_mypayment($paymentdata);
 
 
                 ///$touserid= $pnrinfo['bookedbyid'];
@@ -1789,7 +1798,7 @@ if (!function_exists('make_mypayment')) {
                     'withdrawal_paid_on' => isset($makedata['withdrawal_paid_on']) ? date("Y-m-d", strtotime($makedata['withdrawal_paid_on'])) : '',
                     'b2b_pay_account_info' => isset($makedata['b2b_pay_account_info']) ? $makedata['b2b_pay_account_info'] : 0,
                     'withdrawal_request_id' => isset($makedata['withdrawal_request_id']) ? $makedata['withdrawal_request_id'] : 0);
-                update_mypayment($paymentdata);
+                $result = update_mypayment($paymentdata);
             }
             $paymentdata = array(
                 'userid' => $makedata['userid'],
@@ -1810,7 +1819,7 @@ if (!function_exists('make_mypayment')) {
             //TODO: email
 
             if ($result)
-                return TRUE;
+                return $result;
         }
         return FALSE;
     }

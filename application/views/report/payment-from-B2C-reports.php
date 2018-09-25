@@ -74,16 +74,18 @@
                             <table class="table ">
                                 <thead>
                                     <tr>
-                                        <th>Booking Date</th>
+                                        
+                                        <th>Transaction Date</th>
                                         <th>PNR No</th>
-                                        <th>Booked From</th>
+                                        <th>Booking Date</th>
+                                        <th>Trip Date</th>
                                         <th>Trip Title</th>
                                         <th>No of  Travellers</th>
                                         <th>Trip Amount</th>
                                         <th>Offer Amount</th>
-                                        <th>Total Your Amount</th>
+                                        <th>GST Amount</th>
+                                        <th>Total Get Amount</th>
                                         <th>Status</th>
-
                                     </tr>
                                 </thead>
                                 <tbody>

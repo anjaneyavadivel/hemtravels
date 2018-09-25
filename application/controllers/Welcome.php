@@ -186,7 +186,7 @@ class Welcome extends CI_Controller {
     public function checkTripCompleted() {
         $cur_date = date('Y-m-d', strtotime(' +10 day')); //date('Y-m-d', strtotime(' -1 day'));
 
-        $whereData = array('tpd.isactive' => 1, 'tpd.payment_status' => 1, 'tpd.date_of_trip_to <' => $cur_date);
+        $whereData = array('tpd.isactive' => 1, 'b2b_payment_status !=' => 1, 'tpd.payment_status' => 1, 'tpd.date_of_trip_to <' => $cur_date);
         $joins = array(
             array(
                 'table' => 'trip_master AS tm',
@@ -222,7 +222,7 @@ class Welcome extends CI_Controller {
             foreach ($book_pay as $book_pay) {
 
                 $inWhereData = array('tpd.status', array(2, 4));
-                $where_pay_details = array('tpd.isactive' => 1, 'tpd.payment_status' => 1, 'pnr_no' => $book_pay->pnr_no);
+                $where_pay_details = array('tpd.isactive' => 1, 'b2b_payment_status !=' => 1, 'tpd.payment_status' => 1, 'pnr_no' => $book_pay->pnr_no);
                 $joins = array(
                     array(
                         'table' => 'trip_master AS tm',
@@ -271,27 +271,33 @@ class Welcome extends CI_Controller {
                                 'trip_id' => $pay->trip_id,
                                 'deposits' => $pay->your_final_amt,
                                 'status' => 2);
-                            if(make_mypayment($paymentdata)){
+                            $paymentid =  make_mypayment($paymentdata);
+                            if($paymentid){
                                 $whereData22 = array('id' => $pay->id);
-                                $updatedata22 = array('status' => 5, 'b2b_payment_status' => 1, 'b2b_payment_on' => date('Y-m-d'));
+                                $updatedata22 = array('my_transaction_id' => $paymentid,'status' => 5, 'b2b_payment_status' => 1, 'b2b_payment_on' => date('Y-m-d'));
                                 $result = updateTable('trip_book_pay_details', $whereData22, $updatedata22);
-                                
-                                $touserid= $pay->user_id;
-                                $subject='You are received Amount for '.$pnr_no;
-                                $message='You are received Amount for '.$pnr_no.' / '.$trip_code.' / '.$trip_name. ' from '.site_title.'. '
-                                        . '<a href="'.base_url().'my-transaction-reports">View Website</a>';
-                                $mailData = array(
-                                //'fromuserid' => $pnrinfo['trip_postbyid'],
-                                'ccemail' => admin_email.','.email_bottem_email.','.'anjaneyavadivel@gmail.com,'.$pnrinfo['bookedby_contactemail'],
-                                //'bccemail' => admin_email.','.email_bottem_email.','.$pnrinfo['bookedby_contactemail'],
-                                'touserid' => $touserid,
-                                //'toemail' => 'anjaneyavadivel@gmail.com',
-                                'subject' => $subject,
-                                'message' => $message,
-                                //'othermsg' => $othermsg
-                                );
+                                $whereData = array('id' => $pay->trip_id);
+                                $trip_list = selectTable('trip_master', $whereData);
+                                if ($trip_list->num_rows() >0) {
+                                    
+                                    $triprow = $trip_list->row();
+                                    
+                                    $subject='You are received Amount for '.$pay->pnr_no;
+                                    $message='You are received Amount for '.$pay->pnr_no.' / '.$triprow->trip_code.' / '.$triprow->trip_name. ' from '.site_title.'. '
+                                            . '<a href="'.base_url().'my-transaction-reports">View Website</a>';
+                                    $mailData = array(
+                                    //'fromuserid' => $pnrinfo['trip_postbyid'],
+                                    'ccemail' => admin_email.','.email_bottem_email.','.'anjaneyavadivel@gmail.com,'.$pnrinfo['bookedby_contactemail'],
+                                    //'bccemail' => admin_email.','.email_bottem_email.','.$pnrinfo['bookedby_contactemail'],
+                                    'touserid' => $pay->user_id,
+                                    //'toemail' => 'anjaneyavadivel@gmail.com',
+                                    'subject' => $subject,
+                                    'message' => $message,
+                                    //'othermsg' => $othermsg
+                                    );
 
-                                sendemail_personalmail($mailData);
+                                    sendemail_personalmail($mailData);
+                                }
                             }
                         }
                     }

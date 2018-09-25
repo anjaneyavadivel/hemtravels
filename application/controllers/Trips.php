@@ -1287,13 +1287,13 @@ class Trips extends CI_Controller {
                 $this->load->helper('string');
                 $shareCode = 'SHARE'.random_string('alnum',5);
                 foreach($emails as $v){
-                    $whereData1 = array('user_type' => 'VA','email' => $v,'isactive' => 1);
+                    $whereData1 = array('user_type' => 'VA','email' => $v);
                     $email   = $v;
                     $user_id = NULL;
                     $user  = selectTable('user_master', $whereData1,['*'],[],[],'','',[],'row_array');
                     
-                    if(count($user) > 0 && isset($user->id)){
-                        $user_id = $user->id;
+                    if(count($user) > 0 && isset($user['id'])){
+                        $user_id = $user['id'];
                         $email   = NULL;
                     }
                             
