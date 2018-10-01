@@ -11,122 +11,135 @@
                     <div class="container">
                         <ol class="breadcrumb">
                             <li><a href="#">Home</a></li>
-                            <li><a href="#">Master</a></li>
-                            <li  class="active"><a href="#">Category Master</a></li>
+                            <li><a href="#">Report</a></li>
+                            <li  class="active"><a href="#">Payment to B2B</a></li>
                         </ol>
                     </div>
                 </div>
 
                 <!-- end Breadcrumb -->
                 <div class=" container pb-50">
-                    <div class="col-xs-0 col-sm-3">
-                        <!--                         left side-->
-                    </div>
-                    <div class="col-xs-12 col-sm-12 pt-20 pb-5 clearfix">
+                    <div class="row">
+                        <div class="col-xs-0 col-sm-3">
+                            <!--                         left side-->
+                        </div>
+                        <div class="col-xs-12 col-sm-12 pt-20 pb-5 clearfix">
                         <!--                         left side - center-->
                         <div class="col-xs-12 col-sm-12 pt-10 pb-5 clearfix">
                             
+                             <?php echo form_open_multipart(base_url() . $url, array('method'=>'get','class' => 'form-horizontal margin-top-30', 'id' => 'payment-to-b2b-report-form')); ?>
                             <div class="col-xs-12 col-sm-4 col-lg-4">
-                                                <div class="row gap-10" id="rangeDatePicker">
+                                <div class="row gap-10" id="rangeDatePicker">
 
-                                                    <div class="col-xss-12 col-xs-6 col-sm-6">
-                                                        <div class="form-group">
-                                                            <label>From</label>
-                                                            <input type="text" id="rangeDatePickerTo" class="form-control" placeholder="yyyy/mm/dd" />
-                                                        </div>
-                                                    </div>
+                                    <div class="col-xss-12 col-xs-6 col-sm-6">
+                                        <div class="form-group">
+                                            <label>From</label>
+                                            <input name="from" autocomplete="off" type="text" id="rangeDatePickerFrom" class="form-control" placeholder="yyyy/mm/dd" value="<?=$from?>" />
+                                        </div>
+                                    </div>
 
-                                                    <div class="col-xss-12 col-xs-6 col-sm-6">
-                                                        <div class="form-group">
-                                                            <label>To</label>
-                                                            <input type="text" id="rangeDatePickerFrom" class="form-control" placeholder="yyyy/mm/dd" />
-                                                        </div>
-                                                    </div>
+                                    <div class="col-xss-12 col-xs-6 col-sm-6">
+                                        <div class="form-group">
+                                            <label>To</label>
+                                            <input name="to" autocomplete="off" type="text" id="rangeDatePickerTo" class="form-control" placeholder="yyyy/mm/dd" value="<?=$to?>" />
+                                        </div>
+                                    </div>
 
-                                                </div>
-                                            </div>
-                                            <div class="col-xs-12 col-sm-2 col-lg-2">
-                                                <div class="form-group">
-                                                    <label>Status</label>
-                                                    <select class="selectpicker show-tick form-control" title="Select placeholder">
-                                                        <option value="">All</option>
-                                                        <option value="0">New</option>
-                                                        <option value="1">InProgress</option>
-                                                        <option value="1">Paid</option>
-                                                    </select>
-                                                </div>
-                                            </div>
-                                            <div class="col-xs-12 col-sm-6 col-lg-6">
-                                                <div class="form-group">
-                                                    <label>Title</label>
-                                                    <div class="row">
-                                                        <div class="col-xs-12 col-sm-8 col-md-8">
-                                                            <input type="text" class="form-control" placeholder="Search">
-                                                        </div>
-                                                        <div class="col-xs-12 col-sm-4 col-md-4">
-                                                            <a href="#" class="btn btn-primary btn-block"><i class="fa fa-search"></i> Search</a>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                            <div class="col-xs-2 col-sm-1 col-lg-1 text-right">
-                                <a class="btn btn-info c_mt" >Export XL</a>
+                                </div>
                             </div>
-                            <table class="table ">
+                            <div class="col-xs-12 col-sm-2 col-lg-2">
+                                <div class="form-group">
+                                    <label>Status</label>
+                                    <select name="status" class="selectpicker show-tick form-control" title="Select placeholder" id="status">
+                                        <option value="" selected>All</option>
+                                        <option value="0" <?php if($status=='0'){echo 'selected';}?>>New</option>
+                                        <option value="1" <?php if($status==1){echo 'selected';}?>>InProgress</option>
+                                        <option value="2" <?php if($status==2){echo 'selected';}?>>Executed</option>
+                                        <option value="3" <?php if($status==3){echo 'selected';}?>>Sent</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-xs-12 col-sm-6 col-lg-6">
+                                <div class="form-group">
+                                    <label>Title</label>
+                                    <div class="row">
+                                        <div class="col-xs-12 col-sm-8 col-md-8">
+                                            <input name="title" type="text" class="form-control" value="<?=$title?>" placeholder="Search Trip Title, Trip Code, PNR no..." id="searchTitle">
+                                        </div>
+                                        <div class="col-xs-12 col-sm-4 col-md-4">
+                                            <button type="submit" class="btn btn-primary btn-block" id="b2cSearchBtn"><i class="fa fa-search"></i> Search</button>                                            
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <?php echo form_close(); ?>
+                            <div class="row">
+                                <div class="col-xs-12 col-sm-12 col-lg-12">
+                                    <a class="btn btn-info  col-lg-1 col-sm-1 col-lg-1" id="b2bToExportXLSX">Export</a>
+                                    <p class="col-lg-6">This report will generate after trip completed</p>
+                                </div>
+                            </div>
+                            
+                            <table class="table">
                                 <thead>
                                     <tr>
-                                        
-                                        <th>Transaction Date</th>
-                                        <th>PNR No</th>
-                                        <th>Booking Date</th>
-                                        <th>Trip Date</th>
+                                        <th>Booked On</th>
+                                        <th>PNR No</th>                                        
                                         <th>Trip Title</th>
-                                        <th>No of  Travellers</th>
-                                        <th>Trip Amount</th>
-                                        <th>Offer Amount</th>
-                                        <th>GST Amount</th>
-                                        <th>Total Given Amount</th>
-                                        <th>Status</th>
-
+                                        <th>No of Persons</th>
+                                        <th>Total Trip Price</th>
+                                        <th>Vendor Trip Price</th>
+                                        <th>Vendor Discount Percentage/ Fixed Price</th>
+                                        <th>Total Vendor Discount Amount</th>
+                                        <th><span style="color: #FE8800" data-toggle="tooltip" data-placement="top" data-original-title="Amount sent to Parent Trip/Vendor">Sent to Parent Trip/Vendor Price</span></th>
+                                        <th>Your Final Amount (SER,GST)</th>                                        
+                                        <th>Status</th>                                       
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr>
-                                        <td>10 Feb 2018</td>
-                                        <td>PNR9977234</td>
-                                        <td>Vendor</td>
-                                        <td><a href="list.html" target="_new">Attraction Visit</a></td>
-                                        <td>2</td>
-                                        <td>400</td>
-                                        <td>50</td>
-                                        <td>350</td>
-                                        <td><h4 class="text-info"  data-toggle="tooltip" data-placement="top" data-original-title="New cancellation">New</h4></td>
-                                        
-                                    </tr>
-                                    <tr>
-                                        <td>10 Feb 2018</td>
-                                        <td>PNR9977234</td>
-                                        <td>Customer</td>
-                                        <td><a href="list.html" target="_new">Attraction Visit</a></td>
-                                        <td>2</td>
-                                        <td>300</td>
-                                        <td>50</td>
-                                        <td>250</td>
-                                         <td><h4 class="text-primary"  data-toggle="tooltip" data-placement="top" data-original-title="InProgress to Payment">InProgress</h4></td>
-                                        
-                                    </tr>
-                                    <tr>
-                                        <td>10 Feb 2018</td>
-                                        <td>PNR9977234</td>
-                                        <td>Vendor</td>
-                                        <td><a href="list.html" target="_new">Attraction Visit</a></td>
-                                        <td>2</td>
-                                        <td>300</td>
-                                        <td>100</td>
-                                        <td>200</td>
-                                        <td><h4 class=""  data-toggle="tooltip" data-placement="top" data-original-title="Paid to customer">Paid</h4></td>
-                                        
-                                    </tr>
+                                    <?php
+                                        if (isset($b2b_to_reports) && count($b2b_to_reports) > 0) {
+                                            $i = 1;
+                                            foreach ($b2b_to_reports as $row) {
+                                                $pnr_no = $row['pnr_no'];
+                                                $status = $row['tra_status'];                                                
+                                                $status_val = array('New', 'InProgress', 'Executed', 'Sent');
+                                                
+                                                    ?>
+                                                   <tr>
+                                                        <td><?= date("M d, Y", strtotime($row['booked_on'])); ?></td>
+                                                        <?php if($this->session->userdata('user_type') == 'SA'){  ?>
+                                                        <td><a href="<?=base_url()?>PNR-status-report/<?= $row['pnr_no']; ?>" target="_new"><?= $pnr_no; ?></a></td>                                                        
+                                                        <?php }else{  ?>
+                                                        <td><a href="<?=base_url()?>PNR-status/<?= $row['pnr_no']; ?>/2" target="_new"><?= $pnr_no; ?></a></td>                                                        
+                                                        <?php }  ?>
+                                                        <td><a href="<?=base_url()?>trip-view/<?= $row['trip_code']; ?>" target="_new"><?= $row['trip_name']; ?></a></td>                                                        
+                                                        <td><?= $row['number_of_persons']; ?></td>
+                                                        <td><?= $row['subtotal_trip_price']; ?></td>
+                                                        <td><?= $row['parent_subtotal_trip_price']; ?></td>
+                                                        <td><?php if($row['parent_discount_percentage']!='0.00'){
+                                                            $discount_percentage = $row['parent_discount_percentage'];
+                                                            if (strpos($discount_percentage, '.00') !== false) {
+                                                                $discount_percentage = round($discount_percentage);
+                                                            }
+                                                        echo $discount_percentage.' %';}else{
+                                                            echo 'Rs:'.$row['parent_discount_price'];
+                                                        }?>
+                                                        <td><?= $row['parent_offer_amt']; ?></td>
+                                                        <?php if($row['vendor_amt']>0){?>
+                                                        <td><span style="color: #FE8800" data-toggle="tooltip" data-placement="top" data-original-title="Amount sent to Parent Trip (<?=$row['parent_trip_name'];?>) / Vendor Name ( <?=$row['parent_trip_user_name'];?>|<?=$row['parent_trip_user_email'];?> )"><?= $row['vendor_amt']; ?></span></td>
+                                                        <?php }else{?>
+                                                        <td><?= $row['vendor_amt']; ?></td>
+                                                        <?php }?>
+                                                        <td><?= $row['your_final_amt']; ?></td>
+                                                        <td><h4 class="text-info"  data-toggle="tooltip" data-placement="top" data-original-title="Booking status <?=$status_val[$status]?>"><?= $status_val[$status]; ?></h4></td>                                                        
+                                                    </tr>
+                                            <?php
+                                        }
+                                    }else{
+                                        echo "<tr><td colspan='8' style='text-align:center'>No Data Found</td></tr>";
+                                    }
+                                    ?> 	
                                 </tbody>
                             </table>
                             <div class="pager-wrappper text-right clearfix bt mt-0  col-sm-12">
@@ -140,22 +153,11 @@
                                     <div class="clearfix">
                                         <nav>
                                             <ul class="pagination">
-                                                <li>
-                                                    <a href="#" aria-label="Previous">
-                                                        <span aria-hidden="true">&laquo;</span>
-                                                    </a>
-                                                </li>
-                                                <li class="active"><a href="#">1</a></li>
-                                                <li><a href="#">2</a></li>
-                                                <li><a href="#">3</a></li>
-                                                <li><span>...</span></li>
-                                                <li><a href="#">12</a></li>
-                                                <li><a href="#">13</a></li>
-                                                <li>
-                                                    <a href="#" aria-label="Next">
-                                                        <span aria-hidden="true">&raquo;</span>
-                                                    </a>
-                                                </li>
+                                               <?php
+                                                foreach ($links as $link) {
+                                                    echo "<li>" . $link . "</li>";
+                                                }
+                                                ?>
                                             </ul>
                                         </nav>
                                     </div>
@@ -166,8 +168,10 @@
                         </div>
 
                     </div>
+                    </div>
                 </div>
             </div>
 
             <!-- end Main Wrapper -->
+
 		<?php $this->load->view('includes/footer')?>

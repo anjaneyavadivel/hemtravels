@@ -374,6 +374,14 @@ class Master extends CI_Controller {
 
     public function checkhelper() {
         $this->load->helper('custom_helper');
+        
+       //echo $totalbookedpersons = checktripavailable(6,'30-09-2018');
+//       $totalbookedpersons = checktripavailable(6,'30-09-2018');
+//         print_r($totalbookedpersons);exit();
+        //$parent_arr=getallparenttrip(7);
+        //$child_arr=getallchildtrip(7);
+//        $child_arr=getparentchildtrip(6);
+//        print_r($child_arr);exit();
 //        $updatedata = array(
 //                                    'payment_type' => 1,  // 1 - net, 2 - credit, 3 - debit
 //                                    'payment_status' =>  1,
@@ -408,12 +416,12 @@ class Master extends CI_Controller {
 //        if ($this->session->userdata('user_id') == '') {
 //            return FALSE;
 //        }
-//        $offerdata=array(
-//        'trip_id' => 1,
-//        'date_of_trip' => "09-09-2018",
-//        'ischeckadmin' => 1); 
-//        $result = trip_offer($offerdata);
-//        print_r($result);
+        $offerdata=array(
+        'trip_id' => 7,
+        'date_of_trip' => "30-09-2018",
+        'ischeckadmin' => 1); 
+        $result = trip_offer($offerdata);
+        print_r($result);
 //        exit();
 //        $bookdata=array(
 //        'trip_id' => 3,

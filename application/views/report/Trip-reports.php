@@ -32,14 +32,14 @@
                         <div class="col-xss-12 col-xs-6 col-sm-6">
                             <div class="form-group">
                                 <label>Date of Trip From</label>
-                                <input name="from" value="<?=$from?>" type="text" id="rangeDatePickerFrom" class="form-control" placeholder="MMM D, YYYY" />
+                                <input name="from" autocomplete="off" value="<?=$from?>" type="text" id="rangeDatePickerFrom" class="form-control" placeholder="MMM D, YYYY" />
                             </div>
                         </div>
 
                         <div class="col-xss-12 col-xs-6 col-sm-6">
                             <div class="form-group">
                                 <label>Date of Trip To</label>
-                                <input name="to" value="<?=$to?>" type="text" id="rangeDatePickerTo" class="form-control" placeholder="MMM D, YYYY" />
+                                <input name="to" autocomplete="off" value="<?=$to?>" type="text" id="rangeDatePickerTo" class="form-control" placeholder="MMM D, YYYY" />
                             </div>
                         </div>
 
@@ -60,7 +60,7 @@
                         <label>Title</label>
                         <div class="row">
                             <div class="col-xs-12 col-sm-8 col-md-8">
-                                <input name="title" value="<?=$title?>" type="text" class="form-control" id="titleSearch" placeholder="Search Trip Title, Category">
+                                <input name="title" value="<?=$title?>" type="text" class="form-control" id="titleSearch" placeholder="Search Trip Title, Trip Code, Category">
                             </div>
                             <div class="col-xs-12 col-sm-4 col-md-4">
                                      <button type="submit" class="btn btn-primary btn-block" id="searchTrip"><i class="fa fa-search"></i> Search</button>

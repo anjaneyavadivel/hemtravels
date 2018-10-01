@@ -128,7 +128,7 @@
                                                     <tr><td><span class="font600 net_price">Round Off:</span>
                                                     </td><td class="text-right"><?= $pnrinfo['round_off']; ?></td></tr>                                                                                    
                                                 <?php }if ($pnrinfo['net_price'] != 0.00) { ?>
-                                                    <tr><td><span class="font600 net_price">Total Amount:</span>
+                                                    <tr><td><span class="font600 net_price">Paid Amount:</span>
                                                     </td><td class="text-right"><?= $pnrinfo['net_price']; ?></td></tr>                                                                                     
                                                 <?php
                                                 }?>
@@ -157,17 +157,13 @@
                                                     'jointype' => 'LEFT'
                                                 ),
                                             );
-                                            $columns = 'tpd.user_id,tpd.subtotal_trip_price,tpd.offer_amt,tpd.gst_amt,tpd.round_off,tpd.net_price,'
-                                                    . 'tpd.total_trip_price,tpd.discount_percentage,tpd.discount_price,'
-                                                    . 'tpd.servicecharge_amt,tpd.your_final_amt,tm.id AS trip_id,tm.trip_name,tm.trip_code,'
-                                                    . 'tpd.status,tpd.payment_status,'
-                                                    . 'tmum.user_fullname AS trip_postby,tmum.phone AS trip_contactno,tmum.email AS trip_contactemail,'
+                                            $columns = 'tpd.*,tm.id AS trip_id,tm.trip_name,tm.trip_code,tmum.user_fullname AS trip_postby,tmum.phone AS trip_contactno,tmum.email AS trip_contactemail,'
                                                     . '(CASE WHEN ccmhd.id IS NOT NULL THEN ccmhd.coupon_code END) AS coupon_code,(CASE WHEN ccmhd.id IS NOT NULL THEN ccmhd.offer_type END) AS offer_type,'
                                                     . '(CASE WHEN ccmhd.id IS NOT NULL THEN ccmhd.percentage_amount END) AS percentage_amount';
                                             $tableData = get_joins('trip_book_pay_details AS tpd', $columns, $joins, $whereData);
                                             if ($tableData->num_rows() > 0) {
                                                  foreach ($tableData->result_array() as $book_pay){
-                                                $book_pay['gst_percentage']=GST_PERCENTAGE;
+                                                //$book_pay['gst_percentage']=GST_PERCENTAGE;
                                                 ?>
                                                 <h4 class="section-title">
                                                      <?php if ($book_pay['user_id'] == 0) { echo 'Admin offer'; }else{ echo $book_pay['trip_postby'];} ?> Cost Info</h4>
@@ -187,7 +183,7 @@
                                                         <tr><td><span class="font600">Amount: </span></td>
                                                             <td class="text-right"><?= $book_pay['subtotal_trip_price']; ?></td></tr>
                                                         <?php if ($book_pay['offer_amt'] != 0.00) { ?>
-                                                        <tr><td><span class="font600 net_price">Offer Amount:
+                                                        <tr><td><span class="font600 net_price">Offer Amount(-):
                                                                 <?php
                                                                 if ($book_pay['coupon_code'] != '') {
                                                                     $offer_type = '';
@@ -203,11 +199,15 @@
                                                             </span></td><td class="text-right"><?= $book_pay['offer_amt']; ?></td></tr>  
                                                         
                                                             <?php }
-                                                            if ($pnrinfo['net_price'] != 0.00) {
+                                                            if ($book_pay['vendor_amt'] != 0.00) {
                                                                 ?>
-                                                                <tr><td><span class="font600 net_price">Total Amount:</span></td><td class="text-right"><?= $pnrinfo['net_price']; ?></td></tr>                                                                              
-                                                            <?php }if ($pnrinfo['servicecharge_amt'] != 0) { ?>
-                                                                <tr><td><span class="font600 net_price">Service Charge:</span></td><td class="text-right"><?= $pnrinfo['servicecharge_amt']; ?></td></tr>                                                                                  
+                                                                <tr><td><span class="font600 net_price">Vendor Amount(-):</span></td><td class="text-right"><?= $book_pay['vendor_amt']; ?></td></tr>                                                                              
+                                                            <?php }
+                                                            if ($book_pay['net_price'] != 0.00) {
+                                                                ?>
+                                                                <tr><td><span class="font600 net_price">Total Amount:</span></td><td class="text-right"><?= $book_pay['net_price']; ?></td></tr>                                                                              
+                                                            <?php }if ($book_pay['servicecharge_amt'] != 0) { ?>
+                                                                <tr><td><span class="font600 net_price">Service Charge(-):</span></td><td class="text-right"><?= $book_pay['servicecharge_amt']; ?></td></tr>                                                                                  
                                                             <?php }
                                                          if ($book_pay['gst_percentage'] != 0) {
                                                             ?>
@@ -217,7 +217,7 @@
                                                             <tr><td><span class="font600 net_price">Round Off:</span>
                                                             </td><td class="text-right"><?= $book_pay['round_off']; ?></td></tr>                                                                                    
                                                         <?php }if ($book_pay['your_final_amt'] != 0.00) { ?>
-                                                            <tr><td><span class="font600 net_price">Total Amount:</span>
+                                                            <tr><td><span class="font600 net_price">Final Vendor Amount:</span>
                                                             </td><td class="text-right"><?= $book_pay['your_final_amt']; ?></td></tr>                                                                                     
                                                         <?php
                                                         }?>

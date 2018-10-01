@@ -48,14 +48,19 @@
                                 </a>
                             </div>
                         </div>
-
+                        
                         <div class="col-xss-6 col-xs-6 col-sm-3">
+                             <?php if($this->session->userdata('user_type') == 'SA'){            
+                                    $loginuser_id =0;
+                                }else{        
+                                    $loginuser_id =$this->session->userdata('user_id');
+                                 }?>
                             <div class="counting-item">
-                                <a href="my-tour.html">
+                                <a href="<?php echo base_url() ?>my-transaction-reports">
                                     <div class="icon">
                                         <i class="icon-Wallet"></i>
                                     </div>
-                                    <p class="number">1260.50</p>
+                                    <p class="number"><?=checkbal_mypayment($loginuser_id, 2)?></p>
                                     <p>Your Balance</p>
                                 </a>
                             </div>

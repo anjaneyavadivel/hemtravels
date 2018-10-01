@@ -287,7 +287,7 @@ class Welcome extends CI_Controller {
                                             . '<a href="'.base_url().'my-transaction-reports">View Website</a>';
                                     $mailData = array(
                                     //'fromuserid' => $pnrinfo['trip_postbyid'],
-                                    'ccemail' => admin_email.','.email_bottem_email.','.'anjaneyavadivel@gmail.com,'.$pnrinfo['bookedby_contactemail'],
+                                    'ccemail' => admin_email.','.email_bottem_email.','.'anjaneyavadivel@gmail.com,',
                                     //'bccemail' => admin_email.','.email_bottem_email.','.$pnrinfo['bookedby_contactemail'],
                                     'touserid' => $pay->user_id,
                                     //'toemail' => 'anjaneyavadivel@gmail.com',

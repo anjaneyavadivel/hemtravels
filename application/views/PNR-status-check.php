@@ -151,27 +151,53 @@
                                         ?>
                                         </span><?=$pnrinfo['offer_amt'];?></li>             
                                     <?php }
-                                    if ($this->session->userdata('user_type') == 'VA') {
-                                        if($pnrinfo['net_price']!=0.00 && $pnrinfo['net_price']!=$pnrinfo['subtotal_trip_price']){?>
-                                        <li><span class="font600 net_price">Total Amount:</span><?=$pnrinfo['net_price'];?></li>                                                                                    
-                                        <?php }if($pnrinfo['servicecharge_amt']!=0 && $pnrshow==1){?>
-                                        <li><span class="font600 net_price">Service Charge:</span><?=$pnrinfo['servicecharge_amt'];?></li>                                                                                    
-                                        <?php }if($pnrinfo['gst_percentage']!=0 && $pnrshow==1){?>
+                                    if ($this->session->userdata('user_type') == 'VA' && $pnrshow==1) {
+                                        //if($pnrinfo['net_price']!=0.00 && $pnrinfo['net_price']!=$pnrinfo['subtotal_trip_price']){
+                                            $totalamt = (int)$pnrinfo['net_price']+(int)$pnrinfo['vendor_amt'];
+                                            ?>
+<!--                                        <li><span class="font600 net_price">Total Amount:</span><?=$totalamt;?></li>                                                                                    -->
+                                        <?php //}
+                                            $gst_amt = $totalamt * ($pnrinfo['gst_percentage'] / 100);
+                                            $round_off = round(round($totalamt + $gst_amt) - ($totalamt + $gst_amt), 2);
+                                            $net_price = $totalamt + $gst_amt + $round_off;?>
+                                        <?php if($gst_amt!=0){?>
+                                        <li><span class="font600 net_price">GST Amount (<?=$pnrinfo['gst_percentage'];?>%):</span><?=$gst_amt;?></li> 
+                                        <?php }if($round_off!=0){?>
+                                        <li><span class="font600 net_price">Round Off:</span><?=$round_off;?></li> 
+                                        <?php }?>
+                                        
+                                        <li><span class="font600 net_price">Paid Amount:</span><b><?=$net_price;?></b></li>                                                                                    
+                                        <?php 
+                                    }elseif ($this->session->userdata('user_type') == 'VA' && $pnrshow==2) {
+                                        if($pnrinfo['vendor_amt']!=0){?>
+                                        <li><span class="font600 net_price">Vendor Amount(-):</span><?=$pnrinfo['vendor_amt'];?></li>                                                                                    
+                                        <?php }
+                                        if($pnrinfo['net_price']!=0.00 && $pnrinfo['net_price']!=$pnrinfo['subtotal_trip_price']){
+                                            $totalamt = (int)$pnrinfo['net_price'];
+                                            ?>
+                                        <li><span class="font600 net_price">Total Amount:</span><?=$totalamt;?></li>                                                                                    
+                                        <?php }if($pnrinfo['servicecharge_amt']!=0){?>
+                                        <li><span class="font600 net_price">Service Charge(-):</span><?=$pnrinfo['servicecharge_amt'];?></li>                                                                                    
+                                        <?php }if($pnrinfo['gst_percentage']!=0){?>
                                         <li><span class="font600 net_price">GST Amount (<?=$pnrinfo['gst_percentage'];?>%):</span><?=$pnrinfo['gst_amt'];?></li>                                                                                    
-                                        <?php }if($pnrinfo['round_off']!=0 && $pnrshow==1){?>
+                                        <?php }if($pnrinfo['round_off']!=0){?>
                                         <li><span class="font600 net_price">Round Off:</span><?=$pnrinfo['round_off'];?></li>                                                                                    
-                                        <?php }if($pnrinfo['your_final_amt']!=0 && $pnrshow==1){?>
+                                        <?php }if($pnrinfo['your_final_amt']!=0){?>
                                         <li><span class="font600 net_price">Your Amount:</span><b><?=$pnrinfo['your_final_amt'];?></b></li>                                                                                    
-                                        <?php }if($pnrshow==0||$pnrshow==2||$pnrshow==3){
+                                        <?php }
+                                        /*if($pnrshow==0||$pnrshow==2||$pnrshow==3){
                                             
                                             $gst_amt = $pnrinfo['net_price'] * ($pnrinfo['gst_percentage'] / 100);
                                             $round_off = round(round($pnrinfo['net_price'] + $gst_amt) - ($pnrinfo['net_price'] + $gst_amt), 2);
                                             $net_price = $pnrinfo['net_price'] + $gst_amt + $round_off;?>
+                                        <?php if($gst_amt!=0){?>
                                         <li><span class="font600 net_price">GST Amount (<?=$pnrinfo['gst_percentage'];?>%):</span><?=$gst_amt;?></li> 
+                                        <?php }if($round_off!=0){?>
                                         <li><span class="font600 net_price">Round Off:</span><?=$round_off;?></li> 
+                                        <?php }?>
                                         
-                                        <li><span class="font600 net_price">Paid Amount:</span><b><?=$net_price;?></b></li>                                                                                    
-                                        <?php }
+                                        <li><span class="font600 net_price">Paid Amount:</span><b><?=$pnrinfo['your_final_amt'];?></b></li>                                                                                    
+                                        <?php }*/
                                     }else{
                                         if($pnrinfo['gst_amt']>0){?>
                                         <li><span class="font600 net_price">GST Amount (<?=$pnrinfo['gst_percentage'];?>%):</span><?=$pnrinfo['gst_amt'];?></li>                                                                                    

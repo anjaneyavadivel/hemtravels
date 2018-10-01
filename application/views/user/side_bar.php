@@ -121,7 +121,7 @@ $v=$view->row();
                                 <li class="<?php echo $mn_mypost ?>"><a href="<?php echo base_url() ?>my-post">My post</a></li>
 
 <?php if ($this->session->userdata('user_type') && $this->session->userdata('user_type') == 'VA') { ?>
-                                    <li class="<?php echo $mn_mytransaction ?>"><a href="<?php echo base_url() ?>my-transaction">My Transaction</a></li>
+                                    <li class="<?php echo $mn_mytransaction ?>"><a href="<?php echo base_url() ?>my-transaction-reports">My Transaction</a></li>
                                     <li class="<?php echo $mn_bank_details ?>"><a href="<?php echo base_url() ?>account-details">Bank Account</a></li>
                                 <?php }} ?>
                             </ul>

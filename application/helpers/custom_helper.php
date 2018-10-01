@@ -481,15 +481,15 @@ if (!function_exists('trip_offer')) {
             if (strpos($discount_price, '.00') !== false) {
                 $discount_price = round($discount_price);
             }
-            $totalbookedpersons = 0;
-            $showField = array('SUM(number_of_persons) AS totalbookedpersons');
-            $whereData = array('isactive' => 1, 'status' => 2, 'payment_status' => 1, 'trip_id' => $parenttrip_id, 'date_of_trip' => $date_of_trip);
-            $trip_book_pay_list = selectTable('trip_book_pay', $whereData, $showField);
-            if ($trip_book_pay_list->num_rows() > 0) {
-                $row = $trip_book_pay_list->row();
-                $totalbookedpersons = $row->totalbookedpersons;
-            }
-            $availabletraveller = (int) $no_of_traveller - (int) $totalbookedpersons;
+            $checktripavailable = checktripavailable($parenttrip_id, $date_of_trip);
+            $availabletraveller =$checktripavailable['total_available'];
+//            $whereData = array('isactive' => 1, 'status' => 2, 'payment_status' => 1, 'trip_id' => $parenttrip_id, 'date_of_trip' => $date_of_trip);
+//            $trip_book_pay_list = selectTable('trip_book_pay', $whereData, $showField);
+//            if ($trip_book_pay_list->num_rows() > 0) {
+//                $row = $trip_book_pay_list->row();
+//                $totalbookedpersons = $row->totalbookedpersons;
+//            }
+                    //$availabletraveller = (int) $no_of_traveller - (int) $totalbookedpersons;
             $final_price_to_adult = $totalpricetoadult;
             $final_price_to_child = $totalpricetochild;
             $final_price_to_infan = $totalpricetoinfan;
@@ -658,7 +658,7 @@ if (!function_exists('trip_book')) {
             'payment_status' => 0
         );
         $trip_book_payid = insertTable('trip_book_pay', $book_pay);
-        $paydetailsidmaster = $pay_details_id = '-'.$trip_book_payid;
+        $paydetailsidmaster = $pay_details_id = '-' . $trip_book_payid;
 //        $trip_book_payid=6;
 //        echo '<br><br>'; print_r($book_pay);
         //exit();
@@ -880,7 +880,7 @@ if (!function_exists('trip_book')) {
                         $pay_details_id = $book_pay_detailsid;
                     }
                 }
-                
+
                 $whereData = array('pay_details_id' => $paydetailsidmaster);
                 $updatedata = array('pay_details_id' => $pay_details_id);
                 $result = updateTable('trip_book_pay_details', $whereData, $updatedata);
@@ -956,8 +956,8 @@ if (!function_exists('trip_book_paid_sucess')) {
             $trip_code = $row->trip_code;
             $trip_name = $row->trip_name;
             $total_booking = $row->total_booking;
-            
-            $pnrinfo = getpnrinfo($pnr_no);
+
+            $pnrinfo = getpnrinfo($pnr_no,'', 1);
             // TODO: need to send mail for pay sucess
 
             $subtotal_trip_price = $pnrinfo['subtotal_trip_price'] . ' ( ';
@@ -1242,7 +1242,7 @@ if (!function_exists('trip_book_paid_sucess')) {
             }
 //            'status' =>  3) //1 - Pendding, 2- booked, 3 - cancelled, 4 - confirmed, 5 -Completed
             if (isset($updatedata['status']) && $updatedata['status'] == 3) {
-                $updatedata['cancelled_on']=date('Y-m-d');
+                $updatedata['cancelled_on'] = date('Y-m-d');
                 $whereData = array('pnr_no' => $pnr_no);
                 $result = updateTable('trip_book_pay_details', $whereData, $updatedata);
 
@@ -1254,13 +1254,13 @@ if (!function_exists('trip_book_paid_sucess')) {
                 $whereData22 = array('trip_code' => $trip_code);
                 $updatedata22 = array('total_booking' => $total_booking);
                 $result = updateTable('trip_master', $whereData22, $updatedata22);
-                
+
                 //$touserid= $user_id;
-                $subject='Trip has been cancelled '.$pnr_no;
-                $message='Trip has been cancelled '.$pnr_no.' / '.$trip_code.' / '.$trip_name. ' at '.site_title.'. '
+                $subject = 'Trip has been cancelled ' . $pnr_no;
+                $message = 'Trip has been cancelled ' . $pnr_no . ' / ' . $trip_code . ' / ' . $trip_name . ' at ' . site_title . '. '
                         . 'Please read our Cancellation Policy. Our representative will contact you shortly';
                 $mailData = array(
-                //'fromuserid' => $pnrinfo['trip_postbyid'],
+                    //'fromuserid' => $pnrinfo['trip_postbyid'],
                     'ccemail' => $pnrinfo['trip_contactemail'],
                     'bccemail' => admin_email . ',' . email_bottem_email . ',' . 'anjaneyavadivel@gmail.com',
                     //'touserid' => $touserid,
@@ -1320,12 +1320,13 @@ if (!function_exists('trip_book_paid_sucess')) {
   input:
   'pnr' => pnr
   'phoneno' => phone no
+  'viewtype' => if 1 check only trip_book_pay table
  * @return 
  * @author Anjaneya
  * */
 if (!function_exists('getpnrinfo')) {
 
-    function getpnrinfo($pnr_no = '', $phoneno = '') {
+    function getpnrinfo($pnr_no = '', $phoneno = '', $viewtype = 0) {
         // TODO: mail sent to customer and vendor
         $CI = & get_instance();
         $loginuserid = $CI->session->userdata('user_id');
@@ -1333,7 +1334,7 @@ if (!function_exists('getpnrinfo')) {
             return FALSE;
         }
         $book_pay = array();
-        if ($CI->session->userdata('user_type') == 'VA') {
+        if ($CI->session->userdata('user_type') == 'VA' && $viewtype!=1) {
             $whereData = array('tpd.isactive' => 1, 'tpd.pnr_no' => $pnr_no, 'tpd.user_id' => $loginuserid);
             if ($phoneno != '') {
                 $whereData['bum.phone'] = $phoneno;
@@ -1360,12 +1361,9 @@ if (!function_exists('getpnrinfo')) {
                     'jointype' => 'LEFT'
                 ),
             );
-            $columns = 'tpd.pnr_no,tpd.number_of_persons,tpd.price_to_adult,tpd.price_to_child,tpd.price_to_infan,tpd.no_of_adult,tpd.no_of_child,tpd.no_of_infan,'
-                    . 'tpd.subtotal_trip_price,tpd.offer_amt,tpd.gst_amt,tpd.round_off,tpd.net_price,tpd.gst_percentage,'
-                    . 'tpd.total_trip_price,tpd.date_of_trip,tpd.date_of_trip_to,tpd.time_of_trip,tpd.pick_up_location,tpd.pick_up_location_landmark,'
-                    . 'tpd.servicecharge_amt,tpd.your_final_amt,tm.id AS trip_id,tm.trip_name,tm.trip_code,tm.how_many_days,tm.how_many_nights,tm.total_days,tm.how_many_hours,'
+            $columns = 'tpd.*,tm.id AS trip_id,tm.trip_name,tm.trip_code,tm.how_many_days,tm.how_many_nights,tm.total_days,tm.how_many_hours,'
                     . 'tm.brief_description,tm.other_inclusions,tm.exclusions,tm.languages,tm.meal,tm.cancellation_policy,tm.confirmation_policy,tm.refund_policy,'
-                    . 'bum.id AS bookedbyid,bum.user_fullname AS bookedby,bum.phone AS bookedby_contactno,bum.email AS bookedby_contactemail,tpd.booked_on,tpd.status,tpd.payment_status,'
+                    . 'bum.id AS bookedbyid,bum.user_fullname AS bookedby,bum.phone AS bookedby_contactno,bum.email AS bookedby_contactemail,'
                     . 'tmum.id AS trip_postbyid,tmum.user_fullname AS trip_postby,tmum.phone AS trip_contactno,tmum.email AS trip_contactemail,tm.trip_name,'
                     . '(CASE WHEN ccmhd.id IS NOT NULL THEN ccmhd.coupon_code END) AS coupon_code,(CASE WHEN ccmhd.id IS NOT NULL THEN ccmhd.offer_type END) AS offer_type,'
                     . '(CASE WHEN ccmhd.id IS NOT NULL THEN ccmhd.percentage_amount END) AS percentage_amount';
@@ -1413,12 +1411,9 @@ if (!function_exists('getpnrinfo')) {
                     'jointype' => 'LEFT'
                 ),
             );
-            $columns = 'tpd.pnr_no,tpd.number_of_persons,tpd.price_to_adult,tpd.price_to_child,tpd.price_to_infan,tpd.no_of_adult,tpd.no_of_child,tpd.no_of_infan,'
-                    . 'tpd.subtotal_trip_price,tpd.offer_amt,tpd.gst_amt,tpd.round_off,tpd.net_price,tpd.gst_percentage,'
-                    . 'tpd.total_trip_price,tpd.date_of_trip,tpd.date_of_trip_to,tpd.time_of_trip,tpd.pick_up_location,tpd.pick_up_location_landmark,'
-                    . 'tm.id AS trip_id,tm.trip_name,tm.trip_code,tm.how_many_days,tm.how_many_nights,tm.total_days,tm.how_many_hours,'
+            $columns = 'tpd.*,tm.id AS trip_id,tm.trip_name,tm.trip_code,tm.how_many_days,tm.how_many_nights,tm.total_days,tm.how_many_hours,'
                     . 'tm.brief_description,tm.other_inclusions,tm.exclusions,tm.languages,tm.meal,tm.cancellation_policy,tm.confirmation_policy,tm.refund_policy,'
-                    . 'bum.id AS bookedbyid,bum.user_fullname AS bookedby,bum.phone AS bookedby_contactno,bum.email AS bookedby_contactemail,tpd.booked_on,tpd.status,tpd.payment_status,'
+                    . 'bum.id AS bookedbyid,bum.user_fullname AS bookedby,bum.phone AS bookedby_contactno,bum.email AS bookedby_contactemail,'
                     . 'tmum.id AS trip_postbyid,tmum.user_fullname AS trip_postby,tmum.phone AS trip_contactno,tmum.email AS trip_contactemail,tm.trip_name,'
                     . '(CASE WHEN ccmhd.id IS NOT NULL THEN ccmhd.coupon_code END) AS coupon_code,(CASE WHEN ccmhd.id IS NOT NULL THEN ccmhd.offer_type END) AS offer_type,'
                     . '(CASE WHEN ccmhd.id IS NOT NULL THEN ccmhd.percentage_amount END) AS percentage_amount';
@@ -1445,7 +1440,7 @@ if (!function_exists('getpnrinfo')) {
 }
 
 /**
- * book the trip
+ * get all parent trip
   input: $tripid, $returntripid=array()
  * @return 
  * @author Anjaneya
@@ -1459,7 +1454,7 @@ if (!function_exists('getallparenttrip')) {
         $whereData = array('isactive' => 1, 'id' => $tripid);
         $trip_list = selectTable('trip_master', $whereData);
         if ($trip_list->num_rows() < 1) {
-            return FALSE;
+            return array();
         }
         $returntripid[] = $tripid;
         while ($tripid > 0) {
@@ -1473,12 +1468,147 @@ if (!function_exists('getallparenttrip')) {
                 $tripid = 0;
             }
         }
-        return $returntripid;
+        $trip = array_unique($returntripid);
+        return $trip;
     }
 
 }
 
 
+/**
+ * get all child trip
+  input: $tripid, $returntripid=array()
+ * @return 
+ * @author Anjaneya
+ * */
+if (!function_exists('getallchildtrip')) {
+
+    function getallchildtrip($tripid = 0, $returntripid = array()) {
+        $CI = & get_instance();
+        $childs1 = array();
+        $loginuserid = $CI->session->userdata('user_id');
+        $whereData = array('isactive' => 1, 'id' => $tripid);
+        $trip_list = selectTable('trip_master', $whereData);
+        if ($trip_list->num_rows() < 1) {
+            return array();
+        }
+        $returntripid[] = $tripid;
+
+        //Stage-1
+        $toal_users1 = 0;
+        $whereData = array('isactive' => 1, 'parent_trip_id' => $tripid);
+        $trip_list = selectTable('trip_master', $whereData);
+        if ($trip_list->num_rows() > 0) {
+            foreach ($trip_list->result() as $row1) {
+                $returntripid[] = $row1->id;
+            }
+        }
+        $childs1 = $returntripid;
+
+        //Stage-2
+        while (count($childs1) > 0) {
+            $CI->db->select('id')->from('trip_master')->where_in('parent_trip_id', $childs1);
+            $trip_list2 = $CI->db->get();
+            if ($trip_list2->num_rows() > 0) {
+                $childs1 = array();
+                foreach ($trip_list2->result() as $row2) {
+                    $childs1[] = $row2->id;
+                }
+                $returntripid = array_merge($returntripid, $childs1);
+            } else {
+                $childs1 = array();
+            }
+        }
+        $trip = array_unique($returntripid);
+        return $trip;
+    }
+
+}
+
+/**
+ * get all parent and child trip
+  input: $tripid
+ * @return 
+ * @author Anjaneya
+ * */
+if (!function_exists('getparentchildtrip')) {
+
+    function getparentchildtrip($currenttripid) {
+        $parent_arr = getallparenttrip($currenttripid);
+        $child_arr = getallchildtrip($currenttripid);
+        $parentchildtrip = array_merge($parent_arr, $child_arr);
+        $trip = array_unique($parentchildtrip);
+        return $trip;
+    }
+
+}
+
+/**
+ * get all parent and child trip
+  input: $tripid
+ * @return 
+ * @author Anjaneya
+ * */
+if (!function_exists('checktripavailable')) {
+
+    function checktripavailable($currenttripid, $date_of_trip) {
+        $CI = & get_instance();
+        $CI->load->model('Trip_model');
+        $date_of_trip = formatdate($date_of_trip, $format = 'Y-m-d');
+        $cut_of_date = date('Y-m-d');
+        $alltrip_arr = getparentchildtrip($currenttripid);
+        $no_of_traveller=0;
+        $inWhereData = array('id', $alltrip_arr);
+        $whereData = array('isactive' => 1,'parent_trip_id' => 0);
+        $trip_list = selectTable('trip_master', $whereData = array(), $showField = array('*'), $orWhereData = array(), $group = array(), $order = 'id ASC', $having = '', $limit = array(), $result_way = 'all', $echo = 0, $inWhereData, $notInWhereData = array());
+        if ($trip_list->num_rows() > 0) {
+            $trip = $trip_list->row();
+            $trip_id = $trip->id;
+            $no_of_traveller = $trip->no_of_traveller;
+            $booking_cut_of_time_type = $trip->booking_cut_of_time_type;
+            $booking_cut_of_day = $trip->booking_cut_of_day;
+            $booking_cut_of_time = $trip->booking_cut_of_time;
+            $meeting_time = $trip->meeting_time;
+            $booking_max_cut_of_month = $trip->booking_max_cut_of_month;
+            
+            //Offer Specific Day
+            $whereData = array('isactive' => 1, 'trip_id' => $trip_id, 'from_date <=' => $date_of_trip, 'to_date >=' => $date_of_trip);
+            $offer_list = selectTable('trip_specific_day', $whereData, $showField = array('*'), $orWhereData = array(), $group = array(), $order = 'id DESC');
+            if ($offer_list->num_rows() > 0) {
+                $offer = $offer_list->row();
+                $no_of_traveller = $offer->no_of_traveller;
+            }
+            $cutoff_disable_days = $CI->Trip_model->getCutoffDaysTime(date('Y-m-d'),$booking_cut_of_time_type,$booking_cut_of_day,$booking_cut_of_time,$meeting_time);
+                
+            $cutoff_max_month = $CI->Trip_model->getCutoffMonth(date('Y-m-d'),$booking_max_cut_of_month);
+               
+        }
+        
+        $totalbookedpersons = 0;
+        $showField = array('SUM(number_of_persons) AS totalbookedpersons');
+        $inWhereData = array('trip_id', $alltrip_arr);
+        $whereData = array('isactive' => 1, 'status' => 2, 'payment_status' => 1, 'date_of_trip' => $date_of_trip);
+        $trip_book_pay_list = selectTable('trip_book_pay', $whereData, $showField, $orWhereData = array(), $group = array(), $order = 'id ASC', $having = '', $limit = array(), $result_way = 'all', $echo = 0, $inWhereData, $notInWhereData = array());
+        if ($trip_book_pay_list->num_rows() > 0) {
+            foreach ($trip_book_pay_list->result() as $row) {
+                $totalbookedpersons = $totalbookedpersons + $row->totalbookedpersons;
+            }
+        }
+        if ($totalbookedpersons == '') {
+            $totalbookedpersons = 0;
+        };
+        $availabletraveller = $no_of_traveller-$totalbookedpersons;
+        $cutoffdisabledays = json_decode($cutoff_disable_days);
+        if(!empty($cutoffdisabledays)){
+            $cutoffdisabledays = formatdate($cutoffdisabledays[0], $format = 'Y-m-d');
+        }else{$cutoffdisabledays =date('Y-m-d');}
+        $cutoff_max_month = formatdate($cutoff_max_month, $format = 'Y-m-d');
+        if($date_of_trip<date('Y-m-d')||$date_of_trip<$cutoffdisabledays||$date_of_trip>$cutoff_max_month){$availabletraveller =0;}
+        $available = array('total_size' => $no_of_traveller,'total_booked' => $totalbookedpersons,'total_available' => $availabletraveller);
+        return $available;
+    }
+
+}
 /**
  * book the trip
   input: $mailData array(

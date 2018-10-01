@@ -32,14 +32,14 @@
                         <div class="col-xss-12 col-xs-6 col-sm-6">
                             <div class="form-group">
                                 <label>Cancellation From</label>
-                                <input name="from" value="<?=$from?>" type="text" id="rangeDatePickerFrom" class="form-control" placeholder="MMM D, YYYY" />
+                                <input name="from" autocomplete="off" value="<?=$from?>" type="text" id="rangeDatePickerFrom" class="form-control" placeholder="MMM D, YYYY" />
                             </div>
                         </div>
 
                         <div class="col-xss-12 col-xs-6 col-sm-6">
                             <div class="form-group">
                                 <label>Cancellation To</label>
-                                <input name="to" value="<?=$to?>" type="text" id="rangeDatePickerTo" class="form-control" placeholder="MMM D, YYYY" />
+                                <input name="to" autocomplete="off" value="<?=$to?>" type="text" id="rangeDatePickerTo" class="form-control" placeholder="MMM D, YYYY" />
                             </div>
                         </div>
 

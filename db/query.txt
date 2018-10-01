@@ -132,3 +132,5 @@ ALTER TABLE `trip_book_pay` CHANGE `b2b_confirm_percentage` `b2b_payment_status`
 ALTER TABLE `trip_book_pay_details` CHANGE `b2b_confirm_percentage` `b2b_payment_status` INT(2) NOT NULL DEFAULT '0' COMMENT '0 - Pendding,1 - sucess,2 - failed';
 ALTER TABLE `trip_book_pay` ADD `b2b_payment_on` DATE NULL AFTER `b2b_payment_status`;
 ALTER TABLE `trip_book_pay_details` ADD `b2b_payment_on` DATE NULL AFTER `b2b_payment_status`;
+
+ALTER TABLE `trip_book_pay_details` ADD `pay_details_id` INT NOT NULL DEFAULT '0' AFTER `return_paid_status`;

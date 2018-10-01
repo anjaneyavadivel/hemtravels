@@ -10,8 +10,8 @@
                     <div class="container">
                         <ol class="breadcrumb">
                             <li><a href="#">Home</a></li>
-                            <li><a href="#">Master</a></li>
-                            <li  class="active"><a href="#">Category Master</a></li>
+                            <li><a href="#">Report</a></li>
+                            <li  class="active"><a href="#">My Transaction</a></li>
                         </ol>
                     </div>
                 </div>
@@ -25,53 +25,57 @@
                         <!--                         left side - center-->
                         <div class="col-xs-12 col-sm-12 pt-10 pb-5 clearfix">
                             
+                            <?php echo form_open_multipart(base_url() . $url, array('method'=>'get','class' => 'form-horizontal margin-top-30', 'id' => 'my-transaction-report-form')); ?>
                             <div class="col-xs-12 col-sm-4 col-lg-4">
-                                                <div class="row gap-10" id="rangeDatePicker">
+                                <div class="row gap-10" id="rangeDatePicker">
 
-                                                    <div class="col-xss-12 col-xs-6 col-sm-6">
-                                                        <div class="form-group">
-                                                            <label>From</label>
-                                                            <input type="text" id="rangeDatePickerTo" class="form-control" placeholder="yyyy/mm/dd" />
-                                                        </div>
-                                                    </div>
+                                    <div class="col-xss-12 col-xs-6 col-sm-6">
+                                        <div class="form-group">
+                                            <label>From</label>
+                                            <input name="from" autocomplete="off" value="<?=$from?>" type="text" id="rangeDatePickerFrom" class="form-control" placeholder="yyyy/mm/dd" autocomplete="off"/>
+                                        </div>
+                                    </div>
 
-                                                    <div class="col-xss-12 col-xs-6 col-sm-6">
-                                                        <div class="form-group">
-                                                            <label>To</label>
-                                                            <input type="text" id="rangeDatePickerFrom" class="form-control" placeholder="yyyy/mm/dd" />
-                                                        </div>
-                                                    </div>
+                                    <div class="col-xss-12 col-xs-6 col-sm-6">
+                                        <div class="form-group">
+                                            <label>To</label>
+                                            <input name="to" autocomplete="off" value="<?=$to?>" type="text" id="rangeDatePickerTo" class="form-control" placeholder="yyyy/mm/dd" autocomplete="off"/>
+                                        </div>
+                                    </div>
 
-                                                </div>
-                                            </div>
-                                            <div class="col-xs-12 col-sm-2 col-lg-2">
-                                                <div class="form-group">
-                                                    <label>Status</label>
-                                                    <select class="selectpicker show-tick form-control" title="Select placeholder">
-                                                        <option value="">All</option>
-                                                        <option value="0">Withdrawals</option>
-                                                        <option value="1">Deposits</option>
-                                                    </select>
-                                                </div>
-                                            </div>
-                                            <div class="col-xs-12 col-sm-6 col-lg-6">
-                                                <div class="form-group">
-                                                    <label>Title</label>
-                                                    <div class="row">
-                                                        <div class="col-xs-12 col-sm-8 col-md-8">
-                                                            <input type="text" class="form-control" placeholder="Search">
-                                                        </div>
-                                                        <div class="col-xs-12 col-sm-4 col-md-4">
-                                                            <a href="#" class="btn btn-primary btn-block"><i class="fa fa-search"></i> Search</a>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
+                                </div>
+                            </div>
+                            <div class="col-xs-12 col-sm-2 col-lg-2">
+                                <div class="form-group">
+                                    <label>Status</label>
+                                    <select name="status" class="selectpicker show-tick form-control" title="Select placeholder" id="status">
+                                        <option value="" selected>All</option>
+                                        <option value="0" <?php if($status=='0'){echo 'selected';}?>>New</option>
+                                        <option value="1" <?php if($status==1){echo 'selected';}?>>InProgress</option>
+                                        <option value="2" <?php if($status==2){echo 'selected';}?>>Executed</option>
+                                        <option value="3" <?php if($status==3){echo 'selected';}?>>Sent</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-xs-12 col-sm-6 col-lg-6">
+                                <div class="form-group">
+                                    <label>Title</label>
+                                    <div class="row">
+                                        <div class="col-xs-12 col-sm-8 col-md-8">
+                                            <input name="title" value="<?=$title?>" type="text" class="form-control" placeholder="Search" id="searchTitle">
+                                        </div>
+                                        <div class="col-xs-12 col-sm-4 col-md-4">
+                                            <button type="submit" class="btn btn-primary btn-block" id="transactionSearchBtn"><i class="fa fa-search"></i> Search</button>                                            
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <?php echo form_close(); ?>
                             <div class="col-xs-2 col-sm-1 col-lg-1 text-right">
-                                <a class="btn btn-info c_mt" >Export XL</a>
+                                <a href="javascript:;" class="btn btn-info c_mt" id="transactionExportXLSX">Export</a>
                             </div><div class="col-xs-12 col-sm-12 col-lg-12 text-right">
-                                        UnClear Amount(INR): <span class="text-info">300.00 </span>
-                                        Your Balance(INR): <span class="text-primary">1260.50 </span>
+                                        UnClear Amount(INR): <span class="text-info"><?=checkbal_mypayment($loginuser_id, 1)?> </span>
+                                        Your Balance(INR): <span class="text-primary"><?=checkbal_mypayment($loginuser_id, 2)?> </span>
                                         <a class="btn btn-sm btn-info" data-toggle="modal" href="#add">Withdraw</a>
                                         <a class="btn btn-sm btn-primary" data-toggle="modal" href="#">Add Money</a>
                                     </div>
@@ -79,6 +83,8 @@
                                                 <thead>
                                                     <tr>
                                                         <th>Date &amp; Time</th>
+                                                        <th>From</th>
+                                                        <th>To</th>
                                                         <th>Transaction Details</th>
                                                         <th>Withdrawals (INR)</th>
                                                         <th>Deposits (INR)</th>
@@ -88,66 +94,57 @@
                                                     </tr>
                                                 </thead>
                                                 <tbody>
-                                                    <tr>
-                                                        <td>19 Feb 2018, 04:20pm</td>
-                                                        <td>Book: Goa - Vascodacoma</td>
-                                                        <td class="text-right">300.00</td>
-                                                        <td class="text-right"></td>
-                                                        <td class="text-right"><h4 class="text-info">400.00</h4></td>
-                                         <td><h4 class="text-primary"  data-toggle="tooltip" data-placement="top" data-original-title="InProgress to Payment">InProgress</h4></td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>09 Feb 2018, 04:20pm</td>
-                                                        <td>Book: Goa - Vascodacoma</td>
-                                                        <td class="text-right">300.00</td>
-                                                        <td class="text-right"></td>
-                                                        <td class="text-right"><h4 class="text-info">700.00</h4></td>
-                                                    <td><h4 class="text-darker"  data-toggle="tooltip" data-placement="top" data-original-title="executed to Payment">Executed</h4></td>
-                                         </tr>
-                                                    <tr>
-                                                        <td>02 Feb 2018, 10:20am</td>
-                                                        <td>Deposits</td>
-                                                        <td class="text-right"></td>
-                                                        <td class="text-right">1000.00</td>
-                                                        <td class="text-right"><h4 class="text-info">1000.00</h4></td>
-                                                    <td><h4 class="text-darker"  data-toggle="tooltip" data-placement="top" data-original-title="executed to Payment">Executed</h4></td>
-                                                    </tr>
-                                                </tbody>
+                                                    <?php
+                                                        if (isset($transaction_reports) && count($transaction_reports) > 0) {
+                                                            $i = 1;
+                                                            foreach ($transaction_reports as $row) {                                                                                                              
+                                                                $status_val = array('New', 'InProgress', 'Executed', 'Sent');
+                                                                    $fromuser = $row['fromuser'];
+                                                                    $touser = $row['touser'];
+                                                                    if($row['from_userid']==0){$fromuser = 'Admin';}
+                                                                    if($row['to_userid']==0){$touser = 'Admin';}
+                                                                    ?>
+                                                                    <tr>
+                                                                        <td><?= date("M d, Y", strtotime($row['date_time'])); ?></td>
+                                                                        <td><?= $fromuser ?></td>
+                                                                        <td><?= $touser ?></td>
+                                                                        <td><?= $row['transaction_notes'] ?></td>
+                                                                        <td <?php if($row['withdrawals']!=0){echo 'class="text-primary"';}?>><?= $row['withdrawals']; ?></td>
+                                                                        <td <?php if($row['deposits']!=0){echo 'class="text-info"';}?>><?= $row['deposits']; ?></td>
+                                                                        <td><h4><?= $row['balance']; ?></h4></td>                                                                       
+                                                                        <td> <span data-toggle="tooltip" data-placement="top" data-original-title="Payment status <?=$status_val[$row['status']]?>"><?= $status_val[$row['status']]; ?></span></td>                                                        
+                                                                    </tr>
+                                                            <?php
+                                                            }
+                                                    }else{
+                                                        echo "<tr><td colspan='6' style='text-align:center'>No Data Found</td></tr>";
+                                                    }
+                                                    ?> 	
+                                                </tbody>                                                
                                             </table>
-                            <div class="pager-wrappper text-right clearfix bt mt-0  col-sm-12">
+                                            <div class="pager-wrappper text-right clearfix bt mt-0  col-sm-12">
 
-                                <div class="pager-innner">
+                                                <div class="pager-innner">
 
-                                    <!-- <div class="clearfix">
-                                            Showing reslut 1 to 15 from 248 
-                                    </div> -->
+                                                    <!-- <div class="clearfix">
+                                                            Showing reslut 1 to 15 from 248 
+                                                    </div> -->
 
-                                    <div class="clearfix">
-                                        <nav>
-                                            <ul class="pagination">
-                                                <li>
-                                                    <a href="#" aria-label="Previous">
-                                                        <span aria-hidden="true">&laquo;</span>
-                                                    </a>
-                                                </li>
-                                                <li class="active"><a href="#">1</a></li>
-                                                <li><a href="#">2</a></li>
-                                                <li><a href="#">3</a></li>
-                                                <li><span>...</span></li>
-                                                <li><a href="#">12</a></li>
-                                                <li><a href="#">13</a></li>
-                                                <li>
-                                                    <a href="#" aria-label="Next">
-                                                        <span aria-hidden="true">&raquo;</span>
-                                                    </a>
-                                                </li>
-                                            </ul>
-                                        </nav>
-                                    </div>
+                                                    <div class="clearfix">
+                                                        <nav>
+                                                            <ul class="pagination">
+                                                               <?php
+                                                                foreach ($links as $link) {
+                                                                    echo "<li>" . $link . "</li>";
+                                                                }
+                                                                ?>
+                                                            </ul>
+                                                        </nav>
+                                                    </div>
 
-                                </div>
+                                                </div>
 
-                            </div>
+                                            </div>
                         </div>
 
                     </div>

@@ -2,7 +2,7 @@
 class Report_model extends CI_Model
 {
     // Function 1:Get category master list
-    function booking_list($whereData,$limit, $start) {
+    function booking_list($whereData,$limit, $start,$resultCount='no') {
         $this->db->select('tbpd.*,by.user_type,trip_name,trip_code')->from('trip_book_pay_details AS tbpd');
         $this->db->join('trip_master', 'trip_master.id = tbpd.trip_id','INNER');
         $this->db->join('user_master AS um', 'um.id = tbpd.from_user_id','INNER');
@@ -23,17 +23,25 @@ class Report_model extends CI_Model
             $this->db->where('tbpd.status',$whereData['status']);
         }
         if(isset($whereData['from']) && $whereData['from']!=''){
-            $from = date("Y-m-d", strtotime($whereData['from']));
-            $to = date("Y-m-d", strtotime($whereData['to']));
+            $from = date("Y-m-d", strtotime($whereData['from'])).' 00:00:00';
+            $to = date("Y-m-d", strtotime($whereData['to'])).' 24:60:60';
             $this->db->where("(tbpd.date_of_trip >='".$this->db->escape_like_str($from)."' AND tbpd.date_of_trip <= '".$this->db->escape_like_str($to)."')");
         }
         if(isset($whereData['groupby']) && $whereData['groupby']!=''){
             $this->db->group_by($whereData['groupby']);
         } 
         $this->db->order_by('booked_on DESC');
-        $this->db->limit($limit, $start);
-        $query = $this->db->get();
-        return $query->result_array();
+        if($resultCount == 'yes'){
+            $query = $this->db->get();
+            return $query->num_rows();
+        }else if($resultCount == 'download'){
+            $query = $this->db->get();
+            return $query->result_array();
+        }else{
+            $this->db->limit($limit, $start);
+            $query = $this->db->get();
+            return $query->result_array();
+        }
     }
 
     function booking_count($whereData) {
@@ -57,8 +65,8 @@ class Report_model extends CI_Model
             $this->db->where('tbpd.status',$whereData['status']);
         }
         if(isset($whereData['from']) && $whereData['from']!=''){
-            $from = date("Y-m-d", strtotime($whereData['from']));
-            $to = date("Y-m-d", strtotime($whereData['to']));
+            $from = date("Y-m-d", strtotime($whereData['from'])).' 00:00:00';
+            $to = date("Y-m-d", strtotime($whereData['to'])).' 24:60:60';
             $this->db->where("(tbpd.date_of_trip >='".$this->db->escape_like_str($from)."' AND tbpd.date_of_trip <= '".$this->db->escape_like_str($to)."')");
         }
         if(isset($whereData['groupby']) && $whereData['groupby']!=''){
@@ -69,7 +77,7 @@ class Report_model extends CI_Model
     }
     
     // Function 1:Get category master list
-    function cancellation_list($whereData,$limit, $start) {
+    function cancellation_list($whereData,$limit, $start,$resultCount='no') {
         $this->db->select('tbpd.*,by.user_type,trip_name,trip_code')->from('trip_book_pay_details AS tbpd');
         $this->db->join('trip_master', 'trip_master.id = tbpd.trip_id','INNER');
         $this->db->join('user_master AS um', 'um.id = tbpd.from_user_id','INNER');
@@ -90,8 +98,8 @@ class Report_model extends CI_Model
             $this->db->where('tbpd.return_paid_status',$whereData['return_paid_status']);
         }
         if(isset($whereData['from']) && $whereData['from']!=''){
-            $from = date("Y-m-d", strtotime($whereData['from']));
-            $to = date("Y-m-d", strtotime($whereData['to']));
+            $from = date("Y-m-d", strtotime($whereData['from'])).' 00:00:00';
+            $to = date("Y-m-d", strtotime($whereData['to'])).' 24:60:60';
             $this->db->where("(tbpd.date_of_trip >='".$this->db->escape_like_str($from)."' AND tbpd.date_of_trip <= '".$this->db->escape_like_str($to)."')");
         }
         $this->db->where(array('tbpd.isactive'=>1,'tbpd.status'=>3,'tbpd.payment_status'=>1));
@@ -99,9 +107,17 @@ class Report_model extends CI_Model
             $this->db->group_by($whereData['groupby']);
         } 
         $this->db->order_by('booked_on DESC');
-        $this->db->limit($limit, $start);
-        $query = $this->db->get();
-        return $query->result_array();
+        if($resultCount == 'yes'){
+            $query = $this->db->get();
+            return $query->num_rows();
+        }else if($resultCount == 'download'){
+            $query = $this->db->get();
+            return $query->result_array();
+        }else{
+            $this->db->limit($limit, $start);
+            $query = $this->db->get();
+            return $query->result_array();
+        }
     }
 
     function cancellation_count($whereData) {
@@ -125,8 +141,8 @@ class Report_model extends CI_Model
             $this->db->where('tbpd.return_paid_status',$whereData['return_paid_status']);
         }
         if(isset($whereData['from']) && $whereData['from']!=''){
-            $from = date("Y-m-d", strtotime($whereData['from']));
-            $to = date("Y-m-d", strtotime($whereData['to']));
+            $from = date("Y-m-d", strtotime($whereData['from'])).' 00:00:00';
+            $to = date("Y-m-d", strtotime($whereData['to'])).' 24:60:60';
             $this->db->where("(tbpd.date_of_trip >='".$this->db->escape_like_str($from)."' AND tbpd.date_of_trip <= '".$this->db->escape_like_str($to)."')");
         }
         $this->db->where(array('tbpd.isactive'=>1,'tbpd.status'=>3,'tbpd.payment_status'=>1));
@@ -150,7 +166,7 @@ class Report_model extends CI_Model
         } 
         
         if(isset($whereData['title']) && $whereData['title']!=''){
-           $this->db->where('(trip_name LIKE "%'.$this->db->escape_like_str($whereData['title']).'%" OR tc.name LIKE "%'.$this->db->escape_like_str($whereData['title']).'%" )');
+           $this->db->where('(trip_code LIKE "%'.$this->db->escape_like_str($whereData['title']).'%" OR trip_name LIKE "%'.$this->db->escape_like_str($whereData['title']).'%" OR tc.name LIKE "%'.$this->db->escape_like_str($whereData['title']).'%" )');
         }      
         
         if(isset($whereData['status']) && $whereData['status']!=''){
@@ -158,8 +174,8 @@ class Report_model extends CI_Model
             $this->db->where('tm.isactive',$status);
         }        
         if(isset($whereData['from']) && $whereData['from']!=''){
-            $from = date("Y-m-d", strtotime($whereData['from']));
-            $to = date("Y-m-d", strtotime($whereData['to']));
+            $from = date("Y-m-d", strtotime($whereData['from'])).' 00:00:00';
+            $to = date("Y-m-d", strtotime($whereData['to'])).' 24:60:60';
             $this->db->where("(tm.created_on >='".$this->db->escape_like_str($from)."' AND tm.created_on <= '".$this->db->escape_like_str($to)."')");
         }
        
@@ -168,13 +184,186 @@ class Report_model extends CI_Model
         if($resultCount == 'yes'){
             $query = $this->db->get();
             return $query->num_rows();
+        }else if($resultCount == 'download'){
+            $query = $this->db->get();
+            return $query->result_array();
         }else{
             $this->db->limit($limit, $start);
             $query = $this->db->get();
             return $query->result_array();
         }
     }
-
+    
+    function payment_from_b2c($whereData,$limit=20, $start=0,$resultCount = 'no') {
+        $this->db->select('tb.*,pt.trip_name AS parent_trip_name,pt.trip_code AS parent_trip_code,ptum.user_fullname AS parent_trip_user_name,ptum.email AS parent_trip_user_email,trip_master.trip_name,trip_master.trip_code,mt.status as tra_status')->from('trip_book_pay_details AS tb');
+        $this->db->join('my_transaction  AS mt', 'tb.my_transaction_id = mt.id','INNER');
+        $this->db->join('trip_master', 'trip_master.id = tb.trip_id','INNER');
+        $this->db->join('trip_master AS pt', 'pt.id = tb.parent_trip_id','LEFT');
+        $this->db->join('user_master AS ptum', 'ptum.id = pt.user_id','LEFT');
+        $this->db->join('user_master AS um', 'um.id = tb.from_user_id','INNER');
+        $this->db->join('user_master AS by', 'by.id = tb.booked_by','INNER');
+        $this->db->where('(by.user_type LIKE "%CU%" OR by.user_type LIKE "%GU%")');
+        
+//        if($this->session->userdata('user_type') == 'SA'){  
+//            //$this->db->where('tb.parent_trip_id',0);
+//        }
+        if($this->session->userdata('user_type') == 'VA'){            
+            $this->db->where('tb.trip_user_id ',$this->session->userdata('user_id'));
+        } 
+        if(isset($whereData['title']) && $whereData['title']!=''){
+           $this->db->where('(trip_code LIKE "%'.$this->db->escape_like_str($whereData['title']).'%" OR trip_name LIKE "%'.$this->db->escape_like_str($whereData['title']).'%" OR mt.pnr_no LIKE "%'.$this->db->escape_like_str($whereData['title']).'%"  )');
+        }      
+        if(isset($whereData['status']) && $whereData['status']!=''){            
+            $this->db->where('mt.status',$whereData['status']);
+        }        
+        if(isset($whereData['from']) && $whereData['from']!=''){
+            $from = date("Y-m-d", strtotime($whereData['from'])).' 00:00:00';
+            $to = date("Y-m-d", strtotime($whereData['to'])).' 24:60:60';
+            $this->db->where("(tb.booked_on >='".$this->db->escape_like_str($from)."' AND tb.booked_on <= '".$this->db->escape_like_str($to)."')");
+            
+        }
+//       if($this->session->userdata('user_type') == 'SA'){  
+//            $this->db->group_by('tb.pnr_no');
+//        }
+        $this->db->order_by('tb.booked_on DESC'); 
+        
+        if($resultCount == 'yes'){
+            $query = $this->db->get();
+            return $query->num_rows();
+        }else if($resultCount == 'download'){
+            $query = $this->db->get();
+            return $query->result_array();
+        }else{
+            $this->db->limit($limit, $start);
+            $query = $this->db->get();//echo $this->db->last_query();exit;
+            return $query->result_array();
+        }
+    }
+    
+    function payment_from_b2b($whereData,$limit=20, $start=0,$resultCount = 'no') {
+        $this->db->select('tb.*,pt.trip_name AS parent_trip_name,pt.trip_code AS parent_trip_code,ptum.user_fullname AS parent_trip_user_name,ptum.email AS parent_trip_user_email,trip_master.trip_name,trip_master.trip_code,mt.status as tra_status')->from('trip_book_pay_details AS tb');
+        $this->db->join('my_transaction  AS mt', 'tb.my_transaction_id = mt.id','INNER');
+        $this->db->join('trip_master', 'trip_master.id = tb.trip_id','INNER');
+        $this->db->join('trip_master AS pt', 'pt.id = tb.parent_trip_id','LEFT');
+        $this->db->join('user_master AS ptum', 'ptum.id = pt.user_id','LEFT');
+        $this->db->join('user_master AS um', 'um.id = tb.from_user_id','INNER');
+        $this->db->join('user_master AS by', 'by.id = tb.booked_by','INNER');
+        $this->db->where('(by.user_type LIKE "%VA%")');
+//        if($this->session->userdata('user_type') == 'SA'){  
+//            $this->db->where('tb.parent_trip_id !=',0);
+//        }
+        if($this->session->userdata('user_type') == 'VA'){            
+            $this->db->where('tb.user_id ',$this->session->userdata('user_id'));
+        } 
+        
+        if(isset($whereData['title']) && $whereData['title']!=''){
+           $this->db->where('(trip_code LIKE "%'.$this->db->escape_like_str($whereData['title']).'%" OR trip_name LIKE "%'.$this->db->escape_like_str($whereData['title']).'%" OR mt.pnr_no LIKE "%'.$this->db->escape_like_str($whereData['title']).'%"  )');
+        }      
+        
+        if(isset($whereData['status']) && $whereData['status']!=''){            
+            $this->db->where('mt.status',$whereData['status']);
+        }        
+        if(isset($whereData['from']) && $whereData['from']!=''){
+            $from = date("Y-m-d", strtotime($whereData['from'])).' 00:00:00';
+            $to = date("Y-m-d", strtotime($whereData['to'])).' 24:60:60';
+            $this->db->where("(tb.booked_on >='".$this->db->escape_like_str($from)."' AND tb.booked_on <= '".$this->db->escape_like_str($to)."')");
+        }
+       
+        $this->db->order_by('tb.booked_on DESC'); 
+        
+        if($resultCount == 'yes'){
+            $query = $this->db->get();
+            return $query->num_rows();
+        }else if($resultCount == 'download'){
+            $query = $this->db->get();
+            return $query->result_array();
+        }else{
+            $this->db->limit($limit, $start);
+            $query = $this->db->get();//echo $this->db->last_query();exit;
+            return $query->result_array();
+        }
+    }
+    function payment_to_b2b($whereData,$limit=20, $start=0,$resultCount = 'no') {
+        $this->db->select('tb.*,ptb.subtotal_trip_price AS parent_subtotal_trip_price,ptb.discount_percentage AS parent_discount_percentage,ptb.offer_amt AS parent_offer_amt,ptb.discount_price AS parent_discount_price,pt.trip_name AS parent_trip_name,pt.trip_code AS parent_trip_code,ptum.user_fullname AS parent_trip_user_name,ptum.email AS parent_trip_user_email,trip_master.trip_name,trip_master.trip_code,mt.status as tra_status')->from('trip_book_pay_details AS tb');
+        $this->db->join('my_transaction  AS mt', 'tb.my_transaction_id = mt.id','INNER');
+        $this->db->join('trip_master', 'trip_master.id = tb.trip_id','INNER');
+        $this->db->join('trip_master AS pt', 'pt.id = tb.parent_trip_id','LEFT');
+        $this->db->join('user_master AS ptum', 'ptum.id = pt.user_id','LEFT');
+        $this->db->join('user_master AS um', 'um.id = tb.from_user_id','INNER');
+        $this->db->join('user_master AS by', 'by.id = tb.booked_by','INNER');
+        $this->db->join('trip_book_pay_details AS ptb', 'ptb.trip_id = tb.parent_trip_id AND ptb.book_pay_id = tb.book_pay_id AND ptb.total_trip_price = tb.vendor_amt','INNER');
+        $this->db->where('(by.user_type LIKE "%CU%" OR by.user_type LIKE "%GU%" OR by.user_type LIKE "%VA%")');
+        $this->db->where('tb.parent_trip_id !=',0);
+        if($this->session->userdata('user_type') == 'VA'){            
+            $this->db->where('tb.user_id ',$this->session->userdata('user_id'));
+        } 
+        
+        if(isset($whereData['title']) && $whereData['title']!=''){
+           $this->db->where('(trip_code LIKE "%'.$this->db->escape_like_str($whereData['title']).'%" OR trip_name LIKE "%'.$this->db->escape_like_str($whereData['title']).'%" OR mt.pnr_no LIKE "%'.$this->db->escape_like_str($whereData['title']).'%"  )');
+        }      
+        
+        if(isset($whereData['status']) && $whereData['status']!=''){            
+            $this->db->where('mt.status',$whereData['status']);
+        }        
+        if(isset($whereData['from']) && $whereData['from']!=''){
+            $from = date("Y-m-d", strtotime($whereData['from'])).' 00:00:00';
+            $to = date("Y-m-d", strtotime($whereData['to'])).' 24:60:60';
+            $this->db->where("(tb.booked_on >='".$this->db->escape_like_str($from)."' AND tb.booked_on <= '".$this->db->escape_like_str($to)."')");
+        }
+       
+        $this->db->order_by('tb.booked_on DESC'); 
+        
+        if($resultCount == 'yes'){
+            $query = $this->db->get();
+            return $query->num_rows();
+        }else if($resultCount == 'download'){
+            $query = $this->db->get();
+            return $query->result_array();
+        }else{
+            $this->db->limit($limit, $start);
+            $query = $this->db->get();//echo $this->db->last_query();exit;
+            return $query->result_array();
+        }
+    }
+    function transaction_reports($whereData,$limit=20, $start=0,$resultCount = 'no') {
+        $this->db->select('mt.*,tm.trip_name,um1.id as fromuserid,um1.user_fullname as fromuser,um2.user_fullname as touser,um2.id as touserid')->from('my_transaction AS mt');         
+        $this->db->join('user_master AS um1', 'um1.id = mt.from_userid','LEFT');
+        $this->db->join('user_master AS um2', 'um2.id = mt.to_userid','LEFT');
+        $this->db->join('trip_master AS tm', 'tm.id = mt.trip_id','LEFT');      
+        //$this->db->where('um.user_type','SA');
+        if($this->session->userdata('user_type') == 'SA'){            
+            $this->db->where('(mt.userid =0)');
+        }else{        
+            $this->db->where('(mt.userid ='.$this->session->userdata('user_id').')');
+         }
+       
+        if(isset($whereData['title']) && $whereData['title']!=''){
+           $this->db->where('(trip_name LIKE "%'.$this->db->escape_like_str($whereData['title']).'%" )');
+        }      
+        
+        if(isset($whereData['status']) && $whereData['status']!=''){            
+            $this->db->where('mt.status',$whereData['status']);
+        }        
+        if(isset($whereData['from']) && $whereData['from']!=''){
+            $from = date("Y-m-d", strtotime($whereData['from'])).' 00:00:00';
+            $to = date("Y-m-d", strtotime($whereData['to'])).' 24:60:60';
+            $this->db->where("(mt.date_time >='".$this->db->escape_like_str($from)."' AND mt.date_time <= '".$this->db->escape_like_str($to)."')");
+        }
+       
+        $this->db->order_by('mt.id DESC'); 
+        
+        if($resultCount == 'yes'){
+            $query = $this->db->get();
+            return $query->num_rows();
+        }else if($resultCount == 'download'){
+            $query = $this->db->get();
+            return $query->result_array();
+        }else{
+            $this->db->limit($limit, $start);
+            $query = $this->db->get();//echo $this->db->last_query();exit;
+            return $query->result_array();
+        }
+    }
    
 
 }
