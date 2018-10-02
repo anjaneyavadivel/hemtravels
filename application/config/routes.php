@@ -105,6 +105,7 @@ $route['payment-from-B2B-reports'] = 'report/payment_from_B2B_reports';
 $route['payment-to-B2B-reports'] = 'report/payment_to_B2B_reports';
 $route['cancellation-reports'] = 'report/cancellation_reports';
 $route['my-transaction-reports'] = 'report/my_transaction_reports';
+$route['tomorrows-trip-reports'] = 'report/tomorrow_trip_wise_reports';
 
 
 $route['trip-shared'] = 'tripshared/trip_list';

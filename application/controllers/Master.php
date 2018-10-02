@@ -373,7 +373,7 @@ class Master extends CI_Controller {
     }
 
     public function checkhelper() {
-        $this->load->helper('custom_helper');
+        //$this->load->helper('custom_helper');
         
        //echo $totalbookedpersons = checktripavailable(6,'30-09-2018');
 //       $totalbookedpersons = checktripavailable(6,'30-09-2018');
@@ -436,7 +436,7 @@ class Master extends CI_Controller {
 //        
     }
     public function mypayment() {
-        $this->load->helper('custom_helper');
+        //$this->load->helper('custom_helper');
          
        // withdrawal Request
 //        $paymentdata = array(

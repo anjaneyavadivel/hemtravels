@@ -10,7 +10,7 @@ class TripBookings extends CI_Controller {
         $data = [];
         if(!empty($tripCode)){
             $this->load->model('Trip_model');
-             $this->load->helper('custom_helper');
+             //$this->load->helper('custom_helper');
             
             //GENERAL DETAILS
             $data['details'] = $this->Trip_model->getDetails($tripCode);
@@ -69,7 +69,7 @@ class TripBookings extends CI_Controller {
         $data = [];
         if(!empty($tripCode)){
             $this->load->model('Trip_model');
-             $this->load->helper('custom_helper');
+             //$this->load->helper('custom_helper');
             
             //GENERAL DETAILS
             $data['details'] = $this->Trip_model->getDetails($tripCode);
@@ -145,7 +145,7 @@ class TripBookings extends CI_Controller {
         {
             $this->load->library('session');   
             
-             $this->load->helper('custom_helper');
+             //$this->load->helper('custom_helper');
              
             $this->form_validation->set_rules('user_name', 'User name', 'trim|required');
             $this->form_validation->set_rules('email', 'Email', 'trim|required');

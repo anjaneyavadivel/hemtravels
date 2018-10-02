@@ -80,7 +80,7 @@ class Login extends CI_Controller {
             }
         }
         if ($this->input->post('login')) {
-            $this->load->helper('custom_helper');
+            //$this->load->helper('custom_helper');
             $this->form_validation->set_rules('um_email', 'Email address', 'trim|required');
             $this->form_validation->set_rules('um_password', 'Password', 'trim|required|min_length[6]');
             if ($this->form_validation->run($this) == FALSE) {
@@ -161,7 +161,7 @@ class Login extends CI_Controller {
                 redirect();
             }
         } else {
-            $this->load->helper('custom_helper');
+            //$this->load->helper('custom_helper');
 
             $values = array('email' => strtolower($this->input->post('new_email')),
                 'user_fullname' => ucwords($this->input->post('user_fullname')),

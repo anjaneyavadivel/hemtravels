@@ -30,7 +30,7 @@ class Loginview extends CI_Controller {
 	{
 		$this->login_verfy();
 		$user_id = $this->session->userdata('user_id');
-                $this->load->helper('custom_helper');
+                //$this->load->helper('custom_helper');
                 if($profile_id==''){$profile_id=$user_id;}
 		$data['view'] = $this->user_model->select('user_master',array('id'=>$profile_id));
 		if($data['view']->num_rows()==0)

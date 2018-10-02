@@ -74,9 +74,11 @@
                         <div id="navbar" class="navbar-nav-wrapper">
                             <ul class="nav navbar-nav" id="responsive-menu">
                                 <li ><a href="<?php echo base_url() ?>">Home</a></li>
+                                
+                                <?php if ($this->session->userdata('user_type') != 'VA') { ?>
                                 <li><a href="<?php echo base_url() ?>PNR-status">PNR Status</a></li>
-
-                                <?php
+                                
+                                <?php    }                            
                                 if ($this->session->userdata('user_type') == 'SA') {
                                     ?>
                                     <li>
@@ -133,37 +135,38 @@
                                     <?php
                                 } else if ($this->session->userdata('user_type') == 'VA') {
                                     ?>
+                                    <li><a href="<?php echo base_url() ?>trip-list">BookMyTrip<!--<span>(Book/Edit/Calendar/Delete/Share)</span>--></a></li>
+                                    <li><a href="<?php echo base_url() ?>PNR-status">PNR</a></li>
                                     <li>
-                                        <a href="#">Trips</a>
+                                        <a href="#">Trip Details</a>
                                         <ul>
                                             <li><a href="<?php echo base_url() ?>make-new-trip">Make New Trip</a></li>
-                                            <li><a href="<?php echo base_url() ?>trip-list">My Trip List & Book Trip</a></li>
-                                            <li><a href="<?php echo base_url() ?>booking-list">Booking List</a></li>
-                                            <li><a href="<?php echo base_url() ?>cancellation-list">Cancellation List</a></li>
                                             <li><a href="<?php echo base_url() ?>coupon-code-master">Coupon Code Master</a></li>
+                                            <li><a href="<?php echo base_url() ?>trip-shared">Shared Trips Details</a></li>
                                             <li><a href="<?php echo base_url() ?>trip-specific">Trip Specific Offer</a></li>
-										</ul>
+                                            <!--<li><a href="<?php echo base_url() ?>trip-list">My Trip List & Book Trip</a></li>-->
+                                        </ul>
                                     </li>
+                                    
                                     <li>
-                                        <a href="#">B2B</a>
+                                        <a href="#">Bookings</a>
                                         <ul>
-<!--                                            <li><a href="<?php echo base_url() ?>make-new-trip-from-vendors">Make Trip from Other Vendors</a></li>-->
-                                            <li><a href="<?php echo base_url() ?>trip-shared">Shared Trips from Vendor</a></li>
+                                            <li><a href="<?php echo base_url() ?>booking-list">Booking List</a></li>
+                                            <li><a href="<?php echo base_url() ?>tomorrows-trip-reports">Tomorrow's Trips</a></li>
+                                            <li><a href="<?php echo base_url() ?>cancellation-list">Cancellation List</a></li>
+                                            <li><a href="<?php echo base_url() ?>cancellation-reports">Cancellation Reports</a></li>
                                         </ul>
                                     </li>
                                     <li>
-                                        <a href="#">Report</a>
+                                        <a href="#">Reports</a>
                                         <ul>
-                                            <li><a href="<?php echo base_url() ?>booking-wise-reports">Booking List</a></li>
                                             <li><a href="<?php echo base_url() ?>Trip-wise-reports">Trip List</a></li>
+                                            <li><a href="<?php echo base_url() ?>booking-wise-reports">Booking List</a></li>
+                                            <li><a href="<?php echo base_url() ?>my-transaction-reports">My Transactions</a></li>
                                             <li><a href="<?php echo base_url() ?>payment-from-B2C-reports">Payment from B2C</a></li>
                                             <li><a href="<?php echo base_url() ?>payment-from-B2B-reports">Payment from B2B</a></li>
-                                            <li><a href="<?php echo base_url() ?>payment-to-B2B-reports">Payment to B2B</a></li>
-                                            <li><a href="<?php echo base_url() ?>cancellation-reports">Cancellation Reports</a></li>
-                                            <li><a href="<?php echo base_url() ?>my-transaction-reports">My Transaction</a></li>
-<!--                                            <li><a href="<?php echo base_url() ?>triplist">Trip List</a></li>-->
+                                            <li><a href="<?php echo base_url() ?>payment-to-B2B-reports">Payment to B2B</a></li>                                                                                       
                                         </ul>
-
                                     </li>
                                     <li>
                                         <a href="#">We Are? & FAQ</a>

@@ -111,5 +111,26 @@ jQuery(function($) {
         
     });
     
+    //TOMORROW TRIP(BOOKING) REPORT
+    $('#tomorrowTripReport').on('click',function(){ 
+        
+        var search_from = $('#rangeDatePickerFrom').val() != undefined ?$('#rangeDatePickerFrom').val():'';
+        var search_to   = $('#rangeDatePickerTo').val() != undefined ?$('#rangeDatePickerTo').val():'';       
+        var titleSearch = $('#titleSearch').val() != undefined ?$('#titleSearch').val():'';
+         
+        document.location = base_url+'tomorrows-trip-reports?from='+search_from+'&to='+search_to+'&title='+titleSearch+'&download=1';
+       
+    });
+    $('#tomorrowTripSearchTrip').on('click',function(e){
+        e.preventDefault();
+        if (location.href.indexOf('download=') > -1) {
+            location.href = location.href.replace('download=1', 'download=0');
+            setTimeout(function() { $('#tomorrow-reports-form').submit(); },2000);
+        }else{
+            $('#tomorrow-reports-form').submit();
+        }
+        
+    });
+    
 });
 

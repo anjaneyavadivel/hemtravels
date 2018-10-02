@@ -743,11 +743,17 @@ class Trips extends CI_Controller {
         
         $result = $query->result_array(); //echo "<pre>";print_r($result);exit;
         $re_json = [];
+        
         if(count($result) > 0){
+            $this->load->helper('custom_helper');
             foreach($result as $v){
+                
+                $totalbookedpersons = checktripavailable($v['trip_id'],$v['date']);
+                
+                //echo "<pre>";print_r($totalbookedpersons);exit;
                
                 $re_json[] = array(                    
-                    "name" =>  'Total:'.$v['no_of_traveller'].'<br>Booked:'.$v['totalbookedpersons'].'<br>Available:'.$v['availabletraveller'],
+                    "name" =>  'Total:'.$totalbookedpersons['total_size'].'<br>Booked:'.$totalbookedpersons['total_booked'].'<br>Your Booking:'.$v['totalbookedpersons'].'<br>Available:'.$totalbookedpersons['total_available'],
                     "date"  => $v['day'],
                     "month" => $v['month'],
                     "year"  => $v['year'],
@@ -772,7 +778,9 @@ class Trips extends CI_Controller {
         $result2 = $query2->result_array(); //echo "<pre>";print_r($result);exit;
         $bookDescription = '';
         if(count($result2) > 0){
-            $bookDescription = '<h3>Booking Details</h3><hr>
+            
+            $nextDay = date('M d,Y',date(strtotime('+1 day',strtotime($date))));
+            $bookDescription = '<h3 style="float:left;">Booking Details</h3><a class="btn btn-danger" style="float:right;" href="'.base_url('tomorrows-trip-reports?from='.$nextDay.'&to='.$nextDay.'&download=1').'" target="_blank" >Tomorrow Trip</a><hr>
                 <table class="table table-striped">
                 <thead>
                   <tr>
@@ -790,7 +798,7 @@ class Trips extends CI_Controller {
                 $bookDescription .= '
                     <tr>
                         <td>'.$sno.'</td>
-                        <td><a href="'.base_url().'/PNR-status/'.$v['pnr_no'].'" target="_blank">'.$v['pnr_no'].'<a></td>
+                        <td><a href="'.base_url().'/PNR-status/'.$v['pnr_no'].'" target="_blank">'.$v['pnr_no'].'</a></td>
                         <td>'.$v['number_of_persons'].'</td>
                         <td>'.$v['user_fullname'].'</td>
                         <td>'.$v['phone'].'</td>
@@ -821,7 +829,7 @@ class Trips extends CI_Controller {
             
             $data['related_tours'] = selectTable('trip_master', $whereData,['*'],[],[],'','',[],'result_array');  
             
-             $this->load->helper('custom_helper');
+            //$this->load->helper('custom_helper');
             
             if(count($data['related_tours']) > 0){
                 foreach ($data['related_tours'] as $k=> $v){
@@ -1031,7 +1039,7 @@ class Trips extends CI_Controller {
                     
                     //echo $this->db->last_query();exit;
                     
-                    $this->load->helper('custom_helper');
+                    //$this->load->helper('custom_helper');
                     
                     
                     if($res_query->num_rows() > 0){

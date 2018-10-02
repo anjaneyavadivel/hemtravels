@@ -9,7 +9,7 @@ class Pnr_status extends CI_Controller {
     }
 
     public function pnr_status_check($pnr = '', $pnrshow = 0) {
-        $this->load->helper('custom_helper');
+        //$this->load->helper('custom_helper');
         $data['isform'] = true;
         $pnrinfo = array();
         if ($pnr != '') {
@@ -45,7 +45,7 @@ class Pnr_status extends CI_Controller {
                 $returnedData['status'] = false;
                 $returnedData['message'] = 'Enter the PNR number and Phone number'; //validation_errors();
             } else {
-                $this->load->helper('custom_helper');
+                //$this->load->helper('custom_helper');
                 $returnedData['status'] = true;
                 $returnedData['data'] = getpnrinfo($this->input->post('pnr_number', true), $this->input->post('phone_number', true));
 //                print_r($returnedData['data']);
@@ -62,7 +62,7 @@ class Pnr_status extends CI_Controller {
     }
     
     public function pnr_status_report($pnr = '') {
-        $this->load->helper('custom_helper');
+        //$this->load->helper('custom_helper');
         $pnrinfo = array();
         if ($pnr == '') {
             redirect('login');
@@ -83,7 +83,7 @@ class Pnr_status extends CI_Controller {
             $pnr_no = $this->input->post('pnr_no');
             
             if(!empty($pnr_no)){
-                $this->load->helper('custom_helper');
+                //$this->load->helper('custom_helper');
                 
                 $updatedata = array('status' =>  3); 
                 if(trip_book_paid_sucess($updatedata,$pnr_no)){

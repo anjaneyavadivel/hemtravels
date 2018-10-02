@@ -384,7 +384,7 @@ class Report extends CI_Controller {
         if ($this->session->userdata('user_id') == '' || ($this->session->userdata('user_type') != 'SA' && $this->session->userdata('user_type') != 'VA')) {
             redirect('login');
         }        
-        $this->load->helper('custom_helper');
+        //$this->load->helper('custom_helper');
         $title    = trim($this->input->get('title'));
         $from     = trim($this->input->get('from'));
         $to       = trim($this->input->get('to'));
@@ -439,6 +439,72 @@ class Report extends CI_Controller {
            $this->load->view('report/my-transaction-reports.php',$data);
         }   
         
+    }
+    
+    
+    public function tomorrow_trip_wise_reports() {
+        if ($this->session->userdata('user_id') == '' && $this->session->userdata('user_type') != 'VA') {
+            redirect('login');
+        }
+        $url = $this->uri->segment(1);
+
+        $loginuserid = $this->session->userdata('user_id');
+        $title = trim($this->input->get('title'));
+        $from = trim($this->input->get('from'));
+        $to = trim($this->input->get('to'));
+        $status = trim($this->input->get('status'));
+        $bookfrom = trim($this->input->get('bookfrom'));
+        $download = trim($this->input->get('download'));
+        
+        if(empty($from)){
+            $toDate = date('M d,Y', strtotime('+1 day'));
+            $from = $toDate;
+            $to   = $toDate;
+        }
+        
+        $this->load->library('pagination');
+        $config = array();
+        $config["base_url"] = base_url() . $url . "?title=" . $title . "&from=" . $from . "&to=" . $to;
+        $whereData = array('title' => $title, 'from' => $from, 'to' => $to);
+       
+        $whereData['tbpd.user_id'] = $loginuserid;       
+
+        $config["total_rows"] = $this->Report_model->booking_count($whereData,'tt');
+        $config["per_page"] = 20;
+        //$config["uri_segment"] = 2;
+
+        $config['enable_query_strings'] = TRUE;
+        $config['page_query_string'] = TRUE;
+        $config['use_page_numbers'] = TRUE;
+        $config['query_string_segment'] = 'page';
+        $config['cur_tag_open'] = '&nbsp;<a class="active">';
+        $config['cur_tag_close'] = '</a>';
+
+        $config['next_link'] = '&NestedGreaterGreater;';
+        $config['prev_link'] = '&NestedLessLess;';
+        $this->pagination->initialize($config);
+        $page = ($this->input->get('page')) ? ( ( $this->input->get('page') - 1 ) * $config["per_page"] ) : 0;
+        //$page = ($this->uri->segment(2)) ? $this->uri->segment(2) : 0;
+        $data["bookinglist"] = $this->Report_model->booking_list($whereData, $config["per_page"], $page,'no','tt');
+        $str_links = $this->pagination->create_links();
+        $data["links"] = explode('&nbsp;', $str_links);
+        $data["from"] = $from;
+        $data["to"] = $to;
+        $data["status"] = $status;
+        $data["bookfrom"] = $bookfrom;
+        $data["title"] = $title;
+        $data["url"] = $url;
+        
+        if($download == 1 && isset($data["bookinglist"]) && count($data["bookinglist"]) > 0){
+        $data["bookinglist"] = $this->Report_model->booking_list($whereData, $config["per_page"], $page,'download');
+            
+            $downloadData = $data["bookinglist"];
+            
+            $this->tomorrowTripsExport($downloadData);
+            
+        }else{ //echo "<pre>";print_r($this->session->userdata('name'));exit;
+            $this->load->view('report/tomorrow-trip-reports', $data);
+        }
     }
 
     public function exportXLfile() {
@@ -869,6 +935,47 @@ class Report extends CI_Controller {
         $writer = new Xlsx($spreadsheet);
  
         $filename = 'MY TRANSACTION '.date('d-m-Y');
+ 
+        header('Content-Type: application/vnd.ms-excel');
+        header('Content-Disposition: attachment;filename="'. $filename .'.xlsx"'); 
+        header('Cache-Control: max-age=0');
+        
+        $writer->save('php://output'); // download file 
+    }
+    
+    public function tomorrowTripsExport($data){ 
+        $spreadsheet = new Spreadsheet();
+        $sheet       = $spreadsheet->getActiveSheet();
+        
+        //SET HEADER        
+        $sheet->setCellValue('A1', 'PNR NO');       
+        $sheet->setCellValue('B1', 'DATE OF BOOKING');       
+        $sheet->setCellValue('C1', 'VENDOR NAME');        
+        $sheet->setCellValue('D1', 'NUMBER OF PERSONS');
+        $sheet->setCellValue('E1', 'PICKUP POINT');
+        $sheet->setCellValue('F1', 'PICKUP TIME');
+        $sheet->setCellValue('G1', 'NAME OF PERSON');
+        $sheet->setCellValue('H1', 'MOBILE NUMBER');      
+        
+        $row = 2;
+        $vendorName = $this->session->userdata('name');
+        foreach ($data as $value) {   
+            $time = date("H:i A", strtotime($value['time_of_trip']));
+            
+            $sheet->setCellValue('A' . $row, $value['pnr_no']);            
+            $sheet->setCellValue('B' . $row, date("M d, Y", strtotime($value['date_of_trip'])));            
+            $sheet->setCellValue('C' . $row, $vendorName);
+            $sheet->setCellValue('D' . $row, $value['number_of_persons']);           
+            $sheet->setCellValue('E' . $row, $value['pick_up_location']);                      
+            $sheet->setCellValue('F' . $row, $time );
+            $sheet->setCellValue('G' . $row, $value['user_fullname'] );           
+            $sheet->setCellValue('H'. $row, $value['phone']);                   
+            $row++;
+        }
+        
+        $writer = new Xlsx($spreadsheet);
+ 
+        $filename = 'TOMORROW-REPORT-'.date('d-m-Y');
  
         header('Content-Type: application/vnd.ms-excel');
         header('Content-Disposition: attachment;filename="'. $filename .'.xlsx"'); 
