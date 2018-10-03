@@ -779,8 +779,8 @@ class Trips extends CI_Controller {
         $bookDescription = '';
         if(count($result2) > 0){
             
-            $nextDay = date('M d,Y',date(strtotime('+1 day',strtotime($date))));
-            $bookDescription = '<h3 style="float:left;">Booking Details</h3><a class="btn btn-danger" style="float:right;" href="'.base_url('tomorrows-trip-reports?from='.$nextDay.'&to='.$nextDay.'&download=1').'" target="_blank" >Tomorrow Trip</a><hr>
+            $nextDay = date('M d,Y',strtotime($date));
+            $bookDescription = '<h3 style="float:left;">Booking Details</h3><a class="btn btn-danger" style="float:right;" href="'.base_url('tomorrows-trip-reports?from='.$nextDay.'&to='.$nextDay.'&download=1').'" target="_blank" >Download</a><hr>
                 <table class="table table-striped">
                 <thead>
                   <tr>
@@ -798,7 +798,7 @@ class Trips extends CI_Controller {
                 $bookDescription .= '
                     <tr>
                         <td>'.$sno.'</td>
-                        <td><a href="'.base_url().'/PNR-status/'.$v['pnr_no'].'" target="_blank">'.$v['pnr_no'].'</a></td>
+                        <td><a href="'.base_url().'PNR-status/'.$v['pnr_no'].'" target="_blank">'.$v['pnr_no'].'</a></td>
                         <td>'.$v['number_of_persons'].'</td>
                         <td>'.$v['user_fullname'].'</td>
                         <td>'.$v['phone'].'</td>

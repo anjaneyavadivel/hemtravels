@@ -1585,10 +1585,21 @@ if (!function_exists('checktripavailable')) {
         }
         
         $totalbookedpersons = 0;
-        $showField = array('SUM(number_of_persons) AS totalbookedpersons');
-        $inWhereData = array('trip_id', $alltrip_arr);
-        $whereData = array('isactive' => 1, 'status' => 2, 'payment_status' => 1, 'date_of_trip' => $date_of_trip);
-        $trip_book_pay_list = selectTable('trip_book_pay', $whereData, $showField, $orWhereData = array(), $group = array(), $order = 'id ASC', $having = '', $limit = array(), $result_way = 'all', $echo = 0, $inWhereData, $notInWhereData = array());
+        $string_alltrip = implode(',', $alltrip_arr);
+//        $showField = array('SUM(number_of_persons) AS totalbookedpersons');
+//        $inWhereData = array('trip_id', $alltrip_arr);
+//        $whereData = array('isactive' => 1, 'status' => 2, 'payment_status' => 1, 'date_of_trip' => $date_of_trip);
+//        $trip_book_pay_list = selectTable('trip_book_pay', $whereData, $showField, $orWhereData = array(), $group = array(), $order = 'id ASC', $having = '', $limit = array(), $result_way = 'all', $echo = 0, $inWhereData, $notInWhereData = array());
+        $trip_book_pay_list = $CI->db->query("SELECT tb.date_of_trip as date,DAY(tb.date_of_trip) as day,Month(tb.date_of_trip) as month,
+                 YEAR(date_of_trip) as year,count(*) as b_count,tm.no_of_traveller,tm.id as trip_id,
+                 SUM(number_of_persons) AS totalbookedpersons,(tm.no_of_traveller - SUM(number_of_persons)) as availabletraveller
+                 FROM `trip_book_pay` as tb 
+                 INNER JOIN trip_master as tm ON tm.id = tb.trip_id 
+                 where tb.status NOT IN(1,3) "
+                 . "and tm.id IN({$string_alltrip}) "
+                 . "and tb.date_of_trip ='{$date_of_trip}'"
+                 . "and tb.payment_status =1 "
+                 . "and tb.isactive  = 1 ");
         if ($trip_book_pay_list->num_rows() > 0) {
             foreach ($trip_book_pay_list->result() as $row) {
                 $totalbookedpersons = $totalbookedpersons + $row->totalbookedpersons;

@@ -456,11 +456,11 @@ class Report extends CI_Controller {
         $bookfrom = trim($this->input->get('bookfrom'));
         $download = trim($this->input->get('download'));
         
-        if(empty($from)){
-            $toDate = date('M d,Y', strtotime('+1 day'));
-            $from = $toDate;
-            $to   = $toDate;
-        }
+//        if(empty($from)){
+//            $toDate = date('M d,Y', strtotime('+1 day'));
+//            $from = $toDate;
+//            $to   = $toDate;
+//        }
         
         $this->load->library('pagination');
         $config = array();
@@ -955,7 +955,8 @@ class Report extends CI_Controller {
         $sheet->setCellValue('E1', 'PICKUP POINT');
         $sheet->setCellValue('F1', 'PICKUP TIME');
         $sheet->setCellValue('G1', 'NAME OF PERSON');
-        $sheet->setCellValue('H1', 'MOBILE NUMBER');      
+        $sheet->setCellValue('H1', 'MOBILE NUMBER'); 
+        $sheet->setCellValue('I1', 'TRIP NAME');      
         
         $row = 2;
         $vendorName = $this->session->userdata('name');
@@ -969,7 +970,8 @@ class Report extends CI_Controller {
             $sheet->setCellValue('E' . $row, $value['pick_up_location']);                      
             $sheet->setCellValue('F' . $row, $time );
             $sheet->setCellValue('G' . $row, $value['user_fullname'] );           
-            $sheet->setCellValue('H'. $row, $value['phone']);                   
+            $sheet->setCellValue('H'. $row, $value['phone']);            
+            $sheet->setCellValue('I'. $row, $value['trip_code'].'-'.$value['trip_name']);                   
             $row++;
         }
         
