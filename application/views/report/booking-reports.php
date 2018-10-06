@@ -124,9 +124,9 @@
                                         <td><?= $row['number_of_persons']; ?></td>
                                         <td><?= $row['total_trip_price']; ?></td>
                                         <td><h4 class="text-info"  data-toggle="tooltip" data-placement="top" data-original-title="Booking status <?=$status_val[$status]?>"><?= $status_val[$status]; ?></h4></td>
-                                        <td><a href="<?=base_url()?>PNR-status/<?=$pnr_no?>/2" target="_new" class="btn btn-border btn-sm btn-primary">View Ticket</a>
+                                        <td><a href="<?=base_url()?>PNR-status/<?=$pnr_no?>/1" target="_new" class="btn btn-border btn-sm btn-primary">View Ticket</a>
                                             <?php if ($this->session->userdata('user_type') == 'VA') {?>
-                                            <a href="<?=base_url()?>PNR-status/<?=$pnr_no?>/1" target="_new" class="btn btn-border btn-sm btn-primary">Your Report</a>
+                                            <a href="<?=base_url()?>PNR-status/<?=$pnr_no?>/2" target="_new" class="btn btn-border btn-sm btn-primary">Your Report</a>
                                             <?php }if ($this->session->userdata('user_type') == 'SA') {?>
                                             <a href="<?=base_url()?>PNR-status-report/<?=$pnr_no?>" target="_new" class="btn btn-border btn-sm btn-primary">Your Report</a>
                                             <?php }?>

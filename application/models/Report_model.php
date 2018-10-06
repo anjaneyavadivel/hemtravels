@@ -219,7 +219,7 @@ class Report_model extends CI_Model
             $this->db->where('tb.trip_user_id ',$this->session->userdata('user_id'));
         } 
         if(isset($whereData['title']) && $whereData['title']!=''){
-           $this->db->where('(trip_code LIKE "%'.$this->db->escape_like_str($whereData['title']).'%" OR trip_name LIKE "%'.$this->db->escape_like_str($whereData['title']).'%" OR mt.pnr_no LIKE "%'.$this->db->escape_like_str($whereData['title']).'%"  )');
+           $this->db->where('(trip_master.trip_code LIKE "%'.$this->db->escape_like_str($whereData['title']).'%" OR trip_master.trip_name LIKE "%'.$this->db->escape_like_str($whereData['title']).'%" OR mt.pnr_no LIKE "%'.$this->db->escape_like_str($whereData['title']).'%"  )');
         }      
         if(isset($whereData['status']) && $whereData['status']!=''){            
             $this->db->where('mt.status',$whereData['status']);

@@ -455,6 +455,8 @@
 <?php }?>
 
 <?php if($url=='triplist'){?>
+    <script type="text/javascript" src="<?php echo base_url()?>assets/js/bootstrap-tokenfield.js"></script>
+    <script type="text/javascript" src="<?php echo base_url()?>assets/js/typeahead.bundle.min.js"></script>
     <script type="text/javascript" src="<?php echo base_url()?>assets-customs/js/triplist.js"></script>
     
     <script>//$(document).ready(function(){MasterValidation.init();});</script>

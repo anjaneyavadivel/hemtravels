@@ -12,14 +12,30 @@ class Welcome extends CI_Controller {
 
     public function index() {
         if ($this->session->userdata('user_type') == 'SA') {
-            $where = array('tm.isactive' => 1);
-            $limit = 4;
-            $data['trippost_list'] = $this->Welcome_model->get_trip_list($where, $limit);
-            $limit = 10;
-            $data['trip_popular_list'] = $this->Welcome_model->get_trippopular_list($where, $limit);
-            $limit = 8;
-            $where = array('cm.isactive' => 1);
-            $data['tripcategory_list'] = $this->Welcome_model->get_tripcategory_list($where, $limit);
+            $this->load->model('Report_model');
+            $whereData = array('from' => date('Y-m-d'), 'to' => date('Y-m-d'),'groupby' => 'pnr_no');
+            $data["total_totday_booking"] = $this->Report_model->booking_count($whereData);
+            $whereData = array('groupby' => 'pnr_no');
+            $data["total_booking"] = $this->Report_model->booking_count($whereData); 
+            $whereData = array('title' => '');
+            $data["total_trip"]  = $this->Report_model->trip_list($whereData, 10, 0,'yes');
+            
+            $whereData = array('groupby' => 'pnr_no');
+            $data["bookinglist"] = $this->Report_model->booking_list($whereData, 10, 0,'no');
+            $whereData = array('groupby' => 'pnr_no');
+            $data["cancellist"] = $this->Report_model->cancellation_list($whereData, 10, 0,'no'); 
+            $whereData = array('title' => '');
+            $data["triplist"] = $this->Report_model->trip_list($whereData, 10, 0,'no'); 
+            $whereData = array('title' => '');
+            $data["b2c_reports"] = $this->Report_model->payment_from_b2c($whereData, 10, 0,'no'); 
+            $whereData = array('title' => '');
+            $data["b2b_from_reports"] = $this->Report_model->payment_from_b2b($whereData, 10, 0,'no'); 
+            $whereData = array('title' => '');
+            $data["b2b_to_reports"] = $this->Report_model->payment_to_b2b($whereData, 10, 0,'no'); 
+            $whereData = array('title' => '');
+            $data["transaction_reports"] = $this->Report_model->transaction_reports($whereData, 10, 0,'no');  
+            $whereData = array('title' => '');
+            $data["transaction_reports"] = $this->Report_model->transaction_reports($whereData, 10, 0,'no'); 
             $this->load->view('welcome_b2a', $data);
         } else if ($this->session->userdata('user_type') == 'VA') {
             $this->load->model('Tripshared_model');
@@ -31,14 +47,41 @@ class Welcome extends CI_Controller {
             $limit = 10;
             $data['trip_popular_list'] = $this->Welcome_model->get_trippopular_list($where, $limit);
             $where = array('tm.isactive' => 1, 'tp.status' => 2, 'tm.user_id' => $loginuserid);
-            $limit = 2;
-            $data['new_booking_list'] = $this->Welcome_model->get_tripbooking_list($where, $limit);
-            $where = array('tm.isactive' => 1, 'tm.user_id' => $loginuserid);
-            $limit = 2;
-            $data['all_booking_list'] = $this->Welcome_model->get_tripbooking_list($where, $limit);
+//            $limit = 2;
+//            $data['new_booking_list'] = $this->Welcome_model->get_tripbooking_list($where, $limit);
+//            $where = array('tm.isactive' => 1, 'tm.user_id' => $loginuserid);
+//            $limit = 2;
+//            $data['all_booking_list'] = $this->Welcome_model->get_tripbooking_list($where, $limit);
             $whereData = array('loginuserid' => $loginuserid, 'isactive' => 1);
             $data["sharedtriplist"] = $this->Tripshared_model->trip_list($whereData, 5, 0);
             //$data['trip_list']=$this->Welcome_model->get_list($where);
+            $this->load->model('Report_model');
+            $whereData = array('from' => date('Y-m-d'), 'to' => date('Y-m-d'),'tbpd.user_id' => $loginuserid);
+            $data["total_totday_booking"] = $this->Report_model->booking_count($whereData);
+            $whereData = array('tbpd.user_id' => $loginuserid);
+            $data["total_booking"] = $this->Report_model->booking_count($whereData); 
+            $whereData = array('title' => '');
+            $data["total_trip"]  = $this->Report_model->trip_list($whereData, 10, 0,'yes');
+            
+            
+            $whereData = array('status' => 2,'tbpd.user_id' => $loginuserid);
+            $data["newbookinglist"] = $this->Report_model->booking_list($whereData, 10, 0,'no');
+            $whereData = array('tbpd.user_id' => $loginuserid);
+            $data["bookinglist"] = $this->Report_model->booking_list($whereData, 10, 0,'no');
+            $whereData = array('groupby' => 'pnr_no');
+            $data["cancellist"] = $this->Report_model->cancellation_list($whereData, 10, 0,'no'); 
+            $whereData = array('title' => '');
+            $data["triplist"] = $this->Report_model->trip_list($whereData, 10, 0,'no'); 
+            $whereData = array('title' => '');
+            $data["b2c_reports"] = $this->Report_model->payment_from_b2c($whereData, 10, 0,'no'); 
+            $whereData = array('title' => '');
+            $data["b2b_from_reports"] = $this->Report_model->payment_from_b2b($whereData, 10, 0,'no'); 
+            $whereData = array('title' => '');
+            $data["b2b_to_reports"] = $this->Report_model->payment_to_b2b($whereData, 10, 0,'no'); 
+            $whereData = array('title' => '');
+            $data["transaction_reports"] = $this->Report_model->transaction_reports($whereData, 10, 0,'no');  
+            $whereData = array('title' => '');
+            $data["transaction_reports"] = $this->Report_model->transaction_reports($whereData, 10, 0,'no'); 
             $this->load->view('welcome_b2b', $data);
         } else {
             $where = array('tm.isactive' => 1);

@@ -61,7 +61,7 @@
                                     <h4>Congratulation! Your booking in done. Enjoy the trip.</h4>
 
                             </div>
-                            <?php }elseif($pnrshow==1){?>
+                            <?php }elseif($pnrshow==2){?>
                             <div class="promo-box-02 bg-success mb-40">
                                     <div class="icon">
                                             <i class="ti-check"></i>
@@ -70,7 +70,7 @@
                                     <h4>View PNR With Vendor Report</h4>
 
                             </div>
-                            <?php }elseif($pnrshow==2){?>
+                            <?php }elseif($pnrshow==1){?>
                             <div class="promo-box-02 bg-success mb-40">
                                     <div class="icon">
                                             <i class="ti-check"></i>
@@ -151,7 +151,7 @@
                                         ?>
                                         </span><?=$pnrinfo['offer_amt'];?></li>             
                                     <?php }
-                                    if ($this->session->userdata('user_type') == 'VA' && $pnrshow==1) {
+                                    if ($this->session->userdata('user_type') == 'VA' && ($pnrshow==1|| $pnrshow==3)) {
                                         //if($pnrinfo['net_price']!=0.00 && $pnrinfo['net_price']!=$pnrinfo['subtotal_trip_price']){
                                             $totalamt = (int)$pnrinfo['net_price']+(int)$pnrinfo['vendor_amt'];
                                             ?>

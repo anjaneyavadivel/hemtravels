@@ -83,7 +83,6 @@
                             <th>Price to Adult</th>
                             <th>Price to Children</th>
                             <th>Price to Infan</th>
-                            <!--<th>View To</th>-->
                             <th>Posted By</th>                            
                             <th>Posted On</th>                            
                             <th>Status</th>

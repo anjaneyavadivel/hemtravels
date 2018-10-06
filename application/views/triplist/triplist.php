@@ -64,6 +64,7 @@
 									{
                                     
 										$id=$row['id'];	
+										$trip_code=$row['trip_code'];	
 										$created_on=$row['created_on'];
 										$trip_name=$row['trip_name'];
 										$total_booking=$row['total_booking'];
@@ -88,17 +89,30 @@
 										<td><?=$total_booking;?></td>
 <!--										<td><?=$status_val[$vals];?></td>-->
                                         <td><h4 class="<?=$btn_type[$val];?>"><?=$status_active[$val];?></h4></td>
-                                       <?php if($isactive!='0'){?> 
-                                        <td><a href="<?=base_url();?>triplist/delete/<?=$id?>"><i class="fa fa-trash" data-toggle="tooltip" data-placement="top" title="Click here to delete"></i> </a></td><?php }?>
-										<?php if($isactive!='1'){?><td><a href="<?=base_url();?>triplist/active/<?=$id?>" class="<?=$btn_type[$val];?>"><i class="fa fa-check" data-toggle="tooltip" data-placement="top" title="Click here to active"></i></a><?php }?>
+                                        <td><div class="dropdown">
+                                                <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Action
+                                                <span class="caret"></span></button>
+                                                <ul class="dropdown-menu">
+                                                    <li><a href="<?=base_url();?>trips/update/<?=$trip_code?>"><i class="fa fa-edit"></i> Edit</a></li>
+                                                    <li><a href="<?=base_url();?>trip-view/<?=$trip_code?>"><i class="fa fa-search"></i> View / Book</a></li>
+                                                    <li><a href="<?=base_url();?>trip-calendar-view/<?=$trip_code?>"><i class="fa fa-calendar"></i> Month View</a></li>
+                                                    <li><a class="share-link" href="javscript:;" data-val="<?=$trip_code?>"><i class="fa fa-share"></i> Share </a></li>
+                                                    <?php if($isactive !='0'){?>                                         
+                                                        <li><a href="<?=base_url();?>triplist/delete/<?=$id?>"><i class="fa fa-trash"></i> Delete</a></li>
+                                                    <?php } else { ?>
+                                                        <li><a href="<?=base_url();?>triplist/active/<?=$id?>"><i class="fa fa-check"></i> Active</a></li>
+                                                    <?php } ?> 
+                                                </ul>
+                                            </div>
+                                        </td>
 
                                     </tr>
-										<?php 				
-									} 
-									}
-									}
-								}		
-								?> 	
+                                            <?php 				
+                                    } 
+                                    }
+                                    }
+                            }		
+                            ?> 	
                                 </tbody>
                             </table>
                             <div class="pager-wrappper text-right clearfix bt mt-0  col-sm-12">

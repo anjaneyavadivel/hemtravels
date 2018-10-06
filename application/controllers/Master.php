@@ -9,7 +9,7 @@ class Master extends CI_Controller {
         $this->load->model('Master_model');
     }
 
-    public function trip_list($category_search = '') {
+    public function category_list($category_search = '') {
         if ($this->session->userdata('user_id') == '' || $this->session->userdata('user_type') != 'SA') {
             redirect('login');
         }
