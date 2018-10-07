@@ -408,30 +408,30 @@ class Master extends CI_Controller {
 //        print_r($result);
 //        exit();
 //        
-//           $pnr_no='PNR74WZ9LQA';$phoneno='9688079118';
-//           $result =  getpnrinfo($pnr_no,$phoneno);
-//            print_r($result);
+           $pnr_no='PNR100VCNHF';$phoneno='9688079118';
+           $result =  getpnrinfo($pnr_no,'', 1);
+            print_r($result);
 //        
 //        
 //        if ($this->session->userdata('user_id') == '') {
 //            return FALSE;
 //        }
-        $offerdata=array(
-        'trip_id' => 7,
-        'date_of_trip' => "30-09-2018",
-        'ischeckadmin' => 1); 
-        $result = trip_offer($offerdata);
-        print_r($result);
+//        $offerdata=array(
+//        'trip_id' => 7,
+//        'date_of_trip' => "30-09-2018",
+//        'ischeckadmin' => 1); 
+//        $result = trip_offer($offerdata);
+//        print_r($result);
 //        exit();
 //        $bookdata=array(
-//        'trip_id' => 3,
-//        'book_user_id' => 1,
+//        'trip_id' => 2,
+//        'book_user_id' => 26,
 //        'no_of_adult' => 1,
 //        'no_of_child' => 0,
 //        'no_of_infan' => 0,
-//        'date_of_trip' => "Sep 14, 2018",
-//        'pick_up_location_id' => 3);
-//        $result = trip_book($bookdata);
+//        'date_of_trip' => "Oct 15, 2018",
+//        'pick_up_location_id' => 5);
+//        $result = trip_book($bookdata,'COUPONOFFER2PER');
 //        print_r($result);
 //        
     }

@@ -50,6 +50,7 @@
                                 <option value="">Select a offer to...</option>
                                 <?php  if ($this->session->userdata('user_type') != 'SA') {  ?>
                                 <option value="1">Customer Offer</option>
+                                <option value="4">Specific Customer Offer</option>
                                 <option value="2">Vendor Offer</option>
                                  <?php  }else if ($this->session->userdata('user_type') == 'SA') {  ?>
                                 <option value="3">Admin Offer</option>

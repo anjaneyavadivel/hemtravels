@@ -165,7 +165,20 @@
                                                         <p class="lead"><?php echo isset($details['brief_description'])?html_entity_decode($details['brief_description']):'';?></p>
 
                                                         <div class="bt mt-30 mb-30"></div>
+                                                        <?php if(isset($galleries) && count(json_decode($galleries)) > 0) {?>
+                                        <div id="detail-content-sticky-nav-02" >
+                                            <div class="row">
+                                                <div class="col-md-12">
+                                                    <h3 class="section-title">Gallery</h3>
 
+                                                    <div class="gallery-grid-equal-width-wrapper mb-50">
+                                                            <div id="view_gallery"></div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <input type="hidden" id="gallery_images" value='<?php echo $galleries;?>'>
+                                        </div>
+                                    <?php } ?>
                                                         <h3 class="font-lg mb-20">Trip detail</h3>
 
                                                         <ul class="featured-list-with-h mb-40">
@@ -287,7 +300,7 @@
 
                                                             <div class="col-xs-12 col-sm-12 mb-40">
 
-                                                                <h3 class="font-lg mb-20">What's included?</h3>
+                                                                <h3 class="font-lg mb-20">What it includes</h3>
 
                                                                 <ul class="list-yes-no">
                                                                     <?php                                                                       
@@ -318,7 +331,7 @@
                                                             <div class="row">
                                                                 <div class="col-xs-12 col-sm-12 mb-40">
 
-                                                                    <h3 class="font-lg mb-20">What's excluded?</h3>
+                                                                    <h3 class="font-lg mb-20">What it excluded</h3>
 
                                                                     <ul class="list-yes-no">
                                                                         <?php echo html_entity_decode($details['exclusions']);?>
@@ -386,20 +399,7 @@
                                     </div>     
                                     <?php } ?>
                                     
-                                    <?php if(isset($galleries) && count(json_decode($galleries)) > 0) {?>
-                                        <div id="detail-content-sticky-nav-02" >
-                                            <div class="row">
-                                                <div class="col-md-12">
-                                                    <h3 class="section-title">Gallery</h3>
-
-                                                    <div class="gallery-grid-equal-width-wrapper mb-50">
-                                                            <div id="view_gallery"></div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <input type="hidden" id="gallery_images" value='<?php echo $galleries;?>'>
-                                        </div>
-                                    <?php } ?>
+                                    
                                     
                                     <div id="detail-content-sticky-nav-04">
 

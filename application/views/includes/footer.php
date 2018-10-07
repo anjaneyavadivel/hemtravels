@@ -371,6 +371,8 @@
 <?php if($url==''){?>
 <!-- Only in Home Page -->
 <script type="text/javascript" src="<?php echo base_url()?>assets/js/jquery.flexdatalist.js"></script>
+<script type="text/javascript" src="<?php echo base_url()?>assets-customs/js/typeahead.js"></script>
+<script type="text/javascript" src="<?php echo base_url()?>assets-customs/js/autocomplete.js"></script>
 <?php }?>
 <?php if($url=='home-dashboard' || $url=='update-profile'){?>
 <!-- Detail Page JS -->

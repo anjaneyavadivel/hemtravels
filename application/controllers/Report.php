@@ -469,7 +469,7 @@ class Report extends CI_Controller {
        
         $whereData['tbpd.user_id'] = $loginuserid;       
 
-        $config["total_rows"] = $this->Report_model->booking_count($whereData,'tt');
+        //$config["total_rows"] = $this->Report_model->booking_count($whereData,'tt');
         $config["per_page"] = 20;
         //$config["uri_segment"] = 2;
 
@@ -485,7 +485,9 @@ class Report extends CI_Controller {
         $this->pagination->initialize($config);
         $page = ($this->input->get('page')) ? ( ( $this->input->get('page') - 1 ) * $config["per_page"] ) : 0;
         //$page = ($this->uri->segment(2)) ? $this->uri->segment(2) : 0;
-        $data["bookinglist"] = $this->Report_model->booking_list($whereData, $config["per_page"], $page,'no','tt');
+        //$data["bookinglist"] = $this->Report_model->booking_list($whereData, $config["per_page"], $page,'no','tt');	
+        $config["total_rows"] = $this->Report_model->tomorrow_list($whereData, $config["per_page"], $page,'yes');		
+        $data["bookinglist"] = $this->Report_model->tomorrow_list($whereData, $config["per_page"], $page,'no');
         $str_links = $this->pagination->create_links();
         $data["links"] = explode('&nbsp;', $str_links);
         $data["from"] = $from;

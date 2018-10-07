@@ -1,4 +1,15 @@
 <?php $this->load->view('includes/header') ?>
+<style>
+    #b2c-auto-suggestion-form .dropdown-menu{
+        min-width: 100%!important;
+    }
+    #b2c-auto-suggestion-form .dropdown-menu>.active>a, 
+    #b2c-auto-suggestion-form .dropdown-menu>.active>a:focus,
+    #b2c-auto-suggestion-form .dropdown-menu>.active>a:hover {
+        background-color: #ee7d43;           
+    }
+     
+</style>
 <div class="main-wrapper scrollspy-container">
 
     <!-- start hero-header -->
@@ -8,10 +19,10 @@
             <h1>Where do you want to go?</h1>
             <p>Discover and book your unique travel experiences offered by local experts</p>
 
-            <?php echo form_open_multipart(base_url() . 'trip-list', array('method' => 'get','class' => 'form-horizontal margin-top-30', 'id' => 'add-city-form')); ?>
+            <?php echo form_open_multipart(base_url() . 'trip-list', array('method' => 'get','class' => 'form-horizontal margin-top-30', 'id' => 'b2c-auto-suggestion-form')); ?>
  
                 <div class="form-group">
-                    <input type="text" name="search" placeholder="Search for activities, tours, city... eg: goa, boating " class="form-control" >
+                    <input type="text" name="search" id="pick_loc_auto_suggestion" placeholder="Search for activities, tours, city,location... eg: goa, boating " class="form-control" autocomplete="off" >
                     <button class="btn"><i class="icon-magnifier"></i></button>
                 </div>
             <?php echo form_close(); ?>

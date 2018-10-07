@@ -32,6 +32,9 @@
                                     <option value="1" <?php if ($offer_type == 1) {
                                 echo 'selected';
                             } ?>>Customer Offer</option>
+                                    <option value="4" <?php if ($offer_type == 2) {
+                                echo 'selected';
+                            } ?>>Specific Customer Offer</option>
                                     <option value="2" <?php if ($offer_type == 2) {
                                 echo 'selected';
                             } ?>>Vendor Offer</option>
@@ -82,7 +85,7 @@
                                 $validity_from = $row['validity_from'];
                                 $validity_to = $row['validity_to'];
                                 $status_active = array('deactive', 'active');
-                                $coupontype = array('', 'Customer', 'Vendor', 'Admin Offer');
+                                $coupontype = array('', 'Customer', 'Vendor', 'Admin Offer', 'Specific Customer');
 
                                 $isactive = $row['isactive'];
                                 $status_active = array('deactive', 'active');

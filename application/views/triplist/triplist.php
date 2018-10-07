@@ -36,7 +36,7 @@
                                                     <label>Title</label>
                                                     <div class="row">
                                                         <div class="col-xs-12 col-sm-8 col-md-8">
-                                                            <input type="text" class="form-control" placeholder="Search Trip Title, PNR No, Phone No">
+                                                            <input type="text" class="form-control" placeholder="Enter the trip title...">
                                                         </div>
                                                         <div class="col-xs-12 col-sm-4 col-md-4">
                                                             <a href="#" class="btn btn-primary btn-block"><i class="fa fa-search"></i> Search</a>
@@ -83,7 +83,9 @@
 										{
 										?>
                                     <tr>
-                                        <td><?=date("d/M/y",strtotime($created_on));?><sup><small style="color: red;"><?=$status_val[$vals];?></small></sup></td>
+                                        <td><?=date("d/M/y",strtotime($created_on));?><sup>
+<!--                                                <small style="color: red;"><?=$status_val[$vals];?></small></sup>-->
+                                        </td>
                                         <td><?=$trip_name;?></td>
 										<td><?=$price_to_adult;?></td>
 										<td><?=$total_booking;?></td>

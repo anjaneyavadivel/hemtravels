@@ -135,7 +135,7 @@
                                     <?php
                                 } else if ($this->session->userdata('user_type') == 'VA') {
                                     ?>
-                                    <li><a href="<?php echo base_url() ?>trip-list">BookMyTrip<!--<span>(Book/Edit/Calendar/Delete/Share)</span>--></a></li>
+                                    <li><a data-toggle="tooltip" data-placement="bottom" title="Click here to Filter, View, Book, Edit, Delete, Booking in Month, Share Trip" href="<?php echo base_url() ?>trip-list">BookMyTrip<!--<span>(Book/Edit/Calendar/Delete/Share)</span>--></a></li>
                                     <li><a href="<?php echo base_url() ?>PNR-status">PNR</a></li>
                                     <li>
                                         <a href="#">Trip Details</a>

@@ -326,7 +326,7 @@ jQuery(function($) {
                                                     '<div class="row gap-20">'+
                                                         '<div class="col-xs-12 col-sm-12">'+
                                                             '<div class="form-group">'+
-                                                                '<label>Brief Description:</label>'+
+                                                                '<label>Itinerary Description:</label>'+
                                                                 '<textarea class="bootstrap3-wysihtml5 form-control map_trip_dec_'+newItem+'" name="trip_brief_dec[]" placeholder="Excluded point out once by one..." style="height: 150px;"></textarea>'+
                                                             '</div>'+
                                                         '</div>'+

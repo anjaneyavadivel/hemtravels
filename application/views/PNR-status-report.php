@@ -115,10 +115,16 @@
                                                             if ($pnrinfo['offer_type'] == 2) {
                                                                 $offer_type = '%';
                                                             }
-                                                            echo $pnrinfo['coupon_code'] . ' (' . $pnrinfo['percentage_amount'] . $offer_type . ' OFF)';
+                                                            if($pnrinfo['offer_type']==2){$offer_type='%';}
+                                                            $specific_coupon_code ='';
+                                                            if($pnrinfo['specific_coupon_code']!='' && $pnrinfo['coupon_code'] !=$pnrinfo['specific_coupon_code']){
+                                                                $specific_coupon_code = $pnrinfo['specific_coupon_code'].', ';
+                                                            }
+                                                            $coupon_code = '('.$specific_coupon_code.$pnrinfo['coupon_code'].')';
+                                                            //echo $pnrinfo['coupon_code'].' ('.$pnrinfo['percentage_amount'].$offer_type.' OFF)'; 
                                                         }
                                                         ?>
-                                                    </span></td><td class="text-right"><?= $pnrinfo['offer_amt']; ?></td></tr>        
+                                                    </span></td><td class="text-right"><?= $pnrinfo['offer_amt'].' '.$coupon_code; ?></td></tr>        
                                                     <?php
                                                 }if ($pnrinfo['gst_percentage'] != 0) {
                                                     ?>

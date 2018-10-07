@@ -87,7 +87,7 @@
                                     <tr>                                        
                                         <td><?= $row['pnr_no']; ?></td>
                                         <td><?= date("M d, Y", strtotime($row['date_of_trip'])); ?></td>
-                                        <td><?= $vendorName ?></td>                                        
+                                        <td><?= $row['vendor'] ?></td>                                        
                                         <td><?= $row['number_of_persons']; ?></td>
                                         <td><?= $row['pick_up_location']; ?></td>
                                         <td><?= $time; ?></td>

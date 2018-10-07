@@ -899,6 +899,7 @@ class Trips extends CI_Controller {
                             . "LEFT JOIN trip_category as tc ON tm.trip_category_id = tc.id AND tc.isactive = 1 "
                             . "LEFT JOIN city_master as cm ON tm.city_id = cm.id AND cm.isactive = 1 "
                             . "LEFT JOIN state_master as sm ON tm.state_id = sm.id AND sm.isactive = 1 "
+                            . "LEFT JOIN pick_up_location_map as pl ON pl.trip_id = tm.id AND pl.isactive = 1 "
                             . "WHERE tm.isactive = ? ";
                     
                     if($this->session->userdata('user_type') == 'VA') {
@@ -1007,7 +1008,8 @@ class Trips extends CI_Controller {
                     $searchTerm = $this->db->escape_like_str($this->input->post('search_term',true));
                     if(!empty($searchTerm)){                        
                         $tot_sql .= " AND (tm.trip_name LIKE '%{$searchTerm}%' ESCAPE '!' OR tc.name LIKE '%{$searchTerm}%' ESCAPE '!' "
-                        . "OR cm.name LIKE '%{$searchTerm}%' ESCAPE '!' OR sm.name LIKE '%{$searchTerm}%' ESCAPE '!') ";
+                        . "OR cm.name LIKE '%{$searchTerm}%' ESCAPE '!' OR sm.name LIKE '%{$searchTerm}%' ESCAPE '!' "
+                        . "OR pl.location LIKE '%{$searchTerm}%' ESCAPE '!') ";
                     }
                     
                     //GROUP BY

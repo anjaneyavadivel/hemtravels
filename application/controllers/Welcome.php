@@ -358,4 +358,24 @@ class Welcome extends CI_Controller {
         return FALSE;
     }
 
+    
+    public function searchAutoSuggestion(){
+        $result = [];
+        
+            $query = $this->input->post('query',true);
+        
+            if(!empty($query)){
+                $this->db->select('location')->from('pick_up_location_map')
+                        ->where(array('isactive' => 1))
+                        ->like('location',$query)->group_by("location");
+                $query = $this->db->get();
+                $re = $query->result_array();
+                
+                if(count($re) > 0){
+                    $result = array_column($re, 'location');
+                }
+            }
+        echo json_encode($result);exit;
+            
+    }
 }

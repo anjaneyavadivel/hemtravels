@@ -7,6 +7,11 @@ class Report_model extends CI_Model
         $this->db->join('trip_master', 'trip_master.id = tbpd.trip_id','INNER');
         $this->db->join('user_master AS um', 'um.id = tbpd.from_user_id','INNER');
         $this->db->join('user_master AS by', 'by.id = tbpd.booked_by','INNER');
+        
+        if($result_for == 'tt'){
+            $this->db->join('trip_book_pay_details AS tbpd2', 'tbpd2.parent_trip_id = tbpd.trip_id','INNER');
+            $this->db->where('tbpd2.parent_trip_id !=', 0);
+        }
         if(isset($whereData['title']) && $whereData['title']!=''){
             if($result_for == 'tt'){
                 $this->db->where('(trip_master.trip_name LIKE "%'.$this->db->escape_like_str($whereData['title']).'%" OR trip_master.trip_code LIKE "%'.$this->db->escape_like_str($whereData['title']).'%" )');
@@ -373,6 +378,84 @@ class Report_model extends CI_Model
         }
     }
    
+    public function tomorrow_list($whereData,$limit, $start,$resultCount='no'){
+        $whQry = '';
+        $un_whQry = '';
+        if(isset($whereData['title']) && $whereData['title']!=''){
+            $whQry = ' AND (trip_master.trip_name LIKE "%'.$this->db->escape_like_str($whereData['title']).'%" OR trip_master.trip_code LIKE "%'.$this->db->escape_like_str($whereData['title']).'%" )';            
+            $un_whQry = ' AND (tm1.trip_name LIKE "%'.$this->db->escape_like_str($whereData['title']).'%" OR tm1.trip_code LIKE "%'.$this->db->escape_like_str($whereData['title']).'%" )';            
+        }
+        if(isset($whereData['bookfrom']) && $whereData['bookfrom']==1){
+            $whQry .= ' AND (by.user_type LIKE "%CU%" OR by.user_type LIKE "%GU%")';
+            $un_whQry .= ' AND (by1.user_type LIKE "%CU%" OR by1.user_type LIKE "%GU%")';
+        }
+        if(isset($whereData['bookfrom']) && $whereData['bookfrom']==2){
+            $whQry .= ' AND by.user_type = "VA"';
+            $un_whQry .= ' AND by1.user_type = "VA"';
+        }
+        
+        if(isset($whereData['status']) && $whereData['status']!=''){
+            $whQry .= ' AND tbpd.status = '.$whereData['status'];
+            $un_whQry .= ' AND tbpd1.status = '.$whereData['status'];
+        }
+        if(isset($whereData['from']) && $whereData['from']!=''){
+            $from = date("Y-m-d", strtotime($whereData['from']));
+            $to = date("Y-m-d", strtotime($whereData['to']));
+            $whQry .= ' AND (tbpd.date_of_trip >="'.$this->db->escape_like_str($from).'" AND tbpd.date_of_trip <= "'.$this->db->escape_like_str($to).'")';
+            $un_whQry .= ' AND (tbpd1.date_of_trip >="'.$this->db->escape_like_str($from).'" AND tbpd1.date_of_trip <= "'.$this->db->escape_like_str($to).'")';
+        }  
+        
+        $limitQry = '';
+        
+        if($resultCount != 'download'){
+            $limitQry = 'LIMIT '.$start.','.$limit;
+        }
+        
+        $query = $this->db->query("SELECT * FROM ((SELECT
+                                    `tbpd`.*,`by`.`user_type`,`trip_name`,um.user_fullname,um.phone,trip_code,va.user_fullname as vendor
+                                  FROM
+                                    `trip_book_pay_details` AS `tbpd`
+                                  INNER JOIN
+                                    `trip_master` ON `trip_master`.`id` = `tbpd`.`trip_id`
+                                  INNER JOIN
+                                    `user_master` AS `um` ON `um`.`id` = `tbpd`.`from_user_id`
+                                  INNER JOIN
+                                    `user_master` AS `by` ON `by`.`id` = `tbpd`.`booked_by`
+                                  INNER JOIN
+                                    `user_master` AS `va` ON `va`.`id` = `tbpd`.`trip_user_id`
+                                  INNER JOIN
+                                    `trip_book_pay_details` AS `tbpd1` ON `tbpd1`.`parent_trip_id` = `tbpd`.`trip_id`
+                                  WHERE
+                                    `tbpd`.`user_id` = '{$this->session->userdata('user_id')}'  {$whQry} GROUP BY tbpd.id)  
+
+                                  UNION
+                                  (
+                                  SELECT
+                                    tbpd1.*,`by1`.`user_type`,um1.user_fullname,um1.phone,tm1.trip_name,tm1.trip_code,va1.user_fullname as vendor
+                                  FROM
+                                    `trip_book_pay_details` AS `tbpd`
+                                    INNER JOIN
+                                    `trip_book_pay_details` AS `tbpd1` ON `tbpd1`.`parent_trip_id` = `tbpd`.`trip_id`
+                                  INNER JOIN
+                                    `trip_master` AS `tm1` ON `tm1`.`id` = `tbpd1`.`trip_id`
+                                  INNER JOIN
+                                    `user_master` AS `um1` ON `um1`.`id` = `tbpd1`.`from_user_id`
+                                  INNER JOIN
+                                    `user_master` AS `by1` ON `by1`.`id` = `tbpd1`.`booked_by`
+                                  INNER JOIN
+                                    `user_master` AS `va1` ON `va1`.`id` = `tbpd1`.`trip_user_id`
+                                  WHERE
+                                    `tbpd`.`user_id` = '{$this->session->userdata('user_id')}' {$un_whQry} GROUP BY tbpd1.id)) as X ORDER BY X.ID DESC {$limitQry}");
+    
+        //echo "<pre>";print_r($this->db->last_query());exit;
+    
+        if($resultCount == 'yes'){
+            
+            return $query->num_rows();
+        }else{            
+            return $query->result_array();
+        }
+    }
 
 }
 

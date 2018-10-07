@@ -51,6 +51,7 @@
                                 <option value="">Select a offer to...</option>
                                 <?php  if ($this->session->userdata('user_type') != 'SA') {  ?>
                                 <option value="1" <?php if($coupondetail['type']==1){?>selected<?php }?>>Customer Offer</option>
+                                <option value="4" <?php if($coupondetail['type']==4){?>selected<?php }?>>Specific Customer Offer</option>
                                 <option value="2" <?php if($coupondetail['type']==2){?>selected<?php }?>>Vendor Offer</option>
                                  <?php  }else if ($this->session->userdata('user_type') == 'SA') {  ?>
                                 <option value="3" <?php if($coupondetail['type']==3){?>selected<?php }?>>Admin Offer</option>

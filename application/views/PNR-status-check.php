@@ -138,18 +138,22 @@
                                     <?php if($pnrinfo['no_of_infan']>0){echo ', '.$pnrinfo['no_of_infan'].'*'.$pnrinfo['price_to_infan'];}?> )</li> 
                                     <?php if($pnrinfo['offer_amt']!=0.00){?>
                                     <li><span class="font600 net_price">Offer Amount:
-                                       <br>
                                             <?php if($pnrinfo['coupon_code']!=''){
                                                 $offer_type='';
                                                 if (strpos($pnrinfo['percentage_amount'], '.00') !== false) {
                                                     $pnrinfo['percentage_amount'] = round($pnrinfo['percentage_amount']);
                                                 }
                                                 if($pnrinfo['offer_type']==2){$offer_type='%';}
-                                                echo $pnrinfo['coupon_code'].' ('.$pnrinfo['percentage_amount'].$offer_type.' OFF)'; 
+                                                $specific_coupon_code ='';
+                                                if($pnrinfo['specific_coupon_code']!='' && $pnrinfo['coupon_code'] !=$pnrinfo['specific_coupon_code']){
+                                                    $specific_coupon_code = $pnrinfo['specific_coupon_code'].', ';
+                                                }
+                                                $coupon_code = '('.$specific_coupon_code.$pnrinfo['coupon_code'].')';
+                                                //echo $pnrinfo['coupon_code'].' ('.$pnrinfo['percentage_amount'].$offer_type.' OFF)'; 
                                             }
                                         
                                         ?>
-                                        </span><?=$pnrinfo['offer_amt'];?></li>             
+                                        </span><?=$pnrinfo['offer_amt'].' '.$coupon_code;?></li>             
                                     <?php }
                                     if ($this->session->userdata('user_type') == 'VA' && ($pnrshow==1|| $pnrshow==3)) {
                                         //if($pnrinfo['net_price']!=0.00 && $pnrinfo['net_price']!=$pnrinfo['subtotal_trip_price']){

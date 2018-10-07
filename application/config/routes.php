@@ -213,6 +213,7 @@ $route['trip-book/(:any)'] = 'TripBookings/book_summary/$1';
 $route['trip-proceed/(:any)'] = 'TripBookings/book_proceed/$1';
 $route['tripbook-done/(:any)'] = 'TripBookings/book_done/$1';
 $route['trip-cancel/(:any)/(:num)'] = 'pnr_status/pnr_status_check/$1/$2';
+$route['checkcouponcode'] = 'TripBookings/checkcouponcode';
 
 // corn job for check Trip Completed
 $route['checkTripCompleted'] = 'welcome/checkTripCompleted';

@@ -1,7 +1,12 @@
 <?php $this->load->view('includes/header')?>
   <!-- start Main Wrapper -->
  <div class="main-wrapper scrollspy-container">
-
+     <style>input[type='checkbox'] {
+     opacity: 1; 
+     display: inline; 
+    float: left;
+    width: 18px;
+}</style>
         <!-- start Breadcrumb -->
 
         <div class="breadcrumb-wrapper">
@@ -496,14 +501,38 @@
 
                                 </div>
                                         </li>
+                                        <li>
+                                        <?php $topay = $total_price;$balance =0;
+                                        if ($this->session->userdata('user_type') == 'VA') {
+                                            $loginuser_id = $this->session->userdata('user_id');
+                                            $mypayment = checkbal_mypayment($loginuser_id, 2);
+                                            if ($mypayment>0) {
+                                        ?>
+                                            <div class="col-sm-12 col-md-6">
+                                                <input disabled class="checkbox" id="usewalletamount" name="usewalletamount" type="checkbox" class="checkbox" checked/><b> Use Your Wallet Amount:</b><span class="text-primary"> Rs: <?=number_format($mypayment,2)  ?></span>
+                                                <small><br>After Pay Wallet Balance <b>Rs:
+                                                <?php $balance = (int)$mypayment - (int)$total_price;
+                                                $topay = (int)$total_price - (int)$mypayment;?>
+                                                        <span id="walletbalancespan"><?php echo $balance>0?number_format($balance,2):0.00;?></span>
+                                                    </b></small>
+                                            </div><?php
                                         
+                                        }}?>
+                                        <div class="col-sm-12 col-md-6">
+                                            <input class="form-control usecouponcode" placeholder="Enter the coupon code" type="text" id="usecouponcode" value="">
+                                            <a class="btn btn-primary checkcouponcode" id="checkcouponcode" href="javascript:;">Check</a>
+                                            <span id="couponcodemsg" class=" text-primary"></span>
+                                        </div>
+                                    </li>
                                         <!--<li>
                                             <small><b>Extra Savings:</b> Earn Cash Back upto Rs500 on this booking</small>
                                         </li>-->
                                         
-                                        <li style="text-align: center;">
+                                        <li style="text-align: center;"><br><br>
+                                        <input type="hidden" id="walletbalance" value="<?php echo $balance>0?$balance:0.00;?>">
+                                        <input type="hidden" id="wallettopay" value="<?php echo $topay>0?$topay:0.00; ?>">
                                             <input type="hidden" id="totalPrice" value="<?php echo $total_price; ?>">
-                                            <a class="btn btn-primary  mt-5" id="payment_proceed" href="javascript:;">Continue to Pay</a>
+                                            <a class="btn btn-primary  mt-20" id="payment_proceed" href="javascript:;">Continue to Pay Rs: <span id="wallettopayspan"><?=$topay>0?number_format($topay,2):0.00?></span></a>
                                         </li>
 
                                     </ul>
