@@ -755,10 +755,10 @@
                                         </div>
                                             <input type="hidden" name="trip_id"  id="trip_id" value="<?php echo isset($trip_details['details']['id'])?$trip_details['details']['id']:0;?>">
                                             <input type="hidden" name="parent_trip_id"  id="parent_trip_id" value="<?php echo isset($parent_trip_id)?$parent_trip_id:0;?>">
+                                            <input type="hidden" name="trip_shared_id"  id="trip_shared_id" value="<?php echo isset($trip_shared_id)?$trip_shared_id:0;?>">
                                             <input type="hidden" name="is_shared"  id="is_shared" value="<?php echo isset($is_shared)?$is_shared:0;?>">
                                             <input type="hidden" name="share_code"  id="share_code" value="<?php echo isset($share_code)?$share_code:0;?>">
                                             <input type="hidden"  id="action" value="edit">
-                                        
 <?php echo form_close()?>
                                     </div>
 

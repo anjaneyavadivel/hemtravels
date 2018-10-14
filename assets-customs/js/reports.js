@@ -132,5 +132,27 @@ jQuery(function($) {
         
     });
     
+    //USER REPORT
+    $('#userReport').on('click',function(){ 
+        
+        var search_from = $('#rangeDatePickerFrom').val() != undefined ?$('#rangeDatePickerFrom').val():'';
+        var search_to   = $('#rangeDatePickerTo').val() != undefined ?$('#rangeDatePickerTo').val():'';       
+        var type        = $('#userType').val() != undefined ?$('#userType').val():'';
+        var title       = $('#title').val() != undefined ?$('#title').val():'';
+         
+        document.location = base_url+'user-reports?title='+title+'&from='+search_from+'&to='+search_to+'&type='+type+'&download=1';
+       
+    });
+    $('#searchUser').on('click',function(e){
+        e.preventDefault();
+        if (location.href.indexOf('download=') > -1) {
+            location.href = location.href.replace('download=1', 'download=0');
+            setTimeout(function() { $('#user-report-form').submit(); },2000);
+        }else{
+            $('#user-report-form').submit();
+        }
+        
+    });
+    
 });
 

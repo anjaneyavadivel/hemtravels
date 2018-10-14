@@ -508,6 +508,62 @@ class Report extends CI_Controller {
             $this->load->view('report/tomorrow-trip-reports', $data);
         }
     }
+    
+    public function user_reports() {
+        
+        if ($this->session->userdata('user_id') == '' || ($this->session->userdata('user_type') != 'SA')) {
+            redirect('login');
+        }   
+       
+        $from     = trim($this->input->get('from'));
+        $to       = trim($this->input->get('to'));
+        $title    = trim($this->input->get('title'));
+        $type     = trim($this->input->get('type'));        
+        $download = $this->input->get('download');        
+        
+        $url = $this->uri->segment(1);
+        
+        $this->load->library('pagination');
+        $config = array();
+        $config["base_url"] = base_url() . $url ."?title=".$title."&from=" . $from . "&to=" . $to . "&type=" . $type;
+        $whereData = array('title' => $title,'from' => $from, 'to' => $to, 'type' => $type,'download' => $download);
+                
+        $config["per_page"] = 20;
+        //$config["uri_segment"] = 2;
+
+        $config['enable_query_strings'] = TRUE;
+        $config['page_query_string']    = TRUE;
+        $config['use_page_numbers']     = TRUE;
+        $config['query_string_segment'] = 'page';
+        $config['cur_tag_open']         = '&nbsp;<a class="active">';
+        $config['cur_tag_close']        = '</a>';
+
+        $config['next_link'] = '&NestedGreaterGreater;';
+        $config['prev_link'] = '&NestedLessLess;';
+        $page = ($this->input->get('page')) ? ( ( $this->input->get('page') - 1 ) * $config["per_page"] ) : 0;
+        $config["total_rows"]  = $this->Report_model->user_list($whereData, $config["per_page"], $page,'yes');
+        $this->pagination->initialize($config);
+        
+        $data["userlist"] = $this->Report_model->user_list($whereData, $config["per_page"], $page,'no');        
+        $str_links = $this->pagination->create_links();
+        $data["links"] = explode('&nbsp;', $str_links); //echo "<pre>";print_r($str_links);exit;
+        $data["from"] = $from;
+        $data["to"] = $to;
+        $data["type"] = $type;        
+        $data["title"] = $title;        
+        $data["url"] = $url;
+        
+        if($download == 1 && isset($data["userlist"]) && count($data["userlist"]) > 0){
+            $data["userlist"] = $this->Report_model->user_list($whereData, $config["per_page"], $page,'download');        
+        
+            $downloadData = $data["userlist"];
+            
+            $this->userExport($downloadData);
+            
+        }else{
+            $this->load->view('report/user-reports.php', $data);
+        }
+    }
 
     public function exportXLfile() {
         
@@ -720,12 +776,21 @@ class Report extends CI_Controller {
         $sheet->setCellValue('F1', 'TRIP TITLE');
         $sheet->setCellValue('G1', 'NUMBER OF PERSONS');
         $sheet->setCellValue('H1', 'TOTAL TRIP PRICE');
-        $sheet->setCellValue('I1', 'AMOUNT SENT to PARENT TRIP/VENDOR');
-        $sheet->setCellValue('J1', 'OFFER AMOUNT');
-        $sheet->setCellValue('K1', 'SERVICE CHARGE');
-        $sheet->setCellValue('L1', 'GST AMOUNT'); 
-        $sheet->setCellValue('M1', 'YOUR FINAL AMOUNT');
-        $sheet->setCellValue('N1', 'STATUS');       
+        $sheet->setCellValue('I1', 'PRICE TO ADULT');
+        $sheet->setCellValue('J1', 'PRICE TO CHILD');
+        $sheet->setCellValue('K1', 'PRICE TO INFAN');
+        $sheet->setCellValue('L1', 'NO OF ADULT');
+        $sheet->setCellValue('M1', 'NO OF CHILD');
+        $sheet->setCellValue('N1', 'NO OF INFAN');
+        $sheet->setCellValue('O1', 'TOTAL ADULT PRICE');
+        $sheet->setCellValue('P1', 'TOTAL CHILD PRICE');
+        $sheet->setCellValue('Q1', 'TOTAL INFAN PRICE');
+        $sheet->setCellValue('R1', 'AMOUNT SENT to PARENT TRIP/VENDOR');
+        $sheet->setCellValue('S1', 'OFFER AMOUNT');
+        $sheet->setCellValue('T1', 'SERVICE CHARGE');
+        $sheet->setCellValue('U1', 'GST AMOUNT'); 
+        $sheet->setCellValue('V1', 'YOUR FINAL AMOUNT');
+        $sheet->setCellValue('W1', 'STATUS');       
         
         $row = 2;
         
@@ -742,12 +807,21 @@ class Report extends CI_Controller {
             $sheet->setCellValue('F' . $row, $value['trip_code'].'-'.$value['trip_name']);
             $sheet->setCellValue('G' . $row, $value['number_of_persons']);
             $sheet->setCellValue('H' . $row, $value['subtotal_trip_price']);           
-            $sheet->setCellValue('I' . $row, $value['vendor_amt']);          
-            $sheet->setCellValue('J' . $row, $value['offer_amt']);
-            $sheet->setCellValue('K' . $row, $value['servicecharge_amt']);
-            $sheet->setCellValue('L' . $row, $value['gst_amt']);
-            $sheet->setCellValue('M' . $row, $value['your_final_amt']);
-            $sheet->setCellValue('N'. $row, $status_val[$status]);
+            $sheet->setCellValue('I' . $row, $value['price_to_adult']);           
+            $sheet->setCellValue('J' . $row, $value['price_to_child']);           
+            $sheet->setCellValue('K' . $row, $value['price_to_infan']); 
+            $sheet->setCellValue('L' . $row, $value['no_of_adult']);           
+            $sheet->setCellValue('M' . $row, $value['no_of_child']);           
+            $sheet->setCellValue('N' . $row, $value['no_of_infan']);           
+            $sheet->setCellValue('O' . $row, $value['total_adult_price']);           
+            $sheet->setCellValue('P' . $row, $value['total_child_price']);           
+            $sheet->setCellValue('Q' . $row, $value['total_infan_price']); 
+            $sheet->setCellValue('R' . $row, $value['vendor_amt']);          
+            $sheet->setCellValue('S' . $row, $value['offer_amt']);
+            $sheet->setCellValue('T' . $row, $value['servicecharge_amt']);
+            $sheet->setCellValue('U' . $row, $value['gst_amt']);
+            $sheet->setCellValue('V' . $row, $value['your_final_amt']);
+            $sheet->setCellValue('W'. $row, $status_val[$status]);
             
            
             $row++;
@@ -779,12 +853,21 @@ class Report extends CI_Controller {
         $sheet->setCellValue('F1', 'TRIP TITLE');
         $sheet->setCellValue('G1', 'NUMBER OF PERSONS');
         $sheet->setCellValue('H1', 'TOTAL TRIP PRICE');
-        $sheet->setCellValue('I1', 'AMOUNT SENT to PARENT TRIP/VENDOR');
-        $sheet->setCellValue('J1', 'OFFER AMOUNT');
-        $sheet->setCellValue('K1', 'SERVICE CHARGE');
-        $sheet->setCellValue('L1', 'GST AMOUNT'); 
-        $sheet->setCellValue('M1', 'YOUR FINAL AMOUNT');
-        $sheet->setCellValue('N1', 'STATUS');       
+        $sheet->setCellValue('I1', 'PRICE TO ADULT');
+        $sheet->setCellValue('J1', 'PRICE TO CHILD');
+        $sheet->setCellValue('K1', 'PRICE TO INFAN');
+        $sheet->setCellValue('L1', 'NO OF ADULT');
+        $sheet->setCellValue('M1', 'NO OF CHILD');
+        $sheet->setCellValue('N1', 'NO OF INFAN');
+        $sheet->setCellValue('O1', 'TOTAL ADULT PRICE');
+        $sheet->setCellValue('P1', 'TOTAL CHILD PRICE');
+        $sheet->setCellValue('Q1', 'TOTAL INFAN PRICE');
+        $sheet->setCellValue('R1', 'AMOUNT SENT to PARENT TRIP/VENDOR');
+        $sheet->setCellValue('S1', 'OFFER AMOUNT');
+        $sheet->setCellValue('T1', 'SERVICE CHARGE');
+        $sheet->setCellValue('U1', 'GST AMOUNT'); 
+        $sheet->setCellValue('V1', 'YOUR FINAL AMOUNT');
+        $sheet->setCellValue('W1', 'STATUS');        
         
         $row = 2;
         
@@ -800,13 +883,24 @@ class Report extends CI_Controller {
             $sheet->setCellValue('E' . $row, $value['parent_trip_user_email']);
             $sheet->setCellValue('F' . $row, $value['trip_code'].'-'.$value['trip_name']);
             $sheet->setCellValue('G' . $row, $value['number_of_persons']);
-            $sheet->setCellValue('H' . $row, $value['subtotal_trip_price']);           
-            $sheet->setCellValue('I' . $row, $value['vendor_amt']);          
-            $sheet->setCellValue('J' . $row, $value['offer_amt']);
-            $sheet->setCellValue('K' . $row, $value['servicecharge_amt']);
-            $sheet->setCellValue('L' . $row, $value['gst_amt']);
-            $sheet->setCellValue('M' . $row, $value['your_final_amt']);
-            $sheet->setCellValue('N'. $row, $status_val[$status]);
+            $sheet->setCellValue('H' . $row, $value['subtotal_trip_price']); 
+            $sheet->setCellValue('I' . $row, $value['price_to_adult']);           
+            $sheet->setCellValue('J' . $row, $value['price_to_child']);           
+            $sheet->setCellValue('K' . $row, $value['price_to_infan']); 
+            $sheet->setCellValue('L' . $row, $value['no_of_adult']);           
+            $sheet->setCellValue('M' . $row, $value['no_of_child']);           
+            $sheet->setCellValue('N' . $row, $value['no_of_infan']);           
+            $sheet->setCellValue('O' . $row, $value['total_adult_price']);           
+            $sheet->setCellValue('P' . $row, $value['total_child_price']);           
+            $sheet->setCellValue('Q' . $row, $value['total_infan_price']); 
+            $sheet->setCellValue('R' . $row, $value['vendor_amt']);          
+            $sheet->setCellValue('S' . $row, $value['offer_amt']);
+            $sheet->setCellValue('T' . $row, $value['servicecharge_amt']);
+            $sheet->setCellValue('U' . $row, $value['gst_amt']);
+            $sheet->setCellValue('V' . $row, $value['your_final_amt']);
+            $sheet->setCellValue('W'. $row, $status_val[$status]);
+            
+            
             
            
             $row++;
@@ -838,15 +932,24 @@ class Report extends CI_Controller {
         $sheet->setCellValue('F1', 'TRIP TITLE');
         $sheet->setCellValue('G1', 'NUMBER OF PERSONS');
         $sheet->setCellValue('H1', 'TOTAL TRIP PRICE');
-        $sheet->setCellValue('I1', 'TOTAL VENDOR TRIP PRICE');
-        $sheet->setCellValue('J1', 'TOTAL VENDOR DISCOUNT PERCENTAGE/ FIXED PRICE');
-        $sheet->setCellValue('K1', 'TOTAL VENDOR DISCOUNT AMOUNT');
-        $sheet->setCellValue('L1', 'AMOUNT SENT to PARENT TRIP/VENDOR');
-        $sheet->setCellValue('M1', 'OFFER AMOUNT');
-        $sheet->setCellValue('N1', 'SERVICE CHARGE');
-        $sheet->setCellValue('O1', 'GST AMOUNT'); 
-        $sheet->setCellValue('P1', 'YOUR FINAL AMOUNT');
-        $sheet->setCellValue('Q1', 'STATUS');       
+        $sheet->setCellValue('I1', 'PRICE TO ADULT');
+        $sheet->setCellValue('J1', 'PRICE TO CHILD');
+        $sheet->setCellValue('K1', 'PRICE TO INFAN');
+        $sheet->setCellValue('L1', 'NO OF ADULT');
+        $sheet->setCellValue('M1', 'NO OF CHILD');
+        $sheet->setCellValue('N1', 'NO OF INFAN');
+        $sheet->setCellValue('O1', 'TOTAL ADULT PRICE');
+        $sheet->setCellValue('P1', 'TOTAL CHILD PRICE');
+        $sheet->setCellValue('Q1', 'TOTAL INFAN PRICE');
+        $sheet->setCellValue('R1', 'TOTAL VENDOR TRIP PRICE');
+        $sheet->setCellValue('S1', 'TOTAL VENDOR DISCOUNT PERCENTAGE/ FIXED PRICE');
+        $sheet->setCellValue('T1', 'TOTAL VENDOR DISCOUNT AMOUNT');
+        $sheet->setCellValue('U1', 'AMOUNT SENT to PARENT TRIP/VENDOR');
+        $sheet->setCellValue('V1', 'OFFER AMOUNT');
+        $sheet->setCellValue('W1', 'SERVICE CHARGE');
+        $sheet->setCellValue('X1', 'GST AMOUNT'); 
+        $sheet->setCellValue('Y1', 'YOUR FINAL AMOUNT');
+        $sheet->setCellValue('Z1', 'STATUS');       
         
         $row = 2;
         
@@ -862,8 +965,17 @@ class Report extends CI_Controller {
             $sheet->setCellValue('E' . $row, $value['parent_trip_user_email']);
             $sheet->setCellValue('F' . $row, $value['trip_code'].'-'.$value['trip_name']);
             $sheet->setCellValue('G' . $row, $value['number_of_persons']);
-            $sheet->setCellValue('H' . $row, $value['subtotal_trip_price']);           
-            $sheet->setCellValue('I' . $row, $value['parent_subtotal_trip_price']);
+            $sheet->setCellValue('H' . $row, $value['subtotal_trip_price']);
+            $sheet->setCellValue('I' . $row, $value['price_to_adult']);           
+            $sheet->setCellValue('J' . $row, $value['price_to_child']);           
+            $sheet->setCellValue('K' . $row, $value['price_to_infan']); 
+            $sheet->setCellValue('L' . $row, $value['no_of_adult']);           
+            $sheet->setCellValue('M' . $row, $value['no_of_child']);           
+            $sheet->setCellValue('N' . $row, $value['no_of_infan']);           
+            $sheet->setCellValue('O' . $row, $value['total_adult_price']);           
+            $sheet->setCellValue('P' . $row, $value['total_child_price']);           
+            $sheet->setCellValue('Q' . $row, $value['total_infan_price']);
+            $sheet->setCellValue('R' . $row, $value['parent_subtotal_trip_price']);
             $discount_percentage ='';
             if($value['parent_discount_percentage']!='0.00'){
                 $discount_percentage = $row['parent_discount_percentage'];
@@ -873,14 +985,14 @@ class Report extends CI_Controller {
                 $discount_percentage = $discount_percentage.' %';}else{
                 $discount_percentage = 'Rs:'.$value['parent_discount_price'];
             }
-            $sheet->setCellValue('J' . $row, $discount_percentage);         
-            $sheet->setCellValue('K' . $row, $value['parent_offer_amt']);         
-            $sheet->setCellValue('L' . $row, $value['vendor_amt']);         
-            $sheet->setCellValue('M' . $row, $value['offer_amt']);
-            $sheet->setCellValue('N' . $row, $value['servicecharge_amt']);
-            $sheet->setCellValue('O' . $row, $value['gst_amt']);
-            $sheet->setCellValue('P' . $row, $value['your_final_amt']);
-            $sheet->setCellValue('Q'. $row, $status_val[$status]);
+            $sheet->setCellValue('S' . $row, $discount_percentage);         
+            $sheet->setCellValue('T' . $row, $value['parent_offer_amt']);         
+            $sheet->setCellValue('U' . $row, $value['vendor_amt']);         
+            $sheet->setCellValue('V' . $row, $value['offer_amt']);
+            $sheet->setCellValue('W' . $row, $value['servicecharge_amt']);
+            $sheet->setCellValue('X' . $row, $value['gst_amt']);
+            $sheet->setCellValue('Y' . $row, $value['your_final_amt']);
+            $sheet->setCellValue('Z'. $row, $status_val[$status]);
             
            
             $row++;
@@ -980,6 +1092,77 @@ class Report extends CI_Controller {
         $writer = new Xlsx($spreadsheet);
  
         $filename = 'TOMORROW-REPORT-'.date('d-m-Y');
+ 
+        header('Content-Type: application/vnd.ms-excel');
+        header('Content-Disposition: attachment;filename="'. $filename .'.xlsx"'); 
+        header('Cache-Control: max-age=0');
+        
+        $writer->save('php://output'); // download file 
+    }
+    public function userExport($data){ 
+        $spreadsheet = new Spreadsheet();
+        $sheet       = $spreadsheet->getActiveSheet();
+        
+        //SET HEADER        
+        $sheet->setCellValue('A1', 'USER TYPE');       
+        $sheet->setCellValue('B1', 'NAME');       
+        $sheet->setCellValue('C1', 'EMAIL');        
+        $sheet->setCellValue('D1', 'PHONE');
+        $sheet->setCellValue('E1', 'ALTERNATE PHONE');
+        $sheet->setCellValue('F1', 'GENDER');
+        $sheet->setCellValue('G1', 'DOB');
+        $sheet->setCellValue('H1', 'EMERGENCY CONTACT PERSON');
+        $sheet->setCellValue('I1', 'EMERGENCY CONTACT NO'); 
+        $sheet->setCellValue('J1', 'BALANCE AMOUNT');      
+        $sheet->setCellValue('K1', 'UNCLEAR AMOUNT');      
+        $sheet->setCellValue('L1', 'CREATED ON');      
+        $sheet->setCellValue('M1', 'STATUS');      
+        
+        $row = 2;
+        $vendorName = $this->session->userdata('name');
+        foreach ($data as $value) {    
+            
+            $isactive  = 'Not Activate';
+            if($value['isactive'] == 1){
+                $isactive = 'Active';
+            }else if($value['isactive'] == 0){
+                $isactive = 'Inactive';
+            }                               
+
+            $userTypes = array('VA' => 'Vendor','GU' =>'Guest','CU'=>'Customer');
+            $type      =  $userTypes[$value['user_type']];
+            $gender = '';
+                    
+            if($value['gender'] == 1){
+               $gender = 'Male';
+            }else if($value['gender'] == 2){
+               $gender = 'Female';
+            }
+            
+            $dob = '';
+            if(!empty($value['dob'])){
+              $dob =  date("M d, Y", strtotime($value['dob']));
+            }
+            
+            $sheet->setCellValue('A' . $row, $type);            
+            $sheet->setCellValue('B' . $row, $value['user_fullname']); 
+            $sheet->setCellValue('C' . $row, $value['email']);
+            $sheet->setCellValue('D' . $row, $value['phone']);           
+            $sheet->setCellValue('E' . $row, $value['alt_phone']);                      
+            $sheet->setCellValue('F' . $row, $gender );
+            $sheet->setCellValue('G' . $row, $dob );
+            $sheet->setCellValue('H' . $row, $value['emergency_contact_person'] );           
+            $sheet->setCellValue('I'. $row, $value['emergency_contact_no']);            
+            $sheet->setCellValue('J'. $row, $value['balance_amt']);                   
+            $sheet->setCellValue('K'. $row, $value['unclear_amt']);                   
+            $sheet->setCellValue('L'. $row, date("M d, Y", strtotime($value['created_on'])));                   
+            $sheet->setCellValue('M'. $row, $isactive);                   
+            $row++;
+        }
+        
+        $writer = new Xlsx($spreadsheet);
+ 
+        $filename = 'USER-REPORT-'.date('d-m-Y');
  
         header('Content-Type: application/vnd.ms-excel');
         header('Content-Disposition: attachment;filename="'. $filename .'.xlsx"'); 

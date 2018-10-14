@@ -177,6 +177,9 @@ class Login extends CI_Controller {
                 //$data['new_email'] = $this->input->post('new_email');
                 $upt = $this->user_model->update('user_master', array('activation_code' => $activation_code), array('id' => $user_id));
                 if ($upt) {
+                    $whereData = array('to_user_mail' => strtolower($this->input->post('new_email')));
+                    $updatedata = array('to_user_mail' => '','user_id' => $user_id);
+                    $result = updateTable('trip_shared', $whereData, $updatedata);
                     //echo $this->input->post('new_email');exit;
                     //$messages = $this->load->view('mail/confrimation', $data, true);
                     $toemail=$this->input->post('new_email');

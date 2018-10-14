@@ -373,8 +373,14 @@ class Master extends CI_Controller {
     }
 
     public function checkhelper() {
-        //$this->load->helper('custom_helper');
-        
+        $this->load->helper('custom_helper');
+        $pnrinfo = array(
+                    'pnr_no' => 'PNR100VCNHF',  
+                    'refund_date' =>  '13-10-2018',
+                    'return_notes' =>  'Paid to your bank in NEFT',
+                    'refund_percentage' =>  50); 
+       $result = cancelled_trip_refund_amount($pnrinfo);
+       print_r($result);exit();
        //echo $totalbookedpersons = checktripavailable(6,'30-09-2018');
 //       $totalbookedpersons = checktripavailable(6,'30-09-2018');
 //         print_r($totalbookedpersons);exit();
@@ -408,9 +414,9 @@ class Master extends CI_Controller {
 //        print_r($result);
 //        exit();
 //        
-           $pnr_no='PNR100VCNHF';$phoneno='9688079118';
-           $result =  getpnrinfo($pnr_no,'', 1);
-            print_r($result);
+//           $pnr_no='PNR100VCNHF';$phoneno='9688079118';
+//           $result =  getpnrinfo($pnr_no,'', 1);
+//            print_r($result);
 //        
 //        
 //        if ($this->session->userdata('user_id') == '') {

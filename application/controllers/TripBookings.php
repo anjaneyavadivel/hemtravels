@@ -254,12 +254,15 @@ class TripBookings extends CI_Controller {
             $this->form_validation->set_rules('fromdate', 'fromdate', 'trim|required');
             if ($this->form_validation->run($this) != FALSE) {
                 $couponcode = trim($this->input->post('couponcode'));
-                $tripId = ucwords(trim($this->input->post('tripId')));
-                $fromdate = ucwords(trim($this->input->post('fromdate')));
-                $totalPrice = ucwords(trim($this->input->post('totalPrice')));
-                $walletbalance = ucwords(trim($this->input->post('walletbalance')));
-                $wallettopay = ucwords(trim($this->input->post('wallettopay')));
+                $tripId = trim($this->input->post('tripId'));
+                $fromdate = trim($this->input->post('fromdate'));
+                $totalPrice = trim($this->input->post('totalPrice'));
+                $walletbalance = trim($this->input->post('walletbalance'));
+                $wallettopay = trim($this->input->post('wallettopay'));
                 $date_of_trip = formatdate($fromdate, $format = 'Y-m-d');
+                $no_of_adult = trim($this->input->post('no_of_adult'));
+                $no_of_child = trim($this->input->post('no_of_children'));
+                $no_of_infan = trim($this->input->post('no_of_infan'));
                 $whereData = array('isactive' => 1,'type' => 4, 'trip_id' => $tripId, 'coupon_code' => $couponcode, 'validity_from <=' => $date_of_trip, 'validity_to >=' => $date_of_trip);
                     $couponhistory_list = selectTable('coupon_code_master_history', $whereData, $showField = array('*'), $orWhereData = array(), $group = array(), $order = 'id DESC');
                     if ($couponhistory_list->num_rows() > 0) {
@@ -271,7 +274,9 @@ class TripBookings extends CI_Controller {
                         $coupon_comment = $couponhistory->comment;
                         $offer_type = $couponhistory->offer_type;
                         if ($offer_type == 1) {//fixed
-                            $discount_price = $couponhistory->percentage_amount;
+                            $offer_price = $couponhistory->percentage_amount;
+                            $number_of_persons = (int) $no_of_adult + (int) $no_of_child + (int) $no_of_infan;
+                            $discount_price = (int) $offer_price * (int) $number_of_persons;
                             $totalPrice = (int) $totalPrice - (int) $discount_price;
                             $wallettopay = (int) $wallettopay - (int) $discount_price;
                             if($wallettopay<0){

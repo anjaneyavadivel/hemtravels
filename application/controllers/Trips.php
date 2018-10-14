@@ -33,6 +33,7 @@ class Trips extends CI_Controller {
         
         $data['is_shared'] = 0;
         $data['parent_trip_id'] = 0;
+        $data['trip_shared_id'] = 0;
         
         //SHARED TRIP DETAILS
         if($this->uri->segment(1) == 'make-shared-trip'){
@@ -47,6 +48,7 @@ class Trips extends CI_Controller {
             if(count($result) > 0){
                 $tripCode = $result['trip_code'];
                 $data['parent_trip_id'] = $result['trip_id'];
+                $data['trip_shared_id'] = $result['id'];
                 $data['is_shared'] = 1;
                 $data['share_code'] = $result['code'];
             }else{
@@ -178,6 +180,18 @@ class Trips extends CI_Controller {
                                 $parentTrip['no_of_traveller'] < $this->input->post('no_of_traveller')){
                                 $isValid = false;
                                 $error = 'Trip size not more than '.$parentTrip['no_of_traveller']; 
+                            }else if(isset($parentTrip['price_to_adult']) && 
+                                $parentTrip['price_to_adult'] > $this->input->post('price_to_adult')){
+                                $isValid = false;
+                                $error = 'Adult price must be greater than or equal to '.$parentTrip['price_to_adult']; 
+                            }else if(isset($parentTrip['price_to_child']) && 
+                                $parentTrip['price_to_child'] > $this->input->post('price_to_child')){
+                                $isValid = false;
+                                $error = 'Child price must be greater than or equal to '.$parentTrip['price_to_child']; 
+                            }else if(isset($parentTrip['price_to_infan']) &&
+                                $parentTrip['price_to_infan'] > $this->input->post('price_to_infan')){
+                                $isValid = false;
+                                $error = 'Infan price must be greater than or equal to '.$parentTrip['price_to_infan']; 
                             }
                         }
                         if($isValid === true){
@@ -204,6 +218,7 @@ class Trips extends CI_Controller {
                                 //FOR SHARED TRIP
                                 if(!empty($this->input->post('parent_trip_id')) && !empty($this->input->post('is_shared'))){
                                      $master_values['parent_trip_id'] = $this->input->post('parent_trip_id');
+                                     $master_values['trip_shared_id'] = $this->input->post('trip_shared_id');
                                 }
 
                                 //echo "<pre>";print_r($master_values);exit;
@@ -813,6 +828,7 @@ class Trips extends CI_Controller {
     public function trip_view($tripCode = null) { 
          
         $data  = $this->getTripDetails($tripCode,1); 
+        if($data['details']==''){redirect('login');} 
         
         if(isset($data['details']['trip_category_id']) && isset($data['details']['id'])){
             $whereData = array(                
@@ -1289,16 +1305,17 @@ class Trips extends CI_Controller {
             $share_trip_id      = $this->input->post('share_trip_id');
             $coupon_history_id  = $this->input->post('coupon_history_id');
             
-            $emails = explode(',', $emails);
+            $emailsarr = explode(',', $emails);
             //$emails = trim($emails,', ');
             $coupon_history_id = !empty($coupon_history_id)?$coupon_history_id:0;
-            
-            if(!empty($emails) && !empty($share_trip_id)){
+            $trip_shared_id = 0;
+            if(!empty($emailsarr) && !empty($share_trip_id)){
                 $this->load->helper('string');
                 $shareCode = 'SHARE'.random_string('alnum',5);
-                foreach($emails as $v){
-                    $whereData1 = array('user_type' => 'VA','email' => $v);
-                    $email   = $v;
+            
+                foreach($emailsarr as $v){
+                   $whereData1 = array('user_type' => 'VA','email' => trim($v));
+                    $email   = trim($v);
                     $user_id = NULL;
                     $user  = selectTable('user_master', $whereData1,['*'],[],[],'','',[],'row_array');
                     

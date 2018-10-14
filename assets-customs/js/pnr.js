@@ -3,6 +3,11 @@ jQuery(function($) {
 
     "use strict";
     
+    $.fn.modalmanager.defaults.resize = true;
+    $.fn.modalmanager.defaults.spinner = '<div class="loading-spinner fade" style="width: 200px; margin-left: -100px;"><span style="font-weight:300; color: #eee; font-size: 18px; font-family:Open Sans;">&nbsp;Loading...</div>';
+
+    var $modal = $('#common-ajax-modal');
+    
     
 //    function getPnrDetails(pnr_number,phone_number){ 
 //        
@@ -102,25 +107,161 @@ jQuery(function($) {
             },
             callback: function (result) {
                 if(result){
-                    var formData = new FormData();
-                    formData.append('pnr_no', pnr_no);
-                    formData.append('csrf_test_name', $.cookie('csrf_cookie_name'));
                     
-                    $.ajax({
-                        type: "POST",
-                        url: base_url+'Pnr_status/cancel_trip',
-                        data: formData,
-                        contentType: false,       // The content type used when sending data to the server.
-                        cache: false,             // To unable request pages to be cached
-                        processData:false,   
-                        success: function (data)
-                        {
-                          window.location.href = base_url+'trip-list';
-                        }
-                    });
+                    $('body').modalmanager('loading');        
+                    setTimeout(function () {
+                        $modal.load(base_url + 'pnr_status/addAccountmodal/'+pnr_no, '', function () {
+                            $modal.modal();
+
+                            addValidation();
+                        });
+                    }, 1000);
+                   
                 }
             }
         });
+    });
+    
+    
+    function addValidation(){
+        
+         $('.errorMsg').hide();
+
+        var form2 = $('#add-account-info');
+           form2.validate({               
+               
+               rules: {            
+                   account: {
+                       required: true,
+                   },
+                   bank_name: {
+                       required: true,
+                       maxlength:150
+                   },
+                   account_holder_name: {
+                       required: true,
+                       maxlength:150
+                   },
+                   account_number: {
+                       required: true,
+                       maxlength:150
+                   },
+                   ifsc_code: {
+                       required: true,
+                       maxlength:50
+                   },
+                   branch: {
+                       required: true,
+                       maxlength:150
+                   },
+                   address: {
+                       required: true,
+                       maxlength:150
+                   }
+               },              
+               highlight: function (element) {
+                   var id_attr = "#" + $(element).attr("id") + "_icon";
+                   $(element).closest('.form-group').removeClass('has-success').addClass('has-error');
+                   $(id_attr).removeClass('fa-check').addClass('fa-times');
+               },
+               unhighlight: function (element) {
+                   var id_attr = "#" + $(element).attr("id") + "_icon";
+                   $(element).closest('.form-group').removeClass('has-error').addClass('has-success');
+                   $(id_attr).removeClass('fa-times').addClass('fa-check');
+               },
+               errorElement: 'span',
+               errorClass: 'small help-block',
+               errorPlacement: function (error, element) {
+                   if (element.length) {
+                       error.insertAfter(element);
+                   } else {
+                       error.insertAfter(element);
+                   }
+               },
+               submitHandler: function (form)
+               {
+                   $('.errorMsg').hide();
+                   if ($(form).valid())
+                   {
+                       var values = form2.serializeArray();
+                       values.push({name: "csrf_test_name", value: $.cookie('csrf_cookie_name')});
+                       var url = base_url + 'pnr_status/addEditAccountAction';
+                       $.ajax({
+                           url: url,
+                           type: 'post',
+                           data: values,
+                           success: function (res) {
+                                if (res == 'yes') {
+                                   $('.errorMsg').show();
+                                } else {
+                                    if($('#addAccPnr').val() != undefined && $('#addAccPnr').val() != ''){
+                                       cancelTrip($('#addAccPnr').val(),res);
+                                    }                                   
+                                }
+
+                           }
+                       });
+                   }
+                   return false;
+               }
+           });
+    }
+    
+    function cancelTrip(pnr_no,accountid){
+         var formData = new FormData();
+            formData.append('pnr_no', pnr_no);
+            formData.append('accountid', accountid);
+            formData.append('csrf_test_name', $.cookie('csrf_cookie_name'));
+
+            $.ajax({
+                type: "POST",
+                url: base_url+'Pnr_status/cancel_trip',
+                data: formData,
+                contentType: false,       // The content type used when sending data to the server.
+                cache: false,             // To unable request pages to be cached
+                processData:false,   
+                success: function (data)
+                {
+                  window.location.href = base_url+'trip-list';
+                }
+            });
+    }
+    
+    $('body').on('change','#account',function(){
+        var val = $(this).val();
+        
+        if(val != undefined && val != '' && val != 'new' ){
+            var formData = new FormData();
+            formData.append('id', val);
+            formData.append('csrf_test_name', $.cookie('csrf_cookie_name'));
+            $.ajax({
+                type: "post",
+                url: base_url+'Pnr_status/getAccountDetails',
+                data: formData,
+                contentType: false,       // The content type used when sending data to the server.
+                cache: false,             // To unable request pages to be cached
+                processData:false,   
+                success: function (data)
+                {
+                    data = $.parseJSON(data);
+                    if(data.id){
+                        $('#bank_name').val(data.bank_name);
+                        $('#account_holder_name').val(data.account_holder_name);
+                        $('#account_number').val(data.account_number);
+                        $('#ifsc_code').val(data.ifsc_code);
+                        $('#branch').val(data.branch);
+                        $('#address').val(data.address);
+                        
+                        if(data.is_primary == 1){
+                            $('#is_primary').attr("checked",true);
+                        }
+                    }
+                  
+                }
+            });
+            
+            
+        }
     });
        
 	

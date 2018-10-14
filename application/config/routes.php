@@ -106,10 +106,12 @@ $route['payment-to-B2B-reports'] = 'report/payment_to_B2B_reports';
 $route['cancellation-reports'] = 'report/cancellation_reports';
 $route['my-transaction-reports'] = 'report/my_transaction_reports';
 $route['tomorrows-trip-reports'] = 'report/tomorrow_trip_wise_reports';
+$route['user-reports'] = 'report/user_reports';
 
 
 $route['trip-shared'] = 'tripshared/trip_list';
 $route['make-shared-trip/(:any)'] = 'trips/update/$1';
+$route['cancel-shared-trip/(:any)'] = 'tripshared/cancel_shared/$1';
 
 //Master to admin
 $route['category-master/add'] = 'master/category_add';

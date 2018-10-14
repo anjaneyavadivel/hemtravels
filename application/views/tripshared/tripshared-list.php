@@ -60,6 +60,7 @@
                             <th>Shared To</th>
                             <th>Shared To Mail	</th>
                             <th>Coupon Name</th>
+                            <th>Maked Trip Name</th>
                             <th>Status</th>
                             <th>Action</th>
 
@@ -70,14 +71,20 @@
                         if (isset($triplist) && count($triplist) > 0) {
                             $i = 1;
                             foreach ($triplist as $row) {
+                                $id = $row['id'];
                                 $code = $row['code'];
                                 $trip_name = $row['trip_name'];
                                 $sharedusername = $row['sharedusername'];
                                 $tousername = $row['tousername'];
                                 $email = $row['email'];
+                                if($email==''){$email = $row['to_user_mail'];}
                                 $coupon_name = $row['coupon_name'];
+                                if($coupon_name!=''){
+                                    if($row['offer_type']==1){$coupon_name .= ' - Rs:'.$row['percentage_amount'];}
+                                    else{$coupon_name .= ' - '.$row['percentage_amount'].'%';}
+                                }
                                 $status = $row['status'];
-                                $status_active = array('', 'new', 'Maked Trip', 'cancelled');
+                                $status_active = array('', 'New', 'Maked Trip', 'Cancelled');
                                     ?>
                                     <tr>
                                         <td><?= $code; ?></td>
@@ -86,12 +93,13 @@
                                         <td><a href="<?=base_url()?>profile/<?=$row['user_id']?>" target="_new" class=""><?= $tousername; ?></a></td>
                                         <td><?= $email; ?></td>
                                         <td><?= $coupon_name; ?></td>
+                                        <td><?= $row['maked_trip_name']; ?></td>
                                         <td><h4><?= $status_active[$status]; ?></h4></td>
                                         <td>
                                             <?php if($status==1 && $loginuserid==$row['user_id']){?>
                                             <a href="<?=base_url()?>make-shared-trip/<?=$code?>" target="_new" class="btn btn-border btn-sm btn-primary">Make Trip</a>
-                                            <?php }if($loginuserid==$row['shared_user_id']){?>
-                                            <a href="<?=base_url()?>cancel-shared-trip/<?=$code?>" class="btn btn-border btn-sm btn-primary">Cancel</a>
+                                            <?php }if($status==1 && $loginuserid==$row['shared_user_id']){?>
+                                            <a href="<?=base_url()?>cancel-shared-trip/<?=$id?>" class="btn btn-border btn-sm btn-primary">Cancel</a>
                                             <?php }?>
                                         </td>
                                     </tr>

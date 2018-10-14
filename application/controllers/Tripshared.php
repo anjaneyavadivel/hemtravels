@@ -50,6 +50,15 @@ class Tripshared extends CI_Controller {
         $data["loginuserid"] = $loginuserid;
             $this->load->view('tripshared/tripshared-list', $data);
     }
+     public function cancel_shared($sharedid = 0) { 
+        if ($this->session->userdata('user_id') == '') {
+            redirect('login');
+        }
+        $whereData = array('id' => $sharedid);
+        $updatedata = array('status' => 3);
+        $result = updateTable('trip_shared', $whereData, $updatedata);
+        redirect('trip-shared');
+     }
 
 //    public function loadmodal($view) {
 //        if ($view != "") {

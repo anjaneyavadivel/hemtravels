@@ -13,16 +13,16 @@
     <div class="row gap-20">
         <ul class="nav nav-tabs" role="tablist">
             <li class="nav-item">
-                <a class="nav-link " data-toggle="tab" href="#vendor" role="tab">Vendor Share</a>
+                <a class="nav-link active" data-toggle="tab" href="#vendor" role="tab">Vendor Share</a>
             </li>
-            <li class="nav-item active">
+            <li class="nav-item">
                 <a class="nav-link " data-toggle="tab" href="#link" role="tab">Link Share</a>
             </li>        
         </ul>
 
         <!-- Tab panes {Fade}  -->
         <div class="tab-content">
-            <div class="tab-pane fade in" id="vendor" name="attributes" role="tabpanel">
+            <div class="tab-pane fade in active" id="vendor" name="attributes" role="tabpanel">
                 <div class="vendorShareDiv">
                     <div class="form-group" style="padding-top:20px">
                         <label>Shared Emails:</label>
@@ -43,7 +43,7 @@
                         </select>
                     </div>
                     <input type="hidden" id="share_trip_id" value="<?php echo isset($trip_id)?$trip_id:0?>">
-                    <div class="text-center shareEmailsErr" style="display:none;">Please enter the email(s).</div>
+                    <div class="text-center shareEmailsErr" style="display:none;margin-bottom:10px;">Please enter the email(s).</div>
                    
                     <div class="text-center">
                         <a class="btn btn-primary text-center vendorShare" href="javascript:;">Share</a>
@@ -51,7 +51,7 @@
                 </div>
                 <div class="text-center AcMsg" style="display:none;"><span class="AcMsgDis"></span></div>
             </div>
-            <div class="tab-pane fade in active" id="link" name="attributes" role="tabpanel">
+            <div class="tab-pane fade in " id="link" name="attributes" role="tabpanel">
                 <textarea class="form-control show_share_url" style="margin-top:20px;"><?php echo base_url('trip-view/'.$tripCode)?></textarea>
                 <textarea class="form-control show_share_html" style="margin-top:20px;display:none;"><a class="btn btn-primary" href="<?php echo base_url('trip-view/'.$tripCode)?>" target="_blank">Book & View</a></textarea>
                 <a class="btn btn-primary text-center shareShow"  data-id="html" href="javascript:;">Get Html Code</a>

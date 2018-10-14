@@ -456,6 +456,38 @@ class Report_model extends CI_Model
             return $query->result_array();
         }
     }
+    
+    function user_list($whereData,$limit=10, $start=0,$resultCount = 'no') {
+        $this->db->select('um.*')->from('user_master AS um');
+        $this->db->where('um.user_type !=','SA');
+        
+        if(isset($whereData['type']) && $whereData['type']!=''){           
+            $this->db->where('um.user_type',$whereData['type']);
+        }        
+        if(isset($whereData['from']) && $whereData['from']!=''){
+            $from = date("Y-m-d", strtotime($whereData['from']));
+            $to   = date("Y-m-d", strtotime($whereData['to']));
+            $this->db->where("(um.created_on >='".$this->db->escape_like_str($from)."' AND um.created_on <= '".$this->db->escape_like_str($to)."')");
+        }
+        
+        if(isset($whereData['title']) && $whereData['title']!=''){
+           $this->db->where('(um.user_fullname LIKE "%'.$this->db->escape_like_str($whereData['title']).'%" OR um.email LIKE "%'.$this->db->escape_like_str($whereData['title']).'%" OR um.phone LIKE "%'.$this->db->escape_like_str($whereData['title']).'%"  )');
+        }  
+       
+        $this->db->order_by('created_on DESC');
+        
+        if($resultCount == 'yes'){
+            $query = $this->db->get();
+            return $query->num_rows();
+        }else if($resultCount == 'download'){
+            $query = $this->db->get();
+            return $query->result_array();
+        }else{
+            $this->db->limit($limit, $start);
+            $query = $this->db->get();
+            return $query->result_array();
+        }
+    }
 
 }
 

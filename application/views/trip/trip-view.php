@@ -603,10 +603,10 @@
                                         <div class="sidebar-booking-box">
 
                                             <div class="sidebar-booking-header bg-primary clearfix">
-
-                                                <div class="price">
-                                                    <?php echo isset($details['meeting_point'])?$details['meeting_point']:'';?>
-                                                </div>
+                                                <?php echo isset($details['trip_name'])?$details['trip_name']:'';?>
+<!--                                                <div class="price">
+                                                    <?php //echo isset($details['meeting_point'])?$details['meeting_point']:'';?>
+                                                </div>-->
 
                                                 <div>
                                                     / traveller

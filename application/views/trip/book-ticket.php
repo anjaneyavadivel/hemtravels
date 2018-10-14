@@ -246,7 +246,10 @@
 
                                 <div class="sidebar-booking-inner"> 
 
-                                    <?php if(isset($offer_details['availabletraveller']) && $offer_details['availabletraveller'] >= $total_traveller && $offer_details['is_open'] == 1) {?>
+                                    <?php  
+                                    if(isset($offer_details['is_open']) && $offer_details['is_open'] == 1 && ($offer_details['availabletraveller'] < $total_traveller || $offer_details['no_of_min_booktraveller'] > $total_traveller || $offer_details['no_of_max_booktraveller'] < $total_traveller)){
+                                        echo "<div style='text-align:center'>Sorry! You can book total number of traveller Min ".$offer_details['no_of_min_booktraveller']." to Max ".$offer_details['no_of_max_booktraveller']. "  and available booking ".$offer_details['availabletraveller']."</div>";
+                                    }else if(isset($offer_details['availabletraveller']) && $offer_details['availabletraveller'] >= $total_traveller && $offer_details['is_open'] == 1) {?>
                                     <ul class="price-summary-list">                                      
                                         
                                         <li>

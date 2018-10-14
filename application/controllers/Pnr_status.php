@@ -24,14 +24,16 @@ class Pnr_status extends CI_Controller {
             $pnrinfo = getpnrinfo($this->input->post('pnr_number', true), $this->input->post('phone_number', true));
             if (!isset($pnrinfo['pnr_no']) || count($pnrinfo) < 2) {
                 $data['message'] = 'Sorry! Please enter valid PNR number and Phone number';
-            }$pnrinfo = $pnrinfo;
+            }//$pnrinfo = $pnrinfo;
         } else if ($pnr != '') {
             $data['isform'] = FALSE;
             $pnrinfo = getpnrinfo($pnr);
             if (!isset($pnrinfo['pnr_no']) || count($pnrinfo) < 2) {
                 $data['message'] = 'Sorry! Please enter valid PNR number and Phone number';
-            }$pnrinfo = $pnrinfo;
-        }$data['pnrinfo'] = $pnrinfo;
+            }//$pnrinfo = $pnrinfo;
+        }
+        
+        $data['pnrinfo'] = $pnrinfo;
         $data['pnrshow'] = $pnrshow; //0 - booking time, 1 - vendor view, 2 - customer view ,3-cancel trip
         $this->load->view('PNR-status-check', $data);
     }
@@ -81,11 +83,12 @@ class Pnr_status extends CI_Controller {
         if ($_POST) 
         {
             $pnr_no = $this->input->post('pnr_no');
+            $accountid = $this->input->post('accountid');
             
             if(!empty($pnr_no)){
                 //$this->load->helper('custom_helper');
                 
-                $updatedata = array('status' =>  3); 
+                $updatedata = array('status' =>  3,'account_info_id' =>  $accountid); 
                 if(trip_book_paid_sucess($updatedata,$pnr_no)){
                     $this->session->set_userdata('suc', 'Trip has been successfully cancelled.');
                     $succ = 'success';
@@ -98,6 +101,88 @@ class Pnr_status extends CI_Controller {
         }
         echo $succ;exit;
         
+    }
+    
+    public function addAccountmodal($pnr) { 
+        if ($this->session->userdata('user_id') == '' || 
+            ($this->session->userdata('user_type') != 'SA' && $this->session->userdata('user_type') !='VA' )) {
+            return FALSE;
+        }
+        
+        $data['pnr'] = $pnr;
+        
+        $whereData = array('isactive' => 1,'user_id' => $this->session->userdata('user_id'));
+        $data['account_info_list'] = selectTable('account_info', $whereData,['*'],[],[],'','',[],'result_array');
+        
+        $this->load->view("account_info", $data);
+        
+    }
+    
+    public function addEditAccountAction() {
+        if ($this->session->userdata('user_id') == '') {
+            return FALSE;
+        }
+        $err = 'yes';
+        if ($_POST) {
+            $this->form_validation->set_rules('account', 'Select an Account', 'trim|required');
+            $this->form_validation->set_rules('bank_name', 'Bank Name', 'trim|required');
+            $this->form_validation->set_rules('account_holder_name', 'Account Holder Name', 'trim|required');
+            $this->form_validation->set_rules('account_number', 'Account Number', 'trim|required');
+            $this->form_validation->set_rules('ifsc_code', 'IFSC Code', 'trim|required');
+            $this->form_validation->set_rules('branch', 'Branch', 'trim|required');
+            $this->form_validation->set_rules('address', 'Address', 'trim|required');
+           
+            if ($this->form_validation->run($this) != FALSE) {                
+                extract($this->input->post());
+                $data = array(
+                    'user_id'                 => $this->session->userdata('user_id'),
+                    'bank_name'               => $bank_name,
+                    'account_holder_name'     => $account_holder_name,
+                    'account_number'          => $account_number,                   
+                    'ifsc_code'               => $ifsc_code,                   
+                    'branch'                  => $branch,                   
+                    'address'                 => $address,
+                    'is_primary'              => isset($is_primary) && $is_primary == 'on'?1:0
+                    );//echo "<pre>";print_r($data);exit;
+                
+                if($this->input->post('account') == 'new'){
+                    $account_info_id = insertTable('account_info', $data);
+                    
+                    //UPDATE UNSET PRIMARY
+                    if($is_primary == 'on'){
+                        $up_data = array('is_primary'=>0);
+                        updateTable('account_info',array('user_id' => $this->session->userdata('user_id'),'isactive'=>1,'id!=' => $account_info_id,'is_primary' => 1),$up_data);
+                    }
+                    
+                    echo $account_info_id;
+                    return FALSE;
+                }else if(!empty($this->input->post('account'))){
+                    $upQry = updateTable('account_info',array('id' => $this->input->post('account')),$data);
+                    echo $this->input->post('account');
+                    return FALSE;
+                }
+                
+            }
+        }
+        
+        if($err != ''){
+            echo 'Sorry! Try again...';
+            return FALSE;
+        }
+    }
+    
+    public function getAccountDetails(){
+        $returnedData = [];
+        if ($_POST) 
+        {
+            $id  = $this->input->post('id');
+            
+            if(!empty($id)){
+                $whereData        = array('isactive' => 1,'id' => $id);
+                $returnedData = selectTable('account_info', $whereData,['*'],[],[],'','',[],'row_array'); 
+            }
+        }
+        echo json_encode($returnedData);exit;
     }
 
 }

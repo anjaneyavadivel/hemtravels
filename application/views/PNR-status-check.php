@@ -84,8 +84,11 @@
                                     <div class="icon">
                                             <i class="fa fa-remove"></i>
                                     </div>
-
+                                    <?php if(isset($pnrinfo) && $pnrinfo['status']==3){?>
+                                    <h4>This is cancelled trip</h4>
+                                    <?php }else{?>
                                     <h4>Are you sure want to cancel your trip?</h4>
+                                    <?php }?>
 
                             </div>
                             <?php }else{?>
@@ -157,7 +160,8 @@
                                     <?php }
                                     if ($this->session->userdata('user_type') == 'VA' && ($pnrshow==1|| $pnrshow==3)) {
                                         //if($pnrinfo['net_price']!=0.00 && $pnrinfo['net_price']!=$pnrinfo['subtotal_trip_price']){
-                                            $totalamt = (int)$pnrinfo['net_price']+(int)$pnrinfo['vendor_amt'];
+                                            $vendor_amt= isset($pnrinfo['vendor_amt'])?$pnrinfo['vendor_amt']:0;
+                                            $totalamt = (int)$pnrinfo['net_price']+(int)$vendor_amt;
                                             ?>
 <!--                                        <li><span class="font600 net_price">Total Amount:</span><?=$totalamt;?></li>                                                                                    -->
                                         <?php //}
@@ -173,7 +177,7 @@
                                         <li><span class="font600 net_price">Paid Amount:</span><b><?=$net_price;?></b></li>                                                                                    
                                         <?php 
                                     }elseif ($this->session->userdata('user_type') == 'VA' && $pnrshow==2) {
-                                        if($pnrinfo['vendor_amt']!=0){?>
+                                        if(isset($pnrinfo['vendor_amt']) && $pnrinfo['vendor_amt']!=0){?>
                                         <li><span class="font600 net_price">Vendor Amount(-):</span><?=$pnrinfo['vendor_amt'];?></li>                                                                                    
                                         <?php }
                                         if($pnrinfo['net_price']!=0.00 && $pnrinfo['net_price']!=$pnrinfo['subtotal_trip_price']){
@@ -353,7 +357,7 @@
                                     <?php if($pnrshow!=3){?>
                                     <a href="javascript:;" class="btn btn-primary btn-wide pnr_print"><i class="ion-android-print"></i> Print</a>
                                     <!--<a href="#" class="btn btn-primary btn-wide btn-border"><i class="ion-android-share"></i> Send to</a>-->
-                                    <?php } else { ?>
+                                    <?php } else  if(isset($pnrinfo) && $pnrinfo['status']==2){?> 
                                     <a href="javascript:;" class="btn btn-primary btn-wide cancel_trip" data-pnr="<?php echo $pnrinfo['pnr_no'];?>"><i class="fa fa-remove"></i> Cancel Trip</a>
                                     <?php } ?>
                                 </div>

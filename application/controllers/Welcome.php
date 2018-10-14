@@ -300,7 +300,7 @@ class Welcome extends CI_Controller {
                     $pay_details = $tableData->result();
                     foreach ($pay_details as $pay) {
                         if ($pay->user_id != 0) {
-                            $transaction_notes = 'Trip has been booked ' . $pay->pnr_no . ' / ' . $pay->trip_code . ' / ' . $pay->trip_name . '.';
+                            $transaction_notes = 'Trip booking amount for PNR No ' . $pay->pnr_no . ' (' . $pay->trip_code . ' / ' . $pay->trip_name . ').';
                             if ($pay->servicecharge_amt > 0 || $pay->gst_amt > 0) {
                                 $transaction_notes .=' Include GST and Service Charge.';
                             }
@@ -325,8 +325,8 @@ class Welcome extends CI_Controller {
                                     
                                     $triprow = $trip_list->row();
                                     
-                                    $subject='You are received Amount for '.$pay->pnr_no;
-                                    $message='You are received Amount for '.$pay->pnr_no.' / '.$triprow->trip_code.' / '.$triprow->trip_name. ' from '.site_title.'. '
+                                    $subject='You are received amount for PNR No '.$pay->pnr_no;
+                                    $message='You are received amount for PNR No '.$pay->pnr_no.' ('.$triprow->trip_code.' / '.$triprow->trip_name. ') from '.site_title.'. '
                                             . '<a href="'.base_url().'my-transaction-reports">View Website</a>';
                                     $mailData = array(
                                     //'fromuserid' => $pnrinfo['trip_postbyid'],

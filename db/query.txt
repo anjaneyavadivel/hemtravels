@@ -134,3 +134,12 @@ ALTER TABLE `trip_book_pay` ADD `b2b_payment_on` DATE NULL AFTER `b2b_payment_st
 ALTER TABLE `trip_book_pay_details` ADD `b2b_payment_on` DATE NULL AFTER `b2b_payment_status`;
 
 ALTER TABLE `trip_book_pay_details` ADD `pay_details_id` INT NOT NULL DEFAULT '0' AFTER `return_paid_status`;
+----
+ALTER TABLE `coupon_code_master` CHANGE `type` `type` INT(1) NOT NULL COMMENT '1 - Customer / 2 - Vendor/ 3 - super admin/ 4 - Specific Customer Offer';
+ALTER TABLE `trip_book_pay` ADD `specific_coupon_history_id` INT NOT NULL DEFAULT '0' AFTER `coupon_history_id`, ADD `specific_coupon_code` VARCHAR(200) NULL AFTER `specific_coupon_history_id`;
+ALTER TABLE `trip_book_pay_details` ADD `specific_coupon_history_id` INT NOT NULL DEFAULT '0' AFTER `coupon_history_id`, ADD `specific_coupon_code` VARCHAR(200) NULL AFTER `specific_coupon_history_id`;
+-----
+ALTER TABLE `trip_book_pay` CHANGE `b2b_confirm_on` `refund_percentage` FLOAT(5,2) NULL DEFAULT '0';
+ALTER TABLE `trip_book_pay_details` CHANGE `b2b_confirm_on` `refund_percentage` FLOAT(5,2) NULL DEFAULT '0';
+ALTER TABLE `trip_book_pay` CHANGE `refund_percentage` `refund_percentage` INT NULL DEFAULT '0';
+ALTER TABLE `trip_book_pay_details` CHANGE `refund_percentage` `refund_percentage` INT NULL DEFAULT '0';
