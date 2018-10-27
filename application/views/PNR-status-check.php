@@ -52,7 +52,19 @@
                     <div class="col-xs-12 col-sm-10 col-sm-offset-1 col-md-8 col-md-offset-2">
 
                         <div class="confirmation-inner">
-                            <?php if(!$isform && $pnrshow==0){?>
+                            <?php if($pnrshow==3 || (isset($pnrinfo['status']) && $pnrinfo['status']==3)){?>
+                            <div class="promo-box-02 bg-danger mb-40">
+                                    <div class="icon">
+                                            <i class="fa fa-remove"></i>
+                                    </div>
+                                    <?php if(isset($pnrinfo) && $pnrinfo['status']==3){?>
+                                    <h4>This is cancelled trip</h4>
+                                    <?php }else{?>
+                                    <h4>Are you sure want to cancel your trip?</h4>
+                                    <?php }?>
+
+                            </div>
+                            <?php }elseif(!$isform && $pnrshow==0){?>
                             <div class="promo-box-02 bg-success mb-40">
                                     <div class="icon">
                                             <i class="ti-check"></i>
@@ -77,18 +89,6 @@
                                     </div>
 
                                     <h4>Congratulation! Enjoy the trip.</h4>
-
-                            </div>
-                            <?php }elseif($pnrshow==3){?>
-                            <div class="promo-box-02 bg-danger mb-40">
-                                    <div class="icon">
-                                            <i class="fa fa-remove"></i>
-                                    </div>
-                                    <?php if(isset($pnrinfo) && $pnrinfo['status']==3){?>
-                                    <h4>This is cancelled trip</h4>
-                                    <?php }else{?>
-                                    <h4>Are you sure want to cancel your trip?</h4>
-                                    <?php }?>
 
                             </div>
                             <?php }else{?>
@@ -128,7 +128,7 @@
                             <div class="pnr_details" style="">
 
                                 <h4 class="section-title">Booking Information</h4>
-                                <p>Compliment interested discretion estimating on stimulated apartments.</p>
+                                <p>Please check bellow your Booking Information.</p>
 
                                 <ul class="book-sum-list mt-30">
                                     <li><span class="font600 pnr_number">PNR Number:</span><?=$pnrinfo['pnr_no'];?></li>
@@ -158,13 +158,17 @@
                                         ?>
                                         </span><?=$pnrinfo['offer_amt'].' '.$coupon_code;?></li>             
                                     <?php }
-                                    if ($this->session->userdata('user_type') == 'VA' && ($pnrshow==1|| $pnrshow==3)) {
+                                    if ($this->session->userdata('user_type') == 'VA' && ($pnrshow==0|| $pnrshow==1|| $pnrshow==3)) {
                                         //if($pnrinfo['net_price']!=0.00 && $pnrinfo['net_price']!=$pnrinfo['subtotal_trip_price']){
                                             $vendor_amt= isset($pnrinfo['vendor_amt'])?$pnrinfo['vendor_amt']:0;
                                             $totalamt = (int)$pnrinfo['net_price']+(int)$vendor_amt;
                                             ?>
 <!--                                        <li><span class="font600 net_price">Total Amount:</span><?=$totalamt;?></li>                                                                                    -->
                                         <?php //}
+                                        if($pnrinfo['discount_your_price']>0){
+                                            $totalamt = (int)$totalamt-(int)$pnrinfo['discount_your_price'];?>
+                                    <li><span class="font600 net_price">Discount Your Trip<br> Amount(Cash)(-):</span><?=$pnrinfo['discount_your_price'];?></li> 
+                                        <?php }
                                             $gst_amt = $totalamt * ($pnrinfo['gst_percentage'] / 100);
                                             $round_off = round(round($totalamt + $gst_amt) - ($totalamt + $gst_amt), 2);
                                             $net_price = $totalamt + $gst_amt + $round_off;?>
@@ -182,7 +186,11 @@
                                         <?php }
                                         if($pnrinfo['net_price']!=0.00 && $pnrinfo['net_price']!=$pnrinfo['subtotal_trip_price']){
                                             $totalamt = (int)$pnrinfo['net_price'];
-                                            ?>
+                                            
+                                        if($pnrinfo['discount_your_price']>0){
+                                            $totalamt = (int)$totalamt-(int)$pnrinfo['discount_your_price'];?>
+                                        <li><span class="font600 net_price">Discount Your Trip<br> Amount(Cash)(-):</span><?=$pnrinfo['discount_your_price'];?></li> 
+                                        <?php }?>
                                         <li><span class="font600 net_price">Total Amount:</span><?=$totalamt;?></li>                                                                                    
                                         <?php }if($pnrinfo['servicecharge_amt']!=0){?>
                                         <li><span class="font600 net_price">Service Charge(-):</span><?=$pnrinfo['servicecharge_amt'];?></li>                                                                                    
@@ -190,9 +198,9 @@
                                         <li><span class="font600 net_price">GST Amount (<?=$pnrinfo['gst_percentage'];?>%):</span><?=$pnrinfo['gst_amt'];?></li>                                                                                    
                                         <?php }if($pnrinfo['round_off']!=0){?>
                                         <li><span class="font600 net_price">Round Off:</span><?=$pnrinfo['round_off'];?></li>                                                                                    
-                                        <?php }if($pnrinfo['your_final_amt']!=0){?>
+                                        <?php }?>
                                         <li><span class="font600 net_price">Your Amount:</span><b><?=$pnrinfo['your_final_amt'];?></b></li>                                                                                    
-                                        <?php }
+                                        <?php 
                                         /*if($pnrshow==0||$pnrshow==2||$pnrshow==3){
                                             
                                             $gst_amt = $pnrinfo['net_price'] * ($pnrinfo['gst_percentage'] / 100);
@@ -214,7 +222,17 @@
                                         <?php }if($pnrinfo['net_price']!=0.00){?>
                                         <li><span class="font600 net_price">Paid Amount:</span><b><?=$pnrinfo['net_price'];?></b></li>                                                                                    
                                         <?php }
-                                    }?>
+                                    } if(isset($pnrinfo) && $pnrinfo['status']==3){?>
+                                        <li class=" text-danger"><span class="font600 starting">Trip Cancelled On:</span><?=date("M d, Y", strtotime($pnrinfo['cancelled_on']));?></li>                                                                                    
+                                        <li class=" text-info"><span class="font600 starting">Refund Status:</span><?php 
+                                        $return_status=array('','New','InProgress','Paid');
+                                        echo $return_status[$pnrinfo['return_paid_status']];?></li>                                                                                    
+                                        <?php if($pnrinfo['refund_percentage']>0){?>
+                                        <li><span class="font600 starting">Refund Percentage:</span><?=$pnrinfo['refund_percentage'];?>%</li>                                                                                    
+                                        <?php }if($pnrinfo['return_paid_amt']>0){?>
+                                        <li><span class="font600 starting">Refund Amount:</span><b><?=$pnrinfo['return_paid_amt'];?></b></li>                                                                                    
+                                        <?php }
+                                     }?>
                                     <li><span class="font600 starting">Date of Trip : </span> <?=$pnrinfo['date_of_trip'];?> <?=$pnrinfo['time_of_trip'];?></li>
                                     <li><span class="font600 included">Pick up location,<br>landmark: </span><?=$pnrinfo['pick_up_location'];?>, <?=$pnrinfo['pick_up_location_landmark'];?></li>
                                     <li><span class="font600 starting">Date of Trip End: </span> <?=$pnrinfo['date_of_trip_to'];?></li>
@@ -357,7 +375,7 @@
                                     <?php if($pnrshow!=3){?>
                                     <a href="javascript:;" class="btn btn-primary btn-wide pnr_print"><i class="ion-android-print"></i> Print</a>
                                     <!--<a href="#" class="btn btn-primary btn-wide btn-border"><i class="ion-android-share"></i> Send to</a>-->
-                                    <?php } else  if(isset($pnrinfo) && $pnrinfo['status']==2){?> 
+                                    <?php } else  if(isset($pnrinfo)  && ($pnrinfo['status']==2||$pnrinfo['status']==4)){?> 
                                     <a href="javascript:;" class="btn btn-primary btn-wide cancel_trip" data-pnr="<?php echo $pnrinfo['pnr_no'];?>"><i class="fa fa-remove"></i> Cancel Trip</a>
                                     <?php } ?>
                                 </div>

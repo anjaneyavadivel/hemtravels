@@ -52,7 +52,7 @@
                                         <option value="0" <?php if($status=='0'){echo 'selected';}?>>New</option>
                                         <option value="1" <?php if($status==1){echo 'selected';}?>>InProgress</option>
                                         <option value="2" <?php if($status==2){echo 'selected';}?>>Executed</option>
-                                        <option value="3" <?php if($status==3){echo 'selected';}?>>Sent</option>
+                                        <option value="3" <?php if($status==3){echo 'selected';}?>>Paid</option>
                                     </select>
                                 </div>
                             </div>
@@ -74,8 +74,8 @@
                                 <a href="javascript:;" class="btn btn-info c_mt" id="transactionExportXLSX">Export</a>
                             </div>-->
                             <div class="col-xs-12 col-sm-12 col-lg-12 text-right">
-                                        UnClear Amount(INR): <span class="text-info">0<?php // echo checkbal_mypayment($loginuser_id, 1)?> </span>
-                                        Your Balance(INR): <span class="text-primary">0<?php // echo checkbal_mypayment($loginuser_id, 2)?> </span>
+                                        UnClear Amount(INR): <span class="text-info"><?=checkbal_mypayment($loginuser_id, 1)?> </span>
+                                        Your Balance(INR): <span class="text-primary"><?=checkbal_mypayment($loginuser_id, 2)?> </span>
                                         
                                     </div>
                             <table class="table ">
@@ -83,22 +83,23 @@
                                                     <tr>
                                                         <th>Date &amp; Time</th>
                                                         <th>From</th>
-                                                        <th>To</th>
+<!--                                                        <th>To</th>-->
                                                         <th>Transaction Details</th>
                                                         <th>Withdrawals (INR)</th>
                                                         <th>Deposits (INR)</th>
                                                         <th>Balance(INR)</th>
                                                         <th>Status</th>
+                                                        <th>Action</th>
 
                                                     </tr>
                                                 </thead>
-<!--                                                <tbody>
+                                                <tbody>
                                                     <?php
                                                         if (isset($transaction_reports) && count($transaction_reports) > 0) {
                                                             $i = 1;
                                                             foreach ($transaction_reports as $row) {                                                                                                              
-                                                                $status_val = array('New', 'InProgress', 'Executed', 'Sent');
-                                                                    $fromuser = $row['fromuser'];
+                                                                $status_val = array('New', 'InProgress', 'Executed', 'Paid');
+                                                                    $fromuser = $row['recordusername'];
                                                                     $touser = $row['touser'];
                                                                     if($row['from_userid']==0){$fromuser = 'Admin';}
                                                                     if($row['to_userid']==0){$touser = 'Admin';}
@@ -106,12 +107,16 @@
                                                                     <tr>
                                                                         <td><?= date("M d, Y", strtotime($row['date_time'])); ?></td>
                                                                         <td><?= $fromuser ?></td>
-                                                                        <td><?= $touser ?></td>
-                                                                        <td><?= $row['transaction_notes'] ?></td>
+<!--                                                                        <td><?= $touser ?></td>-->
+                                                                        <td><?= $row['transaction_notes'] ?> <?php if($row['status']==0 || $row['status']==3){echo '<span class="text-primary"> Rs:'.$row['withdrawal_request_amt'].'</span>';}?></td>
                                                                         <td <?php if($row['withdrawals']!=0){echo 'class="text-primary"';}?>><?= $row['withdrawals']; ?></td>
                                                                         <td <?php if($row['deposits']!=0){echo 'class="text-info"';}?>><?= $row['deposits']; ?></td>
-                                                                        <td><h4><?= $row['balance']; ?></h4></td>                                                                       
+                                                                        <td><h4><?= checkbal_mypayment($row['recorduserid'],2); ?></h4></td>                                                                       
                                                                         <td> <span data-toggle="tooltip" data-placement="top" data-original-title="Payment status <?=$status_val[$row['status']]?>"><?= $status_val[$row['status']]; ?></span></td>                                                        
+                                                                    <td><?php if($row['status']==0 && $this->session->userdata('user_type') == 'SA'){?>
+                                                                        <a href="javascript:void(0)" class="btn btn-border btn-sm btn-primary withdraw-request-pay-btn" data-id="<?= $row['id']; ?>">Pay</a>
+                                                                        <?php }?>
+                                                                   </td>
                                                                     </tr>
                                                             <?php
                                                             }
@@ -119,7 +124,7 @@
                                                         echo "<tr><td colspan='6' style='text-align:center'>No Data Found</td></tr>";
                                                     }
                                                     ?> 	
-                                                </tbody>                                                -->
+                                                </tbody>                                                
                                             </table>
                                             <div class="pager-wrappper text-right clearfix bt mt-0  col-sm-12">
 

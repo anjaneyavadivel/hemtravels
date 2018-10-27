@@ -1,11 +1,31 @@
 <div class="modal-header">
     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-    <h4 class="modal-title text-center">Add/Edit Account Info</h4>
+    <h4 class="modal-title text-center">Request to Withdrawal</h4>
 </div>
-<?php echo form_open_multipart(base_url() . 'pnr_status/add', array('class' => 'form-horizontal margin-top-30', 'id' => 'add-account-info')); ?>
+<?php echo form_open_multipart(base_url() . 'withdraw-request-save', array('class' => 'form-horizontal margin-top-30', 'id' => 'add-withdraw-request')); ?>
 
-<div class="modal-body">
-    <input type="hidden" name="yhkey" id="yhkey" value="<?=$yhkey?>">
+<div class="modal-body"><?php $balanceamt = checkbal_mypayment($loginuserid, 2);?>
+    <input name="min_withdrawal" id="min_withdrawal" type="hidden" value="<?php echo MIN_WITHDRAWAL?>">
+    <input name="max_withdrawal" id="max_withdrawal" type="hidden" value="<?php echo $balanceamt?>">
+    <div class="row gap-20">
+
+        <div class="col-sm-12 col-md-12">
+            <div class="form-group ">
+                <label>UnClear Amount(INR):</label>
+                <span class="text-primary"><?=checkbal_mypayment($loginuserid, 1)?></span>
+            </div>
+            <div class="form-group ">
+                <label>Your Balance(INR):</label>
+                <span class="text-primary"><?php echo $balanceamt;?></span>
+            </div>
+           
+            <div class="form-group ">
+                <label>Withdrawal Amount:<span style='color: #d9534f;'>*</span></label>
+                <input name="withdrawalamount" id="withdrawalamount" type="text" class="form-control" placeholder="Enter the withdrawal amount min <?php echo MIN_WITHDRAWAL?> to max <?=$balanceamt?>"/>
+            </div>
+        </div>
+
+    </div>
     <div class="row gap-20">
 
         <div class="col-sm-12 col-md-12">
@@ -54,14 +74,13 @@
                 <label class="custom-control-label" for="is_primary">Is your default account?</label>
             </div>
             <span style="color:red;display: none;" class="errorMsg">Your details not added/updated,please try again!...</span>
+            <span style="color:blue;display: none;" class="sucMsg">Withdrawal Request has been successfully send</span>
         </div>
 
     </div>
-
 </div>
 <div class="modal-footer text-center"> 
-    <input type="hidden" name="pnr_no" id="addAccPnr" value="<?php echo isset($pnr)?$pnr:''?>">
-    <button type="submit" class="submit_btn btn btn-primary" id="addEditAccountInfo">Submit</button>
+    <button type="submit" class="submit_btn btn btn-primary" id="addWithdrawal">Withdrawal</button>
     <button type="button" data-dismiss="modal" class="btn btn-primary btn-border">Close</button>
 </div>
 <?php echo form_close(); ?>

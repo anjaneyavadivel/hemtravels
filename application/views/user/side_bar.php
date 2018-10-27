@@ -10,7 +10,7 @@ switch ($url) {
         break;
     case 'change-password':$mn_change_password = 'active';
         break;
-    case 'my-post':$mn_mypost = 'active';
+    case 'triplist':$mn_mypost = 'active';
         break;
     case 'book-history':$mn_history = 'active';
         break;
@@ -111,16 +111,16 @@ $v=$view->row();
                                 <li class="<?php echo $mn_profile ?>"><a href="<?php echo base_url() ?>profile">Dashboard</a></li>
                                 <?php if ($loginuserid==$profile_id) { ?>
                                 <li class="<?php echo $mn_updateprofile ?>"><a href="<?php echo base_url() ?>update-profile">Edit profile</a></li>
-                                <?php if ($this->session->userdata('user_type') && $this->session->userdata('user_type') == 'GU') { ?>
+                                <?php if ($this->session->userdata('user_type') && $this->session->userdata('user_type') == 'CU') { ?>
 
                                     <li class="<?php echo $mn_history ?>"><a href="<?php echo base_url() ?>booking-history">Booking History</a></li>
                                     <li class="<?php echo $mn_mywishlist ?>"><a href="<?php echo base_url() ?>my-wishlist">My wihslist</a></li>
                                 <?php } ?>
                                 <li class="<?php echo $mn_change_password ?>"><a href="<?php echo base_url() ?>change-password">Change password</a></li>
                                 <li class=""><a href="<?php echo base_url() ?>logout">Logout</a></li>
-                                <li class="<?php echo $mn_mypost ?>"><a href="<?php echo base_url() ?>my-post">My post</a></li>
 
 <?php if ($this->session->userdata('user_type') && $this->session->userdata('user_type') == 'VA') { ?>
+                                    <li class="<?php echo $mn_mypost ?>"><a href="<?php echo base_url() ?>triplist">My post</a></li>
                                     <li class="<?php echo $mn_mytransaction ?>"><a href="<?php echo base_url() ?>my-transaction-reports">My Transaction</a></li>
                                     <li class="<?php echo $mn_bank_details ?>"><a href="<?php echo base_url() ?>account-details">Bank Account</a></li>
                                 <?php }} ?>

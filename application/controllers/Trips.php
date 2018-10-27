@@ -1335,6 +1335,21 @@ class Trips extends CI_Controller {
                     $trip_shared_id = insertTable('trip_shared',$share);
                     
                     $data['code'] = $shareCode;
+                    
+                    $subject = $this->session->userdata('name').' share trip to you';
+                    $message = $this->session->userdata('name').' share trip to you (Share Code: '.$shareCode.'), Please <a href="' . base_url() . 'trip-shared" style="color:#00adef" target="_new">click here to view</a>.';
+
+                    $mailData = array(
+                        //'fromuserid' => $pnrinfo['trip_postbyid'],
+                        //'ccemail' => $pnrinfo['trip_contactemail'],
+                        'bccemail' => admin_email . ',' . email_bottem_email . ',' . 'anjaneyavadivel@gmail.com',
+                        //'touserid' => $touserid,
+                        'toemail' => $email,
+                        'subject' => $subject,
+                        'message' => $message,
+                        //'othermsg' => $othermsg
+                    );
+                    sendemail_personalmail($mailData);
                 }
                 
                 

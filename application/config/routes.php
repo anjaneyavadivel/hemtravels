@@ -93,6 +93,10 @@ $route['PNR-status-report/(:any)'] = 'pnr_status/pnr_status_report/$1';
 
 //PNR STATUS
 $route['withdrawals-request'] = 'request/withdrawals_request';
+$route['withdraw-request-add'] = 'request/withdraw_request_add';
+$route['withdraw-request-save'] = 'request/withdraw_request_save';
+$route['withdraw-request-pay'] = 'request/withdraw_request_pay';
+$route['withdraw-request-paid'] = 'request/withdraw_request_paid';
 
 
 $route['booking-list'] = 'report/booking_wise_reports';

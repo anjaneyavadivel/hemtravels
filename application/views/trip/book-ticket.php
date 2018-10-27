@@ -253,10 +253,10 @@
                                     <ul class="price-summary-list">                                      
                                         
                                         <li>
-                                            <div class="col-xs-6 col-sm-6 col-md-6 no-padding mb-5">
+                                            <div class="col-xs-6 col-sm-6 col-md-6 no-padding mb-5 mt-5">
                                                 <p><strong>Meeting Point:</strong> <span class="text-muted"><?php echo isset($details['meeting_point'])?$details['meeting_point']:'';?></span></p>
                                             </div>
-                                              <div class="col-xs-6 col-sm-6 col-md-6 no-padding mb-5">
+                                              <div class="col-xs-6 col-sm-6 col-md-6 no-padding mb-5 mt-5">
                                                 <p><strong>Meeting Time:</strong> <span class="text-muted"><?php if(isset($details['meeting_time']) && !empty($details['meeting_time'])){
                                                     echo date('h:i a', strtotime($details['meeting_time']));
                                                 }?></span></p>
@@ -264,10 +264,10 @@
                                           
                                         </li>
                                         <li>
-                                            <div class="col-xs-6 col-sm-6 col-md-6 no-padding mb-5">
+                                            <div class="col-xs-6 col-sm-6 col-md-6 no-padding mb-5 mt-5">
                                                 <p><strong>From Date:</strong> <span class="text-muted"><?php echo isset($from_date)?$from_date:''?></span></p>
                                             </div>
-                                              <div class="col-xs-6 col-sm-6 col-md-6 no-padding mb-5">
+                                              <div class="col-xs-6 col-sm-6 col-md-6 no-padding mb-5 mt-5">
                                                   <?php $add_days = isset($details['how_many_days'])?$details['how_many_days']:0;
                                                   $to_date = date("M d, Y", strtotime("+".$add_days." days", strtotime($from_date)));
                                                   ?>
@@ -276,7 +276,7 @@
                                           
                                         </li>
                                         <li>
-                                            <div class="col-xs-12 col-sm-12 col-md-12 no-padding mb-5">
+                                            <div class="col-xs-12 col-sm-12 col-md-12 no-padding mb-5 mt-5">
                                                 <p><strong>Travellers:</strong> <span class="text-muted"><?php
                                                 $travellers = '';
                                                 if(isset($no_of_adult)) {
@@ -293,37 +293,6 @@
                                             </div>
                                           
                                         </li>
-<!--                                        <li>
-                                            <h6>Meeting point</h6>
-                                            <p class="text-muted"><?php echo isset($details['meeting_point'])?$details['meeting_point']:'';?></p>
-                                        </li>
-
-                                        <li>
-                                            <h6>Meeting time</h6>
-                                            <p class="text-muted"><?php                                                                             
-                                                if(isset($details['meeting_time']) && !empty($details['meeting_time'])){
-                                                    echo date('h:i a', strtotime($details['meeting_time']));
-                                                }
-                                            ?></p>
-                                        </li>-->
-
-<!--                                        <li>
-                                            <h6>Travellers</h6>
-                                            <?php
-                                                $travellers = '';
-                                                if(isset($no_of_adult)) {
-                                                    $travellers = $no_of_adult.' adults, '; 
-                                                }
-                                                if(isset($no_of_children)) {
-                                                    $travellers .= $no_of_children.' childrens, '; 
-                                                }
-                                                if(isset($no_of_infan)) {
-                                                    $travellers .= $no_of_infan.' infans '; 
-                                                }
-                                                echo '<p class="text-muted">'.$travellers.'</p>';
-                                            ?>
-                                            
-                                        </li>-->
 
                                         <li class="divider"></li>
 
@@ -344,8 +313,7 @@
                                                     $discount_price = ((int)$offer_details['discount_percentage']/100) * (int)$subtotal;
                                                     $disLabel = '('.$offer_details['coupon_code'].' - '.$offer_details['coupon_name'].')';
                                                 }
-                                                $total_price1 = $subtotal - $discount_price;
-                                                
+                                                $total_price1 = $subtotal - $discount_price -$discount_your_price;
                                                 $gstPrice = 0;
                                                 if($offer_details['gst_percentage'] > 0){
                                                     $gstPrice    = ((int) $total_price1 * ((int) $offer_details['gst_percentage'] / 100));
@@ -359,7 +327,7 @@
                                             <!--<h6 class="heading mt-20 mb-5 text-primary uppercase">Price per person</h6>-->
                                             <?php if(isset($no_of_adult) && $no_of_adult > 0) { ?>
                                             <div class="row gap-10 mt-10">
-                                                <div class="col-xs-7 col-sm-7">
+                                                <div class="col-xs-7 col-sm-7  mt-5">
                                                     Adult Price ( <?php echo $no_of_adult.' * '.$offer_details['price_to_adult']; ?> )
                                                 </div>
                                                 <div class="col-xs-5 col-sm-5 text-right">
@@ -384,6 +352,16 @@
                                                 </div>
                                                 <div class="col-xs-5 col-sm-5 text-right">
                                                     &#8377; <?php echo number_format($infanPrice,2); ?>
+                                                </div>
+                                            </div>
+                                            <?php } ?>
+                                            <?php if(isset($discount_your_price) && $discount_your_price > 0){ ?>
+                                            <div class="row gap-10 mt-10">
+                                                <div class="col-xs-7 col-sm-7">
+                                                    Discount Your Trip Amount(Cash)
+                                                </div>
+                                                <div class="col-xs-5 col-sm-5 text-right">
+                                                    (-) &#8377; <?php echo number_format($discount_your_price,2); ?>
                                                 </div>
                                             </div>
                                             <?php } ?>

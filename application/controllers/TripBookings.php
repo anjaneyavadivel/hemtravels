@@ -12,6 +12,20 @@ class TripBookings extends CI_Controller {
         if (!empty($tripCode)) {
             $this->load->model('Trip_model');
             //$this->load->helper('custom_helper');
+            //
+            
+            //CALENDAR DETAILS
+            $data['from_date'] = $this->session->userdata('bk_from_date');
+            $data['to_date'] = $this->session->userdata('bk_to_date');
+            $data['location'] = $this->session->userdata('bk_location');
+            $data['no_of_adult'] = $this->session->userdata('bk_no_of_adult');
+            $data['no_of_children'] = $this->session->userdata('bk_no_of_children');
+            $data['no_of_infan'] = $this->session->userdata('bk_no_of_infan');
+            $data['total_traveller'] = $data['no_of_adult'] + $data['no_of_children'] + $data['no_of_infan'];
+            $data['user_fullname'] = $this->session->userdata('name');
+            $data['user_email'] = $this->session->userdata('user_email');
+            $data['user_phone'] = $this->session->userdata('user_phone');
+
             //GENERAL DETAILS
             $data['details'] = $this->Trip_model->getDetails($tripCode);
 
@@ -37,31 +51,124 @@ class TripBookings extends CI_Controller {
                 }
                 $data['offer_details'] = trip_offer($offerdata);
                 // echo "<pre>"; print_r($data['offer_details']);exit;
+                $parenttrip_id = $data['details']['id'];
+                $discount_your_price = 0;
+                if (isset($data['offer_details']['is_open']) && $data['offer_details']['is_open'] == 1 && $this->session->userdata('user_type') == 'VA') {
+                    $number_of_persons = $data['total_traveller'];
+                    $date_of_trip = $this->session->userdata('bk_from_date');
+                    // check traveller valid
+                    if ($data['offer_details']['availabletraveller'] >= $number_of_persons || ($data['offer_details']['no_of_min_booktraveller'] <= $number_of_persons || $data['offer_details']['no_of_max_booktraveller'] >= $number_of_persons)) {
+
+                        $parenttrip = getallparenttrip($data['details']['id']);
+                        //echo '<br><br>';print_r($parenttrip);
+                        $parent_trip_id = 0;
+                        $trip_user_id = 0;
+                        $vendor_amt = 0;
+                        $your_final_amt = 0;
+                        $inWhereData = array('id', $parenttrip);
+                        $whereData = array('isactive' => 1);
+                        $trip_list = selectTable('trip_master', $whereData = array(), $showField = array('*'), $orWhereData = array(), $group = array(), $order = 'id ASC', $having = '', $limit = array(), $result_way = 'all', $echo = 0, $inWhereData, $notInWhereData = array());
+                        if ($trip_list->num_rows() > 0) {
+                            foreach ($trip_list->result() as $row) {
+                                $trip_id = $row->id;
+                                $user_id = $row->user_id;
+                                $parent_trip_id = $row->parent_trip_id;
+                                $trip_user_id = $row->user_id;
+                                $discount_percentage = 0;
+                                $discount_price = 0;
+                                $offer_amt = 0;
+                                $coupon_history_id = 0;
+                                $total_adult_price = 0;
+                                $total_child_price = 0;
+                                $total_infan_price = 0;
+                                $subtotal_trip_price = 0;
+                                $specific_discount_price = 0;
+                                $specific_discount_percentage = 0;
+                                $specific_offer_amt = 0;
+                                //check offer
+                                $offerdata = array(
+                                    'trip_id' => $trip_id,
+                                    'date_of_trip' => $date_of_trip,
+                                    'ischeckadmin' => 2); //default= 1 - if 1 check super admin offer, 2 - vendor offer, 0 - customer offer check
+                                if ($trip_id == $data['details']['id']) {
+                                    $offerdata['ischeckadmin'] = 0;
+                                }
+                                $checkoffer = trip_offer($offerdata);
+                                //echo '<br><br>'; print_r($checkoffer);
+                                $number_of_persons = $data['total_traveller'];
+                                $total_adult_price = $data['no_of_adult'] * $checkoffer['price_to_adult'];
+                                $total_child_price = $data['no_of_children'] * $checkoffer['price_to_child'];
+                                $total_infan_price = $data['no_of_infan'] * $checkoffer['price_to_infan'];
+                                $subtotal_trip_price = (int) $total_adult_price + (int) $total_child_price + (int) $total_infan_price;
+
+                                // get offer
+                                if ($checkoffer['offer_type'] == 1) {
+                                    $discount_price = $checkoffer['discount_price'];
+                                    $offer_amt = (int) $checkoffer['discount_price'] * (int) $number_of_persons;
+                                }
+                                if ($checkoffer['offer_type'] == 2 && $checkoffer['discount_percentage'] != '0.00') {
+                                    $discount_percentage = $checkoffer['discount_percentage'];
+                                    if (strpos($discount_percentage, '.00') !== false) {
+                                        $discount_percentage = round($discount_percentage);
+                                    }
+                                    $offer_amt = (int) $subtotal_trip_price * ((int) $discount_percentage / 100);
+                                }
+                                // get offer for Specific Customer Offer
+                                if ($checkoffer['specific_offer_type'] == 1) {
+                                    $specific_discount_price = $checkoffer['specific_discount_price'];
+                                    $specific_offer_amt = $checkoffer['specific_discount_price'] * (int) $number_of_persons;
+                                }
+                                if ($checkoffer['specific_offer_type'] == 2 && $checkoffer['specific_discount_percentage'] != '0.00') {
+                                    $specific_discount_percentage = $checkoffer['specific_discount_percentage'];
+                                    if (strpos($specific_discount_percentage, '.00') !== false) {
+                                        $specific_discount_percentage = round($specific_discount_percentage);
+                                    }
+                                    $specific_offer_amt = (int) $subtotal_trip_price * ((int) $specific_discount_percentage / 100);
+                                }
+                                //add  offer_amt + $specific_offer_amt
+                                $offer_amt = $specific_offer_amt + $offer_amt;
+                                if ($checkoffer['coupon_history_id'] == 0) {
+                                    $checkoffer['coupon_history_id'] = $checkoffer['specific_coupon_history_id'];
+                                    $checkoffer['specific_coupon_history_id'] = 0;
+                                }
+                                $total_trip_price = (int) $subtotal_trip_price - (int) $offer_amt;
+
+
+                                //$vendor_amt = $total_trip_price;
+                                $net_price = (int) $total_trip_price - (int) $vendor_amt;
+                                $servicecharge_amt = $net_price * (SERVICECHARGE_PERCENTAGE / 100);
+                                if ($servicecharge_amt < SERVICECHARGE_AMT) {// get max amt
+                                    $servicecharge_amt = SERVICECHARGE_AMT;
+                                }
+                                if ($this->session->userdata('user_type') == 'VA' && $trip_id ==$parenttrip_id) {
+                                    $servicecharge_amt = SERVICECHARGE_AMT;
+                                }
+                                $your_amt = (int) $net_price - (int) $servicecharge_amt;
+                                $gst_amt = $your_amt * (GST_PERCENTAGE / 100);
+                                $your_final_amt_temp = $your_amt + $gst_amt;
+                                $round_off = round($your_final_amt_temp) - ($your_final_amt_temp);
+                                $your_final_amt = $round_off + $your_final_amt_temp;
+
+                                if ($this->session->userdata('user_type') == 'VA' && $trip_id ==$parenttrip_id) {
+                                    $discount_your_price = $your_final_amt;
+                                }
+                                $vendor_amt = $total_trip_price;
+                            }
+                        }
+                    }
+                    //SET REDIRECT URL
+                    if (empty($this->session->userdata('user_type'))) {
+                        $redirect_url = $this->uri->segment(1) . '/' . $this->uri->segment(2);
+                        $this->session->set_userdata('last_url', $redirect_url);
+                    }
+                }
             }
 
-            //CALENDAR DETAILS
-            $data['from_date'] = $this->session->userdata('bk_from_date');
-            $data['to_date'] = $this->session->userdata('bk_to_date');
-            $data['location'] = $this->session->userdata('bk_location');
-            $data['no_of_adult'] = $this->session->userdata('bk_no_of_adult');
-            $data['no_of_children'] = $this->session->userdata('bk_no_of_children');
-            $data['no_of_infan'] = $this->session->userdata('bk_no_of_infan');
-            $data['total_traveller'] = $data['no_of_adult'] + $data['no_of_children'] + $data['no_of_infan'];
-            $data['user_fullname'] = $this->session->userdata('name');
-            $data['user_email'] = $this->session->userdata('user_email');
-            $data['user_phone'] = $this->session->userdata('user_phone');
-
-
-            //SET REDIRECT URL
-            if (empty($this->session->userdata('user_type'))) {
-                $redirect_url = $this->uri->segment(1) . '/' . $this->uri->segment(2);
-                $this->session->set_userdata('last_url', $redirect_url);
-            }
-        }
-
+        $data['discount_your_price']=$discount_your_price;
         //echo "<pre>";print_r($data);exit;
 
         $this->load->view('trip/book-ticket', $data);
+        }
     }
 
     public function book_proceed($tripCode = null) {
@@ -169,7 +276,7 @@ class TripBookings extends CI_Controller {
                             'no_of_infan' => $this->session->userdata('bk_no_of_infan'),
                             'date_of_trip' => $this->session->userdata('bk_from_date'),
                             'pick_up_location_id' => $this->session->userdata('bk_location'));
-                        $book_pay = trip_book($bookdata,$this->input->post('usecouponcode', true));
+                        $book_pay = trip_book($bookdata, $this->input->post('usecouponcode', true));
                         if (count($book_pay) > 0) {
 
                             $result = true;
@@ -178,16 +285,16 @@ class TripBookings extends CI_Controller {
                             $customer_id = $userId;
                             // Check wallet amount, full amount in wallet
                             $mypayment = 0;
-                            if ($this->session->userdata('user_type') == 'VA' && $book_pay['status']==1) {
+                            if ($this->session->userdata('user_type') == 'VA' && $book_pay['status'] == 1) {
                                 $loginuser_id = $this->session->userdata('user_id');
                                 $mypayment = checkbal_mypayment($loginuser_id, 2);
                                 if ($mypayment > 0) {
                                     $balance = (int) $mypayment - (int) $trip_amount;
                                     if ($balance > 0) {
-                                        //Amount Move to B2b to B2c 
+                                        //Amount Move to B2b to BYT 
                                         $paymentdata = array(
                                             'userid' => $customer_id,
-                                            'transaction_notes' => 'Cash Deposited for ' . $pnr,
+                                            'transaction_notes' => 'Trip has been booked ' . $pnr,
                                             'withdrawal_notes' => 'Office Booking PNR' . $pnr,
                                             'pnr_no' => $pnr,
                                             'from_userid' => $loginuser_id,
@@ -200,7 +307,7 @@ class TripBookings extends CI_Controller {
                                                 'payment_status' => 1,
                                                 'status' => 2);
 
-                                            trip_book_paid_sucess($updatedata, $book_pay['pnr_no'],1);
+                                            trip_book_paid_sucess($updatedata, $book_pay['pnr_no'], 1);
 
                                             //CLEAR BOOKING SESSIONS
                                             $array_items = array('bk_no_of_adult', 'bk_no_of_children', 'bk_no_of_infan', 'bk_from_date',
@@ -244,8 +351,7 @@ class TripBookings extends CI_Controller {
         echo $pnr;
         exit;
     }
-    
-    
+
     public function checkcouponcode() {
         if ($_POST) {
             $this->form_validation->set_rules('couponcode', 'couponcode', 'trim|required');
@@ -263,52 +369,53 @@ class TripBookings extends CI_Controller {
                 $no_of_adult = trim($this->input->post('no_of_adult'));
                 $no_of_child = trim($this->input->post('no_of_children'));
                 $no_of_infan = trim($this->input->post('no_of_infan'));
-                $whereData = array('isactive' => 1,'type' => 4, 'trip_id' => $tripId, 'coupon_code' => $couponcode, 'validity_from <=' => $date_of_trip, 'validity_to >=' => $date_of_trip);
-                    $couponhistory_list = selectTable('coupon_code_master_history', $whereData, $showField = array('*'), $orWhereData = array(), $group = array(), $order = 'id DESC');
-                    if ($couponhistory_list->num_rows() > 0) {
-                        $couponhistory = $couponhistory_list->row();
-                        $coupon_history_id = $couponhistory->id;
-                        $coupon_history_code = $couponhistory->coupon_code;
-                        $coupon_history_name = $couponhistory->coupon_name;
-                        $offer_by = $couponhistory->type;
-                        $coupon_comment = $couponhistory->comment;
-                        $offer_type = $couponhistory->offer_type;
-                        if ($offer_type == 1) {//fixed
-                            $offer_price = $couponhistory->percentage_amount;
-                            $number_of_persons = (int) $no_of_adult + (int) $no_of_child + (int) $no_of_infan;
-                            $discount_price = (int) $offer_price * (int) $number_of_persons;
-                            $totalPrice = (int) $totalPrice - (int) $discount_price;
-                            $wallettopay = (int) $wallettopay - (int) $discount_price;
-                            if($wallettopay<0){
-                                $walletbalance = (int) $walletbalance + (int)abs($wallettopay);
-                                $wallettopay =0;
-                            }
+                $whereData = array('isactive' => 1, 'type' => 4, 'trip_id' => $tripId, 'coupon_code' => $couponcode, 'validity_from <=' => $date_of_trip, 'validity_to >=' => $date_of_trip);
+                $couponhistory_list = selectTable('coupon_code_master_history', $whereData, $showField = array('*'), $orWhereData = array(), $group = array(), $order = 'id DESC');
+                if ($couponhistory_list->num_rows() > 0) {
+                    $couponhistory = $couponhistory_list->row();
+                    $coupon_history_id = $couponhistory->id;
+                    $coupon_history_code = $couponhistory->coupon_code;
+                    $coupon_history_name = $couponhistory->coupon_name;
+                    $offer_by = $couponhistory->type;
+                    $coupon_comment = $couponhistory->comment;
+                    $offer_type = $couponhistory->offer_type;
+                    if ($offer_type == 1) {//fixed
+                        $offer_price = $couponhistory->percentage_amount;
+                        $number_of_persons = (int) $no_of_adult + (int) $no_of_child + (int) $no_of_infan;
+                        $discount_price = (int) $offer_price * (int) $number_of_persons;
+                        $totalPrice = (int) $totalPrice - (int) $discount_price;
+                        $wallettopay = (int) $wallettopay - (int) $discount_price;
+                        if ($wallettopay < 0) {
+                            $walletbalance = (int) $walletbalance + (int) abs($wallettopay);
+                            $wallettopay = 0;
                         }
-                        if ($offer_type == 2) {//percentage
-                            $discount_percentage = $couponhistory->percentage_amount;
-                            if (strpos($discount_percentage, '.00') !== false) {
-                                $discount_percentage = round($discount_percentage);
-                            }
-                            $discount_price = (int) $totalPrice * ((int) $discount_percentage / 100);
-                            $totalPrice = (int) $totalPrice - (int) $discount_price;
-                            $wallettopay = (int) $wallettopay - (int) $discount_price;
-                            if($wallettopay<0){
-                                $walletbalance = $walletbalance + (int) abs($wallettopay);
-                                $wallettopay =0;
-                            }
-                        }
-                    
-                        $data = array('status' => 1,
-                            'totalPrice' => $totalPrice, 
-                            'walletbalance' => $walletbalance, 
-                            'wallettopay' => $wallettopay,
-                            'msg' => 'Applied coupon code for Rs:'.$discount_price.' off');
-                        echo json_encode($data);
-                        exit();
                     }
+                    if ($offer_type == 2) {//percentage
+                        $discount_percentage = $couponhistory->percentage_amount;
+                        if (strpos($discount_percentage, '.00') !== false) {
+                            $discount_percentage = round($discount_percentage);
+                        }
+                        $discount_price = (int) $totalPrice * ((int) $discount_percentage / 100);
+                        $totalPrice = (int) $totalPrice - (int) $discount_price;
+                        $wallettopay = (int) $wallettopay - (int) $discount_price;
+                        if ($wallettopay < 0) {
+                            $walletbalance = $walletbalance + (int) abs($wallettopay);
+                            $wallettopay = 0;
+                        }
+                    }
+
+                    $data = array('status' => 1,
+                        'totalPrice' => $totalPrice,
+                        'walletbalance' => $walletbalance,
+                        'wallettopay' => $wallettopay,
+                        'msg' => 'Applied coupon code for Rs:' . $discount_price . ' off');
+                    echo json_encode($data);
+                    exit();
                 }
             }
-        echo  json_encode(array('status' => 0,'msg' => 'Sorry! Invalid coupon code'));
+        }
+        echo json_encode(array('status' => 0, 'msg' => 'Sorry! Invalid coupon code'));
         exit();
     }
+
 }

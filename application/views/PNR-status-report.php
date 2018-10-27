@@ -97,6 +97,19 @@
                                                     <td><span class="font600 excluded">Languages: </span><?= $pnrinfo['languages']; ?></td>
                                                     <td colspan="2"><span class="font600 excluded">Meals: </span><?= $pnrinfo['meal']; ?></td>
                                                 </tr>
+                                                <?php  if(isset($pnrinfo) && $pnrinfo['status']==3){?>
+                                                <tr>
+                                                    <td class="text-danger"><span class="font600 excluded">Trip Cancelled On: </span><?=date("M d, Y", strtotime($pnrinfo['cancelled_on']));?></td>
+                                                    <td class="text-danger"><span class="font600 excluded">Refund Status: </span><?php 
+                                        $return_status=array('','New','InProgress','Paid');
+                                        echo $return_status[$pnrinfo['return_paid_status']];?></td>
+                                                </tr>
+                                                <?php  if(isset($pnrinfo) && $pnrinfo['return_paid_status']==3){?>
+                                                <tr>
+                                                    <td><span class="font600 excluded">Refund Percentage: </span><?=$pnrinfo['refund_percentage'];?>%</td>
+                                                    <td colspan="2"><span class="font600 excluded">Refund Amount: </span><?=$pnrinfo['return_paid_amt'];?></td>
+                                                </tr>
+                                                <?php  }}?>
                                             </tbody>
                                         </table>
                                         <h4 class="section-title">Customer Cost Info</h4>
@@ -212,6 +225,8 @@
                                                             if ($book_pay['net_price'] != 0.00) {
                                                                 ?>
                                                                 <tr><td><span class="font600 net_price">Total Amount:</span></td><td class="text-right"><?= $book_pay['net_price']; ?></td></tr>                                                                              
+                                                            <?php }if($book_pay['discount_your_price'] != 0.00) { ?>
+                                                                <tr><td><span class="font600 net_price">Discount Your Trip Amount(Cash)(-):</span></td><td class="text-right"><?= $book_pay['discount_your_price']; ?></td></tr>                                                                                  
                                                             <?php }if ($book_pay['servicecharge_amt'] != 0) { ?>
                                                                 <tr><td><span class="font600 net_price">Service Charge(-):</span></td><td class="text-right"><?= $book_pay['servicecharge_amt']; ?></td></tr>                                                                                  
                                                             <?php }
@@ -222,11 +237,13 @@
                                                         <?php }if ($book_pay['round_off'] != 0) { ?>
                                                             <tr><td><span class="font600 net_price">Round Off:</span>
                                                             </td><td class="text-right"><?= $book_pay['round_off']; ?></td></tr>                                                                                    
-                                                        <?php }if ($book_pay['your_final_amt'] != 0.00) { ?>
+                                                        <?php } ?>
                                                             <tr><td><span class="font600 net_price">Final Vendor Amount:</span>
                                                             </td><td class="text-right"><?= $book_pay['your_final_amt']; ?></td></tr>                                                                                     
-                                                        <?php
-                                                        }?>
+                                                        <?php  if($book_pay['status']==3 && $book_pay['return_paid_status']==3){?>
+                                                            <tr class="text-danger"><td><span class="font600 net_price">Refund Amount:</span>
+                                                            </td><td class="text-right"><?= $book_pay['return_paid_amt']; ?></td></tr>                                                                                    
+                                                        <?php }?>  
                                                     </tbody>
                                                 </table>
 

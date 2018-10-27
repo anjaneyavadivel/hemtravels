@@ -124,12 +124,24 @@
                                         <td><?= $row['number_of_persons']; ?></td>
                                         <td><?= $row['total_trip_price']; ?></td>
                                         <td><h4 class="text-info"  data-toggle="tooltip" data-placement="top" data-original-title="Booking status <?=$status_val[$status]?>"><?= $status_val[$status]; ?></h4></td>
-                                        <td><a href="<?=base_url()?>PNR-status/<?=$pnr_no?>/1" target="_new" class="btn btn-border btn-sm btn-primary">View Ticket</a>
+                                        <td>
+                                            <div class="dropdown">
+                                                <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Action
+                                                <span class="caret"></span></button>
+                                                <ul class="dropdown-menu">
+                                                   <li> <a href="<?=base_url()?>PNR-status/<?=$pnr_no?>/1" target="_new"><i class="fa fa-eye"></i> View Ticket</a></li>
                                             <?php if ($this->session->userdata('user_type') == 'VA') {?>
-                                            <a href="<?=base_url()?>PNR-status/<?=$pnr_no?>/2" target="_new" class="btn btn-border btn-sm btn-primary">Your Report</a>
+                                            <li><a href="<?=base_url()?>PNR-status/<?=$pnr_no?>/2" target="_new"><i class="fa fa-eye"></i> Your Report</a></li>
                                             <?php }if ($this->session->userdata('user_type') == 'SA') {?>
-                                            <a href="<?=base_url()?>PNR-status-report/<?=$pnr_no?>" target="_new" class="btn btn-border btn-sm btn-primary">Your Report</a>
+                                            <li><a href="<?=base_url()?>PNR-status-report/<?=$pnr_no?>" target="_new"><i class="fa fa-eye"></i> Your Report</a></li>
+                                            <?php }if ($this->session->userdata('user_type') == 'VA' && ($row['status']==2||$row['status']==4)) {?>
+                                            <li><a href="<?=base_url()?>PNR-status/<?=$pnr_no?>/3" target="_new"><i class="fa fa-remove"></i> Cancel Trip</a></li>
                                             <?php }?>
+                                            
+                                                </ul>
+                                            </div>
+                                            
+                                            
                                         </td>
                                     </tr>
                             <?php

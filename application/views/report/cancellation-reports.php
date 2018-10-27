@@ -24,7 +24,7 @@
         <div class="col-xs-12 col-sm-12 pt-20 pb-5 clearfix">
             <!--                         left side - center-->
             <div class="col-xs-12 col-sm-12 pt-10 pb-5 clearfix">
-                 <?php echo form_open_multipart(base_url() . $url, array('method'=>'get','class' => 'form-horizontal margin-top-30', 'id' => 'search-coupon-code-form')); ?>
+                 <?php echo form_open_multipart(base_url() . $url, array('method'=>'get','class' => 'form-horizontal margin-top-30', 'id' => 'cancel-report-form')); ?>
                            
                 <div class="col-xs-12 col-sm-4 col-lg-4">
                     <div class="row gap-10" id="rangeDatePicker">
@@ -48,7 +48,7 @@
                 <div class="col-xs-12 col-sm-3 col-lg-3">
                     <div class="form-group">
                         <label>Status</label>
-                        <select name="status" class="selectpicker show-tick form-control" title="Status">
+                        <select name="status" class="selectpicker show-tick form-control" id="ca_status" title="Status">
                             <option value="">All</option>
                             <option value="1" <?php if($status==1){echo 'selected';}?>>New</option>
                             <option value="2" <?php if($status==2){echo 'selected';}?>>InProgress</option>
@@ -59,7 +59,7 @@
                 <div class="col-xs-12 col-sm-3 col-lg-3">
                     <div class="form-group">
                         <label>Booked From</label>
-                        <select name="bookfrom" class="selectpicker show-tick form-control" title="Booked From">
+                        <select name="bookfrom" class="selectpicker show-tick form-control" id="bookfrom" title="Booked From">
                             <option value="">All</option>
                             <option value="1" <?php if($bookfrom==1){echo 'selected';}?>>B2C Booking</option>
                             <option value="2" <?php if($bookfrom==2){echo 'selected';}?>>Office Booking</option>
@@ -71,10 +71,10 @@
                         <label>Title</label>
                         <div class="row">
                             <div class="col-xs-12 col-sm-8 col-md-8">
-                                <input name="title" value="<?=$title?>" type="text" class="form-control" placeholder="Search Trip Title, PNR No, Phone No">
+                                <input name="title" value="<?=$title?>" type="text" class="form-control" id="ca_titleSearch" placeholder="Search Trip Title, PNR No, Phone No">
                             </div>
                             <div class="col-xs-12 col-sm-4 col-md-4">
-                                     <button type="submit" class="btn btn-primary btn-block"><i class="fa fa-search"></i> Search</button>
+                                     <button type="submit" class="btn btn-primary btn-block" id="canSearch"><i class="fa fa-search"></i> Search</button>
                             </div>
                         </div>
                     </div>
@@ -82,7 +82,7 @@
                 <?php echo form_close(); ?>
                 <?php if($url=='cancellation-reports'){?>
                 <div class="col-xs-2 col-sm-1 col-lg-1 text-right">
-                    <a class="btn btn-info c_mt" >Export XL</a>
+                    <a class="btn btn-info c_mt" id="canReport">Export</a>
                 </div>
                 <?php }?>
                 <table class="table ">
@@ -122,10 +122,25 @@
                                         <td><?= $row['total_trip_price']; ?></td>
                                         <td><?= $row['return_paid_amt']; ?></td>
                                         <td><h4 class="text-info"  data-toggle="tooltip" data-placement="top" data-original-title="Cancel status <?=$status_val[$status]?>"><?= $status_val[$status]; ?></h4></td>
-                                        <td><a href="<?=base_url()?>PNR-status/<?=$pnr_no?>/2" target="_new" class="btn btn-border btn-sm btn-primary">View</a>
-                                            <?php if($row['trip_id']==$row['from_trip_id'] && $this->session->userdata('user_type') == 'VA'){?>
+                                        <td>
+                                            <?php if($status != 3) {?>
+                                            <div class="dropdown">
+                                                <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Action
+                                                <span class="caret"></span></button>
+                                                <ul class="dropdown-menu">
+                                                    <li><a href="<?=base_url()?>PNR-status/<?=$pnr_no?>/2" target="_new"><i class="fa fa-search"></i> View</a></li>
+                                                     <?php if($this->session->userdata('user_type') == 'SA'){?>
+                                                    <li><a href="javascript:;" class="payRefundModal" data-id="<?= $row['id']; ?>"><i class="fa fa-money"></i> Pay Refund</a></li>
+                                                     <?php }?>
+                                                </ul>
+                                            </div>
+                                            <?php } else {?>
+                                                <a href="<?=base_url()?>PNR-status/<?=$pnr_no?>/2" target="_new" class="btn btn-border btn-sm btn-primary">View</a>
+                                            <?php } ?>
+                                            
+                                            <?php /*/*if($row['trip_id']==$row['from_trip_id'] && $this->session->userdata('user_type') == 'VA'){?>
                                             <a href="javascript:void(0)" class="btn btn-border btn-sm btn-primary">Update Status</a>
-                                            <?php }?>
+                                            <?php }*/?>
                                        </td>
                                     </tr>
             <?php

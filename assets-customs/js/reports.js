@@ -3,6 +3,235 @@ jQuery(function($) {
 
     "use strict";
     
+     $.fn.modalmanager.defaults.resize = true;
+    $.fn.modalmanager.defaults.spinner = '<div class="loading-spinner fade" style="width: 200px; margin-left: -100px;"><span style="font-weight:300; color: #eee; font-size: 18px; font-family:Open Sans;">&nbsp;Loading...</div>';
+
+    var $modal = $('#common-ajax-modal');
+    $('.withdraw-request-btn').on('click',function(){
+       
+        $('body').modalmanager('loading');        
+        setTimeout(function () {
+            $modal.load(base_url + 'withdraw-request-add', '', function () {
+                $modal.modal();
+                addwithdrawValidation();
+            });
+        }, 1000);
+    });
+    $('body').on('change','#account',function(){
+        var val = $(this).val();
+        
+        if(val != undefined && val != '' && val != 'new' ){
+            var formData = new FormData();
+            formData.append('id', val);
+            formData.append('csrf_test_name', $.cookie('csrf_cookie_name'));
+            $.ajax({
+                type: "post",
+                url: base_url+'Pnr_status/getAccountDetails',
+                data: formData,
+                contentType: false,       // The content type used when sending data to the server.
+                cache: false,             // To unable request pages to be cached
+                processData:false,   
+                success: function (data)
+                {
+                    data = $.parseJSON(data);
+                    if(data.id){
+                        $('#bank_name').val(data.bank_name);
+                        $('#account_holder_name').val(data.account_holder_name);
+                        $('#account_number').val(data.account_number);
+                        $('#ifsc_code').val(data.ifsc_code);
+                        $('#branch').val(data.branch);
+                        $('#address').val(data.address);
+                        
+                        if(data.is_primary == 1){
+                            $('#is_primary').attr("checked",true);
+                        }
+                    }
+                  
+                }
+            });
+            
+            
+        }
+    });
+    function addwithdrawValidation(){
+        
+         $('.errorMsg').hide();
+         $('.sucMsg').hide();
+
+        var form2 = $('#add-withdraw-request');
+           form2.validate({               
+               
+               rules: {            
+                   withdrawalamount: {
+                       required: true,
+                       number: true,
+                       range: [$('#min_withdrawal').val(), $('#max_withdrawal').val()]
+                   },
+                   account: {
+                       required: true,
+                   },
+                   bank_name: {
+                       required: true,
+                       maxlength:150
+                   },
+                   account_holder_name: {
+                       required: true,
+                       maxlength:150
+                   },
+                   account_number: {
+                       required: true,
+                       maxlength:150
+                   },
+                   ifsc_code: {
+                       required: true,
+                       maxlength:50
+                   },
+                   branch: {
+                       required: true,
+                       maxlength:150
+                   },
+                   address: {
+                       required: true,
+                       maxlength:150
+                   }
+               },              
+               highlight: function (element) {
+                   var id_attr = "#" + $(element).attr("id") + "_icon";
+                   $(element).closest('.form-group').removeClass('has-success').addClass('has-error');
+                   $(id_attr).removeClass('fa-check').addClass('fa-times');
+               },
+               unhighlight: function (element) {
+                   var id_attr = "#" + $(element).attr("id") + "_icon";
+                   $(element).closest('.form-group').removeClass('has-error').addClass('has-success');
+                   $(id_attr).removeClass('fa-times').addClass('fa-check');
+               },
+               errorElement: 'span',
+               errorClass: 'small help-block',
+               errorPlacement: function (error, element) {
+                   if (element.length) {
+                       error.insertAfter(element);
+                   } else {
+                       error.insertAfter(element);
+                   }
+               },
+               submitHandler: function (form)
+               {
+                   $('.errorMsg').hide();
+                   if ($(form).valid())
+                   {
+                       var values = form2.serializeArray();
+                       values.push({name: "csrf_test_name", value: $.cookie('csrf_cookie_name')});
+                       var url = base_url + 'withdraw-request-save';
+                       $.ajax({
+                           url: url,
+                           type: 'post',
+                           data: values,
+                           success: function (res) {
+                                if (res == 'yes') {
+                                   $('.errorMsg').show();
+                                } else {
+                                    $('.sucMsg').show();
+                                    setTimeout(function () {
+                                    window.location.href = base_url+'my-transaction-reports';   
+                                    }, 1000);
+                                }
+
+                           }
+                       });
+                   }
+                   return false;
+               }
+           });
+    }
+     var requestid =0;
+    $('.withdraw-request-pay-btn').on('click',function(){
+        requestid = $(this).attr('data-id');
+        $('body').modalmanager('loading');  
+        var formData = new FormData();
+            formData.append('requestid', requestid);
+            formData.append('csrf_test_name', $.cookie('csrf_cookie_name'));
+
+            $.ajax({
+                type: "POST",
+                url: base_url+'withdraw-request-pay',
+                data: formData,
+                contentType: false,       // The content type used when sending data to the server.
+                cache: false,             // To unable request pages to be cached
+                processData:false,   
+                success: function (res)
+                { setTimeout(function () {
+                   $modal.html(res);     
+                   $modal.modal();
+                   paywithdrawValidation();
+                  }, 1000);
+                }
+            });
+    });
+    function paywithdrawValidation(){
+        
+         $('.errorMsg').hide();
+         $('.sucMsg').hide();
+
+        var form2 = $('#pay-withdraw-request');
+           form2.validate({               
+               
+               rules: {            
+                   payamount: {
+                       required: true,
+                       number: true
+                   },      
+                   paynotes: {
+                       required: true
+                   }
+               },              
+               highlight: function (element) {
+                   var id_attr = "#" + $(element).attr("id") + "_icon";
+                   $(element).closest('.form-group').removeClass('has-success').addClass('has-error');
+                   $(id_attr).removeClass('fa-check').addClass('fa-times');
+               },
+               unhighlight: function (element) {
+                   var id_attr = "#" + $(element).attr("id") + "_icon";
+                   $(element).closest('.form-group').removeClass('has-error').addClass('has-success');
+                   $(id_attr).removeClass('fa-times').addClass('fa-check');
+               },
+               errorElement: 'span',
+               errorClass: 'small help-block',
+               errorPlacement: function (error, element) {
+                   if (element.length) {
+                       error.insertAfter(element);
+                   } else {
+                       error.insertAfter(element);
+                   }
+               },
+               submitHandler: function (form)
+               {
+                   $('.errorMsg').hide();
+                   if ($(form).valid())
+                   {
+                       var values = form2.serializeArray();
+                       values.push({name: "csrf_test_name", value: $.cookie('csrf_cookie_name')});
+                       var url = base_url + 'withdraw-request-paid';
+                       $.ajax({
+                           url: url,
+                           type: 'post',
+                           data: values,
+                           success: function (res) {
+                                if (res == 'yes') {
+                                   $('.errorMsg').show();
+                                } else {
+                                    $('.sucMsg').show();
+                                    setTimeout(function () {
+                                    window.location.href = base_url+'withdrawals-request';   
+                                    }, 1000);
+                                }
+
+                           }
+                       });
+                   }
+                   return false;
+               }
+           });
+    }
     $('#tripReport').on('click',function(){ 
         
         var search_from = $('#rangeDatePickerFrom').val() != undefined ?$('#rangeDatePickerFrom').val():'';
@@ -154,5 +383,97 @@ jQuery(function($) {
         
     });
     
+    //CANCEL REPORT - PAY REFUND MODAL
+    $('body').on('click','.payRefundModal',function(){
+        var id = $(this).attr('data-id');
+         $('body').modalmanager('loading');        
+        setTimeout(function () {
+            $modal.load(base_url + 'report/addRefundmodal/'+id, '', function () {
+                $modal.modal();
+
+                refundValidation();
+            });
+        }, 1000);
+    });
+    
+    function refundValidation(){
+        
+         $('.errorMsg').hide();
+
+        var form2 = $('#add-refund');
+           form2.validate({               
+               
+               rules: {            
+                   ref_per: {
+                       required: true,
+                       number: true,
+                       range: [0, 100]
+                   }
+               },              
+               highlight: function (element) {
+                   var id_attr = "#" + $(element).attr("id") + "_icon";
+                   $(element).closest('.form-group').removeClass('has-success').addClass('has-error');
+                   $(id_attr).removeClass('fa-check').addClass('fa-times');
+               },
+               unhighlight: function (element) {
+                   var id_attr = "#" + $(element).attr("id") + "_icon";
+                   $(element).closest('.form-group').removeClass('has-error').addClass('has-success');
+                   $(id_attr).removeClass('fa-times').addClass('fa-check');
+               },
+               errorElement: 'span',
+               errorClass: 'small help-block',
+               errorPlacement: function (error, element) {
+                   if (element.length) {
+                       error.insertAfter(element);
+                   } else {
+                       error.insertAfter(element);
+                   }
+               },
+               submitHandler: function (form)
+               {
+                   
+                   if ($(form).valid())
+                   {
+                       var values = form2.serializeArray();
+                       values.push({name: "csrf_test_name", value: $.cookie('csrf_cookie_name')});
+                       values.push({name: "pnr_no", value: $('#re_pnr_no').val()});
+                       values.push({name: "ret_per", value: $('#ref_per').val()});
+                       values.push({name: "notes", value: $('#notes').val()});
+                       var url = base_url + 'report/addRefundAction';
+                       $.ajax({
+                           url: url,
+                           type: 'post',
+                           data: values,
+                           success: function (res) {
+                                window.location.reload();
+                           }
+                       });
+                   }
+                   return false;
+               }
+           });
+    }
+   
+   $('#canReport').on('click',function(){ 
+        
+        var search_from = $('#rangeDatePickerFrom').val() != undefined ?$('#rangeDatePickerFrom').val():'';
+        var search_to   = $('#rangeDatePickerTo').val() != undefined ?$('#rangeDatePickerTo').val():'';
+        var status      = $('#ca_status').val() != undefined ?$('#ca_status').val():'';
+        var bookfrom      = $('#bookfrom').val() != undefined ?$('#bookfrom').val():'';
+        var titleSearch = $('#ca_titleSearch').val() != undefined ?$('#ca_titleSearch').val():'';
+         
+        document.location = base_url+'cancellation-reports?from='+search_from+'&to='+search_to+'&status='+status+'&bookfrom='+bookfrom+'&title='+titleSearch+'&download=1';
+       
+    });
+    $('#canSearch').on('click',function(e){
+        e.preventDefault();
+        if (location.href.indexOf('download=') > -1) {
+            location.href = location.href.replace('download=1', 'download=0');
+            setTimeout(function() { $('#cancel-report-form').submit(); },2000);
+        }else{
+            $('#cancel-report-form').submit();
+        }
+        
+    });
 });
 

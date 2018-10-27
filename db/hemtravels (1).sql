@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Oct 01, 2018 at 02:23 PM
+-- Generation Time: Oct 24, 2018 at 05:35 PM
 -- Server version: 5.6.26
 -- PHP Version: 5.6.12
 
@@ -41,7 +41,16 @@ CREATE TABLE IF NOT EXISTS `account_info` (
   `updated_on` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
   `updated_by` int(11) NOT NULL,
   `isactive` int(1) NOT NULL DEFAULT '1' COMMENT '0 - Deactive, 1 - Active'
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `account_info`
+--
+
+INSERT INTO `account_info` (`id`, `user_id`, `bank_name`, `account_holder_name`, `account_number`, `ifsc_code`, `branch`, `address`, `is_primary`, `created_on`, `created_by`, `updated_on`, `updated_by`, `isactive`) VALUES
+(2, 4, 'SBI', 'Customer', '123456789', 'SBI0000695', 'Goa', 'PULIYAKULAM ROAD', 1, '2018-10-14 05:32:29', 0, '0000-00-00 00:00:00', 0, 1),
+(3, 3, 'HDFC', 'Vendor', '123456789', 'HDFC0000111', 'goa Branch', 'goa Address', 1, '2018-10-14 15:11:26', 0, '0000-00-00 00:00:00', 0, 1),
+(6, 26, 'HDFC', 'customer', '12345678910', 'HDFC0000111', 'goa Branch', 'goa Address', 1, '2018-10-16 16:40:45', 0, '0000-00-00 00:00:00', 0, 1);
 
 -- --------------------------------------------------------
 
@@ -125,7 +134,7 @@ CREATE TABLE IF NOT EXISTS `coupon_code_master` (
   `id` int(11) NOT NULL,
   `user_id` int(11) NOT NULL,
   `trip_id` int(11) NOT NULL,
-  `type` int(1) NOT NULL COMMENT '1 - Customer / 2 - Vendor/ 3 - super admin',
+  `type` int(1) NOT NULL COMMENT '1 - Customer / 2 - Vendor/ 3 - super admin/ 4 - Specific Customer Offer',
   `coupon_code` varchar(100) NOT NULL,
   `coupon_name` varchar(150) NOT NULL,
   `offer_type` int(1) NOT NULL COMMENT '1 - Fixed / 2 -Percentage',
@@ -139,21 +148,22 @@ CREATE TABLE IF NOT EXISTS `coupon_code_master` (
   `price_to_infan` float(8,2) NOT NULL,
   `created_on` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `isactive` int(1) NOT NULL DEFAULT '1'
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `coupon_code_master`
 --
 
 INSERT INTO `coupon_code_master` (`id`, `user_id`, `trip_id`, `type`, `coupon_code`, `coupon_name`, `offer_type`, `percentage_amount`, `validity_from`, `validity_to`, `comment`, `category_id`, `price_to_adult`, `price_to_child`, `price_to_infan`, `created_on`, `isactive`) VALUES
-(1, 3, 1, 2, 'B2BDIS50', 'B2B discount 50', 1, 50.00, '2018-08-06', '2018-09-15', ' ', 0, 0.00, 0.00, 0.00, '2018-08-05 14:19:13', 1),
+(1, 3, 1, 2, 'B2BDIS50', 'B2B discount 50', 1, 50.00, '2018-10-10', '2018-11-30', ' ', 0, 0.00, 0.00, 0.00, '2018-08-05 14:19:13', 1),
 (2, 2, 0, 3, 'ADMINDIS5P', 'Admin discount 5%', 2, 5.00, '2018-08-06', '2018-09-15', ' ', 6, 10.00, 10.00, 10.00, '2018-08-05 14:19:13', 1),
 (3, 2, 2, 1, 'B2CDIS5', 'B2C discount 5%', 2, 5.00, '2018-08-06', '2018-09-15', ' ', 0, 0.00, 0.00, 0.00, '2018-08-05 14:19:13', 1),
 (4, 2, 0, 3, 'ADMINDIS7', 'ADMINDIS7', 2, 7.00, '2018-08-15', '2018-09-12', ' ', 1, 10.00, 10.00, 10.00, '2018-08-15 06:32:12', 1),
 (5, 2, 0, 3, 'ADMINOFFER10%', 'ADMINOFFER10%', 2, 10.00, '2018-08-16', '2018-09-06', ' this admin offer', 7, 15.00, 15.00, 15.00, '2018-08-16 14:57:16', 1),
-(6, 4, 7, 1, 'SEPDISCOUNT10', 'September offer', 2, 10.00, '2018-09-23', '2018-09-30', 'Closing week Offer of September', 0, 0.00, 0.00, 0.00, '2018-09-22 15:28:24', 1),
+(6, 4, 7, 1, 'SEPDISCOUNT10', 'September offer', 2, 10.00, '2018-10-16', '2018-11-30', ' ', 0, 0.00, 0.00, 0.00, '2018-09-22 15:28:24', 1),
 (7, 3, 6, 2, 'SEP TRIP VENDOR', 'SEP150', 1, 300.00, '2018-09-28', '2018-10-31', ' ', 0, 0.00, 0.00, 0.00, '2018-09-28 07:14:18', 1),
-(8, 3, 6, 1, 'SEP TRIP CUSTOMER', 'SEPCUS', 1, 75.00, '2018-09-28', '2018-10-31', ' ', 0, 0.00, 0.00, 0.00, '2018-09-29 12:25:35', 1);
+(8, 3, 6, 1, 'SEP TRIP CUSTOMER', 'SEPCUS', 1, 75.00, '2018-09-28', '2018-10-31', ' ', 0, 0.00, 0.00, 0.00, '2018-09-29 12:25:35', 1),
+(9, 3, 2, 4, 'COUPONOFFER2PER', 'Coupon Offer 2%', 2, 2.00, '2018-10-06', '2018-10-27', ' Coupon Offer 2%', 0, 0.00, 0.00, 0.00, '2018-10-06 06:21:09', 1);
 
 -- --------------------------------------------------------
 
@@ -180,7 +190,7 @@ CREATE TABLE IF NOT EXISTS `coupon_code_master_history` (
   `price_to_infan` float(8,2) NOT NULL,
   `created_on` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `isactive` int(1) NOT NULL DEFAULT '1'
-) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `coupon_code_master_history`
@@ -196,7 +206,10 @@ INSERT INTO `coupon_code_master_history` (`id`, `user_id`, `coupon_code_id`, `tr
 (7, 4, 6, 7, 1, 'SEPDISCOUNT10', 'September offer', 2, 10.00, '2018-09-23', '2018-09-30', 'Closing week Offer of September', 0, 0.00, 0.00, 0.00, '2018-09-22 15:28:24', 1),
 (8, 3, 7, 6, 2, 'SEP TRIP VENDOR', 'SEP150', 1, 150.00, '2018-09-28', '2018-10-31', ' ', 0, 0.00, 0.00, 0.00, '2018-09-28 07:14:18', 1),
 (9, 3, 7, 6, 2, 'SEP TRIP VENDOR', 'SEP150', 1, 300.00, '2018-09-28', '2018-10-31', ' ', 0, 0.00, 0.00, 0.00, '2018-09-29 10:34:52', 1),
-(10, 3, 8, 6, 1, 'SEP TRIP CUSTOMER', 'SEPCUS', 1, 75.00, '2018-09-28', '2018-10-31', ' ', 0, 0.00, 0.00, 0.00, '2018-09-29 12:25:35', 1);
+(10, 3, 8, 6, 1, 'SEP TRIP CUSTOMER', 'SEPCUS', 1, 75.00, '2018-09-28', '2018-10-31', ' ', 0, 0.00, 0.00, 0.00, '2018-09-29 12:25:35', 1),
+(11, 3, 9, 2, 4, 'COUPONOFFER2PER', 'Coupon Offer 2%', 2, 2.00, '2018-10-06', '2018-10-27', ' Coupon Offer 2%', 0, 0.00, 0.00, 0.00, '2018-10-06 06:21:09', 1),
+(12, 3, 1, 1, 2, 'B2BDIS50', 'B2B discount 50', 1, 50.00, '2018-10-10', '2018-11-30', ' ', 0, 0.00, 0.00, 0.00, '2018-10-10 16:55:37', 1),
+(13, 4, 6, 7, 1, 'SEPDISCOUNT10', 'September offer', 2, 10.00, '2018-10-16', '2018-11-30', ' ', 0, 0.00, 0.00, 0.00, '2018-10-15 18:26:47', 1);
 
 -- --------------------------------------------------------
 
@@ -250,7 +263,7 @@ CREATE TABLE IF NOT EXISTS `my_transaction` (
   `withdrawal_notes` text NOT NULL,
   `withdrawal_paid_on` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
   `status` int(1) NOT NULL COMMENT '0 - new, 1 - InProgress, 2 -  Executed, 3- Sent'
-) ENGINE=InnoDB AUTO_INCREMENT=34 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=93 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `my_transaction`
@@ -289,7 +302,34 @@ INSERT INTO `my_transaction` (`id`, `book_pay_id`, `book_pay_details_id`, `pnr_n
 (30, 5, 8, 'PNR41T9RZMI', -1, 3, 0, 6, '2018-09-30 03:50:10', 'Withdrawal: Trip has been booked PNR41T9RZMI / TRIPpZe0LIb / September trip. Include GST and Service Charge.', 6860.00, 0.00, 7500.00, 0, 0, 0.00, '', '0000-00-00 00:00:00', 2),
 (31, 5, 8, 'PNR41T9RZMI', 0, -1, 3, 6, '2018-09-30 03:50:10', 'Deposit: Trip has been booked PNR41T9RZMI / TRIPpZe0LIb / September trip. Include GST and Service Charge.', 0.00, 6860.00, 38710.00, 0, 0, 0.00, '', '0000-00-00 00:00:00', 2),
 (32, 5, 9, 'PNR41T9RZMI', -1, 4, 0, 7, '2018-09-30 03:50:11', 'Withdrawal: Trip has been booked PNR41T9RZMI / TRIPL6Ye9PK / September2 trip2. Include GST and Service Charge.', 6370.00, 0.00, 1130.00, 0, 0, 0.00, '', '0000-00-00 00:00:00', 2),
-(33, 5, 9, 'PNR41T9RZMI', 0, -1, 4, 7, '2018-09-30 03:50:11', 'Deposit: Trip has been booked PNR41T9RZMI / TRIPL6Ye9PK / September2 trip2. Include GST and Service Charge.', 0.00, 6370.00, 16660.00, 0, 0, 0.00, '', '0000-00-00 00:00:00', 2);
+(33, 5, 9, 'PNR41T9RZMI', 0, -1, 4, 7, '2018-09-30 03:50:11', 'Deposit: Trip has been booked PNR41T9RZMI / TRIPL6Ye9PK / September2 trip2. Include GST and Service Charge.', 0.00, 6370.00, 16660.00, 0, 0, 0.00, '', '0000-00-00 00:00:00', 2),
+(40, 0, 0, 'PNR38907CAY', -1, 26, 3, 0, '2018-10-06 16:13:59', 'Withdrawal: Cash Deposited for PNR38907CAY', 1500.00, 0.00, 37210.00, 0, 0, 0.00, 'Office Booking PNRPNR38907CAY', '0000-00-00 00:00:00', 2),
+(41, 0, 0, 'PNR38907CAY', 3, -1, 26, 0, '2018-10-06 16:13:59', 'Deposit: Cash Deposited for PNR38907CAY', 0.00, 1500.00, 1500.00, 0, 0, 0.00, 'Office Booking PNRPNR38907CAY', '0000-00-00 00:00:00', 2),
+(42, 9, 0, 'PNR38907CAY', -1, 0, 26, 2, '2018-10-06 16:13:59', 'Withdrawal: Trip has been booked PNR38907CAY / TRIP3dnxM91 / Luxury Stay At Mayfair Resorts, Goa', 1500.00, 0.00, 0.00, 0, 0, 0.00, '', '0000-00-00 00:00:00', 2),
+(43, 9, 0, 'PNR38907CAY', 26, -1, 0, 2, '2018-10-06 16:13:59', 'Deposit: Trip has been booked PNR38907CAY / TRIP3dnxM91 / Luxury Stay At Mayfair Resorts, Goa', 0.00, 1500.00, 2630.00, 0, 0, 0.00, '', '0000-00-00 00:00:00', 2),
+(44, 0, 0, 'PNR17PK1FHV', -1, 26, 3, 0, '2018-10-06 16:20:21', 'Withdrawal: Cash Deposited for PNR17PK1FHV', 1500.00, 0.00, 35710.00, 0, 0, 0.00, 'Office Booking PNRPNR17PK1FHV', '0000-00-00 00:00:00', 2),
+(45, 0, 0, 'PNR17PK1FHV', 3, -1, 26, 0, '2018-10-06 16:20:21', 'Deposit: Cash Deposited for PNR17PK1FHV', 0.00, 1500.00, 1500.00, 0, 0, 0.00, 'Office Booking PNRPNR17PK1FHV', '0000-00-00 00:00:00', 2),
+(46, 10, 0, 'PNR17PK1FHV', -1, 0, 26, 2, '2018-10-06 16:20:21', 'Withdrawal: Trip has been booked PNR17PK1FHV / TRIP3dnxM91 / Luxury Stay At Mayfair Resorts, Goa', 1500.00, 0.00, 0.00, 0, 0, 0.00, '', '0000-00-00 00:00:00', 2),
+(47, 10, 0, 'PNR17PK1FHV', 26, -1, 0, 2, '2018-10-06 16:20:21', 'Deposit: Trip has been booked PNR17PK1FHV / TRIP3dnxM91 / Luxury Stay At Mayfair Resorts, Goa', 0.00, 1500.00, 4130.00, 0, 0, 0.00, '', '0000-00-00 00:00:00', 2),
+(48, 0, 0, '', -1, -1, 26, 0, '2018-10-07 05:56:57', 'Deposit: Cash Deposited', 0.00, 1470.00, 1470.00, 0, 0, 0.00, '', '0000-00-00 00:00:00', 2),
+(49, 11, 0, 'PNR100VCNHF', -1, 0, 26, 2, '2018-10-07 05:56:57', 'Withdrawal: Trip has been booked PNR100VCNHF / TRIP3dnxM91 / Luxury Stay At Mayfair Resorts, Goa', 1470.00, 0.00, 0.00, 0, 0, 0.00, '', '0000-00-00 00:00:00', 2),
+(50, 11, 0, 'PNR100VCNHF', 26, -1, 0, 2, '2018-10-07 05:56:57', 'Deposit: Trip has been booked PNR100VCNHF / TRIP3dnxM91 / Luxury Stay At Mayfair Resorts, Goa', 0.00, 1470.00, 5600.00, 0, 0, 0.00, '', '0000-00-00 00:00:00', 2),
+(71, 11, 0, 'PNR100VCNHF', -1, 26, 0, 2, '2018-10-13 12:01:28', 'Withdrawal: Trip cancelled/refund amount for PNR No PNR100VCNHF (TRIP3dnxM91 / Luxury Stay At Mayfair Resorts, Goa).<br>Paid to your bank in NEFT', 735.00, 0.00, 4865.00, 0, 0, 0.00, '', '0000-00-00 00:00:00', 2),
+(72, 11, 0, 'PNR100VCNHF', 0, -1, 26, 2, '2018-10-13 12:01:28', 'Deposit: Trip cancelled/refund amount for PNR No PNR100VCNHF (TRIP3dnxM91 / Luxury Stay At Mayfair Resorts, Goa).<br>Paid to your bank in NEFT', 0.00, 735.00, 735.00, 0, 0, 0.00, '', '0000-00-00 00:00:00', 2),
+(73, 11, 15, 'PNR100VCNHF', -1, 3, 0, 2, '2018-10-13 12:01:28', 'Withdrawal: Trip cancelled/refund amount for PNR No PNR100VCNHF (TRIP3dnxM91 / Luxury Stay At Mayfair Resorts, Goa).<br>Paid to your bank in NEFT Include GST and Service Charge.', 720.50, 0.00, 4145.00, 0, 0, 0.00, '', '0000-00-00 00:00:00', 2),
+(74, 11, 15, 'PNR100VCNHF', 0, -1, 3, 2, '2018-10-13 12:01:28', 'Deposit: Trip cancelled/refund amount for PNR No PNR100VCNHF (TRIP3dnxM91 / Luxury Stay At Mayfair Resorts, Goa).<br>Paid to your bank in NEFT Include GST and Service Charge.', 0.00, 720.50, 36430.00, 0, 0, 0.00, '', '0000-00-00 00:00:00', 2),
+(75, 0, 0, '', -1, -2, 3, 0, '2018-10-14 15:11:26', 'Withdrawal Request: Cash Withdrawal Request', 0.00, 0.00, 36430.00, 3, 0, 1000.00, '', '0000-00-00 00:00:00', 0),
+(76, 0, 0, '', -1, -2, 3, 0, '2018-10-14 15:21:30', 'Withdrawal Request: Cash Withdrawal Request', 0.00, 0.00, 36430.00, 3, 0, 1500.00, '', '0000-00-00 00:00:00', 0),
+(77, 0, 0, '', -1, -2, 3, 0, '2018-10-15 15:47:56', 'Withdrawal Request: Cash Withdrawal Request', 0.00, 0.00, 36430.00, 3, 0, 2000.00, '', '0000-00-00 00:00:00', 3),
+(84, 0, 0, '', -1, -1, 3, 0, '2018-10-15 16:33:00', 'Withdrawal: Cash Withdrawal: Amount for withdrawal request, Paid on 15-10-18', 2000.00, 0.00, 34430.00, 3, 0, 0.00, 'Paid on 15-10-18', '2018-10-14 18:30:00', 2),
+(85, 10, 0, 'PNR17PK1FHV', -1, 26, 0, 2, '2018-10-16 15:28:10', 'Withdrawal: Trip cancelled/refund amount for PNR No PNR17PK1FHV (TRIP3dnxM91 / Luxury Stay At Mayfair Resorts, Goa).<br>Paid on 16-10-18', 750.00, 0.00, 3395.00, 0, 0, 0.00, '', '0000-00-00 00:00:00', 2),
+(86, 10, 0, 'PNR17PK1FHV', 0, -1, 26, 2, '2018-10-16 15:28:10', 'Deposit: Trip cancelled/refund amount for PNR No PNR17PK1FHV (TRIP3dnxM91 / Luxury Stay At Mayfair Resorts, Goa).<br>Paid on 16-10-18', 0.00, 750.00, 1485.00, 0, 0, 0.00, '', '0000-00-00 00:00:00', 2),
+(87, 10, 14, 'PNR17PK1FHV', -1, 3, 0, 2, '2018-10-16 15:28:11', 'Withdrawal: Trip cancelled/refund amount for PNR No PNR17PK1FHV (TRIP3dnxM91 / Luxury Stay At Mayfair Resorts, Goa).<br>Paid on 16-10-18 Include GST and Service Charge.', 735.00, 0.00, 2660.00, 0, 0, 0.00, '', '0000-00-00 00:00:00', 2),
+(88, 10, 14, 'PNR17PK1FHV', 0, -1, 3, 2, '2018-10-16 15:28:12', 'Deposit: Trip cancelled/refund amount for PNR No PNR17PK1FHV (TRIP3dnxM91 / Luxury Stay At Mayfair Resorts, Goa).<br>Paid on 16-10-18 Include GST and Service Charge.', 0.00, 735.00, 35165.00, 0, 0, 0.00, '', '0000-00-00 00:00:00', 2),
+(89, 0, 0, 'PNR07HFCMNO', -1, 26, 4, 0, '2018-10-20 03:44:59', 'Withdrawal: Trip has been booked PNR07HFCMNO', 2000.00, 0.00, 14660.00, 0, 0, 0.00, 'Office Booking PNRPNR07HFCMNO', '0000-00-00 00:00:00', 2),
+(90, 0, 0, 'PNR07HFCMNO', 4, -1, 26, 0, '2018-10-20 03:44:59', 'Deposit: Trip has been booked PNR07HFCMNO', 0.00, 2000.00, 3485.00, 0, 0, 0.00, 'Office Booking PNRPNR07HFCMNO', '0000-00-00 00:00:00', 2),
+(91, 11, 0, 'PNR07HFCMNO', -1, 0, 26, 3, '2018-10-20 03:44:59', 'Withdrawal: Trip has been booked PNR07HFCMNO / TRIP3dnx100 / Mayfair Resorts Shared Trip, Goa', 1520.00, 0.00, 1965.00, 0, 0, 0.00, '', '0000-00-00 00:00:00', 2),
+(92, 11, 0, 'PNR07HFCMNO', 26, -1, 0, 3, '2018-10-20 03:44:59', 'Deposit: Trip has been booked PNR07HFCMNO / TRIP3dnx100 / Mayfair Resorts Shared Trip, Goa', 0.00, 1520.00, 4180.00, 0, 0, 0.00, '', '0000-00-00 00:00:00', 2);
 
 -- --------------------------------------------------------
 
@@ -453,8 +493,11 @@ CREATE TABLE IF NOT EXISTS `trip_book_pay` (
   `subtotal_trip_price` float(8,2) NOT NULL,
   `total_trip_price` float(8,2) NOT NULL,
   `coupon_history_id` int(11) NOT NULL DEFAULT '0',
+  `specific_coupon_history_id` int(11) NOT NULL DEFAULT '0',
+  `specific_coupon_code` varchar(200) DEFAULT NULL,
   `discount_percentage` float(8,2) NOT NULL,
   `discount_price` float(8,2) NOT NULL,
+  `discount_your_price` float(8,2) NOT NULL DEFAULT '0.00',
   `offer_amt` float(8,2) NOT NULL,
   `gst_percentage` float(8,2) NOT NULL,
   `gst_amt` float(8,2) NOT NULL,
@@ -473,7 +516,7 @@ CREATE TABLE IF NOT EXISTS `trip_book_pay` (
   `payment_status` int(1) NOT NULL DEFAULT '0' COMMENT '0 - Pendding,1 - sucess,2 - failed',
   `b2b_payment_status` int(2) NOT NULL DEFAULT '0' COMMENT '0 - Pendding,1 - sucess,2 - failed',
   `b2b_payment_on` date DEFAULT NULL,
-  `b2b_confirm_on` date DEFAULT NULL,
+  `refund_percentage` int(11) DEFAULT '0',
   `cancelled_on` datetime DEFAULT NULL,
   `account_info_id` int(11) NOT NULL DEFAULT '0',
   `return_paid_amt` float(8,2) DEFAULT NULL,
@@ -482,18 +525,21 @@ CREATE TABLE IF NOT EXISTS `trip_book_pay` (
   `return_on` timestamp NULL DEFAULT NULL,
   `return_paid_status` tinyint(2) DEFAULT '1' COMMENT '1 - New, 2 - InProgress, 3 - Paid',
   `isactive` int(11) NOT NULL DEFAULT '1'
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `trip_book_pay`
 --
 
-INSERT INTO `trip_book_pay` (`id`, `parent_trip_id`, `trip_user_id`, `trip_id`, `user_id`, `pnr_no`, `number_of_persons`, `price_to_adult`, `price_to_child`, `price_to_infan`, `no_of_adult`, `no_of_child`, `no_of_infan`, `total_adult_price`, `total_child_price`, `total_infan_price`, `subtotal_trip_price`, `total_trip_price`, `coupon_history_id`, `discount_percentage`, `discount_price`, `offer_amt`, `gst_percentage`, `gst_amt`, `round_off`, `net_price`, `date_of_trip`, `date_of_trip_to`, `time_of_trip`, `pick_up_location_id`, `pick_up_location`, `pick_up_location_landmark`, `booked_on`, `booked_by`, `status`, `payment_type`, `payment_status`, `b2b_payment_status`, `b2b_payment_on`, `b2b_confirm_on`, `cancelled_on`, `account_info_id`, `return_paid_amt`, `return_notes`, `my_transaction_id`, `return_on`, `return_paid_status`, `isactive`) VALUES
-(1, 6, 4, 7, 21, 'PNR56JCRBJ3', 11, 1500.00, 1500.00, 1000.00, 6, 2, 3, 9000.00, 3000.00, 3000.00, 15000.00, 13500.00, 7, 10.00, 0.00, 1500.00, 0.00, 0.00, 0.00, 13500.00, '2018-09-30', '2018-09-30', '08:20:00', 19, 'Candolim', 'Axis bank', '2018-09-26 10:31:07', 21, 5, 1, 1, 1, '2018-09-30', NULL, NULL, 0, NULL, NULL, 0, NULL, 1, 1),
-(2, 6, 4, 7, 22, 'PNR25YN1OOQ', 10, 1500.00, 1500.00, 1000.00, 10, 0, 0, 15000.00, 0.00, 0.00, 15000.00, 15000.00, 0, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 15000.00, '2018-09-30', '2018-09-30', '08:45:00', 21, 'Calangute', 'Temple', '2018-09-26 10:49:52', 4, 5, 1, 1, 1, '2018-09-30', NULL, NULL, 0, NULL, NULL, 0, NULL, 1, 1),
-(3, 0, 3, 6, 23, 'PNR35JHDDI5', 10, 1000.00, 1000.00, 500.00, 10, 0, 0, 10000.00, 0.00, 0.00, 10000.00, 10000.00, 0, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 10000.00, '2018-09-30', '2018-09-30', '09:15:00', 18, 'Baga', 'CCD', '2018-09-26 11:05:07', 23, 5, 1, 1, 1, '2018-09-30', NULL, NULL, 0, NULL, NULL, 0, NULL, 1, 1),
-(4, 6, 4, 7, 24, 'PNR32XVNVK3', 3, 1500.00, 1500.00, 1000.00, 3, 0, 0, 4500.00, 0.00, 0.00, 4500.00, 4500.00, 0, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 4500.00, '2018-10-01', '2018-10-01', '08:00:00', 20, 'Sinquerim', 'Bus Stand', '2018-09-26 11:42:52', 4, 5, 1, 1, 1, '2018-09-30', NULL, NULL, 0, NULL, NULL, 0, NULL, 1, 1),
-(5, 6, 4, 7, 25, 'PNR41T9RZMI', 10, 1500.00, 1500.00, 1000.00, 10, 0, 0, 15000.00, 0.00, 0.00, 15000.00, 13500.00, 7, 10.00, 0.00, 1500.00, 0.00, 0.00, 0.00, 13500.00, '2018-09-30', '2018-09-30', '08:20:00', 19, 'Candolim', 'Axis bank', '2018-09-29 11:58:53', 25, 5, 1, 1, 1, '2018-09-30', NULL, NULL, 0, NULL, NULL, 0, NULL, 1, 1);
+INSERT INTO `trip_book_pay` (`id`, `parent_trip_id`, `trip_user_id`, `trip_id`, `user_id`, `pnr_no`, `number_of_persons`, `price_to_adult`, `price_to_child`, `price_to_infan`, `no_of_adult`, `no_of_child`, `no_of_infan`, `total_adult_price`, `total_child_price`, `total_infan_price`, `subtotal_trip_price`, `total_trip_price`, `coupon_history_id`, `specific_coupon_history_id`, `specific_coupon_code`, `discount_percentage`, `discount_price`, `discount_your_price`, `offer_amt`, `gst_percentage`, `gst_amt`, `round_off`, `net_price`, `date_of_trip`, `date_of_trip_to`, `time_of_trip`, `pick_up_location_id`, `pick_up_location`, `pick_up_location_landmark`, `booked_on`, `booked_by`, `status`, `payment_type`, `payment_status`, `b2b_payment_status`, `b2b_payment_on`, `refund_percentage`, `cancelled_on`, `account_info_id`, `return_paid_amt`, `return_notes`, `my_transaction_id`, `return_on`, `return_paid_status`, `isactive`) VALUES
+(1, 6, 4, 7, 21, 'PNR56JCRBJ3', 11, 1500.00, 1500.00, 1000.00, 6, 2, 3, 9000.00, 3000.00, 3000.00, 15000.00, 13500.00, 7, 0, NULL, 10.00, 0.00, 0.00, 1500.00, 0.00, 0.00, 0.00, 13500.00, '2018-09-30', '2018-09-30', '08:20:00', 19, 'Candolim', 'Axis bank', '2018-09-26 10:31:07', 21, 5, 1, 1, 1, '2018-09-30', NULL, NULL, 0, NULL, NULL, 0, NULL, 1, 1),
+(2, 6, 4, 7, 22, 'PNR25YN1OOQ', 10, 1500.00, 1500.00, 1000.00, 10, 0, 0, 15000.00, 0.00, 0.00, 15000.00, 15000.00, 0, 0, NULL, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 15000.00, '2018-09-30', '2018-09-30', '08:45:00', 21, 'Calangute', 'Temple', '2018-09-26 10:49:52', 4, 5, 1, 1, 1, '2018-09-30', NULL, NULL, 0, NULL, NULL, 0, NULL, 1, 1),
+(3, 0, 3, 6, 23, 'PNR35JHDDI5', 10, 1000.00, 1000.00, 500.00, 10, 0, 0, 10000.00, 0.00, 0.00, 10000.00, 10000.00, 0, 0, NULL, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 10000.00, '2018-09-30', '2018-09-30', '09:15:00', 18, 'Baga', 'CCD', '2018-09-26 11:05:07', 23, 5, 1, 1, 1, '2018-09-30', NULL, NULL, 0, NULL, NULL, 0, NULL, 1, 1),
+(4, 6, 4, 7, 24, 'PNR32XVNVK3', 3, 1500.00, 1500.00, 1000.00, 3, 0, 0, 4500.00, 0.00, 0.00, 4500.00, 4500.00, 0, 0, NULL, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 4500.00, '2018-10-01', '2018-10-01', '08:00:00', 20, 'Sinquerim', 'Bus Stand', '2018-09-26 11:42:52', 4, 5, 1, 1, 1, '2018-09-30', NULL, NULL, 0, NULL, NULL, 0, NULL, 1, 1),
+(5, 6, 4, 7, 25, 'PNR41T9RZMI', 10, 1500.00, 1500.00, 1000.00, 10, 0, 0, 15000.00, 0.00, 0.00, 15000.00, 13500.00, 7, 0, NULL, 10.00, 0.00, 0.00, 1500.00, 0.00, 0.00, 0.00, 13500.00, '2018-09-30', '2018-09-30', '08:20:00', 19, 'Candolim', 'Axis bank', '2018-09-29 11:58:53', 25, 5, 1, 1, 1, '2018-09-30', NULL, NULL, 0, NULL, NULL, 0, NULL, 1, 1),
+(9, 0, 3, 2, 26, 'PNR38907CAY', 1, 1500.00, 1000.00, 0.00, 1, 0, 0, 1500.00, 0.00, 0.00, 1500.00, 1500.00, 0, 0, NULL, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 1500.00, '2018-10-12', '2018-10-14', '08:25:00', 5, 'Baga, Goa', 'Skywalk', '2018-10-06 16:13:59', 3, 3, 1, 1, 1, NULL, NULL, '2018-10-16 00:00:00', 6, NULL, NULL, 0, NULL, 1, 1),
+(10, 0, 3, 2, 26, 'PNR17PK1FHV', 1, 1500.00, 1000.00, 0.00, 1, 0, 0, 1500.00, 0.00, 0.00, 1500.00, 1500.00, 0, 0, NULL, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 1500.00, '2018-10-16', '2018-10-18', '09:10:00', 6, 'Candolim, Goa', 'Candolim', '2018-10-06 16:20:21', 3, 3, 1, 1, 1, '2018-10-16', 50, '2018-10-14 00:00:00', 2, 750.00, 'Paid on 16-10-18', 86, '2018-10-15 18:30:00', 3, 1),
+(11, 2, 4, 3, 26, 'PNR07HFCMNO', 1, 2000.00, 1500.00, 0.00, 1, 0, 0, 2000.00, 0.00, 0.00, 2000.00, 2000.00, 0, 0, '', 0.00, 0.00, 480.00, 0.00, 0.00, 0.00, 0.00, 1520.00, '2018-10-22', '2018-10-24', '09:10:00', 3, 'Candolim, Goa', '', '2018-10-20 03:44:58', 4, 2, 1, 1, 0, NULL, 0, NULL, 0, NULL, NULL, 0, NULL, 1, 1);
 
 -- --------------------------------------------------------
 
@@ -524,8 +570,11 @@ CREATE TABLE IF NOT EXISTS `trip_book_pay_details` (
   `subtotal_trip_price` float(8,2) NOT NULL,
   `total_trip_price` float(8,2) NOT NULL,
   `coupon_history_id` int(11) NOT NULL DEFAULT '0',
+  `specific_coupon_history_id` int(11) NOT NULL DEFAULT '0',
+  `specific_coupon_code` varchar(200) DEFAULT NULL,
   `discount_percentage` float(8,2) NOT NULL,
   `discount_price` float(8,2) NOT NULL,
+  `discount_your_price` float(8,2) NOT NULL DEFAULT '0.00',
   `offer_amt` float(8,2) NOT NULL,
   `net_price` float(8,2) NOT NULL,
   `vendor_amt` float(8,2) NOT NULL,
@@ -548,7 +597,7 @@ CREATE TABLE IF NOT EXISTS `trip_book_pay_details` (
   `payment_status` int(1) NOT NULL COMMENT '0 - Pendding,1 - sucess,2 - failed',
   `b2b_payment_status` int(2) NOT NULL DEFAULT '0' COMMENT '0 - Pendding,1 - sucess,2 - failed',
   `b2b_payment_on` date DEFAULT NULL,
-  `b2b_confirm_on` date DEFAULT NULL,
+  `refund_percentage` int(11) DEFAULT '0',
   `cancelled_on` datetime DEFAULT NULL,
   `account_info_id` int(11) NOT NULL DEFAULT '0',
   `return_paid_amt` float(8,2) DEFAULT NULL,
@@ -558,22 +607,26 @@ CREATE TABLE IF NOT EXISTS `trip_book_pay_details` (
   `return_paid_status` tinyint(2) DEFAULT '1' COMMENT '1 - New, 2 - InProgress, 3 - Paid',
   `pay_details_id` int(11) NOT NULL DEFAULT '0',
   `isactive` int(11) NOT NULL DEFAULT '1'
-) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `trip_book_pay_details`
 --
 
-INSERT INTO `trip_book_pay_details` (`id`, `book_pay_id`, `parent_trip_id`, `trip_user_id`, `trip_id`, `from_user_id`, `from_trip_id`, `user_id`, `pnr_no`, `number_of_persons`, `price_to_adult`, `price_to_child`, `price_to_infan`, `no_of_adult`, `no_of_child`, `no_of_infan`, `total_adult_price`, `total_child_price`, `total_infan_price`, `subtotal_trip_price`, `total_trip_price`, `coupon_history_id`, `discount_percentage`, `discount_price`, `offer_amt`, `net_price`, `vendor_amt`, `your_amt`, `servicecharge_amt`, `gst_percentage`, `gst_amt`, `round_off`, `your_final_amt`, `date_of_trip`, `date_of_trip_to`, `time_of_trip`, `pick_up_location_id`, `pick_up_location`, `pick_up_location_landmark`, `booked_on`, `booked_by`, `status`, `payment_type`, `payment_status`, `b2b_payment_status`, `b2b_payment_on`, `b2b_confirm_on`, `cancelled_on`, `account_info_id`, `return_paid_amt`, `return_notes`, `my_transaction_id`, `return_on`, `return_paid_status`, `pay_details_id`, `isactive`) VALUES
-(1, 1, 0, 3, 6, 21, 7, 3, 'PNR56JCRBJ3', 11, 1000.00, 1000.00, 500.00, 6, 2, 3, 6000.00, 2000.00, 1500.00, 9500.00, 9500.00, 0, 0.00, 0.00, 0.00, 9500.00, 0.00, 9310.00, 190.00, 0.00, 0.00, 0.00, 9310.00, '2018-09-30', '2018-09-30', '08:20:00', 19, 'Candolim', 'Axis bank', '2018-09-26 04:54:24', 21, 5, 1, 1, 1, '2018-09-30', NULL, NULL, 0, NULL, NULL, 17, NULL, 1, 2, 1),
-(2, 1, 6, 4, 7, 21, 7, 4, 'PNR56JCRBJ3', 11, 1500.00, 1500.00, 1000.00, 6, 2, 3, 9000.00, 3000.00, 3000.00, 15000.00, 13500.00, 7, 10.00, 0.00, 1500.00, 4000.00, 9500.00, 3920.00, 80.00, 0.00, 0.00, 0.00, 3920.00, '2018-09-30', '2018-09-30', '08:20:00', 19, 'Candolim', 'Axis bank', '2018-09-26 10:31:07', 21, 5, 1, 1, 1, '2018-09-30', NULL, NULL, 0, NULL, NULL, 19, NULL, 1, 1, 1),
-(3, 2, 0, 3, 6, 22, 7, 3, 'PNR25YN1OOQ', 10, 1000.00, 1000.00, 500.00, 10, 0, 0, 10000.00, 0.00, 0.00, 10000.00, 10000.00, 0, 0.00, 0.00, 0.00, 10000.00, 0.00, 9800.00, 200.00, 0.00, 0.00, 0.00, 9800.00, '2018-09-30', '2018-09-30', '08:45:00', 21, 'Calangute', 'Temple', '2018-09-26 10:49:52', 4, 5, 1, 1, 1, '2018-09-30', NULL, NULL, 0, NULL, NULL, 21, NULL, 1, 4, 1),
-(4, 2, 6, 4, 7, 22, 7, 4, 'PNR25YN1OOQ', 10, 1500.00, 1500.00, 1000.00, 10, 0, 0, 15000.00, 0.00, 0.00, 15000.00, 15000.00, 0, 0.00, 0.00, 0.00, 5000.00, 10000.00, 4900.00, 100.00, 0.00, 0.00, 0.00, 4900.00, '2018-09-30', '2018-09-30', '08:45:00', 21, 'Calangute', 'Temple', '2018-09-26 10:49:52', 4, 5, 1, 1, 1, '2018-09-30', NULL, NULL, 0, NULL, NULL, 23, NULL, 1, 3, 1),
-(5, 3, 0, 3, 6, 23, 6, 3, 'PNR35JHDDI5', 10, 1000.00, 1000.00, 500.00, 10, 0, 0, 10000.00, 0.00, 0.00, 10000.00, 10000.00, 0, 0.00, 0.00, 0.00, 10000.00, 0.00, 9800.00, 200.00, 0.00, 0.00, 0.00, 9800.00, '2018-09-30', '2018-09-30', '09:15:00', 18, 'Baga', 'CCD', '2018-09-26 11:05:07', 23, 5, 1, 1, 1, '2018-09-30', NULL, NULL, 0, NULL, NULL, 25, NULL, 1, 5, 1),
-(6, 4, 0, 3, 6, 24, 7, 3, 'PNR32XVNVK3', 3, 1000.00, 1000.00, 500.00, 3, 0, 0, 3000.00, 0.00, 0.00, 3000.00, 3000.00, 0, 0.00, 0.00, 0.00, 3000.00, 0.00, 2940.00, 60.00, 0.00, 0.00, 0.00, 2940.00, '2018-10-01', '2018-10-01', '08:00:00', 20, 'Sinquerim', 'Bus Stand', '2018-09-26 11:42:52', 4, 5, 1, 1, 1, '2018-09-30', NULL, NULL, 0, NULL, NULL, 27, NULL, 1, 7, 1),
-(7, 4, 6, 4, 7, 24, 7, 4, 'PNR32XVNVK3', 3, 1500.00, 1500.00, 1000.00, 3, 0, 0, 4500.00, 0.00, 0.00, 4500.00, 4500.00, 0, 0.00, 0.00, 0.00, 1500.00, 3000.00, 1470.00, 30.00, 0.00, 0.00, 0.00, 1470.00, '2018-10-01', '2018-10-01', '08:00:00', 20, 'Sinquerim', 'Bus Stand', '2018-09-26 11:42:52', 4, 5, 1, 1, 1, '2018-09-30', NULL, NULL, 0, NULL, NULL, 29, NULL, 1, 6, 1),
-(8, 5, 0, 3, 6, 25, 7, 3, 'PNR41T9RZMI', 10, 1000.00, 1000.00, 500.00, 10, 0, 0, 10000.00, 0.00, 0.00, 10000.00, 7000.00, 9, 0.00, 300.00, 3000.00, 7000.00, 0.00, 6860.00, 140.00, 0.00, 0.00, 0.00, 6860.00, '2018-09-30', '2018-09-30', '08:20:00', 19, 'Candolim', 'Axis bank', '2018-09-29 11:58:53', 25, 5, 1, 1, 1, '2018-09-30', NULL, NULL, 0, NULL, NULL, 31, NULL, 1, 9, 1),
-(9, 5, 6, 4, 7, 25, 7, 4, 'PNR41T9RZMI', 10, 1500.00, 1500.00, 1000.00, 10, 0, 0, 15000.00, 0.00, 0.00, 15000.00, 13500.00, 7, 10.00, 0.00, 1500.00, 6500.00, 7000.00, 6370.00, 130.00, 0.00, 0.00, 0.00, 6370.00, '2018-09-30', '2018-09-30', '08:20:00', 19, 'Candolim', 'Axis bank', '2018-09-29 11:58:53', 25, 5, 1, 1, 1, '2018-09-30', NULL, NULL, 0, NULL, NULL, 33, NULL, 1, 8, 1);
+INSERT INTO `trip_book_pay_details` (`id`, `book_pay_id`, `parent_trip_id`, `trip_user_id`, `trip_id`, `from_user_id`, `from_trip_id`, `user_id`, `pnr_no`, `number_of_persons`, `price_to_adult`, `price_to_child`, `price_to_infan`, `no_of_adult`, `no_of_child`, `no_of_infan`, `total_adult_price`, `total_child_price`, `total_infan_price`, `subtotal_trip_price`, `total_trip_price`, `coupon_history_id`, `specific_coupon_history_id`, `specific_coupon_code`, `discount_percentage`, `discount_price`, `discount_your_price`, `offer_amt`, `net_price`, `vendor_amt`, `your_amt`, `servicecharge_amt`, `gst_percentage`, `gst_amt`, `round_off`, `your_final_amt`, `date_of_trip`, `date_of_trip_to`, `time_of_trip`, `pick_up_location_id`, `pick_up_location`, `pick_up_location_landmark`, `booked_on`, `booked_by`, `status`, `payment_type`, `payment_status`, `b2b_payment_status`, `b2b_payment_on`, `refund_percentage`, `cancelled_on`, `account_info_id`, `return_paid_amt`, `return_notes`, `my_transaction_id`, `return_on`, `return_paid_status`, `pay_details_id`, `isactive`) VALUES
+(1, 1, 0, 3, 6, 21, 7, 3, 'PNR56JCRBJ3', 11, 1000.00, 1000.00, 500.00, 6, 2, 3, 6000.00, 2000.00, 1500.00, 9500.00, 9500.00, 0, 0, NULL, 0.00, 0.00, 0.00, 0.00, 9500.00, 0.00, 9310.00, 190.00, 0.00, 0.00, 0.00, 9310.00, '2018-09-30', '2018-09-30', '08:20:00', 19, 'Candolim', 'Axis bank', '2018-09-26 04:54:24', 21, 5, 1, 1, 1, '2018-09-30', NULL, NULL, 0, NULL, NULL, 17, NULL, 1, 2, 1),
+(2, 1, 6, 4, 7, 21, 7, 4, 'PNR56JCRBJ3', 11, 1500.00, 1500.00, 1000.00, 6, 2, 3, 9000.00, 3000.00, 3000.00, 15000.00, 13500.00, 7, 0, NULL, 10.00, 0.00, 0.00, 1500.00, 4000.00, 9500.00, 3920.00, 80.00, 0.00, 0.00, 0.00, 3920.00, '2018-09-30', '2018-09-30', '08:20:00', 19, 'Candolim', 'Axis bank', '2018-09-26 10:31:07', 21, 5, 1, 1, 1, '2018-09-30', NULL, NULL, 0, NULL, NULL, 19, NULL, 1, 1, 1),
+(3, 2, 0, 3, 6, 22, 7, 3, 'PNR25YN1OOQ', 10, 1000.00, 1000.00, 500.00, 10, 0, 0, 10000.00, 0.00, 0.00, 10000.00, 10000.00, 0, 0, NULL, 0.00, 0.00, 0.00, 0.00, 10000.00, 0.00, 9800.00, 200.00, 0.00, 0.00, 0.00, 9800.00, '2018-09-30', '2018-09-30', '08:45:00', 21, 'Calangute', 'Temple', '2018-09-26 10:49:52', 4, 5, 1, 1, 1, '2018-09-30', NULL, NULL, 0, NULL, NULL, 21, NULL, 1, 4, 1),
+(4, 2, 6, 4, 7, 22, 7, 4, 'PNR25YN1OOQ', 10, 1500.00, 1500.00, 1000.00, 10, 0, 0, 15000.00, 0.00, 0.00, 15000.00, 15000.00, 0, 0, NULL, 0.00, 0.00, 0.00, 0.00, 5000.00, 10000.00, 4900.00, 100.00, 0.00, 0.00, 0.00, 4900.00, '2018-09-30', '2018-09-30', '08:45:00', 21, 'Calangute', 'Temple', '2018-09-26 10:49:52', 4, 5, 1, 1, 1, '2018-09-30', NULL, NULL, 0, NULL, NULL, 23, NULL, 1, 3, 1),
+(5, 3, 0, 3, 6, 23, 6, 3, 'PNR35JHDDI5', 10, 1000.00, 1000.00, 500.00, 10, 0, 0, 10000.00, 0.00, 0.00, 10000.00, 10000.00, 0, 0, NULL, 0.00, 0.00, 0.00, 0.00, 10000.00, 0.00, 9800.00, 200.00, 0.00, 0.00, 0.00, 9800.00, '2018-09-30', '2018-09-30', '09:15:00', 18, 'Baga', 'CCD', '2018-09-26 11:05:07', 23, 5, 1, 1, 1, '2018-09-30', NULL, NULL, 0, NULL, NULL, 25, NULL, 1, 5, 1),
+(6, 4, 0, 3, 6, 24, 7, 3, 'PNR32XVNVK3', 3, 1000.00, 1000.00, 500.00, 3, 0, 0, 3000.00, 0.00, 0.00, 3000.00, 3000.00, 0, 0, NULL, 0.00, 0.00, 0.00, 0.00, 3000.00, 0.00, 2940.00, 60.00, 0.00, 0.00, 0.00, 2940.00, '2018-10-01', '2018-10-01', '08:00:00', 20, 'Sinquerim', 'Bus Stand', '2018-09-26 11:42:52', 4, 5, 1, 1, 1, '2018-09-30', NULL, NULL, 0, NULL, NULL, 27, NULL, 1, 7, 1),
+(7, 4, 6, 4, 7, 24, 7, 4, 'PNR32XVNVK3', 3, 1500.00, 1500.00, 1000.00, 3, 0, 0, 4500.00, 0.00, 0.00, 4500.00, 4500.00, 0, 0, NULL, 0.00, 0.00, 0.00, 0.00, 1500.00, 3000.00, 1470.00, 30.00, 0.00, 0.00, 0.00, 1470.00, '2018-10-01', '2018-10-01', '08:00:00', 20, 'Sinquerim', 'Bus Stand', '2018-09-26 11:42:52', 4, 5, 1, 1, 1, '2018-09-30', NULL, NULL, 0, NULL, NULL, 29, NULL, 1, 6, 1),
+(8, 5, 0, 3, 6, 25, 7, 3, 'PNR41T9RZMI', 10, 1000.00, 1000.00, 500.00, 10, 0, 0, 10000.00, 0.00, 0.00, 10000.00, 7000.00, 9, 0, NULL, 0.00, 300.00, 0.00, 3000.00, 7000.00, 0.00, 6860.00, 140.00, 0.00, 0.00, 0.00, 6860.00, '2018-09-30', '2018-09-30', '08:20:00', 19, 'Candolim', 'Axis bank', '2018-09-29 11:58:53', 25, 5, 1, 1, 1, '2018-09-30', NULL, NULL, 0, NULL, NULL, 31, NULL, 1, 9, 1),
+(9, 5, 6, 4, 7, 25, 7, 4, 'PNR41T9RZMI', 10, 1500.00, 1500.00, 1000.00, 10, 0, 0, 15000.00, 0.00, 0.00, 15000.00, 13500.00, 7, 0, NULL, 10.00, 0.00, 0.00, 1500.00, 6500.00, 7000.00, 6370.00, 130.00, 0.00, 0.00, 0.00, 6370.00, '2018-09-30', '2018-09-30', '08:20:00', 19, 'Candolim', 'Axis bank', '2018-09-29 11:58:53', 25, 5, 1, 1, 1, '2018-09-30', NULL, NULL, 0, NULL, NULL, 33, NULL, 1, 8, 1),
+(13, 9, 0, 3, 2, 26, 2, 3, 'PNR38907CAY', 1, 1500.00, 1000.00, 0.00, 1, 0, 0, 1500.00, 0.00, 0.00, 1500.00, 1500.00, 0, 0, NULL, 0.00, 0.00, 0.00, 0.00, 1500.00, 0.00, 1470.00, 30.00, 0.00, 0.00, 0.00, 1470.00, '2018-10-12', '2018-10-14', '08:25:00', 5, 'Baga, Goa', 'Skywalk', '2018-10-06 16:13:59', 3, 3, 1, 1, 1, NULL, NULL, '2018-10-16 00:00:00', 6, NULL, NULL, 0, NULL, 1, 13, 1),
+(14, 10, 0, 3, 2, 26, 2, 3, 'PNR17PK1FHV', 1, 1500.00, 1000.00, 0.00, 1, 0, 0, 1500.00, 0.00, 0.00, 1500.00, 1500.00, 0, 0, NULL, 0.00, 0.00, 0.00, 0.00, 1500.00, 0.00, 1470.00, 30.00, 0.00, 0.00, 0.00, 1470.00, '2018-10-16', '2018-10-18', '09:10:00', 6, 'Candolim, Goa', 'Candolim', '2018-10-06 16:20:21', 3, 3, 1, 1, 1, '2018-10-16', 50, '2018-10-14 00:00:00', 2, 735.00, 'Paid on 16-10-18', 88, '2018-10-15 18:30:00', 3, 14, 1),
+(15, 11, 0, 3, 2, 26, 3, 3, 'PNR07HFCMNO', 1, 1500.00, 1000.00, 0.00, 1, 0, 0, 1500.00, 0.00, 0.00, 1500.00, 1500.00, 0, 0, '', 0.00, 0.00, 0.00, 0.00, 1500.00, 0.00, 1470.00, 30.00, 0.00, 0.00, 0.00, 1470.00, '2018-10-22', '2018-10-24', '09:10:00', 3, 'Candolim, Goa', '', '2018-10-20 03:44:58', 4, 2, 1, 1, 0, NULL, 0, NULL, 0, NULL, NULL, 0, NULL, 1, 16, 1),
+(16, 11, 2, 4, 3, 26, 3, 4, 'PNR07HFCMNO', 1, 2000.00, 1500.00, 0.00, 1, 0, 0, 2000.00, 0.00, 0.00, 2000.00, 2000.00, 0, 0, '', 0.00, 0.00, 480.00, 0.00, 500.00, 1500.00, 480.00, 20.00, 0.00, 0.00, 0.00, 0.00, '2018-10-22', '2018-10-24', '09:10:00', 3, 'Candolim, Goa', '', '2018-10-20 03:44:58', 4, 2, 1, 1, 1, '2018-10-20', 0, NULL, 0, NULL, NULL, 0, NULL, 1, 15, 1);
 
 -- --------------------------------------------------------
 
@@ -836,11 +889,11 @@ CREATE TABLE IF NOT EXISTS `trip_master` (
 INSERT INTO `trip_master` (`id`, `trip_code`, `user_id`, `trip_category_id`, `trip_name`, `trip_url`, `trip_img_name`, `parent_trip_id`, `address1`, `address2`, `city_id`, `state_id`, `country_id`, `price_to_adult`, `price_to_child`, `price_to_infan`, `trip_duration`, `how_many_days`, `how_many_nights`, `total_days`, `how_many_time`, `how_many_hours`, `brief_description`, `other_inclusions`, `exclusions`, `languages`, `meal`, `transport`, `things_to_carry`, `advisory`, `tour_type`, `cancellation_policy`, `confirmation_policy`, `refund_policy`, `meeting_point`, `meeting_time`, `no_of_traveller`, `no_of_min_booktraveller`, `no_of_max_booktraveller`, `status`, `is_terms_accpet`, `booking_cut_of_time_type`, `booking_cut_of_day`, `booking_cut_of_time`, `booking_max_cut_of_month`, `is_shared`, `trip_shared_id`, `total_rating`, `total_booking`, `view_to`, `isactive`, `created_on`, `created_by`, `updated_on`, `updated_by`) VALUES
 (1, 'TRIPFGSbgNw', 3, 7, 'North Goa Sightseeing Full Day Tour', 'north-goa-sightseeing-full-day-tour', '1534779603_033.jpg', 0, NULL, NULL, 2, 2, 0, 500, 400, 0, 2, 1, 1, 2, 0, 0, '&lt;ul&gt;&lt;li&gt;Embark on this amazing sightseeing tour in North Goa and get a chance to explore the stunning beauty of this region.&lt;/li&gt;&lt;li&gt;Start your trip after getting picked up from the hotel at around 08:30 AM by bus.&lt;/li&gt;&lt;li&gt;Explore some of the most favourite tourist spots of this region with the beautiful sights.&lt;/li&gt;&lt;li&gt;This tour includes a visit to the famous Fort Aguada, Anjuna Beach, Vagator Beach, Calangute beach, Morjim Beach &amp; Ashvem Beach.&lt;/li&gt;&lt;li&gt;Enjoy the cool sea breeze while at the beaches and the breath taking sunset&lt;/li&gt;&lt;li&gt;Conclude your tour after you are dropped back to the hotel at around 05:00 PM. by car and 4:30 PM by bus.&lt;/li&gt;&lt;/ul&gt;', NULL, NULL, 'english', 'Non-veg, veg', '&lt;ul&gt;&lt;li&gt;Pick up and drop from hotel in an A/C bus.&lt;/li&gt;&lt;/ul&gt;', '&lt;ul&gt;&lt;li&gt;Sunscreen&lt;/li&gt;&lt;li&gt;Sunglasses&lt;/li&gt;&lt;li&gt;Hat&lt;/li&gt;&lt;li&gt;Camera&lt;/li&gt;&lt;/ul&gt;', NULL, '&lt;ul&gt;&lt;li&gt;This is a group tour&lt;/li&gt;&lt;/ul&gt;', '&lt;ul&gt;&lt;li&gt;If cancellations are made 15 days before the start date of the trip, 25% of total tour cost will be charged as cancellation fees&lt;/li&gt;&lt;li&gt;If cancellations are made 7-15 days before the start date of the trip, 50% of total tour cost will be charged as cancellation fees.&lt;/li&gt;&lt;li&gt;If cancellations are made within 0-7 days before the start date of the trip, 100% of total tour cost will be charged as cancellation fees.&lt;/li&gt;&lt;li&gt;In case of unforeseen weather conditions or government restrictions, certain activities may be cancelled and in such cases the operator will try his best to provide an alternate feasible activity. However no refund will be provided for the same.&lt;/li&gt;&lt;/ul&gt;', '&lt;ul&gt;&lt;li&gt;The customer receives a confirmation voucher via email within 24 hours of successful booking&lt;/li&gt;&lt;li&gt;In case the preferred slots are unavailable, an alternate schedule of the customer&rsquo;s preference will be arranged and a new confirmation voucher will be sent via email.&lt;/li&gt;&lt;li&gt;Alternatively, the customer may choose to cancel their booking and a full refund will be processed.&lt;/li&gt;&lt;/ul&gt;', '&lt;ul&gt;&lt;li&gt;The applicable refund amount will be processed within 10 business days&lt;/li&gt;&lt;/ul&gt;', 'Calangute,Goa', '07:10', 20, 1, 2, 1, 1, 1, 0, 0, 12, 0, 0, 4.0, 0, 1, 1, '2018-08-20 12:22:34', 3, '2018-08-23 10:57:57', 3),
 (2, 'TRIP3dnxM91', 3, 11, 'Luxury Stay At Mayfair Resorts, Goa', 'luxury-stay-at-mayfair-resorts-goa', '1535027789_b2.jpg', 0, NULL, NULL, 2, 2, 0, 1500, 1000, 0, 2, 2, 1, 3, 0, 0, '&lt;li&gt;Experience a luxurious stay at the Mayfair Resorts, Goa with friends and family for an unparalleled experience.&lt;/li&gt;&lt;li&gt;While at Mayfair Resorts, apart from the relaxing stay you will be taken out for an enthralling sightseeing tour to Mangeshi Temple, Old Goa Church and Miramar Beach.&lt;/li&gt;&lt;li&gt;You can relax with a couple massage or a candle light dinner with a bottle of wine with your partner.&lt;/li&gt;&lt;li&gt;The resort has special packages for luxurious and honeymoon stays.&lt;/li&gt;&lt;li&gt;Complimentary Goa Airport / Madgaon railway station transfer by sharing on fixed departures.&lt;br&gt;&lt;/li&gt;&lt;li&gt;Meals are also provided in this package&lt;br&gt;&lt;/li&gt;&lt;li&gt;The stay is available at Double Occupancy&lt;/li&gt;', '&lt;ul&gt;&lt;li&gt;Non-alcoholic Welcome Drink&lt;/li&gt;&lt;li&gt;Two bottles of packaged drinking water.&lt;/li&gt;&lt;li&gt;Swimming Pool and fitness centre facilities.&lt;/li&gt;&lt;/ul&gt;', NULL, '', 'Vegetarian and Non-Vegetarian - Breakfast, Lunch, Dinner', NULL, '&lt;ul&gt;&lt;li&gt;Camera&lt;/li&gt;&lt;li&gt;Extra Set of clothes&lt;/li&gt;&lt;li&gt;Bathing Suit&lt;/li&gt;&lt;li&gt;Sunscreen&lt;/li&gt;&lt;li&gt;Sunglasses&lt;/li&gt;&lt;/ul&gt;', NULL, 'family', '&lt;ul&gt;&lt;li&gt;The customer receives a confirmation voucher via email within 24 hours of successful booking&lt;/li&gt;&lt;/ul&gt;', '&lt;ul&gt;&lt;li&gt;The customer receives a confirmation voucher via email within 24 hours of successful booking&lt;/li&gt;&lt;li&gt;In case the preferred slots are unavailable, an alternate schedule of the customer&rsquo;s preference will be arranged and a new confirmation voucher will be sent via email.&lt;/li&gt;&lt;li&gt;Alternatively, the customer may choose to cancel their booking and a full refund will be processed.&lt;/li&gt;&lt;/ul&gt;', '&lt;ul&gt;&lt;li&gt;The applicable refund amount will be processed within 15 business days&lt;/li&gt;&lt;/ul&gt;', 'Baga, Goa', '08:25', 10, 1, 5, 1, 1, 1, 15, 0, 12, 0, 0, 2.0, 0, 1, 1, '2018-08-23 09:11:10', 3, '0000-00-00 00:00:00', 0),
-(3, 'TRIP3dnx100', 4, 6, 'Mayfair Resorts Shared Trip, Goa', 'mayfair-resorts-shared-trip-goa', '1535027789_b2.jpg', 2, NULL, NULL, 2, 2, 0, 2000, 1500, 0, 2, 2, 1, 3, 0, 0, '&lt;li&gt;Experience a luxurious stay at the Mayfair Resorts, Goa with friends and family for an unparalleled experience.&lt;/li&gt;&lt;li&gt;While at Mayfair Resorts, apart from the relaxing stay you will be taken out for an enthralling sightseeing tour to Mangeshi Temple, Old Goa Church and Miramar Beach.&lt;/li&gt;&lt;li&gt;You can relax with a couple massage or a candle light dinner with a bottle of wine with your partner.&lt;/li&gt;&lt;li&gt;The resort has special packages for luxurious and honeymoon stays.&lt;/li&gt;&lt;li&gt;Complimentary Goa Airport / Madgaon railway station transfer by sharing on fixed departures.&lt;br&gt;&lt;/li&gt;&lt;li&gt;Meals are also provided in this package&lt;br&gt;&lt;/li&gt;&lt;li&gt;The stay is available at Double Occupancy&lt;/li&gt;', '&lt;ul&gt;&lt;li&gt;Non-alcoholic Welcome Drink&lt;/li&gt;&lt;li&gt;Two bottles of packaged drinking water.&lt;/li&gt;&lt;li&gt;Swimming Pool and fitness centre facilities.&lt;/li&gt;&lt;/ul&gt;', NULL, '', 'Vegetarian and Non-Vegetarian - Breakfast, Lunch, Dinner', NULL, '&lt;ul&gt;&lt;li&gt;Camera&lt;/li&gt;&lt;li&gt;Extra Set of clothes&lt;/li&gt;&lt;li&gt;Bathing Suit&lt;/li&gt;&lt;li&gt;Sunscreen&lt;/li&gt;&lt;li&gt;Sunglasses&lt;/li&gt;&lt;/ul&gt;', NULL, 'family', '&lt;ul&gt;&lt;li&gt;The customer receives a confirmation voucher via email within 24 hours of successful booking&lt;/li&gt;&lt;/ul&gt;', '&lt;ul&gt;&lt;li&gt;The customer receives a confirmation voucher via email within 24 hours of successful booking&lt;/li&gt;&lt;li&gt;In case the preferred slots are unavailable, an alternate schedule of the customer&rsquo;s preference will be arranged and a new confirmation voucher will be sent via email.&lt;/li&gt;&lt;li&gt;Alternatively, the customer may choose to cancel their booking and a full refund will be processed.&lt;/li&gt;&lt;/ul&gt;', '&lt;ul&gt;&lt;li&gt;The applicable refund amount will be processed within 15 business days&lt;/li&gt;&lt;/ul&gt;', 'Baga, Goa', '08:25', 10, 1, 5, 1, 1, 1, 15, 0, 12, 1, 0, 0.0, 0, 1, 0, '2018-08-23 09:11:10', 3, '0000-00-00 00:00:00', 0),
+(3, 'TRIP3dnx100', 4, 6, 'Mayfair Resorts Shared Trip, Goa', 'mayfair-resorts-shared-trip-goa', '1535027789_b2.jpg', 2, NULL, NULL, 2, 2, 0, 2000, 1500, 0, 2, 2, 1, 3, 0, 0, '&lt;li&gt;Experience a luxurious stay at the Mayfair Resorts, Goa with friends and family for an unparalleled experience.&lt;/li&gt;&lt;li&gt;While at Mayfair Resorts, apart from the relaxing stay you will be taken out for an enthralling sightseeing tour to Mangeshi Temple, Old Goa Church and Miramar Beach.&lt;/li&gt;&lt;li&gt;You can relax with a couple massage or a candle light dinner with a bottle of wine with your partner.&lt;/li&gt;&lt;li&gt;The resort has special packages for luxurious and honeymoon stays.&lt;/li&gt;&lt;li&gt;Complimentary Goa Airport / Madgaon railway station transfer by sharing on fixed departures.&lt;br&gt;&lt;/li&gt;&lt;li&gt;Meals are also provided in this package&lt;br&gt;&lt;/li&gt;&lt;li&gt;The stay is available at Double Occupancy&lt;/li&gt;', '&lt;ul&gt;&lt;li&gt;Non-alcoholic Welcome Drink&lt;/li&gt;&lt;li&gt;Two bottles of packaged drinking water.&lt;/li&gt;&lt;li&gt;Swimming Pool and fitness centre facilities.&lt;/li&gt;&lt;/ul&gt;', NULL, '', 'Vegetarian and Non-Vegetarian - Breakfast, Lunch, Dinner', NULL, '&lt;ul&gt;&lt;li&gt;Camera&lt;/li&gt;&lt;li&gt;Extra Set of clothes&lt;/li&gt;&lt;li&gt;Bathing Suit&lt;/li&gt;&lt;li&gt;Sunscreen&lt;/li&gt;&lt;li&gt;Sunglasses&lt;/li&gt;&lt;/ul&gt;', NULL, 'family', '&lt;ul&gt;&lt;li&gt;The customer receives a confirmation voucher via email within 24 hours of successful booking&lt;/li&gt;&lt;/ul&gt;', '&lt;ul&gt;&lt;li&gt;The customer receives a confirmation voucher via email within 24 hours of successful booking&lt;/li&gt;&lt;li&gt;In case the preferred slots are unavailable, an alternate schedule of the customer&rsquo;s preference will be arranged and a new confirmation voucher will be sent via email.&lt;/li&gt;&lt;li&gt;Alternatively, the customer may choose to cancel their booking and a full refund will be processed.&lt;/li&gt;&lt;/ul&gt;', '&lt;ul&gt;&lt;li&gt;The applicable refund amount will be processed within 15 business days&lt;/li&gt;&lt;/ul&gt;', 'Baga, Goa', '08:25', 10, 1, 5, 1, 1, 1, 15, 0, 12, 1, 1, 0.0, 1, 1, 1, '2018-08-23 09:11:10', 3, '0000-00-00 00:00:00', 0),
 (4, 'TRIPH8sJmz9', 3, 1, 'NORTH GOA SIGHTSEEING', 'north-goa-sightseeing', '1535210694_cacp2v8t.jpg', 0, NULL, NULL, 1, 2, 0, 350, 350, 0, 1, 0, 0, 0, 0, 8, 'All the popular places of north goa which includes Calangute Beach, Fort Aguada, Anjuna beach, Chapora fort and Vagator beach', 'TRANSFERS ONLY', 'ENTRY FEES, MEALS, AND ALL EXPENSES OF PERSONAL NATURE.', 'ENGLISH AND HINDI', 'NOT APPLICABLE', 'PICK UP AND DROP FROM ITS POINTS AND ALL TRANSFERS INCLUDED.', 'CAMERA AND WATER BOTTLE', NULL, 'THIS IS A GROUP TOUR BY BUS', 'IF CANCELLED 30 DAYS BEFORE 100% WILL BE REFUNDED&lt;br&gt;IF CANCELLED 15 DAYS BEFORE 75% WILL BE REFUNDED&lt;br&gt;IF CANCELLED 10 DAYS BEFORE 50% WILL BE REFUNDED&lt;br&gt;IF CANCELLED 5 DAYS BEFORE 25% WILL BE REFUNDED&lt;br&gt;IF CANCELLED 3 DAYS BEFORE 0% WILL BE REFUNDED&lt;br&gt;', 'A booking will be confirmed after 100% payment and a confirmed pnr.', 'The cancellation refund will be processed in 10-15 working days after the day of cancellation depending on the cancellation policy.', 'CANDOLIM', '08:00', 50, 2, 50, 1, 1, 1, 1, 0, 12, 0, 0, 0.0, 0, 1, 1, '2018-08-25 15:54:48', 3, '0000-00-00 00:00:00', 0),
 (5, 'TRIP7waPKFz', 3, 6, 'ISLAND TOUR', 'island-tour', '1535456738_download.jpg', 0, NULL, NULL, 7, 2, 0, 1200, 1200, 0, 1, 0, 0, 0, 0, 8, 'TRIP TO ISLAND WHICH INCLUDES FISHING, DOLPHIN, SNOERKLING AND LUNCH.', 'FISHING, DOLPHIN, SNOERKLING AND LUNCH AND DRINKS', NULL, 'HINDI AND ENGLISH', 'VEG AND NON VEG', 'ALL TRANSFERS AND BOAT CHARGES', 'TOWELS, DRESS TO CHANGE AND SUN CREAM', NULL, 'THIS IS A GROUP TOUR', 'IF CANCELLED 30 DAYS BEFORE 100% WILL BE REFUNDED&lt;br&gt;IF CANCELLED 15 DAYS BEFORE 75% WILL BE REFUNDED&lt;br&gt;IF CANCELLED 10 DAYS BEFORE 50% WILL BE REFUNDED&lt;br&gt;IF CANCELLED 5 DAYS BEFORE 25% WILL BE REFUNDED&lt;br&gt;IF CANCELLED 3 DAYS BEFORE 0% WILL BE REFUNDED&lt;br&gt;', 'AFTER 100% PAYMENT', 'The cancellation refund will be processed in 10-15 working days after the day of cancellation depending on the cancellation policy.&lt;br&gt;', 'CALANGUTE', '08:00', 25, 2, 25, 1, 1, 1, 0, 0, 12, 0, 0, 0.0, 0, 1, 1, '2018-08-28 11:58:23', 3, '0000-00-00 00:00:00', 0),
 (6, 'TRIPpZe0LIb', 3, 14, 'September trip', 'september-trip', '1537434002_Mae-De-Deus-Church-at-night-Saligaon.jpg', 0, NULL, NULL, 8, 2, 0, 1000, 1000, 500, 1, 0, 0, 0, 0, 8, 'It is a sightseeing trip started from September. It is a sightseeing trip started from September. It is a sightseeing trip started from September', 'Only Transfers', NULL, '', '', 'All transfers by Ac bus.&amp;nbsp;', NULL, NULL, 'This is group tour', 'Refund:&lt;br&gt;100% if Cancelled 10 days before&lt;br&gt;50% if Cancelled 5 days before&lt;br&gt;25% if Cancelled 3 days before&lt;br&gt;0% if Cancelled within 3 days before', 'Confirmation on 100% payment and the generation of PNR', 'Refund will be processed in 10-15 working days.', 'Candolim', '08:20', 50, 1, 2, 1, 1, 1, 1, 0, 5, 0, 0, 0.0, 10, 1, 1, '2018-09-20 09:22:20', 3, '0000-00-00 00:00:00', 0),
-(7, 'TRIPL6Ye9PK', 4, 14, 'September2 trip2', 'september2-trip2', '1537434002_Mae-De-Deus-Church-at-night-Saligaon.jpg', 6, NULL, NULL, 8, 2, 0, 1500, 1500, 1000, 1, 0, 0, 0, 0, 8, 'It is a sightseeing trip started from September with LUNCH . It is a sightseeing trip started from September with LUNCH. It is a sightseeing trip started from September with LUNCH', 'Only Transfers and lunch', NULL, '', '', 'All transfers by Ac bus WITH LUNCH', NULL, NULL, 'This is group tour', 'Refund:&lt;br&gt;100% if Cancelled 10 days before&lt;br&gt;50% if Cancelled 5 days before&lt;br&gt;25% if Cancelled 3 days before&lt;br&gt;0% if Cancelled within 3 days before', 'Confirmation on 100% payment and the generation of PNR', 'Refund will be processed in 10-15 working days.', 'Candolim', '08:20', 50, 1, 2, 1, 1, 1, 0, 0, 5, 0, 0, 0.0, 42, 1, 1, '2018-09-21 07:32:36', 4, '2018-09-21 07:41:22', 4);
+(7, 'TRIPL6Ye9PK', 4, 14, 'September2 trip2', 'september2-trip2', '1537434002_Mae-De-Deus-Church-at-night-Saligaon.jpg', 6, NULL, NULL, 8, 2, 0, 1500, 1500, 1000, 1, 0, 0, 0, 0, 8, 'It is a sightseeing trip started from September with LUNCH . It is a sightseeing trip started from September with LUNCH. It is a sightseeing trip started from September with LUNCH', 'Only Transfers and lunch', NULL, '', '', 'All transfers by Ac bus WITH LUNCH', NULL, NULL, 'This is group tour', 'Refund:&lt;br&gt;100% if Cancelled 10 days before&lt;br&gt;50% if Cancelled 5 days before&lt;br&gt;25% if Cancelled 3 days before&lt;br&gt;0% if Cancelled within 3 days before', 'Confirmation on 100% payment and the generation of PNR', 'Refund will be processed in 10-15 working days.', 'Candolim', '08:20', 50, 1, 2, 1, 1, 1, 0, 0, 5, 1, 2, 0.0, 42, 1, 1, '2018-09-21 07:32:36', 4, '2018-09-21 07:41:22', 4);
 
 -- --------------------------------------------------------
 
@@ -858,15 +911,18 @@ CREATE TABLE IF NOT EXISTS `trip_shared` (
   `coupon_history_id` int(11) NOT NULL DEFAULT '0',
   `status` int(1) NOT NULL DEFAULT '1' COMMENT '1 - new, 2- maked, 3 - cancelled',
   `isactive` int(1) NOT NULL DEFAULT '1'
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=25 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `trip_shared`
 --
 
 INSERT INTO `trip_shared` (`id`, `code`, `trip_id`, `shared_user_id`, `user_id`, `to_user_mail`, `coupon_history_id`, `status`, `isactive`) VALUES
-(1, 'SHARE52431', 2, 3, 4, '', 0, 1, 1),
-(2, 'SHARE365217', 6, 3, 4, '', 0, 2, 1);
+(1, 'SHARE52431', 2, 3, 4, '', 0, 2, 1),
+(2, 'SHARE365217', 6, 3, 4, '', 0, 2, 1),
+(5, 'SHAREnz1xM', 1, 3, 4, '', 12, 1, 1),
+(23, 'SHAREBQpH5', 5, 3, NULL, 'sdsd@sd.df', 0, 1, 1),
+(24, 'SHAREBQpH5', 5, 3, NULL, 'dfdf@fs.ddf', 0, 1, 1);
 
 -- --------------------------------------------------------
 
@@ -1022,7 +1078,14 @@ CREATE TABLE IF NOT EXISTS `user_bank_master` (
   `updated_on` timestamp NULL DEFAULT NULL,
   `updated_by` int(11) DEFAULT NULL,
   `bank_master_status` int(11) NOT NULL DEFAULT '1' COMMENT '1->active,0->de active'
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `user_bank_master`
+--
+
+INSERT INTO `user_bank_master` (`bank_id`, `user_id`, `bank_name`, `account_holder_name`, `account_number`, `ifsc_code`, `branch_name`, `address`, `is_primary`, `added_on`, `added_by`, `updated_on`, `updated_by`, `bank_master_status`) VALUES
+(1, 4, 'HDFC BANK', 'VENDOR', '123456789', 'HDFC0000001', 'goa branch', 'goa Address', 1, '2018-10-14 08:33:31', 4, NULL, NULL, 1);
 
 -- --------------------------------------------------------
 
@@ -1054,7 +1117,7 @@ CREATE TABLE IF NOT EXISTS `user_master` (
   `created_on` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `last_visit` timestamp NULL DEFAULT NULL,
   `isactive` tinyint(1) NOT NULL DEFAULT '2' COMMENT '0->de active, 1->active,2->not activated'
-) ENGINE=InnoDB AUTO_INCREMENT=26 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=27 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `user_master`
@@ -1062,9 +1125,9 @@ CREATE TABLE IF NOT EXISTS `user_master` (
 
 INSERT INTO `user_master` (`id`, `user_type`, `email`, `password`, `user_fullname`, `dob`, `gender`, `phone`, `alt_phone`, `emergency_contact_person`, `emergency_contact_no`, `activation_code`, `activation_code_time`, `about_me`, `profile_pic`, `balance_amt`, `unclear_amt`, `social_network`, `auth_id`, `login_via`, `created_on`, `last_visit`, `isactive`) VALUES
 (1, 'CU', 'customer@gmail.com', '14e1b600b1fd579f47433b88e8d85291', 'Customer', '2018-06-22', '1', '9688079118', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0.00, 0.00, '', '', 1, '2018-06-30 13:20:09', NULL, 1),
-(2, 'SA', 'admin@gmail.com', '14e1b600b1fd579f47433b88e8d85291', 'Admin', '2018-06-22', '1', '9688079118', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1130.00, 0.00, '', '', 1, '2018-06-30 13:20:09', NULL, 1),
-(3, 'VA', 'vendor@gmail.com', '14e1b600b1fd579f47433b88e8d85291', 'Vendor1', '2018-06-22', '1', '9688079118', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 38710.00, 0.00, '', '', 1, '2018-06-30 13:20:09', NULL, 1),
-(4, 'VA', 'vendor2@gmail.com', '14e1b600b1fd579f47433b88e8d85291', 'Vendor2', '2018-06-22', '1', '9688079118', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 16660.00, 0.00, '', '', 1, '2018-06-30 13:20:09', NULL, 1),
+(2, 'SA', 'admin@gmail.com', '14e1b600b1fd579f47433b88e8d85291', 'Admin', '2018-06-22', '1', '9688079118', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 4180.00, 0.00, '', '', 1, '2018-06-30 13:20:09', NULL, 1),
+(3, 'VA', 'vendor@gmail.com', '14e1b600b1fd579f47433b88e8d85291', 'Vendor1', '2018-06-22', '1', '9688079118', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 32665.00, 2500.00, '', '', 1, '2018-06-30 13:20:09', NULL, 1),
+(4, 'VA', 'vendor2@gmail.com', '14e1b600b1fd579f47433b88e8d85291', 'Vendor2', '2018-06-22', '1', '9688079118', '', '', '', NULL, NULL, NULL, NULL, 16660.00, 0.00, '', '', 1, '2018-06-30 13:20:09', NULL, 1),
 (5, 'GU', 'gucustomer@gmail.com', '14e1b600b1fd579f47433b88e8d85291', 'gust', NULL, NULL, '9688079118', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0.00, 0.00, NULL, NULL, 1, '2018-08-20 16:03:49', NULL, 2),
 (7, 'GU', 'customer2@gmail.com', '14e1b600b1fd579f47433b88e8d85291', 'gust2', NULL, NULL, '9688079118', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0.00, 0.00, NULL, NULL, 1, '2018-08-23 15:42:04', NULL, 2),
 (8, 'GU', 'r@gmail.com', '14e1b600b1fd579f47433b88e8d85291', 'reiju', NULL, NULL, '9123456789', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0.00, 0.00, NULL, NULL, 1, '2018-08-26 10:32:45', NULL, 2),
@@ -1083,7 +1146,8 @@ INSERT INTO `user_master` (`id`, `user_type`, `email`, `password`, `user_fullnam
 (22, 'GU', 'ob@gmail.com', '14e1b600b1fd579f47433b88e8d85291', 'Off Book', NULL, NULL, '1112223334', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0.00, 0.00, NULL, NULL, 1, '2018-09-26 10:49:52', NULL, 2),
 (23, 'GU', 'vt3@mail.com', '14e1b600b1fd579f47433b88e8d85291', 'Vinod Test', NULL, NULL, '1112223334', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0.00, 0.00, NULL, NULL, 1, '2018-09-26 11:05:07', NULL, 2),
 (24, 'GU', 'ob@mai.com', '14e1b600b1fd579f47433b88e8d85291', 'Off Book', NULL, NULL, '2223334445', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0.00, 0.00, NULL, NULL, 1, '2018-09-26 11:42:52', NULL, 2),
-(25, 'GU', 'vt3@mail.com', '14e1b600b1fd579f47433b88e8d85291', 'Vin Test3', NULL, NULL, '2223334445', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0.00, 0.00, NULL, NULL, 1, '2018-09-29 11:58:53', NULL, 2);
+(25, 'GU', 'vt3@mail.com', '14e1b600b1fd579f47433b88e8d85291', 'Vin Test3', NULL, NULL, '2223334445', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0.00, 0.00, NULL, NULL, 1, '2018-09-29 11:58:53', NULL, 2),
+(26, 'GU', 'customer3@gmail.com', '14e1b600b1fd579f47433b88e8d85291', 'customer3', NULL, NULL, '7373112889', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0.00, 0.00, NULL, NULL, 1, '2018-10-06 15:44:19', NULL, 2);
 
 -- --------------------------------------------------------
 
@@ -1294,7 +1358,7 @@ ALTER TABLE `user_wishlist`
 -- AUTO_INCREMENT for table `account_info`
 --
 ALTER TABLE `account_info`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=7;
 --
 -- AUTO_INCREMENT for table `city_master`
 --
@@ -1314,12 +1378,12 @@ ALTER TABLE `country_master`
 -- AUTO_INCREMENT for table `coupon_code_master`
 --
 ALTER TABLE `coupon_code_master`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=9;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=10;
 --
 -- AUTO_INCREMENT for table `coupon_code_master_history`
 --
 ALTER TABLE `coupon_code_master_history`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=11;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=14;
 --
 -- AUTO_INCREMENT for table `faq_master`
 --
@@ -1329,7 +1393,7 @@ ALTER TABLE `faq_master`
 -- AUTO_INCREMENT for table `my_transaction`
 --
 ALTER TABLE `my_transaction`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=34;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=93;
 --
 -- AUTO_INCREMENT for table `notification`
 --
@@ -1359,12 +1423,12 @@ ALTER TABLE `trip_avilable`
 -- AUTO_INCREMENT for table `trip_book_pay`
 --
 ALTER TABLE `trip_book_pay`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=6;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=12;
 --
 -- AUTO_INCREMENT for table `trip_book_pay_details`
 --
 ALTER TABLE `trip_book_pay_details`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=10;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=17;
 --
 -- AUTO_INCREMENT for table `trip_category`
 --
@@ -1404,7 +1468,7 @@ ALTER TABLE `trip_master`
 -- AUTO_INCREMENT for table `trip_shared`
 --
 ALTER TABLE `trip_shared`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=25;
 --
 -- AUTO_INCREMENT for table `trip_specific_day`
 --
@@ -1429,12 +1493,12 @@ ALTER TABLE `user_address`
 -- AUTO_INCREMENT for table `user_bank_master`
 --
 ALTER TABLE `user_bank_master`
-  MODIFY `bank_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `bank_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=2;
 --
 -- AUTO_INCREMENT for table `user_master`
 --
 ALTER TABLE `user_master`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=26;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=27;
 --
 -- AUTO_INCREMENT for table `user_wishlist`
 --

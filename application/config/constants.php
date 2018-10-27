@@ -19,7 +19,7 @@ define('admin_phone', "98221 53576");
 define('email_bottem_email', "goahemtravels@gmail.com");
 define('email_bottem_phone', "98221 53576");
 define('donotreply', "support@goatravelagent.com");
-//define('cc_email', "anjaneyavadivel@gmail.com");
+//define('cc_email', "anjaneya.developer@gmail.com");
 
 /*
 |--------------------------------------------------------------------------
@@ -96,3 +96,4 @@ defined('EXIT__AUTO_MAX')      OR define('EXIT__AUTO_MAX', 125); // highest auto
 define('SERVICECHARGE_AMT', 20); // SERVICECHARGE_AMT = 20
 define('SERVICECHARGE_PERCENTAGE', 2); // SERVICECHARGE_PERCENTAGE = 2%
 define('GST_PERCENTAGE', 0); // GST_PERCENTAGE = 5%
+define('MIN_WITHDRAWAL', 0); // MIN amount WITHDRAWAL

@@ -104,38 +104,44 @@ class Pnr_status extends CI_Controller {
     }
     
     public function addAccountmodal($pnr) { 
-        if ($this->session->userdata('user_id') == '' || 
-            ($this->session->userdata('user_type') != 'SA' && $this->session->userdata('user_type') !='VA' )) {
-            return FALSE;
-        }
         
+        $whereData = array('isactive' => 1,'payment_status' => 1,'pnr_no' => $pnr);
+        $trip_book_pay = selectTable('trip_book_pay', $whereData,['*'],[],[],'','',[],'result_array', $echo = 0,array('status',array(2,4)),$notInWhereData = array());
         $data['pnr'] = $pnr;
         
-        $whereData = array('isactive' => 1,'user_id' => $this->session->userdata('user_id'));
+        $whereData = array('isactive' => 1,'user_id' => $trip_book_pay[0]['user_id']);
         $data['account_info_list'] = selectTable('account_info', $whereData,['*'],[],[],'','',[],'result_array');
+        $this->load->library('encryption');
+        $config['encryption_key'] = 'Sfw45@13F5Jm)5';
+        $ciphertext = $this->encryption->encrypt($trip_book_pay[0]['user_id']);
+        $data['yhkey'] = $ciphertext;
         
         $this->load->view("account_info", $data);
         
     }
     
     public function addEditAccountAction() {
-        if ($this->session->userdata('user_id') == '') {
-            return FALSE;
-        }
+//        if ($this->session->userdata('user_id') == '') {
+//            return FALSE;
+//        }
         $err = 'yes';
         if ($_POST) {
             $this->form_validation->set_rules('account', 'Select an Account', 'trim|required');
             $this->form_validation->set_rules('bank_name', 'Bank Name', 'trim|required');
             $this->form_validation->set_rules('account_holder_name', 'Account Holder Name', 'trim|required');
-            $this->form_validation->set_rules('account_number', 'Account Number', 'trim|required');
+            $this->form_validation->set_rules('account_number', 'Account Number', 'trim|numeric|required');
             $this->form_validation->set_rules('ifsc_code', 'IFSC Code', 'trim|required');
             $this->form_validation->set_rules('branch', 'Branch', 'trim|required');
             $this->form_validation->set_rules('address', 'Address', 'trim|required');
+            $this->form_validation->set_rules('yhkey', 'key', 'trim|required');
            
             if ($this->form_validation->run($this) != FALSE) {                
                 extract($this->input->post());
+                $this->load->library('encryption');
+                $config['encryption_key'] = 'Sfw45@13F5Jm)5';
+                $user_id = $this->encryption->decrypt($yhkey);
                 $data = array(
-                    'user_id'                 => $this->session->userdata('user_id'),
+                    'user_id'                 => $user_id,
                     'bank_name'               => $bank_name,
                     'account_holder_name'     => $account_holder_name,
                     'account_number'          => $account_number,                   
@@ -151,13 +157,12 @@ class Pnr_status extends CI_Controller {
                     //UPDATE UNSET PRIMARY
                     if($is_primary == 'on'){
                         $up_data = array('is_primary'=>0);
-                        updateTable('account_info',array('user_id' => $this->session->userdata('user_id'),'isactive'=>1,'id!=' => $account_info_id,'is_primary' => 1),$up_data);
+                        updateTable('account_info',array('user_id' => $user_id,'isactive'=>1,'id!=' => $account_info_id,'is_primary' => 1),$up_data);
                     }
-                    
                     echo $account_info_id;
                     return FALSE;
                 }else if(!empty($this->input->post('account'))){
-                    $upQry = updateTable('account_info',array('id' => $this->input->post('account')),$data);
+                    $upQry = updateTable('account_info',array('id' => $user_id),$data);
                     echo $this->input->post('account');
                     return FALSE;
                 }

@@ -339,13 +339,14 @@ class Report_model extends CI_Model
         }
     }
     function transaction_reports($whereData,$limit=20, $start=0,$resultCount = 'no') {
-        $this->db->select('mt.*,tm.trip_name,um1.id as fromuserid,um1.user_fullname as fromuser,um2.user_fullname as touser,um2.id as touserid')->from('my_transaction AS mt');         
+        $this->db->select('mt.*,tm.trip_name,lum.id as recorduserid,lum.user_fullname as recordusername,um1.id as fromuserid,um1.user_fullname as fromuser,um2.user_fullname as touser,um2.id as touserid')->from('my_transaction AS mt');         
         $this->db->join('user_master AS um1', 'um1.id = mt.from_userid','LEFT');
         $this->db->join('user_master AS um2', 'um2.id = mt.to_userid','LEFT');
+        $this->db->join('user_master AS lum', 'lum.id = mt.userid','LEFT');
         $this->db->join('trip_master AS tm', 'tm.id = mt.trip_id','LEFT');      
         //$this->db->where('um.user_type','SA');
         if($this->session->userdata('user_type') == 'SA'){            
-            $this->db->where('(mt.userid =0)');
+            $this->db->where('(mt.userid =0 OR mt.to_userid =-2)');
         }else{        
             $this->db->where('(mt.userid ='.$this->session->userdata('user_id').')');
          }
@@ -356,6 +357,10 @@ class Report_model extends CI_Model
         
         if(isset($whereData['status']) && $whereData['status']!=''){            
             $this->db->where('mt.status',$whereData['status']);
+        }    
+        
+        if(isset($whereData['statusin']) && !empty($whereData['statusin'])){            
+            $this->db->where_in('mt.status',$whereData['statusin']);
         }        
         if(isset($whereData['from']) && $whereData['from']!=''){
             $from = date("Y-m-d", strtotime($whereData['from'])).' 00:00:00';
@@ -377,7 +382,22 @@ class Report_model extends CI_Model
             return $query->result_array();
         }
     }
-   
+   function transaction_view($whereData) {
+        $this->db->select('mt.*,tm.trip_name,lum.id as recorduserid,lum.user_fullname as recordusername,um1.id as fromuserid,um1.user_fullname as fromuser,um2.user_fullname as touser,um2.id as touserid,'
+                . 'ai.bank_name,ai.account_holder_name,ai.account_number,ai.ifsc_code,ai.branch,ai.address,')->from('my_transaction AS mt');         
+        $this->db->join('user_master AS um1', 'um1.id = mt.from_userid','LEFT');
+        $this->db->join('user_master AS um2', 'um2.id = mt.to_userid','LEFT');
+        $this->db->join('user_master AS lum', 'lum.id = mt.userid','LEFT');
+        $this->db->join('trip_master AS tm', 'tm.id = mt.trip_id','LEFT');  
+        $this->db->join('account_info AS ai', 'ai.id = mt.b2b_pay_account_info','LEFT');      
+        
+        if(isset($whereData['statusin']) && !empty($whereData['statusin'])){            
+            $this->db->where_in('mt.status',$whereData['statusin']);
+        }          
+        $this->db->where_in('mt.id',$whereData['id']);
+        $this->db->order_by('mt.id DESC'); 
+        return $query = $this->db->get();
+    }
     public function tomorrow_list($whereData,$limit, $start,$resultCount='no'){
         $whQry = '';
         $un_whQry = '';

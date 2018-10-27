@@ -599,7 +599,7 @@ if (!function_exists('trip_book')) {
         $trip_location_name = '';
         $trip_location_landmark = '';
         $discount_price = 0;
-        $time_of_trip = '';
+        $time_of_trip = '';$master_net_price = 0;
         $whereData = array('isactive' => 1, 'trip_id' => $bookdata['trip_id'], 'id' => $bookdata['pick_up_location_id']);
         $location_list = selectTable('pick_up_location_map', $whereData);
         if ($location_list->num_rows() > 0) {
@@ -690,6 +690,7 @@ if (!function_exists('trip_book')) {
         $net_price = $total_trip_price + $gst_amt + $round_off;
         $pnr_no = createPNR();
         $tripamount = $net_price;
+        $master_net_price = $net_price;
         // insert for customer
         $book_pay = array(
             'parent_trip_id' => $parent_trip_id,
@@ -860,7 +861,7 @@ if (!function_exists('trip_book')) {
                         $subtotal_trip_price = 0;
                         $specific_discount_price = 0;
                         $specific_discount_percentage = 0;
-                        $specific_offer_amt = 0;
+                        $specific_offer_amt = 0;$discount_your_price = 0;
                         //check offer
                         $offerdata = array(
                             'trip_id' => $trip_id,
@@ -876,7 +877,7 @@ if (!function_exists('trip_book')) {
                         $total_child_price = $bookdata['no_of_child'] * $checkoffer['price_to_child'];
                         $total_infan_price = $bookdata['no_of_infan'] * $checkoffer['price_to_infan'];
                         $subtotal_trip_price = (int) $total_adult_price + (int) $total_child_price + (int) $total_infan_price;
-
+                        //subtotal_trip_price = total_adult_price + total_child_price + total_infan_price
                         // get offer
                         if ($checkoffer['offer_type'] == 1) {
                             $discount_price = $checkoffer['discount_price'];
@@ -908,20 +909,30 @@ if (!function_exists('trip_book')) {
                             $checkoffer['specific_coupon_history_id'] = 0;
                         }
                         $total_trip_price = (int) $subtotal_trip_price - (int) $offer_amt;
-
+                        //total_trip_price = subtotal_trip_price - offer_amt
 
                         //$vendor_amt = $total_trip_price;
                         $net_price = (int) $total_trip_price - (int) $vendor_amt;
+                        //net_price = total_trip_price - vendor_amt
                         $servicecharge_amt = $net_price * (SERVICECHARGE_PERCENTAGE / 100);
                         if ($servicecharge_amt < SERVICECHARGE_AMT) {// get max amt
                             $servicecharge_amt = SERVICECHARGE_AMT;
                         }
+                        if ($CI->session->userdata('user_type') == 'VA' && $trip_id ==$parenttrip_id) {
+                            $servicecharge_amt = SERVICECHARGE_AMT;
+                        }
                         $your_amt = (int) $net_price - (int) $servicecharge_amt;
+                        //your_amt = net_price - servicecharge_amt
                         $gst_amt = $your_amt * (GST_PERCENTAGE / 100);
                         $your_final_amt_temp = $your_amt + $gst_amt;
                         $round_off = round($your_final_amt_temp) - ($your_final_amt_temp);
                         $your_final_amt = $round_off + $your_final_amt_temp;
-
+                        //your_final_amt = your_amt + gst_amt
+                        if ($CI->session->userdata('user_type') == 'VA' && $trip_id ==$parenttrip_id) {
+                            $discount_your_price = $your_final_amt;
+                            $master_net_price = $master_net_price - $your_final_amt;
+                            $your_final_amt = 0;
+                        }
                         $book_pay_details = array(
                             'book_pay_id' => $trip_book_payid,
                             'parent_trip_id' => $parent_trip_id,
@@ -947,6 +958,7 @@ if (!function_exists('trip_book')) {
                             'specific_coupon_code' => $checkoffer['specific_coupon_code'],
                             'discount_price' => $checkoffer['discount_price'],
                             'discount_percentage' => $checkoffer['discount_percentage'],
+                            'discount_your_price' => $discount_your_price,
                             'offer_amt' => $offer_amt,
                             'total_trip_price' => $total_trip_price,
                             'vendor_amt' => $vendor_amt,
@@ -973,6 +985,18 @@ if (!function_exists('trip_book')) {
                         $vendor_amt = $total_trip_price;
                         $parent_trip_id = $row->parent_trip_id;
                         $pay_details_id = $book_pay_detailsid;
+                        
+                            // - ur amt(discount_your_price) from master and update status paid to vendor
+                        if ($CI->session->userdata('user_type') == 'VA' && $trip_id ==$parenttrip_id) {
+                            //$discount_your_price = $your_final_amt;
+                            //$master_net_price = $master_net_price - $your_final_amt;
+                            $whereData = array('id' => $trip_book_payid);
+                            $updatedata = array('discount_your_price' => $discount_your_price,'net_price' => $master_net_price);
+                            $result = updateTable('trip_book_pay', $whereData, $updatedata);
+                            $whereData = array('book_pay_id' => $trip_book_payid,'book_pay_id' => $trip_book_payid,'id' =>$book_pay_detailsid);
+                            $updatedata = array('b2b_payment_status' => 1,'b2b_payment_on' => date('Y-m-d'));
+                            $result = updateTable('trip_book_pay_details', $whereData, $updatedata);
+                        }
                     }
                 }
                 //exit();
@@ -1976,7 +2000,7 @@ if (!function_exists('make_mypayment')) {
             if ($status == 1) {
                 $withdrawalsdata = array(
                     'userid' => $makedata['userid'],
-                    'to_userid' => -1,
+                    'to_userid' => -2,
                     'transaction_notes' => 'Withdrawal Request: ' . $makedata['transaction_notes'],
                     'book_pay_id' => 0,
                     'book_pay_details_id' => 0,
@@ -2008,6 +2032,11 @@ if (!function_exists('make_mypayment')) {
                         $whereData = array('id' => $makedata['withdrawal_request_id']);
                         $updatedata = array('status' => 3); //sent
                         $result = updateTable('trip_book_pay', $whereData, $updatedata);
+                    }
+                   if (isset($makedata['my_transaction_id']) && $makedata['my_transaction_id'] != '') {
+                        $whereData22 = array('id' => $makedata['my_transaction_id']);
+                        $updatedata22 = array( 'status' => 3);
+                        $result = updateTable('my_transaction', $whereData22, $updatedata22);
                     }
                     return $withdrawresult;
                 }
@@ -2098,7 +2127,7 @@ if (!function_exists('cancelled_trip_refund_amount')) {
             return $result;
         }
         //master tavle trip_book_pay
-        $whereData = array('tpd.status' => 3, 'tpd.payment_status' => 1,'tpd.return_paid_status !=' => 3, 'tpd.isactive' => 1, 'tpd.pnr_no' => $refundinfo['pnr_no']);
+        $whereData = array('tpd.status' => 3, 'tpd.payment_status' => 1,'tpd.b2b_payment_status !=' => 1,'tpd.return_paid_status !=' => 3, 'tpd.isactive' => 1, 'tpd.pnr_no' => $refundinfo['pnr_no']);
         $joins = array(
             array(
                 'table' => 'trip_master AS tm',
@@ -2171,7 +2200,7 @@ if (!function_exists('cancelled_trip_refund_amount')) {
 
                 //master tavle trip_book_pay_details
                 $book_pay = array();
-                $whereData = array('tpd.status' => 3, 'tpd.payment_status' => 1, 'tpd.isactive' => 1, 'tpd.pnr_no' => $refundinfo['pnr_no']);
+                $whereData = array('tpd.status' => 3, 'tpd.payment_status' => 1,'tpd.b2b_payment_status !=' => 1,'tpd.return_paid_status !=' => 3, 'tpd.isactive' => 1, 'tpd.pnr_no' => $refundinfo['pnr_no']);
                 $joins = array(
                     array(
                         'table' => 'trip_master AS tm',
@@ -2202,38 +2231,39 @@ if (!function_exists('cancelled_trip_refund_amount')) {
                         . '(CASE WHEN ccmhd.id IS NOT NULL THEN ccmhd.percentage_amount END) AS percentage_amount';
                 $tableData = get_joins('trip_book_pay_details AS tpd', $columns, $joins, $whereData);
                 if ($tableData->num_rows() > 0) {
-                    $book_pay = $tableData->result();
-                    $net_price = $book_pay[0]->your_final_amt;
+                foreach ($tableData->result() as $book_pay) {
+                    //$book_pay = $tableData->result();
+                    $net_price = $book_pay->your_final_amt;
                     $return_paid_amt = ($refund_percentage / 100) * $net_price;
-                    $transaction_notes = 'Trip cancelled/refund amount for PNR No ' . $book_pay[0]->pnr_no . ' (' . $book_pay[0]->trip_code . ' / ' . $book_pay[0]->trip_name . ').<br>' . $return_notes;
-                    if ($book_pay[0]->servicecharge_amt > 0 || $book_pay[0]->gst_amt > 0) {
+                    $transaction_notes = 'Trip cancelled/refund amount for PNR No ' . $book_pay->pnr_no . ' (' . $book_pay->trip_code . ' / ' . $book_pay->trip_name . ').<br>' . $return_notes;
+                    if ($book_pay->servicecharge_amt > 0 || $book_pay->gst_amt > 0) {
                         $transaction_notes .=' Include GST and Service Charge.';
                     }
                     $paymentdata = array(
-                        'userid' => $book_pay[0]->user_id, // b2c
+                        'userid' => $book_pay->user_id, // b2c
                         'transaction_notes' => $transaction_notes,
-                        'book_pay_id' => $book_pay[0]->book_pay_id,
-                        'book_pay_details_id' => $book_pay[0]->id,
-                        'pnr_no' => $book_pay[0]->pnr_no,
+                        'book_pay_id' => $book_pay->book_pay_id,
+                        'book_pay_details_id' => $book_pay->id,
+                        'pnr_no' => $book_pay->pnr_no,
                         'from_userid' => 0, // default -1  //admin / b2b
-                        'trip_id' => $book_pay[0]->trip_id,
+                        'trip_id' => $book_pay->trip_id,
                         'deposits' => $return_paid_amt,
                         'status' => 2);
                     $paymentid = make_mypayment($paymentdata);
                     if ($paymentid) {
-                        $whereData22 = array('id' => $book_pay[0]->id);
+                        $whereData22 = array('id' => $book_pay->id);
                         $updatedata22 = array('my_transaction_id' => $paymentid,'b2b_payment_status' => 1, 'b2b_payment_on' => date('Y-m-d'),
                             'return_paid_amt' => $return_paid_amt, 'return_notes' => $return_notes, 'return_on' => $return_on, 'return_paid_status' => 3,
                              'refund_percentage' => $refund_percentage);
                         $result = updateTable('trip_book_pay_details', $whereData22, $updatedata22);
 
-                        $subject = 'You are received cancelled/refund amount for PNR No ' . $book_pay[0]->pnr_no;
-                        $message = 'You are received cancelled/refund amount for PNR No ' . $book_pay[0]->pnr_no . ' (' . $book_pay[0]->trip_code . ' / ' . $book_pay[0]->trip_name . ') from ' . site_title. '.<br><br>' . $return_notes;
+                        $subject = 'You are received cancelled/refund amount for PNR No ' . $book_pay->pnr_no;
+                        $message = 'You are received cancelled/refund amount for PNR No ' . $book_pay->pnr_no . ' (' . $book_pay->trip_code . ' / ' . $book_pay->trip_name . ') from ' . site_title. '.<br><br>' . $return_notes;
                         $mailData = array(
                             //'fromuserid' => $pnrinfo['trip_postbyid'],
                             'ccemail' => admin_email . ',' . email_bottem_email . ',' . 'anjaneyavadivel@gmail.com,',
                             //'bccemail' => admin_email.','.email_bottem_email.','.$pnrinfo['bookedby_contactemail'],
-                            'touserid' => $book_pay[0]->user_id,
+                            'touserid' => $book_pay->user_id,
                             //'toemail' => 'anjaneyavadivel@gmail.com',
                             'subject' => $subject,
                             'message' => $message,
@@ -2242,6 +2272,7 @@ if (!function_exists('cancelled_trip_refund_amount')) {
 
                         sendemail_personalmail($mailData);
                     }
+                }
                 }
                 $result = array('status' => 1, 'message' => 'Successfully transferred amount!');
                 return $result;

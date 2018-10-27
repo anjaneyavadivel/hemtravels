@@ -110,6 +110,7 @@ class Report extends CI_Controller {
         $to = trim($this->input->get('to'));
         $status = trim($this->input->get('status'));
         $bookfrom = trim($this->input->get('bookfrom'));
+        $download = $this->input->get('download');  
         $this->load->library('pagination');
         $config = array();
         $config["base_url"] = base_url() . $url . "?title=" . $title . "&from=" . $from . "&to=" . $to . "&return_paid_status=" . $status . "&bookfrom=" . $bookfrom;
@@ -146,7 +147,17 @@ class Report extends CI_Controller {
         $data["bookfrom"] = $bookfrom;
         $data["title"] = $title;
         $data["url"] = $url;
-        $this->load->view('report/cancellation-reports', $data);
+        
+         if($download == 1){
+            $data["cancellist"] = $this->Report_model->cancellation_list($whereData, $config["per_page"], $page,'download');     
+        
+            $downloadData = $data["cancellist"];
+            
+            $this->cancelBookingExport($downloadData);
+            
+        }else{
+            $this->load->view('report/cancellation-reports', $data);
+        }
     }
 
     public function Trip_wise_reports() {
@@ -1163,6 +1174,152 @@ class Report extends CI_Controller {
         $writer = new Xlsx($spreadsheet);
  
         $filename = 'USER-REPORT-'.date('d-m-Y');
+ 
+        header('Content-Type: application/vnd.ms-excel');
+        header('Content-Disposition: attachment;filename="'. $filename .'.xlsx"'); 
+        header('Cache-Control: max-age=0');
+        
+        $writer->save('php://output'); // download file 
+    }
+    
+    //CANCEL REPORT
+    public function addRefundmodal($id) { 
+        if ($this->session->userdata('user_id') == '' || 
+            ($this->session->userdata('user_type') != 'SA' && $this->session->userdata('user_type') !='VA' )) {
+            return FALSE;
+        }
+        if($this->session->userdata('user_type') != 'SA'){
+            
+        }else{
+            $this->db->select('tbp.*,tm.trip_name,tm.trip_code,tm.cancellation_policy,tm.refund_policy,ai.bank_name,ai.account_holder_name,ai.account_number,ai.ifsc_code,ai.branch,ai.address');
+            $this->db->from('trip_book_pay AS tbp');
+            $this->db->join('trip_book_pay_details AS tbpd', 'tbpd.book_pay_id = tbp.id','INNER');
+            $this->db->join('trip_master AS tm', 'tm.id = tbp.trip_id','INNER'); 
+            $this->db->join('account_info AS ai', 'ai.id = tbp.account_info_id','LEFT');  
+            $this->db->where('tbp.isactive', 1);
+            $this->db->where_in('tbp.status', 3);
+            $this->db->where('tbp.return_paid_status !=', 3);
+            $this->db->where('tbpd.id', $id);
+            $query = $this->db->get();
+        }
+        $data['details'] = $query->row_array();
+        
+        //echo "<pre>";print_r($data['details']);exit;
+        
+        $this->load->view("add_refund", $data);
+        
+    }
+    
+    public function addRefundAction() {
+        if ($this->session->userdata('user_id') == '') {
+            return FALSE;
+        }
+        $err = 'yes';
+        if ($_POST) {
+            $this->form_validation->set_rules('pnr_no', 'PNR No', 'trim|required');
+            $this->form_validation->set_rules('ret_per', 'Refund Percentage', 'trim|required');
+            $this->form_validation->set_rules('notes', 'Notes', 'trim|required');
+            
+           
+            if ($this->form_validation->run($this) != FALSE) { 
+                $this->load->helper('custom_helper');
+                extract($this->input->post());
+                $pnrinfo = array(
+                    'pnr_no' => $pnr_no,  
+                    'refund_date' =>  date('Y-m-d'),
+                    'return_notes' =>  !empty($notes)?$notes:'',
+                    'refund_percentage' => $ret_per); 
+                $result = cancelled_trip_refund_amount($pnrinfo);
+                
+                if($result['status'] == 1){
+                    $err = '';
+                    $this->session->set_userdata('suc', $result['message']);
+                }
+                
+            }
+        }
+        
+        if($err != ''){
+            $this->session->set_userdata('err', 'Sorry! Try again...');
+            
+            return FALSE;
+        }
+    }
+    
+    public function cancelBookingExport($data){ 
+        $spreadsheet = new Spreadsheet();
+        $sheet       = $spreadsheet->getActiveSheet();
+        
+        //SET HEADER
+        $sheet->setCellValue('A1', 'BOOKED ON');
+        $sheet->setCellValue('B1', 'PNR NO');       
+        $sheet->setCellValue('C1', 'BOOKED FROM');
+        $sheet->setCellValue('D1', 'TRIP TILE');
+        $sheet->setCellValue('E1', 'DATE OF TRIP');
+        $sheet->setCellValue('F1', 'PICKUP LOCATIONS');
+        $sheet->setCellValue('G1', 'NO OF TRAVELLERS');
+        $sheet->setCellValue('H1', 'PRICE TO ADULT');
+        $sheet->setCellValue('I1', 'PRICE TO CHILDREN');
+        $sheet->setCellValue('J1', 'PRICE TO INFAN');
+        $sheet->setCellValue('K1', 'NO OF ADULT');
+        $sheet->setCellValue('L1', 'NO OF CHILDREN');
+        $sheet->setCellValue('M1', 'NO OF INFAN');
+        $sheet->setCellValue('N1', 'DISCOUNT PERCENTAGE');
+        $sheet->setCellValue('O1', 'DISCOUNT PRICE');
+        $sheet->setCellValue('P1', 'OFFER AMOUNT');
+        $sheet->setCellValue('Q1', 'GST PERCENTAGE');
+        $sheet->setCellValue('R1', 'GST AMOUNT');
+        $sheet->setCellValue('S1', 'TOTAL');
+        $sheet->setCellValue('T1', 'STATUS');
+        $sheet->setCellValue('U1', 'CANCELLED ON');
+        $sheet->setCellValue('V1', 'REFUND PERCENTAGE');
+        $sheet->setCellValue('W1', 'RETURN PAID AMOUNT');
+        $sheet->setCellValue('X1', 'RETURN NOTES');
+        $sheet->setCellValue('Y1', 'RETURN ON');
+        $sheet->setCellValue('Z1', 'RETURN PAID STATUS');
+        
+        $row = 2;
+        
+        $status_val = array('New', 'Pending', 'Booked', 'Cancelled', 'Confirmed', 'Completed');
+        $user_type_val = array('CU'=>'B2C Booking','GU'=>'B2C Booking','VA'=>'Office Booking');
+        $can_status_val = array('1'=>'New', '2'=>'InProgress', '3'=>'Paid');
+        
+        foreach ($data as $value) {           
+            $user_type = $value['user_type'];
+            $status    = $value['status'];
+            
+            $sheet->setCellValue('A' . $row, date("M d, Y", strtotime($value['booked_on'])));
+            $sheet->setCellValue('B' . $row, $value['pnr_no']);            
+            $sheet->setCellValue('C' . $row, $user_type_val[$user_type]);
+            $sheet->setCellValue('D' . $row, $value['trip_name']);
+            $sheet->setCellValue('E' . $row, date("M d, Y", strtotime($value['date_of_trip'])));
+            $sheet->setCellValue('F' . $row, $value['pick_up_location']);           
+            $sheet->setCellValue('G' . $row, $value['number_of_persons']);
+            $sheet->setCellValue('H' . $row, $value['price_to_adult'] );
+            $sheet->setCellValue('I' . $row, $value['price_to_child'] );           
+            $sheet->setCellValue('J'. $row, $value['price_to_infan']);
+            $sheet->setCellValue('K'. $row, $value['no_of_adult']);
+            $sheet->setCellValue('L'. $row, $value['no_of_child']);
+            $sheet->setCellValue('M'. $row, $value['no_of_infan']);
+            $sheet->setCellValue('N' . $row,$value['discount_percentage']); 
+            $sheet->setCellValue('O'. $row, $value['discount_price']);
+            $sheet->setCellValue('P'. $row, $value['offer_amt']);
+            $sheet->setCellValue('Q'. $row, $value['gst_percentage']);
+            $sheet->setCellValue('R'. $row, $value['gst_amt']);
+            $sheet->setCellValue('S'. $row, $value['total_trip_price']);
+            $sheet->setCellValue('T'. $row, $status_val[$status]);  
+            $sheet->setCellValue('U' . $row, date("M d, Y", strtotime($value['cancelled_on'])));
+            $sheet->setCellValue('V'. $row, $value['refund_percentage']);
+            $sheet->setCellValue('W'. $row, $value['return_paid_amt']);
+            $sheet->setCellValue('X'. $row, $value['return_notes']);
+            $sheet->setCellValue('Y' . $row, date("M d, Y", strtotime($value['return_on'])));
+            $sheet->setCellValue('Z'. $row, $can_status_val[$value['return_paid_status']]);
+            $row++;
+        }
+        
+        $writer = new Xlsx($spreadsheet);
+ 
+        $filename = 'CANCEL-BOOKING-REPORT-'.date('d-m-Y');
  
         header('Content-Type: application/vnd.ms-excel');
         header('Content-Disposition: attachment;filename="'. $filename .'.xlsx"'); 

@@ -53,7 +53,7 @@
                                         <option value="0" <?php if($status=='0'){echo 'selected';}?>>New</option>
                                         <option value="1" <?php if($status==1){echo 'selected';}?>>InProgress</option>
                                         <option value="2" <?php if($status==2){echo 'selected';}?>>Executed</option>
-                                        <option value="3" <?php if($status==3){echo 'selected';}?>>Sent</option>
+                                        <option value="3" <?php if($status==3){echo 'selected';}?>>Paid</option>
                                     </select>
                                 </div>
                             </div>
@@ -76,7 +76,7 @@
                             </div><div class="col-xs-12 col-sm-12 col-lg-12 text-right">
                                         UnClear Amount(INR): <span class="text-info"><?=checkbal_mypayment($loginuser_id, 1)?> </span>
                                         Your Balance(INR): <span class="text-primary"><?=checkbal_mypayment($loginuser_id, 2)?> </span>
-                                        <a class="btn btn-sm btn-info" data-toggle="modal" href="#add">Withdraw</a>
+                                        <a class="btn btn-sm btn-info withdraw-request-btn" href="javascript:void(0);">Withdraw</a>
                                         <a class="btn btn-sm btn-primary" data-toggle="modal" href="#">Add Money</a>
                                     </div>
                             <table class="table ">
@@ -98,7 +98,7 @@
                                                         if (isset($transaction_reports) && count($transaction_reports) > 0) {
                                                             $i = 1;
                                                             foreach ($transaction_reports as $row) {                                                                                                              
-                                                                $status_val = array('New', 'InProgress', 'Executed', 'Sent');
+                                                                $status_val = array('New', 'InProgress', 'Executed', 'Paid');
                                                                     $fromuser = $row['fromuser'];
                                                                     $touser = $row['touser'];
                                                                     if($row['from_userid']==0){$fromuser = 'Admin';}
@@ -108,7 +108,7 @@
                                                                         <td><?= date("M d, Y", strtotime($row['date_time'])); ?></td>
                                                                         <td><?= $fromuser ?></td>
                                                                         <td><?= $touser ?></td>
-                                                                        <td><?= $row['transaction_notes'] ?></td>
+                                                                        <td><?= $row['transaction_notes'] ?> <?php if($row['status']==0 || $row['status']==3){echo '<span class="text-primary"> Rs:'.$row['withdrawal_request_amt'].'</span>';}?></td>
                                                                         <td <?php if($row['withdrawals']!=0){echo 'class="text-primary"';}?>><?= $row['withdrawals']; ?></td>
                                                                         <td <?php if($row['deposits']!=0){echo 'class="text-info"';}?>><?= $row['deposits']; ?></td>
                                                                         <td><h4><?= $row['balance']; ?></h4></td>                                                                       
