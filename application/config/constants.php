@@ -19,6 +19,9 @@ define('admin_phone', "98221 53576");
 define('email_bottem_email', "goahemtravels@gmail.com");
 define('email_bottem_phone', "98221 53576");
 define('donotreply', "support@goatravelagent.com");
+define('info_email', "info@bookyourtrips.in");
+define('vendors_email', "vendors@bookyourtips.in");
+
 //define('cc_email', "anjaneya.developer@gmail.com");
 
 /*

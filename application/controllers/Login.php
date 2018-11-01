@@ -264,7 +264,115 @@ class Login extends CI_Controller {
             redirect('logout');
         }
     }
+    function forgotPasswordRequest() {
+        
+        $this->form_validation->set_rules('new_email', 'E-Mail', 'trim|required|valid_email');
+        if ($this->form_validation->run($this) == FALSE) {
+            return FALSE;
+        }
+        $this->session->unset_userdata('signup_socail');
+        $check = $this->user_model->select('user_master', array('email' => strtolower($this->input->post('new_email'))));
+        if ($check->num_rows() < 1) {
+            if ($this->session->userdata('last_url')) {
+                $this->session->set_userdata('err', 'This user was not associated with any account!');
+                redirect($this->session->userdata('last_url'));
+            } else {
+                $this->session->set_userdata('err', 'This user was not associated with any account!');
+                redirect();
+            }
+        } else {
+            //$this->load->helper('custom_helper');
+                $this->load->helper('security');
+                $activation_code = rand(111111, 999999);
+                $data['activation_code'] = $activation_code;
+                //$data['new_email'] = $this->input->post('new_email');
+                $upt = $this->user_model->update('user_master', array('activation_code' => $activation_code), array('email' => strtolower($this->input->post('new_email'))));
+                if ($upt) {
+                    $toemail=$this->input->post('new_email');
+                    $subject='Email verification for forgotten password';
+                    $message='To verify your identity, please use the following One Time Password (OTP) to complete verification for change password:<br><br><h1>" . $activation_code . "</h1> <br> 
+			This OTP is confidential. For security reasons, DO NOT share the OTP with anyone. <br>
+			YouthHub takes your account security very seriously.';
+                    $mailData = array(
+                    //'fromuserid' => 1,
+                    'fromusername' => $this->input->post('user_fullname'),
+                    'toemail' => $toemail,
+                    'subject' => $subject,
+                    'message' => $message,
+                    //'othermsg' => ''
+                    );
 
+                    $query1 = sendemail_personalmail($mailData);
+                    //$query1 = $this->user_model->email_sent_user($this->input->post('new_email'), "Confirmation from Hem Travel", $messages);
+                    if ($query1) {
+                        return TRUE;
+                    } else {
+                        return FALSE;
+                    }
+                }
+        }
+        return FALSE;
+    }
+    
+    function forgetpasswordverfication() {
+        
+        $this->form_validation->set_rules('new_email', 'E-Mail', 'trim|required|valid_email');
+        $this->form_validation->set_rules('password', 'Password', 'trim|required|matches[repassword]');
+        $this->form_validation->set_rules('repassword', 'Re-enter Password', 'trim|required');
+        $this->form_validation->set_rules('passcode', 'Passcode', 'trim|required');
+        if ($this->form_validation->run($this) == FALSE) {
+            return FALSE;
+        }
+        if ($this->session->userdata('user_id') == '') {
+            $this->session->unset_userdata('signup_socail');
+            extract($this->input->post(NULL, TRUE));
+            $check = $this->user_model->select('user_master', array('forgotten_password_code' => $passcode,'email' => strtolower($new_email)));
+            if ($check->num_rows() > 0) {
+                $ch = $check->row();
+                $new = $this->ion_auth->hash_password($password);
+                $updateData = array(
+                    'password' => $new,
+                    'activation_code' => '',
+                    'activation_code' => ''
+                );
+                $whereData = array('id' => $ch->id);
+                $updateResult = updateTable('user_master', $whereData, $updateData);
+                
+                $values = array('um_updated_on' => date('Y-m-d h:i:s'),
+                    'um_updated_by' => $ch->id,
+                );
+                $image = $ch->profile_pic;
+                if (trim($image) != "" && file_exists("./uploads/$image")) {
+                    $image_url = base_url() . "uploads/$image";
+                } else {
+                    $image_url = base_url() . "assets/images/man/01.jpg";
+                }
+                $this->session->set_userdata('user_id', $ch->id);
+                $this->session->set_userdata('user_email', $ch->email);
+                $this->session->set_userdata('name', $ch->fullname);
+                $this->session->set_userdata('user_img', $image_url);
+                $this->session->set_userdata('user_type', $ch->type);
+
+                if ($this->session->userdata('last_url')) {
+                    $this->session->set_userdata('suc', 'Login Successfully please change your password in your profile...! ');
+                    redirect($this->session->userdata('last_url'));
+                } else {
+                    $this->session->set_userdata('suc', 'Login Successfully...!');
+                    redirect();
+                }
+            } else {
+                if ($this->session->userdata('last_url')) {
+                    $this->session->set_userdata('err', 'Please try again..!');
+                    redirect($this->session->userdata('last_url'));
+                } else {
+                    $this->session->set_userdata('err', 'Please try again..!');
+                    redirect();
+                }
+            }
+        } else {
+            redirect('logout');
+        }
+    }
     function forgetpassword_verfication() {
         if ($this->session->userdata('user_id') == '') {
             $this->session->unset_userdata('signup_socail');

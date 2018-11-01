@@ -442,7 +442,7 @@ if (!function_exists('trip_offer')) {
                     }
                 }
 
-                if ($usecouponcode != '') { // Specific Customer Offer
+                if ($usecouponcode != '' && $parenttrip_id==$row->id) { // Specific Customer Offer
                     $whereData = array('isactive' => 1, 'type' => 4, 'trip_id' => $row->id, 'coupon_code' => $usecouponcode, 'validity_from <=' => $date_of_trip, 'validity_to >=' => $date_of_trip);
                     $couponhistory_list = selectTable('coupon_code_master_history', $whereData, $showField = array('*'), $orWhereData = array(), $group = array(), $order = 'id DESC');
                     if ($couponhistory_list->num_rows() > 0) {

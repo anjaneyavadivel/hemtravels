@@ -291,7 +291,8 @@
                             <div class="form-group">
 <!--				<div class="checkbox-block"> -->
 					<input id="register_accept_checkbox" name="register_accept_checkbox" class=" form-control" value="1" type="checkbox"> 
-					<label class="" for="register_accept_checkbox">By register, I read &amp; accept <a href="#">the terms</a></label>
+					<label class="hide" for="register_accept_checkbox">By register, I read &amp; accept <a href="<?php echo base_url()?>assets/teams/Final-Terms-and-Conditions-For-BYT-Vendor.pdf" target="_new">Terms &amp; Conditions</a></label>
+					<label class="show" for="register_accept_checkbox">By register, I read &amp; accept <a href="<?php echo base_url()?>assets/teams/Final-Terms-and-Conditions-For-Byt-Customer.pdf" target="_new">Terms &amp; Conditions</a></label>
 <!--				</div>-->
                             </div>
 			</div>
@@ -325,9 +326,9 @@
 	<div class="modal-body">
 		<div class="row gap-20">
 			
-			<div class="col-sm-12 col-md-12">
+<!--			<div class="col-sm-12 col-md-12">
 				<p class="mb-20">Maids table how learn drift but purse stand yet set. Music me house could among oh as their. Piqued our sister shy nature almost his wicket. Hand dear so we hour to.</p>
-			</div>
+			</div>-->
 			
 			<div class="col-sm-12 col-md-12">
 	
@@ -338,12 +339,12 @@
 			
 			</div>
 
-			<div class="col-sm-12 col-md-12">
+<!--			<div class="col-sm-12 col-md-12">
 				<div class="checkbox-block"> 
 					<input id="forgot_password_checkbox" name="forgot_password_checkbox" class="checkbox" value="First Choice" type="checkbox"> 
 					<label class="" for="forgot_password_checkbox">Generate new password</label>
 				</div>
-			</div>
+			</div>-->
 			
 			<div class="col-sm-12 col-md-12">
 				<div class="login-box-box-action">

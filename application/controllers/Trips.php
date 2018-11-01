@@ -745,14 +745,22 @@ class Trips extends CI_Controller {
     }
     
     public function getCalendarData($file = null) {
+        $trip_id=array(0);
+        $whereData = array('trip_code' => $this->session->userdata('show_calendar_trip'));
+        $trip_list = selectTable('trip_master', $whereData, $showField = array('*'));
+        if ($trip_list->num_rows() > 0) {
+            $trip = $trip_list->row();
+            $trip_id = $trip->id;
+        }
+        $childtriparr = getallchildtrip($trip_id);
+        $childtripstring = implode(',', $childtriparr);
         $query = $this->db->query("SELECT tb.date_of_trip as date,DAY(tb.date_of_trip) as day,Month(tb.date_of_trip) as month,
                  YEAR(date_of_trip) as year,count(*) as b_count,tm.no_of_traveller,tm.id as trip_id,
                  SUM(number_of_persons) AS totalbookedpersons,(tm.no_of_traveller - SUM(number_of_persons)) as availabletraveller
                  FROM `trip_book_pay` as tb 
                  INNER JOIN trip_master as tm ON tm.id = tb.trip_id 
-                 where tb.status NOT IN(1,3)
-                    and tm.user_id   = {$this->session->userdata('user_id')} "
-                 . "and tm.trip_code = '{$this->session->userdata('show_calendar_trip')}' "
+                 where tb.status NOT IN(1) "
+                 . "and tm.id IN ($childtripstring) "
                  . "and tb.isactive  = 1 "
                 . "GROUP by tb.date_of_trip");
         
@@ -768,30 +776,32 @@ class Trips extends CI_Controller {
                 //echo "<pre>";print_r($totalbookedpersons);exit;
                
                 $re_json[] = array(                    
-                    "name" =>  'Total:'.$totalbookedpersons['total_size'].'<br>Booked:'.$totalbookedpersons['total_booked'].'<br>Your Booking:'.$v['totalbookedpersons'].'<br>Available:'.$totalbookedpersons['total_available'],
+                    "name" =>  'Total Trip Size:'.$totalbookedpersons['total_size'].'<br>Total Booked:'.$totalbookedpersons['total_booked'].'<br>Your Booking:'.$v['totalbookedpersons'].'<br><b>Available:'.$totalbookedpersons['total_available'].'</b>',
                     "date"  => $v['day'],
                     "month" => $v['month'],
                     "year"  => $v['year'],
                     "start_time" => "",
                     // "end_time" => "15:30",
                     "color" => "4",
-                    "description"  => $this->calendarDescription($v['date']),
+                    "description"  => $this->calendarDescription($v['date'],$childtriparr),
                 );
             }
         }//echo "<pre>";print_r($re_json);exit;
         echo json_encode($re_json);exit;
     }
     
-    private function calendarDescription($date){
-        $query2 = $this->db->query("SELECT tb.date_of_trip as date,tb.pnr_no,um.user_fullname,um.phone,tb.number_of_persons
+    private function calendarDescription($date,$childtriparr=array(0)){
+        $childtripstring = implode(',', $childtriparr);
+        $query2 = $this->db->query("SELECT tb.status,tb.date_of_trip as date,tb.pnr_no,um.user_fullname,um.phone,tb.number_of_persons
                  FROM `trip_book_pay` as tb 
                  INNER JOIN trip_master as tm ON tm.id = tb.trip_id 
                  INNER JOIN user_master as um ON um.id = tb.user_id 
-                 where tb.status NOT IN(1,3)
-                 and tm.user_id = {$this->session->userdata('user_id')} and tb.isactive = 1 and tb.date_of_trip = '{$date}'");
+                 where tb.status NOT IN(1)
+                 and tm.id IN ($childtripstring) and tb.isactive = 1 and tb.date_of_trip = '{$date}'");
                  
         $result2 = $query2->result_array(); //echo "<pre>";print_r($result);exit;
         $bookDescription = '';
+        $status_val = array('New', 'Pending', 'Booked', 'Cancelled', 'Confirmed', 'Completed');
         if(count($result2) > 0){
             
             $nextDay = date('M d,Y',strtotime($date));
@@ -799,11 +809,11 @@ class Trips extends CI_Controller {
                 <table class="table table-striped">
                 <thead>
                   <tr>
-                    <th>Sno.</th>
                     <th>PNR No</th>
                     <th>No of persons</th>
                     <th>Customer</th>
                     <th>Phone</th>
+                    <th>Status</th>
                   </tr>
                 </thead>
                 <tbody>';
@@ -812,11 +822,11 @@ class Trips extends CI_Controller {
                 $sno = $k+1;
                 $bookDescription .= '
                     <tr>
-                        <td>'.$sno.'</td>
                         <td><a href="'.base_url().'PNR-status/'.$v['pnr_no'].'" target="_blank">'.$v['pnr_no'].'</a></td>
                         <td>'.$v['number_of_persons'].'</td>
                         <td>'.$v['user_fullname'].'</td>
                         <td>'.$v['phone'].'</td>
+                        <td>'.$status_val[$v['status']].'</td>
                     </tr>';
             }
             

@@ -195,7 +195,7 @@
                                         <td><a href="<?=base_url()?>profile/<?=$row['user_id']?>" target="_new" class=""><?= $tousername; ?></a></td>
                                         <td><?= $email; ?></td>
                                         <td><?= $coupon_name; ?></td>
-                                        <td><?= $row['maked_trip_name']; ?></td>
+                                        <td><a href="<?=base_url()?>trip-view/<?=$row['maked_trip_code']?>" target="_new" class=""><?= $row['maked_trip_name']; ?></a></td>
                                         <td><h4><?= $status_active[$status]; ?></h4></td>
                                         <td>
                                             <?php if($status==1 && $loginuserid==$row['user_id']){?>

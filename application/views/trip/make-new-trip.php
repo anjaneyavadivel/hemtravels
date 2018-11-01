@@ -708,7 +708,7 @@
 
                                             <div class="checkbox-block font-icon-checkbox">
                                                 <input id="term_accept" name="term_accept"  type="checkbox" class="checkbox" />
-                                                <label class="" for="term_accept">Am terminated it excellence invitation projection as. She graceful shy believed distance use nay. Lively is people so basket ladies window expect. <a href="#" class="font700">Terms &amp; Conditions</a></label>
+                                                <label class="" for="term_accept">I accept the <a href="<?php echo base_url()?>assets/teams/Final-Terms-and-Conditions-For-BYT-Vendor.pdf" target="_new" class="font700">Terms &amp; Conditions</a>.</label>
                                             </div>
                                             <div class="term_accept_err" style="color:red;display:none;"><p>Please accept terms&conditions</p></div>
                                             <div class="field_req_err" style="color:red;display:none;"><p>Please fill the all required fields(*).</p></div>

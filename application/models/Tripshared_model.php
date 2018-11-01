@@ -4,7 +4,7 @@ class Tripshared_model extends CI_Model
 
     // Function 1:Get state master list
     function trip_list($whereData,$limit, $start) {
-        $this->db->select('ts.*,tm.trip_code,sum.user_fullname AS sharedusername,um.user_fullname AS tousername,tm.trip_name,mtm.trip_name AS maked_trip_name');
+        $this->db->select('ts.*,tm.trip_code,sum.user_fullname AS sharedusername,um.user_fullname AS tousername,tm.trip_name,mtm.trip_name AS maked_trip_name,mtm.trip_code AS maked_trip_code');
         $this->db->select('tm.trip_name AS trip_name,um.user_fullname AS user_fullname,um.email AS email,cm.coupon_name AS coupon_name,cm.offer_type,cm.percentage_amount');
         $this->db->from('trip_shared AS ts');
         $this->db->join('user_master AS sum', 'ts.shared_user_id = sum.id','LEFT');

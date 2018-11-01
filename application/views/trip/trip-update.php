@@ -1,4 +1,4 @@
-<?php $this->load->view('includes/header')?>
+   <?php $this->load->view('includes/header')?>
 <style>
     .dz-size{
         display:none;
@@ -393,6 +393,39 @@
                                             </div>
                                                 
                                                 <div class="pickup_location_list_div">
+                                                    <?php if(isset($is_shared) && $is_shared == 1){?>
+                                                            <div class="pickup_location_list_shared_default" id="pickup_location_list_s">
+                                                                    <div class="row">
+
+                                                                            <div class="col-xs-12 col-sm-5">
+
+                                                                                    <div class="form-group">
+                                                                                            <label>Meeting point:<span style=' color: #d9534f;'>*</span></label>
+                                                                                            <input  type="text" class="form-control" name="pickup_meeting_point[]" value=""/>
+                                                                                    </div>
+
+                                                                            </div>
+
+                                                                            <div class="col-xs-12 col-sm-3">
+
+                                                                                    <div class="form-group">
+                                                                                            <label>Meeting time:<span style=' color: #d9534f;'>*</span></label>
+                                                                                            <input type="text" class="oh-timepicker form-control" name="pickup_meeting_time[]" value=""/>
+                                                                                    </div>
+
+                                                                            </div>
+                                                                            <div class="col-xs-12 col-sm-4">
+
+                                                                                    <div class="form-group">
+                                                                                            <label>Landmark:</label>
+                                                                                            <input type="text" class="oh-timepicker1 form-control" name="pickup_landmark[]" value=""/>
+                                                                                    </div>
+
+                                                                            </div>
+                                                                    </div>
+                                                            </div>
+                                                    <?php }?>
+												
                                                     <div class="pickup_location_list_default" id="pickup_location_list_0">
                                                         <div class="row">
                                                             <?php 
@@ -745,8 +778,8 @@
 
                                             <div class="checkbox-block font-icon-checkbox" style="<?php echo isset($is_shared) && $is_shared == 1?"":"display:none;";?>">
                                                 <input id="term_accept" name="term_accept"  type="checkbox" class="checkbox"  checked=""/>
-                                                <label class="" for="term_accept">Am terminated it excellence invitation projection as. She graceful shy believed distance use nay. Lively is people so basket ladies window expect. <a href="#" class="font700">Terms &amp; Conditions</a></label>
-                                            </div>
+                                               <label class="" for="term_accept">I accept the <a href="<?php echo base_url()?>assets/teams/Final-Terms-and-Conditions-For-BYT-Vendor.pdf" target="_new" class="font700">Terms &amp; Conditions</a>.</label>
+                                             </div>
                                             <div class="term_accept_err" style="color:red;display:none;"><p>Please accept terms&conditions</p></div>
                                             <div class="field_req_err" style="color:red;display:none;"><p>Please fill the all required fields(*).</p></div>
                                             <div class="mb-25"></div>                                            

@@ -1074,14 +1074,14 @@ class Report extends CI_Controller {
         
         //SET HEADER        
         $sheet->setCellValue('A1', 'PNR NO');       
-        $sheet->setCellValue('B1', 'DATE OF BOOKING');       
-        $sheet->setCellValue('C1', 'VENDOR NAME');        
-        $sheet->setCellValue('D1', 'NUMBER OF PERSONS');
-        $sheet->setCellValue('E1', 'PICKUP POINT');
-        $sheet->setCellValue('F1', 'PICKUP TIME');
-        $sheet->setCellValue('G1', 'NAME OF PERSON');
-        $sheet->setCellValue('H1', 'MOBILE NUMBER'); 
-        $sheet->setCellValue('I1', 'TRIP NAME');      
+        $sheet->setCellValue('B1', 'DATE OF BOOKING');  
+        $sheet->setCellValue('C1', 'NAME OF PERSON');
+        $sheet->setCellValue('D1', 'MOBILE NUMBER');   
+        $sheet->setCellValue('E1', 'NUMBER OF PERSONS');
+        $sheet->setCellValue('F1', 'PICKUP POINT');
+        $sheet->setCellValue('G1', 'PICKUP TIME');
+        $sheet->setCellValue('H1', 'TRIP NAME');         
+        $sheet->setCellValue('I1', 'VENDOR NAME');        
         
         $row = 2;
         $vendorName = $this->session->userdata('name');
@@ -1089,14 +1089,14 @@ class Report extends CI_Controller {
             $time = date("H:i A", strtotime($value['time_of_trip']));
             
             $sheet->setCellValue('A' . $row, $value['pnr_no']);            
-            $sheet->setCellValue('B' . $row, date("M d, Y", strtotime($value['date_of_trip'])));            
-            $sheet->setCellValue('C' . $row, $vendorName);
-            $sheet->setCellValue('D' . $row, $value['number_of_persons']);           
-            $sheet->setCellValue('E' . $row, $value['pick_up_location']);                      
-            $sheet->setCellValue('F' . $row, $time );
-            $sheet->setCellValue('G' . $row, $value['user_fullname'] );           
-            $sheet->setCellValue('H'. $row, $value['phone']);            
-            $sheet->setCellValue('I'. $row, $value['trip_code'].'-'.$value['trip_name']);                   
+            $sheet->setCellValue('B' . $row, date("M d, Y", strtotime($value['date_of_trip'])));
+            $sheet->setCellValue('C' . $row, $value['user_fullname'] );           
+            $sheet->setCellValue('D'. $row, $value['phone']);   
+            $sheet->setCellValue('E' . $row, $value['number_of_persons']);           
+            $sheet->setCellValue('F' . $row, $value['pick_up_location']);                      
+            $sheet->setCellValue('G' . $row, $time );           
+            $sheet->setCellValue('H'. $row, $value['trip_code'].'-'.$value['trip_name']);            
+            $sheet->setCellValue('I' . $row, $vendorName);                 
             $row++;
         }
         
