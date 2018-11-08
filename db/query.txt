@@ -146,3 +146,8 @@ ALTER TABLE `trip_book_pay_details` CHANGE `refund_percentage` `refund_percentag
 
 ALTER TABLE `trip_book_pay` ADD `discount_your_price` FLOAT(8,2) NOT NULL DEFAULT '0.00' AFTER `discount_price`;
 ALTER TABLE `trip_book_pay_details` ADD `discount_your_price` FLOAT(8,2) NOT NULL DEFAULT '0.00' AFTER `discount_price`;
+
+-----------
+
+ALTER TABLE `trip_book_pay_details` ADD `vendor_offer_amt` FLOAT(8,2) NULL DEFAULT '0.00' AFTER `vendor_amt`;
+ALTER TABLE `trip_book_pay_details` ADD `vendor_cash_amt` FLOAT(8,2) NOT NULL DEFAULT '0.00' AFTER `vendor_offer_amt`;

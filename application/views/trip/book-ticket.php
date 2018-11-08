@@ -305,24 +305,70 @@
                                                 $number_of_persons = (int)$no_of_adult + (int)$no_of_children + (int)$no_of_infan;
                                                 $subtotal = (int)$adultPrice + (int)$childrenPrice + (int)$infanPrice;
                                                 $adultDisPrice = 0;$childDisPrice =0;$infanDisPrice=0;$disLabel='';
-                                                $discount_price = 0;
+                                                $discount_price = 0;$vendor_discount_price = 0;
                                                 if($offer_details['discount_price'] > 0){
                                                     $discount_price = (int)$offer_details['discount_price'] * (int)$number_of_persons;
-                                                    $disLabel = '('.$offer_details['coupon_code'].' - '.$offer_details['coupon_name'].')';
+                                                    $disLabel = 'Discount ('.$offer_details['coupon_code'].' - '.$offer_details['coupon_name'].')<br>';
                                                 }else if($offer_details['discount_percentage'] > 0){
                                                     $discount_price = ((int)$offer_details['discount_percentage']/100) * (int)$subtotal;
-                                                    $disLabel = '('.$offer_details['coupon_code'].' - '.$offer_details['coupon_name'].')';
+                                                    $disLabel = 'Discount ('.$offer_details['coupon_code'].' - '.$offer_details['coupon_name'].')<br>';
                                                 }
-                                                $total_price1 = $subtotal - $discount_price -$discount_your_price;
+                                                $total_price1 = $subtotal - $discount_price;
                                                 $gstPrice = 0;
                                                 if($offer_details['gst_percentage'] > 0){
                                                     $gstPrice    = ((int) $total_price1 * ((int) $offer_details['gst_percentage'] / 100));
                                                 }
                                                 $total_price = (int)$total_price1 + $gstPrice;
-                                               
+                                               //echo $your_amt;
                                                 $roundoff = 0;
                                                 $roundoff = round($total_price) - $total_price;
                                                 $total_price = round($total_price);
+                                                // coupon code discount
+                                                //$discount_your_price =0;
+                                                $disCouponLabel ='';
+                                                $coupon_discount_price = 0;
+                                                if($cus_coupon_type ==1){
+                                                    $coupon_discount_price = (int)$cus_percentage_amount * (int)$number_of_persons;
+                                                    $disCouponLabel = '('.$cus_coupon_code.' - '.$cus_coupon_name.')';
+                                                }else if($cus_coupon_type ==2){
+                                                    $coupon_discount_price = ((int)$cus_percentage_amount/100) * (int)$total_price;
+                                                    $disCouponLabel = '('.$cus_coupon_code.' - '.$cus_coupon_name.')';
+                                                }//echo $coupon_discount_price;
+                                                // check ur trip amt 
+                                                if($coupon_discount_price>$your_amt){
+                                                    $coupon_discount_price=$your_amt;
+                                                }
+                                                if($coupon_discount_price>0){$usecouponcode_msg = 'Applied coupon code for Rs: '.$coupon_discount_price.' Off';}
+                                                ////echo $your_amt;
+                                                //echo $coupon_discount_price;
+                                                $your_amt = $your_amt -$coupon_discount_price;
+                                                //echo $your_amt;
+                                                //$total_price = $total_price -$coupon_discount_price;
+//                                                if($coupon_discount_price>$your_amt){
+//                                                    $coupon_discount_price=$your_amt;
+//                                                }//echo $your_amt;
+                                                if ($this->session->userdata('user_type') == 'VA'){
+                                                    $vendor_discount_price = $discount_price + $discount_your_price;
+                                                    if($discount_price>0){
+                                                        $disLabel .= '<span class="text-primary">Vendor offer credit to you Rs:'.number_format($discount_price,2).'</span><br>';
+                                                    }
+                                                    $disLabel .= 'Discount Your Trip Amount(Cash) Rs:'.$your_amt;
+                                                    $vendor_discount_price=$your_amt;
+                                                    $discount_price =  $vendor_discount_price;
+                                                }//echo $vendor_discount_price;
+                                                //$discount_your_price = $coupon_discount_price+$discount_your_price;
+                                               // echo $total_price;echo $discount_price;
+                                                if($parent_trip==1 && $this->session->userdata('user_type') == 'VA'){
+                                                    $total_price = $total_price+SERVICECHARGE_AMT;
+                                                }else if($vendor_discount_price > 0){
+                                                    $total_price = $subtotal-$vendor_discount_price-$coupon_discount_price;
+                                                }else{ $total_price = $subtotal-$discount_price-$coupon_discount_price;}
+                                                //echo $your_amt;
+                                                //discount your price
+//                                                if ($this->session->userdata('user_type') == 'VA') {
+//                                                    $discount_your_price = $total_price - SERVICECHARGE_AMT;
+//                                                }
+                                                //$total_price = $total_price-$discount_your_price;
                                             ?>
                                             <!--<h6 class="heading mt-20 mb-5 text-primary uppercase">Price per person</h6>-->
                                             <?php if(isset($no_of_adult) && $no_of_adult > 0) { ?>
@@ -355,27 +401,51 @@
                                                 </div>
                                             </div>
                                             <?php } ?>
-                                            <?php if(isset($discount_your_price) && $discount_your_price > 0){ ?>
+                                            <?php if($vendor_discount_price > 0){ ?>
+                                            <div class="row gap-10 mt-10">
+                                                <div class="col-xs-7 col-sm-7">
+                                                    <?php echo $disLabel;?>
+                                                </div>
+                                                <div class="col-xs-5 col-sm-5 text-right">
+                                                    <?php //if($this->session->userdata('user_type') == 'VA'){echo '(+)';}else{echo '(-)';}?>
+                                                    (-) &#8377; <?php echo number_format($vendor_discount_price,2); ?>
+                                                </div>
+                                            </div>
+                                            <?php }else if(isset($discount_price) && $discount_price > 0){ ?>
+                                            <div class="row gap-10 mt-10">
+                                                <div class="col-xs-7 col-sm-7">
+                                                    <?php echo $disLabel;?>
+                                                </div>
+                                                <div class="col-xs-5 col-sm-5 text-right">
+                                                    <?php //if($this->session->userdata('user_type') == 'VA'){echo '(+)';}else{echo '(-)';}?>
+                                                    (-) &#8377; <?php echo number_format($discount_price,2); ?>
+                                                </div>
+                                            </div>
+                                            <?php }?>
+                                            <?php if(isset($coupon_discount_price) && $coupon_discount_price > 0){ ?>
+                                            <div class="row gap-10 mt-10">
+                                                <div class="col-xs-7 col-sm-7">
+                                                    Discount Coupon <?php echo $disCouponLabel;?>
+                                                </div>
+                                                <div class="col-xs-5 col-sm-5 text-right">
+                                                     (-) &#8377; <?php echo number_format($coupon_discount_price,2); ?>
+                                                </div>
+                                            </div>
+                                            <?php }
+                                            /*if(isset($discount_your_price) && $discount_your_price > 0||$this->session->userdata('user_type') == 'VA'){ ?>
                                             <div class="row gap-10 mt-10">
                                                 <div class="col-xs-7 col-sm-7">
                                                     Discount Your Trip Amount(Cash)
+                                                    <?php if($this->session->userdata('user_type') == 'VA'){?>
+                                                    <br><span class="text-primary">Vendor offer credit to you <?php echo number_format($coupon_discount_price,2); ?></span>
+                                                    <?php }?>
                                                 </div>
                                                 <div class="col-xs-5 col-sm-5 text-right">
                                                     (-) &#8377; <?php echo number_format($discount_your_price,2); ?>
                                                 </div>
                                             </div>
-                                            <?php } ?>
-                                            <?php if(isset($discount_price) && $discount_price > 0){ ?>
-                                            <div class="row gap-10 mt-10">
-                                                <div class="col-xs-7 col-sm-7">
-                                                    Discount <?php echo $disLabel;?>
-                                                </div>
-                                                <div class="col-xs-5 col-sm-5 text-right">
-                                                    (-) &#8377; <?php echo number_format($discount_price,2); ?>
-                                                </div>
-                                            </div>
-                                            <?php } ?>
-                                            <?php if(isset($offer_details['gst_percentage']) && $offer_details['gst_percentage'] > 0){ ?>
+                                            <?php }*/
+                                            if(isset($offer_details['gst_percentage']) && $offer_details['gst_percentage'] > 0){ ?>
                                             <div class="row gap-10 mt-10">
                                                 <div class="col-xs-7 col-sm-7">
                                                     GST (<?php echo $offer_details['gst_percentage'].'%';?>)
@@ -500,9 +570,11 @@
                                         
                                         }}?>
                                         <div class="col-sm-12 col-md-6">
-                                            <input class="form-control usecouponcode" placeholder="Enter the coupon code" type="text" id="usecouponcode" value="">
+                                            <input class="form-control usecouponcode" placeholder="Enter the coupon code" type="text" id="usecouponcode" value="<?php echo $usecouponcode?>">
                                             <a class="btn btn-primary checkcouponcode" id="checkcouponcode" href="javascript:;">Check</a>
-                                            <span id="couponcodemsg" class=" text-primary"></span>
+                                            <span id="couponcodemsg" class=" text-primary"><?php if(isset($usecouponcode_msg) && !empty($usecouponcode_msg)) { 
+                                        echo $usecouponcode_msg;
+                                    }?></span>
                                         </div>
                                     </li>
                                         <!--<li>

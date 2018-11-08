@@ -742,7 +742,8 @@
                             $trip_name = $row['trip_name'];
                             $trip_img_name = $row['trip_img_name'];
                             $created_on = $row['created_on'];
-                            $offerdata = array('trip_id' =>$row['id'],
+                            $offerdata = array('trip_id' =>$row['id'],  
+                                    'parenttrip_id' => $row['id'], 
                                 'login_user_id' =>0,'ischeckadmin' => 0,'date_of_trip' =>date('Y-m-d'));
                             $offerinfo = trip_offer($offerdata);
                             $offer_type=0;$discount_price=0;
@@ -813,7 +814,8 @@
                             $trip_name = $row['trip_name'];
                             $trip_img_name = $row['trip_img_name'];
                             $created_on = $row['created_on'];
-                            $offerdata = array('trip_id' =>$row['id'],
+                            $offerdata = array('trip_id' =>$row['id'],  
+                                    'parenttrip_id' => $row['id'], 
                                 'login_user_id' =>0,'ischeckadmin' => 0,'date_of_trip' =>date('Y-m-d'));
                             $offerinfo = trip_offer($offerdata);
                             $offer_type=0;$discount_price=0;

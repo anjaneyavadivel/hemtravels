@@ -25,7 +25,10 @@ class TripBookings extends CI_Controller {
             $data['user_fullname'] = $this->session->userdata('name');
             $data['user_email'] = $this->session->userdata('user_email');
             $data['user_phone'] = $this->session->userdata('user_phone');
-
+            $data['usecouponcode'] = $this->session->userdata('bk_usecouponcode');
+            if ($data['usecouponcode'] == 'undefined') {
+                $data['usecouponcode'] = '';
+            }
             //GENERAL DETAILS
             $data['details'] = $this->Trip_model->getDetails($tripCode);
 
@@ -44,18 +47,25 @@ class TripBookings extends CI_Controller {
 
                 $offerdata = array(
                     'trip_id' => $data['details']['id'],
+                    'parenttrip_id' => $data['details']['id'],
                     'date_of_trip' => $this->session->userdata('bk_from_date'),
                     'ischeckadmin' => 1);
                 if ($this->session->userdata('user_type') == 'VA') {
                     $offerdata['ischeckadmin'] = 0;
                 }
-                $data['offer_details'] = trip_offer($offerdata);
+                $data['usecouponcode_msg'] = '';
+                $data['cus_coupon_code'] = '';
+                $data['cus_coupon_name'] = '';
+                $data['cus_coupon_type'] = '';
+                $data['cus_coupon_price'] = '';
+                $data['cus_coupon_percentage'] = '';
+                $data['offer_details'] = trip_offer($offerdata,$data['usecouponcode']);
                 // echo "<pre>"; print_r($data['offer_details']);exit;
                 $parenttrip_id = $data['details']['id'];
+                $date_of_trip = formatdate($this->session->userdata('bk_from_date'), $format = 'Y-m-d');
                 $discount_your_price = 0;
-                if (isset($data['offer_details']['is_open']) && $data['offer_details']['is_open'] == 1 && $this->session->userdata('user_type') == 'VA') {
+                if (isset($data['offer_details']['is_open']) && $data['offer_details']['is_open'] == 1) {
                     $number_of_persons = $data['total_traveller'];
-                    $date_of_trip = $this->session->userdata('bk_from_date');
                     // check traveller valid
                     if ($data['offer_details']['availabletraveller'] >= $number_of_persons || ($data['offer_details']['no_of_min_booktraveller'] <= $number_of_persons || $data['offer_details']['no_of_max_booktraveller'] >= $number_of_persons)) {
 
@@ -76,6 +86,7 @@ class TripBookings extends CI_Controller {
                                 $trip_user_id = $row->user_id;
                                 $discount_percentage = 0;
                                 $discount_price = 0;
+                                $your_amt = 0;
                                 $offer_amt = 0;
                                 $coupon_history_id = 0;
                                 $total_adult_price = 0;
@@ -84,14 +95,15 @@ class TripBookings extends CI_Controller {
                                 $subtotal_trip_price = 0;
                                 $specific_discount_price = 0;
                                 $specific_discount_percentage = 0;
-                                $specific_offer_amt = 0;
+                                $specific_offer_amt = 0;$your_final_amt_temp=0;
                                 //check offer
                                 $offerdata = array(
                                     'trip_id' => $trip_id,
+                                    'parenttrip_id' => $data['details']['id'],
                                     'date_of_trip' => $date_of_trip,
                                     'ischeckadmin' => 2); //default= 1 - if 1 check super admin offer, 2 - vendor offer, 0 - customer offer check
                                 if ($trip_id == $data['details']['id']) {
-                                    $offerdata['ischeckadmin'] = 0;
+                                    $offerdata['ischeckadmin'] = 2;
                                 }
                                 $checkoffer = trip_offer($offerdata);
                                 //echo '<br><br>'; print_r($checkoffer);
@@ -133,26 +145,28 @@ class TripBookings extends CI_Controller {
                                 }
                                 $total_trip_price = (int) $subtotal_trip_price - (int) $offer_amt;
 
-
                                 //$vendor_amt = $total_trip_price;
                                 $net_price = (int) $total_trip_price - (int) $vendor_amt;
                                 $servicecharge_amt = $net_price * (SERVICECHARGE_PERCENTAGE / 100);
                                 if ($servicecharge_amt < SERVICECHARGE_AMT) {// get max amt
                                     $servicecharge_amt = SERVICECHARGE_AMT;
                                 }
-                                if ($this->session->userdata('user_type') == 'VA' && $trip_id ==$parenttrip_id) {
+                                if ($trip_id == $parenttrip_id) {
                                     $servicecharge_amt = SERVICECHARGE_AMT;
                                 }
                                 $your_amt = (int) $net_price - (int) $servicecharge_amt;
                                 $gst_amt = $your_amt * (GST_PERCENTAGE / 100);
-                                $your_final_amt_temp = $your_amt + $gst_amt;
+                                $your_final_amt_temp = (int)$your_amt + (int)$gst_amt;
                                 $round_off = round($your_final_amt_temp) - ($your_final_amt_temp);
-                                $your_final_amt = $round_off + $your_final_amt_temp;
-
-                                if ($this->session->userdata('user_type') == 'VA' && $trip_id ==$parenttrip_id) {
-                                    $discount_your_price = $your_final_amt;
+                                $your_final_amt = (int) $round_off + (int) $your_final_amt_temp;
+                                if ($trip_id == $parenttrip_id) {
+                                    $discount_your_price = $your_final_amt; 
                                 }
                                 $vendor_amt = $total_trip_price;
+                                if ($vendor_amt < 0) {
+                                    $vendor_amt *= -1;
+                                }
+                               
                             }
                         }
                     }
@@ -162,12 +176,44 @@ class TripBookings extends CI_Controller {
                         $this->session->set_userdata('last_url', $redirect_url);
                     }
                 }
+                $data['parent_trip'] = 1;
+                if($your_amt<0){$your_amt *= -1;$your_amt = $your_amt-SERVICECHARGE_AMT-SERVICECHARGE_AMT;}
+                else{$data['parent_trip'] = 0;}//echo $your_amt;exit();
+                $data['your_amt'] = $your_amt;
+                $data['discount_your_price'] = $discount_your_price;
+                if ($data['discount_your_price'] < 0) {
+                    $data['discount_your_price'] = -SERVICECHARGE_AMT;
+                }
+                if ($this->session->userdata('user_type') != 'VA'){
+                    $data['discount_your_price'] = 0;
+                }
+                if ($data['usecouponcode'] != '') {
+                    $data['cus_coupon_code'] = '';
+                    $data['cus_coupon_name'] = '';
+                    $data['cus_coupon_type'] = 0;
+                    $data['cus_percentage_amount'] = 0;
+                    $whereData = array('isactive' => 1, 'type' => 4, 'trip_id' => $data['details']['id'], 'coupon_code' => $data['usecouponcode'], 'validity_from <=' => $date_of_trip, 'validity_to >=' => $date_of_trip);
+                    $couponhistory_list = selectTable('coupon_code_master_history', $whereData, $showField = array('*'), $orWhereData = array(), $group = array(), $order = 'id DESC');
+                    if ($couponhistory_list->num_rows() > 0) {
+                        $couponhistory = $couponhistory_list->row();
+                        $coupon_history_id = $couponhistory->id;
+                        $coupon_history_code = $couponhistory->coupon_code;
+                        $coupon_history_name = $couponhistory->coupon_name;
+                        $offer_by = $couponhistory->type;
+                        $coupon_comment = $couponhistory->comment;
+                        $offer_type = $couponhistory->offer_type;
+                        $data['cus_coupon_code'] = $coupon_history_code;
+                        $data['cus_coupon_name'] = $coupon_history_name;
+                        $data['cus_coupon_type'] = $offer_type;
+                        $data['cus_percentage_amount'] = $couponhistory->percentage_amount;
+                    } else {
+                        $data['usecouponcode_msg'] = 'Sorry! Invalid coupon code';
+                    }
+                }
             }
+            // echo "<pre>";print_r($data);exit;
 
-        $data['discount_your_price']=$discount_your_price;
-        //echo "<pre>";print_r($data);exit;
-
-        $this->load->view('trip/book-ticket', $data);
+            $this->load->view('trip/book-ticket', $data);
         }
     }
 
@@ -199,6 +245,7 @@ class TripBookings extends CI_Controller {
             $data['user_fullname'] = $this->session->userdata('name');
             $data['user_email'] = $this->session->userdata('user_email');
             $data['user_phone'] = $this->session->userdata('user_phone');
+            $data['usecouponcode'] = $this->session->userdata('bk_usecouponcode');
         }
         //echo "<pre>";print_r($data);exit;
 
@@ -226,7 +273,8 @@ class TripBookings extends CI_Controller {
                     'bk_location' => $this->input->post('location', true),
                     'bk_no_of_adult' => $this->input->post('no_of_adult', true),
                     'bk_no_of_children' => $this->input->post('no_of_children', true),
-                    'bk_no_of_infan' => $this->input->post('no_of_infan', true)
+                    'bk_no_of_infan' => $this->input->post('no_of_infan', true),
+                    'bk_usecouponcode' => $this->input->post('usecouponcode', true)
                 );
 
                 $this->session->set_userdata($newdata);
@@ -276,7 +324,7 @@ class TripBookings extends CI_Controller {
                             'no_of_infan' => $this->session->userdata('bk_no_of_infan'),
                             'date_of_trip' => $this->session->userdata('bk_from_date'),
                             'pick_up_location_id' => $this->session->userdata('bk_location'));
-                        $book_pay = trip_book($bookdata, $this->input->post('usecouponcode', true));
+                        $book_pay = trip_book($bookdata, $this->session->userdata('bk_usecouponcode'));
                         if (count($book_pay) > 0) {
 
                             $result = true;
@@ -310,7 +358,7 @@ class TripBookings extends CI_Controller {
                                             trip_book_paid_sucess($updatedata, $book_pay['pnr_no'], 1);
 
                                             //CLEAR BOOKING SESSIONS
-                                            $array_items = array('bk_no_of_adult', 'bk_no_of_children', 'bk_no_of_infan', 'bk_from_date',
+                                            $array_items = array('bk_no_of_adult', 'bk_no_of_children', 'bk_no_of_infan', 'bk_from_date', 'bk_usecouponcode',
                                                 'bk_to_date', 'bk_location');
 
                                             $this->session->unset_userdata($array_items);
@@ -332,7 +380,7 @@ class TripBookings extends CI_Controller {
                             trip_book_paid_sucess($updatedata, $book_pay['pnr_no']);
 
                             //CLEAR BOOKING SESSIONS
-                            $array_items = array('bk_no_of_adult', 'bk_no_of_children', 'bk_no_of_infan', 'bk_from_date',
+                            $array_items = array('bk_no_of_adult', 'bk_no_of_children', 'bk_no_of_infan', 'bk_from_date', 'bk_usecouponcode',
                                 'bk_to_date', 'bk_location');
 
                             $this->session->unset_userdata($array_items);

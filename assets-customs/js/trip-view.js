@@ -176,6 +176,7 @@ jQuery(function ($) {
                 formData.append('no_of_children', $('.no_of_children').val());
                 formData.append('no_of_infan', $('.no_of_infan').val());
                 formData.append('location', $('#location').val());
+                formData.append('usecouponcode', $('#usecouponcode').val());
                 formData.append('csrf_test_name', $.cookie('csrf_cookie_name'));
 
                 $.ajax({
@@ -279,52 +280,53 @@ jQuery(function ($) {
         }
     });
     $('body').on('click', '#checkcouponcode', function () {
-                var couponcode = $.trim($('#usecouponcode').val());
-                var tripId = $.trim($('#tripId').val());
-                var totalPrice = $.trim($('#totalPrice').val());
-                var walletbalance = $.trim($('#walletbalance').val());
-                var wallettopay = $.trim($('#wallettopay').val());
-                var fromdate = $.trim($('#rangeDatePickerFrom').val());
-                var disabled = $("#checkcouponcode").is(":disabled");
-                if (couponcode == '' || tripId == '' || totalPrice == '' || fromdate == ''|| disabled) {
-                    return false;
-                }
-                var formData = new FormData();
-                formData.append('tripId', $('#tripId').val());
-                formData.append('no_of_adult', $('.no_of_adult').val());
-                formData.append('no_of_children', $('.no_of_children').val());
-                formData.append('no_of_infan', $('.no_of_infan').val());
-                formData.append('couponcode', couponcode);
-                formData.append('totalPrice', totalPrice);
-                formData.append('walletbalance', walletbalance);
-                formData.append('wallettopay', wallettopay);
-                formData.append('fromdate', fromdate);
-                formData.append('csrf_test_name', $.cookie('csrf_cookie_name'));
-                setTimeout(function () {
-                    $.ajax({
-                        url: base_url + 'checkcouponcode',
-                        type: 'POST',
-                        data: formData,
-                        contentType: false, // The content type used when sending data to the server.
-                        cache: false, // To unable request pages to be cached
-                        processData: false,
-                        success: function (res) {
-                            var JSONdata = $.parseJSON(res);
-                            //console.log(JSONdata) 
-                            if (JSONdata.status == 1) {
-                                $('#wallettopay').val(JSONdata.wallettopay);
-                                $('#walletbalance').val(JSONdata.walletbalance);
-                                $('#totalPrice').val(JSONdata.totalPrice);
-                                $('#couponcodemsg').html(JSONdata.msg);
-                                $('#wallettopayspan').html(JSONdata.wallettopay);
-                                $('#walletbalancespan').html(JSONdata.walletbalance);
-                                $('#checkcouponcode').prop('disabled', true ); 
-                            } else {
-                                $('#couponcodemsg').html(JSONdata.msg);
-                            }
-                        }
-                    });
-                }, 1000);
+            $('.request_book').click();
+//                var couponcode = $.trim($('#usecouponcode').val());
+//                var tripId = $.trim($('#tripId').val());
+//                var totalPrice = $.trim($('#totalPrice').val());
+//                var walletbalance = $.trim($('#walletbalance').val());
+//                var wallettopay = $.trim($('#wallettopay').val());
+//                var fromdate = $.trim($('#rangeDatePickerFrom').val());
+//                var disabled = $("#checkcouponcode").is(":disabled");
+//                if (couponcode == '' || tripId == '' || totalPrice == '' || fromdate == ''|| disabled) {
+//                    return false;
+//                }
+//                var formData = new FormData();
+//                formData.append('tripId', $('#tripId').val());
+//                formData.append('no_of_adult', $('.no_of_adult').val());
+//                formData.append('no_of_children', $('.no_of_children').val());
+//                formData.append('no_of_infan', $('.no_of_infan').val());
+//                formData.append('couponcode', couponcode);
+//                formData.append('totalPrice', totalPrice);
+//                formData.append('walletbalance', walletbalance);
+//                formData.append('wallettopay', wallettopay);
+//                formData.append('fromdate', fromdate);
+//                formData.append('csrf_test_name', $.cookie('csrf_cookie_name'));
+//                setTimeout(function () {
+//                    $.ajax({
+//                        url: base_url + 'checkcouponcode',
+//                        type: 'POST',
+//                        data: formData,
+//                        contentType: false, // The content type used when sending data to the server.
+//                        cache: false, // To unable request pages to be cached
+//                        processData: false,
+//                        success: function (res) {
+//                            var JSONdata = $.parseJSON(res);
+//                            //console.log(JSONdata) 
+//                            if (JSONdata.status == 1) {
+//                                $('#wallettopay').val(JSONdata.wallettopay);
+//                                $('#walletbalance').val(JSONdata.walletbalance);
+//                                $('#totalPrice').val(JSONdata.totalPrice);
+//                                $('#couponcodemsg').html(JSONdata.msg);
+//                                $('#wallettopayspan').html(JSONdata.wallettopay);
+//                                $('#walletbalancespan').html(JSONdata.walletbalance);
+//                                $('#checkcouponcode').prop('disabled', true ); 
+//                            } else {
+//                                $('#couponcodemsg').html(JSONdata.msg);
+//                            }
+//                        }
+//                    });
+//                }, 1000);
     });
     $('#addWishlist').on('click', function () {
         var trip_id = $(this).attr('data-trip-id');

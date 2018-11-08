@@ -871,7 +871,8 @@ class Trips extends CI_Controller {
                         }
                         
                         $offerdata =array(
-                        'trip_id'      => $data['related_tours'][$k]['id'],                
+                        'trip_id'      => $data['related_tours'][$k]['id'], 
+                        'parenttrip_id' => $data['related_tours'][$k]['id'],            
                         'date_of_trip' => $date,
                         'ischeckadmin' => 1);
                         if ($this->session->userdata('user_type') == 'VA') {
@@ -1089,7 +1090,8 @@ class Trips extends CI_Controller {
                                     }
                                     
                                     $offerdata =array(
-                                    'trip_id'      => $returnedData['results'][$k]['id'],                
+                                    'trip_id'      => $returnedData['results'][$k]['id'],  
+                                    'parenttrip_id' => $returnedData['results'][$k]['id'],             
                                     'date_of_trip' => $date,
                                     'ischeckadmin' => 1);
                                     if ($this->session->userdata('user_type') == 'VA') {

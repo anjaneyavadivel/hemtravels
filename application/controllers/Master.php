@@ -374,13 +374,13 @@ class Master extends CI_Controller {
 
     public function checkhelper() {
         $this->load->helper('custom_helper');
-        $pnrinfo = array(
-                    'pnr_no' => 'PNR100VCNHF',  
-                    'refund_date' =>  '13-10-2018',
-                    'return_notes' =>  'Paid to your bank in NEFT',
-                    'refund_percentage' =>  50); 
-       $result = cancelled_trip_refund_amount($pnrinfo);
-       print_r($result);exit();
+//        $pnrinfo = array(
+//                    'pnr_no' => 'PNR100VCNHF',  
+//                    'refund_date' =>  '13-10-2018',
+//                    'return_notes' =>  'Paid to your bank in NEFT',
+//                    'refund_percentage' =>  50); 
+//       $result = cancelled_trip_refund_amount($pnrinfo);
+//       print_r($result);exit();
        //echo $totalbookedpersons = checktripavailable(6,'30-09-2018');
 //       $totalbookedpersons = checktripavailable(6,'30-09-2018');
 //         print_r($totalbookedpersons);exit();
@@ -429,16 +429,16 @@ class Master extends CI_Controller {
 //        $result = trip_offer($offerdata);
 //        print_r($result);
 //        exit();
-//        $bookdata=array(
-//        'trip_id' => 2,
-//        'book_user_id' => 26,
-//        'no_of_adult' => 1,
-//        'no_of_child' => 0,
-//        'no_of_infan' => 0,
-//        'date_of_trip' => "Oct 15, 2018",
-//        'pick_up_location_id' => 5);
-//        $result = trip_book($bookdata,'COUPONOFFER2PER');
-//        print_r($result);
+        $bookdata=array(
+        'trip_id' => 15, //15, 13
+        'book_user_id' => 26,
+        'no_of_adult' => 1,
+        'no_of_child' => 0,
+        'no_of_infan' => 0,
+        'date_of_trip' => "Nov 9, 2018",
+        'pick_up_location_id' => 39); //39, 37
+        $result = trip_book($bookdata,'COUPONOFFER50PER',1);//COUPONOFFER50PER, cash
+        print_r($result);
 //        
     }
     public function mypayment() {
