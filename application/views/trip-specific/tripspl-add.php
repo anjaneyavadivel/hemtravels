@@ -27,7 +27,8 @@
                 <select class="form-control" name="trip_type" id="trip_type" >
                     <option value="">Select a offer to...</option>
                     <option value="1">Set Offer Specific Day</option>
-                    <option value="2">Set Trip Close </option>
+                    <option value="2">Set Trip Close Specific Day</option>
+                    <option value="3">Set Trip Open Specific Day </option>
                 </select>
             </div>
             <div class="form-group ">

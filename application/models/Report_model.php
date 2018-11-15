@@ -573,6 +573,40 @@ class Report_model extends CI_Model
             return $query->result_array();
         }
     }
+    
+    function trip_shared_list($whereData,$limit=10, $start=0,$resultCount = 'no') {
+        $this->db->select('ts.*,tm.trip_code,sum.user_fullname AS sharedusername,sum.email AS fromuseremail,tm.trip_name,mtm.trip_name AS maked_trip_name,mtm.trip_code AS maked_trip_code');
+        $this->db->select('tm.trip_name AS trip_name,um.user_fullname AS tousername,um.email AS email,cm.coupon_name AS coupon_name,cm.offer_type,cm.percentage_amount');
+        $this->db->from('trip_shared AS ts');
+        $this->db->join('user_master AS sum', 'ts.shared_user_id = sum.id','LEFT');
+        $this->db->join('user_master AS um', 'ts.user_id = um.id','LEFT');
+        $this->db->join('trip_master AS tm', 'ts.trip_id = tm.id','LEFT');
+        $this->db->join('trip_master AS mtm', 'ts.id = mtm.trip_shared_id','LEFT');
+        $this->db->join('coupon_code_master_history AS cm', 'ts.coupon_history_id = cm.id','LEFT');
+       
+       
+        if(isset($whereData['title']) && $whereData['title']!=''){
+           $this->db->where('(tm.trip_name LIKE "%'.$this->db->escape_like_str($whereData['title']).'%" OR mtm.trip_name LIKE "%'.$this->db->escape_like_str($whereData['title']).'%" )');
+        }      
+        
+        if(isset($whereData['status']) && $whereData['status']!=''){            
+            $this->db->where('ts.status',$whereData['status']);
+        }   
+       
+        $this->db->order_by('ts.id DESC'); 
+        
+        if($resultCount == 'yes'){
+            $query = $this->db->get();
+            return $query->num_rows();
+        }else if($resultCount == 'download'){
+            $query = $this->db->get();
+            return $query->result_array();
+        }else{
+            $this->db->limit($limit, $start);
+            $query = $this->db->get();//echo $this->db->last_query();exit;
+            return $query->result_array();
+        }
+    }
 
 }
 

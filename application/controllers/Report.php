@@ -575,6 +575,59 @@ class Report extends CI_Controller {
             $this->load->view('report/user-reports.php', $data);
         }
     }
+    
+    public function trip_shared_reports() {
+        
+        if ($this->session->userdata('user_id') == '' || ($this->session->userdata('user_type') != 'SA')) {
+            redirect('login');
+        }   
+       
+        $title    = trim($this->input->get('title'));
+        $status   = trim($this->input->get('status'));        
+        $download = $this->input->get('download');        
+        
+        $url = $this->uri->segment(1);
+        
+        $this->load->library('pagination');
+        $config = array();
+        $config["base_url"] = base_url() . $url ."?title=".$title."&status=" . $status;
+        $whereData = array('title' => $title,'status' => $status,'download' => $download);
+                
+        $config["per_page"] = 20;
+        //$config["uri_segment"] = 2;
+
+        $config['enable_query_strings'] = TRUE;
+        $config['page_query_string']    = TRUE;
+        $config['use_page_numbers']     = TRUE;
+        $config['query_string_segment'] = 'page';
+        $config['cur_tag_open']         = '&nbsp;<a class="active">';
+        $config['cur_tag_close']        = '</a>';
+
+        $config['next_link'] = '&NestedGreaterGreater;';
+        $config['prev_link'] = '&NestedLessLess;';
+        $page = ($this->input->get('page')) ? ( ( $this->input->get('page') - 1 ) * $config["per_page"] ) : 0;
+        $config["total_rows"]  = $this->Report_model->trip_shared_list($whereData, $config["per_page"], $page,'yes');
+        $this->pagination->initialize($config);
+        
+        $data["tripSharedlist"] = $this->Report_model->trip_shared_list($whereData, $config["per_page"], $page,'no');        
+        $str_links = $this->pagination->create_links();
+        $data["links"] = explode('&nbsp;', $str_links); //echo "<pre>";print_r($str_links);exit;
+       
+        $data["status"] = $status;        
+        $data["title"]  = $title;        
+        $data["url"]    = $url;
+        
+        if($download == 1 && isset($data["tripSharedlist"]) && count($data["tripSharedlist"]) > 0){
+            $data["tripSharedlist"] = $this->Report_model->trip_shared_list($whereData, $config["per_page"], $page,'download');        
+        
+            $downloadData = $data["tripSharedlist"];
+            
+            $this->tripSharedExport($downloadData);
+            
+        }else{
+            $this->load->view('report/trip_shared_reports.php', $data);
+        }
+    }
 
     public function exportXLfile() {
         
@@ -1174,6 +1227,74 @@ class Report extends CI_Controller {
         $writer = new Xlsx($spreadsheet);
  
         $filename = 'USER-REPORT-'.date('d-m-Y');
+ 
+        header('Content-Type: application/vnd.ms-excel');
+        header('Content-Disposition: attachment;filename="'. $filename .'.xlsx"'); 
+        header('Cache-Control: max-age=0');
+        
+        $writer->save('php://output'); // download file 
+    }
+    public function tripSharedExport($data){ 
+        $spreadsheet = new Spreadsheet();
+        $sheet       = $spreadsheet->getActiveSheet();
+        
+        //SET HEADER        
+        $sheet->setCellValue('A1', 'CODE');       
+        $sheet->setCellValue('B1', 'TRIP NAME');      
+        $sheet->setCellValue('C1', 'TRIP URL');       
+        $sheet->setCellValue('D1', 'SHARED BY');        
+        $sheet->setCellValue('E1', 'SHARED BY USER EMAIL');        
+        $sheet->setCellValue('F1', 'SHARED TO');
+        $sheet->setCellValue('G1', 'SHARED TO USER EMAIL');
+        $sheet->setCellValue('H1', 'COUPON CODE NAME');            
+        $sheet->setCellValue('I1', 'MAKED TRIP NAME');              
+        $sheet->setCellValue('J1', 'MAKED TRIP URL');            
+        $sheet->setCellValue('K1', 'STATUS');            
+        
+        $row = 2;        
+        foreach ($data as $value) {      
+
+            $id = $value['id'];
+            $code = $value['code'];
+            $trip_name = $value['trip_name'];
+            $sharedusername = $value['sharedusername'];
+            $tousername = $value['tousername'];
+            $email = $value['email'];
+            if($email==''){$email = $value['to_user_mail'];}
+            $fromuseremail = $value['fromuseremail'];
+            $coupon_name = $value['coupon_name'];
+            if($coupon_name!=''){
+                if($value['offer_type']==1){$coupon_name .= ' - Rs:'.$value['percentage_amount'];}
+                else{$coupon_name .= ' - '.$value['percentage_amount'].'%';}
+            }
+            $status = $value['status'];
+            $status_active = array('', 'New', 'Maked Trip', 'Cancelled');   
+            $trip_code_url= '';  
+            $maked_trip_code_url= '';
+            $trip_code= $value['trip_code'];
+            $maked_trip_code= $value['maked_trip_code'];
+            if($trip_code!=''){
+                $trip_code_url= base_url().'trip-view/'.$value['trip_code'];
+            }
+            if($maked_trip_code!=''){
+                $maked_trip_code_url= base_url().'trip-view/'.$value['maked_trip_code'];
+            }
+            $sheet->setCellValue('A' . $row, $code);  
+            $sheet->setCellValue('B' . $row, $trip_name);  
+            $sheet->setCellValue('C' . $row, $trip_code_url);  
+            $sheet->setCellValue('D' . $row, $sharedusername);  
+            $sheet->setCellValue('E' . $row, $fromuseremail);            
+            $sheet->setCellValue('F' . $row, $tousername); 
+            $sheet->setCellValue('G' . $row, $email);
+            $sheet->setCellValue('H' . $row, $coupon_name);           
+            $sheet->setCellValue('I' . $row, $value['maked_trip_name']);                      
+            $sheet->setCellValue('J' . $row, $maked_trip_code_url);                          
+            $sheet->setCellValue('K' . $row, $status_active[$status] );                             
+            $row++;
+        }
+        
+        $writer = new Xlsx($spreadsheet);
+        $filename = 'TRIP-SHARED-REPORT-'.date('d-m-Y');
  
         header('Content-Type: application/vnd.ms-excel');
         header('Content-Disposition: attachment;filename="'. $filename .'.xlsx"'); 

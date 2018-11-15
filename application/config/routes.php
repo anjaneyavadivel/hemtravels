@@ -111,6 +111,7 @@ $route['cancellation-reports'] = 'report/cancellation_reports';
 $route['my-transaction-reports'] = 'report/my_transaction_reports';
 $route['tomorrows-trip-reports'] = 'report/tomorrow_trip_wise_reports';
 $route['user-reports'] = 'report/user_reports';
+$route['trip-shared-reports'] = 'report/trip_shared_reports';
 
 
 $route['trip-shared'] = 'tripshared/trip_list';
@@ -222,4 +223,5 @@ $route['trip-cancel/(:any)/(:num)'] = 'pnr_status/pnr_status_check/$1/$2';
 $route['checkcouponcode'] = 'TripBookings/checkcouponcode';
 
 // corn job for check Trip Completed
-$route['checkTripCompleted'] = 'welcome/checkTripCompleted';
+$route['checktripcompleted'] = 'welcome/checkTripCompleted';
+$route['remindertocustomer'] = 'welcome/reminderToCustomer';

@@ -395,7 +395,7 @@ class Master extends CI_Controller {
 //
 //                            trip_book_paid_sucess($updatedata,'PNR01GLNGTR');
 //                            exit();
-//        $toemail='anjaneyavadivel@gmail.com';
+//        $toemail='anjaneya.developer@gmail.com';
 //        $subject='Welcome to trip';
 //        $message='This is test msg';
 //        $mailData = array(
@@ -430,14 +430,14 @@ class Master extends CI_Controller {
 //        print_r($result);
 //        exit();
         $bookdata=array(
-        'trip_id' => 15, //15, 13
-        'book_user_id' => 26,
+        'trip_id' => 7, //15, 13
+        'book_user_id' => 30,
         'no_of_adult' => 1,
         'no_of_child' => 0,
         'no_of_infan' => 0,
-        'date_of_trip' => "Nov 9, 2018",
-        'pick_up_location_id' => 39); //39, 37
-        $result = trip_book($bookdata,'COUPONOFFER50PER',1);//COUPONOFFER50PER, cash
+        'date_of_trip' => "Nov 15, 2018",
+        'pick_up_location_id' => 21); //39, 37
+        $result = trip_book($bookdata,'',1);//COUPONOFFER50PER, cash
         print_r($result);
 //        
     }

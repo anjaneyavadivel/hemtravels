@@ -27,7 +27,7 @@ $apiConfig = array(
     // OAuth2 Settings, you can get these keys at https://code.google.com/apis/console
     'oauth2_client_id' => '176321012278-aedadjf8eb0v6ptgomn3rvh5lho2am1b.apps.googleusercontent.com',
     'oauth2_client_secret' => 'krA_aoQAPo1OFBa0_6186Tdk',
-    'oauth2_redirect_uri' => 'http://goatravelagent.com/gmail',
+    'oauth2_redirect_uri' => 'http://bookyourtrips.in/gmail',
 
     // The developer key, you get this at https://code.google.com/apis/console
     'developer_key' => 'AIzaSyBrE62QSp_ijbM30EaEtKn2H62XonGMQcY',

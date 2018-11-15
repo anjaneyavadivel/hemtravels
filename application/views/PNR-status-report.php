@@ -221,12 +221,12 @@
                                                             if ($book_pay['vendor_amt'] != 0.00) {
                                                                 ?>
                                                                 <tr><td><span class="font600 net_price">Vendor Amount(-):</span></td><td class="text-right"><?= $book_pay['vendor_amt']; ?></td></tr>                                                                              
+                                                            <?php }if($book_pay['discount_your_price'] != 0.00) { ?>
+                                                                <tr><td><span class="font600 net_price">Discount Your Trip Amount(Cash)(-):</span></td><td class="text-right"><?= $book_pay['discount_your_price']; ?></td></tr>                                                                                  
                                                             <?php }
                                                             if ($book_pay['net_price'] != 0.00) {
                                                                 ?>
                                                                 <tr><td><span class="font600 net_price">Total Amount:</span></td><td class="text-right"><?= $book_pay['net_price']; ?></td></tr>                                                                              
-                                                            <?php }if($book_pay['discount_your_price'] != 0.00) { ?>
-                                                                <tr><td><span class="font600 net_price">Discount Your Trip Amount(Cash)(-):</span></td><td class="text-right"><?= $book_pay['discount_your_price']; ?></td></tr>                                                                                  
                                                             <?php }if ($book_pay['servicecharge_amt'] != 0) { ?>
                                                                 <tr><td><span class="font600 net_price">Service Charge(-):</span></td><td class="text-right"><?= $book_pay['servicecharge_amt']; ?></td></tr>                                                                                  
                                                             <?php }

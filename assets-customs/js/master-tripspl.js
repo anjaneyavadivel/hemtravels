@@ -95,19 +95,19 @@ jQuery(function ($) {
             //$('#price_to_infan').val(''); 
             
              $('#price_to_adult').val($('#db_price_to_adult').val()); 
-                 $('#price_to_child').val($('#db_price_to_child').val()); 
-                 $('#price_to_infan').val($('#db_price_to_infan').val());  
+             $('#price_to_child').val($('#db_price_to_child').val()); 
+             $('#price_to_infan').val($('#db_price_to_infan').val());  
 
-             $('#price_to_adult').attr('placeholder','Enter the adult percentage eg:10');
-             $('#price_to_child').attr('placeholder','Enter the children percentage eg:10');
-             $('#price_to_infan').attr('placeholder','Enter the infan percentage eg:10');
+             $('#price_to_adult').attr('placeholder','Enter the adult % eg:10');
+             $('#price_to_child').attr('placeholder','Enter the children % eg:10');
+             $('#price_to_infan').attr('placeholder','Enter the infan % eg:10');
 
             if($(this).val() == 1){
                  
 
                  $('#price_to_adult').attr('placeholder','Enter the adult price eg:1000');
-                 $('#price_to_child').attr('placeholder','Enter the children price eg:1000');
-                 $('#price_to_infan').attr('placeholder','Enter the infan price eg:1000');
+                 $('#price_to_child').attr('placeholder','Enter the children price eg:800');
+                 $('#price_to_infan').attr('placeholder','Enter the infan price eg:500');
             }
         }
     });

@@ -266,75 +266,95 @@ class Login extends CI_Controller {
     }
     function forgotPasswordRequest() {
         
-        $this->form_validation->set_rules('new_email', 'E-Mail', 'trim|required|valid_email');
-        if ($this->form_validation->run($this) == FALSE) {
-            return FALSE;
-        }
-        $this->session->unset_userdata('signup_socail');
-        $check = $this->user_model->select('user_master', array('email' => strtolower($this->input->post('new_email'))));
-        if ($check->num_rows() < 1) {
-            if ($this->session->userdata('last_url')) {
-                $this->session->set_userdata('err', 'This user was not associated with any account!');
-                redirect($this->session->userdata('last_url'));
-            } else {
-                $this->session->set_userdata('err', 'This user was not associated with any account!');
-                redirect();
-            }
-        } else {
-            //$this->load->helper('custom_helper');
-                $this->load->helper('security');
-                $activation_code = rand(111111, 999999);
-                $data['activation_code'] = $activation_code;
-                //$data['new_email'] = $this->input->post('new_email');
-                $upt = $this->user_model->update('user_master', array('activation_code' => $activation_code), array('email' => strtolower($this->input->post('new_email'))));
-                if ($upt) {
-                    $toemail=$this->input->post('new_email');
-                    $subject='Email verification for forgotten password';
-                    $message='To verify your identity, please use the following One Time Password (OTP) to complete verification for change password:<br><br><h1>" . $activation_code . "</h1> <br> 
-			This OTP is confidential. For security reasons, DO NOT share the OTP with anyone. <br>
-			YouthHub takes your account security very seriously.';
-                    $mailData = array(
-                    //'fromuserid' => 1,
-                    'fromusername' => $this->input->post('user_fullname'),
-                    'toemail' => $toemail,
-                    'subject' => $subject,
-                    'message' => $message,
-                    //'othermsg' => ''
-                    );
-
-                    $query1 = sendemail_personalmail($mailData);
-                    //$query1 = $this->user_model->email_sent_user($this->input->post('new_email'), "Confirmation from Hem Travel", $messages);
-                    if ($query1) {
-                        return TRUE;
-                    } else {
-                        return FALSE;
+        $returnData = array('status'=>false,'message'=>'Please check your submission');
+        
+        $this->form_validation->set_rules('ex_email', 'E-Mail', 'trim|required');
+        
+        if ($this->form_validation->run($this) !== FALSE) {
+            
+                $this->session->unset_userdata('signup_socail');
+                $check = selectTable('user_master', $whereData = array('email' => strtolower($this->input->post('ex_email'))), $showField = array('*'), $orWhereData = array(), $group = array(), $order = '', $having = '', $limit = array(), $result_way = 'all', $echo = 0,$inWhereData = array('isactive','1,2'),$notInWhereData = array());
+                //$check = $this->user_model->select('user_master', array('email' => strtolower($this->input->post('ex_email'))));
+		
+                if ($check->num_rows() < 1) {
+                    $returnData['message'] = 'This user was not associated with any account!';
+                } else {
+                    //$this->load->helper('custom_helper');
+                    
+                    try{
+                        $this->load->helper('security');
+                        $activation_code = rand(111111, 999999);
+                        $data['activation_code'] = $activation_code;
+                        $activation_code_valid_till = date('Y-m-d H:i:s', strtotime('+1 hour'));
+                        //$data['new_email'] = $this->input->post('new_email');
+                        $upt = $this->user_model->update('user_master', array('activation_code' => $activation_code,'activation_code_time' => $activation_code_valid_till), array('email' => strtolower($this->input->post('ex_email'))));
+                        if ($upt) {
+                            $toemail=$this->input->post('ex_email');
+                            $subject='Email verification for forgotten password';
+                            $message='To verify your identity, please use the following One Time Password (OTP) to complete verification for change password:<br><br><h1>' . $activation_code . '</h1> <br> 
+                                This OTP is confidential. For security reasons, DO NOT share the OTP with anyone. <br>
+                                YouthHub takes your account security very seriously.';
+                            
+                            $userDetails = $check->first_row('array');
+                            
+                             $mailData = array(
+                            //'fromuserid' => 1,
+                            //'ccemail' => admin_email . ',' . email_bottem_email . ',' . 'anjaneya.developer@gmail.com,',
+                            'fromusername' => $userDetails['user_fullname'],
+                            'toemail' => $toemail,
+                            'subject' => $subject,
+                            'message' => $message,
+                            //'othermsg' => ''
+                            );
+                            //$query1 = true;
+                            $query1 = sendemail_personalmail($mailData);
+                            if ($query1) {
+                                $returnData = array('status'=>true,'message'=>'Forgot password verification code sent to your registered email');
+                            } else {
+                                $returnData['message'] = 'Forgot password verification code not send,please try again!.';
+                            }
+                        }
+                    }catch(Exception $e){
+                        $returnData['message'] = 'Forgot password verification code not send,please try again!.';
                     }
                 }
         }
-        return FALSE;
+        echo json_encode($returnData);exit;
     }
     
     function forgetpasswordverfication() {
         
-        $this->form_validation->set_rules('new_email', 'E-Mail', 'trim|required|valid_email');
+        $returnData = array('status'=>false,'message'=>'Please check your submission');
+        
+        $this->form_validation->set_rules('ex_email', 'E-Mail', 'trim|required');
         $this->form_validation->set_rules('password', 'Password', 'trim|required|matches[repassword]');
         $this->form_validation->set_rules('repassword', 'Re-enter Password', 'trim|required');
         $this->form_validation->set_rules('passcode', 'Passcode', 'trim|required');
-        if ($this->form_validation->run($this) == FALSE) {
-            return FALSE;
-        }
-        if ($this->session->userdata('user_id') == '') {
+        
+        if ($this->form_validation->run($this) !== FALSE && $this->session->userdata('user_id') == '') {
+          
             $this->session->unset_userdata('signup_socail');
             extract($this->input->post(NULL, TRUE));
-            $check = $this->user_model->select('user_master', array('forgotten_password_code' => $passcode,'email' => strtolower($new_email)));
-            if ($check->num_rows() > 0) {
+            $check = selectTable('user_master', $whereData = array('activation_code' => $passcode,'email' => strtolower($ex_email)), $showField = array('*'), $orWhereData = array(), $group = array(), $order = '', $having = '', $limit = array(), $result_way = 'all', $echo = 0,$inWhereData = array('isactive','1,2'),$notInWhereData = array());
+            //$check = $this->user_model->select('user_master', array('activation_code' => $passcode,'email' => strtolower($ex_email)));
+            $userDetails = $check->first_row('array');
+            
+            $toDay = date('Y-m-d H:i:s');
+            
+            if ($check->num_rows() > 0 && isset($userDetails['activation_code_time']) && strtotime($toDay) <= strtotime($userDetails['activation_code_time'])) {
                 $ch = $check->row();
-                $new = $this->ion_auth->hash_password($password);
+                $new = md5(md5($password));
                 $updateData = array(
                     'password' => $new,
                     'activation_code' => '',
-                    'activation_code' => ''
+                    'activation_code_time' => ''
                 );
+                if($userDetails['user_type']=='GU'){
+                    $updateData['user_type']='CU';
+                }
+                if($userDetails['isactive']==2){
+                    $updateData['isactive']=1;
+                }
                 $whereData = array('id' => $ch->id);
                 $updateResult = updateTable('user_master', $whereData, $updateData);
                 
@@ -349,29 +369,17 @@ class Login extends CI_Controller {
                 }
                 $this->session->set_userdata('user_id', $ch->id);
                 $this->session->set_userdata('user_email', $ch->email);
-                $this->session->set_userdata('name', $ch->fullname);
+                $this->session->set_userdata('name', $ch->user_fullname);
                 $this->session->set_userdata('user_img', $image_url);
-                $this->session->set_userdata('user_type', $ch->type);
+                $this->session->set_userdata('user_type', $ch->user_type);
 
-                if ($this->session->userdata('last_url')) {
-                    $this->session->set_userdata('suc', 'Login Successfully please change your password in your profile...! ');
-                    redirect($this->session->userdata('last_url'));
-                } else {
-                    $this->session->set_userdata('suc', 'Login Successfully...!');
-                    redirect();
-                }
+                $returnData = array('status'=>true,'message'=>'Password successfully changed');
             } else {
-                if ($this->session->userdata('last_url')) {
-                    $this->session->set_userdata('err', 'Please try again..!');
-                    redirect($this->session->userdata('last_url'));
-                } else {
-                    $this->session->set_userdata('err', 'Please try again..!');
-                    redirect();
-                }
+                $returnData['message'] = 'Verification code expired/not valid';
             }
-        } else {
-            redirect('logout');
-        }
+        } 
+        
+        echo json_encode($returnData);exit;
     }
     function forgetpassword_verfication() {
         if ($this->session->userdata('user_id') == '') {

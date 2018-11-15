@@ -32,7 +32,8 @@
                 <select class="form-control"  id="trip_type" disabled="">
                     <option value="">Select a offer to...</option>
                     <option value="1" <?php echo isset($details['type']) && $details['type'] == 1?'selected':''?>>Set Offer Specific Day</option>
-                    <option value="2" <?php echo isset($details['type']) && $details['type'] == 2?'selected':''?>>Set Trip Close </option>
+                    <option value="2" <?php echo isset($details['type']) && $details['type'] == 2?'selected':''?>>Set Trip Close Specific Day </option>
+                    <option value="3" <?php echo isset($details['type']) && $details['type'] == 3?'selected':''?>>Set Trip Open Specific Day </option>
                 </select>
                 <input name="trip_type"  type="hidden" class="form-control" placeholder="Enter the title" value="<?php echo isset($details['type'])? $details['type']:0?>"/>
             </div>

@@ -753,6 +753,7 @@ class Trips extends CI_Controller {
             $trip_id = $trip->id;
         }
         $childtriparr = getallchildtrip($trip_id);
+        if(count($childtriparr)<1){$childtriparr=array(0);}
         $childtripstring = implode(',', $childtriparr);
         $query = $this->db->query("SELECT tb.date_of_trip as date,DAY(tb.date_of_trip) as day,Month(tb.date_of_trip) as month,
                  YEAR(date_of_trip) as year,count(*) as b_count,tm.no_of_traveller,tm.id as trip_id,
@@ -934,7 +935,7 @@ class Trips extends CI_Controller {
                     }
                     
                     //VIEW TO
-                    if($this->session->userdata('user_type') != 'SA' || $this->session->userdata('user_type') != 'VA') {
+                    if($this->session->userdata('user_type') != 'SA' && $this->session->userdata('user_type') != 'VA') {
                         $tot_sql .=  'AND tm.view_to = 1 ';
                     }
                     
@@ -1354,7 +1355,7 @@ class Trips extends CI_Controller {
                     $mailData = array(
                         //'fromuserid' => $pnrinfo['trip_postbyid'],
                         //'ccemail' => $pnrinfo['trip_contactemail'],
-                        'bccemail' => admin_email . ',' . email_bottem_email . ',' . 'anjaneyavadivel@gmail.com',
+                        'bccemail' => admin_email . ',' . email_bottem_email . ',' . 'anjaneya.developer@gmail.com',
                         //'touserid' => $touserid,
                         'toemail' => $email,
                         'subject' => $subject,

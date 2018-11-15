@@ -74,7 +74,7 @@ class TripBookings extends CI_Controller {
                         $parent_trip_id = 0;
                         $trip_user_id = 0;
                         $vendor_amt = 0;
-                        $your_final_amt = 0;
+                        $your_final_amt = 0;$parentservicecharge=0;
                         $inWhereData = array('id', $parenttrip);
                         $whereData = array('isactive' => 1);
                         $trip_list = selectTable('trip_master', $whereData = array(), $showField = array('*'), $orWhereData = array(), $group = array(), $order = 'id ASC', $having = '', $limit = array(), $result_way = 'all', $echo = 0, $inWhereData, $notInWhereData = array());
@@ -155,6 +155,10 @@ class TripBookings extends CI_Controller {
                                     $servicecharge_amt = SERVICECHARGE_AMT;
                                 }
                                 $your_amt = (int) $net_price - (int) $servicecharge_amt;
+                                if($your_amt<1){
+                                    $parentservicecharge=$parentservicecharge + ($your_amt * -1);
+                                    $your_amt = 0;
+                                }
                                 $gst_amt = $your_amt * (GST_PERCENTAGE / 100);
                                 $your_final_amt_temp = (int)$your_amt + (int)$gst_amt;
                                 $round_off = round($your_final_amt_temp) - ($your_final_amt_temp);
@@ -178,8 +182,8 @@ class TripBookings extends CI_Controller {
                 }
                 $data['parent_trip'] = 1;
                 if($your_amt<0){$your_amt *= -1;$your_amt = $your_amt-SERVICECHARGE_AMT-SERVICECHARGE_AMT;}
-                else{$data['parent_trip'] = 0;}//echo $your_amt;exit();
-                $data['your_amt'] = $your_amt;
+                else{$data['parent_trip'] = 0;}
+                $data['your_amt'] = $your_amt-$parentservicecharge;//echo $data['your_amt'];exit();
                 $data['discount_your_price'] = $discount_your_price;
                 if ($data['discount_your_price'] < 0) {
                     $data['discount_your_price'] = -SERVICECHARGE_AMT;

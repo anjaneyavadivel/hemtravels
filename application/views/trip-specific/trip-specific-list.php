@@ -66,7 +66,7 @@
                                 $from_date = $row['from_date'];
                                 $to_date = $row['to_date'];
                                 $status_active = array('deactive', 'active');
-                                $type = array('', 'Set Offer Specific Day', 'Set Trip Close Specific Day');
+                                $type = array('', 'Set Offer Specific Day', 'Set Trip Close Specific Day','Set Trip Open Specific Day');
                                 $offertype = array('', 'Fixed', 'Percentage');
 
                                 $isactive = $row['isactive'];

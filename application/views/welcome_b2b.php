@@ -135,7 +135,9 @@
                                                             <td><?= $row['user_fullname']; ?></td>
                                                             <td><?= date("M d, Y", strtotime($row['created_on'])); ?></td>
                                                             <td><?= $isactive ?></td>
-                                                            <td><a href="<?= base_url() ?>trip-view/<?= $row['trip_code'] ?>" target="_new" class="btn btn-border btn-sm btn-primary">Book</a></td>                                       
+                                                            <td><?php if($row['isactive']==1){?>
+                                                                <a href="<?= base_url() ?>trip-view/<?= $row['trip_code'] ?>" target="_new" class="btn btn-border btn-sm btn-primary">Book</a>
+                                                            <?php }?></td>                                       
                                                         </tr>
                                                         <?php
                                                         //$i++;

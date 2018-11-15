@@ -475,5 +475,26 @@ jQuery(function($) {
         }
         
     });
+    
+    //TRIP SHARED REPORT
+    $('#tripSharedReport').on('click',function(){
+       
+        var status      = $('#status').val() != undefined ?$('#status').val():'';
+        var title       = $('#titleSearch').val() != undefined ?$('#titleSearch').val():'';
+         
+        document.location = base_url+'trip-shared-reports?title='+title+'&status='+status+'&download=1';
+       
+    });
+    $('#searchSharedTrip').on('click',function(e){ 
+        e.preventDefault();
+        if (location.href.indexOf('download=') > -1) {
+            location.href = location.href.replace('download=1', 'download=0');
+            setTimeout(function() { $('#trip-shared-report-form').submit(); },2000);
+        }else{
+            $('#trip-shared-report-form').submit();
+        }
+        
+    });
+    
 });
 

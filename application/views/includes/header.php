@@ -73,9 +73,21 @@
 
                         <div id="navbar" class="navbar-nav-wrapper">
                             <ul class="nav navbar-nav" id="responsive-menu">
+                                 <?php if ($this->session->userdata('user_type') != 'VA') { ?>
                                 <li ><a href="<?php echo base_url() ?>">Home</a></li>
+                                <?php    }  else{?>
                                 
-                                <?php if ($this->session->userdata('user_type') != 'VA') { ?>
+                                    <li>
+                                        <a href="<?php echo base_url() ?>">Home</a>
+                                        <ul>
+                                            <li><a href="<?php echo base_url() ?>about-us">About Us</a></li>
+                                            <li><a href="<?php echo base_url() ?>contact-us">Contact Us</a></li>
+                                            <li><a href="<?php echo base_url() ?>faq">FAQ</a></li>
+                                        </ul>
+
+                                    </li>
+                                
+                                <?php } if ($this->session->userdata('user_type') != 'VA') { ?>
                                 <li><a href="<?php echo base_url() ?>PNR-status">PNR Status</a></li>
                                 
                                 <?php    }                            
@@ -121,6 +133,7 @@
                                             <li><a href="<?php echo base_url() ?>payment-to-B2B-reports">Payment to B2B</a></li>
                                             <li><a href="<?php echo base_url() ?>cancellation-reports">Cancellation Reports</a></li>
                                             <li><a href="<?php echo base_url() ?>my-transaction-reports">My Transaction</a></li>
+                                            <li><a href="<?php echo base_url() ?>trip-shared-reports">Trip Shared Reports</a></li>
 <!--                                            <li><a href="<?php echo base_url() ?>triplist">Trip List</a></li>-->
 											</ul>
 
@@ -138,7 +151,7 @@
                                 } else if ($this->session->userdata('user_type') == 'VA') {
                                     ?>
                                     <li><a data-toggle="tooltip" data-placement="bottom" title="Click here to Filter, View, Book, Edit, Delete, Booking in Month, Share Trip" href="<?php echo base_url() ?>trip-list">BookMyTrip<!--<span>(Book/Edit/Calendar/Delete/Share)</span>--></a></li>
-                                    <li><a href="<?php echo base_url() ?>PNR-status">PNR</a></li>
+                                    <li><a href="<?php echo base_url() ?>tomorrows-trip-reports">Tomorrow's Trips</a></li>
                                     <li>
                                         <a href="#">Trip Details</a>
                                         <ul>
@@ -154,7 +167,7 @@
                                         <a href="#">Bookings</a>
                                         <ul>
                                             <li><a href="<?php echo base_url() ?>booking-list">Booking List</a></li>
-                                            <li><a href="<?php echo base_url() ?>tomorrows-trip-reports">Tomorrow's Trips</a></li>
+                                            <li><a href="<?php echo base_url() ?>PNR-status">PNR Status Check</a></li>
                                             <li><a href="<?php echo base_url() ?>cancellation-list">Cancellation List</a></li>
                                             <li><a href="<?php echo base_url() ?>cancellation-reports">Cancellation Reports</a></li>
                                         </ul>
@@ -169,15 +182,6 @@
                                             <li><a href="<?php echo base_url() ?>payment-from-B2B-reports">Payment from B2B</a></li>
                                             <li><a href="<?php echo base_url() ?>payment-to-B2B-reports">Payment to B2B</a></li>                                                                                       
                                         </ul>
-                                    </li>
-                                    <li>
-                                        <a href="#">We Are? & FAQ</a>
-                                        <ul>
-                                            <li><a href="<?php echo base_url() ?>about-us">About Us</a></li>
-                                            <li><a href="<?php echo base_url() ?>contact-us">Contact Us</a></li>
-                                            <li><a href="<?php echo base_url() ?>faq">FAQ</a></li>
-                                        </ul>
-
                                     </li>
                                     <?php
                                 } else if ($this->session->userdata('user_type') == 'CU'||$this->session->userdata('user_type') == 'GU') {

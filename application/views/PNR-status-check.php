@@ -139,8 +139,10 @@
                                     <?php if($pnrinfo['no_of_adult']>0){echo $pnrinfo['no_of_adult'].'*'.$pnrinfo['price_to_adult'];}?> 
                                     <?php if($pnrinfo['no_of_child']>0){echo ', '.$pnrinfo['no_of_child'].'*'.$pnrinfo['price_to_child'];}?> 
                                     <?php if($pnrinfo['no_of_infan']>0){echo ', '.$pnrinfo['no_of_infan'].'*'.$pnrinfo['price_to_infan'];}?> )</li> 
-                                    <?php if($pnrinfo['offer_amt']!=0.00){?>
-                                    <li><span class="font600 net_price">Offer Amount:
+                                    <?php 
+                                        $totalamt = (int)$pnrinfo['total_trip_price'];
+                                        if($pnrinfo['offer_amt']!=0.00){?>
+                                    <li><span class="font600 net_price">Offer Amount(-):
                                             <?php if($pnrinfo['coupon_code']!=''){
                                                 $offer_type='';
                                                 if (strpos($pnrinfo['percentage_amount'], '.00') !== false) {
@@ -154,11 +156,11 @@
                                                 $coupon_code = '('.$specific_coupon_code.$pnrinfo['coupon_code'].')';
                                                 //echo $pnrinfo['coupon_code'].' ('.$pnrinfo['percentage_amount'].$offer_type.' OFF)'; 
                                             }
-                                        
+                                        $totalamt = (int)$totalamt-(int)$pnrinfo['offer_amt'];
                                         ?>
                                         </span><?=$pnrinfo['offer_amt'].' '.$coupon_code;?></li>             
                                     <?php }
-                                    if ($this->session->userdata('user_type') == 'VA' && ($pnrshow==0|| $pnrshow==1|| $pnrshow==3)) {
+                                    /*if ($this->session->userdata('user_type') == 'VA' && ($pnrshow==0|| $pnrshow==1|| $pnrshow==3)) {
                                         //if($pnrinfo['net_price']!=0.00 && $pnrinfo['net_price']!=$pnrinfo['subtotal_trip_price']){
                                             $vendor_amt= isset($pnrinfo['vendor_amt'])?$pnrinfo['vendor_amt']:0;
                                             $totalamt = (int)$pnrinfo['net_price']+(int)$vendor_amt;
@@ -173,7 +175,29 @@
                                             $round_off = round(round($totalamt + $gst_amt) - ($totalamt + $gst_amt), 2);
                                             $net_price = $totalamt + $gst_amt + $round_off;?>
                                         <?php if($gst_amt!=0){?>
-                                        <li><span class="font600 net_price">GST Amount (<?=$pnrinfo['gst_percentage'];?>%):</span><?=$gst_amt;?></li> 
+                                        <li><span class="font600 net_price">GST Amount (<?=$pnrinfo['gst_percentage'];?>%)(+):</span><?=$gst_amt;?></li> 
+                                        <?php }if($round_off!=0){?>
+                                        <li><span class="font600 net_price">Round Off:</span><?=$round_off;?></li> 
+                                        <?php }?>
+                                        
+                                        <li><span class="font600 net_price">Paid Amount:</span><b><?=$net_price;?></b></li>                                                                                    
+                                        <?php 
+                                    }elseif ($this->session->userdata('user_type') == 'VA' && $pnrshow==2) {*/
+                                    if ($this->session->userdata('user_type') == 'VA' && ($pnrshow==0|| $pnrshow==1|| $pnrshow==3)) {
+                                        //$totalamt = (int)$pnrinfo['total_trip_price'];
+                                        //if($pnrinfo['net_price']!=0.00 && $pnrinfo['net_price']!=$pnrinfo['subtotal_trip_price']){
+                                            ?>
+<!--                                        <li><span class="font600 net_price">Total Amount:</span><?=$totalamt;?></li>                                                                                    -->
+                                        <?php //}
+                                        if($pnrinfo['discount_your_price']>0){
+                                            $totalamt = (int)$totalamt-(int)$pnrinfo['discount_your_price'];?>
+                                    <li><span class="font600 net_price">Discount Your Trip<br> Amount(Cash)(-):</span><?=$pnrinfo['discount_your_price'];?></li> 
+                                        <?php }
+                                            $gst_amt = $totalamt * ($pnrinfo['gst_percentage'] / 100);
+                                            $round_off = round(round($totalamt + $gst_amt) - ($totalamt + $gst_amt), 2);
+                                            $net_price = $totalamt + $gst_amt + $round_off;?>
+                                        <?php if($gst_amt!=0){?>
+                                        <li><span class="font600 net_price">GST Amount (<?=$pnrinfo['gst_percentage'];?>%)(+):</span><?=$gst_amt;?></li> 
                                         <?php }if($round_off!=0){?>
                                         <li><span class="font600 net_price">Round Off:</span><?=$round_off;?></li> 
                                         <?php }?>
@@ -181,11 +205,13 @@
                                         <li><span class="font600 net_price">Paid Amount:</span><b><?=$net_price;?></b></li>                                                                                    
                                         <?php 
                                     }elseif ($this->session->userdata('user_type') == 'VA' && $pnrshow==2) {
-                                        if(isset($pnrinfo['vendor_amt']) && $pnrinfo['vendor_amt']!=0){?>
+                                        $totalamt = (int)$pnrinfo['total_trip_price'];
+                                        if(isset($pnrinfo['vendor_amt']) && $pnrinfo['vendor_amt']!=0){
+                                            $totalamt = (int)$pnrinfo['total_trip_price']-$pnrinfo['vendor_amt'];?>
                                         <li><span class="font600 net_price">Vendor Amount(-):</span><?=$pnrinfo['vendor_amt'];?></li>                                                                                    
                                         <?php }
                                         if($pnrinfo['net_price']!=0.00 && $pnrinfo['net_price']!=$pnrinfo['subtotal_trip_price']){
-                                            $totalamt = (int)$pnrinfo['net_price'];
+                                            //$totalamt = (int)$pnrinfo['net_price'];
                                             
                                         if($pnrinfo['discount_your_price']>0){
                                             $totalamt = (int)$totalamt-(int)$pnrinfo['discount_your_price'];?>

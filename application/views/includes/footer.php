@@ -322,6 +322,11 @@
 		<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
 		<h4 class="modal-title text-center">Restore your forgotten password</h4>
 	</div>
+        <div class="fwd-errormsg alert alert-danger alert-dismissible" role="alert" style="display:none;">
+        
+        </div>
+    
+        <?php echo form_open_multipart(base_url() . 'login/forgotPasswordRequest', array('class' => 'form-horizontal margin-top-30', 'id' => 'forgot-password-form')); ?>
 	
 	<div class="modal-body">
 		<div class="row gap-20">
@@ -334,17 +339,31 @@
 	
 				<div class="form-group"> 
 					<label>Email Address</label>
-					<input class="form-control" placeholder="Enter your email address" type="text"> 
+					<input class="form-control" placeholder="Enter your email address" type="text" name="ex_email" id="ex_email"> 
 				</div>
 			
 			</div>
 
-<!--			<div class="col-sm-12 col-md-12">
-				<div class="checkbox-block"> 
-					<input id="forgot_password_checkbox" name="forgot_password_checkbox" class="checkbox" value="First Choice" type="checkbox"> 
-					<label class="" for="forgot_password_checkbox">Generate new password</label>
-				</div>
-			</div>-->
+                        <div class="resetPasswordFormDiv" style="display:none;">
+                            <div class="col-sm-12 col-md-12">	
+                                <div class="form-group"> 
+                                    <label>New Password</label>
+                                    <input class="form-control" placeholder="Enter the password" type="password" name="password" id="password"> 
+                                </div>
+                            </div>
+                            <div class="col-sm-12 col-md-12">	
+                                <div class="form-group"> 
+                                    <label>Confirm Password</label>
+                                    <input class="form-control" placeholder="Enter the confirm password" type="password" name="repassword" id="repassword"> 
+                                </div>
+                            </div>
+                            <div class="col-sm-12 col-md-12">	
+                                <div class="form-group"> 
+                                    <label>Verification Code</label>
+                                    <input class="form-control" placeholder="Enter the verification code" type="password" name="passcode" id="passcode"> 
+                                </div>
+                            </div>
+                        </div>
 			
 			<div class="col-sm-12 col-md-12">
 				<div class="login-box-box-action">
@@ -356,9 +375,11 @@
 	</div>
 	
 	<div class="modal-footer text-center">
-		<button type="button" class="btn btn-primary">Restore</button>
+                <button type="button" class="btn btn-primary" id="forgotEmailSend">Submit</button>
+                <button type="button" class="btn btn-primary" id="passwordChange" style="display:none;">Restore</button>
 		<button type="button" data-dismiss="modal" class="btn btn-primary btn-border">Close</button>
 	</div>
+        <?php echo form_close(); ?>
 	
 </div>
 <!-- end Forget Password Modal -->
@@ -650,12 +671,21 @@
     <script type="text/javascript" src="<?php echo base_url()?>assets-customs/js/bootbox.min.js"></script>
     <script type="text/javascript" src="<?php echo base_url()?>assets-customs/js/pnr.js"></script>    
 <?php }?>
-<?php if($url=='booking-wise-reports'||$url=='withdrawals-request'||$url=='booking-list' || $url == 'Trip-wise-reports' || $url == 'payment-from-B2C-reports' || $url == 'payment-from-B2B-reports' || $url == 'payment-to-B2B-reports'  || $url == 'my-transaction-reports'  || $url == 'tomorrows-trip-reports' || $url == 'user-reports' || $url == 'cancellation-reports'){?>
+<?php if($url=='booking-wise-reports'||$url=='withdrawals-request'||$url=='booking-list' || 
+        $url == 'Trip-wise-reports' || $url == 'payment-from-B2C-reports' || 
+        $url == 'payment-from-B2B-reports' || $url == 'payment-to-B2B-reports'  || 
+        $url == 'my-transaction-reports'  || $url == 'tomorrows-trip-reports' || 
+        $url == 'user-reports' || $url == 'cancellation-reports'){?>
         <script type="text/javascript" src="<?php echo base_url()?>assets/js/moment.min.js"></script>
         <script type="text/javascript" src="<?php echo base_url()?>assets/js/jquery.daterangepicker.js"></script>
     <script type="text/javascript" src="<?php echo base_url()?>assets-customs/js/trip-book-reports.js"></script>
     <script type="text/javascript" src="<?php echo base_url()?>assets-customs/js/reports.js"></script>
 <?php }?>
+    
+    
+<?php if($url =='trip-shared-reports'){?> 
+<script type="text/javascript" src="<?php echo base_url()?>assets-customs/js/reports.js"></script>
+ <?php } ?>
 
 
 <?php if($url =='contact-us'){?> 
@@ -667,5 +697,6 @@
 
     setTimeout(function(){$(".alert").fadeOut(400);}, 5000)</script>
  <?php } ?>
+<script type="text/javascript" src="<?php echo base_url()?>assets-customs/js/forgot_pwd.js"></script>
 </body>
 </html>

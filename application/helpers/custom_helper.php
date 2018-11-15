@@ -756,8 +756,8 @@ if (!function_exists('trip_book')) {
             'payment_status' => 0
         );
         $trip_book_payid = insertTable('trip_book_pay', $book_pay);
-        //$trip_book_payid=6;
-        //echo '<br><br>'; print_r($book_pay);
+//        $trip_book_payid=6;
+//        echo '<br><br>'; print_r($book_pay);
         //exit();
         $paydetailsidmaster = $pay_details_id = '-' . $trip_book_payid;
         $book_pay_detailsid = 0;
@@ -858,16 +858,16 @@ if (!function_exists('trip_book')) {
                     'pay_details_id' => $pay_details_id
                 );
                 $book_pay_detailsid = insertTable('trip_book_pay_details', $book_pay_details);
-                //$book_pay_detailsid =11;
+//                $book_pay_detailsid =11;
+//                echo '<br><br>'; print_r($book_pay_details);
                 $pay_details_id = $book_pay_detailsid;
-                //echo '<br><br>'; print_r($book_pay_details);
             }
             if ($parenttrip_id > 0) {
                 $parenttrip = getallparenttrip($parenttrip_id);
                 //echo '<br><br>';print_r($parenttrip);
                 $parent_trip_id = 0;
                 $trip_user_id = 0;
-                $vendor_amt = 0;
+                $vendor_amt = 0;$parentservicecharge=0;
                 $parent_discount_price = 0;
                 $inWhereData = array('id', $parenttrip);
                 $whereData = array('isactive' => 1);
@@ -971,6 +971,19 @@ if (!function_exists('trip_book')) {
                         $servicecharge_amt = $net_price * (SERVICECHARGE_PERCENTAGE / 100);
                         if ($servicecharge_amt < SERVICECHARGE_AMT  || ($CI->session->userdata('user_type') == 'VA' && $trip_id ==$parenttrip_id)) {// get max amt
                             $servicecharge_amt = SERVICECHARGE_AMT;
+                        }
+                        //if 100% discount need to get servicecharge amt
+                        if($net_price<$servicecharge_amt){
+                            $parentservicecharge=$parentservicecharge+$servicecharge_amt;
+                            $servicecharge_amt = 0;
+                        }
+                        else if($net_price>=$parentservicecharge && $parentservicecharge!=0){
+                            if($vendor_cash_amt>$servicecharge_amt){
+                                $vendor_cash_amt= $vendor_cash_amt-$servicecharge_amt;
+                                $net_price=$net_price+$servicecharge_amt;
+                            }
+                            $servicecharge_amt = $servicecharge_amt+$parentservicecharge;
+                            $parentservicecharge = 0;
                         }
                         $your_amt = (int) $net_price - (int) $servicecharge_amt;
                         
@@ -1427,11 +1440,11 @@ if (!function_exists('trip_book_paid_sucess')) {
                 ///$touserid= $pnrinfo['bookedbyid'];
                 $subject = 'Trip has been booked your PNR No ' . $pnr_no;
                 $message = 'Trip has been booked successfully! Your <b>PNR No: ' . $pnr_no . '</b> ( Trip Code/Name: ' . $trip_code . ' / ' . $trip_name . ' ) at ' . site_title . '.<br>';
-                $message .= 'Our executive person contact you shortly and confirm <a href="' . base_url() . 'PNR-status/' . $pnr_no . '/1" style="color:#00adef" target="_new">Your Trip</a>. <a href="' . base_url() . 'trip-cancel/' . $pnr_no . '/3" style="color:#00adef" target="_new">Click here to cancel the trip</a>';
+                $message .= 'Our executive person contact you shortly and confirm <a href="' . base_url() . 'PNR-status/' . $pnr_no . '/1" style="color:#00adef" target="_new">Your Trip</a>.';
                 $mailData = array(
                     //'fromuserid' => $pnrinfo['trip_postbyid'],
                     'ccemail' => $pnrinfo['trip_contactemail'],
-                    'bccemail' => admin_email . ',' . email_bottem_email . ',' . 'anjaneyavadivel@gmail.com',
+                    'bccemail' => admin_email . ',' . email_bottem_email . ',' . 'anjaneya.developer@gmail.com',
                     //'touserid' => $touserid,
                     'toemail' => $pnrinfo['bookedby_contactemail'],
                     'subject' => $subject,
@@ -1464,7 +1477,7 @@ if (!function_exists('trip_book_paid_sucess')) {
                 $mailData = array(
                     //'fromuserid' => $pnrinfo['trip_postbyid'],
                     'ccemail' => $pnrinfo['trip_contactemail'],
-                    'bccemail' => admin_email . ',' . email_bottem_email . ',' . 'anjaneyavadivel@gmail.com',
+                    'bccemail' => admin_email . ',' . email_bottem_email . ',' . 'anjaneya.developer@gmail.com',
                     //'touserid' => $touserid,
                     'toemail' => $pnrinfo['bookedby_contactemail'],
                     'subject' => $subject,
@@ -1480,10 +1493,10 @@ if (!function_exists('trip_book_paid_sucess')) {
 //                $message='Trip has been confirmed your trip <b>PNR No '. $pnr_no . '</b> ( Trip Code/Name: ' . $trip_code . ' / ' . $trip_name.' ) at '.site_title.'.';
 //                $mailData = array(
 //                //'fromuserid' => $pnrinfo['trip_postbyid'],
-//                'ccemail' => admin_email.','.email_bottem_email.','.'anjaneyavadivel@gmail.com,'.$pnrinfo['bookedby_contactemail'],
+//                'ccemail' => admin_email.','.email_bottem_email.','.'anjaneya.developer@gmail.com,'.$pnrinfo['bookedby_contactemail'],
 //                //'bccemail' => admin_email.','.email_bottem_email.','.$pnrinfo['bookedby_contactemail'],
 //                'touserid' => $touserid,
-//                //'toemail' => 'anjaneyavadivel@gmail.com',
+//                //'toemail' => 'anjaneya.developer@gmail.com',
 //                'subject' => $subject,
 //                'message' => $message,
 //                'othermsg' => $othermsg
@@ -1497,10 +1510,10 @@ if (!function_exists('trip_book_paid_sucess')) {
 //                $message='Trip has been completed your trip <b>PNR No '. $pnr_no . '</b> ( Trip Code/Name: ' . $trip_code . ' / ' . $trip_name.' ) at '.site_title.'.';
 //                $mailData = array(
 //                //'fromuserid' => $pnrinfo['trip_postbyid'],
-//                'ccemail' => 'anjaneyavadivel@gmail.com,'.$pnrinfo['bookedby_contactemail'],
+//                'ccemail' => 'anjaneya.developer@gmail.com,'.$pnrinfo['bookedby_contactemail'],
 //                'bccemail' => admin_email.','.email_bottem_email.','.$pnrinfo['bookedby_contactemail'],
 //                'touserid' => $touserid,
-//                //'toemail' => 'anjaneyavadivel@gmail.com',
+//                //'toemail' => 'anjaneya.developer@gmail.com',
 //                'subject' => $subject,
 //                'message' => $message,
 //                'othermsg' => $othermsg
@@ -1899,10 +1912,10 @@ if (!function_exists('sendemail_personalmail')) {
             $message = $CI->load->view('email/default_template.tpl.php', $mailData, TRUE);
             $email_config = array(
                 'protocol' => 'smtp',
-                'smtp_host' => 'mail.goatravelagent.com',
+                'smtp_host' => 'mail.bookyourtrips.in',
                 'smtp_port' => 465,
-                'smtp_user' => 'support@goatravelagent.com',
-                'smtp_pass' => 'Goatravel@456',
+                'smtp_user' => 'info@bookyourtrips.in',
+                'smtp_pass' => 'Goatravel@I456',
                 'smtp_timeout' => '30',
                 'crlf' => '\n',
                 'newline' => '\r\n',
@@ -2264,10 +2277,10 @@ if (!function_exists('cancelled_trip_refund_amount')) {
                 $message = 'You are received cancelled/refund amount for PNR No ' . $book_pay[0]->pnr_no . ' (' . $book_pay[0]->trip_code . ' / ' . $book_pay[0]->trip_name . ') from ' . site_title. '.<br><br>' . $return_notes;
                 $mailData = array(
                     //'fromuserid' => $pnrinfo['trip_postbyid'],
-                    'ccemail' => admin_email . ',' . email_bottem_email . ',' . 'anjaneyavadivel@gmail.com,',
+                    'ccemail' => admin_email . ',' . email_bottem_email . ',' . 'anjaneya.developer@gmail.com,',
                     //'bccemail' => admin_email.','.email_bottem_email.','.$pnrinfo['bookedby_contactemail'],
                     'touserid' => $book_pay[0]->user_id,
-                    //'toemail' => 'anjaneyavadivel@gmail.com',
+                    //'toemail' => 'anjaneya.developer@gmail.com',
                     'subject' => $subject,
                     'message' => $message,
                         //'othermsg' => $othermsg
@@ -2338,10 +2351,10 @@ if (!function_exists('cancelled_trip_refund_amount')) {
                         $message = 'You are received cancelled/refund amount for PNR No ' . $book_pay->pnr_no . ' (' . $book_pay->trip_code . ' / ' . $book_pay->trip_name . ') from ' . site_title. '.<br><br>' . $return_notes;
                         $mailData = array(
                             //'fromuserid' => $pnrinfo['trip_postbyid'],
-                            'ccemail' => admin_email . ',' . email_bottem_email . ',' . 'anjaneyavadivel@gmail.com,',
+                            'ccemail' => admin_email . ',' . email_bottem_email . ',' . 'anjaneya.developer@gmail.com,',
                             //'bccemail' => admin_email.','.email_bottem_email.','.$pnrinfo['bookedby_contactemail'],
                             'touserid' => $book_pay->user_id,
-                            //'toemail' => 'anjaneyavadivel@gmail.com',
+                            //'toemail' => 'anjaneya.developer@gmail.com',
                             'subject' => $subject,
                             'message' => $message,
                                 //'othermsg' => $othermsg
