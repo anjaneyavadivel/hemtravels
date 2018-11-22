@@ -699,6 +699,7 @@
                                                     </div>
                                                     <input type="hidden" id="availableDays" value='<?php echo isset($available_days)?json_encode($available_days):"";?>'>
                                                     <input type="hidden" id="cutoff_disable_days" value='<?php echo isset($cutoff_disable_days)?$cutoff_disable_days:"";?>'>
+                                                    <input type="hidden" id="disable_enable_days" value='<?php echo isset($disable_date_enable)?$disable_date_enable:"";?>'>
                                                     <input type="hidden" id="cutoff_max_month" value='<?php echo isset($cutoff_max_month)?$cutoff_max_month:"";?>'>
                                                     <input type="hidden" id="tripCode" value='<?php echo isset($details['trip_code']) ?$details['trip_code']:''; ;?>'>
                                                 <?php echo form_close()?>

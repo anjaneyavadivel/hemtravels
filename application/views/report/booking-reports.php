@@ -45,6 +45,25 @@
 
                     </div>
                 </div>
+                <div class="col-xs-12 col-sm-4 col-lg-4">
+                    <div class="row gap-10" id="bookedRangeDatePicker">
+
+                        <div class="col-xss-12 col-xs-6 col-sm-6">
+                            <div class="form-group">
+                                <label>Booked On - From</label>
+                                <input name="bookedonfrom" autocomplete="off" value="<?=$bookedOnFrom?>" type="text" id="bookedRangeDatePickerFrom" class="form-control" placeholder="MMM D, YYYY" />
+                            </div>
+                        </div>
+
+                        <div class="col-xss-12 col-xs-6 col-sm-6">
+                            <div class="form-group">
+                                <label>Booked On - To</label>
+                                <input name="bookedonto" autocomplete="off" value="<?=$bookedOnTo?>" type="text" id="bookedRangeDatePickerTo" class="form-control" placeholder="MMM D, YYYY" />
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
                 <div class="col-xs-12 col-sm-3 col-lg-3">
                     <div class="form-group">
                         <label>Status</label>
@@ -200,4 +219,3 @@ foreach ($links as $link) {
 
 <!-- end Main Wrapper -->
 <?php $this->load->view('includes/footer') ?>
-

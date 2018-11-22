@@ -393,7 +393,7 @@ class Master extends CI_Controller {
 //                                    'payment_status' =>  1,
 //                                    'status' =>  2); 
 //
-//                            trip_book_paid_sucess($updatedata,'PNR01GLNGTR');
+//                            trip_book_paid_sucess($updatedata,'PNR67T1QJUV');
 //                            exit();
 //        $toemail='anjaneya.developer@gmail.com';
 //        $subject='Welcome to trip';
@@ -430,16 +430,18 @@ class Master extends CI_Controller {
 //        print_r($result);
 //        exit();
         $bookdata=array(
-        'trip_id' => 7, //15, 13
-        'book_user_id' => 30,
+        'trip_id' => 6, //15, 13
+        'book_user_id' => 87,
         'no_of_adult' => 1,
         'no_of_child' => 0,
         'no_of_infan' => 0,
-        'date_of_trip' => "Nov 15, 2018",
-        'pick_up_location_id' => 21); //39, 37
+        'date_of_trip' => "Nov 21, 2018",
+        'pick_up_location_id' => 15); //39, 37
         $result = trip_book($bookdata,'',1);//COUPONOFFER50PER, cash
         print_r($result);
-//        
+//        $loginuser_id = $this->session->userdata('user_id');
+//                                echo $mypayment = checkbal_mypayment($loginuser_id, 2);
+////        
     }
     public function mypayment() {
         //$this->load->helper('custom_helper');
@@ -514,7 +516,7 @@ class Master extends CI_Controller {
 //        
 //        
 //        
-        // ticket book Admin to b2b, b2b to b2b
+//         ticket book Admin to b2b, b2b to b2b
 //        $paymentdata = array(
 //        'userid' => 3,  // b2b
 //        'transaction_notes' => 'Trip has been booked PNR826YTZGV / TRIPFGSbgNw / North Goa Sightseeing Full Day Tour',
@@ -528,6 +530,17 @@ class Master extends CI_Controller {
 //        make_mypayment($paymentdata);
         
       // echo checkbal_mypayment(1,2);
+        
+        $pnr = 'PNR64XSNYGR';
+        $paymentdata = array(
+            'userid' => 87,
+            'transaction_notes' => 'Trip has been booked ' . $pnr,
+            'withdrawal_notes' => 'Office Booking PNR' . $pnr,
+            'pnr_no' => $pnr,
+            'from_userid' => 87,
+            'deposits' => 20,
+            'status' => 2);
+        make_mypayment($paymentdata);
         
     }
 

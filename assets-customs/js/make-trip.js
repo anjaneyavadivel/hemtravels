@@ -383,7 +383,11 @@ jQuery(function($) {
         }
     });
     
+    
+    //REMOVE PICKUP LOCATION - ONLY FOR SHARED TRIP
+    $('.removePickupLoc').on('click',function(){
+        $(this).parent().parent().parent().remove();
+    });
+    
 	
 });
-
-

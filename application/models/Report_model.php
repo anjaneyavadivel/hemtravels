@@ -36,6 +36,11 @@ class Report_model extends CI_Model
             $to = date("Y-m-d", strtotime($whereData['to'])).' 24:60:60';
             $this->db->where("(tbpd.date_of_trip >='".$this->db->escape_like_str($from)."' AND tbpd.date_of_trip <= '".$this->db->escape_like_str($to)."')");
         }
+        if(isset($whereData['bookedonfrom']) && !empty($whereData['bookedonfrom']) && isset($whereData['bookedonto']) && !empty($whereData['bookedonto'])){
+            $bookedonfrom = date("Y-m-d", strtotime($whereData['bookedonfrom'])).' 00:00:00';
+            $bookedonto = date("Y-m-d", strtotime($whereData['bookedonto'])).' 24:60:60';
+            $this->db->where("(tbpd.booked_on >='".$this->db->escape_like_str($bookedonfrom)."' AND tbpd.booked_on <= '".$this->db->escape_like_str($bookedonto)."')");
+        }
         if(isset($whereData['groupby']) && $whereData['groupby']!=''){
             $this->db->group_by($whereData['groupby']);
         } 
@@ -81,6 +86,11 @@ class Report_model extends CI_Model
             $from = date("Y-m-d", strtotime($whereData['from'])).' 00:00:00';
             $to = date("Y-m-d", strtotime($whereData['to'])).' 24:60:60';
             $this->db->where("(tbpd.date_of_trip >='".$this->db->escape_like_str($from)."' AND tbpd.date_of_trip <= '".$this->db->escape_like_str($to)."')");
+        }
+        if(isset($whereData['bookedonfrom']) && !empty($whereData['bookedonfrom']) && isset($whereData['bookedonto']) && !empty($whereData['bookedonto'])){
+            $bookedonfrom = date("Y-m-d", strtotime($whereData['bookedonfrom'])).' 00:00:00';
+            $bookedonto = date("Y-m-d", strtotime($whereData['bookedonto'])).' 24:59:59';
+            $this->db->where("(tbpd.booked_on >='".$this->db->escape_like_str($bookedonfrom)."' AND tbpd.booked_on <= '".$this->db->escape_like_str($bookedonto)."')");
         }
         if(isset($whereData['groupby']) && $whereData['groupby']!=''){
             $this->db->group_by($whereData['groupby']);

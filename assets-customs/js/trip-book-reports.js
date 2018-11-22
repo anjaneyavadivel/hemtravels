@@ -40,16 +40,38 @@ jQuery(function($) {
             customArrowPrevSymbol: '<i class="fa fa-arrow-circle-left"></i>',
             customArrowNextSymbol: '<i class="fa fa-arrow-circle-right"></i>'
     });
+    $('#bookedRangeDatePicker > div > div').dateRangePicker({
+            autoClose: true,
+            format: 'MMM D, YYYY',
+            showShortcuts: false,
+            showTopbar: false,
+            getValue: function()
+            {
+                    if ($('#bookedRangeDatePickerTo').val() && $('#bookedRangeDatePickerFrom').val() )
+                            return $('#bookedRangeDatePickerTo').val() + ' to ' + $('#bookedRangeDatePickerFrom').val();
+                    else
+                            return '';
+            },
+            setValue: function(s,s1,s2)
+            {
+                    $('#bookedRangeDatePickerFrom').val(s1);
+                    $('#bookedRangeDatePickerTo').val(s2);
+            },
+            customArrowPrevSymbol: '<i class="fa fa-arrow-circle-left"></i>',
+            customArrowNextSymbol: '<i class="fa fa-arrow-circle-right"></i>'
+    });
     
     $('#bookExportXLSX').on('click',function(){ 
         
         var search_from = $('#rangeDatePickerFrom').val() != undefined ?$('#rangeDatePickerFrom').val():'';
         var search_to   = $('#rangeDatePickerTo').val() != undefined ?$('#rangeDatePickerTo').val():'';
+        var book_search_from = $('#bookedRangeDatePickerFrom').val() != undefined ?$('#bookedRangeDatePickerFrom').val():'';
+        var book_search_to   = $('#bookedRangeDatePickerTo').val() != undefined ?$('#bookedRangeDatePickerTo').val():'';
         var status      = $('#bookingStatus').val() != undefined ?$('#bookingStatus').val():'';
         var bookedFrom  = $('#bookedFrom').val() != undefined ?$('#bookedFrom').val():'';
         var titleSearch = $('#bookSearchTitle').val() != undefined ?$('#bookSearchTitle').val():'';
          
-        document.location = base_url+'booking-wise-reports?from='+search_from+'&to='+search_to+'&status='+status+'&bookfrom='+bookedFrom+'&title='+titleSearch+'&download=1';
+        document.location = base_url+'booking-wise-reports?from='+search_from+'&to='+search_to+'&bookedonfrom='+book_search_from+'&bookedonto='+book_search_to+'&status='+status+'&bookfrom='+bookedFrom+'&title='+titleSearch+'&download=1';
        
     });
     $('#bookSearchBtn').on('click',function(e){
@@ -64,4 +86,3 @@ jQuery(function($) {
     });
     
 });
-

@@ -73,7 +73,15 @@ jQuery(function ($) {
     if (cutoff_max_month != undefined && cutoff_max_month != '') {
         cutoff_max_month = cutoff_max_month;
     }
+    
+    //ENABLE DISABLE DAYS CALENDAR
+    var disable_enable_days = $('#disable_enable_days').val();
 
+    if (disable_enable_days != undefined && disable_enable_days != '') {
+        disable_enable_days = $.parseJSON(disable_enable_days);
+    }
+    
+    
     $('#rangeDatePicker > div > div').dateRangePicker({
         //separator : ' to ',
         autoClose: true,
@@ -104,9 +112,11 @@ jQuery(function ($) {
             var today = moment(t).format("YYYY-MM-DD");
             var ToDate = new Date(today).getTime();
 
-            var valid = $.inArray(t.getDay(), disableDays) >= 0
-                    || $.inArray(today, cutoff_disable_days) >= 0
-                    || (cutoff_max_month != '' && new Date(cutoff_max_month).getTime() < ToDate) ? false : true;
+            var valid = ((disable_enable_days != undefined && disable_enable_days != '' && disable_enable_days.length >0 && $.inArray(today, disable_enable_days) < 0)
+                        || (disable_enable_days == undefined || disable_enable_days == '' || disable_enable_days.length <= 0)
+                    ) &&
+                    ($.inArray(t.getDay(), disableDays) >= 0 || $.inArray(today, cutoff_disable_days) >= 0
+                    || (cutoff_max_month != '' && new Date(cutoff_max_month).getTime() < ToDate)) ? false : true;
             var _class = '';
             var _tooltip = valid ? '' : 'not available';
             return [valid, _class, _tooltip];

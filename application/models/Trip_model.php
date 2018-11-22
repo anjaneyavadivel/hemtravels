@@ -163,6 +163,48 @@ class Trip_model extends CI_Model
             return $query->row_array();
                       
 	}
+        
+        function getTripEnableBooking($tripId)
+	{
+            
+            $returnData = [];
+            $query  = $this->db->query('SELECT from_date,to_date FROM trip_specific_day WHERE isactive = 1 AND type = 3 AND trip_id = '.$tripId);            
+            $result = $query->result_array();
+            
+            if(count($result) > 0){
+                foreach($result as $v){ 
+                    $enableDates = $this->returnBetweenDates($v['from_date'],$v['to_date']);
+                    $returnData = array_merge($returnData,$enableDates);
+                }
+            }
+            
+            return json_encode($returnData);
+                      
+	}
+        
+        
+        // will return dates array
+        function returnBetweenDates( $startDate, $endDate ){
+            $enableDates  = [];
+            $startStamp = strtotime(  $startDate );
+            $endStamp   = strtotime(  $endDate );
+
+            if( $endStamp > $startStamp ){
+                while( $endStamp >= $startStamp ){
+
+                    $dateArr[] = date( 'Y-m-d', $startStamp );
+
+                    $startStamp = strtotime( ' +1 day ', $startStamp );
+
+                }
+                $enableDates = $dateArr;    
+            }else{
+                $enableDates[] = $startDate;
+            }
+            return $enableDates;
+        }
+
+
 	
 }
 ?>

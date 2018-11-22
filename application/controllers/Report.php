@@ -30,13 +30,15 @@ class Report extends CI_Controller {
         $title = trim($this->input->get('title'));
         $from = trim($this->input->get('from'));
         $to = trim($this->input->get('to'));
+        $bookedOnFrom = trim($this->input->get('bookedonfrom'));
+        $bookedOnTo = trim($this->input->get('bookedonto'));
         $status = trim($this->input->get('status'));
         $bookfrom = trim($this->input->get('bookfrom'));
         $download = trim($this->input->get('download'));
         $this->load->library('pagination');
         $config = array();
-        $config["base_url"] = base_url() . $url . "?title=" . $title . "&from=" . $from . "&to=" . $to . "&status=" . $status . "&bookfrom=" . $bookfrom;
-        $whereData = array('title' => $title, 'from' => $from, 'to' => $to, 'status' => $status, 'bookfrom' => $bookfrom);
+        $config["base_url"] = base_url() . $url . "?title=" . $title . "&from=" . $from . "&to=" . $to."&bookedonfrom=" . $bookedOnFrom . "&bookedonto=" . $bookedOnTo . "&status=" . $status . "&bookfrom=" . $bookfrom;
+        $whereData = array('title' => $title, 'from' => $from, 'to' => $to,'bookedonfrom' => $bookedOnFrom,'bookedonto' => $bookedOnTo,  'status' => $status, 'bookfrom' => $bookfrom);
         if ($this->session->userdata('user_type') == 'VA') {
             $whereData['tbpd.user_id'] = $loginuserid;
         }
@@ -60,11 +62,13 @@ class Report extends CI_Controller {
         $this->pagination->initialize($config);
         $page = ($this->input->get('page')) ? ( ( $this->input->get('page') - 1 ) * $config["per_page"] ) : 0;
         //$page = ($this->uri->segment(2)) ? $this->uri->segment(2) : 0;
-        $data["bookinglist"] = $this->Report_model->booking_list($whereData, $config["per_page"], $page,'no');
+        $data["bookinglist"] = $this->Report_model->booking_list($whereData, $config["per_page"], $page,'no');//echo "<pre>";print_r($data["bookinglist"]);exit;
         $str_links = $this->pagination->create_links();
         $data["links"] = explode('&nbsp;', $str_links);
         $data["from"] = $from;
         $data["to"] = $to;
+        $data["bookedOnFrom"] = $bookedOnFrom;
+        $data["bookedOnTo"] = $bookedOnTo;
         $data["status"] = $status;
         $data["bookfrom"] = $bookfrom;
         $data["title"] = $title;

@@ -433,14 +433,18 @@
                                                                $meetingPointName =  "ex_pickup_meeting_point[".$pickupId."]";
                                                                $meetingPointTime =  "ex_pickup_meeting_time[".$pickupId."]";
                                                                $pickup_landmark  =  "ex_pickup_landmark[".$pickupId."]";
+                                                               $col1 = 5;                                                               
+                                                               $col3 = 4;
                                                                if(isset($is_shared) && $is_shared == 1){
                                                                    $meetingPointName = "pickup_meeting_point[]";
                                                                    $meetingPointTime = "pickup_meeting_time[]";
                                                                    $pickup_landmark  = "pickup_landmark[]";
+                                                                   $col1 = 4;                                                                   
+                                                                   $col3 = 3;
                                                                }
                                                             ?>
                                                             
-                                                            <div class="col-xs-12 col-sm-5">
+                                                            <div class="col-xs-12 col-sm-<?php echo $col1;?>">
 
                                                                 <div class="form-group">
                                                                     <label>Meeting point:<span style=' color: #d9534f;'>*</span></label>
@@ -457,7 +461,7 @@
                                                                 </div>
 
                                                             </div>
-                                                            <div class="col-xs-12 col-sm-4">
+                                                            <div class="col-xs-12 col-sm-<?php echo $col3;?>">
 
                                                                 <div class="form-group">
                                                                     <label>Landmark:</label>
@@ -465,6 +469,11 @@
                                                                 </div>
 
                                                             </div>
+                                                            <?php if(isset($is_shared) && $is_shared == 1) { ?>
+                                                                <div class="col-xs-12 col-sm-2" style="margin-top: 30px;">
+                                                                    <a href="javascript:;" class="removePickupLoc" title="Remove"><i class="ion-android-remove-circle"></i></a> 
+                                                               </div>
+                                                            <?php } ?>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -476,9 +485,8 @@
                                                                   $meetingPointName = "ex_pickup_meeting_point[".$v['id']."]";
                                                                   $meetingPointTime = "ex_pickup_meeting_time[".$v['id']."]";
                                                                   $pickup_landmark  = "ex_pickup_landmark[".$v['id']."]";
-                                                              }
-                                                              
-                                                              echo '<div class="pickup_location_list" id="pickup_location_list_'.$k.'">
+                                                                  
+                                                                  echo '<div class="pickup_location_list" id="pickup_location_list_'.$k.'">
                                                                         <div class="row">
                                                                             <div class="col-xs-12 col-sm-5">
                                                                                 <div class="form-group">
@@ -500,6 +508,34 @@
                                                                             </div>
                                                                         </div>
                                                                     </div>';
+                                                                }else if(isset($is_shared) && $is_shared == 1){
+                                                              
+                                                                    echo '<div class="pickup_location_list" id="pickup_location_list_'.$k.'">
+                                                                              <div class="row">
+                                                                                  <div class="col-xs-12 col-sm-4">
+                                                                                      <div class="form-group">
+                                                                                          <label>Location'.$k.'</label>
+                                                                                          <input type="text" class="form-control" name="'.$meetingPointName.'" value="'.$v['location'].'"/>
+                                                                                      </div>
+                                                                                  </div>
+                                                                                  <div class="col-xs-12 col-sm-3">
+                                                                                      <div class="form-group">
+                                                                                          <label>Location'.$k.' time</label>
+                                                                                          <input type="text" class="oh-timepicker form-control" name="'.$meetingPointTime.'" value="'.$v['time'].'"/>
+                                                                                      </div>
+                                                                                  </div>
+                                                                                  <div class="col-xs-12 col-sm-3">
+                                                                                      <div class="form-group">
+                                                                                          <label>Location'.$k.' Landmark</label>
+                                                                                          <input type="text" class="oh-timepicker1 form-control" name="'.$pickup_landmark.'" value="'.$v['landmark'].'"/>
+                                                                                      </div>
+                                                                                  </div>
+                                                                                   <div class="col-xs-12 col-sm-2" style="margin-top: 30px;">
+                                                                                        <a href="javascript:;" class="removePickupLoc" title="Remove"><i class="ion-android-remove-circle"></i></a> 
+                                                                                   </div>
+                                                                              </div>
+                                                                          </div>';
+                                                                }
                                                           }
                                                       }
                                                   }?>                                                

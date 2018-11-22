@@ -44,6 +44,7 @@ class TripBookings extends CI_Controller {
                 $data['cutoff_disable_days'] = $this->Trip_model->getCutoffDaysTime($data['details']['created_on'], $data['details']['booking_cut_of_time_type'], $data['details']['booking_cut_of_day'], $data['details']['booking_cut_of_time'], $data['details']['meeting_time']);
 
                 $data['cutoff_max_month'] = $this->Trip_model->getCutoffMonth($data['details']['created_on'], $data['details']['booking_max_cut_of_month']);
+                $data['disable_date_enable'] = $this->Trip_model->getTripEnableBooking($data['details']['id']);
 
                 $offerdata = array(
                     'trip_id' => $data['details']['id'],
@@ -59,7 +60,7 @@ class TripBookings extends CI_Controller {
                 $data['cus_coupon_type'] = '';
                 $data['cus_coupon_price'] = '';
                 $data['cus_coupon_percentage'] = '';
-                $data['offer_details'] = trip_offer($offerdata,$data['usecouponcode']);
+                $data['offer_details'] = trip_offer($offerdata, $data['usecouponcode']);
                 // echo "<pre>"; print_r($data['offer_details']);exit;
                 $parenttrip_id = $data['details']['id'];
                 $date_of_trip = formatdate($this->session->userdata('bk_from_date'), $format = 'Y-m-d');
@@ -74,7 +75,8 @@ class TripBookings extends CI_Controller {
                         $parent_trip_id = 0;
                         $trip_user_id = 0;
                         $vendor_amt = 0;
-                        $your_final_amt = 0;$parentservicecharge=0;
+                        $your_final_amt = 0;
+                        $parentservicecharge = 0;
                         $inWhereData = array('id', $parenttrip);
                         $whereData = array('isactive' => 1);
                         $trip_list = selectTable('trip_master', $whereData = array(), $showField = array('*'), $orWhereData = array(), $group = array(), $order = 'id ASC', $having = '', $limit = array(), $result_way = 'all', $echo = 0, $inWhereData, $notInWhereData = array());
@@ -95,7 +97,8 @@ class TripBookings extends CI_Controller {
                                 $subtotal_trip_price = 0;
                                 $specific_discount_price = 0;
                                 $specific_discount_percentage = 0;
-                                $specific_offer_amt = 0;$your_final_amt_temp=0;
+                                $specific_offer_amt = 0;
+                                $your_final_amt_temp = 0;
                                 //check offer
                                 $offerdata = array(
                                     'trip_id' => $trip_id,
@@ -155,22 +158,21 @@ class TripBookings extends CI_Controller {
                                     $servicecharge_amt = SERVICECHARGE_AMT;
                                 }
                                 $your_amt = (int) $net_price - (int) $servicecharge_amt;
-                                if($your_amt<1){
-                                    $parentservicecharge=$parentservicecharge + ($your_amt * -1);
-                                    $your_amt = 0;
-                                }
+//                                if($your_amt<1){
+//                                    $parentservicecharge=$parentservicecharge + ($your_amt * -1);
+//                                    $your_amt = 0;
+//                                }
                                 $gst_amt = $your_amt * (GST_PERCENTAGE / 100);
-                                $your_final_amt_temp = (int)$your_amt + (int)$gst_amt;
+                                $your_final_amt_temp = (int) $your_amt + (int) $gst_amt;
                                 $round_off = round($your_final_amt_temp) - ($your_final_amt_temp);
                                 $your_final_amt = (int) $round_off + (int) $your_final_amt_temp;
                                 if ($trip_id == $parenttrip_id) {
-                                    $discount_your_price = $your_final_amt; 
+                                    $discount_your_price = $your_final_amt;
                                 }
                                 $vendor_amt = $total_trip_price;
                                 if ($vendor_amt < 0) {
                                     $vendor_amt *= -1;
                                 }
-                               
                             }
                         }
                     }
@@ -181,14 +183,18 @@ class TripBookings extends CI_Controller {
                     }
                 }
                 $data['parent_trip'] = 1;
-                if($your_amt<0){$your_amt *= -1;$your_amt = $your_amt-SERVICECHARGE_AMT-SERVICECHARGE_AMT;}
-                else{$data['parent_trip'] = 0;}
-                $data['your_amt'] = $your_amt-$parentservicecharge;//echo $data['your_amt'];exit();
+                if ($your_amt < 0) {
+                    $your_amt *= -1;
+                    $your_amt = $your_amt - SERVICECHARGE_AMT - SERVICECHARGE_AMT;
+                } else {
+                    $data['parent_trip'] = 0;
+                }
+                $data['your_amt'] = $your_amt - $parentservicecharge; //echo $data['your_amt'];exit();
                 $data['discount_your_price'] = $discount_your_price;
                 if ($data['discount_your_price'] < 0) {
                     $data['discount_your_price'] = -SERVICECHARGE_AMT;
                 }
-                if ($this->session->userdata('user_type') != 'VA'){
+                if ($this->session->userdata('user_type') != 'VA') {
                     $data['discount_your_price'] = 0;
                 }
                 if ($data['usecouponcode'] != '') {
@@ -342,7 +348,20 @@ class TripBookings extends CI_Controller {
                                 $mypayment = checkbal_mypayment($loginuser_id, 2);
                                 if ($mypayment > 0) {
                                     $balance = (int) $mypayment - (int) $trip_amount;
-                                    if ($balance > 0) {
+                                    if ($balance <0) {
+                                        //  Cash Deposited
+                                        $paymentdata = array(
+                                            'userid' => $customer_id,
+                                            'transaction_notes' => 'Cash Deposited',
+                                            'from_userid' => -1,
+                                            'book_pay_id' => 0,
+                                            'book_pay_details_id' => 0,
+                                            'pnr_no' => '',
+                                            'trip_id' => 0,
+                                            'deposits' => $trip_amount,
+                                            'status' => 2);
+                                        make_mypayment($paymentdata);
+                                    }
                                         //Amount Move to B2b to BYT 
                                         $paymentdata = array(
                                             'userid' => $customer_id,
@@ -369,7 +388,46 @@ class TripBookings extends CI_Controller {
                                             echo $pnr;
                                             exit;
                                         }
-                                    }
+                                }
+                            } else {
+                                //Amount Move to B2c to BYT 
+                                //  Cash Deposited
+                                $paymentdata = array(
+                                    'userid' => $customer_id,
+                                    'transaction_notes' => 'Cash Deposited',
+                                    'from_userid' => -1,
+                                    'book_pay_id' => 0,
+                                    'book_pay_details_id' => 0,
+                                    'pnr_no' => '',
+                                    'trip_id' => 0,
+                                    'deposits' => $trip_amount,
+                                    'status' => 2);
+                                make_mypayment($paymentdata);
+
+                                $paymentdata = array(
+                                    'userid' => $customer_id,
+                                    'transaction_notes' => 'Trip has been booked ' . $pnr,
+                                    'withdrawal_notes' => 'Office Booking PNR' . $pnr,
+                                    'pnr_no' => $pnr,
+                                    'from_userid' => -1,
+                                    'deposits' => $trip_amount,
+                                    'status' => 2);
+                                if (make_mypayment($paymentdata)) {
+
+                                    $updatedata = array(
+                                        'payment_type' => 1, // 1 - net, 2 - credit, 3 - debit
+                                        'payment_status' => 1,
+                                        'status' => 2);
+
+                                    trip_book_paid_sucess($updatedata, $book_pay['pnr_no'], 1);
+
+                                    //CLEAR BOOKING SESSIONS
+                                    $array_items = array('bk_no_of_adult', 'bk_no_of_children', 'bk_no_of_infan', 'bk_from_date', 'bk_usecouponcode',
+                                        'bk_to_date', 'bk_location');
+
+                                    $this->session->unset_userdata($array_items);
+                                    echo $pnr;
+                                    exit;
                                 }
                             }
 

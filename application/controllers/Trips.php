@@ -125,21 +125,53 @@ class Trips extends CI_Controller {
     
     public function delete_trip(){
         $succ = '';
+        $errMsg = 'Trip not deleted';
         if ($_POST) 
         {
             $trip_id  = $this->input->post('trip_id');
             
             if(!empty($trip_id)){
                 $whereData        = array('isactive' => 0);
-                updateTable('trip_master',array('id' => $trip_id),$whereData);
-                updateTable('trip_master',array('parent_trip_id' => $trip_id),$whereData);
-                $this->session->set_userdata('suc', 'Trip has been successfully deleted');
-                $succ = 'success';
+                
+                $this->load->helper('custom_helper');               
+                $deletedTripIds = getallchildtrip($trip_id);
+                
+                $is_deleted = 1;
+                
+                //CHECK BOOKING AVAILABLE
+                $this->db->from('trip_book_pay');
+                $this->db->where_in('trip_id', $deletedTripIds);                
+                $trip_book_available = $this->db->count_all_results();
+                
+                //CHECK BOOKING STATUS NOT (2-BOOKED,4-CONFIRMED) AVAILABLE
+                if($trip_book_available > 0){
+                    $this->db->from('trip_book_pay');
+                    $this->db->where_in('trip_id', $deletedTripIds);                
+                    $this->db->where_in('status', [2,4]);                
+                    $trip_book_proceed = $this->db->count_all_results();
+                    
+                    if($trip_book_proceed > 0){
+                        $is_deleted = 0;
+                    }
+                }
+                
+                if($is_deleted == 1){
+                    $this->db->where_in('id', $deletedTripIds);  
+                    $this->db->update('trip_master', $whereData);
+                    $this->session->set_userdata('suc', 'Trip has been successfully deleted');
+                    $succ = 'success';
+                }else{
+                    $errMsg = 'Trip can\'t delete now.it has booking';
+                    $this->session->set_userdata('err', $errMsg); 
+                }
+                //updateTable('trip_master',array('id' => $trip_id),$whereData);
+               // updateTable('trip_master',array('parent_trip_id' => $trip_id),$whereData);
+               
             }
         }
         
         if($succ == ''){
-            $this->session->set_userdata('err', 'Trip not deleted');            
+            $this->session->set_userdata('err', $errMsg);            
         }
         echo $succ;exit;
         
@@ -370,23 +402,31 @@ class Trips extends CI_Controller {
                                 //UPDATE
                                     $meeting_point = '';
                                     $meeting_time  = '';
+                                    
+                                    //DELETE ALL PICKUP
+                                    $del_all_pickups = updateTable('pick_up_location_map',array('trip_id' => $trip_id),array('isactive' => 0));                                    
                                     if(!empty($this->input->post('ex_pickup_meeting_point'))){
                                         $exPickLocs = $this->input->post('ex_pickup_meeting_point');
                                         $c1 = 0;
                                         foreach($exPickLocs as $k=>$v){
-
-                                            if($c1 == 0){
-                                                $meeting_point = isset($_POST['ex_pickup_meeting_point'][$k])?$_POST['ex_pickup_meeting_point'][$k]:'';
-                                                $meeting_time  = isset($_POST['ex_pickup_meeting_time'][$k])?$_POST['ex_pickup_meeting_time'][$k]:'';
+                                            
+                                            if(isset($_POST['ex_pickup_meeting_point'][$k]) && !empty($_POST['ex_pickup_meeting_point'][$k]) &&
+                                               isset($_POST['ex_pickup_meeting_time'][$k]) && !empty($_POST['ex_pickup_meeting_time'][$k])){
+                                                
+                                                if($c1 == 0){
+                                                    $meeting_point = isset($_POST['ex_pickup_meeting_point'][$k])?$_POST['ex_pickup_meeting_point'][$k]:'';
+                                                    $meeting_time  = isset($_POST['ex_pickup_meeting_time'][$k])?$_POST['ex_pickup_meeting_time'][$k]:'';
+                                                }
+                                                $exPickLocValue = array(                                        
+                                                    'city_id'   => $this->input->post('city_id'),
+                                                    'location'  => isset($_POST['ex_pickup_meeting_point'][$k])?$_POST['ex_pickup_meeting_point'][$k]:0,
+                                                    'time'      => isset($_POST['ex_pickup_meeting_time'][$k])?$_POST['ex_pickup_meeting_time'][$k]:0,
+                                                    'landmark'  => isset($_POST['ex_pickup_landmark'][$k])?$_POST['ex_pickup_landmark'][$k]:0,
+                                                    'isactive'  => 1
+                                                );
+                                                $exPicQry = updateTable('pick_up_location_map',array('trip_id' => $trip_id,'id'=>$k),$exPickLocValue);                                    
+                                                $c1 = 1;
                                             }
-                                            $exPickLocValue = array(                                        
-                                                'city_id'   => $this->input->post('city_id'),
-                                                'location'  => isset($_POST['ex_pickup_meeting_point'][$k])?$_POST['ex_pickup_meeting_point'][$k]:0,
-                                                'time'      => isset($_POST['ex_pickup_meeting_time'][$k])?$_POST['ex_pickup_meeting_time'][$k]:0,
-                                                'landmark'  => isset($_POST['ex_pickup_landmark'][$k])?$_POST['ex_pickup_landmark'][$k]:0,
-                                            );
-                                            $exPicQry = updateTable('pick_up_location_map',array('trip_id' => $trip_id,'id'=>$k),$exPickLocValue);                                    
-                                            $c1++;
                                         }
 
                                     }
@@ -891,6 +931,7 @@ class Trips extends CI_Controller {
             $data['wishlist'] = $this->Trip_model->getWishlist($data['details']['id']);
             $data['cutoff_disable_days'] = $this->Trip_model->getCutoffDaysTime($data['details']['created_on'],$data['details']['booking_cut_of_time_type'],$data['details']['booking_cut_of_day'],$data['details']['booking_cut_of_time'],$data['details']['meeting_time']);
             $data['cutoff_max_month'] = $this->Trip_model->getCutoffMonth($data['details']['created_on'],$data['details']['booking_max_cut_of_month']);
+            $data['disable_date_enable'] = $this->Trip_model->getTripEnableBooking($data['details']['id']);
             //echo "<pre>";print_r($data['pickups']);exit;
             //ALL PICKUP LOCATIONS
             if(isset($data['pickups']) && count($data['pickups']) > 0){
