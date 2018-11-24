@@ -483,7 +483,7 @@ class Master extends CI_Controller {
 //        'deposits' => 3098,
 //        'status' => 2);
 //        make_mypayment($paymentdata);
-//        
+//        //B2c to Admin
 //        $paymentdata = array(
 //        'userid' => 0,
 //        'transaction_notes' => 'Trip has been booked PNR826YTZGV / TRIPFGSbgNw / North Goa Sightseeing Full Day Tour',

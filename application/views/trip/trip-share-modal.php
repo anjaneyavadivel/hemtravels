@@ -26,7 +26,7 @@
                 <div class="vendorShareDiv">
                     <div class="form-group" style="padding-top:20px">
                         <label>Shared Emails:</label>
-                        <input type="text" class="form-control" name="shared_emails" id="shared_emails" placeholder="Enter emails">
+                        <input type="text" class="form-control" name="shared_emails" id="shared_emails" placeholder="Enter the emails separate by comma(,)">
                     </div>
 
                     <div class="form-group">

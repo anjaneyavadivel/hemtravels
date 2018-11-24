@@ -1353,7 +1353,8 @@ class Trips extends CI_Controller {
     public function vendorShare(){
         $status = 'err';
         $message = 'Not shared.please try again';
-        if ($_POST) 
+        $this->form_validation->set_rules('emails', 'Emails', 'trim|required|valid_emails');
+        if ($_POST && $this->form_validation->run() == TRUE) 
         {
             $emails             = $this->input->post('emails');
             $share_trip_id      = $this->input->post('share_trip_id');
@@ -1402,12 +1403,16 @@ class Trips extends CI_Controller {
                         'subject' => $subject,
                         'message' => $message,
                         //'othermsg' => $othermsg
-                    );
+                    );//print_r($mailData);
                     sendemail_personalmail($mailData);
+                    if($trip_shared_id > 0){
+                        $status  = 'suc';
+                        $message = 'Successfully shared';
+                    }
                 }
                 
                 
-                if($trip_shared_id > 0){
+                if($trip_shared_id <1){
                     $status  = 'suc';
                     $message = 'Successfully shared';
                 }

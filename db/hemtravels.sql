@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 08, 2018 at 05:05 AM
+-- Generation Time: Nov 24, 2018 at 05:48 PM
 -- Server version: 5.6.26
 -- PHP Version: 5.6.12
 
@@ -41,7 +41,7 @@ CREATE TABLE IF NOT EXISTS `account_info` (
   `updated_on` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
   `updated_by` int(11) NOT NULL,
   `isactive` int(1) NOT NULL DEFAULT '1' COMMENT '0 - Deactive, 1 - Active'
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `account_info`
@@ -53,7 +53,8 @@ INSERT INTO `account_info` (`id`, `user_id`, `bank_name`, `account_holder_name`,
 (3, 3, 'HDFC', 'Vendor', '987456321', 'HDFC0000111', 'goa Branch', 'goa Address', 1, '2018-10-17 14:51:48', 0, '0000-00-00 00:00:00', 0, 1),
 (4, 4, 'ICICI', 'VENDOR TWO', '1234652248', 'ICIC00113213', 'CBE BRANCH', 'COIMABAGORE', 1, '2018-10-17 15:01:06', 0, '0000-00-00 00:00:00', 0, 1),
 (5, 52, 'HDFC', 'VINOD VELAPPAN CANCELLATION REFUND', '1234652248', 'HDFC0000111', 'goa Branch', 'S-16, HIGHLAND HOLIDAY HOMES, NEAR CANDOLIM PANCHAYAT', 1, '2018-10-25 09:44:20', 0, '0000-00-00 00:00:00', 0, 1),
-(6, 55, 'HDFC', 'VINOD VELAPPAN', '1234652248', 'ICIC00113213', 'goa Branch', 'S-16, HIGHLAND HOLIDAY HOMES, NEAR CANDOLIM PANCHAYAT', 0, '2018-10-27 11:40:37', 0, '0000-00-00 00:00:00', 0, 1);
+(6, 55, 'HDFC', 'VINOD VELAPPAN', '1234652248', 'ICIC00113213', 'goa Branch', 'S-16, HIGHLAND HOLIDAY HOMES, NEAR CANDOLIM PANCHAYAT', 0, '2018-10-27 11:40:37', 0, '0000-00-00 00:00:00', 0, 1),
+(7, 83, 'HDFC', 'VINOD VELAPPAN', '1234652248', 'HDFC0000111', 'goa Branch', 'S-16, HIGHLAND HOLIDAY HOMES, NEAR CANDOLIM PANCHAYAT', 0, '2018-11-17 14:12:34', 0, '0000-00-00 00:00:00', 0, 1);
 
 -- --------------------------------------------------------
 
@@ -155,7 +156,16 @@ CREATE TABLE IF NOT EXISTS `coupon_code_master` (
   `price_to_infan` float(8,2) NOT NULL,
   `created_on` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `isactive` int(1) NOT NULL DEFAULT '1'
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `coupon_code_master`
+--
+
+INSERT INTO `coupon_code_master` (`id`, `user_id`, `trip_id`, `type`, `coupon_code`, `coupon_name`, `offer_type`, `percentage_amount`, `validity_from`, `validity_to`, `comment`, `category_id`, `price_to_adult`, `price_to_child`, `price_to_infan`, `created_on`, `isactive`) VALUES
+(1, 79, 1, 2, 'CASH', 'PAYMENT IN CASH', 2, 100.00, '2018-11-16', '2018-12-15', ' THE VENDOR PAY IN 100% CASH', 0, 0.00, 0.00, 0.00, '2018-11-16 09:58:02', 1),
+(2, 80, 3, 2, 'CASH', 'PAYMENT IN CASH', 2, 100.00, '2018-11-16', '2018-12-15', ' PAYMENT WILL BE SETTLED IN CASH', 0, 0.00, 0.00, 0.00, '2018-11-16 14:43:55', 1),
+(3, 79, 5, 2, 'CASH', 'PAYMENT IN CASH', 2, 100.00, '2018-11-19', '2018-12-15', ' THE PAYMENT FOR THIS BOOKING WILL BE COLLECTED IN CASH', 0, 0.00, 0.00, 0.00, '2018-11-19 16:13:18', 1);
 
 -- --------------------------------------------------------
 
@@ -182,7 +192,16 @@ CREATE TABLE IF NOT EXISTS `coupon_code_master_history` (
   `price_to_infan` float(8,2) NOT NULL,
   `created_on` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `isactive` int(1) NOT NULL DEFAULT '1'
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `coupon_code_master_history`
+--
+
+INSERT INTO `coupon_code_master_history` (`id`, `user_id`, `coupon_code_id`, `trip_id`, `type`, `coupon_code`, `coupon_name`, `offer_type`, `percentage_amount`, `validity_from`, `validity_to`, `comment`, `category_id`, `price_to_adult`, `price_to_child`, `price_to_infan`, `created_on`, `isactive`) VALUES
+(1, 79, 1, 1, 2, 'CASH', 'PAYMENT IN CASH', 2, 100.00, '2018-11-16', '2018-12-15', ' THE VENDOR PAY IN 100% CASH', 0, 0.00, 0.00, 0.00, '2018-11-16 09:58:02', 1),
+(2, 80, 2, 3, 2, 'CASH', 'PAYMENT IN CASH', 2, 100.00, '2018-11-16', '2018-12-15', ' PAYMENT WILL BE SETTLED IN CASH', 0, 0.00, 0.00, 0.00, '2018-11-16 14:43:55', 1),
+(3, 79, 3, 5, 2, 'CASH', 'PAYMENT IN CASH', 2, 100.00, '2018-11-19', '2018-12-15', ' THE PAYMENT FOR THIS BOOKING WILL BE COLLECTED IN CASH', 0, 0.00, 0.00, 0.00, '2018-11-19 16:13:18', 1);
 
 -- --------------------------------------------------------
 
@@ -236,7 +255,43 @@ CREATE TABLE IF NOT EXISTS `my_transaction` (
   `withdrawal_notes` text NOT NULL,
   `withdrawal_paid_on` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
   `status` int(1) NOT NULL COMMENT '0 - new, 1 - InProgress, 2 -  Executed, 3- Sent'
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=31 DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `my_transaction`
+--
+
+INSERT INTO `my_transaction` (`id`, `book_pay_id`, `book_pay_details_id`, `pnr_no`, `from_userid`, `to_userid`, `userid`, `trip_id`, `date_time`, `transaction_notes`, `withdrawals`, `deposits`, `balance`, `b2b_pay_account_info`, `withdrawal_request_id`, `withdrawal_request_amt`, `withdrawal_notes`, `withdrawal_paid_on`, `status`) VALUES
+(1, 0, 0, '', -1, -1, 87, 0, '2018-11-21 18:32:27', 'Deposit: Cash Deposited', 0.00, 20.00, 20.00, 0, 0, 0.00, '', '0000-00-00 00:00:00', 2),
+(2, 1, 0, 'PNR57TIGLVN', -1, 0, 87, 4, '2018-11-21 18:32:27', 'Withdrawal: Trip has been booked PNR57TIGLVN / TRIP3YKwgtQ / RAFTING', 20.00, 0.00, 0.00, 0, 0, 0.00, '', '0000-00-00 00:00:00', 2),
+(3, 1, 0, 'PNR57TIGLVN', 87, -1, 0, 4, '2018-11-21 18:32:27', 'Deposit: Trip has been booked PNR57TIGLVN / TRIP3YKwgtQ / RAFTING', 0.00, 20.00, 20.00, 0, 0, 0.00, '', '0000-00-00 00:00:00', 2),
+(4, 1, 1, 'PNR57TIGLVN', -1, 80, 0, 3, '2018-11-21 18:32:57', 'Withdrawal: Trip booking servicecharge amount for PNR No PNR57TIGLVN (TRIPQysIwpd / RAFTING).', 20.00, 0.00, 0.00, 0, 0, 0.00, '', '0000-00-00 00:00:00', 2),
+(5, 1, 1, 'PNR57TIGLVN', 0, -1, 80, 3, '2018-11-21 18:32:57', 'Deposit: Trip booking servicecharge amount for PNR No PNR57TIGLVN (TRIPQysIwpd / RAFTING).', 0.00, 20.00, 20.00, 0, 0, 0.00, '', '0000-00-00 00:00:00', 2),
+(6, 1, 1, 'PNR57TIGLVN', -1, 0, 80, 3, '2018-11-21 18:32:57', 'Withdrawal: Trip booking servicecharge amount for PNR No PNR57TIGLVN (TRIPQysIwpd / RAFTING).', 20.00, 0.00, 0.00, 0, 0, 0.00, '', '0000-00-00 00:00:00', 2),
+(7, 1, 1, 'PNR57TIGLVN', 80, -1, 0, 3, '2018-11-21 18:32:57', 'Deposit: Trip booking servicecharge amount for PNR No PNR57TIGLVN (TRIPQysIwpd / RAFTING).', 0.00, 20.00, 20.00, 0, 0, 0.00, '', '0000-00-00 00:00:00', 2),
+(8, 1, 1, 'PNR57TIGLVN', -1, 80, 0, 3, '2018-11-21 18:32:57', 'Withdrawal: Trip booking amount for PNR No PNR57TIGLVN (TRIPQysIwpd / RAFTING). Include GST and Service Charge.', -20.00, 0.00, 40.00, 0, 0, 0.00, '', '0000-00-00 00:00:00', 2),
+(9, 1, 1, 'PNR57TIGLVN', 0, -1, 80, 3, '2018-11-21 18:32:57', 'Deposit: Trip booking amount for PNR No PNR57TIGLVN (TRIPQysIwpd / RAFTING). Include GST and Service Charge.', 0.00, -20.00, -20.00, 0, 0, 0.00, '', '0000-00-00 00:00:00', 2),
+(10, 1, 2, 'PNR57TIGLVN', -1, 81, 0, 4, '2018-11-21 18:32:57', 'Withdrawal: Trip booking servicecharge amount for PNR No PNR57TIGLVN (TRIP3YKwgtQ / RAFTING).', 20.00, 0.00, 20.00, 0, 0, 0.00, '', '0000-00-00 00:00:00', 2),
+(11, 1, 2, 'PNR57TIGLVN', 0, -1, 81, 4, '2018-11-21 18:32:58', 'Deposit: Trip booking servicecharge amount for PNR No PNR57TIGLVN (TRIP3YKwgtQ / RAFTING).', 0.00, 20.00, 20.00, 0, 0, 0.00, '', '0000-00-00 00:00:00', 2),
+(12, 1, 2, 'PNR57TIGLVN', -1, 0, 81, 4, '2018-11-21 18:32:58', 'Withdrawal: Trip booking servicecharge amount for PNR No PNR57TIGLVN (TRIP3YKwgtQ / RAFTING).', 20.00, 0.00, 0.00, 0, 0, 0.00, '', '0000-00-00 00:00:00', 2),
+(13, 1, 2, 'PNR57TIGLVN', 81, -1, 0, 4, '2018-11-21 18:32:58', 'Deposit: Trip booking servicecharge amount for PNR No PNR57TIGLVN (TRIP3YKwgtQ / RAFTING).', 0.00, 20.00, 40.00, 0, 0, 0.00, '', '0000-00-00 00:00:00', 2),
+(14, 1, 2, 'PNR57TIGLVN', -1, 81, 0, 4, '2018-11-21 18:32:58', 'Withdrawal: Trip booking amount for PNR No PNR57TIGLVN (TRIP3YKwgtQ / RAFTING). Include GST and Service Charge.', 0.00, 0.00, 40.00, 0, 0, 0.00, '', '0000-00-00 00:00:00', 2),
+(15, 1, 2, 'PNR57TIGLVN', 0, -1, 81, 4, '2018-11-21 18:32:58', 'Deposit: Trip booking amount for PNR No PNR57TIGLVN (TRIP3YKwgtQ / RAFTING). Include GST and Service Charge.', 0.00, 0.00, 0.00, 0, 0, 0.00, '', '0000-00-00 00:00:00', 2),
+(16, 0, 0, '', -1, -1, 87, 0, '2018-11-21 18:40:03', 'Deposit: Cash Deposited', 0.00, 20.00, 20.00, 0, 0, 0.00, '', '0000-00-00 00:00:00', 2),
+(17, 2, 0, 'PNR30CUYX5L', -1, 0, 87, 4, '2018-11-21 18:40:03', 'Withdrawal: Trip has been booked PNR30CUYX5L / TRIP3YKwgtQ / RAFTING', 20.00, 0.00, 0.00, 0, 0, 0.00, '', '0000-00-00 00:00:00', 2),
+(18, 2, 0, 'PNR30CUYX5L', 87, -1, 0, 4, '2018-11-21 18:40:03', 'Deposit: Trip has been booked PNR30CUYX5L / TRIP3YKwgtQ / RAFTING', 0.00, 20.00, 60.00, 0, 0, 0.00, '', '0000-00-00 00:00:00', 2),
+(19, 2, 3, 'PNR30CUYX5L', -1, 80, 0, 3, '2018-11-21 18:40:14', 'Withdrawal: Trip booking servicecharge amount for PNR No PNR30CUYX5L (TRIPQysIwpd / RAFTING).', 20.00, 0.00, 40.00, 0, 0, 0.00, '', '0000-00-00 00:00:00', 2),
+(20, 2, 3, 'PNR30CUYX5L', 0, -1, 80, 3, '2018-11-21 18:40:14', 'Deposit: Trip booking servicecharge amount for PNR No PNR30CUYX5L (TRIPQysIwpd / RAFTING).', 0.00, 20.00, 0.00, 0, 0, 0.00, '', '0000-00-00 00:00:00', 2),
+(21, 2, 3, 'PNR30CUYX5L', -1, 0, 80, 3, '2018-11-21 18:40:14', 'Withdrawal: Trip booking servicecharge amount for PNR No PNR30CUYX5L (TRIPQysIwpd / RAFTING).', 20.00, 0.00, -20.00, 0, 0, 0.00, '', '0000-00-00 00:00:00', 2),
+(22, 2, 3, 'PNR30CUYX5L', 80, -1, 0, 3, '2018-11-21 18:40:14', 'Deposit: Trip booking servicecharge amount for PNR No PNR30CUYX5L (TRIPQysIwpd / RAFTING).', 0.00, 20.00, 60.00, 0, 0, 0.00, '', '0000-00-00 00:00:00', 2),
+(23, 2, 3, 'PNR30CUYX5L', -1, 80, 0, 3, '2018-11-21 18:40:15', 'Withdrawal: Trip booking amount for PNR No PNR30CUYX5L (TRIPQysIwpd / RAFTING). Include GST and Service Charge.', -20.00, 0.00, 80.00, 0, 0, 0.00, '', '0000-00-00 00:00:00', 2),
+(24, 2, 3, 'PNR30CUYX5L', 0, -1, 80, 3, '2018-11-21 18:40:15', 'Deposit: Trip booking amount for PNR No PNR30CUYX5L (TRIPQysIwpd / RAFTING). Include GST and Service Charge.', 0.00, -20.00, -40.00, 0, 0, 0.00, '', '0000-00-00 00:00:00', 2),
+(25, 2, 4, 'PNR30CUYX5L', -1, 81, 0, 4, '2018-11-21 18:40:15', 'Withdrawal: Trip booking servicecharge amount for PNR No PNR30CUYX5L (TRIP3YKwgtQ / RAFTING).', 20.00, 0.00, 60.00, 0, 0, 0.00, '', '0000-00-00 00:00:00', 2),
+(26, 2, 4, 'PNR30CUYX5L', 0, -1, 81, 4, '2018-11-21 18:40:15', 'Deposit: Trip booking servicecharge amount for PNR No PNR30CUYX5L (TRIP3YKwgtQ / RAFTING).', 0.00, 20.00, 20.00, 0, 0, 0.00, '', '0000-00-00 00:00:00', 2),
+(27, 2, 4, 'PNR30CUYX5L', -1, 0, 81, 4, '2018-11-21 18:40:15', 'Withdrawal: Trip booking servicecharge amount for PNR No PNR30CUYX5L (TRIP3YKwgtQ / RAFTING).', 20.00, 0.00, 0.00, 0, 0, 0.00, '', '0000-00-00 00:00:00', 2),
+(28, 2, 4, 'PNR30CUYX5L', 81, -1, 0, 4, '2018-11-21 18:40:15', 'Deposit: Trip booking servicecharge amount for PNR No PNR30CUYX5L (TRIP3YKwgtQ / RAFTING).', 0.00, 20.00, 80.00, 0, 0, 0.00, '', '0000-00-00 00:00:00', 2),
+(29, 2, 4, 'PNR30CUYX5L', -1, 81, 0, 4, '2018-11-21 18:40:15', 'Withdrawal: Trip booking amount for PNR No PNR30CUYX5L (TRIP3YKwgtQ / RAFTING). Include GST and Service Charge.', 0.00, 0.00, 80.00, 0, 0, 0.00, '', '0000-00-00 00:00:00', 2),
+(30, 2, 4, 'PNR30CUYX5L', 0, -1, 81, 4, '2018-11-21 18:40:15', 'Deposit: Trip booking amount for PNR No PNR30CUYX5L (TRIP3YKwgtQ / RAFTING). Include GST and Service Charge.', 0.00, 0.00, 0.00, 0, 0, 0.00, '', '0000-00-00 00:00:00', 2);
 
 -- --------------------------------------------------------
 
@@ -282,53 +337,28 @@ CREATE TABLE IF NOT EXISTS `pick_up_location_map` (
   `landmark` varchar(200) NOT NULL,
   `time` varchar(150) NOT NULL,
   `isactive` int(1) NOT NULL DEFAULT '1'
-) ENGINE=InnoDB AUTO_INCREMENT=41 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `pick_up_location_map`
 --
 
 INSERT INTO `pick_up_location_map` (`id`, `trip_id`, `city_id`, `location`, `landmark`, `time`, `isactive`) VALUES
-(1, 1, 2, 'Calangute,Goa', '', '07:10', 1),
-(2, 1, 2, 'Baga, Goa', '', '08:10', 1),
-(3, 3, 2, 'Candolim, Goa', '', '09:10', 1),
-(4, 3, 2, 'Arpora, Goa', '', '10:10', 1),
-(5, 2, 2, 'Baga, Goa', 'Skywalk', '08:25', 1),
-(6, 2, 2, 'Candolim, Goa', 'Candolim', '09:10', 1),
-(7, 4, 1, 'CANDOLIM', 'AXIS BANK', '08:00', 1),
-(8, 4, 1, 'CALANGUTE', 'DOLPHIN CIRCLE', '08:30', 1),
-(9, 4, 1, 'BAGA', 'CCD', '09:00', 1),
-(10, 4, 1, 'ARPORA', 'CHAPEL', '09:15', 1),
-(11, 5, 0, 'CALANGUTE', 'DOLPHIN CIRCLE', '08:00', 1),
-(12, 5, 0, 'BAGA', 'CCD', '08:15', 1),
-(13, 5, 0, 'CANDOLIM', 'AXIS BANK', '08:30', 1),
-(14, 5, 0, 'SIQUERIM', 'BUS STAND', '09:00', 1),
-(15, 6, 0, 'Candolim', 'Axis bank', '08:20', 1),
-(16, 6, 0, 'Sinquerim', 'Bus Stand', '8:00', 1),
-(17, 6, 0, 'Calangute', 'Temple', '08:45', 1),
-(18, 6, 0, 'Baga', 'CCD', '09:15', 1),
-(19, 7, 8, 'Candolim', 'Axis bank', '08:20', 1),
-(20, 7, 8, 'Sinquerim', 'Bus Stand', '8:00', 1),
-(21, 7, 8, 'Calangute', 'Temple', '08:45', 1),
-(22, 7, 8, 'Baga', 'CCD', '09:15', 1),
-(23, 7, 8, 'parra', 'parra junc', '10:00', 1),
-(24, 8, 7, 'Sun Kissed Plaza Hotel', 'Opp Calangute Mall', '07:00', 1),
-(25, 9, 0, 'Coco Beach', 'Beach Parking', '9:30', 1),
-(26, 9, 0, 'Baga', 'CCD', '08:30', 1),
-(27, 9, 0, 'Calangute', 'Temple', '09:00', 1),
-(28, 9, 0, 'Candolim', 'Axis Bank', '9:15', 1),
-(29, 10, 10, 'Coco Beach', 'Beach Parking', '9:30', 1),
-(30, 10, 10, 'Baga', 'CCD', '08:30', 1),
-(31, 10, 10, 'Calangute', 'Temple', '09:00', 1),
-(32, 10, 10, 'Candolim', 'Axis Bank', '9:15', 1),
-(33, 11, 0, 'Dodamarg', 'Earthern Pot', '8:30', 1),
-(34, 12, 11, 'Calangute', 'Dolphin circle', '6:30', 1),
-(35, 12, 11, 'Candolim', 'AXIS BANK', '06:00', 1),
-(36, 12, 11, 'BAGA', 'CCD', '07:00', 1),
-(37, 13, 7, 'CANDOLIM', 'AXIS BANK', '09:00', 1),
-(38, 14, 12, 'CALANGUTE', 'DOLPHIN CIRCLE', '15:00', 1),
-(39, 15, 7, 'calangute', 'dolphin circle', '08:35', 1),
-(40, 15, 7, 'CANDOLIM', 'AXIS BANK', '09:00', 1);
+(1, 1, 7, 'CALANGUTE', 'KFC', '05:45', 1),
+(2, 1, 7, 'CANDOLIM', 'AXIS BANK', '06:00', 1),
+(3, 1, 7, 'SINQUERIM', 'BUS STAND', '06:20', 1),
+(4, 1, 7, 'BAGA', 'CCD', '05:45', 1),
+(5, 2, 7, 'DELPHINO CANDOLIM', 'DELPHINO SUPER MARKET', '06:00', 1),
+(6, 2, 7, 'CALANGUTE', 'KFC', '05:45', 1),
+(7, 2, 7, 'CANDOLIM', 'AXIS BANK', '06:00', 1),
+(8, 2, 7, 'SINQUERIM', 'BUS STAND', '06:20', 1),
+(9, 2, 7, 'BAGA', 'CCD', '05:45', 1),
+(10, 3, 7, 'CALANGUTE', 'DOLPHIN CIRCLE', '07:00', 1),
+(11, 4, 7, 'CALANGUTE', 'TEMPLE', '06:45', 1),
+(12, 4, 7, 'CALANGUTE', 'DOLPHIN CIRCLE', '07:00', 1),
+(13, 5, 8, 'CANDOLIM', 'AXIS BANK', '15:00', 1),
+(14, 6, 8, 'CANDOLIM', 'AXIS BANK', '15:00', 1),
+(15, 6, 8, 'CANDOLIM', 'AXIS BANK', '15:00', 1);
 
 -- --------------------------------------------------------
 
@@ -376,7 +406,19 @@ CREATE TABLE IF NOT EXISTS `trip_avilable` (
   `created_by` int(11) NOT NULL,
   `updated_on` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
   `updated_by` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `trip_avilable`
+--
+
+INSERT INTO `trip_avilable` (`id`, `trip_id`, `sunday`, `monday`, `tuesday`, `wednesday`, `thursday`, `friday`, `saturday`, `isactive`, `created_on`, `created_by`, `updated_on`, `updated_by`) VALUES
+(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, '2018-11-16 09:54:00', 0, '0000-00-00 00:00:00', 0),
+(2, 2, 1, 1, 1, 1, 1, 1, 1, 1, '2018-11-16 10:10:37', 0, '0000-00-00 00:00:00', 0),
+(3, 3, 1, 1, 1, 1, 1, 1, 1, 1, '2018-11-16 14:40:41', 0, '0000-00-00 00:00:00', 0),
+(4, 4, 1, 1, 1, 1, 1, 1, 1, 1, '2018-11-16 14:55:37', 0, '0000-00-00 00:00:00', 0),
+(5, 5, 1, 1, 1, 1, 1, 1, 1, 1, '2018-11-19 16:10:31', 0, '0000-00-00 00:00:00', 0),
+(6, 6, 1, 1, 1, 1, 1, 1, 1, 1, '2018-11-19 16:36:23', 0, '0000-00-00 00:00:00', 0);
 
 -- --------------------------------------------------------
 
@@ -422,6 +464,9 @@ CREATE TABLE IF NOT EXISTS `trip_book_pay` (
   `pick_up_location_landmark` varchar(150) NOT NULL,
   `booked_on` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `booked_by` int(11) NOT NULL,
+  `booked_to` varchar(150) DEFAULT NULL,
+  `booked_email` varchar(200) DEFAULT NULL,
+  `booked_phone_no` varchar(120) DEFAULT NULL,
   `status` int(1) NOT NULL COMMENT '1 - Pendding, 2- booked, 3 - cancelled, 4 - confirmed, 5 -Completed',
   `payment_type` int(1) NOT NULL COMMENT '1 - net, 2 - credit, 3 - debit',
   `payment_status` int(1) NOT NULL DEFAULT '0' COMMENT '0 - Pendding,1 - sucess,2 - failed',
@@ -436,7 +481,15 @@ CREATE TABLE IF NOT EXISTS `trip_book_pay` (
   `return_on` timestamp NULL DEFAULT NULL,
   `return_paid_status` tinyint(2) DEFAULT '1' COMMENT '1 - New, 2 - InProgress, 3 - Paid',
   `isactive` int(11) NOT NULL DEFAULT '1'
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `trip_book_pay`
+--
+
+INSERT INTO `trip_book_pay` (`id`, `parent_trip_id`, `trip_user_id`, `trip_id`, `user_id`, `pnr_no`, `number_of_persons`, `price_to_adult`, `price_to_child`, `price_to_infan`, `no_of_adult`, `no_of_child`, `no_of_infan`, `total_adult_price`, `total_child_price`, `total_infan_price`, `subtotal_trip_price`, `total_trip_price`, `coupon_history_id`, `specific_coupon_history_id`, `specific_coupon_code`, `discount_percentage`, `discount_price`, `discount_your_price`, `offer_amt`, `gst_percentage`, `gst_amt`, `round_off`, `net_price`, `date_of_trip`, `date_of_trip_to`, `time_of_trip`, `pick_up_location_id`, `pick_up_location`, `pick_up_location_landmark`, `booked_on`, `booked_by`, `booked_to`, `booked_email`, `booked_phone_no`, `status`, `payment_type`, `payment_status`, `b2b_payment_status`, `b2b_payment_on`, `refund_percentage`, `cancelled_on`, `account_info_id`, `return_paid_amt`, `return_notes`, `my_transaction_id`, `return_on`, `return_paid_status`, `isactive`) VALUES
+(1, 3, 81, 4, 87, 'PNR57TIGLVN', 1, 5000.00, 5000.00, 0.00, 1, 0, 0, 5000.00, 0.00, 0.00, 5000.00, 5000.00, 0, 0, '', 0.00, 0.00, 4980.00, 0.00, 0.00, 0.00, 0.00, 20.00, '2018-11-23', '2018-11-23', '07:00:00', 12, 'CALANGUTE', 'DOLPHIN CIRCLE', '2018-11-21 18:32:27', 81, NULL, NULL, NULL, 5, 1, 1, 1, '2018-11-22', 0, NULL, 0, NULL, NULL, 0, NULL, 1, 1),
+(2, 3, 81, 4, 87, 'PNR30CUYX5L', 1, 5000.00, 5000.00, 0.00, 1, 0, 0, 5000.00, 0.00, 0.00, 5000.00, 5000.00, 0, 0, '', 0.00, 0.00, 4980.00, 0.00, 0.00, 0.00, 0.00, 20.00, '2018-11-23', '2018-11-23', '06:45:00', 11, 'CALANGUTE', 'TEMPLE', '2018-11-21 18:40:02', 81, NULL, NULL, NULL, 5, 1, 1, 1, '2018-11-22', 0, NULL, 0, NULL, NULL, 0, NULL, 1, 1);
 
 -- --------------------------------------------------------
 
@@ -491,6 +544,9 @@ CREATE TABLE IF NOT EXISTS `trip_book_pay_details` (
   `pick_up_location_landmark` varchar(150) NOT NULL,
   `booked_on` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `booked_by` int(11) NOT NULL,
+  `booked_to` varchar(150) DEFAULT NULL,
+  `booked_email` varchar(200) DEFAULT NULL,
+  `booked_phone_no` varchar(120) DEFAULT NULL,
   `status` int(1) NOT NULL COMMENT '1 - Pending, 2- booked, 3 - cancelled, 4 - confirmed, 5 - Completed',
   `payment_type` int(1) NOT NULL COMMENT '1 - net, 2 - credit, 3 - debit',
   `payment_status` int(1) NOT NULL COMMENT '0 - Pendding,1 - sucess,2 - failed',
@@ -506,7 +562,17 @@ CREATE TABLE IF NOT EXISTS `trip_book_pay_details` (
   `return_paid_status` tinyint(2) DEFAULT '1' COMMENT '1 - New, 2 - InProgress, 3 - Paid',
   `pay_details_id` int(11) NOT NULL DEFAULT '0',
   `isactive` int(11) NOT NULL DEFAULT '1'
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `trip_book_pay_details`
+--
+
+INSERT INTO `trip_book_pay_details` (`id`, `book_pay_id`, `parent_trip_id`, `trip_user_id`, `trip_id`, `from_user_id`, `from_trip_id`, `user_id`, `pnr_no`, `number_of_persons`, `price_to_adult`, `price_to_child`, `price_to_infan`, `no_of_adult`, `no_of_child`, `no_of_infan`, `total_adult_price`, `total_child_price`, `total_infan_price`, `subtotal_trip_price`, `total_trip_price`, `coupon_history_id`, `specific_coupon_history_id`, `specific_coupon_code`, `discount_percentage`, `discount_price`, `discount_your_price`, `offer_amt`, `net_price`, `vendor_amt`, `vendor_offer_amt`, `vendor_cash_amt`, `your_amt`, `servicecharge_amt`, `gst_percentage`, `gst_amt`, `round_off`, `your_final_amt`, `date_of_trip`, `date_of_trip_to`, `time_of_trip`, `pick_up_location_id`, `pick_up_location`, `pick_up_location_landmark`, `booked_on`, `booked_by`, `booked_to`, `booked_email`, `booked_phone_no`, `status`, `payment_type`, `payment_status`, `b2b_payment_status`, `b2b_payment_on`, `refund_percentage`, `cancelled_on`, `account_info_id`, `return_paid_amt`, `return_notes`, `my_transaction_id`, `return_on`, `return_paid_status`, `pay_details_id`, `isactive`) VALUES
+(1, 1, 0, 80, 3, 87, 4, 80, 'PNR57TIGLVN', 1, 5000.00, 5000.00, 0.00, 1, 0, 0, 5000.00, 0.00, 0.00, 5000.00, 5000.00, 2, 0, '', 100.00, 0.00, 0.00, 5000.00, 0.00, 0.00, 0.00, 0.00, -20.00, 20.00, 0.00, 0.00, 0.00, -20.00, '2018-11-23', '2018-11-23', '07:00:00', 12, 'CALANGUTE', 'DOLPHIN CIRCLE', '2018-11-21 18:32:27', 81, NULL, NULL, NULL, 5, 1, 1, 1, '2018-11-22', 0, NULL, 0, NULL, NULL, 9, NULL, 1, 2, 1),
+(2, 1, 3, 81, 4, 87, 4, 81, 'PNR57TIGLVN', 1, 5000.00, 5000.00, 0.00, 1, 0, 0, 5000.00, 0.00, 0.00, 5000.00, 5000.00, 0, 0, '', 100.00, 0.00, 4980.00, 0.00, 20.00, 0.00, 5000.00, 0.00, 0.00, 20.00, 0.00, 0.00, 0.00, 0.00, '2018-11-23', '2018-11-23', '07:00:00', 12, 'CALANGUTE', 'DOLPHIN CIRCLE', '2018-11-21 18:32:27', 81, NULL, NULL, NULL, 5, 1, 1, 1, '2018-11-22', 0, NULL, 0, NULL, NULL, 15, NULL, 1, 1, 1),
+(3, 2, 0, 80, 3, 87, 4, 80, 'PNR30CUYX5L', 1, 5000.00, 5000.00, 0.00, 1, 0, 0, 5000.00, 0.00, 0.00, 5000.00, 5000.00, 2, 0, '', 100.00, 0.00, 0.00, 5000.00, 0.00, 0.00, 0.00, 0.00, -20.00, 20.00, 0.00, 0.00, 0.00, -20.00, '2018-11-23', '2018-11-23', '06:45:00', 11, 'CALANGUTE', 'TEMPLE', '2018-11-21 18:40:02', 81, NULL, NULL, NULL, 5, 1, 1, 1, '2018-11-22', 0, NULL, 0, NULL, NULL, 24, NULL, 1, 4, 1),
+(4, 2, 3, 81, 4, 87, 4, 81, 'PNR30CUYX5L', 1, 5000.00, 5000.00, 0.00, 1, 0, 0, 5000.00, 0.00, 0.00, 5000.00, 5000.00, 0, 0, '', 100.00, 0.00, 4980.00, 0.00, 20.00, 0.00, 5000.00, 0.00, 0.00, 20.00, 0.00, 0.00, 0.00, 0.00, '2018-11-23', '2018-11-23', '06:45:00', 11, 'CALANGUTE', 'TEMPLE', '2018-11-21 18:40:02', 81, NULL, NULL, NULL, 5, 1, 1, 1, '2018-11-22', 0, NULL, 0, NULL, NULL, 30, NULL, 1, 3, 1);
 
 -- --------------------------------------------------------
 
@@ -523,7 +589,7 @@ CREATE TABLE IF NOT EXISTS `trip_category` (
   `updated_on` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
   `updated_by` int(11) NOT NULL,
   `isactive` int(11) NOT NULL DEFAULT '1' COMMENT '0 - Deactive, 1 - Active'
-) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `trip_category`
@@ -540,7 +606,8 @@ INSERT INTO `trip_category` (`id`, `name`, `img_name`, `created_on`, `created_by
 (12, 'Walking', 'trekking-india-1402309802-sm.jpg', '2018-08-22 06:28:18', 0, '0000-00-00 00:00:00', 0, 1),
 (13, 'Water Rides', 'ws.jpg', '2018-08-22 06:28:18', 0, '0000-00-00 00:00:00', 0, 1),
 (14, 'Sightseeing', NULL, '2018-09-20 09:22:20', 3, '0000-00-00 00:00:00', 0, 1),
-(15, 'Boat Trips', NULL, '2018-10-14 07:36:42', 3, '0000-00-00 00:00:00', 0, 1);
+(15, 'Boat Trips', NULL, '2018-10-14 07:36:42', 3, '0000-00-00 00:00:00', 0, 1),
+(16, 'MURDESHWAR', NULL, '2018-11-10 06:35:15', 57, '0000-00-00 00:00:00', 0, 1);
 
 -- --------------------------------------------------------
 
@@ -613,7 +680,31 @@ CREATE TABLE IF NOT EXISTS `trip_inclusions_map` (
   `trip_id` int(11) NOT NULL,
   `inclusions_id` int(11) NOT NULL,
   `isactive` int(1) NOT NULL DEFAULT '1'
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `trip_inclusions_map`
+--
+
+INSERT INTO `trip_inclusions_map` (`id`, `trip_id`, `inclusions_id`, `isactive`) VALUES
+(1, 1, 1, 1),
+(2, 1, 2, 1),
+(3, 1, 3, 1),
+(4, 1, 4, 1),
+(5, 1, 5, 1),
+(6, 2, 1, 1),
+(7, 2, 2, 1),
+(8, 2, 3, 1),
+(9, 2, 4, 1),
+(10, 2, 5, 1),
+(11, 5, 1, 1),
+(12, 5, 2, 1),
+(13, 5, 3, 1),
+(14, 5, 4, 1),
+(15, 6, 1, 1),
+(16, 6, 2, 1),
+(17, 6, 3, 1),
+(18, 6, 4, 1);
 
 -- --------------------------------------------------------
 
@@ -698,7 +789,19 @@ CREATE TABLE IF NOT EXISTS `trip_master` (
   `created_by` int(11) NOT NULL,
   `updated_on` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
   `updated_by` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `trip_master`
+--
+
+INSERT INTO `trip_master` (`id`, `trip_code`, `user_id`, `trip_category_id`, `trip_name`, `trip_url`, `trip_img_name`, `parent_trip_id`, `address1`, `address2`, `city_id`, `state_id`, `country_id`, `price_to_adult`, `price_to_child`, `price_to_infan`, `trip_duration`, `how_many_days`, `how_many_nights`, `total_days`, `how_many_time`, `how_many_hours`, `brief_description`, `other_inclusions`, `exclusions`, `languages`, `meal`, `transport`, `things_to_carry`, `advisory`, `tour_type`, `cancellation_policy`, `confirmation_policy`, `refund_policy`, `meeting_point`, `meeting_time`, `no_of_traveller`, `no_of_min_booktraveller`, `no_of_max_booktraveller`, `status`, `is_terms_accpet`, `booking_cut_of_time_type`, `booking_cut_of_day`, `booking_cut_of_time`, `booking_max_cut_of_month`, `is_shared`, `trip_shared_id`, `total_rating`, `total_booking`, `view_to`, `isactive`, `created_on`, `created_by`, `updated_on`, `updated_by`) VALUES
+(1, 'TRIPyb7ZpaY', 79, 14, 'WATERFALLS (R)', 'waterfalls-r', '', 0, NULL, NULL, 7, 2, 0, 2000, 2000, 0, 1, 0, 0, 0, 0, 10, 'THIS INCLUDES DUDHSAGAR WATERFALLS, JEEP SAFARI, ENTRY FEES, LIFE JACKETS. IT ALSO INCLUDES ENTRY TO THE SPICE PLANTATION, ITS TOUR AND LUNCH AT THE PLANTATION. AFTER THAT YOU VISIT THE OLD GOA CHURCH AND THE TEMPLE.', 'AC TRANSFERS&lt;br&gt;JEEP SAFARI,&lt;br&gt;ENTRY FEES&lt;br&gt;LUNCH&lt;br&gt;SPICE PLANTATION TOUR', 'ANY EXPENSES WHICH NOT MENTIONED IN INCLUSIONS', '', 'VEG AND NON VEG', 'IT IS GROUP TOUR BY AN AIR CONDITIONED VEHICLE. BUT THE JEEP AT THE WATERFALLS IS NOT AIR CONDITIONED.', NULL, NULL, NULL, '100% IF CANCELLED 5 DAYS BEFORE&lt;br&gt;50% BETWEEN 5-2 DAYS&lt;br&gt;0 % IF CANCELLED IN 2 DAYS BEFORE&amp;nbsp;', 'ON GENERATION OF PNR', 'REFUND WILL BE PROCESSED IN 5 WORKING DAYS', 'CALANGUTE', '05:45', 20, 1, 10, 1, 1, 2, 0, 10, 1, 0, 0, 0.0, 0, 2, 1, '2018-11-16 09:54:00', 79, '0000-00-00 00:00:00', 0),
+(2, 'TRIPB3ZP4dW', 81, 14, 'WATERFALLS (R)', 'waterfalls-r', '', 1, NULL, NULL, 7, 2, 0, 2000, 2000, 0, 1, 0, 0, 0, 0, 10, 'THIS INCLUDES DUDHSAGAR WATERFALLS, JEEP SAFARI, ENTRY FEES, LIFE JACKETS. IT ALSO INCLUDES ENTRY TO THE SPICE PLANTATION, ITS TOUR AND LUNCH AT THE PLANTATION. AFTER THAT YOU VISIT THE OLD GOA CHURCH AND THE TEMPLE.', 'AC TRANSFERS&lt;br&gt;JEEP SAFARI,&lt;br&gt;ENTRY FEES&lt;br&gt;LUNCH&lt;br&gt;SPICE PLANTATION TOUR', 'ANY EXPENSES WHICH NOT MENTIONED IN INCLUSIONS', '', 'VEG AND NON VEG', 'IT IS GROUP TOUR BY AN AIR CONDITIONED VEHICLE. BUT THE JEEP AT THE WATERFALLS IS NOT AIR CONDITIONED.', NULL, NULL, NULL, '100% IF CANCELLED 5 DAYS BEFORE&lt;br&gt;50% BETWEEN 5-2 DAYS&lt;br&gt;0 % IF CANCELLED IN 2 DAYS BEFORE&amp;nbsp;', 'ON GENERATION OF PNR', 'REFUND WILL BE PROCESSED IN 5 WORKING DAYS', 'DELPHINO CANDOLIM', '06:00', 20, 1, 10, 1, 1, 2, 0, 10, 1, 1, 1, 0.0, 5, 2, 1, '2018-11-16 10:10:37', 81, '0000-00-00 00:00:00', 0),
+(3, 'TRIPQysIwpd', 80, 13, 'RAFTING', 'rafting', '', 0, NULL, NULL, 7, 2, 0, 5000, 5000, 0, 1, 0, 0, 0, 0, 8, 'IT IS A RAFTING TRIP WHICH INCLUDE THE TRANSFERS THE EQUIPMENTS AND RAFTING GEARS.&emsp;IT IS A RAFTING TRIP WHICH INCLUDE THE TRANSFERS THE EQUIPMENTS AND RAFTING GEARS.&emsp;IT IS A RAFTING TRIP WHICH INCLUDE THE TRANSFERS THE EQUIPMENTS AND RAFTING GEARS.', NULL, NULL, '', '', NULL, NULL, NULL, NULL, '100% 5 DAYS BEFORE&amp;nbsp;&lt;br&gt;50% 2 DAYS BEFORE&lt;br&gt;0% 1 DAY BEFORE', 'CONFIRMATION ON THE GENERATION OF PNR', 'REFUND WILL BE PROCESSED IN 5 WORKING DAYS', 'CALANGUTE', '07:00', 7, 1, 7, 1, 1, 1, 1, 0, 12, 0, 0, 0.0, 0, 2, 1, '2018-11-16 14:40:41', 80, '0000-00-00 00:00:00', 0),
+(4, 'TRIP3YKwgtQ', 81, 13, 'RAFTING', 'rafting', '', 3, NULL, NULL, 7, 2, 0, 5000, 5000, 0, 1, 0, 0, 0, 0, 8, 'IT IS A RAFTING TRIP WHICH INCLUDE THE TRANSFERS THE EQUIPMENTS AND RAFTING GEARS.&emsp;IT IS A RAFTING TRIP WHICH INCLUDE THE TRANSFERS THE EQUIPMENTS AND RAFTING GEARS.&emsp;IT IS A RAFTING TRIP WHICH INCLUDE THE TRANSFERS THE EQUIPMENTS AND RAFTING GEARS.', NULL, NULL, '', '', NULL, NULL, NULL, NULL, '100% 5 DAYS BEFORE&amp;nbsp;&lt;br&gt;50% 2 DAYS BEFORE&lt;br&gt;0% 1 DAY BEFORE', 'CONFIRMATION ON THE GENERATION OF PNR', 'REFUND WILL BE PROCESSED IN 5 WORKING DAYS', 'CALANGUTE', '06:45', 7, 1, 7, 1, 1, 1, 0, 0, 12, 1, 2, 0.0, 14, 2, 1, '2018-11-16 14:55:37', 81, '0000-00-00 00:00:00', 0),
+(5, 'TRIPOhVNBAC', 79, 6, 'CRAB CATCHING', 'crab-catching', '', 0, NULL, NULL, 8, 2, 0, 1500, 1500, 0, 1, 0, 0, 0, 0, 5, 'THIS TRIP IS BEAUTIFUL BOAT TRIP. YOU CAN CATCH CRABS. AFTER THAT PROCEED FOR DINNER. THIS INLCUDES THE DRINKS ON THE BOAT.', 'DINNER AND DRINKS ON BOAT', NULL, '', 'VEG AND NON VEG', 'TRANSFERS, BOAT CHARGE, DINNER&amp;nbsp;', NULL, NULL, 'THIS IS GROUP TOUR.', '100% 5 DAYS BEFORE&amp;nbsp;&lt;br&gt;50% 3 DAYS BEFORE&lt;br&gt;0% 2 DAY BEFORE', 'CONFIRMATION ON GENERATION OF PNR', 'REFUND WILL BE PROCESSED IN 5 WORKING DAYS.', 'CANDOLIM', '15:00', 10, 1, 5, 1, 1, 2, 0, 4, 12, 0, 0, 0.0, 0, 2, 1, '2018-11-19 16:10:31', 79, '0000-00-00 00:00:00', 0),
+(6, 'TRIPX6IgUQf', 81, 6, 'CRAB CATCHING', 'crab-catching', '', 5, NULL, NULL, 8, 2, 0, 1500, 1500, 0, 1, 0, 0, 0, 0, 5, 'THIS TRIP IS BEAUTIFUL BOAT TRIP. YOU CAN CATCH CRABS. AFTER THAT PROCEED FOR DINNER. THIS INLCUDES THE DRINKS ON THE BOAT.', 'DINNER AND DRINKS ON BOAT', NULL, '', 'VEG AND NON VEG', 'TRANSFERS, BOAT CHARGE, DINNER&amp;nbsp;', NULL, NULL, 'THIS IS GROUP TOUR.', '100% 5 DAYS BEFORE&amp;nbsp;&lt;br&gt;50% 3 DAYS BEFORE&lt;br&gt;0% 2 DAY BEFORE', 'CONFIRMATION ON GENERATION OF PNR', 'REFUND WILL BE PROCESSED IN 5 WORKING DAYS.', 'CANDOLIM', '15:00', 10, 1, 5, 1, 1, 2, 0, 4, 12, 1, 3, 0.0, 5, 2, 1, '2018-11-19 16:36:23', 81, '0000-00-00 00:00:00', 0);
 
 -- --------------------------------------------------------
 
@@ -716,7 +819,20 @@ CREATE TABLE IF NOT EXISTS `trip_shared` (
   `coupon_history_id` int(11) NOT NULL DEFAULT '0',
   `status` int(1) NOT NULL DEFAULT '1' COMMENT '1 - new, 2- maked, 3 - cancelled',
   `isactive` int(1) NOT NULL DEFAULT '1'
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `trip_shared`
+--
+
+INSERT INTO `trip_shared` (`id`, `code`, `trip_id`, `shared_user_id`, `user_id`, `to_user_mail`, `coupon_history_id`, `status`, `isactive`) VALUES
+(1, 'SHAREBDsE2', 1, 79, 81, '', 1, 2, 1),
+(2, 'SHAREVp2Lk', 3, 80, 81, NULL, 2, 2, 1),
+(3, 'SHARE7mGk3', 5, 79, 81, NULL, 3, 2, 1),
+(4, 'SHAREhZ1Xr', 6, 81, NULL, 'yed@gmail.com', 0, 1, 1),
+(5, 'SHAREGc7pr', 6, 81, NULL, 'sds@dsd.dsd', 0, 1, 1),
+(6, 'SHAREHusme', 6, 81, NULL, 'sdsds@sd.sd', 0, 1, 1),
+(7, 'SHAREHusme', 6, 81, NULL, 'sdsd@sd.sd', 0, 1, 1);
 
 -- --------------------------------------------------------
 
@@ -755,7 +871,7 @@ CREATE TABLE IF NOT EXISTS `trip_tags` (
   `updated_on` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
   `updated_by` int(11) NOT NULL,
   `isactive` int(1) NOT NULL DEFAULT '1' COMMENT '0 - Deactive, 1 - Active'
-) ENGINE=InnoDB AUTO_INCREMENT=30 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=40 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `trip_tags`
@@ -790,7 +906,17 @@ INSERT INTO `trip_tags` (`id`, `name`, `created_on`, `created_by`, `updated_on`,
 (26, 'Rafting', '2018-10-15 09:43:01', 3, '0000-00-00 00:00:00', 0, 1),
 (27, '  adventure', '2018-10-31 07:55:55', 57, '0000-00-00 00:00:00', 0, 1),
 (28, '   adventure', '2018-10-31 08:38:57', 57, '0000-00-00 00:00:00', 0, 1),
-(29, '    adventure', '2018-10-31 08:41:20', 57, '0000-00-00 00:00:00', 0, 1);
+(29, '    adventure', '2018-10-31 08:41:20', 57, '0000-00-00 00:00:00', 0, 1),
+(30, 'MURDESHWAR', '2018-11-10 06:35:15', 57, '0000-00-00 00:00:00', 0, 1),
+(31, ' TEMPLE', '2018-11-10 06:35:15', 57, '0000-00-00 00:00:00', 0, 1),
+(32, '  TEMPLE', '2018-11-10 13:34:34', 57, '0000-00-00 00:00:00', 0, 1),
+(33, '   TEMPLE', '2018-11-10 13:37:06', 57, '0000-00-00 00:00:00', 0, 1),
+(34, '    TEMPLE', '2018-11-10 13:44:05', 3, '0000-00-00 00:00:00', 0, 1),
+(35, '     TEMPLE', '2018-11-10 13:55:59', 3, '0000-00-00 00:00:00', 0, 1),
+(36, ' TREKING', '2018-11-16 09:54:00', 79, '0000-00-00 00:00:00', 0, 1),
+(37, '  TREKING', '2018-11-16 10:10:37', 81, '0000-00-00 00:00:00', 0, 1),
+(38, ' CRAB CATCHING', '2018-11-19 16:10:31', 79, '0000-00-00 00:00:00', 0, 1),
+(39, '  CRAB CATCHING', '2018-11-19 16:36:23', 81, '0000-00-00 00:00:00', 0, 1);
 
 -- --------------------------------------------------------
 
@@ -803,7 +929,27 @@ CREATE TABLE IF NOT EXISTS `trip_tag_map` (
   `trip_id` int(11) NOT NULL,
   `tag_id` int(11) NOT NULL,
   `isactive` int(11) NOT NULL DEFAULT '1'
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `trip_tag_map`
+--
+
+INSERT INTO `trip_tag_map` (`id`, `trip_id`, `tag_id`, `isactive`) VALUES
+(1, 1, 1, 1),
+(2, 1, 18, 1),
+(3, 1, 36, 1),
+(4, 2, 1, 1),
+(5, 2, 27, 1),
+(6, 2, 37, 1),
+(7, 3, 2, 1),
+(8, 4, 2, 1),
+(9, 5, 25, 1),
+(10, 5, 18, 1),
+(11, 5, 38, 1),
+(12, 6, 25, 1),
+(13, 6, 27, 1),
+(14, 6, 39, 1);
 
 -- --------------------------------------------------------
 
@@ -883,7 +1029,7 @@ CREATE TABLE IF NOT EXISTS `user_master` (
   `created_on` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `last_visit` timestamp NULL DEFAULT NULL,
   `isactive` tinyint(1) NOT NULL DEFAULT '2' COMMENT '0->de active, 1->active,2->not activated'
-) ENGINE=InnoDB AUTO_INCREMENT=67 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=88 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `user_master`
@@ -891,7 +1037,7 @@ CREATE TABLE IF NOT EXISTS `user_master` (
 
 INSERT INTO `user_master` (`id`, `user_type`, `email`, `password`, `user_fullname`, `dob`, `gender`, `phone`, `alt_phone`, `emergency_contact_person`, `emergency_contact_no`, `activation_code`, `activation_code_time`, `about_me`, `profile_pic`, `balance_amt`, `unclear_amt`, `social_network`, `auth_id`, `login_via`, `created_on`, `last_visit`, `isactive`) VALUES
 (1, 'CU', 'customer@gmail.com', '14e1b600b1fd579f47433b88e8d85291', 'Customer', '2018-06-22', '1', '9688079118', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0.00, 0.00, '', '', 1, '2018-06-30 13:20:09', NULL, 1),
-(2, 'SA', 'admin@gmail.com', '14e1b600b1fd579f47433b88e8d85291', 'Admin', '2018-06-22', '1', '9688079118', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0.00, 0.00, '', '', 1, '2018-06-30 13:20:09', NULL, 1),
+(2, 'SA', 'admin@gmail.com', '14e1b600b1fd579f47433b88e8d85291', 'Admin', '2018-06-22', '1', '9688079118', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 640.00, 0.00, '', '', 1, '2018-06-30 13:20:09', NULL, 1),
 (3, 'VA', 'vendor@gmail.com', '14e1b600b1fd579f47433b88e8d85291', 'Vendor1', '2018-06-22', '1', '9688079118', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0.00, 0.00, '', '', 1, '2018-06-30 13:20:09', NULL, 1),
 (4, 'VA', 'vendor2@gmail.com', '14e1b600b1fd579f47433b88e8d85291', 'Vendor2', '2018-06-22', '1', '9688079118', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0.00, 0.00, '', '', 1, '2018-06-30 13:20:09', NULL, 1),
 (5, 'GU', 'gucustomer@gmail.com', '14e1b600b1fd579f47433b88e8d85291', 'gust', NULL, NULL, '9688079118', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0.00, 0.00, NULL, NULL, 1, '2018-08-20 16:03:49', NULL, 2),
@@ -903,21 +1049,21 @@ INSERT INTO `user_master` (`id`, `user_type`, `email`, `password`, `user_fullnam
 (12, 'GU', 'vt@mail.com', '14e1b600b1fd579f47433b88e8d85291', 'Vinod Test', NULL, NULL, '8322489218', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0.00, 0.00, NULL, NULL, 1, '2018-08-28 12:24:07', NULL, 2),
 (13, 'GU', 'vinod4@gmail.com', '14e1b600b1fd579f47433b88e8d85291', 'vinod four', NULL, NULL, '4567812349', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0.00, 0.00, NULL, NULL, 1, '2018-09-01 17:35:53', NULL, 2),
 (14, 'GU', 'vt@maiol.com', '14e1b600b1fd579f47433b88e8d85291', 'vinod test', NULL, NULL, '8322489218', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0.00, 0.00, NULL, NULL, 1, '2018-09-20 10:13:13', NULL, 2),
-(16, 'CU', 'anjaneyavadivel@gmail.com', '14e1b600b1fd579f47433b88e8d85291', 'Anjaneya vadivelu', NULL, NULL, NULL, NULL, NULL, NULL, '', NULL, NULL, NULL, 0.00, 0.00, NULL, NULL, 1, '2018-09-20 12:40:25', '2018-09-20 12:40:58', 1),
+(16, 'CU', 'anjaneyavadivel@gmail.com', '14e1b600b1fd579f47433b88e8d85291', 'Anjaneya vadivelu', NULL, NULL, NULL, NULL, NULL, NULL, '423749', '2018-11-12 04:23:32', NULL, NULL, 0.00, 0.00, NULL, NULL, 1, '2018-09-20 12:40:25', '2018-09-20 12:40:58', 1),
 (17, 'GU', 'VT@GMAIL.COM', '14e1b600b1fd579f47433b88e8d85291', 'Vinod Test', NULL, NULL, '8322489218', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0.00, 0.00, NULL, NULL, 1, '2018-09-21 07:00:03', NULL, 2),
 (18, 'GU', 'VT@GMAIL.COM', '14e1b600b1fd579f47433b88e8d85291', 'Vinod Test', NULL, NULL, '9822153576', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0.00, 0.00, NULL, NULL, 1, '2018-09-21 07:03:19', NULL, 2),
 (19, 'GU', 'vt2@gmail.com', '14e1b600b1fd579f47433b88e8d85291', 'Vin2 Test2', NULL, NULL, '1234567890', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0.00, 0.00, NULL, NULL, 1, '2018-09-21 10:12:39', NULL, 2),
-(20, 'GU', 'goahemtravels@gmail.com', '14e1b600b1fd579f47433b88e8d85291', 'Vin Test22', NULL, NULL, '8322489218', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0.00, 0.00, NULL, NULL, 1, '2018-09-22 13:03:35', NULL, 2),
+(20, 'GU', 'goahemtravels@gmail.com2', '14e1b600b1fd579f47433b88e8d85291', 'Vin Test22', NULL, NULL, '8322489218', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0.00, 0.00, NULL, NULL, 1, '2018-09-22 13:03:35', NULL, 2),
 (21, 'GU', 'vt3@gmail.com', '14e1b600b1fd579f47433b88e8d85291', 'Vinod', NULL, NULL, '1234567890', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0.00, 0.00, NULL, NULL, 1, '2018-09-26 10:31:07', NULL, 2),
 (22, 'GU', 'ob@gmail.com', '14e1b600b1fd579f47433b88e8d85291', 'Off Book', NULL, NULL, '1112223334', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0.00, 0.00, NULL, NULL, 1, '2018-09-26 10:49:52', NULL, 2),
 (23, 'GU', 'vt3@mail.com', '14e1b600b1fd579f47433b88e8d85291', 'Vinod Test', NULL, NULL, '1112223334', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0.00, 0.00, NULL, NULL, 1, '2018-09-26 11:05:07', NULL, 2),
 (24, 'GU', 'ob@mai.com', '14e1b600b1fd579f47433b88e8d85291', 'Off Book', NULL, NULL, '2223334445', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0.00, 0.00, NULL, NULL, 1, '2018-09-26 11:42:52', NULL, 2),
 (25, 'GU', 'vt3@mail.com', '14e1b600b1fd579f47433b88e8d85291', 'Vin Test3', NULL, NULL, '2223334445', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0.00, 0.00, NULL, NULL, 1, '2018-09-29 11:58:53', NULL, 2),
-(26, 'GU', 'vtnlmn@mail.com', '14e1b600b1fd579f47433b88e8d85291', 'Vt Nljlkj', NULL, NULL, '7778889994', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0.00, 0.00, NULL, NULL, 1, '2018-10-01 08:05:18', NULL, 2),
-(27, 'VA', 'vendor3@gmail.com', '14e1b600b1fd579f47433b88e8d85291', 'Vendor Three', NULL, NULL, NULL, NULL, NULL, NULL, 'c90b3169120e16506865bd2d22969dae', NULL, NULL, NULL, 0.00, 0.00, NULL, NULL, 1, '2018-10-01 08:38:56', NULL, 2),
+(26, 'GU', 'anjaneyavadivel@gmail.comss', '14e1b600b1fd579f47433b88e8d85291', 'Vt Nljlkj', NULL, NULL, '7778889994', NULL, NULL, NULL, '417582', '2018-11-11 18:06:15', NULL, NULL, 0.00, 0.00, NULL, NULL, 1, '2018-10-01 08:05:18', NULL, 1),
+(27, 'VA', 'vendor3@gmail.com', '14e1b600b1fd579f47433b88e8d85291', 'Vendor Three', NULL, NULL, NULL, NULL, NULL, NULL, 'c90b3169120e16506865bd2d22969dae', NULL, NULL, NULL, 0.00, 0.00, NULL, NULL, 1, '2018-10-01 08:38:56', NULL, 1),
 (28, 'GU', 'v1@mail.com', '14e1b600b1fd579f47433b88e8d85291', 'V1 Off Bo', NULL, NULL, '7788994411', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0.00, 0.00, NULL, NULL, 1, '2018-10-01 09:03:31', NULL, 2),
 (29, 'GU', 'lkjflkdsjf@d.com', '14e1b600b1fd579f47433b88e8d85291', 'Dfaldfkj', NULL, NULL, '7778889994', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0.00, 0.00, NULL, NULL, 1, '2018-10-01 10:42:49', NULL, 2),
-(30, 'VA', 'vendor4@gmail.com', '14e1b600b1fd579f47433b88e8d85291', 'Vinod Velappan Rekandi Jamnagarwala', NULL, NULL, '8887779994', NULL, NULL, NULL, '5fade682e4d9e5948476467f275d67c7', NULL, NULL, NULL, 0.00, 0.00, NULL, NULL, 1, '2018-10-02 10:46:43', NULL, 2),
+(30, 'VA', 'vendor4@gmail.com', '14e1b600b1fd579f47433b88e8d85291', 'Vinod Velappan Rekandi Jamnagarwala', NULL, NULL, '8887779994', NULL, NULL, NULL, '5fade682e4d9e5948476467f275d67c7', NULL, NULL, NULL, 0.00, 0.00, NULL, NULL, 1, '2018-10-02 10:46:43', NULL, 1),
 (31, 'GU', 'lkjlk@kjhbk.okjo', '14e1b600b1fd579f47433b88e8d85291', 'Kjkj Pkll;', NULL, NULL, '8887779994', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0.00, 0.00, NULL, NULL, 1, '2018-10-02 12:00:07', NULL, 2),
 (32, 'GU', 'vt1@dd.com', '14e1b600b1fd579f47433b88e8d85291', 'Test1', NULL, NULL, '7788994455', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0.00, 0.00, NULL, NULL, 1, '2018-10-05 11:43:41', NULL, 2),
 (33, 'GU', 'fsd@dfds.c', '14e1b600b1fd579f47433b88e8d85291', 'Vdsv', NULL, NULL, '1234567897', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0.00, 0.00, NULL, NULL, 1, '2018-10-05 12:49:46', NULL, 2),
@@ -944,7 +1090,7 @@ INSERT INTO `user_master` (`id`, `user_type`, `email`, `password`, `user_fullnam
 (54, 'GU', 'lkjl@ma.com', '14e1b600b1fd579f47433b88e8d85291', 'Dfaldkjf', NULL, NULL, '1321323213', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0.00, 0.00, NULL, NULL, 1, '2018-10-26 10:48:40', NULL, 2),
 (55, 'GU', 'ft2@mail.com', '14e1b600b1fd579f47433b88e8d85291', 'Finod Test', NULL, NULL, '4445556661', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0.00, 0.00, NULL, NULL, 1, '2018-10-27 11:28:20', NULL, 2),
 (56, 'VA', 'chaitesh@mail.com', '14e1b600b1fd579f47433b88e8d85291', 'Chaitesh', NULL, NULL, NULL, NULL, NULL, NULL, '1dfb89769e2da0a1fc38c5401b79a300', NULL, NULL, NULL, 0.00, 0.00, NULL, NULL, 1, '2018-10-30 14:35:54', NULL, 2),
-(57, 'VA', 'v_inod_v@yahoo.com', '14e1b600b1fd579f47433b88e8d85291', 'Chaitesh', NULL, NULL, NULL, NULL, NULL, NULL, 'ca4c2d856034d17cd55f02ba8abd6218', NULL, NULL, NULL, 0.00, 0.00, NULL, NULL, 1, '2018-10-31 05:49:49', NULL, 1),
+(57, 'VA', 'v_inod_v@yahoo.com', '73812f2b9a460ff9b3873fbcf717b5f7', 'Chaitesh', NULL, NULL, NULL, NULL, NULL, NULL, '', '0000-00-00 00:00:00', NULL, NULL, 0.00, 0.00, NULL, NULL, 1, '2018-10-31 05:49:49', NULL, 1),
 (58, 'GU', 'customer@mail.com', '14e1b600b1fd579f47433b88e8d85291', 'CUSTOMER1', NULL, NULL, '1234567890', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0.00, 0.00, NULL, NULL, 1, '2018-10-31 08:06:00', NULL, 2),
 (59, 'GU', 'inf@mail.com', '14e1b600b1fd579f47433b88e8d85291', 'INFANT CUSTOMER', NULL, NULL, '2224445551', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0.00, 0.00, NULL, NULL, 1, '2018-10-31 08:54:19', NULL, 2),
 (60, 'GU', 'cv@mail.com', '14e1b600b1fd579f47433b88e8d85291', 'Cash Vendor', NULL, NULL, '2225558881', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0.00, 0.00, NULL, NULL, 1, '2018-10-31 13:54:34', NULL, 2),
@@ -953,7 +1099,28 @@ INSERT INTO `user_master` (`id`, `user_type`, `email`, `password`, `user_fullnam
 (63, 'GU', 'mcbtc@mail.com', '14e1b600b1fd579f47433b88e8d85291', 'Mobile Vendor1 B2c', NULL, NULL, '1234567890', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0.00, 0.00, NULL, NULL, 1, '2018-11-01 07:23:48', NULL, 2),
 (64, 'GU', 'cv@maip.com', '14e1b600b1fd579f47433b88e8d85291', 'Check Vendor', NULL, NULL, '9992228883', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0.00, 0.00, NULL, NULL, 1, '2018-11-01 09:18:36', NULL, 2),
 (65, 'GU', 'vh@mail.com', '14e1b600b1fd579f47433b88e8d85291', 'Cash Book / Vinod Hem', NULL, NULL, '5558887774', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0.00, 0.00, NULL, NULL, 1, '2018-11-03 10:48:41', NULL, 2),
-(66, 'GU', 'customer@gmail.com', '14e1b600b1fd579f47433b88e8d85291', 'Customer', NULL, NULL, '7373112889', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0.00, 0.00, NULL, NULL, 1, '2018-11-08 03:45:55', NULL, 2);
+(66, 'GU', 'customer@gmail.com', '14e1b600b1fd579f47433b88e8d85291', 'Customer', NULL, NULL, '7373112889', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0.00, 0.00, NULL, NULL, 1, '2018-11-08 03:45:55', NULL, 2),
+(67, 'GU', 'v@v.in', '14e1b600b1fd579f47433b88e8d85291', 'VINOD', NULL, NULL, '2224447771', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0.00, 0.00, NULL, NULL, 1, '2018-11-08 15:56:50', NULL, 2),
+(68, 'GU', 'v@v.dd', '14e1b600b1fd579f47433b88e8d85291', 'VINOD', NULL, NULL, '8877799412', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0.00, 0.00, NULL, NULL, 1, '2018-11-08 15:59:44', NULL, 2),
+(69, 'GU', 'vv@v.in', '14e1b600b1fd579f47433b88e8d85291', 'VVFSDF', NULL, NULL, '1114447778', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0.00, 0.00, NULL, NULL, 1, '2018-11-08 16:05:07', NULL, 2),
+(70, 'GU', 'vinod@email.com', '14e1b600b1fd579f47433b88e8d85291', 'VINOD', NULL, NULL, '5557778884', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0.00, 0.00, NULL, NULL, 1, '2018-11-10 07:58:03', NULL, 2),
+(71, 'GU', 'dfs@df.ii', '14e1b600b1fd579f47433b88e8d85291', 'DFASDF', NULL, NULL, '1114447772', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0.00, 0.00, NULL, NULL, 1, '2018-11-10 13:45:55', NULL, 2),
+(72, 'GU', 'v1@m.com', '14e1b600b1fd579f47433b88e8d85291', 'VENDOR1', NULL, NULL, '1115559991', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0.00, 0.00, NULL, NULL, 1, '2018-11-10 13:57:30', NULL, 2),
+(73, 'GU', 'd@d.in', '14e1b600b1fd579f47433b88e8d85291', 'DFASDF', NULL, NULL, '2225558887', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0.00, 0.00, NULL, NULL, 1, '2018-11-10 14:09:55', NULL, 2),
+(74, 'GU', 'an@gmail.com', '14e1b600b1fd579f47433b88e8d85291', 'Anjuna Boo', NULL, NULL, '1234567890', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0.00, 0.00, NULL, NULL, 1, '2018-11-13 12:11:23', NULL, 2),
+(75, 'GU', 'goahemtravels@gmail.com3', '14e1b600b1fd579f47433b88e8d85291', 'VINOD ANJUNA', NULL, NULL, '9822153576', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0.00, 0.00, NULL, NULL, 1, '2018-11-13 15:15:15', NULL, 2),
+(76, 'VA', 'vinod@mail.com', '14e1b600b1fd579f47433b88e8d85291', 'VINOD VELAPPAN', NULL, NULL, NULL, NULL, NULL, NULL, '1e8660445a37dce4eaba75f48281e3ab', NULL, NULL, NULL, 0.00, 0.00, NULL, NULL, 1, '2018-11-14 08:06:45', NULL, 2),
+(77, 'GU', 'rd@mail.com', '14e1b600b1fd579f47433b88e8d85291', 'Rajan Dsousa From Highland At 6:00', NULL, NULL, '1114447772', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0.00, 0.00, NULL, NULL, 1, '2018-11-15 12:54:14', NULL, 2),
+(78, 'GU', 'goahemtravels@gmail.com4', '14e1b600b1fd579f47433b88e8d85291', 'Rajan Dsoucza At Hem Travels At 6:15', NULL, NULL, '2255887744', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0.00, 0.00, NULL, NULL, 1, '2018-11-15 12:57:10', NULL, 2),
+(79, 'VA', 'naikabhy@gmail.com', 'a891dceef853e37d632f089f81398f0b', 'Abhinay Naik', NULL, NULL, NULL, NULL, NULL, NULL, 'defba8de1ec629142f71d8c5f8e09636', NULL, NULL, NULL, 0.00, 0.00, NULL, NULL, 1, '2018-11-15 15:46:24', NULL, 1),
+(80, 'VA', 'teambookyourtrips@gmail.com', '14e1b600b1fd579f47433b88e8d85291', 'Team Bookyourtrips', NULL, NULL, NULL, NULL, NULL, NULL, '', '0000-00-00 00:00:00', NULL, NULL, -40.00, 0.00, NULL, NULL, 1, '2018-11-15 16:06:49', '2018-11-15 04:12:32', 1),
+(81, 'VA', 'goahemtravels@gmail.com', '14e1b600b1fd579f47433b88e8d85291', 'HEM TRAVELS', NULL, NULL, NULL, NULL, NULL, NULL, '', NULL, NULL, NULL, 0.00, 0.00, NULL, NULL, 1, '2018-11-16 10:02:34', '2018-11-16 10:05:06', 1),
+(82, 'GU', 'goahemtravels@gmail.com', '14e1b600b1fd579f47433b88e8d85291', 'Ms Leela, 16/11/18, Alor Grand-318 At 6:00', NULL, NULL, '9822153576', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0.00, 0.00, NULL, NULL, 1, '2018-11-16 10:50:34', NULL, 2),
+(83, 'GU', 'goahemtravels@gmail.com', '14e1b600b1fd579f47433b88e8d85291', 'Ms Irena, 16/11/18, Alore Grande - 265, At Reception At 6:00', NULL, NULL, '8322489218', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0.00, 0.00, NULL, NULL, 1, '2018-11-16 11:24:07', NULL, 2),
+(84, 'GU', 'goahemtravels@gmail.com', '14e1b600b1fd579f47433b88e8d85291', 'Mr Rishi,Goan Village At Reception At 6:00', NULL, NULL, '9810196698', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0.00, 0.00, NULL, NULL, 1, '2018-11-16 11:25:32', NULL, 2),
+(85, 'GU', 'v_inod_v@yahoo.com', '14e1b600b1fd579f47433b88e8d85291', 'VINOD YAHOO', NULL, NULL, '9822153576', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0.00, 0.00, NULL, NULL, 1, '2018-11-16 15:27:56', NULL, 2),
+(86, 'GU', 'goahemtravels@gmail.co', '14e1b600b1fd579f47433b88e8d85291', 'Mr Stas, Alor Grand - 394', NULL, NULL, '9822153576', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0.00, 0.00, NULL, NULL, 1, '2018-11-19 16:39:30', NULL, 2),
+(87, 'GU', 'anjaneyavadivel@gmail.com', '14e1b600b1fd579f47433b88e8d85291', 'Anjaneyavadivel', NULL, NULL, '7373112889', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0.00, 0.00, NULL, NULL, 1, '2018-11-20 15:24:09', NULL, 2);
 
 -- --------------------------------------------------------
 
@@ -1164,7 +1331,7 @@ ALTER TABLE `user_wishlist`
 -- AUTO_INCREMENT for table `account_info`
 --
 ALTER TABLE `account_info`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=7;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=8;
 --
 -- AUTO_INCREMENT for table `city_master`
 --
@@ -1184,12 +1351,12 @@ ALTER TABLE `country_master`
 -- AUTO_INCREMENT for table `coupon_code_master`
 --
 ALTER TABLE `coupon_code_master`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=4;
 --
 -- AUTO_INCREMENT for table `coupon_code_master_history`
 --
 ALTER TABLE `coupon_code_master_history`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=4;
 --
 -- AUTO_INCREMENT for table `faq_master`
 --
@@ -1199,7 +1366,7 @@ ALTER TABLE `faq_master`
 -- AUTO_INCREMENT for table `my_transaction`
 --
 ALTER TABLE `my_transaction`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=31;
 --
 -- AUTO_INCREMENT for table `notification`
 --
@@ -1214,7 +1381,7 @@ ALTER TABLE `pick_up_location`
 -- AUTO_INCREMENT for table `pick_up_location_map`
 --
 ALTER TABLE `pick_up_location_map`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=41;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=16;
 --
 -- AUTO_INCREMENT for table `state_master`
 --
@@ -1224,22 +1391,22 @@ ALTER TABLE `state_master`
 -- AUTO_INCREMENT for table `trip_avilable`
 --
 ALTER TABLE `trip_avilable`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=7;
 --
 -- AUTO_INCREMENT for table `trip_book_pay`
 --
 ALTER TABLE `trip_book_pay`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=3;
 --
 -- AUTO_INCREMENT for table `trip_book_pay_details`
 --
 ALTER TABLE `trip_book_pay_details`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=5;
 --
 -- AUTO_INCREMENT for table `trip_category`
 --
 ALTER TABLE `trip_category`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=16;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=17;
 --
 -- AUTO_INCREMENT for table `trip_comment`
 --
@@ -1259,7 +1426,7 @@ ALTER TABLE `trip_inclusions`
 -- AUTO_INCREMENT for table `trip_inclusions_map`
 --
 ALTER TABLE `trip_inclusions_map`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=19;
 --
 -- AUTO_INCREMENT for table `trip_itinerary`
 --
@@ -1269,12 +1436,12 @@ ALTER TABLE `trip_itinerary`
 -- AUTO_INCREMENT for table `trip_master`
 --
 ALTER TABLE `trip_master`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=7;
 --
 -- AUTO_INCREMENT for table `trip_shared`
 --
 ALTER TABLE `trip_shared`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=8;
 --
 -- AUTO_INCREMENT for table `trip_specific_day`
 --
@@ -1284,12 +1451,12 @@ ALTER TABLE `trip_specific_day`
 -- AUTO_INCREMENT for table `trip_tags`
 --
 ALTER TABLE `trip_tags`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=30;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=40;
 --
 -- AUTO_INCREMENT for table `trip_tag_map`
 --
 ALTER TABLE `trip_tag_map`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=15;
 --
 -- AUTO_INCREMENT for table `user_address`
 --
@@ -1304,7 +1471,7 @@ ALTER TABLE `user_bank_master`
 -- AUTO_INCREMENT for table `user_master`
 --
 ALTER TABLE `user_master`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=67;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=88;
 --
 -- AUTO_INCREMENT for table `user_wishlist`
 --

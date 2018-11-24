@@ -610,7 +610,7 @@ if (!function_exists('trip_book')) {
         if ($loginuserid == '') {
             $loginuserid = $bookdata['book_user_id'];
         }
-        if (count($bookdata) != 7 || $loginuserid == '') {
+        if (count($bookdata) != 10 || $loginuserid == '') {
             $result = array('status' => 0, 'is_open' => 0, 'message' => 'Sorry! try again...', 'from_date' => '', 'to_date' => '');
             return $result;
         }
@@ -752,6 +752,9 @@ if (!function_exists('trip_book')) {
             'pick_up_location' => $trip_location_name,
             'pick_up_location_landmark' => $trip_location_landmark,
             'booked_by' => $loginuserid,
+            'booked_to' => $bookdata['booked_to'],
+            'booked_email' => $bookdata['booked_email'],
+            'booked_phone_no' => $bookdata['booked_phone_no'],
             'status' => 1,
             'payment_status' => 0
         );
@@ -853,6 +856,9 @@ if (!function_exists('trip_book')) {
                     'pick_up_location' => $book_pay['pick_up_location'],
                     'pick_up_location_landmark' => $book_pay['pick_up_location_landmark'],
                     'booked_by' => $loginuserid,
+                    'booked_to' => $bookdata['booked_to'],
+                    'booked_email' => $bookdata['booked_email'],
+                    'booked_phone_no' => $bookdata['booked_phone_no'],
                     'status' => 1,
                     'payment_status' => 0,
                     'pay_details_id' => $pay_details_id
@@ -1055,6 +1061,9 @@ if (!function_exists('trip_book')) {
                             'pick_up_location' => $book_pay['pick_up_location'],
                             'pick_up_location_landmark' => $book_pay['pick_up_location_landmark'],
                             'booked_by' => $loginuserid,
+                            'booked_to' => $bookdata['booked_to'],
+                            'booked_email' => $bookdata['booked_email'],
+                            'booked_phone_no' => $bookdata['booked_phone_no'],
                             'status' => 1,
                             'payment_status' => 0,
                             'pay_details_id' => $pay_details_id
@@ -2197,6 +2206,14 @@ if (!function_exists('sendemail_personalmail')) {
                 'mailtype' => 'html',
                 'charset' => 'utf-8'
             );
+//            echo $fromemail."<br>";
+//            echo $toemail."<br>";
+//            echo $ccemail."<br>";
+//            echo $bccemail."<br>";
+//            echo $donotreply."<br>";
+//            echo $mailData['subject']."<br>";
+//            echo $message."<br>";
+//            exit();
             $CI->load->library('email', $email_config);
             //echo $fromemail;echo $toemail;echo $ccemail;
             $CI->email->set_mailtype("html");

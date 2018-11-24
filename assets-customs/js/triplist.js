@@ -17,27 +17,27 @@ jQuery(function($) {
                 $modal.modal();
                 
                 // Autocomplete Tagging 
-                var engine = new Bloodhound({
-                    local: [],
-                    trimValue: true,
-                    freeInput: true,
-                    datumTokenizer: function(d) {
-                        return Bloodhound.tokenizers.whitespace(d.value);
-                    },
-                    queryTokenizer: Bloodhound.tokenizers.whitespace
-                });
-                engine.initialize();
-                $('#shared_emails').tokenfield({
-                    typeahead: [null, { source: engine.ttAdapter() }]
-                });
-
-                $('#shared_emails').on('tokenfield:createtoken', function (event) {
-                      var existingTokens = $(this).tokenfield('getTokens');
-                      $.each(existingTokens, function(index, token) {
-                          if (token.value === event.attrs.value)
-                              event.preventDefault();
-                      });
-                });
+//                var engine = new Bloodhound({
+//                    local: [],
+//                    trimValue: true,
+//                    freeInput: true,
+//                    datumTokenizer: function(d) {
+//                        return Bloodhound.tokenizers.whitespace(d.value);
+//                    },
+//                    queryTokenizer: Bloodhound.tokenizers.whitespace
+//                });
+//                engine.initialize();
+//                $('#shared_emails').tokenfield({
+//                    typeahead: [null, { source: engine.ttAdapter() }]
+//                });
+//
+//                $('#shared_emails').on('tokenfield:createtoken', function (event) {
+//                      var existingTokens = $(this).tokenfield('getTokens');
+//                      $.each(existingTokens, function(index, token) {
+//                          if (token.value === event.attrs.value)
+//                              event.preventDefault();
+//                      });
+//                });
                 
             });
         }, 1000);

@@ -151,3 +151,8 @@ ALTER TABLE `trip_book_pay_details` ADD `discount_your_price` FLOAT(8,2) NOT NUL
 
 ALTER TABLE `trip_book_pay_details` ADD `vendor_offer_amt` FLOAT(8,2) NULL DEFAULT '0.00' AFTER `vendor_amt`;
 ALTER TABLE `trip_book_pay_details` ADD `vendor_cash_amt` FLOAT(8,2) NOT NULL DEFAULT '0.00' AFTER `vendor_offer_amt`;
+
+ALTER TABLE `trip_book_pay` ADD `booked_to` VARCHAR(150) NULL AFTER `booked_by`;
+ALTER TABLE `trip_book_pay_details` ADD `booked_to` VARCHAR(150) NULL AFTER `booked_by`;
+ALTER TABLE `trip_book_pay` ADD `booked_email` VARCHAR(200) NULL AFTER `booked_to`, ADD `booked_phone_no` VARCHAR(120) NULL AFTER `booked_email`;
+ALTER TABLE `trip_book_pay_details` ADD `booked_email` VARCHAR(200) NULL AFTER `booked_to`, ADD `booked_phone_no` VARCHAR(120) NULL AFTER `booked_email`;

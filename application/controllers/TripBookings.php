@@ -316,14 +316,26 @@ class TripBookings extends CI_Controller {
             if ($this->form_validation->run($this) == FALSE) {
                 $this->session->set_userdata('err', validation_errors());
             } else {
-
+                $loginuser_id = $this->session->userdata('user_id');
                 if (!empty($this->input->post('trip_id', true))) {
+                    $cus_name=ucwords($this->input->post('user_name', true));
+                    $cus_email=strtolower($this->input->post('email', true));
+                    $cus_phone=$this->input->post('phonenumber', true);
+                    
                     $userData = array(
-                        'user_fullname' => ucwords($this->input->post('user_name', true)),
-                        'email' => strtolower($this->input->post('email', true)),
-                        'phone' => $this->input->post('phonenumber', true),
+                        'user_fullname' => $cus_name,
+                        'email' => $cus_email,
+                        'phone' => $cus_phone,
                     );
                     $userId = getGuestLoginDeteails($userData);
+                    if ($this->session->userdata('user_type') == 'VA' && $loginuser_id ==$userId) {
+                        $userData = array(
+                            'user_fullname' => $cus_name,
+                            'email' => 'guestnomail@mail.com',
+                            'phone' => '9876543210',
+                        );
+                        $userId = getGuestLoginDeteails($userData);
+                    }
                     //BOOKING
                     if ($userId > 0) {
                         $bookdata = array(
@@ -333,7 +345,10 @@ class TripBookings extends CI_Controller {
                             'no_of_child' => $this->session->userdata('bk_no_of_children'),
                             'no_of_infan' => $this->session->userdata('bk_no_of_infan'),
                             'date_of_trip' => $this->session->userdata('bk_from_date'),
-                            'pick_up_location_id' => $this->session->userdata('bk_location'));
+                            'pick_up_location_id' => $this->session->userdata('bk_location'),
+                            'booked_to' => $cus_name,
+                            'booked_email' => $cus_email,
+                            'booked_phone_no' => $cus_phone);
                         $book_pay = trip_book($bookdata, $this->session->userdata('bk_usecouponcode'));
                         if (count($book_pay) > 0) {
 
@@ -344,14 +359,13 @@ class TripBookings extends CI_Controller {
                             // Check wallet amount, full amount in wallet
                             $mypayment = 0;
                             if ($this->session->userdata('user_type') == 'VA' && $book_pay['status'] == 1) {
-                                $loginuser_id = $this->session->userdata('user_id');
                                 $mypayment = checkbal_mypayment($loginuser_id, 2);
                                 if ($mypayment > 0) {
                                     $balance = (int) $mypayment - (int) $trip_amount;
                                     if ($balance <0) {
-                                        //  Cash Deposited
+                                        //  Cash Deposited to B2b
                                         $paymentdata = array(
-                                            'userid' => $customer_id,
+                                            'userid' => $loginuser_id,
                                             'transaction_notes' => 'Cash Deposited',
                                             'from_userid' => -1,
                                             'book_pay_id' => 0,
@@ -364,7 +378,7 @@ class TripBookings extends CI_Controller {
                                     }
                                         //Amount Move to B2b to BYT 
                                         $paymentdata = array(
-                                            'userid' => $customer_id,
+                                            'userid' => 0,
                                             'transaction_notes' => 'Trip has been booked ' . $pnr,
                                             'withdrawal_notes' => 'Office Booking PNR' . $pnr,
                                             'pnr_no' => $pnr,
