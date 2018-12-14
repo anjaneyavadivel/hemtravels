@@ -13,7 +13,7 @@ class Tripshared_model extends CI_Model
         $this->db->join('trip_master AS mtm', 'ts.id = mtm.trip_shared_id','LEFT');
         $this->db->join('coupon_code_master_history AS cm', 'ts.coupon_history_id = cm.id','LEFT');
         if(isset($whereData['title']) && $whereData['title']!=''){
-            $this->db->where('(tm.trip_name LIKE "%'.$this->db->escape_like_str($whereData['title']).'%" OR ts.code LIKE "%'.$this->db->escape_like_str($whereData['title']).'%" )');
+            $this->db->where('(sum.user_fullname LIKE "%'.$this->db->escape_like_str($whereData['title']).'%" OR sum.email LIKE "%'.$this->db->escape_like_str($whereData['title']).'%" OR ts.to_user_mail LIKE "%'.$this->db->escape_like_str($whereData['title']).'%" OR tm.trip_name LIKE "%'.$this->db->escape_like_str($whereData['title']).'%" OR ts.code LIKE "%'.$this->db->escape_like_str($whereData['title']).'%" )');
         }
         if(isset($whereData['status']) && $whereData['status']!=''){
             $this->db->where('ts.status',$whereData['status']);
@@ -39,7 +39,7 @@ class Tripshared_model extends CI_Model
 		$this->db->join('trip_master AS tm', 'ts.user_id = tm.user_id');
 		$this->db->join('coupon_code_master_history AS cm', 'ts.coupon_history_id = cm.coupon_code_id','LEFT');
         if(isset($whereData['title']) && $whereData['title']!=''){
-            $this->db->where('(tm.trip_name LIKE "%'.$this->db->escape_like_str($whereData['title']).'%" OR ts.code LIKE "%'.$this->db->escape_like_str($whereData['title']).'%" )');
+            $this->db->where('(sum.user_fullname LIKE "%'.$this->db->escape_like_str($whereData['title']).'%" OR sum.email LIKE "%'.$this->db->escape_like_str($whereData['title']).'%" OR ts.to_user_mail LIKE "%'.$this->db->escape_like_str($whereData['title']).'%" OR tm.trip_name LIKE "%'.$this->db->escape_like_str($whereData['title']).'%" OR ts.code LIKE "%'.$this->db->escape_like_str($whereData['title']).'%" )');
         }
         if(isset($whereData['status']) && $whereData['status']!=''){
             $this->db->where('ts.status',$whereData['status']);

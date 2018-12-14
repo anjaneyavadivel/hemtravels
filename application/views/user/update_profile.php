@@ -34,7 +34,7 @@ $v = $view->row();?>
             </div>
             <div class="clear"></div>
 
-            <div class="col-sm-6 col-md-4">
+<!--            <div class="col-sm-6 col-md-4">
 
                 <div class="form-group">
                     <label>Born</label>
@@ -66,7 +66,7 @@ $v = $view->row();?>
                     </div>
                 </div>
 
-            </div>
+            </div>-->
 
             <div class="col-sm-6 col-md-4">
 

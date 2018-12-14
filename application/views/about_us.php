@@ -10,7 +10,7 @@
 			<div class="breadcrumb-wrapper">
 				<div class="container">
 					<ol class="breadcrumb">
-						<li><a href="#">Home</a></li>
+						<li><a href="<?=base_url()?>">Home</a></li>
 						<li class="active">About Us</li>
 					</ol>
 				</div>
@@ -30,7 +30,7 @@
 						
 							<div class="col-xs-12 col-sm-8 col-sm-offset-2">
 <h2>About Us</h2>
-								<p>Certain but she but shyness why cottage. Gay the put instrument sir entreaties affronting. Pretended exquisite see cordially the you.</p>
+								<p>The only online platform that connects the Tour Operator, Travel Agents and the Customers.</p>
 
 							</div>
 							
@@ -45,9 +45,8 @@
 								
 							</div>
 							
-							<p>Far concluded not his something extremity. Want four we face an he gate. On he of played he ladies answer little though nature. Blessing oh do pleasure as so formerly. Took four spot soon led size you. Outlived it received he material. Him yourself joy moderate off repeated laughter outweigh screened.</p>
+							<p>BYT is the only Online Platform for the Tour Operators and Travel Agents which offers their activities exactly as they would like to give to their customers and at the same price. This helps the Customers and the Tour Operators and the Travel Agents to select from the best available options.  The transparency due to the direct listing ensures that our customers gets the best offer. Our endeavour is to provide the best available options which would benefit them.</p>
 
-							<p>Or neglected agreeable of discovery concluded oh it sportsman. Week to time in john. Son elegance use weddings separate. Ask too matter formed county wicket oppose talent. He immediate sometimes or to dependent in. Everything few frequently discretion surrounded did simplicity decisively. Less he year do with no sure loud.</p>
 							
 							<div class="featured-icon-horizontal-wrapper mt-30">
 					
@@ -60,12 +59,12 @@
 											<div class="featured-icon-horizontal clearfix">
 												
 												<div class="icon">
-													<i class="ri ri-history"></i>
+													<i class="ri ri-clock"></i>
 												</div>
 												
 												<div class="content">
-													<h5>Very Up-to-date</h5>
-													<p>Inhabiting discretion the her dispatched decisively boisterous joy. So form were wish open is able of mile travelling.</p>
+													<h5>Vendor Opportunity</h5>
+													<p>It is a transparent platform which provides all the marketing tools for the vendors to increase their business</p>
 												</div>
 											
 											</div>
@@ -82,7 +81,7 @@
 												
 												<div class="content">
 													<h5>Easy to Use</h5>
-													<p>Has procured daughter followed repeated who surprise. Great asked oh under together prospect kindness.</p>
+													<p>All the confirmed booking  are intimated to all the concerned partners in real time which allows you full control of your activities.</p>
 												</div>
 											
 											</div>
@@ -94,19 +93,19 @@
 											<div class="featured-icon-horizontal clearfix">
 											
 												<div class="icon">
-													<i class="ri ri-hamburger-circle"></i>
+													<i class="ri ri-check-square"></i>
 												</div>
 												
 												<div class="content">
-													<h5>Professional Coding</h5>
-													<p>Sometimes studied evident. Conduct replied removal. Remaining determine few her two cordially admitting old.</p>
+													<h5>100% Secured Payment</h5>
+													<p>Our payment gateway system is 100% secured, you can count on us for the security of your money.</p>
 												</div>
 											
 											</div>
 											
 										</div>
 										
-										<div class="GridLex-col-6_sm-6_xs-12">
+<!--										<div class="GridLex-col-6_sm-6_xs-12">
 										
 											<div class="featured-icon-horizontal clearfix">
 												
@@ -121,7 +120,7 @@
 											
 											</div>
 										
-										</div>
+										</div>-->
 				
 									</div>
 									

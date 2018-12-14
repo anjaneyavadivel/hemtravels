@@ -16,7 +16,7 @@ class Report_model extends CI_Model
             if($result_for == 'tt'){
                 $this->db->where('(trip_master.trip_name LIKE "%'.$this->db->escape_like_str($whereData['title']).'%" OR trip_master.trip_code LIKE "%'.$this->db->escape_like_str($whereData['title']).'%" )');
             }else{
-                $this->db->where('(trip_master.trip_name LIKE "%'.$this->db->escape_like_str($whereData['title']).'%" OR trip_master.trip_code LIKE "%'.$this->db->escape_like_str($whereData['title']).'%" OR pnr_no LIKE "%'.$this->db->escape_like_str($whereData['title']).'%" OR um.phone LIKE "%'.$this->db->escape_like_str($whereData['title']).'%" OR tbpd.status LIKE "%'.$this->db->escape_like_str($whereData['title']).'%" )');
+                $this->db->where('(trip_master.trip_name LIKE "%'.$this->db->escape_like_str($whereData['title']).'%" OR trip_master.trip_code LIKE "%'.$this->db->escape_like_str($whereData['title']).'%" OR pnr_no LIKE "%'.$this->db->escape_like_str($whereData['title']).'%" OR tbpd.booked_phone_no LIKE "%'.$this->db->escape_like_str($whereData['title']).'%" OR tbpd.status LIKE "%'.$this->db->escape_like_str($whereData['title']).'%" )');
             }
         }
         if(isset($whereData['bookfrom']) && $whereData['bookfrom']==1){
@@ -67,7 +67,7 @@ class Report_model extends CI_Model
             if($result_for == 'tt'){
                 $this->db->where('(trip_master.trip_name LIKE "%'.$this->db->escape_like_str($whereData['title']).'%" OR trip_master.trip_code LIKE "%'.$this->db->escape_like_str($whereData['title']).'%" )');
             }else{ 
-                $this->db->where('(trip_master.trip_name LIKE "%'.$this->db->escape_like_str($whereData['title']).'%" OR trip_master.trip_code LIKE "%'.$this->db->escape_like_str($whereData['title']).'%" OR pnr_no LIKE "%'.$this->db->escape_like_str($whereData['title']).'%" OR um.phone LIKE "%'.$this->db->escape_like_str($whereData['title']).'%" OR tbpd.status LIKE "%'.$this->db->escape_like_str($whereData['title']).'%" )');
+                $this->db->where('(trip_master.trip_name LIKE "%'.$this->db->escape_like_str($whereData['title']).'%" OR trip_master.trip_code LIKE "%'.$this->db->escape_like_str($whereData['title']).'%" OR pnr_no LIKE "%'.$this->db->escape_like_str($whereData['title']).'%" OR tbpd.booked_phone_no LIKE "%'.$this->db->escape_like_str($whereData['title']).'%" OR tbpd.status LIKE "%'.$this->db->escape_like_str($whereData['title']).'%" )');
             }
         }
         if(isset($whereData['bookfrom']) && $whereData['bookfrom']==1){
@@ -106,7 +106,7 @@ class Report_model extends CI_Model
         $this->db->join('user_master AS um', 'um.id = tbpd.from_user_id','INNER');
         $this->db->join('user_master AS by', 'by.id = tbpd.booked_by','INNER');
         if(isset($whereData['title']) && $whereData['title']!=''){
-            $this->db->where('(pnr_no LIKE "%'.$this->db->escape_like_str($whereData['title']).'%" OR um.phone LIKE "%'.$this->db->escape_like_str($whereData['title']).'%" OR tbpd.status LIKE "%'.$this->db->escape_like_str($whereData['title']).'%" )');
+            $this->db->where('(pnr_no LIKE "%'.$this->db->escape_like_str($whereData['title']).'%" OR tbpd.booked_phone_no LIKE "%'.$this->db->escape_like_str($whereData['title']).'%" OR tbpd.status LIKE "%'.$this->db->escape_like_str($whereData['title']).'%" )');
         }
         if(isset($whereData['bookfrom']) && $whereData['bookfrom']==1){
             $this->db->where('(by.user_type LIKE "%CU%" OR by.user_type LIKE "%GU%")');
@@ -149,7 +149,7 @@ class Report_model extends CI_Model
         $this->db->join('user_master AS um', 'um.id = tbpd.from_user_id','INNER');
         $this->db->join('user_master AS by', 'by.id = tbpd.booked_by','INNER');
         if(isset($whereData['title']) && $whereData['title']!=''){
-           $this->db->where('(pnr_no LIKE "%'.$this->db->escape_like_str($whereData['title']).'%" OR um.phone LIKE "%'.$this->db->escape_like_str($whereData['title']).'%" OR tbpd.status LIKE "%'.$this->db->escape_like_str($whereData['title']).'%" )');
+           $this->db->where('(pnr_no LIKE "%'.$this->db->escape_like_str($whereData['title']).'%" OR tbpd.booked_phone_no LIKE "%'.$this->db->escape_like_str($whereData['title']).'%" OR tbpd.status LIKE "%'.$this->db->escape_like_str($whereData['title']).'%" )');
         }
         if(isset($whereData['bookfrom']) && $whereData['bookfrom']==1){
             $this->db->where('(by.user_type LIKE "%CU%" OR by.user_type LIKE "%GU%")');
@@ -189,7 +189,7 @@ class Report_model extends CI_Model
         } 
         
         if(isset($whereData['title']) && $whereData['title']!=''){
-           $this->db->where('(trip_code LIKE "%'.$this->db->escape_like_str($whereData['title']).'%" OR trip_name LIKE "%'.$this->db->escape_like_str($whereData['title']).'%" OR tc.name LIKE "%'.$this->db->escape_like_str($whereData['title']).'%" )');
+           $this->db->where('(um.user_fullname LIKE "%'.$this->db->escape_like_str($whereData['title']).'%" OR trip_code LIKE "%'.$this->db->escape_like_str($whereData['title']).'%" OR trip_name LIKE "%'.$this->db->escape_like_str($whereData['title']).'%" OR tc.name LIKE "%'.$this->db->escape_like_str($whereData['title']).'%" )');
         }      
         
         if(isset($whereData['status']) && $whereData['status']!=''){
@@ -362,7 +362,7 @@ class Report_model extends CI_Model
          }
        
         if(isset($whereData['title']) && $whereData['title']!=''){
-           $this->db->where('(trip_name LIKE "%'.$this->db->escape_like_str($whereData['title']).'%" )');
+           $this->db->where('(lum.user_fullname LIKE "%'.$this->db->escape_like_str($whereData['title']).'%" OR um2.user_fullname LIKE "%'.$this->db->escape_like_str($whereData['title']).'%" OR um1.user_fullname LIKE "%'.$this->db->escape_like_str($whereData['title']).'%" OR mt.transaction_notes LIKE "%'.$this->db->escape_like_str($whereData['title']).'%" OR trip_name LIKE "%'.$this->db->escape_like_str($whereData['title']).'%" )');
         }      
         
         if(isset($whereData['status']) && $whereData['status']!=''){            
@@ -469,6 +469,9 @@ class Report_model extends CI_Model
         if($resultCount == 'yes'){
             
             return $query->num_rows();
+        }else if($resultCount == 'download'){
+            $query = $this->db->get();
+            return $query->result_array();
         }else{            
             return $query->result_array();
         }

@@ -513,7 +513,8 @@ class Report extends CI_Controller {
         $data["url"] = $url;
         
         if($download == 1 && isset($data["bookinglist"]) && count($data["bookinglist"]) > 0){
-        $data["bookinglist"] = $this->Report_model->booking_list($whereData, $config["per_page"], $page,'download');
+        //$data["bookinglist"] = $this->Report_model->booking_list($whereData, $config["per_page"], $page,'download');
+          $data["bookinglist"] = $this->Report_model->booking_list($whereData, $config["per_page"], $page,'download');
             
             $downloadData = $data["bookinglist"];
             
@@ -1147,8 +1148,8 @@ class Report extends CI_Controller {
             
             $sheet->setCellValue('A' . $row, $value['pnr_no']);            
             $sheet->setCellValue('B' . $row, date("M d, Y", strtotime($value['date_of_trip'])));
-            $sheet->setCellValue('C' . $row, $value['user_fullname'] );           
-            $sheet->setCellValue('D'. $row, $value['phone']);   
+            $sheet->setCellValue('C' . $row, $value['booked_to'] );           
+            $sheet->setCellValue('D'. $row, $value['booked_phone_no']);   
             $sheet->setCellValue('E' . $row, $value['number_of_persons']);           
             $sheet->setCellValue('F' . $row, $value['pick_up_location']);                      
             $sheet->setCellValue('G' . $row, $time );           

@@ -659,7 +659,7 @@
                                                     <div class="dz-default dz-message"><span>Click or Drop Images Here</span></div>
                                                 </div>
                                                 
-                                                <input type="hidden" name="gallery_images" id="gallery_images" value='<?php echo isset($is_shared) && isset($shared_galleries) && $is_shared == 1 ? $shared_galleries:[]?>'>
+                                                <input type="hidden" name="gallery_images" id="gallery_images" value='<?php isset($is_shared) && isset($shared_galleries) && $is_shared == 1 ? $shared_galleries:"[]"?>'>
                                                 <input type="hidden"  id="ex_gallery_images" value='<?php echo isset($trip_details['galleries'])?$trip_details['galleries']:"[]" ?>'>
                                                 <input type="hidden"  id="ex_rm_gallery_images" value=''>
 

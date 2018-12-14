@@ -260,9 +260,10 @@ class Trips extends CI_Controller {
                                 $trip_id = $this->db->insert_id();
 
                                 //GALLERY IMAGES
+                                $trip_img_name ='';
                                 if(!empty($this->input->post('gallery_images'))){
                                     $trip_img_names = json_decode($_POST['gallery_images'],true);
-                                    $trip_img_name = isset($trip_img_names[0])?$trip_img_names[0]:null;                        
+                                    $trip_img_name = isset($trip_img_names[0])?$trip_img_names[0]:null;  
                                 }
                                 $this->galleryImages($trip_id);
 
@@ -379,7 +380,11 @@ class Trips extends CI_Controller {
                             $master_values['updated_by'] = $this->session->userdata('user_id'); 
 
                             //GALLERY IMAGES CODE BEGIN HERE
+                            if(!empty($this->input->post('gallery_images'))){
+                                $trip_img_names = json_decode($_POST['gallery_images'],true);
+                                $master_values['trip_img_name'] = isset($trip_img_names[0])?$trip_img_names[0]:null;                     
 
+                            }
                                 //ADD NEW
                                     $this->galleryImages($trip_id);
 
@@ -833,7 +838,7 @@ class Trips extends CI_Controller {
     
     private function calendarDescription($date,$childtriparr=array(0)){
         $childtripstring = implode(',', $childtriparr);
-        $query2 = $this->db->query("SELECT tb.status,tb.date_of_trip as date,tb.pnr_no,um.user_fullname,um.phone,tb.number_of_persons
+        $query2 = $this->db->query("SELECT tb.*,tb.date_of_trip as date,um.user_fullname,um.phone,tb.number_of_persons
                  FROM `trip_book_pay` as tb 
                  INNER JOIN trip_master as tm ON tm.id = tb.trip_id 
                  INNER JOIN user_master as um ON um.id = tb.user_id 
@@ -865,8 +870,8 @@ class Trips extends CI_Controller {
                     <tr>
                         <td><a href="'.base_url().'PNR-status/'.$v['pnr_no'].'" target="_blank">'.$v['pnr_no'].'</a></td>
                         <td>'.$v['number_of_persons'].'</td>
-                        <td>'.$v['user_fullname'].'</td>
-                        <td>'.$v['phone'].'</td>
+                        <td>'.$v['booked_to'].'</td>
+                        <td>'.$v['booked_phone_no'].'</td>
                         <td>'.$status_val[$v['status']].'</td>
                     </tr>';
             }
@@ -943,9 +948,10 @@ class Trips extends CI_Controller {
             }
             $data['shared_details'] = $this->Trip_model->getSharedDetails($data['details']['parent_trip_id']);
             
-            
+           // print_r($data['shared_details']);
         }
-        //echo "<pre>";print_r($data['shared_details']);exit;
+        //echo "<pre>";print_r($data['shared_details']);
+        //exit;
         
         $this->load->view('trip/trip-view',$data);
     }
@@ -961,10 +967,11 @@ class Trips extends CI_Controller {
                     
                     $page = ($this->input->post('currentPage') - 1) * 5;
                     
-                    $tot_sql   = "SELECT tm.*,ts.to_user_mail as shared_email FROM trip_master as tm "
+                    $tot_sql   = "SELECT tm.*,sum.email AS shared_email FROM trip_master as tm "
                             . "LEFT JOIN trip_tag_map as tam ON tam.trip_id = tm.id AND tam.isactive = 1 "                            
                             . "LEFT JOIN trip_tags as tt ON tt.id = tam.tag_id "
-                            . "LEFT JOIN trip_shared as ts ON ts.trip_id = tm.id AND ts.isactive = 1 AND tm.is_shared = 1 "
+                            . "LEFT JOIN trip_master as ts ON ts.id = tm.parent_trip_id "
+                            . "LEFT JOIN user_master AS sum ON ts.user_id = sum.id "
                             . "LEFT JOIN trip_category as tc ON tm.trip_category_id = tc.id AND tc.isactive = 1 "
                             . "LEFT JOIN city_master as cm ON tm.city_id = cm.id AND cm.isactive = 1 "
                             . "LEFT JOIN state_master as sm ON tm.state_id = sm.id AND sm.isactive = 1 "

@@ -707,14 +707,15 @@
 
                                         </div>
                                         
-                                        <?php if(isset($details['is_shared']) && $details['is_shared'] == 1 && isset($shared_details) && count($shared_details) > 0) { ?>
+                                        <?php if($this->session->userdata('user_type') == 'VA' && isset($details['trip_shared_id']) && $details['trip_shared_id'] >0 && isset($shared_details) && count($shared_details) > 0) { ?>
                                         <div class="list-yes-no-box">
                                             <ul>
                                                 <li><b>Shared Status:</b> Shared</li>
                                                 <li><b>Shared Trip:</b> <?php echo isset($shared_details['trip_name'])?$shared_details['trip_name']:'';?></li>
                                                 <li><b>Shared by:</b> <?php echo isset($shared_details['user_fullname'])?$shared_details['user_fullname']:'';?></li>
-                                                <li><b>Shared Email:</b> <?php echo isset($shared_details['to_user_mail'])?$shared_details['to_user_mail']:'';?></li>
-                                                <!--<li><b>Shared Phone:</b> 999999999</li>-->
+                                                <?php if(isset($shared_details['to_user_mail']) && !empty($shared_details['to_user_mail'])) { ?>
+                                                <li><b>Shared Email:</b> <?php echo $shared_details['to_user_mail'];?></li>
+                                                <?php } ?><!--<li><b>Shared Phone:</b> 999999999</li>-->
                                             </ul>
                                         </div>
                                         <?php } ?>

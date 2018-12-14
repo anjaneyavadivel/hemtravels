@@ -156,3 +156,7 @@ ALTER TABLE `trip_book_pay` ADD `booked_to` VARCHAR(150) NULL AFTER `booked_by`;
 ALTER TABLE `trip_book_pay_details` ADD `booked_to` VARCHAR(150) NULL AFTER `booked_by`;
 ALTER TABLE `trip_book_pay` ADD `booked_email` VARCHAR(200) NULL AFTER `booked_to`, ADD `booked_phone_no` VARCHAR(120) NULL AFTER `booked_email`;
 ALTER TABLE `trip_book_pay_details` ADD `booked_email` VARCHAR(200) NULL AFTER `booked_to`, ADD `booked_phone_no` VARCHAR(120) NULL AFTER `booked_email`;
+
+
+ALTER TABLE `user_master` ADD `address` VARCHAR(150) NULL AFTER `about_me`, ADD `zip_code` INT(20) NULL AFTER `address`, ADD `city` INT NULL AFTER `zip_code`, ADD `state` INT NULL AFTER `city`;
+ALTER TABLE `user_master` CHANGE `city` `city` VARCHAR(100) NULL DEFAULT NULL, CHANGE `state` `state` VARCHAR(100) NULL DEFAULT NULL;

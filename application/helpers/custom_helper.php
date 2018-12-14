@@ -413,7 +413,7 @@ if (!function_exists('trip_offer')) {
 //                        $whereData = array('type' => 2, 'isactive' => 1, 'trip_id' => $row->id, 'validity_from <=' => $date_of_trip, 'validity_to >=' => $date_of_trip);
 //                        $couponhistory_list = selectTable('coupon_code_master_history', $whereData, $showField = array('*'), $orWhereData = array(), $group = array(), $order = 'id DESC');
 //                    }else{
-                        $whereData = array('cc.type' => 2, 'cc.isactive' => 1, 'ts.status' => 2,'ts.isactive' => 1, 'ts.trip_id' => $row->id, 'cc.validity_from <=' => $date_of_trip, 'cc.validity_to >=' => $date_of_trip);
+                        $whereData = array('cc.type' => 2, 'cc.isactive' => 1, 'ts.status' => 2,'ts.user_id' => $loginuserid,'ts.isactive' => 1, 'cc.trip_id' => $row->id, 'cc.validity_from <=' => $date_of_trip, 'cc.validity_to >=' => $date_of_trip);
                         $joins = array(
                             array(
                                 'table' => 'trip_shared AS ts',
@@ -595,7 +595,10 @@ if (!function_exists('trip_offer')) {
   'no_of_infan' => no of infan,
   'date_of_trip' => date of trip,
   //'time_of_trip' => time of trip,
-  'pick_up_location_id' => pick up location id)
+  'pick_up_location_id' => pick up location id),
+    'booked_to' => $cus_name,
+    'booked_email' => $cus_email,
+    'booked_phone_no' => $cus_phone
  * usecouponcode = ''  //Specific Customer Offer
  * @return 
  * @author Anjaneya
@@ -759,8 +762,8 @@ if (!function_exists('trip_book')) {
             'payment_status' => 0
         );
         $trip_book_payid = insertTable('trip_book_pay', $book_pay);
-        //$trip_book_payid=6;
-        //echo '<br><br>'; print_r($book_pay);
+//        $trip_book_payid=6;
+//        echo '<br><br>'; print_r($book_pay);
         //exit();
         $paydetailsidmaster = $pay_details_id = '-' . $trip_book_payid;
         $book_pay_detailsid = 0;
@@ -864,7 +867,7 @@ if (!function_exists('trip_book')) {
                     'pay_details_id' => $pay_details_id
                 );
                 $book_pay_detailsid = insertTable('trip_book_pay_details', $book_pay_details);
-                $book_pay_detailsid =11;
+                //$book_pay_detailsid =11;
                 //echo '<br><br>'; print_r($book_pay_details);
                 $pay_details_id = $book_pay_detailsid;
             }
@@ -952,8 +955,11 @@ if (!function_exists('trip_book')) {
                         if($total_trip_price_temp2<$offer_amt){
                             $offer_amt=$total_trip_price_temp;
                             $servicecharge_amt_temp = $total_trip_price_temp2 * (SERVICECHARGE_PERCENTAGE / 100);
-                            if ($servicecharge_amt_temp < SERVICECHARGE_AMT  || ($CI->session->userdata('user_type') == 'VA' && $trip_id ==$parenttrip_id)) {// get max amt
+                            if ($servicecharge_amt_temp < SERVICECHARGE_AMT) {// get max amt
                                 $servicecharge_amt_temp = SERVICECHARGE_AMT;
+                            }
+                            if ($CI->session->userdata('user_type') == 'VA' && $trip_id ==$parenttrip_id) {// booking vendor 0 service amt
+                                $servicecharge_amt_temp = 0;
                             }
                             $offer_amt = (int) $offer_amt - (int) $servicecharge_amt_temp;
                         }
@@ -965,8 +971,11 @@ if (!function_exists('trip_book')) {
                         if($total_trip_price_temp>0 && $CI->session->userdata('user_type') == 'VA' && $trip_id ==$parenttrip_id){
                             $vendor_cash_amt=$total_trip_price_temp;
                             $servicecharge_amt_temp = $subtotal_trip_price * (SERVICECHARGE_PERCENTAGE / 100);
-                            if ($servicecharge_amt_temp < SERVICECHARGE_AMT  || ($CI->session->userdata('user_type') == 'VA' && $trip_id ==$parenttrip_id)) {// get max amt
+                            if ($servicecharge_amt_temp < SERVICECHARGE_AMT) {// get max amt
                                 $servicecharge_amt_temp = SERVICECHARGE_AMT;
+                            }
+                            if ($CI->session->userdata('user_type') == 'VA' && $trip_id ==$parenttrip_id) {// booking vendor 0 service amt
+                                $servicecharge_amt_temp = 0;
                             }
                             $vendor_cash_amt = (int) $vendor_cash_amt - (int) $servicecharge_amt_temp;
                         }
@@ -975,8 +984,12 @@ if (!function_exists('trip_book')) {
                         
                         //echo $vendor_cash_amt;
                         $servicecharge_amt = $net_price * (SERVICECHARGE_PERCENTAGE / 100);
-                        if ($servicecharge_amt < SERVICECHARGE_AMT  || ($CI->session->userdata('user_type') == 'VA' && $trip_id ==$parenttrip_id)) {// get max amt
+                        if ($servicecharge_amt < SERVICECHARGE_AMT ) {// get max amt
                             $servicecharge_amt = SERVICECHARGE_AMT;
+                        }
+                        
+                        if ($CI->session->userdata('user_type') == 'VA' && $trip_id ==$parenttrip_id) {// booking vendor 0 service amt
+                            $servicecharge_amt = 0;
                         }
                         //if 100% discount need to get servicecharge amt
 //                        if($net_price<$servicecharge_amt){
@@ -1069,7 +1082,7 @@ if (!function_exists('trip_book')) {
                             'pay_details_id' => $pay_details_id
                         );
                         $book_pay_detailsid = insertTable('trip_book_pay_details', $book_pay_details);
-                       // echo '<br><br>'; print_r($book_pay_details);
+                        //echo '<br><br>'; print_r($book_pay_details);
                         //exit();
                         $vendor_amt = $net_price;
                         $parent_trip_id = $row->parent_trip_id;
@@ -1079,6 +1092,7 @@ if (!function_exists('trip_book')) {
                         }else{
                             $parent_discount_price = 0;
                         }
+                        $tripamount=$masternet_price;
                             // - ur amt(discount_your_price) from master and update status paid to vendor
                         if ($CI->session->userdata('user_type') == 'VA' && $trip_id ==$parenttrip_id) {
                             //$discount_your_price = $your_final_amt;
@@ -1086,12 +1100,13 @@ if (!function_exists('trip_book')) {
                             $whereData = array('id' => $trip_book_payid);
                             $updatedata = array('offer_amt' => $book_pay_details['offer_amt'],'discount_your_price' => $book_pay_details['discount_your_price'],'net_price' => $masternet_price);
                             $result = updateTable('trip_book_pay', $whereData, $updatedata);
-                    //        echo '<br><br>'; print_r($updatedata);
+//                            echo '<br><br>'; print_r($updatedata);
 //                            $whereData = array('book_pay_id' => $trip_book_payid,'book_pay_id' => $trip_book_payid,'id' =>$book_pay_detailsid);
 //                            $updatedata = array('b2b_payment_status' => 1,'b2b_payment_on' => date('Y-m-d'));
 //                            $result = updateTable('trip_book_pay_details', $whereData, $updatedata);
                   //          echo '<br><br>'; print_r($updatedata);
                         }
+                        // exit();
                     }
                 }
                 //exit();
@@ -1312,17 +1327,17 @@ if (!function_exists('trip_book_paid_sucess')) {
             $othermsg .= '<tr>
                                 <td align="left" style="border-bottom: 1px solid #eee;">
                                     <div class="f_img_div" style="width:35%; float:left;"><p class="welcome_description" style="color: #333;font-weight:bold; font-size: 12px;">Billing By :</p></div>
-                                    <div class="f_content_div" style="width:65%; float:right;"><p class="f_content" style="padding-right: 20px; margin-bottom: 0px; line-height: 1.6; color: #333; font-size: 12px;">' . $pnrinfo['bookedby'] . ' </p></div>
+                                    <div class="f_content_div" style="width:65%; float:right;"><p class="f_content" style="padding-right: 20px; margin-bottom: 0px; line-height: 1.6; color: #333; font-size: 12px;">' . $pnrinfo['booked_to'] . ' </p></div>
                                 </td>
                             </tr><tr>
                                 <td align="left" style="border-bottom: 1px solid #eee;">
                                     <div class="f_img_div" style="width:35%; float:left;"><p class="welcome_description" style="color: #333;font-weight:bold; font-size: 12px;">Billing Email :</p></div>
-                                    <div class="f_content_div" style="width:65%; float:right;"><p class="f_content" style="padding-right: 20px; margin-bottom: 0px; line-height: 1.6; color: #333; font-size: 12px;">' . $pnrinfo['bookedby_contactemail'] . ' </p></div>
+                                    <div class="f_content_div" style="width:65%; float:right;"><p class="f_content" style="padding-right: 20px; margin-bottom: 0px; line-height: 1.6; color: #333; font-size: 12px;">' . $pnrinfo['booked_email'] . ' </p></div>
                                 </td>
                             </tr><tr>
                                 <td align="left" style="border-bottom: 1px solid #eee;">
                                     <div class="f_img_div" style="width:35%; float:left;"><p class="welcome_description" style="color: #333;font-weight:bold; font-size: 12px;">Phone Number :</p></div>
-                                    <div class="f_content_div" style="width:65%; float:right;"><p class="f_content" style="padding-right: 20px; margin-bottom: 0px; line-height: 1.6; color: #333; font-size: 12px;">' . $pnrinfo['bookedby_contactno'] . ' </p></div>
+                                    <div class="f_content_div" style="width:65%; float:right;"><p class="f_content" style="padding-right: 20px; margin-bottom: 0px; line-height: 1.6; color: #333; font-size: 12px;">' . $pnrinfo['booked_phone_no'] . ' </p></div>
                                 </td>
                             </tr><tr>
                                 <td align="left" style="border-bottom: 1px solid #eee;">
@@ -1451,10 +1466,10 @@ if (!function_exists('trip_book_paid_sucess')) {
                 $message .= 'Our executive person contact you shortly and confirm <a href="' . base_url() . 'PNR-status/' . $pnr_no . '/1" style="color:#00adef" target="_new">Your Trip</a>.';
                 $mailData = array(
                     //'fromuserid' => $pnrinfo['trip_postbyid'],
-                    'ccemail' => $pnrinfo['trip_contactemail'],
+                    'ccemail' => $pnrinfo['trip_contactemail']. ',' .$pnrinfo['bookedby_contactemail'],
                     'bccemail' => admin_email . ',' . email_bottem_email . ',' . 'anjaneya.developer@gmail.com',
                     //'touserid' => $touserid,
-                    'toemail' => $pnrinfo['bookedby_contactemail'],
+                    'toemail' => $pnrinfo['booked_email'],
                     'subject' => $subject,
                     'message' => $message,
                     'othermsg' => $othermsg
@@ -1630,17 +1645,17 @@ if (!function_exists('trip_book_paid_sucess')) {
             $othermsg .= '<tr>
                                 <td align="left" style="border-bottom: 1px solid #eee;">
                                     <div class="f_img_div" style="width:35%; float:left;"><p class="welcome_description" style="color: #333;font-weight:bold; font-size: 12px;">Billing By :</p></div>
-                                    <div class="f_content_div" style="width:65%; float:right;"><p class="f_content" style="padding-right: 20px; margin-bottom: 0px; line-height: 1.6; color: #333; font-size: 12px;">' . $book_pay[0]['bookedby'] . ' </p></div>
+                                    <div class="f_content_div" style="width:65%; float:right;"><p class="f_content" style="padding-right: 20px; margin-bottom: 0px; line-height: 1.6; color: #333; font-size: 12px;">' . $book_pay[0]['booked_to'] . ' </p></div>
                                 </td>
                             </tr><tr>
                                 <td align="left" style="border-bottom: 1px solid #eee;">
                                     <div class="f_img_div" style="width:35%; float:left;"><p class="welcome_description" style="color: #333;font-weight:bold; font-size: 12px;">Billing Email :</p></div>
-                                    <div class="f_content_div" style="width:65%; float:right;"><p class="f_content" style="padding-right: 20px; margin-bottom: 0px; line-height: 1.6; color: #333; font-size: 12px;">' . $book_pay[0]['bookedby_contactemail'] . ' </p></div>
+                                    <div class="f_content_div" style="width:65%; float:right;"><p class="f_content" style="padding-right: 20px; margin-bottom: 0px; line-height: 1.6; color: #333; font-size: 12px;">' . $book_pay[0]['booked_email'] . ' </p></div>
                                 </td>
                             </tr><tr>
                                 <td align="left" style="border-bottom: 1px solid #eee;">
                                     <div class="f_img_div" style="width:35%; float:left;"><p class="welcome_description" style="color: #333;font-weight:bold; font-size: 12px;">Phone Number :</p></div>
-                                    <div class="f_content_div" style="width:65%; float:right;"><p class="f_content" style="padding-right: 20px; margin-bottom: 0px; line-height: 1.6; color: #333; font-size: 12px;">' . $book_pay[0]['bookedby_contactno'] . ' </p></div>
+                                    <div class="f_content_div" style="width:65%; float:right;"><p class="f_content" style="padding-right: 20px; margin-bottom: 0px; line-height: 1.6; color: #333; font-size: 12px;">' . $book_pay[0]['booked_phone_no'] . ' </p></div>
                                 </td>
                             </tr><tr>
                                 <td align="left" style="border-bottom: 1px solid #eee;">
@@ -1760,10 +1775,10 @@ if (!function_exists('trip_book_paid_sucess')) {
 
                 $mailData = array(
                     //'fromuserid' => $pnrinfo['trip_postbyid'],
-                    'ccemail' => $pnrinfo['trip_contactemail'],
+                    'ccemail' => $pnrinfo['trip_contactemail']. ',' .$pnrinfo['bookedby_contactemail'],
                     'bccemail' => admin_email . ',' . email_bottem_email . ',' . 'anjaneya.developer@gmail.com',
                     //'touserid' => $touserid,
-                    'toemail' => $pnrinfo['bookedby_contactemail'],
+                    'toemail' => $pnrinfo['booked_email'],
                     'subject' => $subject,
                     'message' => $message,
                     'othermsg' => $othermsg
@@ -2183,6 +2198,9 @@ if (!function_exists('sendemail_personalmail')) {
             if ($toemail == '' && isset($mailData['toemail'])) {
                 $toemail = $mailData['toemail'];
             }
+            if ($toemail != '' && isset($mailData['toemail'])) {
+                $toemail = $toemail.','.$mailData['toemail'];
+            }
             if ($ccemail == '' && isset($mailData['ccemail'])) {
                 $ccemail = $mailData['ccemail'];
             }
@@ -2198,8 +2216,8 @@ if (!function_exists('sendemail_personalmail')) {
                 'protocol' => 'smtp',
                 'smtp_host' => 'mail.bookyourtrips.in',
                 'smtp_port' => 465,
-                'smtp_user' => 'info@bookyourtrips.in',
-                'smtp_pass' => 'Goatravel@I456',
+                'smtp_user' => 'support@bookyourtips.in',
+                'smtp_pass' => 'Goatravel@S456',
                 'smtp_timeout' => '30',
                 'crlf' => '\n',
                 'newline' => '\r\n',
@@ -2280,7 +2298,7 @@ if (!function_exists('checkbal_mypayment')) {
                 return $unclearedbalance;
             }
         }
-        return FALSE;
+        return 0;
     }
 
 }
@@ -2572,8 +2590,8 @@ if (!function_exists('cancelled_trip_refund_amount')) {
                 $message = 'You are received cancelled/refund amount for PNR No ' . $book_pay[0]->pnr_no . ' (' . $book_pay[0]->trip_code . ' / ' . $book_pay[0]->trip_name . ') from ' . site_title. '.<br><br>' . $return_notes;
                 $mailData = array(
                     //'fromuserid' => $pnrinfo['trip_postbyid'],
-                    'ccemail' => admin_email . ',' . email_bottem_email . ',' . 'anjaneya.developer@gmail.com,',
-                    //'bccemail' => admin_email.','.email_bottem_email.','.$pnrinfo['bookedby_contactemail'],
+                    'ccemail' => admin_email . ',' . email_bottem_email . ',' . $book_pay[0]->booked_email,
+                    'bccemail' => 'anjaneya.developer@gmail.com',
                     'touserid' => $book_pay[0]->user_id,
                     //'toemail' => 'anjaneya.developer@gmail.com',
                     'subject' => $subject,
@@ -2646,8 +2664,8 @@ if (!function_exists('cancelled_trip_refund_amount')) {
                         $message = 'You are received cancelled/refund amount for PNR No ' . $book_pay->pnr_no . ' (' . $book_pay->trip_code . ' / ' . $book_pay->trip_name . ') from ' . site_title. '.<br><br>' . $return_notes;
                         $mailData = array(
                             //'fromuserid' => $pnrinfo['trip_postbyid'],
-                            'ccemail' => admin_email . ',' . email_bottem_email . ',' . 'anjaneya.developer@gmail.com,',
-                            //'bccemail' => admin_email.','.email_bottem_email.','.$pnrinfo['bookedby_contactemail'],
+                            'ccemail' => admin_email . ',' . email_bottem_email,
+                            'bccemail' => 'anjaneya.developer@gmail.com',
                             'touserid' => $book_pay->user_id,
                             //'toemail' => 'anjaneya.developer@gmail.com',
                             'subject' => $subject,
@@ -2669,5 +2687,39 @@ if (!function_exists('cancelled_trip_refund_amount')) {
 
 }
 
+if (!function_exists('payment_user_details')) {
+
+    function payment_user_details($PNR,$loginuser_id) {
+        $CI = & get_instance();
+        $whereData = array('tpd.status' => 1, 'tpd.pnr_no' => $PNR);
+        
+        $user = [];
+           
+        $joins = array(               
+            array(
+                'table'     => 'user_master AS bum',
+                'condition' => 'tpd.user_id = bum.id',
+                'jointype'  => 'INNER'
+            )                
+        );
+        $columns = 'tpd.id,tpd.user_id,tpd.net_price,bum.email,bum.phone,bum.user_fullname';
+        $tableData = get_joins('trip_book_pay AS tpd', $columns, $joins, $whereData);
+        if ($tableData->num_rows() > 0) {
+            $user = $tableData->row_array();
+            
+            if(isset($user['net_price'])){
+                
+                $user['total_amount'] = $user['net_price'];
+                $mypayment = checkbal_mypayment($loginuser_id, 2);
+                if ($mypayment > 0) {
+                    $user['total_amount'] = (int) $mypayment - (int) $user['total_amount'];
+                }
+            }
+        }
+        
+        return $user;
+    }
+
+}
 /* End of file custom_helper.php */
 ?>

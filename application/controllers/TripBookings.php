@@ -154,8 +154,8 @@ class TripBookings extends CI_Controller {
                                 if ($servicecharge_amt < SERVICECHARGE_AMT) {// get max amt
                                     $servicecharge_amt = SERVICECHARGE_AMT;
                                 }
-                                if ($trip_id == $parenttrip_id) {
-                                    $servicecharge_amt = SERVICECHARGE_AMT;
+                                if ($this->session->userdata('user_type') == 'VA' && $trip_id ==$parenttrip_id) {// booking vendor 0 service amt
+                                    $servicecharge_amt = 0;
                                 }
                                 $your_amt = (int) $net_price - (int) $servicecharge_amt;
 //                                if($your_amt<1){
@@ -321,21 +321,31 @@ class TripBookings extends CI_Controller {
                     $cus_name=ucwords($this->input->post('user_name', true));
                     $cus_email=strtolower($this->input->post('email', true));
                     $cus_phone=$this->input->post('phonenumber', true);
-                    
-                    $userData = array(
-                        'user_fullname' => $cus_name,
-                        'email' => $cus_email,
-                        'phone' => $cus_phone,
-                    );
-                    $userId = getGuestLoginDeteails($userData);
-                    if ($this->session->userdata('user_type') == 'VA' && $loginuser_id ==$userId) {
+                    $customer_id =0;$userId =0;
+                    $whereData = array('email' => $cus_email);
+                    $user_master = selectTable('user_master', $whereData, $showField = array('*'));
+                    if ($user_master->num_rows() > 0) {
+                        $row = $user_master->row();
+                        $customer_id = $row->id;
+                    }
+                    if($customer_id<1){
                         $userData = array(
                             'user_fullname' => $cus_name,
-                            'email' => 'guestnomail@mail.com',
-                            'phone' => '9876543210',
+                            'email' => $cus_email,
+                            'phone' => $cus_phone,
                         );
                         $userId = getGuestLoginDeteails($userData);
+                    }else{
+                        $userId = $customer_id;
                     }
+//                    if ($this->session->userdata('user_type') == 'VA' && $loginuser_id ==$userId) {
+//                        $userData = array(
+//                            'user_fullname' => $cus_name,
+//                            'email' => 'guestnomail@mail.com',
+//                            'phone' => $cus_phone,
+//                        );
+//                        $userId = getGuestLoginDeteails($userData);
+//                    }
                     //BOOKING
                     if ($userId > 0) {
                         $bookdata = array(
@@ -351,31 +361,21 @@ class TripBookings extends CI_Controller {
                             'booked_phone_no' => $cus_phone);
                         $book_pay = trip_book($bookdata, $this->session->userdata('bk_usecouponcode'));
                         if (count($book_pay) > 0) {
-
+                            //print_r($book_pay);
                             $result = true;
                             $pnr = $book_pay['pnr_no'];
                             $trip_amount = $book_pay['trip_amount'];
                             $customer_id = $userId;
+                             $this->session->set_userdata('bk_pnr_no', $pnr);
                             // Check wallet amount, full amount in wallet
                             $mypayment = 0;
                             if ($this->session->userdata('user_type') == 'VA' && $book_pay['status'] == 1) {
                                 $mypayment = checkbal_mypayment($loginuser_id, 2);
-                                if ($mypayment > 0) {
-                                    $balance = (int) $mypayment - (int) $trip_amount;
-                                    if ($balance <0) {
-                                        //  Cash Deposited to B2b
-                                        $paymentdata = array(
-                                            'userid' => $loginuser_id,
-                                            'transaction_notes' => 'Cash Deposited',
-                                            'from_userid' => -1,
-                                            'book_pay_id' => 0,
-                                            'book_pay_details_id' => 0,
-                                            'pnr_no' => '',
-                                            'trip_id' => 0,
-                                            'deposits' => $trip_amount,
-                                            'status' => 2);
-                                        make_mypayment($paymentdata);
-                                    }
+                                    $balance = (int) $trip_amount - (int) $mypayment;
+//                                    echo $mypayment."<br>";
+//                                    echo $balance."<br>";
+//                                    echo $trip_amount."<br>";
+                                    if ($balance <=0 || $trip_amount==0) {
                                         //Amount Move to B2b to BYT 
                                         $paymentdata = array(
                                             'userid' => 0,
@@ -392,7 +392,7 @@ class TripBookings extends CI_Controller {
                                                 'payment_status' => 1,
                                                 'status' => 2);
 
-                                            trip_book_paid_sucess($updatedata, $book_pay['pnr_no'], 1);
+                                            trip_book_paid_sucess($updatedata, $pnr, 1);
 
                                             //CLEAR BOOKING SESSIONS
                                             $array_items = array('bk_no_of_adult', 'bk_no_of_children', 'bk_no_of_infan', 'bk_from_date', 'bk_usecouponcode',
@@ -402,64 +402,110 @@ class TripBookings extends CI_Controller {
                                             echo $pnr;
                                             exit;
                                         }
-                                }
+                                    }else{
+                                        echo 1; exit;
+                                    }
+//                                if ($mypayment > 0) {
+//                                    $balance = (int) $mypayment - (int) $trip_amount;
+//                                    if ($balance <0) {
+//                                        //  Cash Deposited to B2b
+//                                        $paymentdata = array(
+//                                            'userid' => $loginuser_id,
+//                                            'transaction_notes' => 'Cash Deposited',
+//                                            'from_userid' => -1,
+//                                            'book_pay_id' => 0,
+//                                            'book_pay_details_id' => 0,
+//                                            'pnr_no' => '',
+//                                            'trip_id' => 0,
+//                                            'deposits' => $trip_amount,
+//                                            'status' => 2);
+//                                        make_mypayment($paymentdata);
+//                                    }
+//                                        //Amount Move to B2b to BYT 
+//                                        $paymentdata = array(
+//                                            'userid' => 0,
+//                                            'transaction_notes' => 'Trip has been booked ' . $pnr,
+//                                            'withdrawal_notes' => 'Office Booking PNR' . $pnr,
+//                                            'pnr_no' => $pnr,
+//                                            'from_userid' => $loginuser_id,
+//                                            'deposits' => $trip_amount,
+//                                            'status' => 2);
+//                                        if (make_mypayment($paymentdata)) {
+//
+//                                            $updatedata = array(
+//                                                'payment_type' => 1, // 1 - net, 2 - credit, 3 - debit
+//                                                'payment_status' => 1,
+//                                                'status' => 2);
+//
+//                                            trip_book_paid_sucess($updatedata, $book_pay['pnr_no'], 1);
+//
+//                                            //CLEAR BOOKING SESSIONS
+//                                            $array_items = array('bk_no_of_adult', 'bk_no_of_children', 'bk_no_of_infan', 'bk_from_date', 'bk_usecouponcode',
+//                                                'bk_to_date', 'bk_location');
+//
+//                                            $this->session->unset_userdata($array_items);
+//                                            echo $pnr;
+//                                            exit;
+//                                        }
+//                                }
                             } else {
+                                echo 1; exit;
                                 //Amount Move to B2c to BYT 
                                 //  Cash Deposited
-                                $paymentdata = array(
-                                    'userid' => $customer_id,
-                                    'transaction_notes' => 'Cash Deposited',
-                                    'from_userid' => -1,
-                                    'book_pay_id' => 0,
-                                    'book_pay_details_id' => 0,
-                                    'pnr_no' => '',
-                                    'trip_id' => 0,
-                                    'deposits' => $trip_amount,
-                                    'status' => 2);
-                                make_mypayment($paymentdata);
-
-                                $paymentdata = array(
-                                    'userid' => $customer_id,
-                                    'transaction_notes' => 'Trip has been booked ' . $pnr,
-                                    'withdrawal_notes' => 'Office Booking PNR' . $pnr,
-                                    'pnr_no' => $pnr,
-                                    'from_userid' => -1,
-                                    'deposits' => $trip_amount,
-                                    'status' => 2);
-                                if (make_mypayment($paymentdata)) {
-
-                                    $updatedata = array(
-                                        'payment_type' => 1, // 1 - net, 2 - credit, 3 - debit
-                                        'payment_status' => 1,
-                                        'status' => 2);
-
-                                    trip_book_paid_sucess($updatedata, $book_pay['pnr_no'], 1);
-
-                                    //CLEAR BOOKING SESSIONS
-                                    $array_items = array('bk_no_of_adult', 'bk_no_of_children', 'bk_no_of_infan', 'bk_from_date', 'bk_usecouponcode',
-                                        'bk_to_date', 'bk_location');
-
-                                    $this->session->unset_userdata($array_items);
-                                    echo $pnr;
-                                    exit;
-                                }
+//                                $paymentdata = array(
+//                                    'userid' => $customer_id,
+//                                    'transaction_notes' => 'Cash Deposited',
+//                                    'from_userid' => -1,
+//                                    'book_pay_id' => 0,
+//                                    'book_pay_details_id' => 0,
+//                                    'pnr_no' => '',
+//                                    'trip_id' => 0,
+//                                    'deposits' => $trip_amount,
+//                                    'status' => 2);
+//                                make_mypayment($paymentdata);
+//
+//                                $paymentdata = array(
+//                                    'userid' => $customer_id,
+//                                    'transaction_notes' => 'Trip has been booked ' . $pnr,
+//                                    'withdrawal_notes' => 'Office Booking PNR' . $pnr,
+//                                    'pnr_no' => $pnr,
+//                                    'from_userid' => -1,
+//                                    'deposits' => $trip_amount,
+//                                    'status' => 2);
+//                                if (make_mypayment($paymentdata)) {
+//
+//                                    $updatedata = array(
+//                                        'payment_type' => 1, // 1 - net, 2 - credit, 3 - debit
+//                                        'payment_status' => 1,
+//                                        'status' => 2);
+//
+//                                    trip_book_paid_sucess($updatedata, $book_pay['pnr_no'], 1);
+//
+//                                    //CLEAR BOOKING SESSIONS
+//                                    $array_items = array('bk_no_of_adult', 'bk_no_of_children', 'bk_no_of_infan', 'bk_from_date', 'bk_usecouponcode',
+//                                        'bk_to_date', 'bk_location');
+//
+//                                    $this->session->unset_userdata($array_items);
+//                                    echo $pnr;
+//                                    exit;
+//                                }
                             }
 
                             //TODO: Redierct to payment getway
                             //{
                             //MANUALLY CHANGE BOOKING STATUS
-                            $updatedata = array(
-                                'payment_type' => 1, // 1 - net, 2 - credit, 3 - debit
-                                'payment_status' => 1,
-                                'status' => 2);
-
-                            trip_book_paid_sucess($updatedata, $book_pay['pnr_no']);
-
-                            //CLEAR BOOKING SESSIONS
-                            $array_items = array('bk_no_of_adult', 'bk_no_of_children', 'bk_no_of_infan', 'bk_from_date', 'bk_usecouponcode',
-                                'bk_to_date', 'bk_location');
-
-                            $this->session->unset_userdata($array_items);
+//                            $updatedata = array(
+//                                'payment_type' => 1, // 1 - net, 2 - credit, 3 - debit
+//                                'payment_status' => 1,
+//                                'status' => 2);
+//
+//                            trip_book_paid_sucess($updatedata, $book_pay['pnr_no']);
+//
+//                            //CLEAR BOOKING SESSIONS
+//                            $array_items = array('bk_no_of_adult', 'bk_no_of_children', 'bk_no_of_infan', 'bk_from_date', 'bk_usecouponcode',
+//                                'bk_to_date', 'bk_location');
+//
+//                            $this->session->unset_userdata($array_items);
                             //}
                         }
                         //echo "<pre>"; print_r($result);exit;

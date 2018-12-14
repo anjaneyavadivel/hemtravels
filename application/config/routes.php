@@ -225,3 +225,6 @@ $route['checkcouponcode'] = 'TripBookings/checkcouponcode';
 // corn job for check Trip Completed
 $route['checktripcompleted'] = 'welcome/checkTripCompleted';
 $route['remindertocustomer'] = 'welcome/reminderToCustomer';
+
+// payment
+$route['response'] = 'payment/response';

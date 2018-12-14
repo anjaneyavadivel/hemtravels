@@ -10,7 +10,7 @@
 			<div class="breadcrumb-wrapper">
 				<div class="container">
 					<ol class="breadcrumb">
-						<li><a href="#">Home</a></li>
+						<li><a href="<?=base_url()?>">Home</a></li>
 						<li class="active">Contact Us</li>
 					</ol>
 				</div>
@@ -29,7 +29,7 @@
 							<div class="section-title">
 							
 								<h2>Contact Us</h2>
-								<p>Pretended exquisite see cordially the you.</p>
+								<p>Need any help for your trip? Feel free to write to us at support@bookyourtrips.in</p>
 								
 							</div>
 							
@@ -106,18 +106,19 @@
 									<ul class="address-list">
 										<li>
 												<h5>Address</h5>
-												<address> 545, Marina Rd., <br/>Mohammed Bin Rashid Boulevard, <br/>Dubai 123234 </address>
+												<address> Highland Holiday Homes Shopping Center, <br/>Next to Newton Supermarket, 
+                                                                                                    <br/>Near Candolim Panchayat,<br/>Candolim,<br/>Goa 403515. </address>
 										</li>
 										<li>
-												<h5>Email</h5><a href="#">office@company.com</a>
+												<h5>Email</h5><a href="#">support@bookyourtips.in</a>
 										</li>
 										<li>
-												<h5>Phone Number</h5><a href="#">1-866-599-6674</a>
+                                                                                    <h5>Phone Number</h5><a href="#">+91 98221 53576</a><br><a href="#">0832-2489218</a>
 										</li>
-										<li>
+<!--										<li>
 												<h5>Skype</h5><a href="#">your_skype_id</a>
-										</li>
-										<li>
+										</li>-->
+<!--										<li>
 												<h5>Social Networks</h5>
 												<div class="contact-social">
 												
@@ -127,7 +128,7 @@
 													<a href="#" data-toggle="tooltip" data-placement="top" title="Pinterest"><i class="fa fa-pinterest"></i></a>
 												
 												</div>
-										</li>
+										</li>-->
 											
 									</ul>
 								

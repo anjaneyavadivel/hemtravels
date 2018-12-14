@@ -143,7 +143,8 @@
                                         $totalamt = (int)$pnrinfo['total_trip_price'];
                                         if($pnrinfo['offer_amt']!=0.00){?>
                                     <li><span class="font600 net_price">Offer Amount(-):
-                                            <?php if($pnrinfo['coupon_code']!=''){
+                                            <?php $coupon_code ='';
+                                            if($pnrinfo['coupon_code']!=''){
                                                 $offer_type='';
                                                 if (strpos($pnrinfo['percentage_amount'], '.00') !== false) {
                                                     $pnrinfo['percentage_amount'] = round($pnrinfo['percentage_amount']);
@@ -275,9 +276,9 @@
                                     <?php if($pnrinfo['meal']!=''){?>
                                     <li><span class="font600 excluded">Meals: </span><?=$pnrinfo['meal'];?></li>
                                     <?php }?>
-                                    <li><span class="font600 billed_by">Billing By:</span><?=$pnrinfo['bookedby'];?></li>
-                                    <li><span class="font600 billed_email">Billing Email:</span><?=$pnrinfo['bookedby_contactemail'];?></li>
-                                    <li><span class="font600 billed_phone_number">Phone Number:</span><?=$pnrinfo['bookedby_contactno'];?></li>
+                                    <li><span class="font600 billed_by">Billing By:</span><?=$pnrinfo['booked_to'];?></li>
+                                    <li><span class="font600 billed_email">Billing Email:</span><?=$pnrinfo['booked_email'];?></li>
+                                    <li><span class="font600 billed_phone_number">Phone Number:</span><?=$pnrinfo['booked_phone_no'];?></li>
                                     <li><span class="font600 billed_by">Booked on:</span><?=$pnrinfo['booked_on'];?></li>
                                 </ul>
                                 <?php if($pnrinfo['brief_description']!=''){?>

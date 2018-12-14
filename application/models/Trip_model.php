@@ -72,10 +72,18 @@ class Trip_model extends CI_Model
         
         function getSharedDetails($id)
 	{		
-            $this->db->select('ts.*,um.user_fullname')->from('trip_shared ts')
-                    ->join('user_master um','um.id = ts.user_id','left')->where(array('ts.trip_id'=>$id,'ts.isactive' => 1));
+            $this->db->select('ts.*,tm.trip_code,sum.user_fullname AS sharedusername,um.user_fullname AS tousername,tm.trip_name,mtm.trip_name AS maked_trip_name,mtm.trip_code AS maked_trip_code');
+            $this->db->select('tm.trip_name AS trip_name,um.user_fullname AS user_fullname,um.email AS email,cm.coupon_name AS coupon_name,cm.offer_type,cm.percentage_amount');
+            $this->db->from('trip_shared AS ts');
+            $this->db->join('user_master AS sum', 'ts.shared_user_id = sum.id','LEFT');
+            $this->db->join('user_master AS um', 'ts.user_id = um.id','LEFT');
+            $this->db->join('trip_master AS tm', 'ts.trip_id = tm.id','LEFT');
+            $this->db->join('trip_master AS mtm', 'ts.id = mtm.trip_shared_id','LEFT');
+            $this->db->join('coupon_code_master_history AS cm', 'ts.coupon_history_id = cm.id','LEFT');
+            $this->db->where(array('ts.trip_id'=>$id,'ts.isactive' => 1));
+            $this->db->order_by('ts.id DESC');
             $query=$this->db->get();
-            
+
             return $query->row_array();
             
 	}

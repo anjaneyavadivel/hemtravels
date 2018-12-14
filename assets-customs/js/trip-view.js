@@ -277,7 +277,9 @@ jQuery(function ($) {
                     processData: false,
                     success: function (res)
                     {
-                        if (res) {
+                        if (res=='1') {
+                            window.location.href = base_url + 'payment';
+                        } else if (res) {
                             window.location.href = base_url + 'PNR-status/' + res;
                         } else {
                             window.location.href = base_url + 'trip-list';

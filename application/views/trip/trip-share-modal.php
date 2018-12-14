@@ -30,7 +30,7 @@
                     </div>
 
                     <div class="form-group">
-                        <label>Coupon:</label>
+                        <label class="col-lg-12 col-xs-12 col-sm-12">Coupon: <span class="pull-right">Want to make a new coupon code <a href="<?=base_url();?>coupon-code-master">click here</a></span></label>
                         <select name="coupon_history_id" id="coupon_history_id" class="selectpicker show-tick form-control" title="Select Coupon">
                             <option value="0">Select coupon</option>
                             <?php 

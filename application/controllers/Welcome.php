@@ -361,7 +361,7 @@ class Welcome extends CI_Controller {
                                     $mailData = array(
                                         //'fromuserid' => $pnrinfo['trip_postbyid'],
                                         'ccemail' => admin_email . ',' . email_bottem_email . ',' . 'anjaneya.developer@gmail.com,',
-                                        //'bccemail' => admin_email.','.email_bottem_email.','.$pnrinfo['bookedby_contactemail'],
+                                        //'bccemail' => admin_email.','.email_bottem_email,
                                         'touserid' => $pay->user_id,
                                         //'toemail' => 'anjaneya.developer@gmail.com',
                                         'subject' => $subject,
@@ -589,17 +589,17 @@ class Welcome extends CI_Controller {
                 $othermsg .= '<tr>
                                 <td align="left" style="border-bottom: 1px solid #eee;">
                                     <div class="f_img_div" style="width:35%; float:left;"><p class="welcome_description" style="color: #333;font-weight:bold; font-size: 12px;">Billing By :</p></div>
-                                    <div class="f_content_div" style="width:65%; float:right;"><p class="f_content" style="padding-right: 20px; margin-bottom: 0px; line-height: 1.6; color: #333; font-size: 12px;">' . $pnrinfo['bookedby'] . ' </p></div>
+                                    <div class="f_content_div" style="width:65%; float:right;"><p class="f_content" style="padding-right: 20px; margin-bottom: 0px; line-height: 1.6; color: #333; font-size: 12px;">' . $pnrinfo['booked_to'] . ' </p></div>
                                 </td>
                             </tr><tr>
                                 <td align="left" style="border-bottom: 1px solid #eee;">
                                     <div class="f_img_div" style="width:35%; float:left;"><p class="welcome_description" style="color: #333;font-weight:bold; font-size: 12px;">Billing Email :</p></div>
-                                    <div class="f_content_div" style="width:65%; float:right;"><p class="f_content" style="padding-right: 20px; margin-bottom: 0px; line-height: 1.6; color: #333; font-size: 12px;">' . $pnrinfo['bookedby_contactemail'] . ' </p></div>
+                                    <div class="f_content_div" style="width:65%; float:right;"><p class="f_content" style="padding-right: 20px; margin-bottom: 0px; line-height: 1.6; color: #333; font-size: 12px;">' . $pnrinfo['booked_email'] . ' </p></div>
                                 </td>
                             </tr><tr>
                                 <td align="left" style="border-bottom: 1px solid #eee;">
                                     <div class="f_img_div" style="width:35%; float:left;"><p class="welcome_description" style="color: #333;font-weight:bold; font-size: 12px;">Phone Number :</p></div>
-                                    <div class="f_content_div" style="width:65%; float:right;"><p class="f_content" style="padding-right: 20px; margin-bottom: 0px; line-height: 1.6; color: #333; font-size: 12px;">' . $pnrinfo['bookedby_contactno'] . ' </p></div>
+                                    <div class="f_content_div" style="width:65%; float:right;"><p class="f_content" style="padding-right: 20px; margin-bottom: 0px; line-height: 1.6; color: #333; font-size: 12px;">' . $pnrinfo['booked_phone_no'] . ' </p></div>
                                 </td>
                             </tr><tr>
                                 <td align="left" style="border-bottom: 1px solid #eee;">
@@ -684,10 +684,10 @@ class Welcome extends CI_Controller {
                 $message = 'This automated message is a reminder to help you! Your trip <a href="' . base_url() . 'PNR-status/' . $pnr_no . '/1" style="color:#00adef" target="_new"><b>PNR No: ' . $pnr_no . '</b> ( Trip Code/Name: ' . $trip_code . ' / ' . $trip_name . ' )</a> at ' . site_title . '.';
                 $mailData = array(
                     //'fromuserid' => $pnrinfo['trip_postbyid'],
-                    //'ccemail' => $pnrinfo['trip_contactemail'],
+                    'ccemail' => $pnrinfo['bookedby_contactemail'],
                     'bccemail' => admin_email . ',' . email_bottem_email . ',' . 'anjaneya.developer@gmail.com',
                     //'touserid' => $touserid,
-                    'toemail' => $pnrinfo['bookedby_contactemail'],
+                    'toemail' => $pnrinfo['booked_email'],
                     'subject' => $subject,
                     'message' => $message,
                     'othermsg' => $othermsg
@@ -890,17 +890,17 @@ class Welcome extends CI_Controller {
                 $othermsg .= '<tr>
                                 <td align="left" style="border-bottom: 1px solid #eee;">
                                     <div class="f_img_div" style="width:35%; float:left;"><p class="welcome_description" style="color: #333;font-weight:bold; font-size: 12px;">Billing By :</p></div>
-                                    <div class="f_content_div" style="width:65%; float:right;"><p class="f_content" style="padding-right: 20px; margin-bottom: 0px; line-height: 1.6; color: #333; font-size: 12px;">' . $pnrinfo['bookedby'] . ' </p></div>
+                                    <div class="f_content_div" style="width:65%; float:right;"><p class="f_content" style="padding-right: 20px; margin-bottom: 0px; line-height: 1.6; color: #333; font-size: 12px;">' . $pnrinfo['booked_to'] . ' </p></div>
                                 </td>
                             </tr><tr>
                                 <td align="left" style="border-bottom: 1px solid #eee;">
                                     <div class="f_img_div" style="width:35%; float:left;"><p class="welcome_description" style="color: #333;font-weight:bold; font-size: 12px;">Billing Email :</p></div>
-                                    <div class="f_content_div" style="width:65%; float:right;"><p class="f_content" style="padding-right: 20px; margin-bottom: 0px; line-height: 1.6; color: #333; font-size: 12px;">' . $pnrinfo['bookedby_contactemail'] . ' </p></div>
+                                    <div class="f_content_div" style="width:65%; float:right;"><p class="f_content" style="padding-right: 20px; margin-bottom: 0px; line-height: 1.6; color: #333; font-size: 12px;">' . $pnrinfo['booked_email'] . ' </p></div>
                                 </td>
                             </tr><tr>
                                 <td align="left" style="border-bottom: 1px solid #eee;">
                                     <div class="f_img_div" style="width:35%; float:left;"><p class="welcome_description" style="color: #333;font-weight:bold; font-size: 12px;">Phone Number :</p></div>
-                                    <div class="f_content_div" style="width:65%; float:right;"><p class="f_content" style="padding-right: 20px; margin-bottom: 0px; line-height: 1.6; color: #333; font-size: 12px;">' . $pnrinfo['bookedby_contactno'] . ' </p></div>
+                                    <div class="f_content_div" style="width:65%; float:right;"><p class="f_content" style="padding-right: 20px; margin-bottom: 0px; line-height: 1.6; color: #333; font-size: 12px;">' . $pnrinfo['booked_phone_no'] . ' </p></div>
                                 </td>
                             </tr><tr>
                                 <td align="left" style="border-bottom: 1px solid #eee;">
@@ -985,10 +985,10 @@ class Welcome extends CI_Controller {
                 $message = 'This automated message is a reminder to help you! Your trip <a href="' . base_url() . 'PNR-status/' . $pnr_no . '/1" style="color:#00adef" target="_new"><b>PNR No: ' . $pnr_no . '</b> ( Trip Code/Name: ' . $trip_code . ' / ' . $trip_name . ' )</a> at ' . site_title . '.';
                 $mailData = array(
                     //'fromuserid' => $pnrinfo['trip_postbyid'],
-                    //'ccemail' => $pnrinfo['trip_contactemail'],
+                    'ccemail' => $pnrinfo['bookedby_contactemail'],
                     'bccemail' => admin_email . ',' . email_bottem_email . ',' . 'anjaneya.developer@gmail.com',
                     //'touserid' => $touserid,
-                    'toemail' => $pnrinfo['bookedby_contactemail'],
+                    'toemail' => $pnrinfo['booked_email'],
                     'subject' => $subject,
                     'message' => $message,
                     'othermsg' => $othermsg

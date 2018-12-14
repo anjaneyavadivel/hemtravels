@@ -430,13 +430,16 @@ class Master extends CI_Controller {
 //        print_r($result);
 //        exit();
         $bookdata=array(
-        'trip_id' => 6, //15, 13
-        'book_user_id' => 87,
-        'no_of_adult' => 1,
+        'trip_id' => 2, //15, 13
+        'book_user_id' => 81,
+        'no_of_adult' => 2,
         'no_of_child' => 0,
         'no_of_infan' => 0,
-        'date_of_trip' => "Nov 21, 2018",
-        'pick_up_location_id' => 15); //39, 37
+        'date_of_trip' => "Dec 5, 2018",
+        'pick_up_location_id' => 7,
+        'booked_to' => 'Raja',
+        'booked_email' => 'raja@mail.com',
+        'booked_phone_no' => '9876543210'); //39, 37
         $result = trip_book($bookdata,'',1);//COUPONOFFER50PER, cash
         print_r($result);
 //        $loginuser_id = $this->session->userdata('user_id');
@@ -531,16 +534,16 @@ class Master extends CI_Controller {
         
       // echo checkbal_mypayment(1,2);
         
-        $pnr = 'PNR64XSNYGR';
-        $paymentdata = array(
-            'userid' => 87,
-            'transaction_notes' => 'Trip has been booked ' . $pnr,
-            'withdrawal_notes' => 'Office Booking PNR' . $pnr,
-            'pnr_no' => $pnr,
-            'from_userid' => 87,
-            'deposits' => 20,
-            'status' => 2);
-        make_mypayment($paymentdata);
+//        $pnr = 'PNR64XSNYGR';
+//        $paymentdata = array(
+//            'userid' => 87,
+//            'transaction_notes' => 'Trip has been booked ' . $pnr,
+//            'withdrawal_notes' => 'Office Booking PNR' . $pnr,
+//            'pnr_no' => $pnr,
+//            'from_userid' => 87,
+//            'deposits' => 20,
+//            'status' => 2);
+//        make_mypayment($paymentdata);
         
     }
 

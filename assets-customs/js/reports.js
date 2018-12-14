@@ -342,7 +342,6 @@ jQuery(function($) {
     
     //TOMORROW TRIP(BOOKING) REPORT
     $('#tomorrowTripReport').on('click',function(){ 
-        
         var search_from = $('#rangeDatePickerFrom').val() != undefined ?$('#rangeDatePickerFrom').val():'';
         var search_to   = $('#rangeDatePickerTo').val() != undefined ?$('#rangeDatePickerTo').val():'';       
         var titleSearch = $('#titleSearch').val() != undefined ?$('#titleSearch').val():'';

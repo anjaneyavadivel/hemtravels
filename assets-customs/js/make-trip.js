@@ -54,10 +54,13 @@ jQuery(function($) {
                     success : function(file, response){ 
 
                         response = $.parseJSON(response); 
-                        if(response.upload_data.file_name){                            
-                            var value = $('#gallery_images').val();                            
-                                value = $.parseJSON(value);
-                                value.push(response.upload_data.file_name);                                            
+                        if(response.upload_data.file_name){ 
+                            var value = [];
+                            var gallery_images = $('#gallery_images').val(); 
+                            if (gallery_images) {
+                                value = $.parseJSON(gallery_images);
+                            }
+                                value.push(response.upload_data.file_name);                                          
                                 $('#gallery_images').val(JSON.stringify(value)); 
                           
                         }

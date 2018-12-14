@@ -32,36 +32,31 @@
 							<div class="row">
 								
 								<div class="col-xs-12 col-sm-4 col-md-3 col-md-offset-3 mt-25-sm">
-									<h5 class="footer-title">footer</h5>
+									<h5 class="footer-title">We Are?</h5>
 									<ul class="footer-menu">
-										<li><a href="#">Support</a></li>
-										<li><a href="#">Advertise</a></li>
-										<li><a href="#">Media Relations</a></li>
-										<li><a href="#">Affiliates</a></li>
-										<li><a href="#">Careers</a></li>
+										<li><a href="<?php echo base_url() ?>about-us">About Us</a></li>
+                                                                                <li><a href="<?php echo base_url() ?>contact-us">Contact Us</a></li>
+                                                                                <li><a href="<?php echo base_url() ?>faq">FAQ</a></li>
 									</ul>
 								</div>
 								
 								<div class="col-xs-12 col-sm-4 col-md-3 mt-25-sm">
-									<h5 class="footer-title">quick  links</h5>
+									<h5 class="footer-title">Quick  Links</h5>
 									<ul class="footer-menu">
-										<li><a href="#">Media Relations</a></li>
-										<li><a href="#">Affiliates</a></li>
-										<li><a href="#">Careers</a></li>
-										<li><a href="#">Support</a></li>
-										<li><a href="#">Advertise</a></li>
+										<li><a href="<?php echo base_url() ?>PNR-status">PNR Status</a></li>
+                                                                                <li><a href="<?php echo base_url() ?>trip-list">Trips Search</a></li>
+                                                                                <li><a data-toggle="modal" href="#registerModal">Register</a></li>
+                                    <li><a data-toggle="modal" href="#loginModal">Login </a></li> 
 									</ul>
 								</div>
 								
 								<div class="col-xs-12 col-sm-4 col-md-3 mt-25-sm">
 								
-									<h5 class="footer-title">helps</h5>
+									<h5 class="footer-title">Top Category</h5>
 									<ul class="footer-menu">
-										<li><a href="#">Using a Tour</a></li>
-										<li><a href="#">Submitting a Tour</a></li>
-										<li><a href="#">Managing My Account</a></li>
-										<li><a href="#">Merchant Help</a></li>
-										<li><a href="#">White Label Website</a></li>
+                                                                                <li><a href="<?php echo base_url() ?>trip-list?category_id=6">Boating</a></li>
+                                                                                <li><a href="<?php echo base_url() ?>trip-list?category_id=13">Water Rides</a></li>
+                                                                                <li><a href="<?php echo base_url() ?>trip-list?category_id=11">Camping</a></li>
 									</ul>
 								
 								</div>
@@ -84,29 +79,29 @@
 					
 						<div class="col-xs-12 col-sm-6 col-md-4">
 				
-							<p class="copy-right">&#169; 2017 B2C</p>
+							<p class="copy-right">&#169; 2017 BookYourTrips.in</p>
 							
 						</div>
 						
-						<div class="col-xs-12 col-sm-6 col-md-4">
+						<div class="col-xs-12 col-sm-6 col-md-6">
 						
 							<ul class="bottom-footer-menu">
-								<li><a href="#">Cookies</a></li>
-								<li><a href="#">Policies</a></li>
-								<li><a href="#">Terms</a></li>
-								<li><a href="#">Blogs</a></li>
+<!--                                 				<li><a href="#">Cookies</a></li>-->
+								<li><a href="<?php echo base_url()?>assets/teams/Final-Terms-and-Conditions-For-BYT-Vendor.pdf" target="_new">Vendor Terms &amp; Conditions</a></a></li>
+								<li><a href="<?php echo base_url()?>assets/teams/Final-Terms-and-Conditions-For-Byt-Customer.pdf" target="_new">Customer Terms &amp; Conditions</a></li>
+<!--								<li><a href="#">Blogs</a></li>-->
 							</ul>
 						
 						</div>
 						
-						<div class="col-xs-12 col-sm-12 col-md-4">
+<!--						<div class="col-xs-12 col-sm-12 col-md-4">
 							<ul class="bottom-footer-menu for-social">
 								<li><a href="#"><i class="icon-social-twitter" data-toggle="tooltip" data-placement="top" title="twitter"></i></a></li>
 								<li><a href="#"><i class="icon-social-facebook" data-toggle="tooltip" data-placement="top" title="facebook"></i></a></li>
 								<li><a href="#"><i class="icon-social-google" data-toggle="tooltip" data-placement="top" title="google plus"></i></a></li>
 								<li><a href="#"><i class="icon-social-instagram" data-toggle="tooltip" data-placement="top" title="instrgram"></i></a></li>
 							</ul>
-						</div>
+						</div>-->
 					
 					</div>
 
@@ -413,7 +408,7 @@
 	<?php }?>
 <?php }?>
 <?php if($url=='contact-us'){?>
-    <script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=false"></script>
+    <script type="text/javascript" src="https://maps.google.com/maps/api/js?sensor=false"></script>
     <script type="text/javascript" src="<?php echo base_url()?>assets/js/infobox.js"></script>
 <!--    <script type="text/javascript" src="<?php echo base_url()?>assets/js/validator.min.js"></script>-->
 <!--    <script type="text/javascript" src="<?php echo base_url()?>assets/js/customs-contact.js"></script>-->
@@ -680,7 +675,29 @@
         <script type="text/javascript" src="<?php echo base_url()?>assets/js/jquery.daterangepicker.js"></script>
     <script type="text/javascript" src="<?php echo base_url()?>assets-customs/js/trip-book-reports.js"></script>
     <script type="text/javascript" src="<?php echo base_url()?>assets-customs/js/reports.js"></script>
-<?php }?>
+    <?php if($url=='booking-wise-reports'){?>
+    <script>
+        $('#bookedRangeDatePicker > div > div').dateRangePicker({
+            autoClose: true,
+            format: 'MMM D, YYYY',
+            showShortcuts: false,
+            showTopbar: false,
+            getValue: function()
+            {
+                    if ($('#bookedRangeDatePickerTo').val() && $('#bookedRangeDatePickerFrom').val() )
+                            return $('#bookedRangeDatePickerTo').val() + ' to ' + $('#bookedRangeDatePickerFrom').val();
+                    else
+                            return '';
+            },
+            setValue: function(s,s1,s2)
+            {
+                    $('#bookedRangeDatePickerFrom').val(s1);
+                    $('#bookedRangeDatePickerTo').val(s2);
+            },
+            customArrowPrevSymbol: '<i class="fa fa-arrow-circle-left"></i>',
+            customArrowNextSymbol: '<i class="fa fa-arrow-circle-right"></i>'
+});</script>
+    <?php }}?>
     
     
 <?php if($url =='trip-shared-reports'){?> 

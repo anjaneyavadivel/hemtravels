@@ -98,7 +98,7 @@
                                                     <li><a href="<?=base_url();?>trips/update/<?=$trip_code?>"><i class="fa fa-edit"></i> Edit</a></li>
                                                     <li><a href="<?=base_url();?>trip-view/<?=$trip_code?>"><i class="fa fa-search"></i> View / Book</a></li>
                                                     <li><a href="<?=base_url();?>trip-calendar-view/<?=$trip_code?>"><i class="fa fa-calendar"></i> Month View</a></li>
-                                                    <li><a class="share-link" href="javscript:;" data-val="<?=$trip_code?>"><i class="fa fa-share"></i> Share </a></li>
+                                                    <li><a class="share-link" href="javascript:void(0);" data-val="<?=$trip_code?>"><i class="fa fa-share"></i> Share </a></li>
                                                     <?php if($isactive !='0'){?>                                         
                                                         <li><a href="<?=base_url();?>triplist/delete/<?=$id?>"><i class="fa fa-trash"></i> Delete</a></li>
                                                     <?php } else { ?>

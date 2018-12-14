@@ -40,26 +40,7 @@ jQuery(function($) {
             customArrowPrevSymbol: '<i class="fa fa-arrow-circle-left"></i>',
             customArrowNextSymbol: '<i class="fa fa-arrow-circle-right"></i>'
     });
-    $('#bookedRangeDatePicker > div > div').dateRangePicker({
-            autoClose: true,
-            format: 'MMM D, YYYY',
-            showShortcuts: false,
-            showTopbar: false,
-            getValue: function()
-            {
-                    if ($('#bookedRangeDatePickerTo').val() && $('#bookedRangeDatePickerFrom').val() )
-                            return $('#bookedRangeDatePickerTo').val() + ' to ' + $('#bookedRangeDatePickerFrom').val();
-                    else
-                            return '';
-            },
-            setValue: function(s,s1,s2)
-            {
-                    $('#bookedRangeDatePickerFrom').val(s1);
-                    $('#bookedRangeDatePickerTo').val(s2);
-            },
-            customArrowPrevSymbol: '<i class="fa fa-arrow-circle-left"></i>',
-            customArrowNextSymbol: '<i class="fa fa-arrow-circle-right"></i>'
-    });
+    
     
     $('#bookExportXLSX').on('click',function(){ 
         

@@ -84,9 +84,9 @@
                                             <?php if ($pnrinfo['how_many_hours'] > 0) { ?>
                                                 <span class="font600 excluded">Total Hours: </span><?= $pnrinfo['how_many_hours']; ?> Hour(s)
                                             <?php } ?></td>
-                                                <td><span class="font600 billed_by">Billing By:</span> <?= $pnrinfo['bookedby']; ?></td></tr>
-                                                 <tr> <td><span class="font600 billed_by">Billing Email:</span><?= $pnrinfo['bookedby_contactemail']; ?></td>
-                                                 <td><span class="font600 starting">Phone Number: </span> <?= $pnrinfo['bookedby_contactno']; ?> </td></tr>
+                                                <td><span class="font600 billed_by">Billing By:</span> <?= $pnrinfo['booked_to']; ?></td></tr>
+                                                 <tr> <td><span class="font600 billed_by">Billing Email:</span><?= $pnrinfo['booked_email']; ?></td>
+                                                 <td><span class="font600 starting">Phone Number: </span> <?= $pnrinfo['booked_phone_no']; ?> </td></tr>
                                                  <tr>    <td><span class="font600 starting">Booked on: </span> <?= $pnrinfo['booked_on']; ?> </td>
                                                 <td><span class="font600 starting">Date of Trip : </span> <?= $pnrinfo['date_of_trip']; ?> <?= $pnrinfo['time_of_trip']; ?></td></tr>
                                                 <tr><td><span class="font600 starting">No Of Traveller:</span> <?= $pnrinfo['number_of_persons']; ?></td>

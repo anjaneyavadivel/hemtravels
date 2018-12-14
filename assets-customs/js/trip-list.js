@@ -106,6 +106,9 @@ jQuery(function($) {
                                 if(data.shared_email && data.shared_email != ''){
                                     isShared = 'Shared by '+data.shared_email;
                                 }
+                                if(data.sharedemail && data.sharedemail != ''){
+                                    isShared = 'Shared by '+data.sharedemail;
+                                }
                                 if(user_type == 'SA' || user_type == 'VA'){
                                    shared_detail = '<p style="margin-bottom: 0;"><i class="fa fa-share text-center"></i> Shared: '+isShared+'</p>';
                                 }
@@ -130,7 +133,7 @@ jQuery(function($) {
                                                 '</div>'+
                                                 //'<div class="trip-by pt-5"><a href="'+base_url+'trip-calendar-view/'+data.trip_code+'"><span class="text-primary font22 font700 mb-1">'+data.total_booking+'</span> Booking List</a></div>';
                                                 '<div class="trip-by pt-5"><a href="'+base_url+'trip-calendar-view/'+data.trip_code+'">Month View</a></div>'+
-                                                '<div class="trip-by pt-5"><a class="share-link" href="javscript:;" data-val="'+data.trip_code+'">Share Link</a></div>';
+                                                '<div class="trip-by pt-5"><a class="share-link" href="javascript:void(0);" data-val="'+data.trip_code+'">Share Link</a></div>';
                                 }
                                 
                                 //OFFER DETAILS

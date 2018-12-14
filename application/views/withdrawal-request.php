@@ -6,6 +6,7 @@
 
 <div class="modal-body"><?php $balanceamt = checkbal_mypayment($loginuserid, 2);?>
     <input name="min_withdrawal" id="min_withdrawal" type="hidden" value="<?php echo MIN_WITHDRAWAL?>">
+    <?php //if($balanceamt<MIN_WITHDRAWAL){$balanceamt=MIN_WITHDRAWAL;}?>
     <input name="max_withdrawal" id="max_withdrawal" type="hidden" value="<?php echo $balanceamt?>">
     <div class="row gap-20">
 
