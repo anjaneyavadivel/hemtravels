@@ -491,7 +491,7 @@
                                         <button class="btn btn-facebook btn-block mb-5-xs">Register with Facebook</button>
                                     </div>
                                     <div class="col-sm-6 col-md-6">
-                                        <a  href="<?php echo base_url('gmail'); ?>" class="btn btn-google-plus btn-block">Register with Google+</a>
+                                        <a  href="javascript:;" class="btn btn-google-plus btn-block" id="gmail-login-button">Register with Google+</a>
                                     </div>
 
                                     <div class="col-md-12">

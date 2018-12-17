@@ -188,10 +188,12 @@ class Payment extends CI_Controller {
                 }
             }
         } else if ($order_status === "Aborted") {
+            $pnr = $this->session->userdata('bk_pnr_no');
             $this->session->set_userdata('err', 'Thank you for shopping with us.We will keep you posted regarding the status of your order through e-mail');
             redirect('PNR-status/' . $pnr . '/5');
             //echo "<br>Thank you for shopping with us.We will keep you posted regarding the status of your order through e-mail";
         } else if ($order_status === "Failure") {
+            $pnr = $this->session->userdata('bk_pnr_no');
             $this->session->set_userdata('err', 'Thank you for shopping with us.However,the transaction has been declined.');
             redirect('PNR-status/' . $pnr . '/6');
             //echo "<br>Thank you for shopping with us.However,the transaction has been declined.";

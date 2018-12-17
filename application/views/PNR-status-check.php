@@ -52,7 +52,19 @@
                     <div class="col-xs-12 col-sm-10 col-sm-offset-1 col-md-8 col-md-offset-2">
 
                         <div class="confirmation-inner">
-                            <?php if($pnrshow==3 || (isset($pnrinfo['status']) && $pnrinfo['status']==3)){?>
+                            <?php if($pnrshow==5||$pnrshow==6){?>
+                            <div class="promo-box-02 bg-danger mb-40">
+                                    <div class="icon">
+                                            <i class="fa fa-remove"></i>
+                                    </div>
+                                    <?php if($pnrshow==5){?>
+                                    <h4>Payment Aborted</h4>
+                                    <?php }else{?>
+                                    <h4>Payment Failure</h4>
+                                    <?php }?>
+
+                            </div>
+                            <?php }elseif($pnrshow==3 || (isset($pnrinfo['status']) && $pnrinfo['status']==3)){?>
                             <div class="promo-box-02 bg-danger mb-40">
                                     <div class="icon">
                                             <i class="fa fa-remove"></i>
@@ -116,6 +128,11 @@
                                 </div> 
                                 <?php echo form_close(); ?>
                             </div>
+                            <?php }?>
+                             <?php if($pnrshow==5){?>
+                            <div class="check_error mb-30" style="color:red;">Thank you for shopping with us. We will keep you posted regarding the status of your order through e-mail. <a href="<?php echo base_url() ?>payment">Try again to pay</a></div>
+                            <?php }if($pnrshow==6){?>
+                            <div class="check_error mb-30" style="color:red;">Thank you for shopping with us. However,the transaction has been declined. <a href="<?php echo base_url() ?>payment">Try again to pay</a></div>
                             <?php }?>
                             <?php if(isset($message) && $message!=''){?>
                             <div class="check_error" style="color:red;"><?=$message?></div>
@@ -184,7 +201,7 @@
                                         <li><span class="font600 net_price">Paid Amount:</span><b><?=$net_price;?></b></li>                                                                                    
                                         <?php 
                                     }elseif ($this->session->userdata('user_type') == 'VA' && $pnrshow==2) {*/
-                                    if ($this->session->userdata('user_type') == 'VA' && ($pnrshow==0|| $pnrshow==1|| $pnrshow==3)) {
+                                    if ($this->session->userdata('user_type') == 'VA' && ($pnrshow==0|| $pnrshow==1|| $pnrshow==3|| $pnrshow==5|| $pnrshow==6)) {
                                         //$totalamt = (int)$pnrinfo['total_trip_price'];
                                         //if($pnrinfo['net_price']!=0.00 && $pnrinfo['net_price']!=$pnrinfo['subtotal_trip_price']){
                                             ?>

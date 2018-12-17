@@ -92,6 +92,27 @@ public $data;
 		}
 		
 	}
+        
+        public function gmail_login(){
+            $status = false;
+            if($_POST){
+                $user_info = $this->input->post('user_info');
+                
+                if(!empty($user_info)){
+                    $user_info = json_decode($user_info,true);
+                    $id     = isset($user_info['id'])?$user_info['id']:'';
+                    $fname     = isset($user_info['name']['givenName'])?$user_info['name']['givenName']:'';
+                    $lname     = isset($user_info['name']['familyName'])?$user_info['name']['familyName']:'';
+                    $picture_url = isset($user_info['image']['picture_url'])?$user_info['image']['picture_url']:'';
+                    $email     = isset($user_info['emails'][0]['value'])?$user_info['emails'][0]['value']:'';
+                    //echo "<pre>";print_r($user_info);exit;
+                    $status = $this->check_data('gmail',$id,$fname,$lname,$picture_url,$email,1);
+                }
+                
+            }
+            echo $status;exit;
+            
+        }
 	
 	public function fb() #home Page
 	{	
@@ -123,7 +144,7 @@ public $data;
 			?> <a href="<?php echo $login; ?>">Login</a><?php
 		}
 	}
-	function check_data($net,$id,$fname,$lname,$profile_image_url,$email='')
+	function check_data($net,$id,$fname,$lname,$profile_image_url,$email='',$is_ajax = 0)
 	{
 		$check						=	$this->user_model->select('user_master',array('social_network'=>$net,'auth_id'=>$id));
 		//echo $this->db->last_query();exit;
@@ -135,14 +156,18 @@ public $data;
 			$this->session->set_userdata('name',$ch->user_fullname);
 			$this->session->set_userdata('user_img',$ch->profile_pic);
 			$this->session->set_userdata('user_type',$ch->user_type);
-			if($this->session->userdata('last_url'))
+			if($this->session->userdata('last_url') && $is_ajax != 1)
 			{				
 				redirect();
 			}
 			else
 			{
 				$this->session->set_userdata('suc','Login Successfully...!');
-				redirect();
+                                if($is_ajax == 1){
+                                    return true;
+                                }else{
+                                    redirect();
+                                }
 			}
 		}
 		else
@@ -174,18 +199,30 @@ public $data;
 						$this->session->set_userdata('user_type',$ch->user_type);
 						
 						$this->session->set_userdata('suc','Login Successfully...!');
-						redirect();
+						 if($is_ajax == 1){
+                                                    return true;
+                                                }else{
+                                                    redirect();
+                                                }
 					}
 					else
 					{
 						$this->session->set_userdata('err','Please try again..!');
-						redirect();
+						if($is_ajax == 1){
+                                                    return true;
+                                                }else{
+                                                    redirect();
+                                                }
 					}
 				}
 				else
 				{
 					$this->session->set_userdata('err','Please try again..!');
-					redirect();
+					if($is_ajax == 1){
+                                            return true;
+                                        }else{
+                                            redirect();
+                                        }
 				}
 			
 		}

@@ -58,7 +58,7 @@ $route['translate_uri_dashes'] = FALSE;
 $route['logout'] = 'Loginview/logout';
 
 //Api
-$route['gmail'] = 'api/gmail';
+$route['gmail'] = 'api/gmail_login';
 $route['fb'] = 'api/fb';
 
 $route['update-profile'] = 'Loginview/update_profile';

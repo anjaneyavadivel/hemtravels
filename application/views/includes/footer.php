@@ -142,7 +142,7 @@
 				<a href="<?php echo base_url()?>fb" class="btn btn-facebook btn-block mb-5-xs">Log-in with Facebook</a>
 			</div>
 			<div class="col-sm-6 col-md-6">
-				<a  href="<?php echo base_url()?>gmail" class="btn btn-google-plus btn-block">Log-in with Google+</a>
+				<a  href="javascript:;" class="btn btn-google-plus btn-block" id="gmail-login-button">Log-in with Google+</a>
 			</div>
 			
 			<div class="col-md-12">
@@ -215,7 +215,7 @@
 				<a href="<?php echo base_url()?>fb" class="btn btn-facebook btn-block mb-5-xs">Register with Facebook</a>
 			</div>
 			<div class="col-sm-6 col-md-6">
-				<a href="<?php echo base_url()?>gmail" class="btn btn-google-plus btn-block">Register with Google+</a>
+				<a href="javascript:;" class="btn btn-google-plus btn-block" id="gmail-login-button">Register with Google+</a>
 			</div>
 			
 			<div class="col-md-12">
@@ -715,5 +715,88 @@
     setTimeout(function(){$(".alert").fadeOut(400);}, 5000)</script>
  <?php } ?>
 <script type="text/javascript" src="<?php echo base_url()?>assets-customs/js/forgot_pwd.js"></script>
+<script>
+
+// Called when Google Javascript API Javascript is loaded
+function HandleGoogleApiLibrary() {
+	// Load "client" & "auth2" libraries
+	gapi.load('client:auth2', {
+		callback: function() {
+			// Initialize client library
+			// clientId & scope is provided => automatically initializes auth2 library
+			gapi.client.init({
+		    	apiKey: 'AIzaSyBrE62QSp_ijbM30EaEtKn2H62XonGMQcY',
+		    	clientId: '176321012278-aedadjf8eb0v6ptgomn3rvh5lho2am1b.apps.googleusercontent.com',
+		    	scope: 'https://www.googleapis.com/auth/userinfo.profile https://www.googleapis.com/auth/userinfo.email https://www.googleapis.com/auth/plus.me'
+			}).then(
+				// On success
+				function(success) {
+			  		// After library is successfully loaded then enable the login button
+			  		$("#gmail-login-button").removeAttr('disabled');
+				}, 
+				// On error
+				function(error) {
+					//alert('Error : Failed to Load Library');
+			  	}
+			);
+		},
+		onerror: function() {
+			// Failed to load libraries
+		}
+	});
+}
+
+// Click on login button
+$("#gmail-login-button").on('click', function() {
+	$("#gmail-login-button").attr('disabled', 'disabled');
+			
+	// API call for Google login
+	gapi.auth2.getAuthInstance().signIn().then(
+		// On success
+		function(success) {
+			// API call to get user information
+			gapi.client.request({ path: 'https://www.googleapis.com/plus/v1/people/me' }).then(
+				// On success
+				function(success) {
+					
+					var user_info = success.body;
+					
+
+					var formData = new FormData();
+                                            formData.append('user_info', user_info);
+                                            formData.append('csrf_test_name', $.cookie('csrf_cookie_name'));
+                                        
+                                        $.ajax({
+                                            type: "POST",
+                                            url: base_url+'gmail',
+                                            data: formData,
+                                            contentType: false,       // The content type used when sending data to the server.
+                                            cache: false,             // To unable request pages to be cached
+                                            processData:false,   
+                                            success: function (data)
+                                            { 
+                                              location.reload();
+                                            }
+                                        });
+					$("#gmail-login-button").removeAttr('disabled');
+				},
+				// On error
+				function(error) {
+					$("#gmail-login-button").removeAttr('disabled');
+					//alert('Error : Failed to get user user information');
+				}
+			);
+		},
+		// On error
+		function(error) {
+			$("#gmail-login-button").removeAttr('disabled');
+			//alert('Error : Login Failed');
+		}
+	);
+});
+
+</script>
+
+<script async defer src="https://apis.google.com/js/api.js" onload="this.onload=function(){};HandleGoogleApiLibrary()" onreadystatechange="if (this.readyState === 'complete') this.onload()"></script>
 </body>
 </html>
