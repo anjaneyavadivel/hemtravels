@@ -112,7 +112,7 @@ $route['my-transaction-reports'] = 'report/my_transaction_reports';
 $route['tomorrows-trip-reports'] = 'report/tomorrow_trip_wise_reports';
 $route['user-reports'] = 'report/user_reports';
 $route['trip-shared-reports'] = 'report/trip_shared_reports';
-
+$route['pay-history-reports'] = 'report/pay_history_reports';
 
 $route['trip-shared'] = 'tripshared/trip_list';
 $route['make-shared-trip/(:any)'] = 'trips/update/$1';

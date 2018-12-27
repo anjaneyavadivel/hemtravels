@@ -11,7 +11,7 @@
                         <ol class="breadcrumb">
                             <li><a href="#">Home</a></li>
                             <li><a href="#">Report</a></li>
-                            <li  class="active"><a href="#">My Transaction</a></li>
+                            <li  class="active"><a href="#">Pay History</a></li>
                         </ol>
                     </div>
                 </div>
@@ -25,8 +25,8 @@
                         <!--                         left side - center-->
                         <div class="col-xs-12 col-sm-12 pt-10 pb-5 clearfix">
                             
-                            <?php echo form_open_multipart(base_url() . $url, array('method'=>'get','class' => 'form-horizontal margin-top-30', 'id' => 'my-transaction-report-form')); ?>
-                            <div class="col-xs-12 col-sm-4 col-lg-4">
+                            <?php echo form_open_multipart(base_url() . $url, array('method'=>'get','class' => 'form-horizontal margin-top-30', 'id' => 'pay-history-report-form')); ?>
+<!--                            <div class="col-xs-12 col-sm-4 col-lg-4">
                                 <div class="row gap-10" id="rangeDatePicker">
 
                                     <div class="col-xss-12 col-xs-6 col-sm-6">
@@ -44,80 +44,65 @@
                                     </div>
 
                                 </div>
-                            </div>
-                            <div class="col-xs-12 col-sm-2 col-lg-2">
-                                <div class="form-group">
-                                    <label>Status</label>
-                                    <select name="status" class="selectpicker show-tick form-control" title="Select placeholder" id="status">
-                                        <option value="" selected>All</option>
-                                        <option value="0" <?php if($status=='0'){echo 'selected';}?>>New</option>
-                                        <option value="1" <?php if($status==1){echo 'selected';}?>>InProgress</option>
-                                        <option value="2" <?php if($status==2){echo 'selected';}?>>Executed</option>
-                                        <option value="3" <?php if($status==3){echo 'selected';}?>>Paid</option>
-                                    </select>
-                                </div>
-                            </div>
+                            </div>                            -->
                             <div class="col-xs-12 col-sm-6 col-lg-6">
                                 <div class="form-group">
-                                    <label>Title</label>
+<!--                                    <label>Title</label>-->
                                     <div class="row">
                                         <div class="col-xs-12 col-sm-8 col-md-8">
-                                            <input name="title" value="<?=$title?>" type="text" class="form-control" placeholder="Search" id="searchTitle">
+                                            <input name="title" value="<?=$title?>" type="hidden" class="form-control" placeholder="Search by PNR no & Trip name" id="searchTitle">
+                                            <input name="download" value="1" type="hidden" class="form-control" >
                                         </div>
                                         <div class="col-xs-12 col-sm-4 col-md-4">
-                                            <button type="submit" class="btn btn-primary btn-block" id="transactionSearchBtn"><i class="fa fa-search"></i> Search</button>                                            
+                                            <button type="submit" class="btn btn-info btn-block" id="payHistorySearchBtn">Export</button>                                            
                                         </div>
                                     </div>
                                 </div>
                             </div>
                             <?php echo form_close(); ?>
-                            <div class="col-xs-2 col-sm-1 col-lg-1 text-right">
-                                <a href="javascript:;" class="btn btn-info c_mt" id="transactionExportXLSX">Export</a>
-                            </div><div class="col-xs-12 col-sm-12 col-lg-12 text-right">
-                                        UnClear Amount(INR): <span class="text-info"><?=checkbal_mypayment($loginuser_id, 1)?> </span>
-                                        Your Balance(INR): <span class="text-primary"><?=checkbal_mypayment($loginuser_id, 2)?> </span>
-                                        <a class="btn btn-sm btn-info withdraw-request-btn" href="javascript:void(0);">Withdraw</a>
-                                        <a class="btn btn-sm btn-primary" data-toggle="modal" href="#">Add Money</a>
-                                    </div>
+<!--                            <div class="col-xs-2 col-sm-1 col-lg-1 text-right">
+                                <a href="javascript:;" class="btn btn-info c_mt" id="payHistoryExportXLSX">Export</a>
+                            </div>-->
                             <table class="table ">
                                                 <thead>
                                                     <tr>
+                                                        <th>PNR No</th>  
+                                                        <th>User Name</th>                                                      
+                                                        <th>From User</th>
+                                                        <th>To User</th>
+                                                        <th>Trip Name</th>
                                                         <th>Date &amp; Time</th>
-                                                        <th>From</th>
-                                                        <th>To</th>
-                                                        <th>Transaction Details</th>
+                                                        <th>Transaction Notes</th>
                                                         <th>Withdrawals (INR)</th>
-                                                        <th>Deposits (INR)</th>
-                                                        <th>Balance(INR)</th>
-                                                        <th>Status</th>
-
+                                                        <th>Deposits (INR)</th>                                                        
                                                     </tr>
                                                 </thead>
                                                 <tbody>
                                                     <?php
-                                                        if (isset($transaction_reports) && count($transaction_reports) > 0) {
-                                                            $i = 1;
-                                                            foreach ($transaction_reports as $row) {                                                                                                              
-                                                                $status_val = array('New', 'InProgress', 'Executed', 'Paid');
-                                                                    $fromuser = $row['fromuser'];
+                                                        if (isset($pay_history_reports) && count($pay_history_reports) > 0) {
+                                                            
+                                                            foreach ($pay_history_reports as $row) { 
+                                                                $fromuser = $row['fromuser'];
                                                                     $touser = $row['touser'];
                                                                     if($row['from_userid']==0){$fromuser = 'Admin';}
                                                                     if($row['to_userid']==0){$touser = 'Admin';}
-                                                                    ?>
+                                                                    if($row['userid']==0){$row['recordusername'] = 'Admin';}?>
                                                                     <tr>
-                                                                        <td><?= date("M d, Y h:i A", strtotime($row['date_time'])); ?></td>
+                                                                        <td><?= $row['pnr_no'] ?></td>                                                                        
+                                                                        <td><?= $row['recordusername'] ?></td>
                                                                         <td><?= $fromuser ?></td>
                                                                         <td><?= $touser ?></td>
-                                                                        <td><?= $row['transaction_notes'] ?> <?php if($row['status']==0 || $row['status']==3){echo '<span class="text-primary"> Rs:'.$row['withdrawal_request_amt'].'</span>';}?></td>
+                                                                        <td><?= $row['trip_name'] ?></td>
+                                                                        <td><?= date("M d, Y", strtotime($row['date_time'])); ?></td>
+                                                                        <td><?= $row['transaction_notes'] ?> </td>
                                                                         <td <?php if($row['withdrawals']!=0){echo 'class="text-primary"';}?>><?= $row['withdrawals']; ?></td>
                                                                         <td <?php if($row['deposits']!=0){echo 'class="text-info"';}?>><?= $row['deposits']; ?></td>
-                                                                        <td><h4><?= $row['balance']; ?></h4></td>                                                                       
-                                                                        <td> <span data-toggle="tooltip" data-placement="top" data-original-title="Payment status <?=$status_val[$row['status']]?>"><?= $status_val[$row['status']]; ?></span></td>                                                        
+                                                                        
                                                                     </tr>
                                                             <?php
                                                             }
                                                     }else{
-                                                        echo "<tr><td colspan='6' style='text-align:center'>No Data Found</td></tr>";
+                                                        echo "<tr><td colspan='9' style='text-align:center'>No Data Found</td></tr>";
                                                     }
                                                     ?> 	
                                                 </tbody>                                                

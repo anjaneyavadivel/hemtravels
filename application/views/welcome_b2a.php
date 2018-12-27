@@ -141,12 +141,17 @@
                                                 <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Action
                                                 <span class="caret"></span></button>
                                                 <ul class="dropdown-menu">
-                                                   <li> <a href="<?=base_url()?>PNR-status/<?=$pnr_no?>/1" target="_new"><i class="fa fa-eye"></i> View Ticket</a></li>
-                                            <?php if ($this->session->userdata('user_type') == 'VA') {?>
+                                                  <?php if ($this->session->userdata('user_type') == 'VA' && $row['status']==1 && date("Y-m-d", strtotime($row['date_of_trip']))>date('Y-m-d')) {?>
+                                            <li><a href="<?=base_url()?>PNR-status/<?=$pnr_no?>/66" target="_new"><i class="fa fa-money"></i> View & Pay</a></li>
+                                            <?php }else{?>
+                                              <li> <a href="<?=base_url()?>PNR-status/<?=$pnr_no?>/1" target="_new"><i class="fa fa-eye"></i> View Ticket</a></li>
+                                            <?php }if ($this->session->userdata('user_type') == 'VA') {?>
                                             <li><a href="<?=base_url()?>PNR-status/<?=$pnr_no?>/2" target="_new"><i class="fa fa-eye"></i> Your Report</a></li>
                                             <?php }if ($this->session->userdata('user_type') == 'SA') {?>
                                             <li><a href="<?=base_url()?>PNR-status-report/<?=$pnr_no?>" target="_new"><i class="fa fa-eye"></i> Your Report</a></li>
-                                            <?php }if ($this->session->userdata('user_type') == 'VA' && ($row['status']==2||$row['status']==4)) {?>
+                                            <?php }if (($row['status']!=1)) {?>
+                                              <li> <a href="<?=base_url()?>pay-history-reports?title=<?=$pnr_no?>" target="_new"><i class="fa fa-money"></i> View Pay History</a></li>
+                                            <?php }if ($this->session->userdata('user_type') == 'VA' && ($row['status']==2||$row['status']==4) && date("Y-m-d", strtotime($row['date_of_trip']))>date('Y-m-d')) {?>
                                             <li><a href="<?=base_url()?>PNR-status/<?=$pnr_no?>/3" target="_new"><i class="fa fa-remove"></i> Cancel Trip</a></li>
                                             <?php }?>
                                             

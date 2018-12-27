@@ -69,7 +69,7 @@
                         <div class="icon"> <img src="<?php echo base_url() ?>assets/images/service_03.png" width="25" alt="images" /> </div>
                         <div class="content">
                             <h6>Customer Experience</h6>
-                            <span>With 98.7 CSAT we always exceed your expectations. </span>
+                            <span>With 96.8 % NPS – We are good in our job. </span>
                         </div>
                     </div>
                 </div>
@@ -175,7 +175,7 @@
                                     <i class="icon-user"></i>
                                 </div>
                                 <p class="number">241</p>
-                                <p>Guides</p>
+                                <p>Tour Operators</p>
                             </div>
                         </div>
 
@@ -218,9 +218,9 @@
                     <div class="col-xs-12 col-sm-8 col-sm-offset-2">
 
                         <div class="fearured-join-item">
-                            <h2 class="alt-font-size">Create Your Trip?</h2>
-                            <p class="mb-20">Rooms oh fully taken by worse do. Points afraid but may end law lasted. Was out laughter raptures returned outweigh outward the him existence assurance.</p>
-                            <a data-toggle="modal" href="#registerModal" class="btn btn-primary btn-lg">Join for Guide</a>
+                            <h2 class="alt-font-size">CREATE YOUR TRIP</h2>
+                            <p class="mb-20">Just Sign in and enter the details of all your trips. All your associates will be able to sell and book all your trips for you Online without calling you. And you will get the real time updates.</p>
+                            <a data-toggle="modal" href="#registerModal" class="btn btn-primary btn-lg">JOIN TO SELL MORE</a>
                         </div>
 
                     </div>

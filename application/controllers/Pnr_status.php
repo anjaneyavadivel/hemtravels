@@ -32,7 +32,10 @@ class Pnr_status extends CI_Controller {
                 $data['message'] = 'Sorry! Please enter valid PNR number and Phone number';
             }//$pnrinfo = $pnrinfo;
         }
-        
+        if($pnrshow==66){
+            $this->session->set_userdata('bk_pnr_no', $pnrinfo['pnr_no']);
+            $pnrshow=6;
+        }
         $data['pnrinfo'] = $pnrinfo;
         $data['pnrshow'] = $pnrshow; //0 - booking time, 1 - vendor view, 2 - customer view ,3-cancel trip
         $this->load->view('PNR-status-check', $data);

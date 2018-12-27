@@ -14,7 +14,7 @@
 
                     <div class="col-sm-8 col-sm-offset-2 col-md-6 col-md-offset-3">
 
-                        <h2>PNR &amp; Status</h2>
+                        <h2>PNR STATUS</h2>
 
                     </div>
 
@@ -26,7 +26,7 @@
 
                 <ol class="breadcrumb">
                     <li><a href="<?= base_url() ?>">Home</a></li>
-                    <li><a href="#">PNR &amp; Status</a></li>
+                    <li><a href="#">PNR Status</a></li>
 
                 </ol>
 

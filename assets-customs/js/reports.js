@@ -495,5 +495,25 @@ jQuery(function($) {
         
     });
     
+    //PAY HISTORY REPORT
+    $('#payHistoryExportXLSX').on('click',function(){ 
+        
+        var search_from = $('#rangeDatePickerFrom').val() != undefined ?$('#rangeDatePickerFrom').val():'';
+        var search_to   = $('#rangeDatePickerTo').val() != undefined ?$('#rangeDatePickerTo').val():'';       
+        var titleSearch = $('#searchTitle').val() != undefined ?$('#searchTitle').val():'';
+         
+        document.location = base_url+'pay-history-reports?from='+search_from+'&to='+search_to+'&title='+titleSearch+'&download=1';
+       
+    });
+    $('#payHistorySearchBtn').on('click',function(e){
+        e.preventDefault();
+        if (location.href.indexOf('download=') > -1) {
+            location.href = location.href.replace('download=1', 'download=0');
+            setTimeout(function() { $('#pay-history-report-form').submit(); },2000);
+        }else{
+            $('#pay-history-report-form').submit();
+        }
+        
+    });
 });
 

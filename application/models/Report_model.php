@@ -621,6 +621,41 @@ class Report_model extends CI_Model
         }
     }
 
+    function pay_history_reports($whereData,$limit=20, $start=0,$resultCount = 'no') {
+        $this->db->select('mt.*,tm.trip_name,lum.id as recorduserid,lum.user_fullname as recordusername,um1.id as fromuserid,um1.user_fullname as fromuser,um2.user_fullname as touser,um2.id as touserid')->from('my_transaction AS mt');         
+        $this->db->join('user_master AS um1', 'um1.id = mt.from_userid','LEFT');
+        $this->db->join('user_master AS um2', 'um2.id = mt.to_userid','LEFT');
+        $this->db->join('user_master AS lum', 'lum.id = mt.userid','LEFT');
+        $this->db->join('trip_master AS tm', 'tm.id = mt.trip_id','LEFT');      
+        //$this->db->where('mt.status',3);
+        
+        if($this->session->userdata('user_type') == 'VA'){  
+      //      $this->db->where('(mt.from_userid ='.$this->session->userdata('user_id').' OR mt.to_userid ='.$this->session->userdata('user_id').' OR mt.userid ='.$this->session->userdata('user_id').' )');
+              $this->db->where('mt.userid ='.$this->session->userdata('user_id'));
+        }
+       if($this->session->userdata('user_type') == 'VA'){  
+            //$this->db->where('(mt.from_userid !=-1 AND mt.to_userid !=-1)');
+        }
+       
+        if(isset($whereData['title']) && $whereData['title']!=''){
+           $this->db->where('( mt.pnr_no LIKE "%'.$this->db->escape_like_str($whereData['title']).'%" )');
+        } 
+              
+        $this->db->order_by('mt.id DESC'); 
+        
+        if($resultCount == 'yes'){
+            $query = $this->db->get();
+            return $query->num_rows();
+        }else if($resultCount == 'download'){
+            $query = $this->db->get();
+            return $query->result_array();
+        }else{
+            $this->db->limit($limit, $start);
+            $query = $this->db->get();//echo $this->db->last_query();exit;
+            return $query->result_array();
+        }
+    }
+
 }
 
 ?>

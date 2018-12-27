@@ -2,7 +2,34 @@
 <!-- start Main Wrapper -->
 
 <div class="main-wrapper scrollspy-container">
+ <div class="breadcrumb-image-bg" style="background-image:url('<?php echo base_url()?>assets/images/hero-header/01.jpg');">
+        <div class="container">
 
+            <div class="page-title">
+
+                <div class="row">
+
+                    <div class="col-sm-12 col-sm-offset-12 col-md12 col-md-offset-0">
+
+                        <h3 style="color: #fff">Here we create coupon code / discount code. This is created by you to give different types of discounts for different trips.</h3>
+                        <p>1) Customer offer – When you want to give discount to all the customers during some festival days or some special days of promotion.</p>
+                        <p>2) Specific Customer Offer –When you want to give to some specific customer or you want to give it some special identified customers. <br>For eg. - Who has liked your face book page, or who has written a good review about your trip, or you have tied up with Hotel or Mall and giving only their customers a discount.</p>
+                        <p>3) Vendor Offer: This gives discount to your the travel agents with whom you wish to share the trips and give them commission for the trip. They will be booking the trips for you</p>
+                    </div>
+
+                </div>
+
+            </div>
+            <div class="breadcrumb-wrapper">
+
+                <ol class="breadcrumb">
+                    
+                </ol>
+
+            </div>
+        </div>
+
+    </div>
     <!-- start Breadcrumb -->
 
     <div class="breadcrumb-wrapper">

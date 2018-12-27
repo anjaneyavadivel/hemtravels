@@ -14,8 +14,8 @@
 
                                 <div class="col-sm-8 col-sm-offset-2 col-md-6 col-md-offset-3">
 
-                                    <h2>Make Your New Trip</h2>
-                                    <p>Celebrated no he decisively thoroughly.</p>
+                                    <h2>MAKE NEW TRIP</h2>
+                                    <p>Fill all the details for your trip like price, inventory and other details and you will be ready to sell your trips online with all your associates and customers.</p>
 
                                 </div>
 

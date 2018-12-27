@@ -1398,8 +1398,10 @@ class Trips extends CI_Controller {
                     
                     $data['code'] = $shareCode;
                     
-                    $subject = $this->session->userdata('name').' share trip to you';
-                    $message = $this->session->userdata('name').' share trip to you (Share Code: '.$shareCode.'), Please <a href="' . base_url() . 'trip-shared" style="color:#00adef" target="_new">click here to view</a>.';
+                    $subject = $this->session->userdata('name').' has shared you the trip to you';
+                    $message = $this->session->userdata('name').' has shared you the trip to you (Share Code: '.$shareCode.'), Please <a href="' . base_url() . 'trip-shared" style="color:#00adef" target="_new">click here to view</a>.<br>'
+                            . '1. If you are new to BYT Create a <a href="' . base_url() . 'trip-shared" style="color:#00adef" target="_new">Sign up and Log in</a>.<br>'
+                            . '2. Go to Home->Vendor Shared Trips->Make Trip.(For Any Help Call +91 98221 53576)<br>';
 
                     $mailData = array(
                         //'fromuserid' => $pnrinfo['trip_postbyid'],

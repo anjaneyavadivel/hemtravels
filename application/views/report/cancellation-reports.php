@@ -113,7 +113,7 @@
                                 $user_type_val = array('CU'=>'B2C Booking','GU'=>'B2C Booking','VA'=>'Office Booking');
                                     ?>
                                     <tr>
-                                        <td><?= date("M d, Y", strtotime($row['cancelled_on'])); ?></td>
+                                        <td><?= date("M d, Y h:i A", strtotime($row['cancelled_on'])); ?></td>
                                         <td><?= $pnr_no;?></td>
                                         <td><?=$user_type_val[$user_type]?></td>
                                         <td><a href="<?=base_url()?>trip-view/<?= $row['trip_code']; ?>" target="_new"><?= $row['trip_name']; ?></a></td>

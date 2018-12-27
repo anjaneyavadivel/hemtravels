@@ -21,6 +21,8 @@ class Payment extends CI_Controller {
             $mypayment = checkbal_mypayment($loginuser_id, 2);
             $balance = (int) $mypayment - (int) $userDetails['total_amount'];
             $pay_amount = $balance * -1;
+        }else{
+            redirect('/');
         }
 //            if ($balance <=0) {
 //                
@@ -44,7 +46,7 @@ class Payment extends CI_Controller {
 //                echo $balance;
             $pay_amount = 1;
 //            exit;
-            $this->session->set_userdata('order_id', 1);
+            $this->session->set_userdata('order_id', $pnr);
             $merchant_data = '';
             $working_key = '258F2674D98E07B367821344FA3558E5'; //Shared by CCAVENUES
             $access_code = 'AVDQ81FK89CC75QDCC'; //Shared by CCAVENUES

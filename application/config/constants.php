@@ -14,14 +14,14 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 defined('SHOW_DEBUG_BACKTRACE') OR define('SHOW_DEBUG_BACKTRACE', TRUE);
 
 define('site_title', "Book Your Trips");
-define('admin_email', "info@bookyourtrips.in");//
+define('admin_email', "support@bookyourtrips.in");//
 define('admin_phone', "98221 53576");
-define('email_bottem_email', "support@bookyourtips.in");
+define('email_bottem_email', "support@bookyourtrips.in");
 define('email_bottem_phone', "98221 53576");
 define('donotreply', "info@bookyourtrips.in");
 define('info_email', "info@bookyourtrips.in");
-define('vendors_email', "vendors@bookyourtips.in");
-define('support_email', "support@bookyourtips.in");
+define('vendors_email', "vendors@bookyourtrips.in");
+define('support_email', "support@bookyourtrips.in");
 
 //define('cc_email', "anjaneya.developer@gmail.com");
 

@@ -16,8 +16,9 @@
 
                     <div class="col-sm-8 col-sm-offset-2 col-md-6 col-md-offset-3">
 
-                        <h2>Tour offer results</h2>
-                        <p>Yet remarkably appearance get him his projection. Diverted endeavor bed peculiar men the not desirous.</p>
+                        <h2>BYT OFFERING YOU</h2>
+                        <h3>THE BEST OPTIONS FOR YOUR SEARCH</h3>
+                        <p>All the tours are directly listed by the tour operators or the travel agents to ensure that you get the best and most competitive offers</p>
 
                     </div>
 

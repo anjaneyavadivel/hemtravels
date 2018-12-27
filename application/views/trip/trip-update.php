@@ -19,8 +19,8 @@
 
                                 <div class="col-sm-8 col-sm-offset-2 col-md-6 col-md-offset-3">
 
-                                    <h2><?php echo isset($is_shared) && $is_shared == 1 ?'Share':'Update'?> Your Trip</h2>
-                                    <p>Celebrated no he decisively thoroughly.</p>
+                                    <h2><?php echo isset($is_shared) && $is_shared == 1 ?'SHARE':'UPDATE'?> YOUR TRIP</h2>
+                                    <p>Fill all the details for your trip like price, inventory and other details and you will be ready to sell your trips online with all your associates and customers.</p>
 
                                 </div>
 

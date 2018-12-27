@@ -634,6 +634,65 @@ class Report extends CI_Controller {
         }
     }
 
+    public function pay_history_reports($title='') {
+        
+        if ($this->session->userdata('user_id') == '' || ($this->session->userdata('user_type') != 'SA' && $this->session->userdata('user_type') != 'VA')) {
+            redirect('login');
+        }        
+         
+        if($this->input->get('title')!= true){
+            redirect('/');
+        }
+        $title    = trim($this->input->get('title'));       
+        $download = $this->input->get('download');       
+        $url = $this->uri->segment(1);
+        
+        $this->load->library('pagination');
+        $config = array();
+        $config["base_url"] = base_url() . $url . "?title=" . $title;
+        $whereData = array('title' => $title, 'download' => $download);
+                
+        $config["per_page"] = 20;
+        //$config["uri_segment"] = 2;
+
+        $config['enable_query_strings'] = TRUE;
+        $config['page_query_string']    = TRUE;
+        $config['use_page_numbers']     = TRUE;
+        $config['query_string_segment'] = 'page';
+        $config['cur_tag_open']         = '&nbsp;<a class="active">';
+        $config['cur_tag_close']        = '</a>';
+
+        $config['next_link'] = '&NestedGreaterGreater;';
+        $config['prev_link'] = '&NestedLessLess;';
+        $page = ($this->input->get('page')) ? ( ( $this->input->get('page') - 1 ) * $config["per_page"] ) : 0;
+        $config["total_rows"]  = $this->Report_model->pay_history_reports($whereData, $config["per_page"], $page,'yes');
+        $this->pagination->initialize($config);
+        
+        $data["pay_history_reports"] = $this->Report_model->pay_history_reports($whereData, $config["per_page"], $page,'no');        
+        $str_links = $this->pagination->create_links();
+        $data["links"] = explode('&nbsp;', $str_links); //echo "<pre>";print_r($str_links);exit;
+        $data["title"] = $title;
+        $data["url"] = $url; 
+        if($this->session->userdata('user_type') == 'SA'){            
+            $data["loginuser_id"] =0;
+        }else{        
+            $data["loginuser_id"] =$this->session->userdata('user_id');
+         }
+         
+        if($download == 1 && isset($data["pay_history_reports"]) && count($data["pay_history_reports"]) > 0){
+            
+            $data["pay_history_reports"] = $this->Report_model->pay_history_reports($whereData, $config["per_page"], $page,'download');        
+            
+            $downloadData = $data["pay_history_reports"];
+            
+            $this->payHistoryToExportData($downloadData);
+            
+        }else{
+           $this->load->view('report/pay-history-reports.php',$data);
+        }   
+        
+    }
+
     public function exportXLfile() {
         
         $tamplate = "demo.xlt";
@@ -697,7 +756,7 @@ class Report extends CI_Controller {
             $user_type = $value['user_type'];
             $status    = $value['status'];
             
-            $sheet->setCellValue('A' . $row, date("M d, Y", strtotime($value['booked_on'])));
+            $sheet->setCellValue('A' . $row, date("M d, Y h:i A", strtotime($value['booked_on'])));
             $sheet->setCellValue('B' . $row, $value['pnr_no']);            
             $sheet->setCellValue('C' . $row, $user_type_val[$user_type]);
             $sheet->setCellValue('D' . $row, $value['trip_name']);
@@ -814,7 +873,7 @@ class Report extends CI_Controller {
             $sheet->setCellValue('W'. $row, $value['booking_max_cut_of_month']);
             $sheet->setCellValue('X'. $row,  $value['view_to'] == 2 ?'Vendor':'Customer & Vendor');
             $sheet->setCellValue('y' . $row, $value['user_fullname']);
-            $sheet->setCellValue('Z' . $row, date("M d, Y", strtotime($row['created_on'])));
+            $sheet->setCellValue('Z' . $row, date("M d, Y h:i A", strtotime($row['created_on'])));
             $sheet->setCellValue('AA' . $row, $isactive);
            
             $row++;
@@ -868,7 +927,7 @@ class Report extends CI_Controller {
             $status = $value['tra_status'];                                                
             $status_val = array('New', 'InProgress', 'Executed', 'Sent');
             
-            $sheet->setCellValue('A' . $row, date("M d, Y", strtotime($value['booked_on'])));
+            $sheet->setCellValue('A' . $row, date("M d, Y h:i A", strtotime($value['booked_on'])));
             $sheet->setCellValue('B' . $row, $value['pnr_no']);            
             $sheet->setCellValue('C' . $row, $value['parent_trip_code'].'-'.$value['parent_trip_name']);
             $sheet->setCellValue('D' . $row, $value['parent_trip_user_name']);
@@ -945,7 +1004,7 @@ class Report extends CI_Controller {
             $status = $value['tra_status'];                                                
             $status_val = array('New', 'InProgress', 'Executed', 'Sent');
             
-            $sheet->setCellValue('A' . $row, date("M d, Y", strtotime($value['booked_on'])));
+            $sheet->setCellValue('A' . $row, date("M d, Y h:i A", strtotime($value['booked_on'])));
             $sheet->setCellValue('B' . $row, $value['pnr_no']);            
             $sheet->setCellValue('C' . $row, $value['parent_trip_code'].'-'.$value['parent_trip_name']);
             $sheet->setCellValue('D' . $row, $value['parent_trip_user_name']);
@@ -1027,7 +1086,7 @@ class Report extends CI_Controller {
             $status = $value['tra_status'];                                                
             $status_val = array('New', 'InProgress', 'Executed', 'Sent');
             
-            $sheet->setCellValue('A' . $row, date("M d, Y", strtotime($value['booked_on'])));
+            $sheet->setCellValue('A' . $row, date("M d, Y h:i A", strtotime($value['booked_on'])));
             $sheet->setCellValue('B' . $row, $value['pnr_no']);            
             $sheet->setCellValue('C' . $row, $value['parent_trip_code'].'-'.$value['parent_trip_name']);
             $sheet->setCellValue('D' . $row, $value['parent_trip_user_name']);
@@ -1104,7 +1163,7 @@ class Report extends CI_Controller {
             $sheet->setCellValue('B' . $row, $value['fromuser']);            
             $sheet->setCellValue('C' . $row, $value['touser']);                        
             $sheet->setCellValue('D' . $row, $value['trip_name']);
-            $sheet->setCellValue('E' . $row, date("M d, Y", strtotime($value['date_time'])));
+            $sheet->setCellValue('E' . $row, date("M d, Y h:i A", strtotime($value['date_time'])));
             $sheet->setCellValue('F' . $row, $value['transaction_notes']); 
             $sheet->setCellValue('G' . $row, $value['withdrawals']);            
             $sheet->setCellValue('H' . $row, $value['deposits']);
@@ -1224,7 +1283,7 @@ class Report extends CI_Controller {
             $sheet->setCellValue('I'. $row, $value['emergency_contact_no']);            
             $sheet->setCellValue('J'. $row, $value['balance_amt']);                   
             $sheet->setCellValue('K'. $row, $value['unclear_amt']);                   
-            $sheet->setCellValue('L'. $row, date("M d, Y", strtotime($value['created_on'])));                   
+            $sheet->setCellValue('L'. $row, date("M d, Y h:i A", strtotime($value['created_on'])));                   
             $sheet->setCellValue('M'. $row, $isactive);                   
             $row++;
         }
@@ -1414,7 +1473,7 @@ class Report extends CI_Controller {
             $user_type = $value['user_type'];
             $status    = $value['status'];
             
-            $sheet->setCellValue('A' . $row, date("M d, Y", strtotime($value['booked_on'])));
+            $sheet->setCellValue('A' . $row, date("M d, Y h:i A", strtotime($value['booked_on'])));
             $sheet->setCellValue('B' . $row, $value['pnr_no']);            
             $sheet->setCellValue('C' . $row, $user_type_val[$user_type]);
             $sheet->setCellValue('D' . $row, $value['trip_name']);
@@ -1434,11 +1493,11 @@ class Report extends CI_Controller {
             $sheet->setCellValue('R'. $row, $value['gst_amt']);
             $sheet->setCellValue('S'. $row, $value['total_trip_price']);
             $sheet->setCellValue('T'. $row, $status_val[$status]);  
-            $sheet->setCellValue('U' . $row, date("M d, Y", strtotime($value['cancelled_on'])));
+            $sheet->setCellValue('U' . $row, date("M d, Y h:i A", strtotime($value['cancelled_on'])));
             $sheet->setCellValue('V'. $row, $value['refund_percentage']);
             $sheet->setCellValue('W'. $row, $value['return_paid_amt']);
             $sheet->setCellValue('X'. $row, $value['return_notes']);
-            $sheet->setCellValue('Y' . $row, date("M d, Y", strtotime($value['return_on'])));
+            $sheet->setCellValue('Y' . $row, date("M d, Y h:i A", strtotime($value['return_on'])));
             $sheet->setCellValue('Z'. $row, $can_status_val[$value['return_paid_status']]);
             $row++;
         }
@@ -1454,4 +1513,47 @@ class Report extends CI_Controller {
         $writer->save('php://output'); // download file 
     }
 
+    public function payHistoryToExportData($data){ 
+        $spreadsheet = new Spreadsheet();
+        $sheet = $spreadsheet->getActiveSheet();        
+        
+        //SET HEADER
+        $sheet->setCellValue('A1', 'PNR NO');
+        $sheet->setCellValue('B1', 'FROM USER');       
+        $sheet->setCellValue('C1', 'TO USER');
+        $sheet->setCellValue('D1', 'USER');
+        $sheet->setCellValue('E1', 'TRIP TITLE');
+        $sheet->setCellValue('F1', 'DATE TIME');
+        $sheet->setCellValue('G1', 'TRANSACTION NOTES');       
+        $sheet->setCellValue('H1', 'WITHDRAWALS');       
+        $sheet->setCellValue('I1', 'DEPOSITS');             
+        
+        $row = 2;
+        
+        foreach ($data as $value) {
+            
+            $sheet->setCellValue('A' . $row, $value['pnr_no']);            
+            $sheet->setCellValue('B' . $row, $value['fromuser']);            
+            $sheet->setCellValue('C' . $row, $value['touser']);                        
+            $sheet->setCellValue('D' . $row, $value['recordusername']);                        
+            $sheet->setCellValue('E' . $row, $value['trip_name']);
+            $sheet->setCellValue('F' . $row, date("M d, Y h:i A", strtotime($value['date_time'])));
+            $sheet->setCellValue('G' . $row, $value['transaction_notes']); 
+            $sheet->setCellValue('H' . $row, $value['withdrawals']);            
+            $sheet->setCellValue('I' . $row, $value['deposits']);
+            
+           
+            $row++;
+        }
+        
+        $writer = new Xlsx($spreadsheet);
+ 
+        $filename = 'PAY HISTORY '.date('d-m-Y');
+ 
+        header('Content-Type: application/vnd.ms-excel');
+        header('Content-Disposition: attachment;filename="'. $filename .'.xlsx"'); 
+        header('Cache-Control: max-age=0');
+        
+        $writer->save('php://output'); // download file 
+    }
 }
