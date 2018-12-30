@@ -46,6 +46,9 @@
                                         <p class="welcome_description" style="color: #333; font-size: 14px;"><?= ucfirst($message)?></p>
                                     </td>
                                 </tr>
+                            </table>
+                            <table  style="width: 100%; border-spacing: 0; padding: 0 50px;">
+                                
                                 <?php if(isset($othermsg)){echo $othermsg;} ?>
 
 

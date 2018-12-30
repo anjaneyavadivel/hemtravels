@@ -145,13 +145,39 @@
                             <div class="pnr_details" style="">
 
                                 <h4 class="section-title">Booking Information</h4>
-                                <p>Please check bellow your Booking Information.</p>
-
+                                <p>Please check bellow your Booking Information.<small>Booked on: <?=$pnrinfo['booked_on'];?></small></p>
+                                <table class="table" >
+                                        <tr>
+                                            <td colspan="2"><b>Trip Name:</b> <?=$pnrinfo['trip_code'];?> - <?=$pnrinfo['trip_name'];?></td>
+                                            <td><b>PNR Number:</b> <?=$pnrinfo['pnr_no'];?></td>
+                                        </tr>
+                                        <tr>
+                                            <td colspan="2"><b>Billing By:</b> <?=$pnrinfo['booked_to'];?></td>
+                                            <td><b>No Of Traveller:</b> <?=$pnrinfo['number_of_persons'];?></td>
+                                        </tr>
+                                        <tr>
+                                            <td colspan="2"><b>Billing Email:</b><br> <?=$pnrinfo['booked_email'];?></td>
+                                            <td><b>Phone Number:</b><br> <?=$pnrinfo['booked_phone_no'];?></td>
+                                        </tr>
+                                        <tr>
+                                            <td><b>Pick up location, landmark: </b><br> <?=$pnrinfo['pick_up_location'];?></td>
+                                            <?php if($pnrinfo['total_days']>0){?>
+                                   <td><b>Total Days: </b> <?=$pnrinfo['how_many_days'];?> day(s),
+                                    <?php if($pnrinfo['how_many_nights']>0){?><?=$pnrinfo['how_many_nights'];?> night(s)<?php }?></td>
+                                    <?php }?>
+                                    <?php if($pnrinfo['how_many_hours']>0){?>
+                                            <td><b>Total Hours:</b> <br><?=$pnrinfo['how_many_hours'];?> Hour(s)</td>
+                                    <?php }?>
+                                            <td><b>Date of Trip:</b> <br><?=$pnrinfo['date_of_trip'];?> <?php if($pnrinfo['date_of_trip']!=$pnrinfo['date_of_trip_to']){echo $pnrinfo['date_of_trip_to'];};?></td>
+                                        </tr>
+                                    </table>
                                 <ul class="book-sum-list mt-30">
-                                    <li><span class="font600 pnr_number">PNR Number:</span><?=$pnrinfo['pnr_no'];?></li>
-                                    <li><span class="font600 package_name">Trip Code:</span><?=$pnrinfo['trip_code'];?></li>
-                                    <li><span class="font600 package_name">Trip Name:</span><?=$pnrinfo['trip_name'];?></li>
-                                    <li><span class="font600 no_of_traveller">No Of Traveller:</span><?=$pnrinfo['number_of_persons'];?> </li>
+                                    <?php if($pnrinfo['brief_description']!=''){?>
+                                <div class="mb-40"></div>
+                                <h4 class="section-title">Brief Description</h4>
+                                <p><?=html_entity_decode($pnrinfo['brief_description']);?></p>
+                                <?php }?>
+                                    <li></li>
                                     <li><span class="font600 net_price">Amount:</span><?=$pnrinfo['subtotal_trip_price'];?> ( 
                                     <?php if($pnrinfo['no_of_adult']>0){echo $pnrinfo['no_of_adult'].'*'.$pnrinfo['price_to_adult'];}?> 
                                     <?php if($pnrinfo['no_of_child']>0){echo ', '.$pnrinfo['no_of_child'].'*'.$pnrinfo['price_to_child'];}?> 
@@ -277,32 +303,28 @@
                                         <li><span class="font600 starting">Refund Amount:</span><b><?=$pnrinfo['return_paid_amt'];?></b></li>                                                                                    
                                         <?php }
                                      }?>
-                                    <li><span class="font600 starting">Date of Trip : </span> <?=$pnrinfo['date_of_trip'];?> <?=$pnrinfo['time_of_trip'];?></li>
+<!--                                    <li><span class="font600 starting">Date of Trip : </span> <?=$pnrinfo['date_of_trip'];?> <?=$pnrinfo['time_of_trip'];?></li>
                                     <li><span class="font600 included">Pick up location,<br>landmark: </span><?=$pnrinfo['pick_up_location'];?>, <?=$pnrinfo['pick_up_location_landmark'];?></li>
-                                    <li><span class="font600 starting">Date of Trip End: </span> <?=$pnrinfo['date_of_trip_to'];?></li>
-                                    <?php if($pnrinfo['total_days']>0){?>
+                                    <li><span class="font600 starting">Date of Trip End: </span> <?=$pnrinfo['date_of_trip_to'];?></li>-->
+                                    <?php /*if($pnrinfo['total_days']>0){?>
                                     <li><span class="font600 excluded">Total Days: </span><?=$pnrinfo['how_many_days'];?> day(s),
                                     <?php if($pnrinfo['how_many_nights']>0){?><?=$pnrinfo['how_many_nights'];?> night(s)<?php }?></li>
                                     <?php }?>
                                     <?php if($pnrinfo['how_many_hours']>0){?>
                                     <li><span class="font600 excluded">Total Hours: </span><?=$pnrinfo['how_many_hours'];?> Hour(s)</li>
-                                    <?php }?>
+                                    <?php }*/?>
                                     <?php if($pnrinfo['languages']!=''){?>
                                     <li><span class="font600 excluded">Languages: </span><?=$pnrinfo['languages'];?></li>
                                     <?php }?>
                                     <?php if($pnrinfo['meal']!=''){?>
                                     <li><span class="font600 excluded">Meals: </span><?=$pnrinfo['meal'];?></li>
                                     <?php }?>
-                                    <li><span class="font600 billed_by">Billing By:</span><?=$pnrinfo['booked_to'];?></li>
+<!--                                    <li><span class="font600 billed_by">Billing By:</span><?=$pnrinfo['booked_to'];?></li>
                                     <li><span class="font600 billed_email">Billing Email:</span><?=$pnrinfo['booked_email'];?></li>
                                     <li><span class="font600 billed_phone_number">Phone Number:</span><?=$pnrinfo['booked_phone_no'];?></li>
-                                    <li><span class="font600 billed_by">Booked on:</span><?=$pnrinfo['booked_on'];?></li>
+                                    <li><span class="font600 billed_by">Booked on:</span><?=$pnrinfo['booked_on'];?></li>-->
                                 </ul>
-                                <?php if($pnrinfo['brief_description']!=''){?>
-                                <div class="mb-40"></div>
-                                <h4 class="section-title">Brief Description</h4>
-                                <p><?=html_entity_decode($pnrinfo['brief_description']);?></p>
-                                <?php }?>
+                                
                                 <?php if($pnrinfo['confirmation_policy']!=''){?>
                                 <div class="mb-40"></div>
                                 <h4 class="section-title">Confirmation Policy</h4>

@@ -134,8 +134,8 @@ class Request extends CI_Controller {
                     //$status = 1 withdrawal Request, 2 withdrawal
                     make_mypayment($paymentdata, 1);
                     // mail send to admin
-                    $subject = 'You are received withdrawal request';
-                    $message = 'You are received withdrawal request amount Rs: ' . $withdrawalamount;
+                    $subject = 'You have received withdrawal request';
+                    $message = 'You have received withdrawal request amount Rs: ' . $withdrawalamount;
                     $mailData = array(
                         //'fromuserid' => $pnrinfo['trip_postbyid'],
                         //'ccemail' => admin_email . ',' . email_bottem_email . ',' . 'anjaneya.developer@gmail.com,',
@@ -244,7 +244,7 @@ class Request extends CI_Controller {
                     make_mypayment($paymentdata, 2);
                     
                                 
-                    $subject = 'You are received withdrawal request amount';
+                    $subject = 'You have received withdrawal request amount';
                     $message = site_title.' has been transferred successfully, You will be received withdrawal request amount Rs: ' . $payamount. ' with in 48hr.<br><br>' . $paynotes;
                     $mailData = array(
                         //'fromuserid' => $pnrinfo['trip_postbyid'],

@@ -355,8 +355,8 @@ class Welcome extends CI_Controller {
 
                                     $triprow = $trip_list->row();
 
-                                    $subject = 'You are received amount for PNR No ' . $pay->pnr_no;
-                                    $message = 'You are received amount for PNR No ' . $pay->pnr_no . ' (' . $triprow->trip_code . ' / ' . $triprow->trip_name . ') from ' . site_title . '. '
+                                    $subject = 'You have received payment from Book Your Trip for PNR No: ' . $pay->pnr_no;
+                                    $message = 'You have received payment from Book Your Trip for PNR No: '  . $pay->pnr_no . ' (' . $triprow->trip_code . ' / ' . $triprow->trip_name . ') from ' . site_title . '. '
                                             . '<a href="' . base_url() . 'my-transaction-reports">View Website</a>';
                                     $mailData = array(
                                         //'fromuserid' => $pnrinfo['trip_postbyid'],

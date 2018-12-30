@@ -388,13 +388,13 @@ class Master extends CI_Controller {
         //$child_arr=getallchildtrip(7);
 //        $child_arr=getparentchildtrip(6);
 //        print_r($child_arr);exit();
-//        $updatedata = array(
-//                                    'payment_type' => 1,  // 1 - net, 2 - credit, 3 - debit
-//                                    'payment_status' =>  1,
-//                                    'status' =>  2); 
-//
-//                            trip_book_paid_sucess($updatedata,'PNR67T1QJUV');
-//                            exit();
+        $updatedata = array(
+                                    'payment_type' => 1,  // 1 - net, 2 - credit, 3 - debit
+                                    'payment_status' =>  1,
+                                    'status' =>  2); 
+
+                            trip_book_paid_sucess($updatedata,'PNR92GYHW21');
+                            exit();
 //        $toemail='anjaneya.developer@gmail.com';
 //        $subject='Welcome to trip';
 //        $message='This is test msg';

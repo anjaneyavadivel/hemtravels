@@ -1191,7 +1191,7 @@ if (!function_exists('trip_book_paid_sucess')) {
 
             $pnrinfo = getpnrinfo($pnr_no, '', 1);
             // TODO: need to send mail for pay sucess
-
+         
             $subtotal_trip_price = $pnrinfo['subtotal_trip_price'] . ' ( ';
             if ($pnrinfo['no_of_adult'] > 0) {
                 $subtotal_trip_price .= $pnrinfo['no_of_adult'] . '*' . $pnrinfo['price_to_adult'];
@@ -1203,27 +1203,83 @@ if (!function_exists('trip_book_paid_sucess')) {
                 $subtotal_trip_price .= ', ' . $pnrinfo['no_of_infan'] . '*' . $pnrinfo['price_to_infan'];
             }
             $subtotal_trip_price .= ')';
+            
             $othermsg = '<tr>
                                 <td align="left" style="border-bottom: 1px solid #eee;">
-                                    <div class="f_img_div" style="width:35%; float:left;"><p class="welcome_description" style="color: #333;font-weight:bold; font-size: 12px;">PNR Number :</p></div>
-                                    <div class="f_content_div" style="width:65%; float:right;"><p class="f_content" style="padding-right: 20px; margin-bottom: 0px; line-height: 1.6; color: #333; font-size: 12px;">' . $pnrinfo['pnr_no'] . ' </p></div>
+                                    <div class="f_img_div"><p class="welcome_description" style="color: #333;font-weight:bold; font-size: 12px;">Trip Code / Name :</p>
+                                    <p class="f_content" style="padding-right: 20px; margin-bottom: 0px; line-height: 1.6; color: #333; font-size: 12px;">' . $pnrinfo['trip_code'] . ' / ' . $pnrinfo['trip_name'] . ' </p></div>
+                              </td><td align="left" style="border-bottom: 1px solid #eee;">
+                                    <div class="f_img_div"><p class="welcome_description" style="color: #333;font-weight:bold; font-size: 12px;">PNR Number :</p>
+                                    <p class="f_content" style="padding-right: 20px; margin-bottom: 0px; line-height: 1.6; color: #333; font-size: 12px;">' . $pnrinfo['pnr_no'] . ' </p></div>
                                 </td>
-                            </tr><tr>
+                            </tr>
+                            <tr>
                                 <td align="left" style="border-bottom: 1px solid #eee;">
-                                    <div class="f_img_div" style="width:35%; float:left;"><p class="welcome_description" style="color: #333;font-weight:bold; font-size: 12px;">Trip Code / Name :</p></div>
-                                    <div class="f_content_div" style="width:65%; float:right;"><p class="f_content" style="padding-right: 20px; margin-bottom: 0px; line-height: 1.6; color: #333; font-size: 12px;">' . $pnrinfo['trip_code'] . ' / ' . $pnrinfo['trip_name'] . ' </p></div>
+                                    <div class="f_img_div"><p class="welcome_description" style="color: #333;font-weight:bold; font-size: 12px;">Billing By :</p>
+                                    <p class="f_content" style="padding-right: 20px; margin-bottom: 0px; line-height: 1.6; color: #333; font-size: 12px;">' . $pnrinfo['booked_to'] . ' </p></div>
+                              </td><td align="left" style="border-bottom: 1px solid #eee;">
+                                    <div class="f_img_div"><p class="welcome_description" style="color: #333;font-weight:bold; font-size: 12px;">No Of Traveller :</p>
+                                    <p class="f_content" style="padding-right: 20px; margin-bottom: 0px; line-height: 1.6; color: #333; font-size: 12px;">' . $pnrinfo['number_of_persons'] . ' </p></div>
                                 </td>
-                            </tr><tr>
+                            </tr>
+                            <tr>
                                 <td align="left" style="border-bottom: 1px solid #eee;">
-                                    <div class="f_img_div" style="width:35%; float:left;"><p class="welcome_description" style="color: #333;font-weight:bold; font-size: 12px;">No Of Traveller :</p></div>
-                                    <div class="f_content_div" style="width:65%; float:right;"><p class="f_content" style="padding-right: 20px; margin-bottom: 0px; line-height: 1.6; color: #333; font-size: 12px;">' . $pnrinfo['number_of_persons'] . ' </p></div>
+                                    <div class="f_img_div"><p class="welcome_description" style="color: #333;font-weight:bold; font-size: 12px;">Billing Email :</p>
+                                    <p class="f_content" style="padding-right: 20px; margin-bottom: 0px; line-height: 1.6; color: #333; font-size: 12px;">' . $pnrinfo['booked_email'] . ' </p></div>
+                              </td><td align="left" style="border-bottom: 1px solid #eee;">
+                                    <div class="f_img_div"><p class="welcome_description" style="color: #333;font-weight:bold; font-size: 12px;">Phone Number :</p>
+                                    <p class="f_content" style="padding-right: 20px; margin-bottom: 0px; line-height: 1.6; color: #333; font-size: 12px;">' . $pnrinfo['booked_phone_no'] . ' </p></div>
                                 </td>
-                            </tr><tr>
+                            </tr>';
+                            if ($pnrinfo['total_days'] > 0) {
+                                $how_many_nights = '';
+                                if ($pnrinfo['how_many_nights'] > 0) {
+                                    $how_many_nights = $pnrinfo['how_many_nights'] . 'night(s)';
+                                }
+                                $othermsg .= '
+                            <tr>
+                                <td align="left" style="border-bottom: 1px solid #eee;">
+                                    <div class="f_img_div"><p class="welcome_description" style="color: #333;font-weight:bold; font-size: 12px;">Pick up location, landmark :</p>
+                                    <p class="f_content" style="padding-right: 20px; margin-bottom: 0px; line-height: 1.6; color: #333; font-size: 12px;">' . $pnrinfo['pick_up_location']  . ', ' . $pnrinfo['pick_up_location_landmark']. ' </p></div>
+                              </td><td align="left" style="border-bottom: 1px solid #eee;">
+                                    <div class="f_img_div"><p class="welcome_description" style="color: #333;font-weight:bold; font-size: 12px;">Total Days :</p>
+                                    <p class="f_content" style="padding-right: 20px; margin-bottom: 0px; line-height: 1.6; color: #333; font-size: 12px;">' . $pnrinfo['how_many_days'] . ' day(s), ' . $how_many_nights .  ' </p></div>
+                                </td>
+                            </tr>';
+                            }else if ($pnrinfo['how_many_hours'] > 0) {
+                                $othermsg .= '
+                            <tr>
+                                <td align="left" style="border-bottom: 1px solid #eee;">
+                                    <div class="f_img_div"><p class="welcome_description" style="color: #333;font-weight:bold; font-size: 12px;">Pick up location, landmark :</p>
+                                    <p class="f_content" style="padding-right: 20px; margin-bottom: 0px; line-height: 1.6; color: #333; font-size: 12px;">' . $pnrinfo['pick_up_location']  . ', ' . $pnrinfo['pick_up_location_landmark']. ' </p></div>
+                              </td><td align="left" style="border-bottom: 1px solid #eee;">
+                                    <div class="f_img_div"><p class="welcome_description" style="color: #333;font-weight:bold; font-size: 12px;">Total Hours :</p>
+                                    <p class="f_content" style="padding-right: 20px; margin-bottom: 0px; line-height: 1.6; color: #333; font-size: 12px;">' . $pnrinfo['how_many_hours'] . ' Hr(s) </p></div>
+                                </td>
+                            </tr>';
+                            }
+
+                                $date_of_trip_to = '';
+                                if($pnrinfo['date_of_trip']!=$pnrinfo['date_of_trip_to']){
+                                    $date_of_trip_to = '-'.$pnrinfo['date_of_trip_to'];
+                                }
+$othermsg .= '<tr>
+                                <td align="left" style="border-bottom: 1px solid #eee;">
+                                    <div class="f_img_div"><p class="welcome_description" style="color: #333;font-weight:bold; font-size: 12px;">Date of Trip :</p>
+                                    <p class="f_content" style="padding-right: 20px; margin-bottom: 0px; line-height: 1.6; color: #333; font-size: 12px;">' . $pnrinfo['date_of_trip'] . ' ' . $pnrinfo['time_of_trip'] . $date_of_trip_to. ' </p></div>
+                              </td><td align="left" style="border-bottom: 1px solid #eee;">
+                                    <div class="f_img_div"><p class="welcome_description" style="color: #333;font-weight:bold; font-size: 12px;">Booked on :</p>
+                                    <p class="f_content" style="padding-right: 20px; margin-bottom: 0px; line-height: 1.6; color: #333; font-size: 12px;">' . $pnrinfo['booked_on'] . ' </p></div>
+                                </td>
+                            </tr>
+                            
+<tr>
                                 <td align="left" style="border-bottom: 1px solid #eee;">
                                     <div class="f_img_div" style="width:35%; float:left;"><p class="welcome_description" style="color: #333;font-weight:bold; font-size: 12px;">Amount :</p></div>
                                     <div class="f_content_div" style="width:65%; float:right;"><p class="f_content" style="padding-right: 20px; margin-bottom: 0px; line-height: 1.6; color: #333; font-size: 12px;">' . $subtotal_trip_price . ' </p></div>
                                 </td>
                             </tr>';
+              
             if ($pnrinfo['offer_amt'] != 0.00) {
                 $coupon_code = '';
                 if ($pnrinfo['coupon_code'] != '') {
@@ -1272,42 +1328,8 @@ if (!function_exists('trip_book_paid_sucess')) {
                                     </td>
                                 </tr>';
             }
-            $othermsg .= '<tr>
-                                <td align="left" style="border-bottom: 1px solid #eee;">
-                                    <div class="f_img_div" style="width:35%; float:left;"><p class="welcome_description" style="color: #333;font-weight:bold; font-size: 12px;">Date of Trip :</p></div>
-                                    <div class="f_content_div" style="width:65%; float:right;"><p class="f_content" style="padding-right: 20px; margin-bottom: 0px; line-height: 1.6; color: #333; font-size: 12px;">' . $pnrinfo['date_of_trip'] . ' ' . $pnrinfo['time_of_trip'] . ' </p></div>
-                                </td>
-                            </tr><tr>
-                                <td align="left" style="border-bottom: 1px solid #eee;">
-                                    <div class="f_img_div" style="width:35%; float:left;"><p class="welcome_description" style="color: #333;font-weight:bold; font-size: 12px;">Pick up location,<br>landmark :</p></div>
-                                    <div class="f_content_div" style="width:65%; float:right;"><p class="f_content" style="padding-right: 20px; margin-bottom: 0px; line-height: 1.6; color: #333; font-size: 12px;">' . $pnrinfo['pick_up_location'] . ', ' . $pnrinfo['pick_up_location_landmark'] . ' </p></div>
-                                </td>
-                            </tr><tr>
-                                <td align="left" style="border-bottom: 1px solid #eee;">
-                                    <div class="f_img_div" style="width:35%; float:left;"><p class="welcome_description" style="color: #333;font-weight:bold; font-size: 12px;">Date of Trip End :</p></div>
-                                    <div class="f_content_div" style="width:65%; float:right;"><p class="f_content" style="padding-right: 20px; margin-bottom: 0px; line-height: 1.6; color: #333; font-size: 12px;">' . $pnrinfo['date_of_trip_to'] . ' </p></div>
-                                </td>
-                            </tr>';
-            if ($pnrinfo['total_days'] > 0) {
-                $how_many_nights = '';
-                if ($pnrinfo['how_many_nights'] > 0) {
-                    $how_many_nights = $pnrinfo['how_many_nights'] . 'night(s)';
-                }
-                $othermsg .= '<tr>
-                                    <td align="left" style="border-bottom: 1px solid #eee;">
-                                        <div class="f_img_div" style="width:35%; float:left;"><p class="welcome_description" style="color: #333;font-weight:bold; font-size: 12px;">Total Days :</p></div>
-                                        <div class="f_content_div" style="width:65%; float:right;"><p class="f_content" style="padding-right: 20px; margin-bottom: 0px; line-height: 1.6; color: #333; font-size: 12px;">' . $pnrinfo['how_many_days'] . ' day(s), ' . $how_many_nights . '</p></div>
-                                    </td>
-                                </tr>';
-            }
-            if ($pnrinfo['how_many_hours'] > 0) {
-                $othermsg .= '<tr>
-                                    <td align="left" style="border-bottom: 1px solid #eee;">
-                                        <div class="f_img_div" style="width:35%; float:left;"><p class="welcome_description" style="color: #333;font-weight:bold; font-size: 12px;">Total Hours :</p></div>
-                                        <div class="f_content_div" style="width:65%; float:right;"><p class="f_content" style="padding-right: 20px; margin-bottom: 0px; line-height: 1.6; color: #333; font-size: 12px;">' . $pnrinfo['how_many_hours'] . ' </p></div>
-                                    </td>
-                                </tr>';
-            }
+           
+            
             if ($pnrinfo['languages'] > 0) {
                 $othermsg .= '<tr>
                                     <td align="left" style="border-bottom: 1px solid #eee;">
@@ -1324,27 +1346,6 @@ if (!function_exists('trip_book_paid_sucess')) {
                                     </td>
                                 </tr>';
             }
-            $othermsg .= '<tr>
-                                <td align="left" style="border-bottom: 1px solid #eee;">
-                                    <div class="f_img_div" style="width:35%; float:left;"><p class="welcome_description" style="color: #333;font-weight:bold; font-size: 12px;">Billing By :</p></div>
-                                    <div class="f_content_div" style="width:65%; float:right;"><p class="f_content" style="padding-right: 20px; margin-bottom: 0px; line-height: 1.6; color: #333; font-size: 12px;">' . $pnrinfo['booked_to'] . ' </p></div>
-                                </td>
-                            </tr><tr>
-                                <td align="left" style="border-bottom: 1px solid #eee;">
-                                    <div class="f_img_div" style="width:35%; float:left;"><p class="welcome_description" style="color: #333;font-weight:bold; font-size: 12px;">Billing Email :</p></div>
-                                    <div class="f_content_div" style="width:65%; float:right;"><p class="f_content" style="padding-right: 20px; margin-bottom: 0px; line-height: 1.6; color: #333; font-size: 12px;">' . $pnrinfo['booked_email'] . ' </p></div>
-                                </td>
-                            </tr><tr>
-                                <td align="left" style="border-bottom: 1px solid #eee;">
-                                    <div class="f_img_div" style="width:35%; float:left;"><p class="welcome_description" style="color: #333;font-weight:bold; font-size: 12px;">Phone Number :</p></div>
-                                    <div class="f_content_div" style="width:65%; float:right;"><p class="f_content" style="padding-right: 20px; margin-bottom: 0px; line-height: 1.6; color: #333; font-size: 12px;">' . $pnrinfo['booked_phone_no'] . ' </p></div>
-                                </td>
-                            </tr><tr>
-                                <td align="left" style="border-bottom: 1px solid #eee;">
-                                    <div class="f_img_div" style="width:35%; float:left;"><p class="welcome_description" style="color: #333;font-weight:bold; font-size: 12px;">Booked on :</p></div>
-                                    <div class="f_content_div" style="width:65%; float:right;"><p class="f_content" style="padding-right: 20px; margin-bottom: 0px; line-height: 1.6; color: #333; font-size: 12px;">' . $pnrinfo['booked_on'] . ' </p></div>
-                                </td>
-                            </tr>';
             if ($pnrinfo['brief_description'] != '') {
                 $othermsg .= '<tr>
                                     <td align="left" style="border-bottom: 1px solid #eee;padding-top:0px;">
@@ -1523,25 +1524,80 @@ if (!function_exists('trip_book_paid_sucess')) {
             $subtotal_trip_price .= ')';
             $othermsg = '<tr>
                                 <td align="left" style="border-bottom: 1px solid #eee;">
-                                    <div class="f_img_div" style="width:35%; float:left;"><p class="welcome_description" style="color: #333;font-weight:bold; font-size: 12px;">PNR Number :</p></div>
-                                    <div class="f_content_div" style="width:65%; float:right;"><p class="f_content" style="padding-right: 20px; margin-bottom: 0px; line-height: 1.6; color: #333; font-size: 12px;">' . $book_pay[0]['pnr_no'] . ' </p></div>
+                                    <div class="f_img_div"><p class="welcome_description" style="color: #333;font-weight:bold; font-size: 12px;">Trip Code / Name :</p>
+                                    <p class="f_content" style="padding-right: 20px; margin-bottom: 0px; line-height: 1.6; color: #333; font-size: 12px;">' . $book_pay[0]['trip_code'] . ' / ' . $book_pay[0]['trip_name'] . ' </p></div>
+                              </td><td align="left" style="border-bottom: 1px solid #eee;">
+                                    <div class="f_img_div"><p class="welcome_description" style="color: #333;font-weight:bold; font-size: 12px;">PNR Number :</p>
+                                    <p class="f_content" style="padding-right: 20px; margin-bottom: 0px; line-height: 1.6; color: #333; font-size: 12px;">' . $pnrinfo['pnr_no'] . ' </p></div>
                                 </td>
-                            </tr><tr>
+                            </tr>
+                            <tr>
                                 <td align="left" style="border-bottom: 1px solid #eee;">
-                                    <div class="f_img_div" style="width:35%; float:left;"><p class="welcome_description" style="color: #333;font-weight:bold; font-size: 12px;">Trip Code / Name :</p></div>
-                                    <div class="f_content_div" style="width:65%; float:right;"><p class="f_content" style="padding-right: 20px; margin-bottom: 0px; line-height: 1.6; color: #333; font-size: 12px;">' . $book_pay[0]['trip_code'] . ' / ' . $book_pay[0]['trip_name'] . ' </p></div>
+                                    <div class="f_img_div"><p class="welcome_description" style="color: #333;font-weight:bold; font-size: 12px;">Billing By :</p>
+                                    <p class="f_content" style="padding-right: 20px; margin-bottom: 0px; line-height: 1.6; color: #333; font-size: 12px;">' . $pnrinfo['booked_to'] . ' </p></div>
+                              </td><td align="left" style="border-bottom: 1px solid #eee;">
+                                    <div class="f_img_div"><p class="welcome_description" style="color: #333;font-weight:bold; font-size: 12px;">No Of Traveller :</p>
+                                    <p class="f_content" style="padding-right: 20px; margin-bottom: 0px; line-height: 1.6; color: #333; font-size: 12px;">' . $pnrinfo['number_of_persons'] . ' </p></div>
                                 </td>
-                            </tr><tr>
+                            </tr>
+                            <tr>
                                 <td align="left" style="border-bottom: 1px solid #eee;">
-                                    <div class="f_img_div" style="width:35%; float:left;"><p class="welcome_description" style="color: #333;font-weight:bold; font-size: 12px;">No Of Traveller :</p></div>
-                                    <div class="f_content_div" style="width:65%; float:right;"><p class="f_content" style="padding-right: 20px; margin-bottom: 0px; line-height: 1.6; color: #333; font-size: 12px;">' . $book_pay[0]['number_of_persons'] . ' </p></div>
+                                    <div class="f_img_div"><p class="welcome_description" style="color: #333;font-weight:bold; font-size: 12px;">Billing Email :</p>
+                                    <p class="f_content" style="padding-right: 20px; margin-bottom: 0px; line-height: 1.6; color: #333; font-size: 12px;">' . $pnrinfo['booked_email'] . ' </p></div>
+                              </td><td align="left" style="border-bottom: 1px solid #eee;">
+                                    <div class="f_img_div"><p class="welcome_description" style="color: #333;font-weight:bold; font-size: 12px;">Phone Number :</p>
+                                    <p class="f_content" style="padding-right: 20px; margin-bottom: 0px; line-height: 1.6; color: #333; font-size: 12px;">' . $pnrinfo['booked_phone_no'] . ' </p></div>
                                 </td>
-                            </tr><tr>
+                            </tr>';
+                            if ($pnrinfo['total_days'] > 0) {
+                                $how_many_nights = '';
+                                if ($pnrinfo['how_many_nights'] > 0) {
+                                    $how_many_nights = $pnrinfo['how_many_nights'] . 'night(s)';
+                                }
+                                $othermsg .= '
+                            <tr>
+                                <td align="left" style="border-bottom: 1px solid #eee;">
+                                    <div class="f_img_div"><p class="welcome_description" style="color: #333;font-weight:bold; font-size: 12px;">Pick up location, landmark :</p>
+                                    <p class="f_content" style="padding-right: 20px; margin-bottom: 0px; line-height: 1.6; color: #333; font-size: 12px;">' . $pnrinfo['pick_up_location']  . ', ' . $pnrinfo['pick_up_location_landmark']. ' </p></div>
+                              </td><td align="left" style="border-bottom: 1px solid #eee;">
+                                    <div class="f_img_div"><p class="welcome_description" style="color: #333;font-weight:bold; font-size: 12px;">Total Days :</p>
+                                    <p class="f_content" style="padding-right: 20px; margin-bottom: 0px; line-height: 1.6; color: #333; font-size: 12px;">' . $pnrinfo['how_many_days'] . ' day(s), ' . $how_many_nights .  ' </p></div>
+                                </td>
+                            </tr>';
+                            }else if ($pnrinfo['how_many_hours'] > 0) {
+                                $othermsg .= '
+                            <tr>
+                                <td align="left" style="border-bottom: 1px solid #eee;">
+                                    <div class="f_img_div"><p class="welcome_description" style="color: #333;font-weight:bold; font-size: 12px;">Pick up location, landmark :</p>
+                                    <p class="f_content" style="padding-right: 20px; margin-bottom: 0px; line-height: 1.6; color: #333; font-size: 12px;">' . $pnrinfo['pick_up_location']  . ', ' . $pnrinfo['pick_up_location_landmark']. ' </p></div>
+                              </td><td align="left" style="border-bottom: 1px solid #eee;">
+                                    <div class="f_img_div"><p class="welcome_description" style="color: #333;font-weight:bold; font-size: 12px;">Total Hours :</p>
+                                    <p class="f_content" style="padding-right: 20px; margin-bottom: 0px; line-height: 1.6; color: #333; font-size: 12px;">' . $pnrinfo['how_many_hours'] . ' Hr(s) </p></div>
+                                </td>
+                            </tr>';
+                            }
+
+                                $date_of_trip_to = '';
+                                if($pnrinfo['date_of_trip']!=$pnrinfo['date_of_trip_to']){
+                                    $date_of_trip_to = '-'.$pnrinfo['date_of_trip_to'];
+                                }
+$othermsg .= '<tr>
+                                <td align="left" style="border-bottom: 1px solid #eee;">
+                                    <div class="f_img_div"><p class="welcome_description" style="color: #333;font-weight:bold; font-size: 12px;">Date of Trip :</p>
+                                    <p class="f_content" style="padding-right: 20px; margin-bottom: 0px; line-height: 1.6; color: #333; font-size: 12px;">' . $pnrinfo['date_of_trip'] . ' ' . $pnrinfo['time_of_trip'] . $date_of_trip_to. ' </p></div>
+                              </td><td align="left" style="border-bottom: 1px solid #eee;">
+                                    <div class="f_img_div"><p class="welcome_description" style="color: #333;font-weight:bold; font-size: 12px;">Booked on :</p>
+                                    <p class="f_content" style="padding-right: 20px; margin-bottom: 0px; line-height: 1.6; color: #333; font-size: 12px;">' . $pnrinfo['booked_on'] . ' </p></div>
+                                </td>
+                            </tr>
+                            
+<tr>
                                 <td align="left" style="border-bottom: 1px solid #eee;">
                                     <div class="f_img_div" style="width:35%; float:left;"><p class="welcome_description" style="color: #333;font-weight:bold; font-size: 12px;">Amount :</p></div>
                                     <div class="f_content_div" style="width:65%; float:right;"><p class="f_content" style="padding-right: 20px; margin-bottom: 0px; line-height: 1.6; color: #333; font-size: 12px;">' . $subtotal_trip_price . ' </p></div>
                                 </td>
                             </tr>';
+            
             if ($book_pay[0]['offer_amt'] != 0.00) {
                 $coupon_code = '';
                 if ($book_pay[0]['coupon_code'] != '') {
@@ -1590,42 +1646,6 @@ if (!function_exists('trip_book_paid_sucess')) {
                                     </td>
                                 </tr>';
             }
-            $othermsg .= '<tr>
-                                <td align="left" style="border-bottom: 1px solid #eee;">
-                                    <div class="f_img_div" style="width:35%; float:left;"><p class="welcome_description" style="color: #333;font-weight:bold; font-size: 12px;">Date of Trip :</p></div>
-                                    <div class="f_content_div" style="width:65%; float:right;"><p class="f_content" style="padding-right: 20px; margin-bottom: 0px; line-height: 1.6; color: #333; font-size: 12px;">' . $book_pay[0]['date_of_trip'] . ' ' . $book_pay[0]['time_of_trip'] . ' </p></div>
-                                </td>
-                            </tr><tr>
-                                <td align="left" style="border-bottom: 1px solid #eee;">
-                                    <div class="f_img_div" style="width:35%; float:left;"><p class="welcome_description" style="color: #333;font-weight:bold; font-size: 12px;">Pick up location,<br>landmark :</p></div>
-                                    <div class="f_content_div" style="width:65%; float:right;"><p class="f_content" style="padding-right: 20px; margin-bottom: 0px; line-height: 1.6; color: #333; font-size: 12px;">' . $book_pay[0]['pick_up_location'] . ', ' . $book_pay[0]['pick_up_location_landmark'] . ' </p></div>
-                                </td>
-                            </tr><tr>
-                                <td align="left" style="border-bottom: 1px solid #eee;">
-                                    <div class="f_img_div" style="width:35%; float:left;"><p class="welcome_description" style="color: #333;font-weight:bold; font-size: 12px;">Date of Trip End :</p></div>
-                                    <div class="f_content_div" style="width:65%; float:right;"><p class="f_content" style="padding-right: 20px; margin-bottom: 0px; line-height: 1.6; color: #333; font-size: 12px;">' . $book_pay[0]['date_of_trip_to'] . ' </p></div>
-                                </td>
-                            </tr>';
-            if ($book_pay[0]['total_days'] > 0) {
-                $how_many_nights = '';
-                if ($book_pay[0]['how_many_nights'] > 0) {
-                    $how_many_nights = $book_pay[0]['how_many_nights'] . 'night(s)';
-                }
-                $othermsg .= '<tr>
-                                    <td align="left" style="border-bottom: 1px solid #eee;">
-                                        <div class="f_img_div" style="width:35%; float:left;"><p class="welcome_description" style="color: #333;font-weight:bold; font-size: 12px;">Total Days :</p></div>
-                                        <div class="f_content_div" style="width:65%; float:right;"><p class="f_content" style="padding-right: 20px; margin-bottom: 0px; line-height: 1.6; color: #333; font-size: 12px;">' . $book_pay[0]['how_many_days'] . ' day(s), ' . $how_many_nights . '</p></div>
-                                    </td>
-                                </tr>';
-            }
-            if ($book_pay[0]['how_many_hours'] > 0) {
-                $othermsg .= '<tr>
-                                    <td align="left" style="border-bottom: 1px solid #eee;">
-                                        <div class="f_img_div" style="width:35%; float:left;"><p class="welcome_description" style="color: #333;font-weight:bold; font-size: 12px;">Total Hours :</p></div>
-                                        <div class="f_content_div" style="width:65%; float:right;"><p class="f_content" style="padding-right: 20px; margin-bottom: 0px; line-height: 1.6; color: #333; font-size: 12px;">' . $book_pay[0]['how_many_hours'] . ' </p></div>
-                                    </td>
-                                </tr>';
-            }
             if ($book_pay[0]['languages'] > 0) {
                 $othermsg .= '<tr>
                                     <td align="left" style="border-bottom: 1px solid #eee;">
@@ -1642,27 +1662,6 @@ if (!function_exists('trip_book_paid_sucess')) {
                                     </td>
                                 </tr>';
             }
-            $othermsg .= '<tr>
-                                <td align="left" style="border-bottom: 1px solid #eee;">
-                                    <div class="f_img_div" style="width:35%; float:left;"><p class="welcome_description" style="color: #333;font-weight:bold; font-size: 12px;">Billing By :</p></div>
-                                    <div class="f_content_div" style="width:65%; float:right;"><p class="f_content" style="padding-right: 20px; margin-bottom: 0px; line-height: 1.6; color: #333; font-size: 12px;">' . $book_pay[0]['booked_to'] . ' </p></div>
-                                </td>
-                            </tr><tr>
-                                <td align="left" style="border-bottom: 1px solid #eee;">
-                                    <div class="f_img_div" style="width:35%; float:left;"><p class="welcome_description" style="color: #333;font-weight:bold; font-size: 12px;">Billing Email :</p></div>
-                                    <div class="f_content_div" style="width:65%; float:right;"><p class="f_content" style="padding-right: 20px; margin-bottom: 0px; line-height: 1.6; color: #333; font-size: 12px;">' . $book_pay[0]['booked_email'] . ' </p></div>
-                                </td>
-                            </tr><tr>
-                                <td align="left" style="border-bottom: 1px solid #eee;">
-                                    <div class="f_img_div" style="width:35%; float:left;"><p class="welcome_description" style="color: #333;font-weight:bold; font-size: 12px;">Phone Number :</p></div>
-                                    <div class="f_content_div" style="width:65%; float:right;"><p class="f_content" style="padding-right: 20px; margin-bottom: 0px; line-height: 1.6; color: #333; font-size: 12px;">' . $book_pay[0]['booked_phone_no'] . ' </p></div>
-                                </td>
-                            </tr><tr>
-                                <td align="left" style="border-bottom: 1px solid #eee;">
-                                    <div class="f_img_div" style="width:35%; float:left;"><p class="welcome_description" style="color: #333;font-weight:bold; font-size: 12px;">Booked on :</p></div>
-                                    <div class="f_content_div" style="width:65%; float:right;"><p class="f_content" style="padding-right: 20px; margin-bottom: 0px; line-height: 1.6; color: #333; font-size: 12px;">' . $book_pay[0]['booked_on'] . ' </p></div>
-                                </td>
-                            </tr>';
             if ($book_pay[0]['brief_description'] != '') {
                 $othermsg .= '<tr>
                                     <td align="left" style="border-bottom: 1px solid #eee;padding-top:0px;">
@@ -1736,6 +1735,7 @@ if (!function_exists('trip_book_paid_sucess')) {
 
                                     </td>
                                 </tr>';
+            
                     $subject = 'You got a new booking request PNR No ' . $pnr_no;
                     $message = 'You got a new booking request! <b>PNR No: ' . $pnr_no . '</b> ( Trip Code/Name: ' . $trip_code . ' / ' . $trip_name . ' ) at ' . site_title . '.<br>';
                     $message .= '<a href="' . base_url() . 'PNR-status/' . $pnr_no . '/1" style="color:#00adef" target="_new">View PNR status</a>.';
@@ -2212,6 +2212,7 @@ if (!function_exists('sendemail_personalmail')) {
             }
             $CI->email->clear();
             $message = $CI->load->view('email/default_template.tpl.php', $mailData, TRUE);
+            
             $email_config = array(
                 'protocol' => 'smtp',
                 'smtp_host' => 'mail.bookyourtrips.in',
@@ -2586,8 +2587,8 @@ if (!function_exists('cancelled_trip_refund_amount')) {
                     'refund_percentage' => $refund_percentage);
                 $result = updateTable('trip_book_pay', $whereData22, $updatedata22);
 
-                $subject = 'You are received cancelled/refund amount for PNR No ' . $book_pay[0]->pnr_no;
-                $message = 'You are received cancelled/refund amount for PNR No ' . $book_pay[0]->pnr_no . ' (' . $book_pay[0]->trip_code . ' / ' . $book_pay[0]->trip_name . ') from ' . site_title. '.<br><br>' . $return_notes;
+                $subject = 'You have received cancelled/refund amount for PNR No ' . $book_pay[0]->pnr_no;
+                $message = 'You have received cancelled/refund amount for PNR No ' . $book_pay[0]->pnr_no . ' (' . $book_pay[0]->trip_code . ' / ' . $book_pay[0]->trip_name . ') from ' . site_title. '.<br><br>' . $return_notes;
                 $mailData = array(
                     //'fromuserid' => $pnrinfo['trip_postbyid'],
                     'ccemail' => admin_email . ',' . email_bottem_email . ',' . $book_pay[0]->booked_email,
@@ -2660,8 +2661,8 @@ if (!function_exists('cancelled_trip_refund_amount')) {
                              'refund_percentage' => $refund_percentage);
                         $result = updateTable('trip_book_pay_details', $whereData22, $updatedata22);
 
-                        $subject = 'You are received cancelled/refund amount for PNR No ' . $book_pay->pnr_no;
-                        $message = 'You are received cancelled/refund amount for PNR No ' . $book_pay->pnr_no . ' (' . $book_pay->trip_code . ' / ' . $book_pay->trip_name . ') from ' . site_title. '.<br><br>' . $return_notes;
+                        $subject = 'You have received cancelled/refund amount for PNR No ' . $book_pay->pnr_no;
+                        $message = 'You have received cancelled/refund amount for PNR No ' . $book_pay->pnr_no . ' (' . $book_pay->trip_code . ' / ' . $book_pay->trip_name . ') from ' . site_title. '.<br><br>' . $return_notes;
                         $mailData = array(
                             //'fromuserid' => $pnrinfo['trip_postbyid'],
                             'ccemail' => admin_email . ',' . email_bottem_email,
