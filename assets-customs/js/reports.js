@@ -109,10 +109,10 @@ jQuery(function($) {
                errorClass: 'small help-block',
                errorPlacement: function (error, element) {
                    if (element.length) {
-                       error.insertAfter(element);
-                   } else {
-                       error.insertAfter(element);
-                   }
+                error.insertAfter( element.parent("div"));
+            } else {
+                error.insertafter(element.parent());
+            }
                },
                submitHandler: function (form)
                {
@@ -198,10 +198,10 @@ jQuery(function($) {
                errorClass: 'small help-block',
                errorPlacement: function (error, element) {
                    if (element.length) {
-                       error.insertAfter(element);
-                   } else {
-                       error.insertAfter(element);
-                   }
+                error.insertAfter( element.parent("div"));
+            } else {
+                error.insertafter(element.parent());
+            }
                },
                submitHandler: function (form)
                {
@@ -423,10 +423,10 @@ jQuery(function($) {
                errorClass: 'small help-block',
                errorPlacement: function (error, element) {
                    if (element.length) {
-                       error.insertAfter(element);
-                   } else {
-                       error.insertAfter(element);
-                   }
+                error.insertAfter( element.parent("div"));
+            } else {
+                error.insertafter(element.parent());
+            }
                },
                submitHandler: function (form)
                {
@@ -512,6 +512,27 @@ jQuery(function($) {
             setTimeout(function() { $('#pay-history-report-form').submit(); },2000);
         }else{
             $('#pay-history-report-form').submit();
+        }
+        
+    });
+    
+     //PAYMENT SUMMARY REPORT
+    $('#paymentSummaryExportXLSX').on('click',function(){ 
+        
+        var search_from = $('#rangeDatePickerFrom').val() != undefined ?$('#rangeDatePickerFrom').val():'';
+        var search_to   = $('#rangeDatePickerTo').val() != undefined ?$('#rangeDatePickerTo').val():'';       
+        var titleSearch = $('#searchTitle').val() != undefined ?$('#searchTitle').val():'';
+         
+        document.location = base_url+'payment-summary-reports?from='+search_from+'&to='+search_to+'&title='+titleSearch+'&download=1';
+       
+    });
+    $('#paySummarySearchBtn').on('click',function(e){
+        e.preventDefault();
+        if (location.href.indexOf('download=') > -1) {
+            location.href = location.href.replace('download=1', 'download=0');
+            setTimeout(function() { $('#payment-summary-report-form').submit(); },2000);
+        }else{
+            $('#payment-summary-report-form').submit();
         }
         
     });

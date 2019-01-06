@@ -266,10 +266,10 @@ jQuery(function($) {
     errorElement: 'span',
         errorClass: 'small help-block',
         errorPlacement: function(error, element) {
-            if(element.length) {
-                error.insertAfter(element);
+            if (element.length) {
+                error.insertAfter( element.parent("div"));
             } else {
-            error.insertAfter(element);
+                error.insertafter(element.parent());
             }
         } 
  });
@@ -346,10 +346,10 @@ jQuery(function($) {
     errorElement: 'span',
         errorClass: 'small help-block',
         errorPlacement: function(error, element) {
-            if(element.length) {
-                error.insertAfter(element);
+            if (element.length) {
+                error.insertAfter( element.parent("div"));
             } else {
-            error.insertAfter(element);
+                error.insertafter(element.parent());
             }
         } 
  });
@@ -416,10 +416,10 @@ jQuery(function($) {
     errorElement: 'span',
         errorClass: 'small help-block',
         errorPlacement: function(error, element) {
-            if(element.length) {
-                error.insertAfter(element);
+            if (element.length) {
+                error.insertAfter( element.parent("div"));
             } else {
-            error.insertAfter(element);
+                error.insertafter(element.parent());
             }
         } 
  });

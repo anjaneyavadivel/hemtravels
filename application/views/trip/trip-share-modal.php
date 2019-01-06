@@ -53,7 +53,8 @@
             </div>
             <div class="tab-pane fade in " id="link" name="attributes" role="tabpanel">
                 <textarea class="form-control show_share_url" style="margin-top:20px;"><?php echo base_url('trip-view/'.$tripCode)?></textarea>
-                <textarea class="form-control show_share_html" rows="3" style="margin-top:20px;display:none;"><button onclick="window.open('<?php echo base_url('trip-view/'.$tripCode)?>','_blank')" type="button" style="background: #FE8800; border-color: #FE8800; color: #FFF !important;"> View & Book</button></textarea>
+                <textarea class="form-control show_share_html" rows="3" style="margin-top:20px;display:none;">
+<a href="<?php echo base_url('trip-view/'.$tripCode)?>" target="_new"><strong><img src="<?php echo base_url()?>assets/images/book-now.png" width="100" height="40" align="left"></strong></a></textarea>
                 <a class="btn btn-primary text-center shareShow"  data-id="html" href="javascript:;">Get Html Code</a>
                 <hr style="margin-top:25px;">
                 <ul class="modal_social_share">

@@ -1215,7 +1215,7 @@ if (!function_exists('trip_book_paid_sucess')) {
                             </tr>
                             <tr>
                                 <td align="left" style="border-bottom: 1px solid #eee;">
-                                    <div class="f_img_div"><p class="welcome_description" style="color: #333;font-weight:bold; font-size: 12px;">Billing By :</p>
+                                    <div class="f_img_div"><p class="welcome_description" style="color: #333;font-weight:bold; font-size: 12px;">Customer Name :</p>
                                     <p class="f_content" style="padding-right: 20px; margin-bottom: 0px; line-height: 1.6; color: #333; font-size: 12px;">' . $pnrinfo['booked_to'] . ' </p></div>
                               </td><td align="left" style="border-bottom: 1px solid #eee;">
                                     <div class="f_img_div"><p class="welcome_description" style="color: #333;font-weight:bold; font-size: 12px;">No Of Traveller :</p>
@@ -1224,7 +1224,7 @@ if (!function_exists('trip_book_paid_sucess')) {
                             </tr>
                             <tr>
                                 <td align="left" style="border-bottom: 1px solid #eee;">
-                                    <div class="f_img_div"><p class="welcome_description" style="color: #333;font-weight:bold; font-size: 12px;">Billing Email :</p>
+                                    <div class="f_img_div"><p class="welcome_description" style="color: #333;font-weight:bold; font-size: 12px;">Contact Email :</p>
                                     <p class="f_content" style="padding-right: 20px; margin-bottom: 0px; line-height: 1.6; color: #333; font-size: 12px;">' . $pnrinfo['booked_email'] . ' </p></div>
                               </td><td align="left" style="border-bottom: 1px solid #eee;">
                                     <div class="f_img_div"><p class="welcome_description" style="color: #333;font-weight:bold; font-size: 12px;">Phone Number :</p>
@@ -1533,7 +1533,7 @@ $othermsg .= '<tr>
                             </tr>
                             <tr>
                                 <td align="left" style="border-bottom: 1px solid #eee;">
-                                    <div class="f_img_div"><p class="welcome_description" style="color: #333;font-weight:bold; font-size: 12px;">Billing By :</p>
+                                    <div class="f_img_div"><p class="welcome_description" style="color: #333;font-weight:bold; font-size: 12px;">Customer Name :</p>
                                     <p class="f_content" style="padding-right: 20px; margin-bottom: 0px; line-height: 1.6; color: #333; font-size: 12px;">' . $pnrinfo['booked_to'] . ' </p></div>
                               </td><td align="left" style="border-bottom: 1px solid #eee;">
                                     <div class="f_img_div"><p class="welcome_description" style="color: #333;font-weight:bold; font-size: 12px;">No Of Traveller :</p>
@@ -1542,7 +1542,7 @@ $othermsg .= '<tr>
                             </tr>
                             <tr>
                                 <td align="left" style="border-bottom: 1px solid #eee;">
-                                    <div class="f_img_div"><p class="welcome_description" style="color: #333;font-weight:bold; font-size: 12px;">Billing Email :</p>
+                                    <div class="f_img_div"><p class="welcome_description" style="color: #333;font-weight:bold; font-size: 12px;">Contact Email :</p>
                                     <p class="f_content" style="padding-right: 20px; margin-bottom: 0px; line-height: 1.6; color: #333; font-size: 12px;">' . $pnrinfo['booked_email'] . ' </p></div>
                               </td><td align="left" style="border-bottom: 1px solid #eee;">
                                     <div class="f_img_div"><p class="welcome_description" style="color: #333;font-weight:bold; font-size: 12px;">Phone Number :</p>

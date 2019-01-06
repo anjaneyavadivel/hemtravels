@@ -173,10 +173,10 @@ jQuery(function($) {
                errorClass: 'small help-block',
                errorPlacement: function (error, element) {
                    if (element.length) {
-                       error.insertAfter(element);
-                   } else {
-                       error.insertAfter(element);
-                   }
+                error.insertAfter( element.parent("div"));
+            } else {
+                error.insertafter(element.parent());
+            }
                },
                submitHandler: function (form)
                {

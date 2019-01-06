@@ -162,7 +162,7 @@
 
                                                         <h3 class="section-title">About this tour</h3>
 
-                                                        <p class="lead"><?php echo isset($details['brief_description'])?html_entity_decode($details['brief_description']):'';?></p>
+                                                        <p class="lead"><?php echo isset($details['brief_description'])?  ucfirst(strtolower(html_entity_decode($details['brief_description']))):'';?></p>
 
                                                         <div class="bt mt-30 mb-30"></div>
                                                         <?php if(isset($galleries) && count(json_decode($galleries)) > 0) {?>
@@ -265,7 +265,7 @@
 
                                                                     <h3 class="font-lg mb-20">Transport</h3>
                                                                     
-                                                                    <span class="pl-xs"><?php echo html_entity_decode($details['transport']);?></span>                                                                    
+                                                                    <span class="pl-xs"><?php echo ucfirst(strtolower(html_entity_decode($details['transport'])));?></span>                                                                    
 
                                                                 </div>                                                                
                                                             </div>
@@ -277,7 +277,7 @@
 
                                                                         <h3 class="font-lg mb-20">Things To Carry</h3>
 
-                                                                        <span class="pl-xs"><?php echo html_entity_decode($details['things_to_carry']);?></span>                                                                    
+                                                                        <span class="pl-xs"><?php echo ucfirst(strtolower(html_entity_decode($details['things_to_carry'])));?></span>                                                                    
 
                                                                     </div>                                                                
                                                                 </div>                                                     
@@ -288,7 +288,7 @@
 
                                                                         <h3 class="font-lg mb-20">Tour Type</h3>
 
-                                                                        <span class="pl-xs"><?php echo html_entity_decode($details['tour_type']);?></span>                                                                    
+                                                                        <span class="pl-xs"><?php echo ucfirst(strtolower(html_entity_decode($details['tour_type'])));?></span>                                                                    
 
                                                                     </div>                                                                
                                                                 </div>                                                            
@@ -321,7 +321,7 @@
                                                                 <h3 class="font-lg mb-20">Other Inclusions</h3>
 
                                                                 <ul class="list-yes-no">
-                                                                    <?php echo html_entity_decode($details['other_inclusions']);?>
+                                                                    <?php echo ucfirst(strtolower(html_entity_decode($details['other_inclusions'])));?>
                                                                 </ul>
 
                                                             </div>
@@ -334,7 +334,7 @@
                                                                     <h3 class="font-lg mb-20">What it excluded</h3>
 
                                                                     <ul class="list-yes-no">
-                                                                        <?php echo html_entity_decode($details['exclusions']);?>
+                                                                        <?php echo ucfirst(strtolower(html_entity_decode($details['exclusions'])));?>
                                                                     </ul>
 
                                                                 </div>
@@ -411,7 +411,7 @@
                                                 <div class="row">                                                    
                                                     <div class="col-xs-12 col-sm-12 col-md-12">
                                                         <h4>Cancellation Policy</h4>
-                                                        <p class="font-lg"><?php echo isset($details['cancellation_policy'])?html_entity_decode($details['cancellation_policy']):'';?></p>
+                                                        <p class="font-lg"><?php echo isset($details['cancellation_policy'])?ucfirst(strtolower(html_entity_decode($details['cancellation_policy']))):'';?></p>
                                                     </div>
                                                 </div>
                                             </div>
@@ -419,7 +419,7 @@
                                                 <div class="row">                                                    
                                                     <div class="col-xs-12 col-sm-12 col-md-12">
                                                         <h4>Confirmation Policy</h4>
-                                                        <p class="font-lg"><?php echo isset($details['confirmation_policy'])?html_entity_decode($details['confirmation_policy']):'';?></p>
+                                                        <p class="font-lg"><?php echo isset($details['confirmation_policy'])?ucfirst(strtolower(html_entity_decode($details['confirmation_policy']))):'';?></p>
                                                     </div>
                                                 </div>
                                             </div>
@@ -427,7 +427,7 @@
                                                 <div class="row">
                                                     <div class="col-xs-12 col-sm-12 col-md-12">
                                                         <h4>Refund Policy</h4>
-                                                        <p class="font-lg"><?php echo isset($details['refund_policy'])?html_entity_decode($details['refund_policy']):'';?></p>
+                                                        <p class="font-lg"><?php echo isset($details['refund_policy'])?ucfirst(strtolower(html_entity_decode($details['refund_policy']))):'';?></p>
                                                     </div>
                                                 </div>
                                             </div>

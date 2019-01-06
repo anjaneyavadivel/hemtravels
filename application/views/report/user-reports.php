@@ -77,7 +77,8 @@
                 
                 <div class="col-xs-2 col-sm-1 col-lg-1 text-right">
                     <a href="javascript:;" class="btn btn-info c_mt" id="userReport" >Export</a>
-                </div>                
+                </div>     
+                <div class="table-resonsive">
                 <table class="table ">
                     <thead>
                         <tr>                            
@@ -91,6 +92,7 @@
                             <th>Unclear Amount</th>                                                    
                             <th>Created On</th>
                             <th>Status</th>
+                            <th>Payment Summary</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -130,18 +132,23 @@
                                         <td><?= $row['balance_amt']; ?></td>
                                         <td><?= $row['unclear_amt']; ?></td>
                                         <td><?= date("M d, Y", strtotime($row['created_on'])); ?></td>
-                                        <td><?= $isactive ?></td>                                        
+                                        <td><?= $isactive ?></td>  
+                                        <td>                                            
+                                            <?php if($row['user_type'] == 'VA') {?>                                            
+                                                <a href="<?=base_url()?>payment-summary-reports?id=<?=$row['id']?>&download=1" download=""><i class="fa fa-download"></i></a>                                       
+                                            <?php } ?>                                                
+                                        </td>
                                     </tr>
                                     <?php
                                    
                             }
                         }else{
-                            echo "<td colspan='10' style='text-align:center'>No Data Found</td>";
+                            echo "<td colspan='11' style='text-align:center'>No Data Found</td>";
                         }
                         ?> 	
 
                     </tbody>
-                </table>
+                </table></div>
                 <div class="pager-wrappper text-right clearfix bt mt-0  col-sm-12">
 
                     <div class="pager-innner">

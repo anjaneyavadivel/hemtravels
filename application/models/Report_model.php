@@ -655,7 +655,57 @@ class Report_model extends CI_Model
             return $query->result_array();
         }
     }
-
+    function payment_summary_reports($whereData,$limit=20, $start=0,$resultCount = 'no') {
+        
+        if($this->session->userdata('user_type') == 'VA' || isset($whereData['id']) && !empty($whereData['id'])){  
+            $this->db->select('tbod.booked_on,mt.*,tm.trip_name,um1.user_type,um1.id as recorduserid,um1.user_fullname as recordusername,SUM(deposits) as credit,SUM(withdrawals) as debit')->from('my_transaction AS mt');         
+        }else if($this->session->userdata('user_type') == 'SA'){  
+            $this->db->select('mt.*,tm.trip_name,um1.user_type,um1.id as recorduserid,um1.user_fullname as recordusername,um1.email as recordemail')->from('trip_book_pay AS mt');                     
+        }
+                
+        $this->db->join('trip_master AS tm', 'tm.id = mt.trip_id','LEFT');      
+        
+        
+        if($this->session->userdata('user_type') == 'VA' || isset($whereData['id']) && !empty($whereData['id'])){ 
+            
+            $user_id = $this->session->userdata('user_id');
+            if(isset($whereData['id']) && !empty($whereData['id'])){
+                $user_id = $whereData['id'];
+            }
+            
+            $this->db->join(' trip_book_pay_details AS tbod', 'tbod.id = mt.book_pay_details_id','LEFT');
+            $this->db->join('user_master AS um1', 'um1.id = mt.userid','LEFT');
+            $this->db->where('(mt.userid ='.$user_id.')');
+            $this->db->group_by('book_pay_id'); 
+        }else{
+            $this->db->join('user_master AS um1', 'um1.id = mt.user_id','LEFT');
+            $this->db->where('mt.status !=',3);
+        }
+       
+        if(isset($whereData['title']) && $whereData['title']!=''){
+           $this->db->where('(mt.pnr_no LIKE "%'.$this->db->escape_like_str($whereData['title']).'%" OR trip_name LIKE "%'.$this->db->escape_like_str($whereData['title']).'%" )');
+        } 
+              
+        if(isset($whereData['from']) && $whereData['from']!=''){
+            $from = date("Y-m-d", strtotime($whereData['from'])).' 00:00:00';
+            $to   = date("Y-m-d", strtotime($whereData['to'])).' 24:00:00';
+            $this->db->where("(mt.booked_on >='".$this->db->escape_like_str($from)."' AND mt.booked_on <= '".$this->db->escape_like_str($to)."')");
+        }
+       
+        $this->db->order_by('mt.id DESC'); 
+        
+        if($resultCount == 'yes'){
+            $query = $this->db->get();
+            return $query->num_rows();
+        }else if($resultCount == 'download'){
+            $query = $this->db->get();
+            return $query->result_array();
+        }else{
+            $this->db->limit($limit, $start);
+            $query = $this->db->get();//echo $this->db->last_query();exit;
+            return $query->result_array();
+        }
+    }
 }
 
 ?>

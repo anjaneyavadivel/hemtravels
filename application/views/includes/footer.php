@@ -670,7 +670,7 @@
         $url == 'Trip-wise-reports' || $url == 'payment-from-B2C-reports' || 
         $url == 'payment-from-B2B-reports' || $url == 'payment-to-B2B-reports'  || 
         $url == 'my-transaction-reports'  || $url == 'tomorrows-trip-reports' || 
-        $url == 'user-reports' || $url == 'cancellation-reports' || $url == 'pay-history-reports'){?>
+        $url == 'user-reports' || $url == 'cancellation-reports' || $url == 'pay-history-reports' || $url == 'payment-summary-reports'){?>
         <script type="text/javascript" src="<?php echo base_url()?>assets/js/moment.min.js"></script>
         <script type="text/javascript" src="<?php echo base_url()?>assets/js/jquery.daterangepicker.js"></script>
     <script type="text/javascript" src="<?php echo base_url()?>assets-customs/js/trip-book-reports.js"></script>

@@ -79,6 +79,7 @@
                                         <a class="btn btn-sm btn-info withdraw-request-btn" href="javascript:void(0);">Withdraw</a>
                                         <a class="btn btn-sm btn-primary" data-toggle="modal" href="#">Add Money</a>
                                     </div>
+                            <div class="table-resonsive">
                             <table class="table ">
                                                 <thead>
                                                     <tr>
@@ -121,7 +122,7 @@
                                                     }
                                                     ?> 	
                                                 </tbody>                                                
-                                            </table>
+                            </table></div>
                                             <div class="pager-wrappper text-right clearfix bt mt-0  col-sm-12">
 
                                                 <div class="pager-innner">

@@ -152,11 +152,11 @@
                                             <td><b>PNR Number:</b> <?=$pnrinfo['pnr_no'];?></td>
                                         </tr>
                                         <tr>
-                                            <td colspan="2"><b>Billing By:</b> <?=$pnrinfo['booked_to'];?></td>
+                                            <td colspan="2"><b>Customer Name:</b> <?=$pnrinfo['booked_to'];?></td>
                                             <td><b>No Of Traveller:</b> <?=$pnrinfo['number_of_persons'];?></td>
                                         </tr>
                                         <tr>
-                                            <td colspan="2"><b>Billing Email:</b><br> <?=$pnrinfo['booked_email'];?></td>
+                                            <td colspan="2"><b>Contact Email:</b><br> <?=$pnrinfo['booked_email'];?></td>
                                             <td><b>Phone Number:</b><br> <?=$pnrinfo['booked_phone_no'];?></td>
                                         </tr>
                                         <tr>
@@ -319,8 +319,8 @@
                                     <?php if($pnrinfo['meal']!=''){?>
                                     <li><span class="font600 excluded">Meals: </span><?=$pnrinfo['meal'];?></li>
                                     <?php }?>
-<!--                                    <li><span class="font600 billed_by">Billing By:</span><?=$pnrinfo['booked_to'];?></li>
-                                    <li><span class="font600 billed_email">Billing Email:</span><?=$pnrinfo['booked_email'];?></li>
+<!--                                    <li><span class="font600 billed_by">Customer Name:</span><?=$pnrinfo['booked_to'];?></li>
+                                    <li><span class="font600 billed_email">Contact Email:</span><?=$pnrinfo['booked_email'];?></li>
                                     <li><span class="font600 billed_phone_number">Phone Number:</span><?=$pnrinfo['booked_phone_no'];?></li>
                                     <li><span class="font600 billed_by">Booked on:</span><?=$pnrinfo['booked_on'];?></li>-->
                                 </ul>

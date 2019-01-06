@@ -1128,7 +1128,7 @@ class Trips extends CI_Controller {
                         if(count($returnedData['results']) > 0){
                             foreach ($returnedData['results'] as $k=> $v){
                                 if(isset($returnedData['results'][$k]['brief_description']) && !empty($returnedData['results'][$k]['brief_description'])){
-                                    $returnedData['results'][$k]['brief_description'] = html_entity_decode($returnedData['results'][$k]['brief_description']);
+                                    $returnedData['results'][$k]['brief_description'] = ucfirst(strtolower(html_entity_decode($returnedData['results'][$k]['brief_description'])));
                                 }
                                 if(isset($returnedData['results'][$k]['id']) && !empty($returnedData['results'][$k]['id'])){
                                     
@@ -1368,6 +1368,7 @@ class Trips extends CI_Controller {
             $coupon_history_id  = $this->input->post('coupon_history_id');
             
             $emailsarr = explode(',', $emails);
+            //print_r($emailsarr);exit();
             //$emails = trim($emails,', ');
             $coupon_history_id = !empty($coupon_history_id)?$coupon_history_id:0;
             $trip_shared_id = 0;
@@ -1378,14 +1379,14 @@ class Trips extends CI_Controller {
                 foreach($emailsarr as $v){
                    $whereData1 = array('user_type' => 'VA','email' => trim($v));
                     $email   = trim($v);
+                    $to_user_mail =$email;
                     $user_id = NULL;
                     $user  = selectTable('user_master', $whereData1,['*'],[],[],'','',[],'row_array');
                     
                     if(count($user) > 0 && isset($user['id'])){
                         $user_id = $user['id'];
                         $email   = NULL;
-                    }
-                            
+                    }       
                     $share = array(
                         'code'               => $shareCode,
                         'trip_id'            => $share_trip_id,
@@ -1408,7 +1409,7 @@ class Trips extends CI_Controller {
                         //'ccemail' => $pnrinfo['trip_contactemail'],
                         'bccemail' => admin_email . ',' . email_bottem_email . ',' . 'anjaneya.developer@gmail.com',
                         //'touserid' => $touserid,
-                        'toemail' => $email,
+                        'toemail' => $to_user_mail,
                         'subject' => $subject,
                         'message' => $message,
                         //'othermsg' => $othermsg

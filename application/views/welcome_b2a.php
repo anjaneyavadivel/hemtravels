@@ -100,6 +100,7 @@
                                     <span class="text-right col-xs-12">
                                         <a href="<?php echo base_url() ?>booking-wise-reports">View All<i class="ion-android-arrow-forward"></i></a></span>
                                     <div class="tab-inner">
+                                        <div class="table-responsive">
                                         <table class="table ">
                                             <thead>
                                                 <tr>
@@ -167,13 +168,14 @@
                                                 ?>
                                             </tbody>
                                         </table>
-                                    </div>
+                                    </div> </div>
 
                                 </div>
                                 <div class="tab-pane fade in" id="CancellationList">
                                     <span class="text-right col-xs-12">
                                         <a href="<?php echo base_url() ?>cancellation-reports">View All<i class="ion-android-arrow-forward"></i></a></span>
                                     <div class="tab-inner">
+                                        <div class="table-responsive">
                                         <table class="table ">
                                             <thead>
                                                 <tr>
@@ -223,13 +225,14 @@
 
                                             </tbody>
                                         </table>
-                                    </div>
+                                    </div></div>
 
                                 </div>
                                 <div class="tab-pane fade in" id="TripList">
                                     <span class="text-right col-xs-12">
                                         <a href="<?php echo base_url() ?>Trip-wise-reports">View All<i class="ion-android-arrow-forward"></i></a></span>
                                     <div class="tab-inner">
+                                        <div class="table-responsive">
                                         <table class="table ">
                                             <thead>
                                                 <tr>
@@ -281,7 +284,7 @@
                                                 ?> 
                                             </tbody>
                                         </table>
-                                    </div>
+                                    </div></div>
 
                                 </div>
 
@@ -313,6 +316,7 @@
                                     <span class="text-right col-xs-12">
                                         <a href="<?php echo base_url() ?>my-transaction-reports">View All<i class="ion-android-arrow-forward"></i></a></span>
                                     <div class="tab-inner">
+                                        <div class="table-responsive">
                                         <table class="table ">
                                             <thead>
                                                 <tr>
@@ -355,13 +359,14 @@
                                                     ?> 	
                                             </tbody>
                                         </table>
-                                    </div>
+                                    </div></div>
 
                                 </div>
                                 <div class="tab-pane fade in" id="PaymentfromB2C">
                                     <span class="text-right col-xs-12">
                                         <a href="<?php echo base_url() ?>payment-from-B2C-reports">View All<i class="ion-android-arrow-forward"></i></a></span>
                                     <div class="tab-inner">
+                                        <div class="table-responsive">
                                         <table class="table ">
                                             <thead>
                                                 <tr>
@@ -417,13 +422,14 @@
                                     ?> 	
                                             </tbody>
                                         </table>
-                                    </div>
+                                    </div></div>
 
                                 </div>
                                 <div class="tab-pane fade in" id="PaymentfromB2B">
                                     <span class="text-right col-xs-12">
                                         <a href="<?php echo base_url() ?>payment-from-B2B-reports">View All<i class="ion-android-arrow-forward"></i></a></span>
                                     <div class="tab-inner">
+                                        <div class="table-responsive">
                                         <table class="table ">
                                             <thead>
                                                 <tr>
@@ -480,13 +486,14 @@
                                     ?> 	
                                             </tbody>
                                         </table>
-                                    </div>
+                                    </div></div>
 
                                 </div>
                                 <div class="tab-pane fade in" id="PaymenttoB2B">
                                     <span class="text-right col-xs-12">
                                         <a href="<?php echo base_url() ?>payment-to-B2B-reports">View All<i class="ion-android-arrow-forward"></i></a></span>
                                     <div class="tab-inner">
+                                        <div class="table-responsive">
                                         <table class="table ">
                                             <thead>
                                                 <tr>
@@ -550,7 +557,7 @@
                                     ?> 	
                                             </tbody>
                                         </table>
-                                    </div>
+                                    </div></div>
 
                                 </div>
 

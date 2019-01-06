@@ -44,7 +44,7 @@ class Payment extends CI_Controller {
         }
         if (count($userDetails) > 0 && $pay_amount > 0) {
 //                echo $balance;
-            $pay_amount = 1;
+            //$pay_amount = 1;
 //            exit;
             $this->session->set_userdata('order_id', $pnr);
             $merchant_data = '';

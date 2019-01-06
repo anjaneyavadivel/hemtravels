@@ -39,9 +39,9 @@ jQuery(function($) {
         errorClass: 'small help-block',
         errorPlacement: function (error, element) {
             if (element.length) {
-                error.insertAfter(element);
+                error.insertAfter( element.parent("div"));
             } else {
-                error.insertAfter(element);
+                error.insertafter(element.parent());
             }
         }
     });

@@ -340,6 +340,7 @@
                                                     $coupon_discount_price=$your_amt;
                                                 }
                                                 if($coupon_discount_price>0){$usecouponcode_msg = 'Applied coupon code for Rs: '.$coupon_discount_price.' Off';}
+                                                else{$coupon_discount_price=0;}
                                                 ////echo $your_amt;
                                                 //echo $coupon_discount_price;
                                                 $your_amt = $your_amt -$coupon_discount_price;

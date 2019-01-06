@@ -363,12 +363,14 @@ jQuery(function($) {
     
     
     //EDIT PAGE
-    if($('#action').val() == 'edit'){
+    if($('#action').val() == 'edit'){ 
         var selVal = $("#trip_duration option:selected").val();
+        $("#how_many_daysdiv").addClass('hide');
+        $("#how_many_hoursdiv").addClass('hide');
         if( selVal== '1'){
-            $('#how_many_daysdiv').removeClass('hide');
-        }else if(selVal == '2'){
             $('#how_many_hoursdiv').removeClass('hide');
+        }else if(selVal == '2'){
+            $('#how_many_daysdiv').removeClass('hide');
         }
     }
     

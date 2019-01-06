@@ -1556,4 +1556,197 @@ class Report extends CI_Controller {
         
         $writer->save('php://output'); // download file 
     }
+    public function payment_summary_reports() {
+        
+        if ($this->session->userdata('user_id') == '' || ($this->session->userdata('user_type') != 'SA' && $this->session->userdata('user_type') != 'VA')) {
+            redirect('login');
+        }        
+        
+        $title    = trim($this->input->get('title'));
+        $from     = trim($this->input->get('from'));
+        $to       = trim($this->input->get('to'));              
+        $download = $this->input->get('download');        
+        $vendorId = $this->input->get('id');        
+        
+        $url = $this->uri->segment(1);
+        
+        $this->load->library('pagination');
+        $config = array();
+        $config["base_url"] = base_url() . $url . "?title=" . $title . "&from=" . $from . "&to=" . $to;
+        $whereData = array('title' => $title, 'from' => $from, 'to' => $to,'download' => $download,'id' => $vendorId);
+                
+        $config["per_page"] = 20;
+        //$config["uri_segment"] = 2;
+
+        $config['enable_query_strings'] = TRUE;
+        $config['page_query_string']    = TRUE;
+        $config['use_page_numbers']     = TRUE;
+        $config['query_string_segment'] = 'page';
+        $config['cur_tag_open']         = '&nbsp;<a class="active">';
+        $config['cur_tag_close']        = '</a>';
+
+        $config['next_link'] = '&NestedGreaterGreater;';
+        $config['prev_link'] = '&NestedLessLess;';
+        $page = ($this->input->get('page')) ? ( ( $this->input->get('page') - 1 ) * $config["per_page"] ) : 0;
+        $config["total_rows"]  = $this->Report_model->payment_summary_reports($whereData, $config["per_page"], $page,'yes');
+        $this->pagination->initialize($config);
+        
+        $data["payment_summary_reports"] = $this->Report_model->payment_summary_reports($whereData, $config["per_page"], $page,'no');        
+        $str_links = $this->pagination->create_links();
+        $data["links"] = explode('&nbsp;', $str_links); //echo "<pre>";print_r($data["payment_summary_reports"]);exit;
+        $data["from"] = $from;
+        $data["to"] = $to;       
+        $data["title"] = $title;
+        $data["url"] = $url; 
+        if($this->session->userdata('user_type') == 'SA'){            
+            $data["loginuser_id"] =0;
+        }else{        
+            $data["loginuser_id"] =$this->session->userdata('user_id');
+         }
+         
+        if($download == 1 && isset($data["payment_summary_reports"]) && count($data["payment_summary_reports"]) > 0){
+            
+            $data["payment_summary_reports"] = $this->Report_model->payment_summary_reports($whereData, $config["per_page"], $page,'download');        
+            
+            $downloadData = $data["payment_summary_reports"];
+            
+            $this->paymentSummaryToExportData($downloadData,$vendorId);
+            
+        }else{
+           $this->load->view('report/payment-summary-reports.php',$data);
+        }   
+        
+    }
+    public function paymentSummaryToExportData($data,$vendorId){ 
+        $spreadsheet = new Spreadsheet();
+        $sheet = $spreadsheet->getActiveSheet(); 
+        
+        $exportArray = [];
+        
+        if(count($data) > 0){
+            
+            $total_credit = 0;
+            $total_debit  = 0;
+            
+            foreach($data as $k => $v){
+                
+                $booked_on = date("M d, Y h:i A", strtotime($v['booked_on']));
+                $user_type = ($v['user_type'] == 'SA' || $v['user_type'] == 'VA') ?'OFFICE BOOKING':'B2C BOOKING';
+                
+                if($this->session->userdata('user_type') == 'VA' || !empty($vendorId)){  
+            
+                    $exportArray[$k] = array(
+                        $booked_on,
+                        $v['pnr_no'],
+                        $v['trip_name'],
+                        $v['credit'],
+                        '',
+                        $v['credit'],
+                    );
+                    
+                    $total_credit = $total_credit +(int)$v['credit'];
+                    $total_debit  = $total_debit +(int)$v['debit'];
+                    
+                }else if($this->session->userdata('user_type') == 'SA'){  
+            
+                    $exportArray[$k] = array(
+                        $booked_on,
+                        $v['pnr_no'],
+                        $v['trip_name'],
+                        $v['net_price'],
+                        0,
+                        $user_type,
+                    );
+
+                    //get trip_book_pay_details
+                    $pay_details = $this->getSummaryPayDetails($v['id']);
+
+                    $pay_details_cnt = count($pay_details);
+
+                    if($pay_details_cnt > 0){
+
+                        $your_final_amount = 0;                    
+                        foreach($pay_details as $k1 => $v1){
+
+                            array_push($exportArray[$k],$v1['recordusername']);
+                            array_push($exportArray[$k],$v1['recordemail']);
+                            array_push($exportArray[$k],$v1['your_final_amt']);
+
+                            //$your_final_amount = $your_final_amount + ($v1['your_final_amt'] <= 0 ? -(int)$v1['your_final_amt']:(int)$v['net_price'] - (int)$v1['your_final_amt']);
+                            $your_final_amount = $your_final_amount + (int)$v1['your_final_amt'];
+
+                            if($pay_details_cnt == $k1+1){
+                                //array_push($exportArray[$k],'BYT');
+                                //array_push($exportArray[$k],(int)$v['net_price'] - (int)$your_final_amount);
+                                $exportArray[$k][4] = (int)$v['net_price'] - (int)$your_final_amount;
+                            }
+                        }
+                    }
+                }
+            }
+           
+        } //echo "<pre>";print_r($exportArray);exit;
+        
+        //SET HEADER
+        $sheet->setCellValue('A1', 'DATE OF BOOKING');
+        $sheet->setCellValue('B1', 'PNR');
+        $sheet->setCellValue('C1', 'TRIP NAME');
+        //vendor debit
+        if($this->session->userdata('user_type') == 'VA' || !empty($vendorId)){            
+            $sheet->setCellValue('D1', 'CREDIT');
+            $sheet->setCellValue('E1', 'DEBIT');
+            $sheet->setCellValue('F1', 'BALANCE');
+        }else{
+            $sheet->setCellValue('D1', 'BYT RECD AMOUNT');
+        }
+        
+        $row = 2; // 1-based index
+        
+        if(count($exportArray) > 0){
+        
+            foreach ($exportArray as $v3) {
+                $col = 1;
+                foreach ($v3 as $v4) {
+                    $sheet->setCellValueByColumnAndRow($col, $row, $v4);
+                    
+                    $col++;
+                }   
+                $row++;
+            } 
+            
+            //vendor withdrawal request
+            if($total_debit > 0){
+                $sheet->setCellValueByColumnAndRow(3, $row, 'WITHDRAWAL REQUEST');
+                $sheet->setCellValueByColumnAndRow(5, $row, $total_debit);
+                $sheet->setCellValueByColumnAndRow(6, $row, (int)$total_credit - (int)$total_debit);
+            }
+            
+        }
+        
+        $writer = new Xlsx($spreadsheet);//echo "<pre>";print_r($writer);exit;
+ 
+        $filename = 'PAYMENT SUMMARY '.date('d-m-Y');
+ 
+        header('Content-Type: application/vnd.ms-excel');
+        header('Content-Disposition: attachment;filename="'. $filename .'.xlsx"'); 
+        header('Cache-Control: max-age=0');
+        
+        $writer->save('php://output'); // download file 
+    }
+    
+    
+    private function getSummaryPayDetails($book_pay_id){
+        
+        $this->db->select('mt.id,mt.your_final_amt,um1.user_type,um1.id as recorduserid,um1.user_fullname as recordusername,um1.email as recordemail')->from('trip_book_pay_details AS mt');         
+        $this->db->join('user_master AS um1', 'um1.id = mt.user_id','LEFT'); 
+        $this->db->where('mt.book_pay_id',$book_pay_id);
+        
+        if($this->session->userdata('user_type') == 'VA'){  
+            $this->db->where('(mt.user_id ='.$this->session->userdata('user_id').')');
+        }
+        
+        $query = $this->db->get();
+        return $query->result_array();
+        
+    }
 }

@@ -45,6 +45,7 @@
                             <div class="col-xs-2 col-sm-1 col-lg-1 text-right">
                                 <a class="btn btn-info c_mt btn-add-category">Add</a>
                             </div>
+                            <div class="table-resonsive">
                             <table class="table ">
                                 <thead>
                                     <tr>
@@ -90,6 +91,7 @@
                                     
                                 </tbody>
                             </table>
+                            </div>
                             <div class="pager-wrappper text-right clearfix bt mt-0  col-sm-12">
 
                                 <div class="pager-innner">

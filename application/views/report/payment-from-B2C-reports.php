@@ -79,7 +79,7 @@
                                     <p class="col-lg-6">This report will generate after trip completed</p>
                                 </div>
                             </div>
-                            
+                            <div class="table-resonsive">
                             <table class="table">
                                 <thead>
                                     <tr>
@@ -134,7 +134,7 @@
                                     }
                                     ?> 	
                                 </tbody>
-                            </table>
+                            </table></div>
                             <div class="pager-wrappper text-right clearfix bt mt-0  col-sm-12">
 
                                 <div class="pager-innner">
