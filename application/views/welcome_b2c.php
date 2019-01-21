@@ -385,7 +385,7 @@
             <div class="GridLex-col-3_sm-6_xs-6_xss-12">
 
                 <div class="top-destination-item">
-                    <a href="<?=base_url()?>trip-view">
+                    <a href="<?=base_url()?>trip-view/<?=$row['trip_code']?>">
                                         <?php if($discount_price!=0){?>
                                         <div class="price_off2 mr-10"><?=$discount_price?> OFF</div>
                                         <?php }?>

@@ -36,10 +36,12 @@ if (!function_exists('profile_pic')) {
 if (!function_exists('trippic')) {
 
     function trippic($image) {
+        $randomNumber = rand(0,6); 
+        $imgmaster = array('noimg.jpg','06.jpg','br.jpg','cycling-travel-experience1-sm.jpg','trekking-india-1402309802-sm.jpg','ti_725_69592403632641-sm.jpg','Trekking-sm.jpg');
         if (trim($image) != "" && file_exists(FCPATH . "uploads/$image")) {
             return base_url() . "uploads/$image";
         } else {
-            return base_url() . "uploads/noimg.jpg";
+            return base_url() . "uploads/".$imgmaster[$randomNumber];
         }
     }
 
@@ -47,10 +49,12 @@ if (!function_exists('trippic')) {
 if (!function_exists('categorypic')) {
 
     function categorypic($image) {
+        $randomNumber = rand(0,5); 
+        $imgmaster = array('trekking-india-1402309802-sm.jpg','cycling-travel-experience1-sm.jpg','Trekking-sm.jpg','ti_725_69592403632641-sm.jpg','goaresortlead-866x487.jpg','br.jpg');
         if (trim($image) != "" && file_exists(FCPATH . "uploads/category/$image")) {
             return base_url() . "uploads/category/$image";
         } else {
-            return base_url() . "uploads/category/04.jpg";
+            return base_url() . "uploads/category/".$imgmaster[$randomNumber];
         }
     }
 
@@ -1271,9 +1275,20 @@ $othermsg .= '<tr>
                                     <div class="f_img_div"><p class="welcome_description" style="color: #333;font-weight:bold; font-size: 12px;">Booked on :</p>
                                     <p class="f_content" style="padding-right: 20px; margin-bottom: 0px; line-height: 1.6; color: #333; font-size: 12px;">' . $pnrinfo['booked_on'] . ' </p></div>
                                 </td>
-                            </tr>
-                            
-<tr>
+                            </tr>';
+                            if($pnrinfo['bookedby_contactemail']!=$pnrinfo['booked_email']){
+                                $othermsg .= '
+                            <tr>
+                                <td align="left" style="border-bottom: 1px solid #eee;">
+                                    <div class="f_img_div"><p class="welcome_description" style="color: #333;font-weight:bold; font-size: 12px;">Booked by Name :</p>
+                                    <p class="f_content" style="padding-right: 20px; margin-bottom: 0px; line-height: 1.6; color: #333; font-size: 12px;">' . $pnrinfo['bookedby'] . ' </p></div>
+                              </td><td align="left" style="border-bottom: 1px solid #eee;">
+                                    <div class="f_img_div"><p class="welcome_description" style="color: #333;font-weight:bold; font-size: 12px;">Booked by Email :</p>
+                                    <p class="f_content" style="padding-right: 20px; margin-bottom: 0px; line-height: 1.6; color: #333; font-size: 12px;">' . $pnrinfo['bookedby_contactemail'] . ' </p></div>
+                                </td>
+                            </tr>';
+                            }
+$othermsg .= '<tr>
                                 <td align="left" style="border-bottom: 1px solid #eee;">
                                     <div class="f_img_div" style="width:35%; float:left;"><p class="welcome_description" style="color: #333;font-weight:bold; font-size: 12px;">Amount :</p></div>
                                     <div class="f_content_div" style="width:65%; float:right;"><p class="f_content" style="padding-right: 20px; margin-bottom: 0px; line-height: 1.6; color: #333; font-size: 12px;">' . $subtotal_trip_price . ' </p></div>

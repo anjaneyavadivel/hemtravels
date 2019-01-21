@@ -170,6 +170,13 @@
                                     <?php }?>
                                             <td><b>Date of Trip:</b> <br><?=$pnrinfo['date_of_trip'];?> <?php if($pnrinfo['date_of_trip']!=$pnrinfo['date_of_trip_to']){echo $pnrinfo['date_of_trip_to'];};?></td>
                                         </tr>
+                                        <?php if($pnrinfo['bookedby_contactemail']!=$pnrinfo['booked_email']){?>
+                                        <tr>
+                                            <td><b>Booked by Name: </b><br> <?=$pnrinfo['bookedby'];?></td>
+                                            <td colspan="2"><b>Booked by Email: </b> <?=$pnrinfo['bookedby_contactemail'];?></td>
+                                 
+                                        </tr>
+                                        <?php }?>
                                     </table>
                                 <ul class="book-sum-list mt-30">
                                     <?php if($pnrinfo['brief_description']!=''){?>

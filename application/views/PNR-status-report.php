@@ -71,7 +71,7 @@
                                     <div class="pnr_details" style="">
 
                                         <h4 class="section-title">Booking Information</h4>
-                                        <p>Compliment interested discretion estimating on stimulated apartments.</p>
+                                        <p>Please check bellow Booking Information.<small>Booked on: <?=$pnrinfo['booked_on'];?></small></p>
                                         <table class="table">
                                             <tbody>
                                                 <tr><td colspan="2"><span class="font600 package_name">Trip Name:</span> <?= $pnrinfo['trip_name']; ?></td></tr>
@@ -87,16 +87,21 @@
                                                 <td><span class="font600 billed_by">Customer Name:</span> <?= $pnrinfo['booked_to']; ?></td></tr>
                                                  <tr> <td><span class="font600 billed_by">Contact Email:</span><?= $pnrinfo['booked_email']; ?></td>
                                                  <td><span class="font600 starting">Phone Number: </span> <?= $pnrinfo['booked_phone_no']; ?> </td></tr>
-                                                 <tr>    <td><span class="font600 starting">Booked on: </span> <?= $pnrinfo['booked_on']; ?> </td>
-                                                <td><span class="font600 starting">Date of Trip : </span> <?= $pnrinfo['date_of_trip']; ?> <?= $pnrinfo['time_of_trip']; ?></td></tr>
+                                                 <tr>    <td><span class="font600 starting">Date of Trip : </span> <?= $pnrinfo['date_of_trip']; ?> <?= $pnrinfo['time_of_trip']; ?></td>
+                                                 <td><span class="font600 no_of_traveller">Date of Trip End: </span> <?= $pnrinfo['date_of_trip_to']; ?></td></tr>
                                                 <tr><td><span class="font600 starting">No Of Traveller:</span> <?= $pnrinfo['number_of_persons']; ?></td>
-                                                <td><span class="font600 no_of_traveller">Date of Trip End: </span> <?= $pnrinfo['date_of_trip_to']; ?></td></tr>
-                                                   <td colspan="2"><span class="font600 included">Pick up location landmark: </span> <?= $pnrinfo['pick_up_location']; ?>, <?= $pnrinfo['pick_up_location_landmark']; ?></td>
-                                                
+                                                <td ><span class="font600 included">Pick up location landmark: </span> <br><?= $pnrinfo['pick_up_location']; ?>, <?= $pnrinfo['pick_up_location_landmark']; ?></td>
+                                                </tr>
                                                 <tr>
                                                     <td><span class="font600 excluded">Languages: </span><?= $pnrinfo['languages']; ?></td>
-                                                    <td colspan="2"><span class="font600 excluded">Meals: </span><?= $pnrinfo['meal']; ?></td>
+                                                    <td><span class="font600 excluded">Meals: </span><?= $pnrinfo['meal']; ?></td>
                                                 </tr>
+                                                <?php if($pnrinfo['bookedby_contactemail']!=$pnrinfo['booked_email']){?>
+                                                <tr>
+                                                    <td><span class="font600 excluded">Booked by Name: </span><?= $pnrinfo['bookedby']; ?></td>
+                                                    <td><span class="font600 excluded">Booked by Email: </span><?= $pnrinfo['bookedby_contactemail']; ?></td>
+                                                </tr>
+                                                <?php }?>
                                                 <?php  if(isset($pnrinfo) && $pnrinfo['status']==3){?>
                                                 <tr>
                                                     <td class="text-danger"><span class="font600 excluded">Trip Cancelled On: </span><?=date("M d, Y", strtotime($pnrinfo['cancelled_on']));?></td>

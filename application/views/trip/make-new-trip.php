@@ -580,7 +580,7 @@
                                             <div class="mb-40"></div>
 
                                             <h4 class="section-title">Itinerary</h4>
-                                            <p>Compliment interested discretion estimating on stimulated apartments oh. Dear so sing when in find read of call. As distrusts behaviour abilities defective uncommonly.</p>
+                                            <p>Here you can write the detailed itinerary which can include the day wise and time wise itinerary of your trip. This will help your guests to know your trip better.</p>
 
                                             <div class="itinerary-form-wrapper">
 

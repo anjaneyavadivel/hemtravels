@@ -60,7 +60,7 @@
 									</div>
 									
 									<h4 class="section-title">Booking Information</h4>
-									<p>Compliment interested discretion estimating on stimulated apartments.</p>
+<!--									<p>Compliment interested discretion estimating on stimulated apartments.</p>-->
 									
 									<!--<ul class="book-sum-list mt-30">
 										<li><span class="font600">PNR Number: </span>9977234</li>

@@ -79,18 +79,19 @@ class Login extends CI_Controller {
                 }
             }
         }
-        if ($this->input->post('login')) {
+        if ($this->input->post('login')||$this->input->post('loginkey')) {
             //$this->load->helper('custom_helper');
+          
             $this->form_validation->set_rules('um_email', 'Email address', 'trim|required');
             $this->form_validation->set_rules('um_password', 'Password', 'trim|required|min_length[6]');
-            if ($this->form_validation->run($this) == FALSE) {
+            if ($this->form_validation->run($this) == FALSE) { 
                 $this->session->set_userdata('err', validation_errors());
                 if ($this->session->userdata('last_url')) {
                     redirect($this->session->userdata('last_url'));
                 } else {
                     redirect();
                 }
-            }
+            } 
             $this->session->unset_userdata('signup_socail');
             $codition = array();
             $codition['email'] = strtolower($this->input->post('um_email'));

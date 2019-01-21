@@ -137,7 +137,7 @@
 	<?php echo form_open_multipart(base_url() . 'login/login_check', array('class' => 'form-horizontal margin-top-30', 'id' => 'login')); ?>
 	<div class="modal-body">
 		<div class="row gap-20">
-		
+                    <input name="loginkey" value="DFS23$5gS" type="hidden">
 			<div class="col-sm-6 col-md-6">
 				<a href="<?php echo base_url()?>fb" class="btn btn-facebook btn-block mb-5-xs">Log-in with Facebook</a>
 			</div>
