@@ -658,9 +658,10 @@ class Report_model extends CI_Model
     function payment_summary_reports($whereData,$limit=20, $start=0,$resultCount = 'no') {
         
         if($this->session->userdata('user_type') == 'VA' || isset($whereData['id']) && !empty($whereData['id'])){  
-            $this->db->select('tbod.booked_on,mt.*,tm.trip_name,um1.user_type,um1.id as recorduserid,um1.user_fullname as recordusername,SUM(deposits) as credit,SUM(withdrawals) as debit')->from('my_transaction AS mt');         
+            //$this->db->select('tbod.booked_on,mt.*,tm.trip_name,um1.user_type,um1.id as recorduserid,um1.user_fullname as recordusername,SUM(deposits) as credit,SUM(withdrawals) as debit')->from('my_transaction AS mt');         
+            $this->db->select('tbod.booked_on,mt.*,tm.trip_name,tm.trip_code,um1.user_type,um1.id as recorduserid,um1.user_fullname as recordusername,tbod.your_amt as credit,SUM(withdrawals) as debit')->from('my_transaction AS mt');         
         }else if($this->session->userdata('user_type') == 'SA'){  
-            $this->db->select('mt.*,tm.trip_name,um1.user_type,um1.id as recorduserid,um1.user_fullname as recordusername,um1.email as recordemail')->from('trip_book_pay AS mt');                     
+            $this->db->select('mt.*,tm.trip_name,tm.trip_code,um1.user_type,um1.id as recorduserid,um1.user_fullname as recordusername,um1.email as recordemail')->from('trip_book_pay AS mt');                     
         }
                 
         $this->db->join('trip_master AS tm', 'tm.id = mt.trip_id','LEFT');      
@@ -676,6 +677,7 @@ class Report_model extends CI_Model
             $this->db->join(' trip_book_pay_details AS tbod', 'tbod.id = mt.book_pay_details_id','LEFT');
             $this->db->join('user_master AS um1', 'um1.id = mt.userid','LEFT');
             $this->db->where('(mt.userid ='.$user_id.')');
+            $this->db->where('(tbod.user_id ='.$user_id.')');
             $this->db->group_by('book_pay_id'); 
         }else{
             $this->db->join('user_master AS um1', 'um1.id = mt.user_id','LEFT');

@@ -87,6 +87,12 @@
                                                 <td><span class="font600 billed_by">Customer Name:</span> <?= $pnrinfo['booked_to']; ?></td></tr>
                                                  <tr> <td><span class="font600 billed_by">Contact Email:</span><?= $pnrinfo['booked_email']; ?></td>
                                                  <td><span class="font600 starting">Phone Number: </span> <?= $pnrinfo['booked_phone_no']; ?> </td></tr>
+                                                 
+                                                    <?php if($pnrinfo['booked_comment']!=''){?>
+                                                    <tr>
+                                                        <td colspan="2"><span class="font600 billed_by">Customer Comment:</span> <?=$pnrinfo['booked_comment'];?></td>
+                                                    </tr>
+                                                    <?php }?>
                                                  <tr>    <td><span class="font600 starting">Date of Trip : </span> <?= $pnrinfo['date_of_trip']; ?> <?= $pnrinfo['time_of_trip']; ?></td>
                                                  <td><span class="font600 no_of_traveller">Date of Trip End: </span> <?= $pnrinfo['date_of_trip_to']; ?></td></tr>
                                                 <tr><td><span class="font600 starting">No Of Traveller:</span> <?= $pnrinfo['number_of_persons']; ?></td>

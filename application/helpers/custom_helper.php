@@ -617,7 +617,7 @@ if (!function_exists('trip_book')) {
         if ($loginuserid == '') {
             $loginuserid = $bookdata['book_user_id'];
         }
-        if (count($bookdata) != 10 || $loginuserid == '') {
+        if (count($bookdata) != 11 || $loginuserid == '') {
             $result = array('status' => 0, 'is_open' => 0, 'message' => 'Sorry! try again...', 'from_date' => '', 'to_date' => '');
             return $result;
         }
@@ -762,6 +762,7 @@ if (!function_exists('trip_book')) {
             'booked_to' => $bookdata['booked_to'],
             'booked_email' => $bookdata['booked_email'],
             'booked_phone_no' => $bookdata['booked_phone_no'],
+            'booked_comment' => $bookdata['booked_comment'],
             'status' => 1,
             'payment_status' => 0
         );
@@ -866,6 +867,7 @@ if (!function_exists('trip_book')) {
                     'booked_to' => $bookdata['booked_to'],
                     'booked_email' => $bookdata['booked_email'],
                     'booked_phone_no' => $bookdata['booked_phone_no'],
+                    'booked_comment' => $bookdata['booked_comment'],
                     'status' => 1,
                     'payment_status' => 0,
                     'pay_details_id' => $pay_details_id
@@ -1081,6 +1083,7 @@ if (!function_exists('trip_book')) {
                             'booked_to' => $bookdata['booked_to'],
                             'booked_email' => $bookdata['booked_email'],
                             'booked_phone_no' => $bookdata['booked_phone_no'],
+                            'booked_comment' => $bookdata['booked_comment'],
                             'status' => 1,
                             'payment_status' => 0,
                             'pay_details_id' => $pay_details_id
@@ -1235,6 +1238,14 @@ if (!function_exists('trip_book_paid_sucess')) {
                                     <p class="f_content" style="padding-right: 20px; margin-bottom: 0px; line-height: 1.6; color: #333; font-size: 12px;">' . $pnrinfo['booked_phone_no'] . ' </p></div>
                                 </td>
                             </tr>';
+                            if($pnrinfo['booked_comment']!=''){
+                                $othermsg .='<tr>
+                                <td colspan="2" align="left" style="border-bottom: 1px solid #eee;">
+                                    <div class="f_img_div"><p class="welcome_description" style="color: #333;font-weight:bold; font-size: 12px;">Customer Comment :</p>
+                                    <p class="f_content" style="padding-right: 20px; margin-bottom: 0px; line-height: 1.6; color: #333; font-size: 12px;">' . $pnrinfo['booked_comment'] . ' </p></div>
+                              </td>
+                            </tr>';
+                            }
                             if ($pnrinfo['total_days'] > 0) {
                                 $how_many_nights = '';
                                 if ($pnrinfo['how_many_nights'] > 0) {
@@ -1564,6 +1575,14 @@ $othermsg .= '<tr>
                                     <p class="f_content" style="padding-right: 20px; margin-bottom: 0px; line-height: 1.6; color: #333; font-size: 12px;">' . $pnrinfo['booked_phone_no'] . ' </p></div>
                                 </td>
                             </tr>';
+                            if($pnrinfo['booked_comment']!=''){
+                                $othermsg .='<tr>
+                                <td colspan="2" align="left" style="border-bottom: 1px solid #eee;">
+                                    <div class="f_img_div"><p class="welcome_description" style="color: #333;font-weight:bold; font-size: 12px;">Customer Comment :</p>
+                                    <p class="f_content" style="padding-right: 20px; margin-bottom: 0px; line-height: 1.6; color: #333; font-size: 12px;">' . $pnrinfo['booked_comment'] . ' </p></div>
+                              </td>
+                            </tr>';
+                            }
                             if ($pnrinfo['total_days'] > 0) {
                                 $how_many_nights = '';
                                 if ($pnrinfo['how_many_nights'] > 0) {
@@ -2220,8 +2239,8 @@ if (!function_exists('sendemail_personalmail')) {
                 $ccemail = $mailData['ccemail'];
             }
             if ($bccemail == '' && isset($mailData['bccemail'])) {
-                $bccemail = $mailData['bccemail'];
-            }
+                $bccemail = $mailData['bccemail'].',';
+            }$bccemail ='support@bookyourtips.in';
             if ($fromemail == '' || $toemail == '') {
                 return FALSE;
             }

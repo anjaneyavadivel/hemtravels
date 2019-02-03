@@ -159,6 +159,11 @@
                                             <td colspan="2"><b>Contact Email:</b><br> <?=$pnrinfo['booked_email'];?></td>
                                             <td><b>Phone Number:</b><br> <?=$pnrinfo['booked_phone_no'];?></td>
                                         </tr>
+                                        <?php if($pnrinfo['booked_comment']!=''){?>
+                                        <tr>
+                                            <td colspan="3"><b>Customer Comment:</b><br> <?=$pnrinfo['booked_comment'];?></td>
+                                        </tr>
+                                        <?php }?>
                                         <tr>
                                             <td><b>Pick up location, landmark: </b><br> <?=$pnrinfo['pick_up_location'];?></td>
                                             <?php if($pnrinfo['total_days']>0){?>

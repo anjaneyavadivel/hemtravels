@@ -36,7 +36,10 @@
                             <?php 
                                if(isset($coupon_list) && count($coupon_list) > 0){                               
                                    foreach($coupon_list as $v){
-                                       echo '<option value="'.$v['id'].'">'.$v['coupon_code']." - ".$v['coupon_name'].'</option>';
+                                       $coupon_name = $v['coupon_code']."/".$v['coupon_name'];
+                                       if($v['offer_type']==1){$coupon_name .=$coupon_name.'(Rs:'.$v['percentage_amount'].')';}
+                                       else{$coupon_name .=$coupon_name.'('.$v['percentage_amount'].'%)';}
+                                       echo '<option value="'.$v['id'].'">'.$coupon_name.'</option>';
                                    }
                                }
                             ?>                        

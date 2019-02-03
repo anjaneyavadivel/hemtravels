@@ -1349,7 +1349,7 @@ class Trips extends CI_Controller {
         if(isset($data['trip_master']['id'])){
             $data['trip_id']     = $data['trip_master']['id'];
             $date                = date('Y-m-d');
-            $whereData           = array('isactive' => 1, 'trip_id' => $data['trip_master']['id'], 'validity_from <=' => $date, 'validity_to >=' => $date,'type' => 2);
+            $whereData           = array('isactive' => 1, 'trip_id' => $data['trip_master']['id'], 'validity_to >=' => $date,'type' => 2);
             $data['coupon_list'] = selectTable('coupon_code_master_history', $whereData, $showField = array('*'), $orWhereData = array(), $group = array(), $order = 'id DESC','',[],'result_array');
         }
         //echo "<pre>";print_r($data);exit;

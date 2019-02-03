@@ -321,6 +321,7 @@ class TripBookings extends CI_Controller {
                     $cus_name=ucwords($this->input->post('user_name', true));
                     $cus_email=strtolower($this->input->post('email', true));
                     $cus_phone=$this->input->post('phonenumber', true);
+                    $booked_comment=$this->input->post('booked_comment', true);
                     $customer_id =0;$userId =0;
                     $whereData = array('email' => $cus_email);
                     $user_master = selectTable('user_master', $whereData, $showField = array('*'));
@@ -358,7 +359,8 @@ class TripBookings extends CI_Controller {
                             'pick_up_location_id' => $this->session->userdata('bk_location'),
                             'booked_to' => $cus_name,
                             'booked_email' => $cus_email,
-                            'booked_phone_no' => $cus_phone);
+                            'booked_phone_no' => $cus_phone,
+                            'booked_comment' => $booked_comment);
                         $book_pay = trip_book($bookdata, $this->session->userdata('bk_usecouponcode'));
                         if (count($book_pay) > 0) {
                             //print_r($book_pay);

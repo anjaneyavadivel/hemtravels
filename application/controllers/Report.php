@@ -1716,9 +1716,9 @@ class Report extends CI_Controller {
             
             //vendor withdrawal request
             if($total_debit > 0){
-                $sheet->setCellValueByColumnAndRow(3, $row, 'WITHDRAWAL REQUEST');
-                $sheet->setCellValueByColumnAndRow(5, $row, $total_debit);
-                $sheet->setCellValueByColumnAndRow(6, $row, (int)$total_credit - (int)$total_debit);
+                $sheet->setCellValueByColumnAndRow(1, $row, 'TOTAL SERVICE AMOUNT');
+                $sheet->setCellValueByColumnAndRow(2, $row, $total_debit);
+                $sheet->setCellValueByColumnAndRow(6, $row, (int)$total_credit);
             }
             
         }

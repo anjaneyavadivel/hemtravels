@@ -5323,6 +5323,10 @@ ul.date-range-label li.not-available > span > span {
     -moz-transition: all 0.3s;
     -webkit-transition: all 0.3s;
     transition: all 0.3s;
+width:100% !important;
+height:200px !important;
+object-fit:cover !important;
+top:0 !important;
 }
 
 .imgs-grid .imgs-grid-image:hover img {
@@ -5351,7 +5355,7 @@ ul.date-range-label li.not-available > span > span {
 }
 
 .imgs-grid .imgs-grid-image .image-wrap {
-    height: 50px;
+width:100%; 
 }
 
 
@@ -7710,4 +7714,9 @@ body.introLoader_preventScroll {
     text-align: center;
     display: block;
     font-size: 12px;
+}
+
+@media only screen and (max-width: 600px)
+{
+.popular_trip .GridLex-col-3_sm-6_xs-6_xss-12{height: 355px !important; max-width: 100% !important;}
 }

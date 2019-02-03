@@ -541,7 +541,14 @@
                                         </div>
 
                                     </div>
+                                    <div class="col-sm-12 col-md-12">
 
+                                        <div class="form-group"> 
+                                            <label>Customer Comment</label>
+                                            <input class="form-control" placeholder="Enter the Customer Comment, eg: sea Breeze -18, at reception at 8:00am " name="booked_comment" id="booked_comment" type="text" value=""> 
+                                        </div>
+
+                                    </div>            
                                    <input type="hidden" id="tripId" value="<?php echo isset($details['id'])?$details['id']:0?>">                  
                                     <?php echo form_close()?>                    
                                    <?php if ($this->session->userdata('user_id') == '') {?>

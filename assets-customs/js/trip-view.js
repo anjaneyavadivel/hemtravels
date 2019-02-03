@@ -266,6 +266,7 @@ jQuery(function ($) {
                 formData.append('email', $('#email').val());
                 formData.append('phonenumber', $('#phonenumber').val());
                 formData.append('usecouponcode', $('#usecouponcode').val());
+                formData.append('booked_comment', $('#booked_comment').val());
                 formData.append('csrf_test_name', $.cookie('csrf_cookie_name'));
 
                 $.ajax({

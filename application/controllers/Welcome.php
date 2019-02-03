@@ -607,6 +607,14 @@ class Welcome extends CI_Controller {
                                     <div class="f_content_div" style="width:65%; float:right;"><p class="f_content" style="padding-right: 20px; margin-bottom: 0px; line-height: 1.6; color: #333; font-size: 12px;">' . $pnrinfo['booked_on'] . ' </p></div>
                                 </td>
                             </tr>';
+                            if($pnrinfo['booked_comment']!=''){
+                                $othermsg .='<tr>
+                                <td align="left" style="border-bottom: 1px solid #eee;">
+                                    <div class="f_img_div" style="width:35%; float:left;"><p class="welcome_description" style="color: #333;font-weight:bold; font-size: 12px;">Customer Comment :</p></div>
+                                    <div class="f_content_div" style="width:65%; float:right;"><p class="f_content" style="padding-right: 20px; margin-bottom: 0px; line-height: 1.6; color: #333; font-size: 12px;">' . $pnrinfo['booked_comment'] . ' </p></div>
+                                </td>
+                            </tr>';
+                            }
                 if ($pnrinfo['brief_description'] != '') {
                     $othermsg .= '<tr>
                                     <td align="left" style="border-bottom: 1px solid #eee;padding-top:0px;">
@@ -908,6 +916,14 @@ class Welcome extends CI_Controller {
                                     <div class="f_content_div" style="width:65%; float:right;"><p class="f_content" style="padding-right: 20px; margin-bottom: 0px; line-height: 1.6; color: #333; font-size: 12px;">' . $pnrinfo['booked_on'] . ' </p></div>
                                 </td>
                             </tr>';
+                            if($pnrinfo['booked_comment']!=''){
+                                $othermsg .='<tr>
+                                <td align="left" style="border-bottom: 1px solid #eee;">
+                                    <div class="f_img_div" style="width:35%; float:left;"><p class="welcome_description" style="color: #333;font-weight:bold; font-size: 12px;">Customer Comment :</p></div>
+                                    <div class="f_content_div" style="width:65%; float:right;"><p class="f_content" style="padding-right: 20px; margin-bottom: 0px; line-height: 1.6; color: #333; font-size: 12px;">' . $pnrinfo['booked_comment'] . ' </p></div>
+                                </td>
+                            </tr>';
+                            }
                 if ($pnrinfo['brief_description'] != '') {
                     $othermsg .= '<tr>
                                     <td align="left" style="border-bottom: 1px solid #eee;padding-top:0px;">

@@ -135,7 +135,7 @@
                                         <td><?= $isactive ?></td>  
                                         <td>                                            
                                             <?php if($row['user_type'] == 'VA') {?>                                            
-                                                <a href="<?=base_url()?>payment-summary-reports?id=<?=$row['id']?>&download=1" download=""><i class="fa fa-download"></i></a>                                       
+                                                <a href="<?=base_url()?>payment-summary-reports?id=<?=$row['id']?>&download=1"><i class="fa fa-download"></i></a>                                       
                                             <?php } ?>                                                
                                         </td>
                                     </tr>
