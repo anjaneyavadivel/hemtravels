@@ -360,8 +360,8 @@ class Welcome extends CI_Controller {
                                             . '<a href="' . base_url() . 'my-transaction-reports">View Website</a>';
                                     $mailData = array(
                                         //'fromuserid' => $pnrinfo['trip_postbyid'],
-                                        'ccemail' => admin_email . ',' . email_bottem_email . ',' . 'anjaneya.developer@gmail.com,',
-                                        //'bccemail' => admin_email.','.email_bottem_email,
+                                        'bccemail' => admin_email. ',' . 'anjaneya.developer@gmail.com,',
+                                        //'ccemail' => admin_email.','.email_bottem_email,
                                         'touserid' => $pay->user_id,
                                         //'toemail' => 'anjaneya.developer@gmail.com',
                                         'subject' => $subject,
@@ -693,7 +693,7 @@ class Welcome extends CI_Controller {
                 $mailData = array(
                     //'fromuserid' => $pnrinfo['trip_postbyid'],
                     'ccemail' => $pnrinfo['bookedby_contactemail'],
-                    'bccemail' => admin_email . ',' . email_bottem_email . ',' . 'anjaneya.developer@gmail.com',
+                    'bccemail' => admin_email . ',' . 'anjaneya.developer@gmail.com',
                     //'touserid' => $touserid,
                     'toemail' => $pnrinfo['booked_email'],
                     'subject' => $subject,
@@ -1002,7 +1002,7 @@ class Welcome extends CI_Controller {
                 $mailData = array(
                     //'fromuserid' => $pnrinfo['trip_postbyid'],
                     'ccemail' => $pnrinfo['bookedby_contactemail'],
-                    'bccemail' => admin_email . ',' . email_bottem_email . ',' . 'anjaneya.developer@gmail.com',
+                    'bccemail' => admin_email . ',' . 'anjaneya.developer@gmail.com',
                     //'touserid' => $touserid,
                     'toemail' => $pnrinfo['booked_email'],
                     'subject' => $subject,

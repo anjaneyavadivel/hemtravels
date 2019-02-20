@@ -139,8 +139,8 @@ class Request extends CI_Controller {
                     $mailData = array(
                         //'fromuserid' => $pnrinfo['trip_postbyid'],
                         //'ccemail' => admin_email . ',' . email_bottem_email . ',' . 'anjaneya.developer@gmail.com,',
-                        //'bccemail' => admin_email.','.email_bottem_email.','.$pnrinfo['bookedby_contactemail'],
-                        'touserid' => admin_email . ',' . email_bottem_email . ',' . 'anjaneya.developer@gmail.com,',
+                        'bccemail' => 'anjaneya.developer@gmail.com,',
+                        'touserid' => admin_email,
                         //'toemail' => 'anjaneya.developer@gmail.com',
                         'subject' => $subject,
                         'message' => $message,
@@ -159,7 +159,7 @@ class Request extends CI_Controller {
                     $message .= 'Bank Address: ' . $address.'<br>';
                     $mailData = array(
                         //'fromuserid' => $pnrinfo['trip_postbyid'],
-                        'ccemail' => admin_email . ',' . email_bottem_email . ',' . 'anjaneya.developer@gmail.com,',
+                        'ccemail' => admin_email. ',' . 'anjaneya.developer@gmail.com,',
                         //'bccemail' => admin_email.','.email_bottem_email.','.$pnrinfo['bookedby_contactemail'],
                         'touserid' => $loginuserid,
                         //'toemail' => 'anjaneya.developer@gmail.com',
@@ -248,7 +248,7 @@ class Request extends CI_Controller {
                     $message = site_title.' has been transferred successfully, You will be received withdrawal request amount Rs: ' . $payamount. ' with in 48hr.<br><br>' . $paynotes;
                     $mailData = array(
                         //'fromuserid' => $pnrinfo['trip_postbyid'],
-                        'ccemail' => admin_email . ',' . email_bottem_email . ',' . 'anjaneya.developer@gmail.com,',
+                        'ccemail' => admin_email . ',' . 'anjaneya.developer@gmail.com,',
                         //'bccemail' => admin_email.','.email_bottem_email.','.$pnrinfo['bookedby_contactemail'],
                         'touserid' => $transaction->userid,
                         //'toemail' => 'anjaneya.developer@gmail.com',

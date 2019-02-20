@@ -115,6 +115,35 @@
                                                  <div class="row gap-50 mt-10" style="margin: 0px -15px;">
                                                 <div class="col-xs-12 col-sm-6 col-md-6 mb-15">
                                                     <div class="row gap-20">
+                                                    <label>Is allow Child:</label>
+                                                     <div class="radio-block">
+                                                        <input  id="is_allow_child_1" name="is_allow_child" type="radio" class="radio" value="1" checked/>
+                                                        <label class="" for="is_allow_child_1">Yes</label>
+                                                    </div>				
+                                                    <div class="radio-block">
+                                                        <input  id="is_allow_child_2" name="is_allow_child" type="radio" class="radio" value="0"/>
+                                                        <label class="" for="is_allow_child_2">No</label>
+                                                    </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-xs-12 col-sm-6 col-md-6 mb-15">
+                                                    <div class="row gap-20">
+                                                    <label>Is allow Adult:</label>
+                                                    <div class="radio-block">
+                                                        <input  id="is_allow_infan_1" name="is_allow_infan" type="radio" class="radio" value="1" checked/>
+                                                        <label class="" for="is_allow_infan_1">Yes</label>
+                                                    </div>				
+                                                    <div class="radio-block">
+                                                        <input  id="is_allow_infan_2" name="is_allow_infan" type="radio" class="radio" value="0"/>
+                                                        <label class="" for="is_allow_infan_2">No</label>
+                                                    </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                                 <div class="row gap-50 mt-10" style="margin: 0px -15px;">
+                                                <div class="col-xs-12 col-sm-6 col-md-6 mb-15">
+                                                    <div class="row gap-20">
                                                     <label>Price to Adult:<span style=' color: #CC0000;'>*</span></label>
                                                     <div class="input-group">
                                                         <input name="price_to_adult" class="form-control" type="text" placeholder="1200">

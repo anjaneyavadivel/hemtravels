@@ -303,6 +303,8 @@ if (!function_exists('trip_offer')) {
         $ischeckadmin = $offerdata['ischeckadmin'];
         $parenttrip_id = $offerdata['trip_id'];
         //ini veriable
+        $is_allow_child = 1;
+        $is_allow_infan = 1;
         $totalpricetoadult = 0;
         $totalpricetochild = 0;
         $totalpricetoinfan = 0;
@@ -325,6 +327,9 @@ if (!function_exists('trip_offer')) {
         $specific_offer_by = 0;
         $trip_category_id = 0;//echo $parenttrip_id;
         $parenttrip = getallparenttrip($parenttrip_id);
+        $getallparenttrip = getallparenttrip($offerdata['parenttrip_id']);
+        sort($getallparenttrip);
+                //print_r($getallparenttrip);
         $inWhereData = array('id', $parenttrip);
         $whereData = array('isactive' => 1);
         $trip_list = selectTable('trip_master', $whereData = array(), $showField = array('*'), $orWhereData = array(), $group = array(), $order = 'id ASC', $having = '', $limit = array(), $result_way = 'all', $echo = 0, $inWhereData, $notInWhereData = array());
@@ -333,6 +338,8 @@ if (!function_exists('trip_offer')) {
                 $price_to_adult = 0;
                 $price_to_child = 0;
                 $price_to_infan = 0;
+                $is_allow_child = $row->is_allow_child;
+                $is_allow_infan = $row->is_allow_infan;
                 $extrapricetoadult = 0;
                 $extrapricetochild = 0;
                 $extrapricetoinfan = 0;
@@ -346,6 +353,10 @@ if (!function_exists('trip_offer')) {
                 $trip_id = $row->id;
                 $parent_trip_id = $row->parent_trip_id;
                 $trip_category_id = $row->trip_category_id;
+                $child_user_id = 0;
+                $trip_user_id = $row->user_id;
+                $key = array_search ($trip_id, $getallparenttrip);
+                $child_trip_id = isset($getallparenttrip[$key+1])?$getallparenttrip[$key+1]:0;
                 if ($row->parent_trip_id == 0) { // root trip
                     $no_of_traveller = $row->no_of_traveller;
                     $no_of_min_booktraveller = $row->no_of_min_booktraveller;
@@ -411,13 +422,21 @@ if (!function_exists('trip_offer')) {
 //                if (($CI->session->userdata('user_type') == 'VA' || $ischeckadmin == 2) && $trip_id == $parenttrip_id && count($parenttrip)<=2) {
 //                    echo count($parenttrip);
 //                }else 
-                    if (($CI->session->userdata('user_type') == 'VA' || $ischeckadmin == 2) && $trip_id != $offerdata['parenttrip_id']) {
+                    if (($CI->session->userdata('user_type') == 'VA' && $trip_id != $offerdata['parenttrip_id']) || $ischeckadmin == 2) {
                     //Vandor coupon  (office book), shared trip
 //                    if($isbook == 1){
 //                        $whereData = array('type' => 2, 'isactive' => 1, 'trip_id' => $row->id, 'validity_from <=' => $date_of_trip, 'validity_to >=' => $date_of_trip);
 //                        $couponhistory_list = selectTable('coupon_code_master_history', $whereData, $showField = array('*'), $orWhereData = array(), $group = array(), $order = 'id DESC');
 //                    }else{
-                        $whereData = array('cc.type' => 2, 'cc.isactive' => 1, 'ts.status' => 2,'ts.user_id' => $loginuserid,'ts.isactive' => 1, 'cc.trip_id' => $row->id, 'cc.validity_from <=' => $date_of_trip, 'cc.validity_to >=' => $date_of_trip);
+                        $whereData = array('id' => $child_trip_id);
+                        $trip_list55 = selectTable('trip_master', $whereData);
+                        if ($trip_list55->num_rows() >0) {
+                            $row55 = $trip_list55->row();
+                            $child_user_id = $row55->user_id;
+                        }
+                        
+                        $whereData = array('cc.type' => 2, 'cc.isactive' => 1, 'ts.status' => 2,'ts.shared_user_id' => $trip_user_id,'ts.user_id' => $child_user_id,'ts.isactive' => 1, 'cc.trip_id' => $row->id, 'cc.validity_from <=' => $date_of_trip, 'cc.validity_to >=' => $date_of_trip);
+                        //$whereData = array('cc.type' => 2, 'cc.isactive' => 1, 'ts.status' => 2,'ts.user_id' => $loginuserid,'ts.isactive' => 1, 'cc.trip_id' => $row->id, 'cc.validity_from <=' => $date_of_trip, 'cc.validity_to >=' => $date_of_trip);
                         $joins = array(
                             array(
                                 'table' => 'trip_shared AS ts',
@@ -572,7 +591,7 @@ if (!function_exists('trip_offer')) {
                 $final_price_to_infan = 0;
             }
             $gst_percentage = GST_PERCENTAGE;
-            $result = array('is_open' => $is_open, 'price_to_adult' => $totalpricetoadult, 'price_to_child' => $totalpricetochild, 'price_to_infan' => $totalpricetoinfan,
+            $result = array('is_open' => $is_open, 'price_to_adult' => $totalpricetoadult, 'price_to_child' => $totalpricetochild, 'price_to_infan' => $totalpricetoinfan,'is_allow_child' => $is_allow_child, 'is_allow_infan' => $is_allow_infan,
                 'no_of_traveller' => $no_of_traveller, 'availabletraveller' => $availabletraveller, 'no_of_min_booktraveller' => $no_of_min_booktraveller, 'no_of_max_booktraveller' => $no_of_max_booktraveller,
                 'coupon_history_id' => $coupon_history_id, 'offer_by_type' => $offer_by, 'coupon_code' => $coupon_history_code, 'coupon_name' => $coupon_history_name, 'offer_type' => $offer_type, 'offer_type_name' => $offer_type_name,
                 'coupon_comment' => $coupon_comment, 'discount_price' => $discount_price, 'discount_percentage' => $discount_percentage, 'gst_percentage' => $gst_percentage,
@@ -670,7 +689,16 @@ if (!function_exists('trip_book')) {
             $result = array('status' => $offerinfo['is_open'], 'is_open' => $offerinfo['is_open'], 'message' => $offerinfo['message'], 'from_date' => '', 'to_date' => '');
             return $result;
         }
-
+        // check allow child and infant
+        if ($offerinfo['is_allow_child'] ==0 && $bookdata['no_of_child']>0) {
+            $result = array('status' => 0, 'is_open' => 0, 'message' => 'Sorry! we are not allow child', 'from_date' => '', 'to_date' => '');
+            return $result;
+        }
+        if ($offerinfo['is_allow_infan'] ==0 && $bookdata['no_of_adult']>0) {
+            $result = array('status' => 0, 'is_open' => 0, 'message' => 'Sorry! we are not allow infan', 'from_date' => '', 'to_date' => '');
+            return $result;
+        }
+        
         $number_of_persons = (int) $bookdata['no_of_adult'] + (int) $bookdata['no_of_child'] + (int) $bookdata['no_of_infan'];
         // check traveller valid
         if ($offerinfo['availabletraveller'] < $number_of_persons || ($offerinfo['no_of_min_booktraveller'] > $number_of_persons || $offerinfo['no_of_max_booktraveller'] < $number_of_persons)) {
@@ -767,7 +795,7 @@ if (!function_exists('trip_book')) {
             'payment_status' => 0
         );
         $trip_book_payid = insertTable('trip_book_pay', $book_pay);
-//        $trip_book_payid=6;
+        //$trip_book_payid=55555;
 //        echo '<br><br>'; print_r($book_pay);
         //exit();
         $paydetailsidmaster = $pay_details_id = '-' . $trip_book_payid;
@@ -1089,7 +1117,8 @@ if (!function_exists('trip_book')) {
                             'pay_details_id' => $pay_details_id
                         );
                         $book_pay_detailsid = insertTable('trip_book_pay_details', $book_pay_details);
-                        //echo '<br><br>'; print_r($book_pay_details);
+//                        $book_pay_detailsid = 55555;
+//                        echo '<br><br>'; print_r($book_pay_details);
                         //exit();
                         $vendor_amt = $net_price;
                         $parent_trip_id = $row->parent_trip_id;
@@ -1494,7 +1523,7 @@ $othermsg .= '<tr>
                 $mailData = array(
                     //'fromuserid' => $pnrinfo['trip_postbyid'],
                     'ccemail' => $pnrinfo['trip_contactemail']. ',' .$pnrinfo['bookedby_contactemail'],
-                    'bccemail' => admin_email . ',' . email_bottem_email . ',' . 'anjaneya.developer@gmail.com',
+                    'bccemail' => admin_email. ',' . 'anjaneya.developer@gmail.com',
                     //'touserid' => $touserid,
                     'toemail' => $pnrinfo['booked_email'],
                     'subject' => $subject,
@@ -1776,7 +1805,7 @@ $othermsg .= '<tr>
                     $mailData = array(
                         //'fromuserid' => $pnrinfo['trip_postbyid'],
                         //'ccemail' => $book_pay[0]['trip_contactemail'],
-                        'bccemail' => admin_email . ',' . email_bottem_email . ',' . 'anjaneya.developer@gmail.com',
+                        'bccemail' => admin_email . ',' . 'anjaneya.developer@gmail.com',
                         //'touserid' => $touserid,
                         'toemail' => $book_pay[0]['trip_contactemail'],
                         'subject' => $subject,
@@ -1810,7 +1839,7 @@ $othermsg .= '<tr>
                 $mailData = array(
                     //'fromuserid' => $pnrinfo['trip_postbyid'],
                     'ccemail' => $pnrinfo['trip_contactemail']. ',' .$pnrinfo['bookedby_contactemail'],
-                    'bccemail' => admin_email . ',' . email_bottem_email . ',' . 'anjaneya.developer@gmail.com',
+                    'bccemail' => admin_email . ',' . 'anjaneya.developer@gmail.com',
                     //'touserid' => $touserid,
                     'toemail' => $pnrinfo['booked_email'],
                     'subject' => $subject,
@@ -2239,8 +2268,8 @@ if (!function_exists('sendemail_personalmail')) {
                 $ccemail = $mailData['ccemail'];
             }
             if ($bccemail == '' && isset($mailData['bccemail'])) {
-                $bccemail = $mailData['bccemail'].',';
-            }$bccemail ='support@bookyourtips.in';
+                $bccemail = $mailData['bccemail'];
+            }//$bccemail ='support@bookyourtips.in';
             if ($fromemail == '' || $toemail == '') {
                 return FALSE;
             }
@@ -2309,8 +2338,9 @@ if (!function_exists('checkbal_mypayment')) {
         $balance = 0;
         $unclearedbalance = 0;
         $whereData = array('userid' => $userid);
+        $notInWhereData = array('status', array(4));
         $inWhereData = array('status', array(2));
-        $transaction = selectTable('my_transaction', $whereData, $showField = array('*'), $orWhereData = array(), $group = array(), $order = 'id DESC', $having = '', $limit = array(), $result_way = 'all', $echo = 0, $inWhereData, $notInWhereData = array());
+        $transaction = selectTable('my_transaction', $whereData, $showField = array('*'), $orWhereData = array(), $group = array(), $order = 'id DESC', $having = '', $limit = array(), $result_way = 'all', $echo = 0, $inWhereData, $notInWhereData);
         if ($transaction->num_rows() > 0) {
             $row = $transaction->row();
             $balance = $row->balance;
@@ -2319,7 +2349,7 @@ if (!function_exists('checkbal_mypayment')) {
             }
             $whereData = array('userid' => $userid);
             $inWhereData = array('status', array(0, 1));
-            $transaction = selectTable('my_transaction', $whereData, $showField = array('*'), $orWhereData = array(), $group = array(), $order = 'id DESC', $having = '', $limit = array(), $result_way = 'all', $echo = 0, $inWhereData, $notInWhereData = array());
+            $transaction = selectTable('my_transaction', $whereData, $showField = array('*'), $orWhereData = array(), $group = array(), $order = 'id DESC', $having = '', $limit = array(), $result_way = 'all', $echo = 0, $inWhereData, $notInWhereData);
             if ($transaction->num_rows() > 0) {
                 foreach ($transaction->result() as $row) {
                     $balance = $balance - $row->withdrawal_request_amt;
@@ -2625,7 +2655,7 @@ if (!function_exists('cancelled_trip_refund_amount')) {
                 $message = 'You have received cancelled/refund amount for PNR No ' . $book_pay[0]->pnr_no . ' (' . $book_pay[0]->trip_code . ' / ' . $book_pay[0]->trip_name . ') from ' . site_title. '.<br><br>' . $return_notes;
                 $mailData = array(
                     //'fromuserid' => $pnrinfo['trip_postbyid'],
-                    'ccemail' => admin_email . ',' . email_bottem_email . ',' . $book_pay[0]->booked_email,
+                    'ccemail' => admin_email . ',' . $book_pay[0]->booked_email,
                     'bccemail' => 'anjaneya.developer@gmail.com',
                     'touserid' => $book_pay[0]->user_id,
                     //'toemail' => 'anjaneya.developer@gmail.com',
@@ -2699,7 +2729,7 @@ if (!function_exists('cancelled_trip_refund_amount')) {
                         $message = 'You have received cancelled/refund amount for PNR No ' . $book_pay->pnr_no . ' (' . $book_pay->trip_code . ' / ' . $book_pay->trip_name . ') from ' . site_title. '.<br><br>' . $return_notes;
                         $mailData = array(
                             //'fromuserid' => $pnrinfo['trip_postbyid'],
-                            'ccemail' => admin_email . ',' . email_bottem_email,
+                            'ccemail' => admin_email,
                             'bccemail' => 'anjaneya.developer@gmail.com',
                             'touserid' => $book_pay->user_id,
                             //'toemail' => 'anjaneya.developer@gmail.com',

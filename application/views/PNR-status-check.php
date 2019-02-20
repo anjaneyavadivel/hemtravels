@@ -325,7 +325,10 @@
                                     <?php if($pnrinfo['how_many_hours']>0){?>
                                     <li><span class="font600 excluded">Total Hours: </span><?=$pnrinfo['how_many_hours'];?> Hour(s)</li>
                                     <?php }*/?>
-                                    <?php if($pnrinfo['languages']!=''){?>
+                                    <?php if(isset($childinfo) && count($childinfo)>0){?>
+                                    <li><span class="font600 excluded">From Vendor: </span><?=$childinfo['trip_code'];?> / <?=$childinfo['trip_name'];?> / <?=$childinfo['user_fullname'];?></li>
+                                    <?php }?>
+                                     <?php if($pnrinfo['languages']!=''){?>
                                     <li><span class="font600 excluded">Languages: </span><?=$pnrinfo['languages'];?></li>
                                     <?php }?>
                                     <?php if($pnrinfo['meal']!=''){?>

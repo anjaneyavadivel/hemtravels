@@ -98,7 +98,15 @@ class Report_model extends CI_Model
         $query = $this->db->get();
         return $query->num_rows();
     }
-    
+    function booking_childinfo($whereData) {
+        $this->db->select('tbpd.*,by.user_type,um.user_fullname,um.phone,trip_name,trip_code')->from('trip_book_pay_details AS tbpd');
+        $this->db->join('trip_master', 'trip_master.id = tbpd.trip_id','INNER');
+        $this->db->join('user_master AS um', 'um.id = tbpd.from_user_id','INNER');
+        $this->db->join('user_master AS by', 'by.id = tbpd.booked_by','INNER');
+        $this->db->where($whereData);
+        $query = $this->db->get();
+        return $query->first_row('array');
+    }
     // Function 1:Get category master list
     function cancellation_list($whereData,$limit, $start,$resultCount='no') {
         $this->db->select('tbpd.*,by.user_type,trip_name,trip_code')->from('trip_book_pay_details AS tbpd');
@@ -238,7 +246,8 @@ class Report_model extends CI_Model
         }      
         if(isset($whereData['status']) && $whereData['status']!=''){            
             $this->db->where('mt.status',$whereData['status']);
-        }        
+        }             
+        $this->db->where_not_in('mt.status',4);     
         if(isset($whereData['from']) && $whereData['from']!=''){
             $from = date("Y-m-d", strtotime($whereData['from'])).' 00:00:00';
             $to = date("Y-m-d", strtotime($whereData['to'])).' 24:60:60';
@@ -285,7 +294,8 @@ class Report_model extends CI_Model
         
         if(isset($whereData['status']) && $whereData['status']!=''){            
             $this->db->where('mt.status',$whereData['status']);
-        }        
+        }            
+        $this->db->where_not_in('mt.status',4);      
         if(isset($whereData['from']) && $whereData['from']!=''){
             $from = date("Y-m-d", strtotime($whereData['from'])).' 00:00:00';
             $to = date("Y-m-d", strtotime($whereData['to'])).' 24:60:60';
@@ -327,7 +337,8 @@ class Report_model extends CI_Model
         
         if(isset($whereData['status']) && $whereData['status']!=''){            
             $this->db->where('mt.status',$whereData['status']);
-        }        
+        }           
+        $this->db->where_not_in('mt.status',4);       
         if(isset($whereData['from']) && $whereData['from']!=''){
             $from = date("Y-m-d", strtotime($whereData['from'])).' 00:00:00';
             $to = date("Y-m-d", strtotime($whereData['to'])).' 24:60:60';
@@ -376,7 +387,8 @@ class Report_model extends CI_Model
             $from = date("Y-m-d", strtotime($whereData['from'])).' 00:00:00';
             $to = date("Y-m-d", strtotime($whereData['to'])).' 24:60:60';
             $this->db->where("(mt.date_time >='".$this->db->escape_like_str($from)."' AND mt.date_time <= '".$this->db->escape_like_str($to)."')");
-        }
+        }           
+        $this->db->where_not_in('mt.status',4);
        
         $this->db->order_by('mt.id DESC'); 
         
@@ -404,6 +416,7 @@ class Report_model extends CI_Model
         if(isset($whereData['statusin']) && !empty($whereData['statusin'])){            
             $this->db->where_in('mt.status',$whereData['statusin']);
         }          
+        $this->db->where_not_in('mt.status',4);          
         $this->db->where_in('mt.id',$whereData['id']);
         $this->db->order_by('mt.id DESC'); 
         return $query = $this->db->get();
@@ -639,7 +652,8 @@ class Report_model extends CI_Model
        
         if(isset($whereData['title']) && $whereData['title']!=''){
            $this->db->where('( mt.pnr_no LIKE "%'.$this->db->escape_like_str($whereData['title']).'%" )');
-        } 
+        }           
+        $this->db->where_not_in('mt.status',4);
               
         $this->db->order_by('mt.id DESC'); 
         
@@ -674,14 +688,17 @@ class Report_model extends CI_Model
                 $user_id = $whereData['id'];
             }
             
-            $this->db->join(' trip_book_pay_details AS tbod', 'tbod.id = mt.book_pay_details_id','LEFT');
+            $this->db->join('trip_book_pay_details AS tbod', 'tbod.id = mt.book_pay_details_id','LEFT');
             $this->db->join('user_master AS um1', 'um1.id = mt.userid','LEFT');
             $this->db->where('(mt.userid ='.$user_id.')');
-            $this->db->where('(tbod.user_id ='.$user_id.')');
+            $this->db->where('(tbod.user_id ='.$user_id.')');          
+            $this->db->where_not_in('mt.status',4);        
+            $this->db->where_not_in('tbod.status',array(1,3));
             $this->db->group_by('book_pay_id'); 
         }else{
             $this->db->join('user_master AS um1', 'um1.id = mt.user_id','LEFT');
-            $this->db->where('mt.status !=',3);
+            //$this->db->where('mt.status !=',3);          
+            $this->db->where_not_in('mt.status',array(1,3));
         }
        
         if(isset($whereData['title']) && $whereData['title']!=''){

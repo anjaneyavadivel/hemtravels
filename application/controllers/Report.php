@@ -1622,6 +1622,8 @@ class Report extends CI_Controller {
         $sheet = $spreadsheet->getActiveSheet(); 
         
         $exportArray = [];
+        $b2bpaymentstatus=array('Pendding','Sucess','Failed');
+        $tripstatus=array('','Pendding','booked','cancelled','confirmed','Completed');
         
         if(count($data) > 0){
             
@@ -1632,11 +1634,22 @@ class Report extends CI_Controller {
                 
                 $booked_on = date("M d, Y h:i A", strtotime($v['booked_on']));
                 $user_type = ($v['user_type'] == 'SA' || $v['user_type'] == 'VA') ?'OFFICE BOOKING':'B2C BOOKING';
-                
+                $date_of_trip ='';$tripstatus_id =0;$b2bpaymentstatus_id=0;
+                $whereData = array('pnr_no' => $v['pnr_no']);
+                $book_pay = selectTable('trip_book_pay', $whereData, $showField = array('*'), $orWhereData = array(), $group = array(), $order = 'id DESC', $having = '', $limit = array(), $result_way = 'all', $echo = 0, $inWhereData = array(), $notInWhereData = array());
+                if ($book_pay->num_rows() > 0) {
+                    $row = $book_pay->row();
+                    $b2bpaymentstatus_id = $row->b2b_payment_status;
+                    $tripstatus_id = $row->status;
+                    $date_of_trip = date("M d, Y", strtotime($row->date_of_trip_to));
+                }
                 if($this->session->userdata('user_type') == 'VA' || !empty($vendorId)){  
             
                     $exportArray[$k] = array(
                         $booked_on,
+                        $date_of_trip,
+                        $b2bpaymentstatus[$b2bpaymentstatus_id],
+                        $tripstatus[$tripstatus_id],
                         $v['pnr_no'],
                         $v['trip_name'],
                         $v['credit'],
@@ -1651,6 +1664,9 @@ class Report extends CI_Controller {
             
                     $exportArray[$k] = array(
                         $booked_on,
+                        $date_of_trip,
+                        $b2bpaymentstatus[$b2bpaymentstatus_id],
+                        $tripstatus[$tripstatus_id],
                         $v['pnr_no'],
                         $v['trip_name'],
                         $v['net_price'],
@@ -1678,7 +1694,7 @@ class Report extends CI_Controller {
                             if($pay_details_cnt == $k1+1){
                                 //array_push($exportArray[$k],'BYT');
                                 //array_push($exportArray[$k],(int)$v['net_price'] - (int)$your_final_amount);
-                                $exportArray[$k][4] = (int)$v['net_price'] - (int)$your_final_amount;
+                                $exportArray[$k][7] = (int)$v['net_price'] - (int)$your_final_amount;
                             }
                         }
                     }
@@ -1689,15 +1705,19 @@ class Report extends CI_Controller {
         
         //SET HEADER
         $sheet->setCellValue('A1', 'DATE OF BOOKING');
-        $sheet->setCellValue('B1', 'PNR');
-        $sheet->setCellValue('C1', 'TRIP NAME');
+        $sheet->setCellValue('B1', 'DATE OF TRIP END');
+        $sheet->setCellValue('C1', 'PAY STATUS');
+        $sheet->setCellValue('D1', 'TRIP STATUS');
+        $sheet->setCellValue('E1', 'PNR');
+        $sheet->setCellValue('G1', 'TRIP NAME');
         //vendor debit
         if($this->session->userdata('user_type') == 'VA' || !empty($vendorId)){            
-            $sheet->setCellValue('D1', 'CREDIT');
-            $sheet->setCellValue('E1', 'DEBIT');
-            $sheet->setCellValue('F1', 'BALANCE');
+            $sheet->setCellValue('G1', 'CREDIT');
+            $sheet->setCellValue('H1', 'DEBIT');
+            $sheet->setCellValue('I1', 'BALANCE');
         }else{
-            $sheet->setCellValue('D1', 'BYT RECD AMOUNT');
+            $sheet->setCellValue('G1', 'TRIP AMOUNT');
+            $sheet->setCellValue('H1', 'BYT AMOUNT');
         }
         
         $row = 2; // 1-based index
@@ -1718,7 +1738,7 @@ class Report extends CI_Controller {
             if($total_debit > 0){
                 $sheet->setCellValueByColumnAndRow(1, $row, 'TOTAL SERVICE AMOUNT');
                 $sheet->setCellValueByColumnAndRow(2, $row, $total_debit);
-                $sheet->setCellValueByColumnAndRow(6, $row, (int)$total_credit);
+                $sheet->setCellValueByColumnAndRow(9, $row, (int)$total_credit);
             }
             
         }

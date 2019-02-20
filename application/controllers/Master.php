@@ -388,13 +388,13 @@ class Master extends CI_Controller {
         //$child_arr=getallchildtrip(7);
 //        $child_arr=getparentchildtrip(6);
 //        print_r($child_arr);exit();
-        $updatedata = array(
-                                    'payment_type' => 1,  // 1 - net, 2 - credit, 3 - debit
-                                    'payment_status' =>  1,
-                                    'status' =>  2); 
-
-                            trip_book_paid_sucess($updatedata,'PNR92GYHW21');
-                            exit();
+//        $updatedata = array(
+//                                    'payment_type' => 1,  // 1 - net, 2 - credit, 3 - debit
+//                                    'payment_status' =>  1,
+//                                    'status' =>  2); 
+//
+//                            trip_book_paid_sucess($updatedata,'PNR92GYHW21');
+//                            exit();
 //        $toemail='anjaneya.developer@gmail.com';
 //        $subject='Welcome to trip';
 //        $message='This is test msg';
@@ -428,18 +428,19 @@ class Master extends CI_Controller {
 //        'ischeckadmin' => 1); 
 //        $result = trip_offer($offerdata);
 //        print_r($result);
-//        exit();
+        exit();
         $bookdata=array(
         'trip_id' => 2, //15, 13
-        'book_user_id' => 81,
-        'no_of_adult' => 2,
+        'book_user_id' => 81, //81, 99
+        'no_of_adult' => 1,
         'no_of_child' => 0,
         'no_of_infan' => 0,
-        'date_of_trip' => "Dec 5, 2018",
-        'pick_up_location_id' => 7,
+        'date_of_trip' => "Feb 8, 2019",
+        'pick_up_location_id' => 11,
         'booked_to' => 'Raja',
         'booked_email' => 'raja@mail.com',
-        'booked_phone_no' => '9876543210'); //39, 37
+        'booked_phone_no' => '9876543210',
+        'booked_comment' => 'Test book'); //39, 37
         $result = trip_book($bookdata,'',1);//COUPONOFFER50PER, cash
         print_r($result);
 //        $loginuser_id = $this->session->userdata('user_id');

@@ -36,6 +36,13 @@ class Pnr_status extends CI_Controller {
             $this->session->set_userdata('bk_pnr_no', $pnrinfo['pnr_no']);
             $pnrshow=6;
         }
+        if ($this->session->userdata('user_type') == 'VA') {
+            $this->load->model('Report_model');
+            $whereData = array('pnr_no' => $pnrinfo['pnr_no'],'tbpd.parent_trip_id' => $pnrinfo['trip_id']);
+            $data["childinfo"] = $this->Report_model->booking_childinfo($whereData);
+        }
+//        print_r($pnrinfo); print_r($data["childinfo"]);
+//                exit();
         $data['pnrinfo'] = $pnrinfo;
         $data['pnrshow'] = $pnrshow; //0 - booking time, 1 - vendor view, 2 - customer view ,3-cancel trip
         $this->load->view('PNR-status-check', $data);

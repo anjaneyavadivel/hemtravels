@@ -570,6 +570,8 @@ class Trips extends CI_Controller {
                     'price_to_adult'    => $this->input->post('price_to_adult'),
                     'price_to_child'    => $this->input->post('price_to_child'),
                     'price_to_infan'    => $this->input->post('price_to_infan'),
+                    'is_allow_child'    => $this->input->post('is_allow_child') == 1?1:0,
+                    'is_allow_infan'    => $this->input->post('is_allow_infan') == 1?1:0,
                     'trip_duration'     => $this->input->post('trip_duration'),
                     'how_many_days'     => $this->input->post('trip_duration') == 2 ?$this->input->post('how_many_days'):0,
                     'how_many_nights'   => $this->input->post('trip_duration') == 2 ?$this->input->post('how_many_nights'):0,
@@ -1402,12 +1404,17 @@ class Trips extends CI_Controller {
                     $subject = $this->session->userdata('name').' has shared you the trip to you';
                     $message = $this->session->userdata('name').' has shared you the trip to you (Share Code: '.$shareCode.'), Please <a href="' . base_url() . 'trip-shared" style="color:#00adef" target="_new">click here to view</a>.<br>'
                             . '1. If you are new to BYT Create a <a href="' . base_url() . 'trip-shared" style="color:#00adef" target="_new">Sign up and Log in</a>.<br>'
-                            . '2. Go to Home->Vendor Shared Trips->Make Trip.(For Any Help Call +91 98221 53576)<br>';
+                            . '2. Go to Home->Vendor Shared Trips->Make Trip.(For Any Help Call +91 98221 53576)<br><br><br>'
+                            . '<a href="https://www.youtube.com/watch?v=7fsryRNuht0"><video poster="' . base_url() . 'assets-customs/img/welcome-to-byt.png" width="100%" controls="controls">
+<source src="' . base_url() . 'assets-customs/img/welcome-to-byt.mp4" type="video/mp4" />
+<img src="' . base_url() . 'assets-customs/img/welcome-to-byt.png" width="100%" alt="image instead of video" />
+</video></a>';
+
 
                     $mailData = array(
                         //'fromuserid' => $pnrinfo['trip_postbyid'],
                         //'ccemail' => $pnrinfo['trip_contactemail'],
-                        'bccemail' => admin_email . ',' . email_bottem_email . ',' . 'anjaneya.developer@gmail.com',
+                        'bccemail' => admin_email . ',' . 'anjaneya.developer@gmail.com',
                         //'touserid' => $touserid,
                         'toemail' => $to_user_mail,
                         'subject' => $subject,
