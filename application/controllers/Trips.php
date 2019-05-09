@@ -967,7 +967,7 @@ class Trips extends CI_Controller {
                 if(!empty($this->input->post('currentPage'))){
                     $whereData = array('isactive' => 1);
                     
-                    $page = ($this->input->post('currentPage') - 1) * 5;
+                    $page = ($this->input->post('currentPage') - 1) * 15;
                     
                     $tot_sql   = "SELECT tm.*,sum.email AS shared_email FROM trip_master as tm "
                             . "LEFT JOIN trip_tag_map as tam ON tam.trip_id = tm.id AND tam.isactive = 1 "                            
@@ -1114,7 +1114,7 @@ class Trips extends CI_Controller {
                     
                     $tot_query = $this->db->query($tot_sql, array( 1));
                     
-                    $res_sql   = $tot_sql." LIMIT ?,5";
+                    $res_sql   = $tot_sql." LIMIT ?,15";
                     $res_query = $this->db->query($res_sql, array( 1, $page));
                     
                     //echo $this->db->last_query();exit;
@@ -1124,7 +1124,7 @@ class Trips extends CI_Controller {
                     
                     if($res_query->num_rows() > 0){
                         $returnedData["total_count"] = $tot_query->num_rows();
-                        $returnedData["last_page"]   = ceil($returnedData["total_count"] / 5);
+                        $returnedData["last_page"]   = ceil($returnedData["total_count"] / 15);
                         $returnedData['results']     = $res_query->result_array();
                         
                         if(count($returnedData['results']) > 0){

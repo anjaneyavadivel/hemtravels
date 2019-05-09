@@ -20,23 +20,23 @@
 
         <!-- CSS Plugins -->
         <link rel="stylesheet" type="text/css" href="<?php echo base_url() ?>assets/bootstrap/css/bootstrap.min.css" media="screen">	
-        <link href="<?php echo base_url() ?>assets/css/main.css" rel="stylesheet">
-        <link href="<?php echo base_url() ?>assets/css/plugin.css" rel="stylesheet">
+        <link href="<?php echo base_url() ?>assets/css/main.css" type="text/css" rel="stylesheet">
+        <link href="<?php echo base_url() ?>assets/css/plugin.css" type="text/css" rel="stylesheet">
        
         <!-- CSS Custom -->
-        <link href="<?php echo base_url() ?>assets/css/style.css" rel="stylesheet">
+        <link href="<?php echo base_url() ?>assets/css/style.css" type="text/css" rel="stylesheet">
 
         <!-- Add your style -->
-        <link href="<?php echo base_url() ?>assets/css/your-style.css" rel="stylesheet">
+        <link href="<?php echo base_url() ?>assets/css/your-style.css" type="text/css" rel="stylesheet">
         
        <?php $url=$this->uri->segment(1);?> 
         <?php if($url=='trip-calendar-view'){?>
-		<link rel="stylesheet" href="<?php echo base_url() ?>assets/css/magnific-popup.css">
-		<link rel="stylesheet" href="<?php echo base_url() ?>assets/css/timetable.css">
+		<link rel="stylesheet" type="text/css" href="<?php echo base_url() ?>assets/css/magnific-popup.css">
+		<link rel="stylesheet" type="text/css" href="<?php echo base_url() ?>assets/css/timetable.css">
         <?php }?>
         <?php if($url=='make-new-trip'){?>
-		<link href="<?php echo base_url() ?>assets/css/owlcarousel.css" rel="stylesheet">
-                <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/all.css" integrity="sha384-lKuwvrZot6UHsBSfcMvOkWwlCMgc0TaWr+30HWe3a4ltaBwTZhyTEggF5tJv8tbt" crossorigin="anonymous">
+		<link type="text/css" href="<?php echo base_url() ?>assets/css/owlcarousel.css" rel="stylesheet">
+                <link type="text/css" rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/all.css" integrity="sha384-lKuwvrZot6UHsBSfcMvOkWwlCMgc0TaWr+30HWe3a4ltaBwTZhyTEggF5tJv8tbt" crossorigin="anonymous">
        
         <?php }?>
         <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
@@ -50,7 +50,7 @@
 
     <body class="<?php echo (base_url() == '') ? 'home' : '' ?> bg-color-header">
 
-        <div id="introLoader" class="introLoading"></div>
+        <div id="introLoader55" class="introLoading55"></div>
 
         <!-- start Container Wrapper -->
 

@@ -621,7 +621,7 @@
                                                         <div class="col-xss-12 col-xs-12 col-sm-12">
                                                             <div class="form-group">
                                                                 <label>Choose your date</label>
-                                                                <input type="text" id="rangeDatePickerFrom" name="booking_from_time" class="form-control" placeholder="M D, YYYY" />
+                                                                <input type="text" autocomplete="off" id="rangeDatePickerFrom" name="booking_from_time" class="form-control" placeholder="M D, YYYY" />
                                                             </div>
                                                         </div>
                                                         <?php /*if(isset($details['trip_duration']) && $details['trip_duration'] == '2') { ?>

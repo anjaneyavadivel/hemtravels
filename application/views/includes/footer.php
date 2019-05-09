@@ -382,9 +382,9 @@
 <!-- Core JS -->
         <script type="text/javascript" src="<?php echo base_url()?>assets/js/jquery.min.js"></script>
 <script type="text/javascript" src="<?php echo base_url()?>assets/js/core-plugins.js"></script>
-<script src="<?php echo base_url()?>assets/js/jquery.cookie.min.js"></script>
-<script type="text/javascript" src="<?php echo base_url()?>assets/js/jquery.validate.min.js"></script>
 <script type="text/javascript" src="<?php echo base_url()?>assets-customs/js/customs.js"></script>
+<script type="text/javascript" src="<?php echo base_url()?>assets/js/jquery.cookie.min.js"></script>
+<script type="text/javascript" src="<?php echo base_url()?>assets/js/jquery.validate.min.js"></script>
 <?php if($url==''){?>
 <!-- Only in Home Page -->
 <script type="text/javascript" src="<?php echo base_url()?>assets/js/jquery.flexdatalist.js"></script>
@@ -523,8 +523,8 @@
         <script type="text/javascript" src="<?php echo base_url()?>assets/js/images-grid.js"></script>
         <script type="text/javascript" src="<?php echo base_url()?>assets/js/jquery.bootstrap-touchspin.js"></script>
         <script type="text/javascript" src="<?php echo base_url()?>assets/js/customs-detail.js"></script> 
-		<script src="<?php echo base_url()?>assets/js/jquery.magnific-popup.js"></script>
-		<script src="<?php echo base_url()?>assets/js/timetable.js"></script>
+		<script type="text/javascript" src="<?php echo base_url()?>assets/js/jquery.magnific-popup.js"></script>
+		<script type="text/javascript" src="<?php echo base_url()?>assets/js/timetable.js"></script>
 <?php }?>
      <?php if($url=='trip-view' || $url =='trip-book'){?>           
                 <script type="text/javascript" src="<?php echo base_url()?>assets/js/jquery.stickit.js"></script>

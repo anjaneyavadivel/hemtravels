@@ -3,7 +3,198 @@ jQuery(function($) {
 
     "use strict";
     
-    
+    $('#login').validate({
+        rules: {
+            um_email: {
+                required: true,
+                remote: {
+                    type: "post",
+                    data: {
+                        'csrf_test_name': $.cookie('csrf_cookie_name'),
+                    },
+                    url: base_url + "login/old_email_vaildation",
+                },
+            },
+            um_password: {
+                required: true,
+                minlength: 5
+            },
+        },
+        messages: {
+            um_email: {
+                required: "This field is required",
+                remote: "Your email does not exist kindly register",
+            },
+            um_password: {
+                required: "Please provide a password",
+                minlength: "Your password must be at least 5 characters long",
+            },
+        },
+        highlight: function (element) {
+            var id_attr = "#" + $(element).attr("id") + "_icon";
+            $(element).closest('.form-group').removeClass('has-success').addClass('has-error');
+            $(id_attr).removeClass('fa-check').addClass('fa-times');
+        },
+        unhighlight: function (element) {
+            var id_attr = "#" + $(element).attr("id") + "_icon";
+            $(element).closest('.form-group').removeClass('has-error').addClass('has-success');
+            $(id_attr).removeClass('fa-times').addClass('fa-check');
+        },
+        errorElement: 'span',
+        errorClass: 'small help-block',
+        errorPlacement: function (error, element) {
+            if (element.length) {
+                error.insertAfter(element.parent("div"));
+            } else {
+                error.insertafter(element.parent());
+            }
+        }
+    });
+
+    $('#sign_up').validate({
+        rules: {
+            new_email: {
+                required: true,
+                remote: {
+                    type: "post",
+                    data: {
+                        'csrf_test_name': $.cookie('csrf_cookie_name'),
+                    },
+                    url: base_url + "login/new_email_vaildation",
+                },
+            },
+            new_pasword: {
+                required: true,
+                minlength: 6
+            },
+            cnew_pasword: {
+                required: true,
+                minlength: 6,
+                equalTo: "#new_pasword"
+            },
+            user_type: {
+                required: true,
+            },
+            user_fullname: {
+                required: true,
+            },
+            phone: {
+                required: true,
+                number: true,
+                minlength: 10,
+                maxlength: 10
+            },
+            register_accept_checkbox: {
+                required: true,
+         },
+        },
+        messages: {
+            phone: {
+                required: "Please enter the valid phone number",
+            },
+            register_accept_checkbox: {
+                required: "Please read and accept the terms",
+            },
+            new_email: {
+                required: "This field is required",
+                remote: "Your email already exist kindly Login",
+            },
+            cnew_pasword: {
+                required: "Please provide a password",
+                minlength: "Your password must be at least 5 characters long",
+                equalTo: "Please enter the same password"
+            },
+        },
+        highlight: function (element) {
+            var id_attr = "#" + $(element).attr("id") + "_icon";
+            $(element).closest('.form-group').removeClass('has-success').addClass('has-error');
+            $(id_attr).removeClass('fa-check').addClass('fa-times');
+        },
+        unhighlight: function (element) {
+            var id_attr = "#" + $(element).attr("id") + "_icon";
+            $(element).closest('.form-group').removeClass('has-error').addClass('has-success');
+            $(id_attr).removeClass('fa-times').addClass('fa-check');
+        },
+        errorElement: 'span',
+        errorClass: 'small help-block',
+        errorPlacement: function (error, element) {
+            if (element.length) {
+                error.insertAfter(element.parent("div"));
+            } else {
+                error.insertafter(element.parent());
+            }
+        }
+    });
+    $('#addbankAccount').validate({
+        rules: {
+            bank_name: {
+                required: true,
+                minlength: 6,
+                maxlength: 50
+            },
+            account_number: {
+                required: true,
+                minlength: 6
+            },
+            account_number1: {
+                required: true,
+                minlength: 6,
+                equalTo: "#account_number"
+            },
+            account_holder_name: {
+                required: true,
+                minlength: 3,
+                maxlength: 50
+            },
+            ifsc_code: {
+                required: true,
+                minlength: 6,
+                maxlength: 12
+            },
+            branch_name: {
+                required: true,
+                minlength: 6,
+                maxlength: 100
+            },
+            address: {
+                required: true,
+                minlength: 6,
+                maxlength: 300
+         },
+        },
+        messages: {
+            new_email: {
+                required: "This field is required",
+                remote: "Your email already exist kindly Login",
+            },
+            cnew_pasword: {
+                required: "Please provide a password",
+                minlength: "Your password must be at least 5 characters long",
+                equalTo: "Please enter the same password"
+            },
+        },
+        highlight: function (element) {
+            var id_attr = "#" + $(element).attr("id") + "_icon";
+            $(element).closest('.form-group').removeClass('has-success').addClass('has-error');
+            $(id_attr).removeClass('fa-check').addClass('fa-times');
+        },
+        unhighlight: function (element) {
+            var id_attr = "#" + $(element).attr("id") + "_icon";
+            $(element).closest('.form-group').removeClass('has-error').addClass('has-success');
+            $(id_attr).removeClass('fa-times').addClass('fa-check');
+        },
+        errorElement: 'span',
+        errorClass: 'small help-block',
+        errorPlacement: function (error, element) {
+            if (element.length) {
+                error.insertAfter(element.parent("div"));
+            } else {
+                error.insertafter(element.parent());
+            }
+        }
+    });
+
+
     $('#forgot-password-form').validate({        
         rules: {
             ex_email: {

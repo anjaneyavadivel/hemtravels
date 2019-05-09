@@ -150,10 +150,10 @@ class Request extends CI_Controller {
                     //maill sent to customer
                     
                     $subject = 'You are send withdrawal request';
-                    $message = 'You are send withdrawal request successfully! Our executive person check your account and transfer amount Rs: ' . $withdrawalamount.' to following account within 7 days<br><br>';
+                    $message = 'You have sent a withdrawal request of Rs: ' . $withdrawalamount.' successfully! Our executive will check your account and transfer amount to following account within 7 days.<br><br>';
                     $message .= 'Bank Name: ' . $bank_name.'<br>';
                     $message .= 'Account Holder Name: ' . $account_holder_name.'<br>';
-                    $message .= 'Account Number: ' . substr($account_number, 0, 4) . str_repeat($maskingCharacter, strlen($account_number) - 8) . substr($account_number, -4).'<br>';
+                    $message .= 'Account Number: ' . $account_number.'<br>';
                     $message .= 'IFSC Code: ' . $ifsc_code.'<br>';
                     $message .= 'Branch Name: ' . $branch.'<br>';
                     $message .= 'Bank Address: ' . $address.'<br>';
