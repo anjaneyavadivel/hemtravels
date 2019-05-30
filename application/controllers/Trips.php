@@ -1410,7 +1410,6 @@ class Trips extends CI_Controller {
 <img src="' . base_url() . 'assets-customs/img/welcome-to-byt.png" width="100%" alt="image instead of video" />
 </video></a>';
 
-
                     $mailData = array(
                         //'fromuserid' => $pnrinfo['trip_postbyid'],
                         //'ccemail' => $pnrinfo['trip_contactemail'],

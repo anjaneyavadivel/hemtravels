@@ -6928,7 +6928,7 @@ table.ui-timepicker-table .ui-timepicker-minutes {
 }
 
 .introLoading {
-    background-color: #fff;
+    background-color: transparent;
 }
 
 .absolute.introLoader {
@@ -7719,4 +7719,5 @@ body.introLoader_preventScroll {
 @media only screen and (max-width: 600px)
 {
 .popular_trip .GridLex-col-3_sm-6_xs-6_xss-12{height: 355px !important; max-width: 100% !important;}
+.date-picker-wrapper.single-month{left:120px !important;}
 }

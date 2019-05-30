@@ -609,7 +609,6 @@
                                                 </div>-->
 
                                                 <div>
-                                                    / traveller
                                                 </div>
 
                                             </div>
@@ -621,7 +620,7 @@
                                                         <div class="col-xss-12 col-xs-12 col-sm-12">
                                                             <div class="form-group">
                                                                 <label>Choose your date</label>
-                                                                <input type="text" autocomplete="off" id="rangeDatePickerFrom" name="booking_from_time" class="form-control" placeholder="M D, YYYY" />
+                                                                <input autocomplete="off" type="text" id="rangeDatePickerFrom" name="booking_from_time" class="form-control" placeholder="M D, YYYY" />
                                                             </div>
                                                         </div>
                                                         <?php /*if(isset($details['trip_duration']) && $details['trip_duration'] == '2') { ?>
@@ -638,7 +637,7 @@
 
                                                         <div class="col-xss-12 col-xs-12 col-sm-12">
                                                             <div class="form-group">
-                                                                <label>No. of Adult</label>
+                                                                <label>No. of Adult (Rs: <?php echo $details['price_to_adult'];?>)</label>
                                                                 <div class="form-group form-spin-group">
                                                                     <input type="text" class="form-control form-spin no_of_adult" name="no_of_adult" value="0" /> 
                                                                 </div>
@@ -647,7 +646,7 @@
 
                                                         <div class="col-xss-12 col-xs-12 col-sm-12">
                                                             <div class="form-group">
-                                                                <label>No. of Children</label>
+                                                                <label>No. of Children (Rs: <?php echo $details['price_to_child'];?>)</label>
                                                                 <div class="form-group form-spin-group">
                                                                     <input type="text" class="form-control form-spin no_of_children" name="no_of_children" value="0"/> 
                                                                 </div>
@@ -656,7 +655,7 @@
 
                                                         <div class="col-xss-12 col-xs-12 col-sm-12">
                                                             <div class="form-group">
-                                                                <label>No. of Infan</label>
+                                                                <label>No. of Infan (Rs: <?php echo $details['price_to_infan'];?>)</label>
                                                                 <div class="form-group form-spin-group">
                                                                     <input type="text" class="form-control form-spin no_of_infan" name="no_of_infan" value="0" /> 
                                                                 </div>
@@ -736,7 +735,7 @@
 
                     <div class="container">
 
-                        <h2 class="font-lg">Relatded tours</h2>
+                        <h2 class="font-lg">Related tours</h2>
 
                         <div class="trip-guide-wrapper">
 

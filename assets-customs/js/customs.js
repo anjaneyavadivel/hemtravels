@@ -11,17 +11,17 @@ jQuery(function ($) {
     /**
      * introLoader - Preloader
      */
-    $("#introLoader").introLoader({
-        animation: {
-            name: 'gifLoader',
-            options: {
-                ease: "easeInOutCirc",
-                style: 'dark bubble',
-                delayBefore: 1000,
-                exitTime: 500
-            }
-        }
-    });
+//    $("#introLoader").introLoader({
+//        animation: {
+//            name: 'gifLoader',
+//            options: {
+//                ease: "easeInOutCirc",
+//                style: 'dark bubble',
+//                delayBefore: 1000,
+//                exitTime: 500
+//            }
+//        }
+//    });
 
 
 
@@ -213,28 +213,28 @@ jQuery(function ($) {
     /**
      * Read more-less paragraph
      */
-    var showTotalChar = 130, showChar = "read more +", hideChar = "read less -";
-    $('.read-more-less').each(function () {
-        var content = $(this).text();
-        if (content.length > showTotalChar) {
-            var con = content.substr(0, showTotalChar);
-            var hcon = content.substr(showTotalChar, content.length - showTotalChar);
-            var txt = con + '<span class="dots">...</span><span class="morectnt"><span>' + hcon + '</span>&nbsp;&nbsp;<a href="" class="showmoretxt">' + showChar + '</a></span>';
-            $(this).html(txt);
-        }
-    });
-    $(".showmoretxt").on("click", function () {
-        if ($(this).hasClass("sample")) {
-            $(this).removeClass("sample");
-            $(this).text(showChar);
-        } else {
-            $(this).addClass("sample");
-            $(this).text(hideChar);
-        }
-        $(this).parent().prev().toggle();
-        $(this).prev().toggle();
-        return false;
-    });
+//    var showTotalChar = 130, showChar = "read more +", hideChar = "read less -";
+//    $('.read-more-less').each(function () {
+//        var content = $(this).text();
+//        if (content.length > showTotalChar) {
+//            var con = content.substr(0, showTotalChar);
+//            var hcon = content.substr(showTotalChar, content.length - showTotalChar);
+//            var txt = con + '<span class="dots">...</span><span class="morectnt"><span>' + hcon + '</span>&nbsp;&nbsp;<a href="" class="showmoretxt">' + showChar + '</a></span>';
+//            $(this).html(txt);
+//        }
+//    });
+//    $(".showmoretxt").on("click", function () {
+//        if ($(this).hasClass("sample")) {
+//            $(this).removeClass("sample");
+//            $(this).text(showChar);
+//        } else {
+//            $(this).addClass("sample");
+//            $(this).text(hideChar);
+//        }
+//        $(this).parent().prev().toggle();
+//        $(this).prev().toggle();
+//        return false;
+//    });
     
 
 

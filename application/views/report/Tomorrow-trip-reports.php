@@ -1,4 +1,3 @@
-
 <?php $this->load->view('includes/header') ?>
 
 <!-- start Main Wrapper -->
@@ -52,7 +51,7 @@
                         <label>Title</label>
                         <div class="row">
                             <div class="col-xs-12 col-sm-8 col-md-8">
-                                <input name="title" value="<?=$title?>" type="text" class="form-control" id="titleSearch" placeholder="Search Trip Title, Trip Code">
+                                <input name="title" value="<?=$title?>" type="text" class="form-control" id="titleSearch" placeholder="Search trip title, trip code, PNR No">
                             </div>
                             <div class="col-xs-12 col-sm-4 col-md-4">
                                      <button type="submit" class="btn btn-primary btn-block" id="tomorrowTripSearchTrip"><i class="fa fa-search"></i> Search</button>
@@ -63,18 +62,20 @@
                 <?php echo form_close(); ?>                
                 <div class="col-xs-2 col-sm-1 col-lg-1 text-right">
                     <a href="javascript:;" class="btn btn-info c_mt" id="tomorrowTripReport" >Export</a>
-                </div>                
+                </div>  
+                <div class="table-resonsive">
                 <table class="table ">
                     <thead>
                         <tr>                            
                             <th>PNR No</th>
-                            <th>Date of Booking</th>                            
-                            <th>Vendor Name</th>                            
+                            <th>Date of Booking</th> 
+                            <th>Name of the Person</th>  
+                            <th>Mobile Number</th>                      
                             <th>Number of Persons</th>                            
                             <th>Pickup Point</th>                            
-                            <th>Pickup Time</th>
-                            <th>Name of the Person</th>
-                            <th>Mobile Number</th>                            
+                            <th>Pickup Time</th>                            
+                            <th>Trip Name</th>                                
+                            <th>Vendor Name</th>                               
                         </tr>
                     </thead>
                     <tbody>
@@ -85,14 +86,15 @@
                                     $time = date("H:i A", strtotime($row['time_of_trip']));
                                     ?>
                                     <tr>                                        
-                                        <td><?= $row['pnr_no']; ?></td>
+                                        <td><a href="<?=base_url()?>PNR-status/<?=$row['pnr_no']?>/2" target="_new"><?= $row['pnr_no']; ?></a></td>
                                         <td><?= date("M d, Y", strtotime($row['date_of_trip'])); ?></td>
-                                        <td><?= $row['vendor'] ?></td>                                        
+                                        <td><?= $row['booked_to']; ?></td>
+                                        <td><?= $row['booked_phone_no']; ?></td>                                       
                                         <td><?= $row['number_of_persons']; ?></td>
                                         <td><?= $row['pick_up_location']; ?></td>
                                         <td><?= $time; ?></td>
-                                        <td><?= $row['user_fullname']; ?></td>
-                                        <td><?= $row['phone']; ?></td>
+                                        <td><a href="<?=base_url()?>trip-view/<?= $row['trip_code']; ?>" target="_new"><?= $row['trip_name'] ?></a></td> 
+                                        <td><?= $row['vendor'] ?></td> 
                                     </tr>
                                     <?php
                                    
@@ -103,7 +105,7 @@
                         ?> 	
 
                     </tbody>
-                </table>
+                </table></div>
                 <div class="pager-wrappper text-right clearfix bt mt-0  col-sm-12">
 
                     <div class="pager-innner">
@@ -134,4 +136,3 @@
 
 <!-- end Main Wrapper -->
 <?php $this->load->view('includes/footer') ?>
-

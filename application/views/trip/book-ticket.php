@@ -136,7 +136,7 @@
                                                                         <div class="col-xss-12 col-xs-12 col-sm-12">
                                                                         <div class="form-group">
                                                                             <label>Choose your date</label>
-                                                                            <input type="text" id="rangeDatePickerFrom" autocomplete="off" name="booking_from_time" class="form-control" placeholder="M D, YYYY" value="<?php echo isset($from_date)?$from_date:''?>" />
+                                                                                <input autocomplete="off" type="text" id="rangeDatePickerFrom" name="booking_from_time" class="form-control" placeholder="M D, YYYY" value="<?php echo isset($from_date)?$from_date:''?>" />
                                                                             </div>
                                                                         </div>
                                                                         <?php /*if(isset($details['trip_duration']) && $details['trip_duration'] == '2') { ?>
@@ -247,7 +247,7 @@
 
                                 <div class="sidebar-booking-inner"> 
 
-                                    <?php  print_r($available_days);print_r($cutoff_disable_days);print_r($cutoff_max_month);
+                                    <?php  
                                     if(isset($offer_details['is_open']) && $offer_details['is_open'] == 1 && ($offer_details['availabletraveller'] < $total_traveller || $offer_details['no_of_min_booktraveller'] > $total_traveller || $offer_details['no_of_max_booktraveller'] < $total_traveller)){
                                         echo "<div style='text-align:center'>Sorry! You can book total number of traveller Min ".$offer_details['no_of_min_booktraveller']." to Max ".$offer_details['no_of_max_booktraveller']. "  and available booking ".$offer_details['availabletraveller']."</div>";
                                     }else if(isset($offer_details['availabletraveller']) && $offer_details['availabletraveller'] >= $total_traveller && $offer_details['is_open'] == 1) {?>
